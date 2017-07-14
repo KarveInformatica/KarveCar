@@ -1,0 +1,293 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain
+END
+SimpleSqlSource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/SimpleSqlSource.cs
+END
+AccountBis.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/AccountBis.cs
+END
+Book.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Book.cs
+END
+DocumentCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/DocumentCollection.cs
+END
+Account.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Account.cs
+END
+GuidStringTypeHandlerCallback.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/GuidStringTypeHandlerCallback.cs
+END
+JsonInterpreter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/JsonInterpreter.cs
+END
+OuiNonBoolTypeHandlerCallback.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/OuiNonBoolTypeHandlerCallback.cs
+END
+Role.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Role.cs
+END
+Application.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Application.cs
+END
+Coupon.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Coupon.cs
+END
+LineItemCollection2.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/LineItemCollection2.cs
+END
+Query.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Query.cs
+END
+NVelocityDynamicEngine.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/NVelocityDynamicEngine.cs
+END
+SqlSourceWithInlineParameter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/SqlSourceWithInlineParameter.cs
+END
+ImmutableCategory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/ImmutableCategory.cs
+END
+SqlSourceWithParameter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/SqlSourceWithParameter.cs
+END
+Document.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Document.cs
+END
+Sample.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Sample.cs
+END
+B.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/B.cs
+END
+LineItemCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/LineItemCollection.cs
+END
+D.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/D.cs
+END
+CustomInheritance.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/CustomInheritance.cs
+END
+F.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/F.cs
+END
+Simple.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Simple.cs
+END
+Parent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Parent.cs
+END
+HundredsTypeHandlerCallback.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/HundredsTypeHandlerCallback.cs
+END
+Nullable.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Nullable.cs
+END
+Item.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Item.cs
+END
+ListeEntiteMetier.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/ListeEntiteMetier.cs
+END
+Newspaper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Newspaper.cs
+END
+Search.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Search.cs
+END
+LineItem.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/LineItem.cs
+END
+Complex.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Complex.cs
+END
+AccountCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/AccountCollection.cs
+END
+OneZeroBoolTypeHandlerCallback.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/OneZeroBoolTypeHandlerCallback.cs
+END
+Order.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Order.cs
+END
+Category.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Category.cs
+END
+User.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/User.cs
+END
+Product.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Product.cs
+END
+A.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/A.cs
+END
+Other.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Other.cs
+END
+C.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/C.cs
+END
+Child.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Child.cs
+END
+E.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/E.cs
+END
+Address.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Address.cs
+END
+ImmutableCategoryPropertyContainer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/ImmutableCategoryPropertyContainer.cs
+END
+Enumeration.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Domain/Enumeration.cs
+END

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Document"
+xmlns="http://ibatis.apache.org/mapping/V2"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <statements>
+
+    <select id="GetAllDocument"
+			resultMap="document">
+      select
+      *
+      from Documents
+      order by Document_Type, Document_Id
+    </select>
+
+    <select id="SelectDocument" resultMap="document">
+      select
+      *
+      from Documents
+      Where Account_ID = #Id#
+    </select>
+
+    <select id="GetTypedCollection"
+			listClass="DocumentCollection"
+			resultMap="document">
+      select
+      *
+      from Documents
+      order by Document_Type, Document_Id
+    </select>
+
+    <select id="GetAllDocumentWithCustomTypeHandler"
+			resultMap="document-custom-handler">
+      select
+      *
+      from Documents
+      order by Document_Type, Document_Id
+    </select>
+
+    <select id="GetMultipleDocument"
+      resultMap="book, Document.newspaper">
+      select
+      Document_ID, Document_Title, Document_PageNumber
+      from Documents
+      where Document_Type = 'Book';
+
+      select
+      Document_ID, Document_Title, Document_City
+      from Documents
+      where Document_Type = 'Newspaper';
+    </select>
+
+  </statements>
+  
+</sqlMap>

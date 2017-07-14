@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="introduction">
+  <title>Introduction</title>
+
+  <sect1>
+    <title>Overview</title>
+
+    <para>The iBATIS DataMapper framework makes it easier to use a database
+    with a Java or .NET application. iBATIS DataMapper couples objects with
+    stored procedures or SQL statements using a XML descriptor. Simplicity is
+    the biggest advantage of the iBATIS DataMapper over object relational
+    mapping tools. To use iBATIS DataMapper you rely on your own objects, XML,
+    and SQL. There is little to learn that you don't already know. With iBATIS
+    DataMapper you have the full power of both SQL and stored procedures at
+    your fingertips.</para>
+  </sect1>
+
+  <sect1>
+    <title>What's covered here</title>
+
+    <para>This Guide covers the .NET implementations of iBATIS DataMapper. The
+    Java implementation offers the same services with some changes in the
+    API.</para>
+
+    <para>Since iBATIS relies on an XML descriptor to create the mappings,
+    much of the material applies to both implementations.</para>
+
+    <para>For installation instructions, see the section called the .NET
+    Developer Guide.</para>
+
+    <para>A Tutorial is also available. We recommend reviewing the Tutorial
+    for your platform before reading this Guide.</para>
+
+    <tip>
+      <para>If you would like to get the latest development (unreleased)
+      version of this Guide, please see the <ulink
+      url="http://opensource.atlassian.com/confluence/oss/display/IBATIS/">iBATIS
+      Wiki FAQ</ulink>. The FAQ entry explains how you can access our SVN
+      source repository and generate CHM and PDF files of the latest
+      development documentation for the DataMapper.</para>
+    </tip>
+  </sect1>
+
+  <sect1>
+    <title>Release change log</title>
+
+	    <sidebar>
+        <para><emphasis>Version 1.6.0</emphasis></para>
+		<itemizedlist>
+			<listitem>
+             Resolution of N+1 select problem using groupBy attribute
+          </listitem>
+		  <listitem>
+            Added support of reuse SQL fragement via &lt;include/&gt; tag
+          </listitem>
+		   <listitem>
+            Added lazy load support for single class 
+          </listitem>
+		   <listitem>
+		  Added support for IDictionary&lt;K, V&gt; QueryForDictionary&lt;K, V&gt;(...)
+		   </listitem>
+		  <listitem>
+		  Marked QueryForPaginatedList as obsolete
+		   </listitem>
+		    <listitem>
+		  Allowed procedure statement without parameterMap
+		   </listitem>
+		   <listitem>
+		   Removed obsoletes methods on SqlMapper : 
+		   <para>Configure(XmlDocument document), Configure(),</para> 
+		   <para>Configure(string resource),</para> 
+		   <para>ConfigureAndWatch(ConfigureHandler configureDelegate),</para>  
+		   <para>ConfigureAndWatch(string resource, ConfigureHandler configureDelegate)</para> 
+		</listitem>
+		<listitem>
+		   Extended use of ISqlMapper in DataMapper + allowed use of a custom ISqlMapper.
+		</listitem>
+		<listitem>
+		   Allowed custom ISessionStore.
+		</listitem>
+		</itemizedlist>
+      </sidebar>
+  </sect1>
+
+  <sect1>
+    <title>License Information</title>
+
+    <para>iBATIS.NET is licensed according to the terms of the Apache License,
+    Version 2.0. The full text of this license are available online at <ulink
+    url="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</ulink>
+    (<ulink url="http://www.apache.org/licenses/LICENSE-2.0.txt">TXT</ulink>
+    or <ulink
+    url="http://www.apache.org/licenses/LICENSE-2.0.html">HTML</ulink>). You
+    can also view the full text of any of these licenses in the doc
+    subdirectory of the iBATIS.NET distribution.</para>
+  </sect1>
+
+  <sect1>
+    <title>Support</title>
+
+    <para>Mailing lists and bug trackers are available (courtesy of Apache
+    Software Foundation) at iBATIS’s Apache project page. Just direct your
+    browser to <ulink
+    url="http://ibatis.apache.org/">http://ibatis.apache.org/</ulink>.</para>
+  </sect1>
+
+  <sect1>
+    <title>Disclaimer</title>
+
+    <blockquote>
+      <para>iBATIS MAKES NO WARRANTIES, EXPRESS OR IMPLIED, AS TO THE
+      INFORMATION IN THIS DOCUMENT. The names of actual companies and products
+      mentioned herein may be the trademarks of their respective
+      owners.</para>
+    </blockquote>
+  </sect1>
+</chapter>

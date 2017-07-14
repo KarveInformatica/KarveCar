@@ -1,0 +1,4 @@
+<appendix id="sqlMapConfigSchema">
+  <title>iBATIS.NET's <literal>SqlMapConfig.xsd</literal></title>
+  <programlisting><![CDATA[@xsd-include@]]></programlisting>
+</appendix>

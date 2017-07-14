@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/styles
+END
+fopdf.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/styles/fopdf.xsl
+END
+html.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/styles/html.xsl
+END
+html.css
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/styles/html.css
+END

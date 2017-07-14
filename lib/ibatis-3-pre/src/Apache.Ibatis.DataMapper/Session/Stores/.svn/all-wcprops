@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores
+END
+WebSessionStore.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores/WebSessionStore.cs
+END
+CallContextSessionStore.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores/CallContextSessionStore.cs
+END
+AbstractSessionStore.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores/AbstractSessionStore.cs
+END
+HybridWebThreadSessionStore.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores/HybridWebThreadSessionStore.cs
+END
+SessionStoreFactory .cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Session/Stores/SessionStoreFactory%20.cs
+END

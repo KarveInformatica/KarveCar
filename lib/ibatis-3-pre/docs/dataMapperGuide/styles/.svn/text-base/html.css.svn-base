@@ -1,0 +1,252 @@
+body { 
+    background: #FFFFFF; 
+	font-family: sans-serif; 
+	scrollbar-arrow-color: #000000;
+	scrollbar-base-color: #003300;
+	scrollbar-dark-shadow-color: #999900;
+	scrollbar-track-color: #808080;
+	scrollbar-face-color: #DEDEDE;
+	scrollbar-shadow-color: #DDDDDD;
+	scrollbar-highlight-color: #CCCCCC;
+	scrollbar-3d-light-color: #003300;
+}
+
+
+A:link{COLOR: #5E741C; TEXT-DECORATION: underline;}
+A:visited{COLOR: #5E741C; TEXT-DECORATION: underline;}
+A:hover{COLOR: #FF6600; TEXT-DECORATION: underline;}
+
+P, DL, DT, DD, BLOCKQUOTE {
+    color: #000000;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    padding-top: 0px;
+    text-align: left;
+    /*border: 1px solid black;*/
+}
+
+OL, UL, P {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+P, BLOCKQUOTE {
+    font-size: 90%;
+}
+
+P.releaseinfo {
+    font-size: 120%; font-weight: bold; 
+    font-family: Arial, helvetica, sans-serif;
+    padding-top: 10px;
+}
+
+P.pubdate {
+    font-size: 120%; font-weight: bold; 
+    font-family: Arial, helvetica, sans-serif;
+}
+
+
+
+TD, SPAN {
+    color: #000000;
+}
+
+BLOCKQUOTE {
+    margin-right: 0px;
+}
+
+H1, H2, H3, H4, H5, H6    {
+    margin-top:0px;
+    padding-top:14px;
+    font-family: Arial, helvetica, sans-serif;
+    margin-bottom: 0px;
+}
+
+H2.title {
+    font-weight:800;
+    margin-bottom: 8px;
+}
+
+H2.subtitle {
+    font-weight:800;
+    margin-bottom: 20px;
+}
+
+H3.author {
+    color: #000000;
+    font-weight:500;
+    margin-top:0px;
+    padding-top:0px;
+    font-family: Arial, helvetica, sans-serif;
+    margin-bottom: 0px;
+}
+
+TABLE  {
+    border-collapse: collapse;
+    border: 1px thin #eeeeee;
+    empty-cells: hide;
+	border-style : groove;
+	border-spacing: 0px;
+}
+
+TH {
+    background-color: #EBEBEC;
+}
+
+td {
+border : 2px; 
+border-color : #eeeeee; 
+border-style : groove;
+border-spacing: 0px;
+font-size: 80%;
+ padding: 4pt;
+}
+
+
+H1 { 
+    font-size: 150%; 
+}
+H2 { 
+    font-size: 110%; 
+}
+H3 {
+    font-size: 100%; font-weight: bold; 
+}
+H4 { 
+    font-size: 90%; font-weight: bold;
+}
+H5 {
+    font-size: 90%; font-style: italic; 
+}
+H6 { 
+    font-size: 100%; font-style: italic; 
+}
+
+TT {
+    font-size: 90%;
+    font-family: "Courier New", Courier, monospace;
+    color: #000000;
+}
+
+.navheader, .navfooter {    
+    background-color: #ffffff;
+}
+.navheader TABLE {    
+    background-color: #D4D5D8;
+}
+.navheader th {    
+    background-color: #D4D5D8;
+}
+.navheader td {    
+    border : 0px; 
+}
+.navfooter TABLE {    
+    background-color: #D4D5D8;
+}
+.navfooter th {    
+    background-color: #D4D5D8;
+}
+.navfooter td {    
+    border : 0px; 
+}
+
+PRE {
+    font-size: 90%;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #CCCCCC;
+    background-color: #F4F4F4;
+}
+
+UL, OL, LI {
+    list-style: disc;
+}
+
+HR  {
+    width: 100%;
+    height: 1px;
+    background-color: #CCCCCC;
+    border-width: 0px;
+    padding: 0px;
+    color: #CCCCCC;
+}
+
+.variablelist { 
+    padding-top: 10; 
+    padding-bottom:10; 
+    margin:0;
+}
+
+/*(.itemizedlist, UL { 
+    padding-top: 0; 
+    padding-bottom:0; 
+    margin:0; 
+}*/
+
+.term { 
+    font-weight:bold;
+}
+
+.mediaobject {
+    padding-top: 30px; 
+    padding-bottom: 30px; 
+}
+
+.legalnotice {
+    font-size: 70%;
+}
+  
+
+.sidebar {
+	background-color: #E5ECF9;
+	padding: 0.25cm;
+}
+
+.programlisting {
+    font-family: courier;
+    font-size: 11px;
+    font-weight: normal;
+    font-family: Lucida Console, monospace;
+    background-color: #EEEEEE;
+    padding: 0.25cm;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #CCCCCC
+ }
+
+.comment {
+	color: #008000;
+}
+
+.blue {
+	color: #0000FF;
+}
+
+.cache {
+	color: #FF9900;
+}
+
+.alias {
+	color: #FF0000;
+}
+
+.parameterMap {
+	color: #800080;
+}
+
+.resultmap {
+	color: #3366FF;
+}
+
+.statement {
+	color: #339966;
+}
+.new {
+   border:thin solid black;
+	background-color:#FFF09E
+}
+.updated {
+    border:thin solid black;
+	background-color:#33FF33
+}

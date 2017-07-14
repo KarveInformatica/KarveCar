@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sqlMapConfig xmlns="http://ibatis.apache.org/dataMapper" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<properties uri="file://../../database.config"/>
+	
+	<settings>
+		<setting useStatementNamespaces="${useStatementNamespaces}"/>
+		<setting cacheModelsEnabled="true"/>
+		<setting validateSqlMap="false"/>
+		<setting useReflectionOptimizer="true"/>
+	</settings>
+	
+	<providers uri="file://providers.config"/>
+	
+	<database>
+		<provider name="sqlServer2.0"/>
+		<dataSource name="iBatisNet" connectionString="data source=${datasource};database=${database};Integrated Security=SSPI;"/>
+	</database>
+  
+	<alias>
+		<typeAlias alias="Account" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.Account, Apache.Ibatis.DataMapper.SqlClient.Test"/>
+		<typeAlias alias="OuiNonBool" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.OuiNonBoolTypeHandlerCallback, Apache.Ibatis.DataMapper.SqlClient.Test"/>
+	</alias>
+  
+	<typeHandlers>
+		<typeHandler type="bool" dbType="Varchar" callback="OuiNonBool"/>
+    <typeHandler type="string" callback="AnsiStringTypeHandler"/>
+	</typeHandlers>
+	
+  <sqlMaps>
+		<sqlMap uri="file://../../${directory}/Account.xml"/>
+		<sqlMap uri="file://../../Maps/DynamicAccount.xml"/>
+		<sqlMap uri="file://../../Maps/Order.xml"/>
+		<sqlMap uri="file://../../Maps/Category.xml"/>
+		<sqlMap uri="file://../../Maps/Complex.xml"/>
+		<sqlMap uri="file://../../Maps/LineItem.xml"/>
+		<sqlMap uri="file://../../Maps/Enumeration.xml"/>
+		<sqlMap uri="file://../../Maps/Other.xml"/>
+		<sqlMap uri="file://../../Maps/ParameterClass.xml"/>
+		<sqlMap uri="file://../../Maps/ResultClass.xml"/>
+		<sqlMap uri="file://../../Maps/NewsPaper.xml"/>
+		<sqlMap uri="file://../../Maps/Document.xml"/>
+		<sqlMap uri="file://../../Maps/EmbedParameter.xml"/>
+		<sqlMap uri="file://../../Maps/Nullable.xml"/>
+		<sqlMap uri="file://../../Maps/Simple.xml"/>
+		<sqlMap uri="file://../../Maps/ConstructorInjection.xml"/>
+		<sqlMap uri="file://../../Maps/GroupByMapping.xml"/>
+		<sqlMap uri="file://../../Maps/Coupons.xml"/>
+    <sqlMap uri="file://../../Maps/ParentChild1.xml"/>
+    <sqlMap uri="file://../../Maps/ParentChild2.xml"/>
+    <sqlMap uri="file://../../Maps/Iterate.xml"/>
+  </sqlMaps>
+</sqlMapConfig>

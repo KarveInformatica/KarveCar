@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources
+END
+AssemblyResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/AssemblyResource.cs
+END
+AbstractStreamResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/AbstractStreamResource.cs
+END
+IResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/IResourceLoader.cs
+END
+FileResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/FileResource.cs
+END
+StaticContentResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/StaticContentResource.cs
+END
+IResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/IResource.cs
+END
+UrlResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/UrlResourceLoader.cs
+END
+CustomUriBuilder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/CustomUriBuilder.cs
+END
+FileResourceLoadEventArgs.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/FileResourceLoadEventArgs.cs
+END
+ResourceLoaderRegistry.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/ResourceLoaderRegistry.cs
+END
+Resources.cs
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/Resources.cs
+END
+UrlResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/UrlResource.cs
+END
+AbstractResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/AbstractResource.cs
+END
+AssemblyResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/AssemblyResourceLoader.cs
+END
+FileResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Resources/FileResourceLoader.cs
+END

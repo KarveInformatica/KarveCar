@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                      "../../../docbook/docbook-dtd/docbookx.dtd"
+[
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY architecture SYSTEM "architecture.xml">
+<!ENTITY working SYSTEM "working.xml">
+<!ENTITY dotnet SYSTEM "dotnet.xml">
+<!ENTITY xsdConfig SYSTEM "xsd-config.xml">
+<!ENTITY xsdSqlMap SYSTEM "xsd-sqlMap.xml">
+
+]>
+<book>
+<bookinfo>
+    <title>iBATIS.NET - DataMapper Application Framework</title>
+    <subtitle>DataMapper Developer Guide</subtitle>
+    <releaseinfo>Version 1.6.1</releaseinfo>
+    <pubdate>March 2007</pubdate>
+    <authorgroup>
+      <author>
+        <firstname>Ted</firstname>
+        <surname>Husted</surname>
+      </author>
+      <author>
+        <firstname>Gilles</firstname>
+        <surname>Bayon</surname>
+      </author>
+      <author>
+        <firstname>Clinton</firstname>
+        <surname>Begin</surname>
+      </author>
+      <author>
+        <firstname>Roberto</firstname>
+        <surname>Rabe</surname>
+      </author>
+    </authorgroup>
+    <legalnotice>
+      <para>
+        Copies of this document may be made for your own use and for
+        distribution to others, provided that you do not charge any fee for such
+        copies and further provided that each copy contains this Copyright
+        Notice, whether distributed in print or electronically.
+        </para>
+    </legalnotice>
+  </bookinfo>
+  <toc/>
+      &introduction;
+      &architecture;
+      &working;
+      &dotnet;
+	  &xsdConfig;
+	  &xsdSqlMap;
+</book>

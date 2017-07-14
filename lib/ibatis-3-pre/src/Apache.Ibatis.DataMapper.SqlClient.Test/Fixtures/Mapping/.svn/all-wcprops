@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping
+END
+CacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/CacheTest.cs
+END
+ResultClassTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ResultClassTest.cs
+END
+StatementTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/StatementTest.cs
+END
+ParameterClass.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ParameterClass.cs
+END
+ThreadTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ThreadTest.cs
+END
+ComplexTypeTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ComplexTypeTest.cs
+END
+ResultMapTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ResultMapTest.cs
+END
+ParameterMapTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ParameterMapTest.cs
+END
+EventTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/EventTest.cs
+END
+StatementNamespaceTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/StatementNamespaceTest.cs
+END
+CircularReferenceTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/CircularReferenceTest.cs
+END
+DynamicTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/DynamicTest.cs
+END
+TransactionTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/TransactionTest.cs
+END
+ConstructorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/ConstructorTest.cs
+END
+GroupByTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/GroupByTest.cs
+END
+InheritanceTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/InheritanceTest.cs
+END
+MultipleResultTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/MultipleResultTest.cs
+END
+IterateTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/IterateTest.cs
+END
+VelocityTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/VelocityTest.cs
+END
+DynamicPrependTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/DynamicPrependTest.cs
+END

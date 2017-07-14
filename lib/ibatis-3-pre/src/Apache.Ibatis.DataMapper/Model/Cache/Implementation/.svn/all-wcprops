@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Cache/Implementation
+END
+FifoCache.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Cache/Implementation/FifoCache.cs
+END
+WeakCache.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Cache/Implementation/WeakCache.cs
+END
+PerpetualCache.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Cache/Implementation/PerpetualCache.cs
+END
+LruCache.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Cache/Implementation/LruCache.cs
+END

@@ -1,0 +1,28 @@
+{
+  "sqlMapConfig": {
+      "properties": {"@uri": "file://../../database.config"},
+      
+      "settings": {
+          "setting": {"@useStatementNamespaces": "${useStatementNamespaces}"},
+          "setting": {"@cacheModelsEnabled": "true"},
+          "setting": {"@validateSqlMap": "false"},
+          "setting": {"@useReflectionOptimizer": "true"}
+          },
+          
+      "providers": {"@uri": "file://providers.config"},
+
+      "database":{
+          "provider": {"@name": "sqlServer2.0"},
+          "dataSource": {"@name": "iBatisNet","@connectionString": "data source=${datasource};database=${database};Integrated Security=SSPI;"}
+          },
+          
+      "typeHandlers":{
+          "typeHandler": {"@type": "string","@callback": "AnsiStringTypeHandler"}
+          },
+          
+      "sqlMaps":{
+          "sqlMap": {"@uri": "file://../../${directory}/DocumentModule.xml"},
+          "sqlMap": {"@uri": "file://../../${directory}/AccountModule.xml"}
+          }
+    }
+}

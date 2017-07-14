@@ -1,0 +1,4 @@
+<appendix id="daoConfigSchema">
+  <title>iBATIS.NET's <literal>DaoConfig.xsd</literal></title>
+  <programlisting><![CDATA[@xsd-include@]]></programlisting>
+</appendix>

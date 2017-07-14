@@ -1,0 +1,4245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="working">
+  <title>Working with Data Maps</title>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>If you want to know how to configure and install iBATIS, see the
+    Developer Guide section for your platform. But if you want to know how
+    iBATIS <emphasis>really</emphasis> works, continue from here.</para>
+
+    <para>The Data Map definition file is where the interesting stuff happens.
+    Here, you define how your application interacts with your database. As
+    mentioned, the Data Map definition is an XML descriptor file. By using a
+    service routine provided by iBATIS, the XML descriptors are rendered into
+    a client object (or <classname>Mapper</classname>). To access your Data
+    Maps, your application calls the client object and passes in the name of
+    the statement you need.</para>
+
+    <para>The real work of using iBATIS is not so much in the application
+    code, but in the XML descriptors that iBATIS renders. Instead of monkeying
+    with application source code, you monkey with XML descriptors instead. The
+    benefit is that the XML descriptors are much better suited to the task of
+    mapping your object properties to database entities. At least, that's our
+    own experience with our own applications. Of course, your mileage may
+    vary.</para>
+  </sect1>
+
+  <sect1>
+    <title>What's in a Data Map definition file, anyway?</title>
+
+    <para>If you read the Tutorial, you've already seen some simple Data Map
+    examples, like the one shown in Example 2.1.<example>
+        <title>A simple Data Map (.NET)</title>
+
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+  &lt;sqlMap namespace="LineItem" 
+xmlns="http://ibatis.apache.org/mapping" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" &gt;
+
+  <emphasis role="comment">&lt;!--Type aliases allow you to use a shorter name for long fully qualified class names.--&gt;</emphasis>
+  &lt;alias&gt;
+    &lt;typeAlias alias="LineItem" type="NPetshop.Domain.Billing.LineItem, NPetshop.Domain" /&gt;
+  &lt;/alias&gt;
+
+  &lt;statements&gt;
+    &lt;insert id="InsertLineItem" parameterClass="LineItem"&gt;
+      INSERT INTO [LinesItem] 
+        (Order_Id, LineItem_LineNum, Item_Id, LineItem_Quantity, LineItem_UnitPrice)
+      VALUES
+       (#Order.Id#, #LineNumber#, #Item.Id#, #Quantity#, #Item.ListPrice#)
+    &lt;/insert&gt;
+  &lt;/statements&gt;
+&lt;/sqlMap&gt;</programlisting>
+      </example></para>
+
+    <para>This map takes some properties from a LineItem instance and merges
+    the values into the SQL statement. The value-add is that our SQL in
+    separated from our program code, and we can pass our LineItem instance
+    directly to a library method:</para>
+
+    <para><programlisting>C#
+Mapper.Instance().Insert("InsertLineItem",lineItem);</programlisting></para>
+
+    <para>No fuss, no muss. Likewise, see Example 3.2 for a simple select
+    statement.</para>
+
+    <para>In Example 3.1, we use SQL aliasing to map columns to our object
+    properties and an iBATIS inline parameter (see sidebar) to insert a
+    runtime value. Easy as pie.</para>
+
+    <sidebar>
+      <para><emphasis> A Quick Glance at Inline Parameters </emphasis></para>
+
+      <para>Say we have a mapped statement element that looks like
+      this:</para>
+
+      <programlisting>&lt;statement id="InsertProduct"&gt;
+  insert into Products (Product_Id, Product_Description) 
+  values (#Id#, #Description#);
+&lt;/statement&gt;</programlisting>
+
+      <para>The inline parameters here are #Id# and #Description#. Let's also
+      say that we have an object with the properties <parameter>Id</parameter>
+      and <parameter>Description</parameter>. If we set the object properties
+      to <parameter>5</parameter> and "<parameter>dog</parameter>",
+      respectively, and passed the object to the mapped statement, we'd end up
+      with a runtime query that looked like this:</para>
+
+      <programlisting>insert into Products (Product_Id, Product_Description) values (5, ‘dog');</programlisting>
+
+      <para>For more about inline parameters, see Section 3.4.</para>
+    </sidebar>
+
+    <para>But, what if you wanted some ice cream with that pie? And maybe a
+    cherry on top? What if we wanted to cache the result of the select? Or,
+    what if we didn't want to use SQL aliasing or named parameters. (Say,
+    because we were using pre-existing SQL that we didn't want to touch.)
+    Example 3.2 shows a Data Map that specifies a cache, and uses a
+    &lt;parameterMap&gt; and a &lt;resultMap&gt; to keep our SQL
+    pristine.</para>
+
+    <para><example>
+        <title>A Data Map definition file with some bells and whistles</title>
+
+        <programlisting>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+  &lt;sqlMap namespace="Product" 
+xmlns="http://ibatis.apache.org/mapping" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" &gt;
+
+<emphasis role="alias">  &lt;alias&gt;
+    &lt;typeAlias alias="Product" type="Example.Domain.Product, Example.Domain" /&gt;
+  &lt;/alias&gt;</emphasis><emphasis role="cache">
+
+  &lt;cacheModels&gt;
+    &lt;cacheModel id="productCache" implementation="LRU"&gt;
+      &lt;flushInterval hours="24"/&gt;
+      &lt;property name="CacheSize" value="1000" /&gt;
+    &lt;/cacheModel&gt;
+  &lt;/cacheModels&gt;</emphasis>
+
+  <emphasis role="resultmap"> &lt;resultMaps&gt;
+    &lt;resultMap id="productResult" class="Product"&gt;
+      &lt;result property="Id" column="Product_Id"/&gt;
+      &lt;result property="Description" column="Product_Description"/&gt;
+    &lt;/resultMap&gt;
+   &lt;/resultMaps&gt;</emphasis>
+
+  <emphasis role="statement">&lt;statements&gt;
+    &lt;select id="GetProduct" parameterMap="productParam" cacheModel="productCache"&gt;
+      select * from Products where Product_Id = ?
+    &lt;/select&gt;
+  &lt;/statements&gt;</emphasis>
+
+  <emphasis role="parameterMap">&lt;parameterMaps&gt;
+    &lt;parameterMap id="productParam" class="Product"&gt;
+      &lt;parameter property="Id"/&gt;
+    &lt;/parameterMap&gt;
+  &lt;parameterMaps&gt;</emphasis>
+
+&lt;/sqlMap&gt;</programlisting>
+      </example>In Example 3.2, &lt;parameterMap&gt; maps the SQL
+    "<parameter>?</parameter>" to the <classname>product</classname>
+    <property>Id</property> property. The &lt;resultMap&gt; maps the columns
+    to our object properties. The &lt;cacheModel&gt; keeps the result of the
+    last one thousand of these queries in active memory for up to 24
+    hours.</para>
+
+    <para>Example 3.2 is longer and more complex than Example 3.1, but
+    considering what you get in return, it seems like a fair trade. (A bargain
+    even.)</para>
+
+    <para>Many <emphasis>agile</emphasis> developers would start with
+    something like Example 3.1 and add features like caching later. If you
+    changed the Data Map from Example 3.1 to Example 3.2, you would not have
+    to touch your application source code at all. You can start simple and add
+    complexity only when it is needed.</para>
+
+    <para>A single Data Map definition file can contain as many Cache Models,
+    Type Aliases, Result Maps, Parameter Maps, and Mapped Statements
+    (including stored procedures), as you like. Everything is loaded into the
+    same configuration, so you can define elements in one Data Map and then
+    use them in another. Use discretion and organize the statements and maps
+    appropriately for your application by finding some logical way to group
+    them.</para>
+  </sect1>
+
+  <sect1>
+    <title>Mapped Statements</title>
+
+    <para>Mapped Statements can hold any SQL statement and can use Parameter
+    Maps and Result Maps for input and output. (A stored procedure is a
+    specialized form of a statement. See section 3.3.1 and 3.3.2 for more
+    information.)</para>
+
+    <para>If the case is simple, the Mapped Statement can reference the
+    parameter and result classes directly. Mapped Statements support caching
+    through reference to a Cache Model element. The following example shows
+    the syntax for a statement element. <example>
+        <title>Statement element syntax</title>
+
+        <programlisting>&lt;statement id="<emphasis role="blue">statement.name</emphasis>"
+  [parameterMap="<emphasis role="blue">parameterMap.name</emphasis>"]
+  [parameterClass="<emphasis role="blue">alias</emphasis>"]
+  [resultMap="<emphasis role="blue">resultMap.name</emphasis>"]
+  [resultClass="<emphasis role="blue">class.name|alias</emphasis>"]
+  [listClass="<emphasis role="blue">class.name|alias</emphasis>"]
+  [cacheModel="<emphasis role="blue">cache.name</emphasis>"]
+  [extends="<emphasis role="blue">statement.name</emphasis>"]
+&gt;
+
+  select * from Products where Product_Id = [?|#propertyName#]
+  order by [$simpleDynamic$]
+
+&lt;/statement&gt;</programlisting>
+      </example></para>
+
+    <para>In Example 3.3, the [bracketed] parts are optional, and some options
+    are mutually exclusive. It is perfectly legal to have a Mapped Statement
+    as simple as shown by Example 3.4.<example>
+        <title>A simplistic Mapped Statement</title>
+
+        <programlisting>&lt;statement id="InsertTestProduct" &gt;
+  insert into Products (Product_Id, Product_Description) values (1, "Shih Tzu")
+&lt;/statement&gt;</programlisting>
+      </example></para>
+
+    <para>Example 3.4 is obviously unlikely, unless you are running a test.
+    But it does shows that you can use iBATIS to execute arbitrary SQL
+    statements. More likely, you will use the object mapping features with
+    Parameter Maps (Section 3.4) and Result Maps (Section 3.5) since that's
+    where the magic happens.</para>
+
+    <sect2>
+      <title>Statement Types</title>
+
+      <para>The &lt;statement&gt; element is a general "catch all" element
+      that can be used for any type of SQL statement. Generally it is a good
+      idea to use one of the more specific statement-type elements. The more
+      specific elements provided better error-checking and even more
+      functionality. (For example, the insert statement can return a
+      database-generated key.) Table 3.1 summarizes the statement-type
+      elements and their supported attributes and features.</para>
+
+      <para><table>
+          <title>The six statement-type elements</title>
+
+          <tgroup cols="4">
+            <thead>
+              <row>
+                <entry>Statement Element</entry>
+
+                <entry>Attributes</entry>
+
+                <entry>Child Elements</entry>
+
+                <entry>Methods</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>&lt;statement&gt;</entry>
+
+                <entry><programlisting>id 
+parameterClass 
+resultClass 
+listClass
+parameterMap 
+resultMap 
+cacheModel</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements</programlisting></entry>
+
+                <entry><programlisting>Insert 
+Update 
+Delete 
+All query methods</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;insert&gt;</entry>
+
+                <entry><programlisting>id 
+parameterClass 
+parameterMap</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements
+&lt;selectKey&gt; 
+&lt;generate&gt;</programlisting></entry>
+
+                <entry><programlisting>Insert 
+Update 
+Delete </programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;update&gt;</entry>
+
+                <entry><programlisting>id 
+parameterClass 
+parameterMap
+extends</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements 
+&lt;generate&gt;</programlisting></entry>
+
+                <entry><programlisting>Insert 
+Update 
+Delete</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;delete&gt;</entry>
+
+                <entry><programlisting>id 
+parameterClass 
+parameterMap
+extends</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements 
+&lt;generate&gt;</programlisting></entry>
+
+                <entry><programlisting>Insert 
+Update 
+Delete</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;select&gt;</entry>
+
+                <entry><programlisting>id 
+parameterClass 
+resultClass 
+listClass
+parameterMap 
+resultMap 
+cacheModel
+extends</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements 
+&lt;generate&gt;</programlisting></entry>
+
+                <entry><programlisting>All query methods</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;procedure&gt;</entry>
+
+                <entry><programlisting>id 
+parameterMap 
+resultClass 
+resultMap
+cacheModel</programlisting></entry>
+
+                <entry><programlisting>All dynamic elements </programlisting></entry>
+
+                <entry><programlisting>Insert 
+Update 
+Delete 
+All query methods</programlisting></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>The various attributes used by statement-type elements are
+      covered in Section 3.3.4.</para>
+    </sect2>
+
+    <sect2>
+      <title>Stored Procedures</title>
+
+      <para>iBATIS DataMapper treats stored procedures as yet another
+      statement type. Example 3.5 shows a simple Data Map hosting a stored
+      procedure. <example>
+          <title>A Data Map using a stored procedure</title>
+
+          <programlisting><emphasis role="comment">&lt;!-- Microsot SQL Server --&gt;</emphasis>
+&lt;procedure id="SwapEmailAddresses" parameterMap="swap-params"&gt;
+  ps_swap_email_address
+&lt;/procedure&gt;
+... 
+&lt;parameterMap id="swap-params"&gt;
+  &lt;parameter property="email1" column="First_Email" /&gt;
+  &lt;parameter property="email2" column="Second_Email" /&gt;
+&lt;/parameterMap&gt;
+
+<emphasis role="comment">&lt;!-- Oracle with MS OracleClient provider --&gt;</emphasis>
+&lt;procedure id="InsertCategory" parameterMap="insert-params"&gt;
+ prc_InsertCategory
+&lt;/procedure&gt;
+... 
+&lt;parameterMap id="insert-params"&gt;
+ &lt;parameter property="Name"       column="p_Category_Name"/&gt;
+ &lt;parameter property="GuidString" column="p_Category_Guid" dbType="VarChar"/&gt;
+ &lt;parameter property="Id"         column="p_Category_Id"   dbType="Int32"   type="Int"/&gt;
+&lt;/parameterMap&gt;
+
+<emphasis role="comment">&lt;!-- Oracle with ODP.NET 10g provider --&gt;</emphasis>
+&lt;statement id="InsertAccount" parameterMap="insert-params"&gt;
+ prc_InsertAccount
+&lt;/statement&gt;
+... 
+&lt;parameterMap id="insert-params"&gt;
+ &lt;parameter property="Id"           dbType="Int32"/&gt;
+ &lt;parameter property="FirstName"    dbType="VarChar2" size="32"/&gt;
+ &lt;parameter property="LastName"     dbType="VarChar2" size="32"/&gt;
+ &lt;parameter property="EmailAddress" dbType="VarChar2" size="128"/&gt;
+&lt;/parameterMap&gt;
+</programlisting>
+        </example>The idea behind Example 3.5 is that calling the stored
+      procedure <database>SwapEmailAddresses</database> would exchange two
+      email addresses between two columns in a database table and also in the
+      parameter object (a <classname>HashTable</classname>). The parameter
+      object is only modified if the parameter mappings mode attribute is set
+      to <parameter>InputOutput</parameter> or <parameter>Output</parameter>.
+      Otherwise they are left unchanged. Of course, immutable parameter
+      objects (e.g. <classname>String</classname>) cannot be modified.<note>
+          <para>For .NET, the parameterMap attribute is required. The DBType,
+          parameter direction, size, precision, and scale are usually
+          auto-discovered by the framework (via the CommandBuilder) depending
+          on your provider.</para>
+		  <para>If your stored procedure have no parmeters, the parameterMap attribute on the procedure tag is optionnal.</para>
+        </note></para>
+    </sect2>
+
+    <sect2>
+      <title>The SQL</title>
+
+      <para>If you are not using stored procedures, the most important part of
+      a statement-type element is the SQL. You can use any SQL statement that
+      is valid for your database system. Since iBATIS passes the SQL through
+      to the standard libraries ( ADO.NET), you can use any statement with
+      iBATIS that you could use without iBATIS. You can use whatever functions
+      your database system supports, and even send multiple statements, so
+      long as your driver or provider supports them.</para>
+
+      <para>If standard, static SQL isn't enough, iBATIS can help you build a
+      dynamic SQL statement. See Section 3.9 for more about Dynamic
+      SQL.</para>
+
+      <sect3>
+        <title>Reusing SQL Fragments</title>
+
+		<para>When writing SqlMaps, you often encounter duplicate fragments of SQL, for example a FROM-clause or
+		constraint-statement. iBATIS offers a simple yet powerful tag to reuse them. For the sake of simplicity, let's
+		assume we want to get some items and we want to do a count on them. Normally, you would write
+		something like this :
+		
+		<example>
+            <title>Reusing SQL Fragments (Before)</title>
+
+            <programlisting>&lt;select id="SelectItemCount" resultClass="int"&gt;
+SELECT COUNT(*) AS total
+FROM items
+WHERE parentid = 6
+&lt;/select&gt;
+
+&lt;select id="SelectItems" resultClass="Item"&gt;
+SELECT id, name
+FROM items
+WHERE parentid = 6
+&lt;/select&gt;</programlisting>
+          </example>
+
+		  To eliminate this duplication, we use the tags &lt;sql&gt; and &lt;include&gt;. The &lt;sql&gt; tag contains the fragment to reuse, the &lt;include&gt; tag includes such a fragment in a statement. For example:
+		
+			<example>
+            <title>Reusing SQL Fragments (After)</title>
+
+            <programlisting>&lt;sql id="selectItem_fragment"&gt;
+FROM items
+WHERE parentid = 6
+&lt;/sql&gt;
+
+&lt;select id="selectItemCount" resultClass="int"&gt;
+SELECT COUNT(*) AS total
+&lt;include refid="selectItem_fragment"/&gt;
+&lt;/select&gt;
+
+&lt;select id="selectItems" resultClass="Item"&gt;
+SELECT id, name
+&lt;include refid="selectItem_fragment"/&gt;
+&lt;/select&gt;</programlisting>
+          </example>
+
+		  The &lt;include&gt; tag is namespace aware so you can refer to fragments even when they are located in another map (however, due to the way iBATIS loads the SqlMaps, the included fragment should be loaded before the including statement).
+		  The fragments are included and processed on query-execution so parameters can be used too :
+		</para>
+
+<programlisting>&lt;sql id="selectItem_fragment"&gt;
+FROM items
+WHERE parentid = #value#
+&lt;/sql&gt;
+
+&lt;select id="selectItemCount" parameterClass="int" resultClass="int"&gt;
+SELECT COUNT(*) AS total
+&lt;include refid="selectItem_fragment"/&gt;
+&lt;/select&gt;
+
+&lt;select id="selectItems" parameterClass="int" resultClass="Item"&gt;
+SELECT id, name
+&lt;include refid="selectItem_fragment"/&gt;
+&lt;/select&gt;</programlisting>
+
+		<note>
+          <para>In many case, you can also use the <emphasis role="comment">extends</emphasis> attribute on statement tag to achieve the same goal.</para>
+        </note>
+      </sect3>
+
+      <sect3>
+        <title>Escaping XML symbols</title>
+
+        <para>Because you are combining SQL and XML in a single document,
+        conflicts can occur. The most common conflict is the greater-than and
+        less-than symbols (&gt;&lt;). SQL statements use these symbols as
+        operators, but they are reserved symbols in XML. A simple solution is
+        to <emphasis>escape</emphasis> the SQL statements that uses XML
+        reserved symbols within a CDATA element. Example 3.6 demonstrates
+        this.<example>
+            <title>Using CDATA to "escape" SQL code</title>
+
+            <programlisting>&lt;statement id="SelectPersonsByAge" parameterClass="int" resultClass="Person"&gt;
+  <emphasis role="comment">&lt;![CDATA[</emphasis> 
+     SELECT * FROM PERSON WHERE AGE &gt; #value# <emphasis role="comment">
+  ]]&gt;</emphasis>
+&lt;/statement&gt;</programlisting>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>Auto-Generated Keys</title>
+
+        <para>Many database systems support auto-generation of primary key
+        fields, as a vendor extension. Some vendors pre-generate keys (e.g.
+        Oracle), some vendors post-generate keys (e.g. MS-SQL Server and
+        MySQL). In either case, you can obtain a pre-generated key using a
+        &lt;selectKey&gt; stanza within an &lt;insert&gt; element. Example 3.7
+        shows an &lt;insert&gt; statement for either approach.<example>
+            <title>&lt;insert&gt; statements using &lt;selectKey&gt;
+            stanzas</title>
+
+            <programlisting><emphasis role="comment">&lt;!—Oracle SEQUENCE Example using .NET 1.1 System.Data.OracleClient --&gt;</emphasis> 
+&lt;insert id="insertProduct-ORACLE" parameterClass="product"&gt; 
+  &lt;selectKey resultClass="int" type="pre" property="Id" &gt; 
+     <emphasis role="blue">SELECT STOCKIDSEQUENCE.NEXTVAL AS VALUE FROM DUAL</emphasis>
+  &lt;/selectKey&gt; 
+  insert into PRODUCT (PRD_ID,PRD_DESCRIPTION) values (#id#,#description#) 
+&lt;/insert&gt;
+
+<emphasis role="comment">&lt;!— Microsoft SQL Server IDENTITY Column Example --&gt;</emphasis> 
+&lt;insert id="insertProduct-MS-SQL" parameterClass="product"&gt; 
+  insert into PRODUCT (PRD_DESCRIPTION)
+  values (#description#) 
+ &lt;selectKey resultClass="int" type="post" property="id" &gt; 
+   <emphasis role="blue">select @@IDENTITY as value</emphasis>
+ &lt;/selectKey&gt;
+&lt;/insert&gt;
+
+<emphasis role="comment">&lt;!-- MySQL Example --&gt;</emphasis>
+&lt;insert id="insertProduct-MYSQL" parameterClass="product"&gt; 
+  insert into PRODUCT (PRD_DESCRIPTION)
+  values (#description#) 
+ &lt;selectKey resultClass="int" type="post" property="id" &gt; 
+   <emphasis role="blue">select LAST_INSERT_ID() as value</emphasis>
+ &lt;/selectKey&gt;
+&lt;/insert&gt;</programlisting>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>&lt;generate&gt; tag</title>
+
+        <para>You can use iBATIS to execute any SQL statement your application
+        requires. When the requirements for a statement are simple and
+        obvious, you may not even need to write a SQL statement at all. The
+        &lt;generate&gt; tag can be used to create simple SQL statements
+        automatically, based on a &lt;parameterMap&gt; element. The four CRUD
+        statement types (insert, select, update, and delete) are supported.
+        For a select, you can select all or select by a key (or keys). Example
+        3.8 shows an example of generating the usual array of CRUD
+        statements.</para>
+
+        <example>
+          <title>Creating the "usual suspects" with the &lt;generate&gt;
+          tag</title>
+
+          <programlisting>
+&lt;parameterMaps&gt;
+  &lt;parameterMap id="insert-generate-params"&gt;
+    &lt;parameter property="Name" column="Category_Name"/&gt;
+    &lt;parameter property="Guid" column="Category_Guid" dbType="UniqueIdentifier"/&gt;    
+  &lt;/parameterMap&gt;
+
+  &lt;parameterMap id="update-generate-params" extends="insert-generate-params"&gt;
+    &lt;parameter property="Id" column="Category_Id" /&gt;
+  &lt;/parameterMap&gt;
+
+  &lt;parameterMap id="delete-generate-params"&gt;
+    &lt;parameter property="Id" column="Category_Id" /&gt;
+    &lt;parameter property="Name" column="Category_Name"/&gt;
+  &lt;/parameterMap&gt;
+
+  &lt;parameterMap id="select-generate-params"&gt;
+    &lt;parameter property="Id" column="Category_Id" /&gt;
+    &lt;parameter property="Name" column="Category_Name"/&gt;
+    &lt;parameter property="Guid" column="Category_Guid" dbType="UniqueIdentifier"/&gt;
+  &lt;/parameterMap&gt;
+
+&lt;/parameterMaps&gt;
+
+&lt;statements&gt;
+
+  &lt;update id="UpdateCategoryGenerate" parameterMap="update-generate-params"&gt;
+    &lt;generate table="Categories" by="Category_Id"/&gt;
+  &lt;/update&gt;
+
+  &lt;delete id="DeleteCategoryGenerate" parameterMap="delete-generate-params"&gt;
+    &lt;generate table="Categories" by="Category_Id, Category_Name"/&gt;
+  &lt;/delete&gt;
+
+  &lt;select id="SelectByPKCategoryGenerate" resultClass="Category" parameterClass="Category" 
+          parameterMap="select-generate-params"&gt;
+    &lt;generate table="Categories" by="Category_Id"/&gt; 
+  &lt;/select&gt;
+
+  &lt;select id="SelectAllCategoryGenerate" resultClass="Category" 
+          parameterMap="select-generate-params"&gt;
+    &lt;generate table="Categories" /&gt; 
+  &lt;/select&gt;
+
+  &lt;insert id="InsertCategoryGenerate" parameterMap="insert-generate-params"&gt;
+    &lt;selectKey property="Id" type="post" resultClass="int"&gt;
+      select @@IDENTITY as value
+    &lt;/selectKey&gt;
+    &lt;generate table="Categories" /&gt;
+  &lt;/insert&gt;
+
+&lt;/statements&gt;</programlisting>
+        </example>
+
+        <para><note>
+            <para>The SQL is generated when the DataMapper instance is built,
+            so there is no performance impact at execution time.</para>
+          </note>The tag generates ANSI SQL, which should work with any
+        compliant database. Special types, such as blobs, are not supported,
+        and vendor-specific types are also not supported. But, the generate
+        tag does keep the simple things simple.</para>
+
+        <important>
+          <para>The intended use of the &lt;generate&gt; tag is to save
+          developers the trouble of coding mundane SQL statements (and only
+          mundane statements). It is not meant as a object-to-relational
+          mapping tool. There are many frameworks that provide extensive
+          object-to-relational mapping features. The &lt;generate&gt; tag is
+          not a replacement for any of those. When the &lt;generate&gt; tag
+          does not suit your needs, use a conventional statement
+          instead.</para>
+        </important>
+
+        <sect4>
+          <title>&lt;generate&gt; tag attributes</title>
+
+          <para>The generate tag supports two attributes :</para>
+
+          <table>
+            <title>&lt;generate&gt; attributes</title>
+
+            <tgroup cols="3">
+              <thead>
+                <row>
+                  <entry>Attribute</entry>
+
+                  <entry>Description</entry>
+
+                  <entry>Required</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>table</entry>
+
+                  <entry>specifies the table name to use in the SQL
+                  statement.</entry>
+
+                  <entry>yes</entry>
+                </row>
+
+                <row>
+                  <entry>by</entry>
+
+                  <entry>specifies the columns to use in a WHERE
+                  clause</entry>
+
+                  <entry>no</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </sect4>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Statement-type Element Attributes</title>
+
+      <para>The six statement-type elements take various attributes. See
+      Section 3.3.1 for a table itemizing which attributes each element-type
+      accepts. The individual attributes are described in the sections that
+      follow.</para>
+
+      <sect3>
+        <title>id</title>
+
+        <para>The required <parameter>id</parameter> attribute provides a name
+        for this statement, which must be unique within this
+        &lt;SqlMap&gt;.</para>
+      </sect3>
+
+      <sect3>
+        <title>parameterMap</title>
+
+        <para>A Parameter Map defines an ordered list of values that match up
+        with the "<parameter>?</parameter>" placeholders of a standard,
+        parameterized query statement. Example 3.9 shows a
+        &lt;parameterMap&gt; and a corresponding &lt;statement&gt;.<example>
+            <title>A parameterMap and corresponding statement</title>
+
+            <programlisting>&lt;parameterMap id="<emphasis role="blue">insert-product-param</emphasis>" class="Product"&gt;
+  &lt;parameter property="id"/&gt;
+  &lt;parameter property="description"/&gt;
+&lt;/parameterMap&gt;
+
+&lt;statement id="insertProduct" parameterMap="<emphasis role="blue">insert-product-param</emphasis>"&gt;
+  insert into PRODUCT (PRD_ID, PRD_DESCRIPTION) values (?,?);
+&lt;/statement&gt;</programlisting>
+          </example></para>
+
+        <para>In Example 3.9, the Parameter Map describes two parameters that
+        will match, in order, two placeholders in the SQL statement. The first
+        "<parameter>?</parameter>" is replaced by the value of the
+        <property>id</property> property. The second is replaced with the
+        <property>description</property> property.</para>
+
+        <para>iBATIS also supports named, inline parameters, which most
+        developers seem to prefer. However, Parameter Maps are useful when the
+        SQL must be kept in a standard form or when extra information needs to
+        be provided. For more about Parameter Maps see Section 3.4.</para>
+      </sect3>
+
+      <sect3>
+        <title>parameterClass</title>
+
+        <para>If a parameterMap attribute is not specified, you may specify a
+        parameterClass instead and use inline parameters (see Section 3.4.3 ).
+        The value of the parameterClass attribute can be a Type Alias or the
+        fully qualified name of a class. Example 3.10 shows a statement using
+        a fully-qualified name versus an alias.<example>
+            <title>Ways to specify a parameterClass</title>
+
+            <programlisting><emphasis role="comment">&lt;!-- fully qualified classname --&gt;</emphasis>
+&lt;statement id="statementName" parameterClass="<emphasis role="blue">Examples.Domain.Product, Examples.Domain</emphasis>"&gt;
+  insert into PRODUCT values (#id#, #description#, #price#)
+&lt;/statement&gt;
+
+<emphasis role="comment">&lt;!-- typeAlias (defined elsewhere) --&gt;</emphasis>
+&lt;statement id="statementName" parameterClass="<emphasis role="blue">Product</emphasis>"&gt;
+  insert into PRODUCT values (#id#, #description#, #price#)
+&lt;/statement&gt;</programlisting>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>resultMap</title>
+
+        <para>A Result Map lets you control how data is extracted from the
+        result of a query, and how the columns are mapped to object
+        properties. Example 3.11 shows a &lt;resultMap&gt; element and a
+        corresponding &lt;statement&gt; element.</para>
+
+        <para><example>
+            <title>A &lt;resultMap&gt; and corresponding
+            &lt;statement&gt;</title>
+
+            <para><programlisting>&lt;resultMap id="<emphasis role="blue">select-product-result</emphasis>" class="product"&gt;
+  &lt;result property="id" column="PRD_ID"/&gt;
+  &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+&lt;/resultMap&gt;
+
+&lt;statement id="selectProduct" resultMap="<emphasis role="blue">select-product-result</emphasis>"&gt;
+  select * from PRODUCT
+&lt;/statement&gt;</programlisting></para>
+
+            <para>In Example 3.11, the result of the SQL query will be mapped
+            to an instance of the Product class using the
+            "select-product-result" &lt;resultMap&gt;. The &lt;resultMap&gt;
+            says to populate the <property>id</property> property from the
+            <database>PRD_ID</database> column, and to populate the
+            <parameter>description</parameter> property from the
+            <database>PRD_DESCRIPTION</database> column. <tip>
+                <para>In Example 3.11, note that using "<database> select *
+                </database>" is supported. If you want all the columns, you
+                don't need to map them all individually. (Though many
+                developers consider it a good practice to always specify the
+                columns expected.)</para>
+              </tip></para>
+
+            <para>For more about Result Maps, see Section 3.5.</para>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>resultClass</title>
+
+        <para>If a resultMap is not specified, you may specify a resultClass
+        instead. The value of the resultClass attribute can be a Type Alias or
+        the fully qualified name of a class. The class specified will be
+        automatically mapped to the columns in the result, based on the result
+        metadata. The following example shows a &lt;statement&gt; element with
+        a resultClass attribute.</para>
+
+        <para><example>
+            <title>A &lt;statement &gt;element with resultClass
+            attribute</title>
+
+            <para><programlisting>&lt;statement id="SelectPerson" parameterClass="int" resultClass="<emphasis
+                  role="blue">Person</emphasis>"&gt;
+  SELECT
+  PER_ID as <emphasis role="blue">Id</emphasis>,
+  PER_FIRST_NAME as <emphasis role="blue">FirstName</emphasis>,
+  PER_LAST_NAME as <emphasis role="blue">LastName</emphasis>,
+  PER_BIRTH_DATE as <emphasis role="blue">BirthDate</emphasis>,
+  PER_WEIGHT_KG as <emphasis role="blue">WeightInKilograms</emphasis>,
+  PER_HEIGHT_M as <emphasis role="blue">HeightInMeters</emphasis>
+  FROM PERSON
+  WHERE PER_ID = #value#
+&lt;/statement&gt;</programlisting></para>
+          </example>In Example 3.12, the <classname>Person</classname> class
+        has properties including: <property>Id</property>,
+        <property>FirstName</property>, <property>LastName</property>,
+        <property>BirthDate</property>,
+        <property>WeightInKilograms</property>, and
+        <property>HeightInMeters</property>. Each of these corresponds with
+        the column aliases described by the SQL select statement using the
+        "<database>as</database>" keyword –a standard SQL feature. When
+        executed, a <classname>Person</classname> object is instantiated and
+        populated by matching the object property names to the (aliased)
+        column names from the query.</para>
+
+        <para>Using SQL aliases to map columns to properties saves defining a
+        &lt;resultMap&gt; element, but there are limitations. There is no way
+        to specify the types of the output columns (if needed), there is no
+        way to automatically load related data such as complex properties, and
+        there is a slight performance consequence from accessing the result
+        metadata. Architecturally, using aliases this way mixes
+        <emphasis>database logic</emphasis> with <emphasis>reporting
+        logic</emphasis>, making the query harder to read and maintain. You
+        can overcome these limitations with an explicit Result Map (Section
+        3.5).</para>
+      </sect3>
+
+      <sect3>
+        <title>listClass</title>
+
+        <para>In addition to providing the ability to return an IList of
+        objects, the DataMapper supports the use of a strongly-typed custom
+        collection: a class that implements the
+        System.Collections.CollectionBase abstract class. The following is an
+        example of a CollectionBase class that can be used with the
+        DataMapper.</para>
+
+        <para><example>
+            <title>A System.Collections.CollectionBase implementation</title>
+
+            <para><programlisting>using System;
+using System.Collections;
+
+namespace WebShop.Domain 
+{
+ public class AccountCollection : CollectionBase 
+ {
+  public AccountCollection() {}
+
+  public Account this[int index] 
+  {
+   get { return (Account)List[index]; }
+   set { List[index] = value; }
+  }
+
+  public int Add(Account value) 
+  {
+   return List.Add(value);
+  }
+
+  public void AddRange(Account[] value) 
+  {
+   for (int i = 0; i &lt; value.Length; i++) 
+   {
+    Add(value[i]);
+   }
+  }
+
+  public void AddRange(AccountCollection value) 
+  {
+   for (int i = 0; i &lt; value.Count; i++) 
+   {
+    Add(value[i]);
+   }
+  }
+
+  public bool Contains(Account value) 
+  {
+   return List.Contains(value);
+  }
+
+  public void CopyTo(Account[] array, int index) 
+  {
+   List.CopyTo(array, index);
+  }
+
+  public int IndexOf(Account value) 
+  {
+   return List.IndexOf(value);
+  }
+  
+  public void Insert(int index, Account value) 
+  {
+   Account.Insert(index, value);
+  }
+  
+  public void Remove(Account value) 
+  {
+   Account.Remove(value);
+  }
+ }
+}</programlisting></para>
+          </example></para>
+
+        <para>A CollectionBase class can be specified for a select statement
+        through the listClass attribute. The value of the listClass attribute
+        can be a Type Alias or the fully qualified name of a class. The
+        statement should also indicate the resultClass so that the DataMapper
+        knows how to handle the type of objects in the collection. The
+        resultClass specified will be automatically mapped to the columns in
+        the result, based on the result metadata. The following example shows
+        a &lt;statement&gt; element with a listClass attribute.</para>
+
+        <para><example>
+            <title>A &lt;statement &gt;element with listClass
+            attribute</title>
+
+            <para><programlisting>&lt;statement id="GetAllAccounts"
+ <emphasis role="blue">listClass="AccountCollection"</emphasis>
+ <emphasis role="blue">resultClass="Account"</emphasis>&gt;
+   select
+   Account_ID as Id,
+   Account_FirstName as FirstName,
+   Account_LastName as LastName,
+   Account_Email as EmailAddress
+   from Accounts
+   order by Account_LastName, Account_FirstName
+&lt;/statement&gt;</programlisting></para>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>cacheModel</title>
+
+        <para>If you want to cache the result of a query, you can specify a
+        Cache Model as part of the &lt;statement&gt; element. Example 3.15
+        shows a &lt;cacheModel&gt; element and a corresponding
+        &lt;statement&gt;.</para>
+
+        <para><example>
+            <title>A &lt;cacheModel&gt; element with its corresponding
+            &lt;statement&gt;</title>
+
+            <para><programlisting>&lt;cacheModel id="<emphasis role="blue">product-cache</emphasis>" implementation="LRU"&gt;
+  &lt;flushInterval hours="24"/&gt;
+  &lt;flushOnExecute statement="insertProduct"/&gt;
+  &lt;flushOnExecute statement="updateProduct"/&gt;
+  &lt;flushOnExecute statement="deleteProduct"/&gt;
+  &lt;property name="size" value="1000" /&gt;
+&lt;/cacheModel&gt;
+
+&lt;statement id="selectProductList" parameterClass="int" cacheModel="<emphasis
+                  role="blue">product-cache</emphasis>"&gt;
+  select * from PRODUCT where PRD_CAT_ID = #value#
+&lt;/statement&gt;</programlisting></para>
+
+            <para>In Example 3.15, a cache is defined for products that uses a
+            LRU reference type and flushes every 24 hours or whenever
+            associated update statements are executed. For more about Cache
+            Models, see Section 3.8.</para>
+          </example></para>
+      </sect3>
+
+      <sect3>
+        <title>extends</title>
+
+        <para>When writing Sql, you often encounter duplicate fragments of
+        SQL. iBATIS offers a simple yet powerful attribute to reuse
+        them.</para>
+
+        <para><programlisting>
+&lt;select id="<emphasis role="blue">GetAllAccounts</emphasis>"
+  resultMap="indexed-account-result"&gt;
+select
+  Account_ID,
+  Account_FirstName,
+  Account_LastName,
+  Account_Email
+from Accounts
+&lt;/select&gt;
+		
+&lt;select id="GetAllAccountsOrderByName"
+  extends="<emphasis role="blue">GetAllAccounts</emphasis>"
+  resultMap="indexed-account-result"&gt;
+    order by Account_FirstName
+&lt;/select&gt;</programlisting></para>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Parameter Maps and Inline Parameters</title>
+
+    <para>Most SQL statements are useful because we can pass them values at
+    runtime. Someone wants a database record with the <database>ID
+    42</database>, and we need to merge that <database>ID</database> number
+    into a select statement. A list of one or more parameters are passed at
+    runtime, and each placeholder is replaced in turn. This is simple but
+    labor intensive, since developers spend a lot of time counting symbols to
+    make sure everything is in sync.</para>
+
+    <para><note>
+        <para>Preceding sections briefly touched on inline parameters, which
+        automatically map properties to named parameters. Many iBATIS
+        developers prefer this approach. But others prefer to stick to the
+        standard, anonymous approach to SQL parameters by using parameter
+        maps. Sometimes people need to retain the purity of the SQL
+        statements; other times they need the detailed specification offered
+        by parameter maps due to database or provider-specific information
+        that needs to be used.</para>
+      </note></para>
+
+    <para>A Parameter Map defines an ordered list of values that match up with
+    the placeholders of a parameterized query statement. While the attributes
+    specified by the map still need to be in the correct order, each parameter
+    is named. You can populate the underlying class in any order, and the
+    Parameter Map ensures each value is passed in the correct order.</para>
+
+    <para><note>
+        <para>Dynamic Mapped Statements (Section 3.9) can't use Parameter
+        Maps. Being dynamic, the number of parameters will change and defeat
+        the purpose of a Parameter Map. Depending on your provider, this may
+        hinder your ability to use Dynamic Mapped Statements if your provider
+        requires the use of some of the attributes, such as size or scale,
+        that a &lt;parameter&gt; provides.</para>
+      </note></para>
+
+    <para>Parameter Maps can be provided as an external element and
+    <emphasis>inline</emphasis>. Example 3.16 shows an external Parameter
+    Map.<example>
+        <title>An external Parameter Map</title>
+
+        <programlisting>&lt;parameterMap id="<emphasis role="blue">parameterMapIdentifier</emphasis>" 
+  [class="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"]
+  [extends="<emphasis role="blue">[sqlMapNamespace.]parameterMapId</emphasis>"]&gt;
+  &lt;parameter 
+    property ="<emphasis role="blue">propertyName</emphasis>" 
+    [column="<emphasis role="blue">columnName</emphasis>"]
+    [direction="<emphasis role="blue">Input|Output|InputOutput</emphasis>"]
+    [dbType="<emphasis role="blue">databaseType</emphasis>"] 
+    [type="<emphasis role="blue">propertyCLRType</emphasis>"]
+    [nullValue="<emphasis role="blue">nullValueReplacement</emphasis>"] 
+    [size="<emphasis role="blue">columnSize</emphasis>"] 
+    [precision="<emphasis role="blue">columnPrecision</emphasis>"] 
+    [scale="<emphasis role="blue">columnScale</emphasis>"]  
+    [typeHandler="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"]  
+  &lt;parameter ... ... /&gt;
+  &lt;parameter ... ... /&gt; 
+&lt;/parameterMap&gt;</programlisting>
+      </example></para>
+
+    <para>In Example 3.16, the parts in [brackets] are optional. The
+    parameterMap element only requires the <parameter>id</parameter>
+    attribute. The <parameter>class</parameter> attribute is optional but
+    recommended. The <parameter>class</parameter> attribute helps to validate
+    the incoming parameter and optimizes performance. Example 3.17 shows a
+    typical &lt;parameterMap&gt;. <example>
+        <title>A typical &lt;parameterMap&gt; element</title>
+
+        <programlisting>&lt;parameterMap id="insert-product-param" class="Product"&gt;
+  &lt;parameter property="<emphasis role="blue">description</emphasis>" /&gt;
+  &lt;parameter property="<emphasis role="blue">id</emphasis>"/&gt;
+&lt;/parameterMap&gt;
+
+&lt;statement id="insertProduct" parameterMap="insert-product-param"&gt;
+  insert into PRODUCT (<emphasis role="blue">PRD_DESCRIPTION</emphasis>, <emphasis
+            role="blue">PRD_ID</emphasis>) values (?,?);
+&lt;/statement&gt;</programlisting>
+      </example></para>
+
+    <para><note>
+        <para>Parameter Map names are always local to the Data Map definition
+        file where they are defined. You can refer to a Parameter Map in
+        another Data Map definition file by prefixing the
+        <parameter>id</parameter> of the Parameter Map with the namespace of
+        the Data Map (set in the &lt;sqlMap&gt; root element). If the
+        Parameter Map in Example 3.17 were in a Data Map named "Product", it
+        could be referenced from another file using
+        "Product.insert-product-param".</para>
+      </note></para>
+
+    <sect2>
+      <title>&lt;parameterMap&gt; attributes</title>
+
+      <para>The &lt;parameterMap&gt; element accepts three attributes:
+      <parameter>id</parameter> (required), <parameter>class</parameter>
+      (optional), and <parameter>extends</parameter> (optional).</para>
+
+      <sect3>
+        <title>id</title>
+
+        <para>The required id attribute provides a unique identifier for the
+        &lt;parameterMap&gt; within this Data Map.</para>
+      </sect3>
+
+      <sect3>
+        <title>class</title>
+
+        <para>The optional <parameter>class</parameter> attribute specifies an
+        object class to use with this &lt;parameterMap&gt;. The full classname
+        and assembly or an alias must be specified. Any class can be
+        used.</para>
+
+        <para><note>
+            <para>The parameter class must be a property object or
+            <interfacename>IDictionary</interfacename> instance.</para>
+          </note></para>
+      </sect3>
+
+      <sect3>
+        <title>extends</title>
+
+        <para>The optional <parameter>extends</parameter> attribute can be set
+        to the name of another parameterMap upon which to base this
+        parameterMap. All properties of the <emphasis>super</emphasis>
+        parameterMap will be included as part of this parameterMap, and values
+        from the <emphasis>super</emphasis> parameterMap are set before any
+        values specified by this parameterMap. The effect is similar to
+        extending a class.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>&lt;parameter&gt; Elements</title>
+
+      <para>The &lt;parameterMap&gt; element holds one or more parameter child
+      elements that map object properties to placeholders in a SQL statement.
+      The sections that follow describe each of the attributes.</para>
+
+      <sect3>
+        <title>property</title>
+
+        <para>The <parameter>property</parameter> attribute of
+        &lt;parameter&gt; is the name of a field or property of the parameter object.
+        It may also be the name of an entry in a
+        <interfacename>IDictionary</interfacename> object. The name can be
+        used more than once depending on the number of times it is needed in
+        the statement. (In an update, you might set a column that is also part
+        of the where clause.)</para>
+      </sect3>
+
+      <sect3>
+        <title>column</title>
+
+        <para>The <parameter>column</parameter> attribute is used to define to
+        the name of a parameter used by a stored procedure.</para>
+      </sect3>
+
+      <sect3>
+        <title>direction</title>
+
+        <para>The <parameter>direction</parameter> attribute may be used to
+        indicate a stored procedure parameter's direction.</para>
+
+        <table>
+          <title>Parameter direction attribute values</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Value</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>Input</entry>
+
+                <entry>input-only</entry>
+              </row>
+
+              <row>
+                <entry>Output</entry>
+
+                <entry>output-only</entry>
+              </row>
+
+              <row>
+                <entry>InputOutput</entry>
+
+                <entry>bidirectional</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </sect3>
+
+      <sect3>
+        <title>dbType</title>
+
+        <para>The <parameter>dbType</parameter> attribute is used to
+        explicitly specify the database column type of the parameter to be set
+        by this property. For certain operations, some ADO.NET providers are
+        not able to determine the type of a column, and the type must be
+        specified.</para>
+
+        <para>This attribute is normally only required if the column is
+        nullable. Although, another reason to use the dbType attribute is to
+        explicitly specify date types. Whereas .NET only has one Date value
+        type (<classname>System.DateTime</classname>), most SQL databases have
+        more than one. Usually, a database has at least three different types
+        (<database>DATE</database>, <database>DATETIME</database>,
+        <database>TIMESTAMP</database>). In order for the value to map
+        correctly, you might need to specify the column's dbType,</para>
+
+        <para><note>
+            <para>Most providers only need the dbType specified for nullable
+            columns. In this case, you only need to specify the type for the
+            columns that are nullable.</para>
+          </note></para>
+
+        <para>The <parameter>dbType</parameter> attribute can be set to any
+        string value that matches a constant in the specific data type enum of
+        the used provider such as <classname>System.Data.SqlDbType</classname>
+        for Microsoft Sql Server. Section 3.6 describes the types that are
+        supported by the framework.</para>
+      </sect3>
+
+      <sect3>
+        <title>type</title>
+
+        <para>The <parameter>type</parameter> attribute is used to specify the
+        CLR type of the parameter's <parameter>property</parameter>. This
+        attribute is useful when passing InputOutput and Output parameters
+        into stored procedures. The framework uses the specified
+        <parameter>type</parameter> to properly handle and set the parameter
+        object's properties with the procedure's output values after
+        execution.</para>
+
+        <para>Normally, the type can be derived from a property through
+        reflection, but certain mappings that use objects such as a Map cannot
+        provide the property type to the framework. If the attribute type is
+        not set and the framework cannot otherwise determine the type, the
+        type is assumed to be an Object. Section 6 details the CLR types and
+        available aliases that have pre-built support in the framework.</para>
+      </sect3>
+
+      <sect3>
+        <title>nullValue</title>
+
+        <para>The <parameter>nullValue</parameter> attribute can be set to any
+        valid value (based on property type). The
+        <parameter>nullValue</parameter> attribute is used to specify an
+        outgoing null value replacement. What this means is that when the
+        value is detected in the object property, a <database>NULL</database>
+        will be written to the database (the opposite behavior of an inbound
+        null value replacement). This allows you to use a
+        <emphasis>magic</emphasis> null number in your application for types
+        that do not support null values (such as <classname>int</classname>,
+        <classname>double</classname>, <classname>float</classname>). When
+        these types of properties contain a matching null value (–9999), a
+        <database>NULL</database> will be written to the database instead of
+        the value.</para>
+      </sect3>
+
+      <sect3>
+        <title>size</title>
+
+        <para>The <parameter>size</parameter> attribute sets the maximum size
+        of the data within the column.</para>
+      </sect3>
+
+      <sect3>
+        <title>precision</title>
+
+        <para>The <parameter>precision</parameter> attribute is used to set
+        the maximum number of digits used to represent the property
+        value.</para>
+      </sect3>
+
+      <sect3>
+        <title>scale</title>
+
+        <para>The <parameter>scale</parameter> attribute sets the number of
+        decimal places used to resolve the property value.</para>
+      </sect3>
+
+      <sect3>
+        <title>typeHandler<!-- <emphasis role="new">New !</emphasis> --><!-- <inlinegraphic fileref="images/new.gif" format="GIF"/> --><!-- <mediaobject> <imageobject><imagedata fileref="images/new.gif" format="GIF" /></imageobject></mediaobject> --></title>
+
+        <para>The <parameter>typeHandler</parameter> attribute allows the use
+        of a Custom Type Handler (see the Custom Type Handler section). This
+        allows you to extend the DataMapper's capabilities in handling types
+        that are specific to your database provider, are not handled by your
+        database provider, or just happen to be a part of your application
+        design. You can create custom type handlers to deal with storing and
+        retrieving booleans and Guids from your database for example.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Inline Parameter Maps</title>
+
+      <para>If you prefer to use inline parameters instead of parameter maps,
+      you can add extra type information inline too. The inline parameter map
+      syntax lets you embed the property name, the property type, the column
+      type, and a null value replacement into a parametrized SQL statement.
+      The next four examples shows statements written with inline
+      parameters.<example>
+          <title>A &lt;statement&gt; using inline parameters</title>
+
+          <para><programlisting>&lt;statement id="insertProduct" parameterClass="Product"&gt;
+  insert into PRODUCT (PRD_ID, PRD_DESCRIPTION)
+  values (<emphasis role="blue">#id#</emphasis>, <emphasis role="blue">#description#</emphasis>)
+&lt;/statement&gt;</programlisting></para>
+        </example></para>
+
+      <para>The following example shows how dbTypes can be declared
+      inline.</para>
+
+      <example>
+        <title>A &lt;statement&gt; using an inline parameter map with a
+        type</title>
+
+        <para><programlisting>&lt;statement id="insertProduct" parameterClass="Product"&gt;
+  insert into PRODUCT (PRD_ID, PRD_DESCRIPTION)
+  values (<emphasis role="blue">#id:int#</emphasis>, <emphasis role="blue">#description:VarChar#</emphasis>)
+&lt;/statement&gt;</programlisting></para>
+      </example>
+
+      <para>The next example shows how dbTypes and null value replacements can
+      also be declared inline.</para>
+
+      <example>
+        <title>A &lt;statement&gt; using an inline parameter map with a null
+        value replacement</title>
+
+        <programlisting>&lt;statement id="insertProduct" parameterClass="Product"&gt;
+  insert into PRODUCT (PRD_ID, PRD_DESCRIPTION)
+  values (<emphasis role="blue">#id:int:-999999#</emphasis>, <emphasis
+            role="blue">#description:VarChar#</emphasis>)
+&lt;/statement&gt;</programlisting>
+      </example>
+
+      <para>Like the DataMapper for Java, there is an alternate inline syntax
+      that allows the specification of the property, type, dbType, and null
+      value replacement. The following example shows that syntax in
+      use.</para>
+
+      <example>
+        <title>A &lt;statement&gt; using alternate inline syntax with
+        property, type, dbType, and null value replacement</title>
+
+        <programlisting>&lt;update id="UpdateAccountViaInlineParameters" parameterClass="Account"&gt;
+ update Accounts set
+ Account_FirstName = #FirstName#,
+ Account_LastName = #LastName#,
+ Account_Email = #EmailAddress,type=string,dbType=Varchar,nullValue=no_email@provided.com#
+ where
+ Account_ID = #Id#
+&lt;/update&gt;</programlisting>
+      </example>
+
+      <para><note>
+          <para>When using inline parameters, you cannot specify the null
+          value replacement without also specifying the dbType. You must
+          specify both due to the parsing order.</para>
+
+          <para>For <emphasis>round-trip</emphasis> transparency of null
+          values, you must also specify database columns null value
+          replacements in your Result Map (see Section 3.5).</para>
+
+          <para>Inline parameter maps are handy for small jobs, but when there
+          are a lot of type descriptors and null value replacements in a
+          complex statement, an industrial-strength, external parameterMap can
+          be easer.</para>
+        </note></para>
+    </sect2>
+
+    <sect2>
+      <title>Standard Type Parameters</title>
+
+      <para>In practice, you will find that many statements take a single
+      parameter, often an <classname>Integer</classname> or a
+      <classname>String</classname>. Rather than wrap a single value in
+      another object, you can use the standard library object
+      (<classname>String</classname>, <classname>Integer</classname>, et
+      cetera) as the parameter directly. Example 3.22 shows a statement using
+      a standard type parameter. <example>
+          <title>A &lt;statement&gt; using standard type parameters</title>
+
+          <programlisting>&lt;statement id="getProduct" parameterClass="System.Int32"&gt;
+  select * from PRODUCT where PRD_ID = <emphasis role="blue">#value#</emphasis>
+&lt;/statement&gt;</programlisting>
+        </example></para>
+
+      <para>Assuming <database>PRD_ID</database> is a numeric type, when a
+      call is made to this Mapped Statement, a standard Integer object can be
+      passed in. The <parameter>#value#</parameter> parameter will be replaced
+      with the value of the Integer instance. The name
+      <varname>value</varname> is simply a placeholder, you can use another
+      moniker of your choice. Result Maps support primitive types as results
+      as well.</para>
+
+      <para>For your convenience, primitive types are aliased by the
+      framework. For example, <classname>int</classname> can be used in place
+      of <classname>System.Integer</classname>. For a complete list, see
+      Section 3.6, "Supported Types for Parameter Maps and Result
+      Maps".</para>
+    </sect2>
+
+    <sect2>
+      <title>Map or IDictionary Type Parameters</title>
+
+      <para>You can also pass a <interfacename>IDictionary</interfacename>
+      instance as a parameter object. This would usually be a
+      <classname>HashTable</classname>. Example 3.23 shows a &lt;statement&gt;
+      using an <interfacename>IDictionary</interfacename> for a
+      parameterClass.</para>
+
+      <para><example>
+          <title>A &lt;statement&gt; using a Map or IDictionary for a
+          parameterClass</title>
+
+          <programlisting>&lt;statement id="getProduct" parameterClass="System.Collections.IDictionary"&gt;
+  select * from PRODUCT
+  where PRD_CAT_ID = <emphasis role="blue">#catId#</emphasis>
+  and PRD_CODE = <emphasis role="blue">#code#</emphasis>
+&lt;/statement&gt;</programlisting>
+        </example></para>
+
+      <para>In Example 3.23, notice that the SQL in this Mapped Statement
+      looks like any other. There is no difference in how the inline
+      parameters are used. If a <classname>HashTable</classname> instance is
+      passed, it must contain keys named <property>catId</property> and
+      <property>code</property>. The values referenced by those keys must be
+      of the appropriate type for the column, just as they would be if passed
+      from a properties object.</para>
+
+      <para>For your convenience, <interfacename>IDictionary</interfacename>
+      types are aliased by the framework. So, <classname>map</classname> or
+      <classname>HashTable</classname> can be used in place of
+      <classname>System.Collections.Hashtable</classname>. For a complete list
+      of aliases, see Section 3.6, "Supported Types for Parameter Maps and
+      Result Maps".</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Result Maps</title>
+
+    <para>Section 3.4 describes Parameter Maps and Inline parameters, which
+    map object properties to parameters in a database query. Result Maps
+    finish the job by mapping the result of a database query (a set of
+    columns) to object properties. Next to Mapped Statements, the Result Map
+    is probably one of the most commonly used and most important features to
+    understand.</para>
+
+    <para>A Result Map lets you control how data is extracted from the result
+    of a query, and how the columns are mapped to object properties. A Result
+    Map can describe the column type, a null value replacement, and complex
+    property mappings including Collections. Example 3.24 shows the structure
+    of a &lt;resultMap&gt; element.<example>
+        <title>The structure of a &lt;resultMap&gt; element.</title>
+
+        <para><programlisting>&lt;resultMap id="<emphasis role="blue">resultMapIdentifier</emphasis>" 
+           [class="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"] 
+           [extends="<emphasis role="blue">[sqlMapNamespace.]resultMapId</emphasis>"]&gt;
+
+   &lt;constructor &gt; 
+       &lt;argument property="<emphasis role="blue">argumentName</emphasis>" 
+           column="<emphasis role="blue">columnName</emphasis>"
+           [columnIndex="<emphasis role="blue">columnIndex</emphasis>"] 
+           [dbType="<emphasis role="blue">databaseType</emphasis>"] 
+           [type="<emphasis role="blue">propertyCLRType</emphasis>"]
+           [resultMapping="<emphasis role="blue">resultMapName</emphasis>"]
+           [nullValue="<emphasis role="blue">nullValueReplacement</emphasis>"] 
+           [select="<emphasis role="blue">someOtherStatementName</emphasis>"] 
+           [typeHandler="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"] /&gt;
+   &lt;/constructor &gt; 
+
+   &lt;result property="<emphasis role="blue">propertyName</emphasis>" 
+           column="<emphasis role="blue">columnName</emphasis>"
+           [columnIndex="<emphasis role="blue">columnIndex</emphasis>"] 
+           [dbType="<emphasis role="blue">databaseType</emphasis>"] 
+           [type="<emphasis role="blue">propertyCLRType</emphasis>"]
+           [resultMapping="<emphasis role="blue">resultMapName</emphasis>"]
+           [nullValue="<emphasis role="blue">nullValueReplacement</emphasis>"] 
+           [select="<emphasis role="blue">someOtherStatementName</emphasis>"] 
+           [lazyLoad="<emphasis role="blue">true|false</emphasis>"]
+           [typeHandler="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"]
+   /&gt;
+   &lt;result ... .../&gt;
+   &lt;result ... .../&gt;
+   <emphasis role="comment"> // Inheritance support</emphasis>
+   &lt;discriminator column="<emphasis role="blue">columnName</emphasis>" 
+                     [type|typeHandler="<emphasis role="blue">fullyQualifiedClassName, assembly|typeAlias</emphasis>"]
+   /&gt;
+    &lt;subMap value="<emphasis role="blue">discriminatorValue</emphasis>" 
+               resultMapping="<emphasis role="blue">resultMapName</emphasis>"
+   /&gt;
+   &lt;subMap .../&gt; 
+&lt;/resultMap&gt;
+</programlisting></para>
+      </example>In Example 3.24, the [brackets] indicate optional attributes.
+    The <parameter>id</parameter> attribute is required and provides a name
+    for the statement to reference. The class attribute is also required, and
+    specifies a Type Alias or the fully qualified name of a class. This is the
+    class that will be instantiated and populated based on the result mappings
+    it contains.</para>
+
+    <para>The resultMap can contain any number of property mappings that map
+    object properties to the columns of a result element. The property
+    mappings are applied, and the columns are read, in the order that they are
+    defined. Mainting the element order ensures consistent results between
+    different drivers and providers. <note>
+        <para>As with parameter classes, the result class must be a .NET
+        object or IDictionary instance.</para>
+      </note></para>
+
+    <sect2>
+      <title>Extending resultMaps</title>
+
+      <para>The optional extends attribute can be set to the name of another
+      resultMap upon which to base this resultMap. All properties of the
+      "super" resultMap will be included as part of this resultMap, and values
+      from the "super" resultMap are set before any values specified by this
+      resultMap. The effect is similar to extending a class.<tip>
+          <para>The "super" resultMap must be defined in the file
+          <emphasis>before</emphasis> the extending resultMap. The classes for
+          the super and sub resultMaps need not be the same, and do not need
+          to be related in any way.</para>
+        </tip></para>
+    </sect2>
+
+    <sect2>
+      <title>&lt;resultMap&gt; attributes</title>
+
+      <para>The &lt;resultMap&gt; element accepts three attributes:
+      <parameter>id</parameter> (required), <parameter>class</parameter>
+      (optional), and <parameter>extends</parameter> (optional).</para>
+
+      <sect3>
+        <title>id</title>
+
+        <para>The required <parameter>id</parameter> attribute provides a
+        unique identifier for the &lt;resultMap&gt; within this Data
+        Map.</para>
+      </sect3>
+
+      <sect3>
+        <title>class</title>
+
+        <para>The optional <parameter>class</parameter> attribute specifies an
+        object class to use with this &lt;resultMap&gt;. The full classname or
+        an alias must be specified. Any class can be used.</para>
+
+        <para><note>
+            <para>As with parameter classes, the result classes must be a .NET
+            object or IDictionary instance.</para>
+          </note></para>
+      </sect3>
+
+      <sect3>
+        <title>extends</title>
+
+        <para>The optional <parameter>extends</parameter> attribute allows the
+        result map to inherit all of the properties of the "super" resultMap
+        that it extends.</para>
+      </sect3>
+
+	  <sect3>
+        <title>groupBy</title>
+
+        <para>The optional <parameter>groupBy</parameter> attribute specifies a list of .NET property names of the result object build by the resultMap. They are used to identify unique rows in the returned result set. Rows with equal values for the specified properties will only generate one result object. Use groupBy in combination with nested resultMaps to solve the N+1 query problem. Exemple : "Id" or "Desciption, Date".(see  paragraph 3.5.13).</para>
+      </sect3>
+    </sect2>
+
+	<sect2>
+      <title>&lt;constructor&gt; element</title>
+
+	<para>The &lt;constructor&gt; element must match the signature of one of the result class constructor. If specify, this element is used by iBATIS to instanciate the result object.</para>
+
+		 <para>The &lt;constructor&gt; element holds one or more &lt;argument&gt;
+      child elements that map SQL resultsets to object argument constructor.</para>
+
+		<para>
+        <example>
+          <title>Constructor element example</title>
+
+          <programlisting>&lt;resultMap id="account-result-constructor" class="Account" &gt;
+	 <emphasis role="blue">&lt;constructor&gt;
+		&lt;argument argumentName="id" column="Account_ID"/&gt;
+		&lt;argument argumentName="firstName" column="Account_FirstName"/&gt;
+		&lt;argument argumentName="lastName" column="Account_LastName"/&gt;
+	&lt;/constructor&gt;</emphasis>
+	&lt;result property="EmailAddress" column="Account_Email" nullValue="no_email@provided.com"/&gt;
+	&lt;result property="BannerOption" column="Account_Banner_Option" dbType="Varchar" type="bool"/&gt;
+	&lt;result property="CartOption"	column="Account_Cart_Option" typeHandler="HundredsBool"/&gt;
+&lt;/resultMap&gt;</programlisting>
+        </example>
+		</para>
+
+		<sect3>
+        <title>argumentName</title>
+
+        <para>The <parameter>argumentName</parameter> attribute is the name of a
+        constructor argument of the result object that will be returned by the Mapped
+        Statement.</para>
+      </sect3>
+
+      <sect3>
+        <title>column</title>
+
+        <para>The <parameter>column</parameter> attribute value is the name of
+        the column in the result set from which the value will be used to
+        populate the argument.</para>
+      </sect3>
+
+      <sect3>
+        <title>columnIndex</title>
+
+        <para>As an optional (minimal) performance enhancement, the
+        <parameter>columnIndex</parameter> attribute value is the index of the
+        column in the ResultSet from which the value will be used to populate
+        the object argument. This is not likely needed in 99% of applications
+        and sacrifices maintainability and readability for speed. Some
+        providers may not realize any performance benefit, while others will
+        speed up dramatically.</para>
+      </sect3>
+
+      <sect3>
+        <title>dbType</title>
+
+        <para>The dbType attribute is used to explicitly specify the database
+        column type of the ResultSet column that will be used to populate the
+        argument. Although Result Maps do not have the same
+        difficulties with null values, specifying the type can be useful for
+        certain mapping types such as Date properties. Because an application
+        language has one Date value type and SQL databases may have many
+        (usually at least 3), specifying the date may become necessary in some
+        cases to ensure that dates (or other types) are set correctly.
+        Similarly, String types may be populated by a VarChar, Char or CLOB,
+        so specifying the type might be needed in those cases too.</para>
+      </sect3>
+
+      <sect3>
+        <title>type</title>
+
+        <para>The type attribute is used to explicitly specify the CLR
+        argument type. Normally this can be derived
+        from a argument through reflection, but certain mappings that use
+        objects such as a Map cannot provide the type to the framework. If the
+        attribute type is not set and the framework cannot otherwise determine
+        the type, the type is assumed to be Object. Section 6 details the CLR
+        types and available aliases that are supported by the
+        framework.</para>
+      </sect3>
+
+      <sect3>
+        <title>resultMapping</title>
+
+        <para>The <parameter>resultMapping</parameter> attribute can be set to
+        the name of another resultMap used to fill the argument. If the
+        resultMap is in an other mapping file, you must specified the fully
+        qualified name.</para>
+      </sect3>
+
+      <sect3>
+        <title>nullValue</title>
+
+        <para>The <parameter>nullValue</parameter> attribute can be set to any
+        valid value (based on argument type). The result element's
+        <parameter>nullValue</parameter> attribute is used to specify an
+        inbound null value replacement. What this means is that when the value
+        is detected in a query's result column, the corresponding object
+        argument will be set to the the <parameter>nullValue</parameter>
+        attribute's value. This allows you to use a "magic" null number in
+        your application for types that do not support null values (such as
+        <classname>int</classname>, <classname>double</classname>,
+        <classname>float</classname>).</para>
+
+      </sect3>
+
+      <sect3>
+        <title>select</title>
+
+        <para>The select attribute is used to describe a relationship between
+        objects and to automatically load complex (i.e. user defined) property
+        types. The value of the statement property must be the name of another
+        mapped statement. The value of the database column (the column
+        attribute) that is defined in the same property element as this
+        statement attribute will be passed to the related mapped statement as
+        the parameter. More information about supported primitive types and
+        complex property mappings/relationships is discussed later in this
+        document. The lazyLoad attribute can be specified with the
+        select</para>
+      </sect3>
+
+      <sect3>
+        <title>typeHandler</title>
+
+        <para>The typeHandler attribute allows the use of a Custom Type
+        Handler (see the Custom Type Handler section). This allows you to
+        extend the DataMapper's capabilities in handling types that are
+        specific to your database provider, are not handled by your database
+        provider, or just happen to be a part of your application design. You
+        can create custom type handlers to deal with storing and retrieving
+        booleans and Guids from your database for example.</para>
+      </sect3>
+	</sect2>
+    <sect2>
+      <title>&lt;result&gt; Elements</title>
+
+      <para>The &lt;resultMap&gt; element holds one or more &lt;result&gt;
+      child elements that map SQL resultsets to object properties.</para>
+
+      <sect3>
+        <title>property</title>
+
+        <para>The <parameter>property</parameter> attribute is the name of a
+        field or a property of the result object that will be returned by the Mapped
+        Statement. The name can be used more than once depending on the number
+        of times it is needed to populate the results.</para>
+      </sect3>
+
+      <sect3>
+        <title>column</title>
+
+        <para>The <parameter>column</parameter> attribute value is the name of
+        the column in the result set from which the value will be used to
+        populate the property.</para>
+      </sect3>
+
+      <sect3>
+        <title>columnIndex</title>
+
+        <para>As an optional (minimal) performance enhancement, the
+        <parameter>columnIndex</parameter> attribute value is the index of the
+        column in the ResultSet from which the value will be used to populate
+        the object property. This is not likely needed in 99% of applications
+        and sacrifices maintainability and readability for speed. Some
+        providers may not realize any performance benefit, while others will
+        speed up dramatically.</para>
+      </sect3>
+
+      <sect3>
+        <title>dbType</title>
+
+        <para>The dbType attribute is used to explicitly specify the database
+        column type of the ResultSet column that will be used to populate the
+        object property. Although Result Maps do not have the same
+        difficulties with null values, specifying the type can be useful for
+        certain mapping types such as Date properties. Because an application
+        language has one Date value type and SQL databases may have many
+        (usually at least 3), specifying the date may become necessary in some
+        cases to ensure that dates (or other types) are set correctly.
+        Similarly, String types may be populated by a VarChar, Char or CLOB,
+        so specifying the type might be needed in those cases too.</para>
+      </sect3>
+
+      <sect3>
+        <title>type</title>
+
+        <para>The type attribute is used to explicitly specify the CLR
+        property type of the parameter to be set. Normally this can be derived
+        from a property through reflection, but certain mappings that use
+        objects such as a Map cannot provide the type to the framework. If the
+        attribute type is not set and the framework cannot otherwise determine
+        the type, the type is assumed to be Object. Section 6 details the CLR
+        types and available aliases that are supported by the
+        framework.</para>
+      </sect3>
+
+      <sect3>
+        <title>resultMapping</title>
+
+        <para>The <parameter>resultMapping</parameter> attribute can be set to
+        the name of another resultMap used to fill the property. If the
+        resultMap is in an other mapping file, you must specified the fully
+        qualified name as : <programlisting>resultMapping="[namespace.sqlMap.]resultMappingId"
+
+resultMapping="Newspaper"
+<emphasis role="comment">&lt;!--resultMapping with a fully qualified name.--&gt;</emphasis>
+resultMapping="LineItem.LineItem"
+</programlisting></para>
+      </sect3>
+
+      <sect3>
+        <title>nullValue</title>
+
+        <para>The <parameter>nullValue</parameter> attribute can be set to any
+        valid value (based on property type). The result element's
+        <parameter>nullValue</parameter> attribute is used to specify an
+        inbound null value replacement. What this means is that when the value
+        is detected in a query's result column, the corresponding object
+        property will be set to the the <parameter>nullValue</parameter>
+        attribute's value. This allows you to use a "magic" null number in
+        your application for types that do not support null values (such as
+        <classname>int</classname>, <classname>double</classname>,
+        <classname>float</classname>).</para>
+
+        <para>If your database has a NULLABLE column, but you want your
+        application to represent NULL with a constant value, you can specify
+        it in the Result Map as shown in Example 3.25.</para>
+
+        <example>
+          <title>Specifying a nullvalue attribute in a Result Map</title>
+
+          <programlisting>&lt;resultMap id="get-product-result" class="product"&gt; 
+  &lt;result property="id" column="PRD_ID"/&gt;
+  &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+  &lt;result property="subCode" column="PRD_SUB_CODE" <emphasis role="blue">nullValue="-9999"</emphasis>/&gt;
+&lt;/resultMap&gt;</programlisting>
+        </example>
+
+        <para>In Example 3.25, if PRD_SUB_CODE is read as NULL, then the
+        subCode property will be set to the value of -9999. This allows you to
+        use a primitive type in your .NET class to represent a NULLABLE column
+        in the database. Remember that if you want this to work for queries as
+        well as updates/inserts, you must also specify the nullValue in the
+        Parameter Map (discussed earlier in this document).</para>
+      </sect3>
+
+      <sect3>
+        <title>select</title>
+
+        <para>The select attribute is used to describe a relationship between
+        objects and to automatically load complex (i.e. user defined) property
+        types. The value of the statement property must be the name of another
+        mapped statement. The value of the database column (the column
+        attribute) that is defined in the same property element as this
+        statement attribute will be passed to the related mapped statement as
+        the parameter. More information about supported primitive types and
+        complex property mappings/relationships is discussed later in this
+        document. The lazyLoad attribute can be specified with the
+        select</para>
+      </sect3>
+
+      <sect3>
+        <title>lazyLoad</title>
+
+        <para>Use the lazyLoad attribute with the select attribute to indicate
+        whether or not the select statement's results should be lazy loaded.
+        This can provide a performance boost by delaying the loading of the
+        select statement's results until they are needed/accessed.</para>
+		
+		<para>Lazy loading is supported transparently for IList and IList&lt;T&gt; implementation.</para>
+		<para>Lazy loading is supported on strongly typed collection via Castle.DynamicProxy component. In this case you must set the listClass attribute and declare all methods/properties of the typed collection that you want to proxy as virtual.</para>
+		<para>Lazy loading is supported on concrete class via Castle.DynamicProxy component. In this case, you must declare all methods/properties of the class that you want to proxy as virtual.</para>
+
+<para>
+		<example>
+          <title>Sample of strongly typed collection used with proxy call</title>
+
+		<programlisting>
+[C#]
+
+[Serializable]
+public class LineItemCollection : CollectionBase 
+{
+	public LineItemCollection() {}
+
+	public virtual LineItem this[int index] 
+	{
+		get	{ return (LineItem)List[index]; }
+		set { List[index] = value; }
+	}
+
+	public virtual int Add(LineItem value) 
+	{
+		return List.Add(value);
+	}
+
+	public virtual void AddRange(LineItem[] value) 
+	{
+		for (int i = 0;	i &lt; value.Length; i++) 
+		{
+			Add(value[i]);
+		}
+	}
+
+	public virtual void AddRange(LineItemCollection value) 
+	{
+		for (int i = 0;	i &lt; value.Count; i++) 
+		{
+			Add(value[i]);
+		}
+	}
+
+	public virtual bool Contains(LineItem value) 
+	{
+		return List.Contains(value);
+	}
+
+	public virtual void CopyTo(LineItem[] array, int index) 
+	{
+		List.CopyTo(array, index);
+	}
+
+	public virtual int IndexOf(LineItem value) 
+	{
+		return List.IndexOf(value);
+	}
+	
+	public virtual void Insert(int index, LineItem value) 
+	{
+		List.Insert(index, value);
+	}
+	
+	public virtual void Remove(LineItem value) 
+	{
+		List.Remove(value);
+	}
+
+	public new virtual int Count
+	{
+		get {return this.List.Count;}
+	}
+}
+</programlisting>
+</example> 
+		<example>
+          <title>Concrete class</title>
+
+		<programlisting>
+[C#]
+
+[Serializable]
+public class Person
+{
+...
+	public virtual string Name
+	{
+		get {return _name;}
+	}
+...
+}
+</programlisting>
+</example></para>
+      </sect3>
+
+      <sect3>
+        <title>typeHandler</title>
+
+        <para>The typeHandler attribute allows the use of a Custom Type
+        Handler (see the Custom Type Handler section). This allows you to
+        extend the DataMapper's capabilities in handling types that are
+        specific to your database provider, are not handled by your database
+        provider, or just happen to be a part of your application design. You
+        can create custom type handlers to deal with storing and retrieving
+        booleans and Guids from your database for example.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Custom Type Handlers</title>
+
+      <para>A custom type handler allows you to extend the DataMapper's
+      capabilities in handling types that are specific to your database
+      provider, not handled by your database provider, or just happen to be
+      part of your application design. The .NET DataMapper provides an
+      interface, IBatisNet.DataMappers.TypeHandlers.ITypeHandlerCallback, for
+      you to use in implementing your custom type handler.</para>
+
+      <para><example>
+          <title>ITypeHandlerCallback interface</title>
+
+          <programlisting>using System.Data;
+using IBatisNet.DataMapper.Configuration.ParameterMapping;
+
+
+namespace IBatisNet.DataMapper.TypeHandlers
+{
+ public interface ITypeHandlerCallback
+ {
+  <emphasis role="blue">void SetParameter(IParameterSetter setter, object parameter);</emphasis>
+
+  <emphasis role="blue">object GetResult(IResultGetter getter);</emphasis>
+
+  <emphasis role="blue">object ValueOf(string s);</emphasis>
+ }
+}</programlisting>
+        </example>The <methodname>SetParameter</methodname> method allows you
+      to process a &lt;statement&gt; parameter's value before it is added as
+      an IDbCommand parameter. This enables you to do any necessary type
+      conversion and clean-up before the DataMapper gets to work. If needed,
+      you also have access to the underlying IDataParameter through the
+      setter.DataParameter property.</para>
+
+      <para>The <methodname>GetResult</methodname> method allows you to
+      process a database result value right after it has been retrieved by the
+      DataMapper and before it is used in your resultClass, resultMap, or
+      listClass. If needed, you also have access to the underlying IDataReader
+      through the getter.DataReader property.</para>
+
+      <para>The <methodname>ValueOf</methodname> method allows you to compare
+      a string representation of a value with one that you are expecting and
+      can handle appropriately. Typically, this is useful for translating a
+      null value, but if your application or database will not support a null
+      value, you can basically return the given string. When presented with an
+      unexpected value, you can throw an appropriate exception.</para>
+
+      <para>One scenario that is familiar to .NET developers is the handling
+      of a Guid type/structure. Many providers do not handle Guid class
+      properties well, and developers may be faced with littering their domain
+      objects with an additional set of property accessors to translate Guid
+      properties into strings and strings into Guids.</para>
+
+      <programlisting>public class BudgetObjectCode
+{
+ private string _code;
+ private string _description;
+ private Guid _guidProperty;
+
+...
+
+ public Guid GuidProperty {
+  get { return _guidProperty; }
+  set { _guidProperty = value; }
+ }
+
+ public string GuidPropertyString {
+  get { return _guidProperty.ToString(); }
+  set { 
+  if (value == null) {
+    _guidProperty = Guid.Empty;
+   }
+   else {
+    _guidProperty = new Guid(value.ToString());
+   }
+  }
+ }
+...
+}</programlisting>
+
+      <para>We can use a custom type handler to clean up this domain class.
+      First, we define a string that will represent a null Guid value
+      (Guid.Empty). We can then use that constant in our ValueOf null value
+      comparison for the DataMapper to eventually use in setting our domain
+      class' Guid properties. Implementing the GetResult and SetParameter
+      methods is straightforward since we had been basically doing the same
+      translation in our domain class' GuidPropertyString accessors.</para>
+
+      <para><example>
+          <title>Guid String Type Handler</title>
+
+          <programlisting>using System;
+using IBatisNet.DataMapper.TypeHandlers;
+
+namespace BigApp.Common.TypeHandlers
+{
+ /// &lt;summary&gt;
+ /// GuidVarcharTypeHandlerCallback.
+ /// &lt;/summary&gt;
+ public class GuidVarcharTypeHandlerCallback : ITypeHandlerCallback
+ {
+  private const string GUIDNULL = "00000000-0000-0000-0000-000000000000";
+
+  public object ValueOf(string nullValue)
+  {
+   if (GUIDNULL.Equals(nullValue)) 
+   {
+    return Guid.Empty;
+   } 
+   else 
+   {
+    throw new Exception(
+     "Unexpected value " + nullValue + 
+     " found where "+GUIDNULL+" was expected to represent a null value.");
+   }  
+  }
+
+  public object GetResult(IResultGetter getter)
+  {
+   try {
+    Guid result = new Guid(getter.Value.ToString());
+    return result;
+   } 
+   catch
+   {
+     throw new Exception(
+     "Unexpected value " + getter.Value.ToString() + 
+     " found where a valid GUID string value was expected.");
+   }
+  }
+
+  public void SetParameter(IParameterSetter setter, object parameter)
+  {
+   setter.Value = parameter.ToString();
+  }
+
+ }
+}</programlisting>
+        </example></para>
+
+      <para>With our custom type handler, we can clean up our domain class and
+      use the handler in our SqlMaps. To do that, we have two options in
+      configuring our custom type handler to be used by the DataMapper. We can
+      simply add it as a &lt;typeAlias&gt; and use it when needed in a
+      parameterMap or resultMap.</para>
+
+      <para><example>
+          <title>Aliased Custom Type Handler in a SqlMap.xml file</title>
+
+          <programlisting>&lt;alias&gt;
+ &lt;typeAlias alias="GuidVarchar" 
+         type="BigApp.Common.TypeHandlers.GuidVarcharTypeHandlerCallback,
+               BigApp.Common"/&gt;
+&lt;/alias&gt;
+ 
+&lt;resultMaps&gt;                                    
+ &lt;resultMap id="boc-result"  class="BudgetObjectCode"&gt;
+  &lt;result property="Code" column="BOC_CODE" dbType="Varchar2"/&gt;
+  &lt;result property="Description" column="BOC_DESC" dbType="Varchar2"/&gt;
+  &lt;result property="GuidProperty" column="BOC_GUID" typeHandler="GuidVarchar"/&gt;
+ &lt;/resultMap&gt;
+&lt;/resultMaps&gt;</programlisting>
+        </example></para>
+
+      <para>Or we can specify it as a basic &lt;typeHandler&gt; for all Guid
+      types mapped in our SqlMap files. &lt;typeHandler&gt; in
+      SqlMap.config</para>
+
+      <para><example>
+          <title>&lt;typeHandler&gt; in SqlMap.config</title>
+
+          <programlisting><emphasis role="comment">[Our SqlMap.config]</emphasis>
+&lt;alias&gt;
+ &lt;typeAlias <emphasis role="blue">alias="GuidVarchar"</emphasis> 
+         type="BigApp.Common.TypeHandlers.GuidVarcharTypeHandlerCallback,
+               BigApp.Common"/&gt;
+&lt;/alias&gt;
+
+&lt;typeHandlers&gt;
+ &lt;typeHandler <emphasis role="blue">type="guid"</emphasis> dbType="Varchar2" <emphasis
+              role="blue">callback="GuidVarchar"</emphasis>/&gt;
+&lt;/typeHandlers&gt; 
+
+
+<emphasis role="comment">[One of our SqlMap.xml files]</emphasis>
+&lt;parameterMaps&gt;
+ &lt;parameterMap id="boc-params"&gt;
+  &lt;parameter property="Code" dbType="Varchar2" size="10"/&gt;
+  &lt;parameter property="Description" dbType="Varchar2" size="100"/&gt;
+  &lt;parameter property="GuidProperty" dbType="Varchar2" type="guid"/&gt;
+ &lt;/parameterMap&gt;
+&lt;/parameterMaps&gt;
+
+&lt;resultMaps&gt;                                    
+ &lt;resultMap id="boc-result"  class="BudgetObjectCode"&gt;
+  &lt;result property="Code" column="BOC_CODE" dbType="Varchar2"/&gt;
+  &lt;result property="Description" column="BOC_DESC" dbType="Varchar2"/&gt;
+  &lt;result property="GuidProperty" column="BOC_GUID" dbType="Varchar2" <emphasis
+              role="blue">type="guid"</emphasis>/&gt;
+ &lt;/resultMap&gt;
+&lt;/resultMaps&gt;</programlisting>
+        </example></para>
+    </sect2>
+
+    <sect2>
+      <title>Inheritance Mapping</title>
+
+      <para>The iBATIS DataMapper supports the implementation of
+      object-oriented inheritance (subclassing) in your object model. There
+      are several developer options for mapping entity classes and subclasses
+      to database results:<itemizedlist>
+          <listitem>
+             resultMap for each class 
+          </listitem>
+
+          <listitem>
+             resultMap with submaps for a class hierarchy 
+          </listitem>
+
+          <listitem>
+             resultMap with extended resultMaps for each subclass 
+          </listitem>
+        </itemizedlist>You can use the most efficient mapping strategies from
+      a SQL and query performance perspective when using the inheritance
+      mappings of the DataMapper. To implement an inheritance mapping, the
+      resultMap must define one or more columns in your query's resultset that
+      will serve to identify which resultMap should be used to map each result
+      record to a specific subclass. In many cases, you will use one column
+      value for the DataMapper to use in identifying the proper resultMap and
+      subclass. This column is known as a discriminator.</para>
+
+      <para>For example, we have a table defined in a database that contains
+      Document records. There are five table columns used to store Document
+      IDs, Titles, Types, PageNumbers, and Cities. Perhaps this table belongs
+      to a legacy database, and we need to create an application using this
+      table with a domain model that defines a class hierarchy of different
+      types of Documents. Or perhaps we are creating a new application and
+      database and just want to persist the data found in a set of related
+      classes into one table. In either case, the DataMapper's inheritance
+      mapping feature can help.</para>
+
+      <programlisting><emphasis role="comment">// Database table Document</emphasis>
+CREATE TABLE [Documents] (
+    [Document_ID] [int] NOT NULL ,
+    [Document_Title] [varchar] (32) NULL ,
+    [Document_Type] [varchar] (32)  NULL ,
+    [Document_PageNumber] [int] NULL  ,
+    [Document_City] [varchar] (32)  NULL
+)</programlisting>
+
+      <para>To illustrate this, let's take a look at a few example classes
+      shown below that have a relationship through inheritance and whose
+      properties can be persisted into our Documents table. First, we have a
+      base Document class that has Id and Title properties. Next, we have a
+      Book class that inherits from Document and contains an additional
+      property called PageNumber. Last, we have a Newspaper class that also
+      inherits from Document and contains a City property.</para>
+
+      <para><example>
+          <title>Documents, Books, and Newspapers!</title>
+
+          <programlisting><emphasis role="comment">// C# class</emphasis>
+public class Document
+{
+  private int _id = -1;
+  private string _title = string.Empty;
+
+  public int Id
+  {
+    get { return _id; }
+    set { _id = value; }
+  }
+
+  public string Title
+  {
+    get { return _title; }
+    set { _title = value; }
+  }
+}
+
+public class Book : Document
+{
+  private int _pageNumber = -1;
+
+  public int PageNumber
+  {
+    get { return _pageNumber; }
+    set { _pageNumber = value; }
+  }
+}
+
+public class Newspaper : Document
+{
+  private string _city = string.Empty;
+
+  public string City
+  {
+    get { return _city; }
+    set { _city = value; }
+  }
+}</programlisting>
+        </example>Now that we have our classes and database table, we can
+      start working on our mappings. We can create one &lt;select&gt;
+      statement that returns all columns in the table. To help the DataMapper
+      discriminate between the different Document records, we're going to
+      indicate that the Document_Type column holds values that will
+      distinguish one record from another for mapping the results into our
+      class hierarchy.</para>
+
+      <programlisting><emphasis role="comment">// Document mapping file</emphasis>
+&lt;select id="GetAllDocument" resultMap="document"&gt; 
+   select 
+     Document_Id, Document_Title, Document_Type,
+     Document_PageNumber, Document_City
+   from Documents 
+   order by Document_Type, Document_Id
+&lt;/select&gt;
+
+&lt;resultMap <emphasis role="blue">id="document"</emphasis> class="Document"&gt; 
+  &lt;result property="Id" column="Document_ID"/&gt;
+  &lt;result property="Title" column="Document_Title"/&gt;
+  <emphasis role="blue">&lt;discriminator column="Document_Type" type="string"/&gt;
+  &lt;subMap value="Book" resultMapping="book"/&gt;
+  &lt;subMap value="Newspaper" resultMapping="newspaper"/&gt;</emphasis>
+&lt;/resultMap&gt;
+
+&lt;resultMap id="book" class="Book" <emphasis role="blue">extends="document"</emphasis>&gt; 
+  &lt;property="PageNumber" column="Document_PageNumber"/&gt;
+&lt;/resultMap&gt;
+
+&lt;resultMap id="newspaper" class="Newspaper"  <emphasis role="blue">extends="document"</emphasis>&gt; 
+  &lt;property="City" column="Document_City"/&gt;
+&lt;/resultMap&gt;</programlisting>
+
+      <para>The DataMapper compares the data found in the discriminator column
+      to the different &lt;submap&gt; values using the column value's string
+      equivalence. Based on this string value, iBATIS DataMapper will use the
+      resultMap named "Book" or "Newspaper" as defined in the &lt;submap&gt;
+      elements or it will use the "super" resultMap "Document" if neither of
+      the submap values satisfy the comparison. With these resultMaps, we can
+      implement an object-oriented inheritance mapping to our database
+      table.</para>
+
+      <para>If you want to use custom logic, you can use the typeHandler
+      attribute of the &lt;discriminator&gt; element to specify a custom type
+      handler for the discriminator column.</para>
+
+      <example>
+        <title>Complex disciminator usage with Custom Type Handler</title>
+
+        <programlisting><emphasis role="blue">&lt;alias&gt;
+  &lt;typeAlias alias="CustomInheritance" 
+  type="IBatisNet.DataMapper.Test.Domain.CustomInheritance, IBatisNet.DataMapper.Test"/&gt;
+&lt;/alias&gt;</emphasis>
+
+&lt;resultMaps&gt;
+  &lt;resultMap id="document-custom-formula" class="Document"&gt;
+    &lt;result property="Id" column="Document_ID"/&gt;
+    &lt;result property="Title" column="Document_Title"/&gt;
+    &lt;discriminator <emphasis role="blue">column="Document_Type" typeHandler="CustomInheritance"</emphasis>/&gt;
+    &lt;subMap value="Book" resultMapping="book"/&gt;
+    &lt;subMap value="Newspaper" resultMapping="newspaper"/&gt;
+  &lt;/resultMap&gt;
+&lt;/resultMaps&gt;</programlisting>
+      </example>
+
+      <para>The value of the typeHandler attribute specifies which of our
+      classes implements the <emphasis
+      role="blue">ITypeHandlerCallback</emphasis> interface. This interface
+      furnishes a GetResult method for coding custom logic to read the column
+      result value and return a value for the DataMapper to use in its
+      comparison to the resultMap's defined &lt;submap&gt; values.</para>
+
+      <example>
+        <title>Example ITypeHandlerCallback interface implementation</title>
+
+        <programlisting>public class CustomInheritance : ITypeHandlerCallback
+{
+  #region ITypeHandlerCallback members
+
+  public object ValueOf(string nullValue)
+  {
+    throw new NotImplementedException();
+  }
+
+  public object GetResult(IResultGetter getter)
+  {
+   string type = getter.Value.ToString();
+
+   if (type=="Monograph" || type=="Book")
+   {
+     return "Book";
+   }
+   else if (type=="Tabloid" || type=="Broadsheet" || type=="Newspaper")
+   {
+     return "Newspaper";
+   }
+   else
+   {
+     return "Document";
+   }
+
+  }
+
+  public void SetParameter(IParameterSetter setter, object parameter)
+  {
+   throw new NotImplementedException(); 
+  }
+  #endregion
+}</programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Implicit Result Maps</title>
+
+      <para>If the columns returned by a SQL statement match the result
+      object, you may not need an explicit Result Map. If you have control
+      over the relational schema, you might be able to name the columns so
+      they also work as property names. In Example 3.33, the column names and
+      property names already match, so a result map is not needed.<example>
+          <title>A Mapped Statement that doesn't need a Result Map</title>
+
+          <programlisting>&lt;statement id="selectProduct" resultClass="Product"&gt;
+  select
+    id,
+    description
+  from PRODUCT
+  where id = #value#
+&lt;/statement&gt;</programlisting>
+        </example></para>
+
+      <para>Another way to skip a result map is to use column aliasing to make
+      the column names match the properties names, as shown in Example
+      3.34.</para>
+
+      <example>
+        <title>A Mapped Statement using column alaising instead of a Result
+        Map</title>
+
+        <programlisting>&lt;statement id="selectProduct" resultClass="Product"&gt;
+  select
+  PRD_ID as <emphasis role="blue">id</emphasis>,
+  PRD_DESCRIPTION as <emphasis role="blue">description</emphasis>
+  from PRODUCT
+  where PRD_ID = #value#
+&lt;/statement&gt;</programlisting>
+      </example>
+
+      <para>Of course, these techniques will not work if you need to specify a
+      column type, a null value, or any other property attributes.</para>
+
+      <para>Case sensitivity can also be an issue with implicit result maps.
+      Conceivably, you could have an object with a "FirstName" property and a
+      "Firstname" property. When iBATIS tries to match property and column,
+      the heurstic is case-insensitive and we cannot guarantee which property
+      would match. (Of course, very few developers would have two property
+      names that were so simiilar.)</para>
+
+      <para>A final issue is that there is some performance overhead when
+      iBATIS has to map the column and property names automatically. The
+      difference can be dramatic if using a third-party NET database provider
+      with poor support for ResultSetMetaData.</para>
+    </sect2>
+
+    <sect2>
+      <title>Primitive Results (i.e. String, Integer, Boolean)</title>
+
+      <para>Many times, we don't need to return an object with multiple
+      properties. We just need a String, Integer, Boolean, and so forth. If
+      you don't need to populate an object, iBATIS can return one of the
+      primitive types instead. If you just need the value, you can use a
+      standard type as a result class, as shown in Example 3.35.<example>
+          <title>Selecting a standard type</title>
+
+          <programlisting>&lt;select id="selectProductCount" resultClass="<emphasis
+              role="blue">System.Int32</emphasis>"&gt;
+  select count(1)
+  from PRODUCT
+&lt;/select&gt;</programlisting>
+        </example></para>
+
+      <para>If need be, you can refer to the standard type using a marker
+      token, "value", as shown by Example 3.36.</para>
+
+      <example>
+        <title>Loading a simple list of product descriptions</title>
+
+        <programlisting>&lt;resultMap id="select-product-result" resultClass="System.String"&gt;
+  &lt;result property="<emphasis role="blue">value</emphasis>" column="PRD_DESCRIPTION"/&gt;
+&lt;/resultMap&gt;</programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Maps with ResultMaps</title>
+
+      <para>Instead of a rich object, sometimes all you might need is a simple
+      key/value list of the data, where each property is an entry on the list.
+      If so, Result Maps can populate a IDictionary instance as easily as
+      property objects. The syntax for using a IDictionary is identical to the
+      rich object syntax. As shown in Example 3.37, only the result object
+      changes.</para>
+
+      <example>
+        <title>Result Maps can use generic "entry-type" objects</title>
+
+        <programlisting>&lt;resultMap id="select-product-result" class="<emphasis
+            role="blue">HashTable</emphasis>"&gt;
+  &lt;result property="id" column="PRD_ID"/&gt;
+  &lt;result property="code" column="PRD_CODE"/&gt;
+  &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+  &lt;result property="suggestedPrice" column="PRD_SUGGESTED_PRICE"/&gt;
+&lt;/resultMap&gt;</programlisting>
+      </example>
+
+      <para>In Example 3.37, an instance of HashTable would be created for
+      each row in the result set and populated with the Product data. The
+      property name attributes, like <parameter>id</parameter>,
+      <parameter>code</parameter>, and so forth, would be the key of the
+      entry, and the value of the mapped columns would be the value of the
+      entry.</para>
+
+      <para>As shown in Example 3.38, you can also use an implicit Result Map
+      with a IDictionary type.</para>
+
+      <example>
+        <title>Implicit Result Maps can use "entry-type" objects too</title>
+
+        <para><programlisting>&lt;statement id="selectProductCount" resultClass="<emphasis
+              role="blue">HashTable</emphasis>"&gt;
+  select * from PRODUCT
+&lt;/statement&gt;</programlisting></para>
+      </example>
+
+      <para>What set of entries is returned by Example xx depends on what
+      columns are in the result set. If the set of column changes (because
+      columns are added or removed), the new set of entries would
+      automatically be returned.</para>
+
+      <para><note>
+          <para>Certain providers may return column names in upper case or
+          lower case format. When accessing values with such a provider, you
+          will have to pass the Hashtable or HashMap key name in the expected
+          case.</para>
+        </note></para>
+    </sect2>
+
+    <sect2>
+      <title>Complex Properties</title>
+
+      <para>In a relational database, one table will often refer to another.
+      Likewise, some of your business objects may include another object or
+      list of objects. Types that nest other types are called "complex types".
+      You may not want a statement to return a simple type, but a fully-formed
+      compex type.</para>
+
+      <para>In the database, a related column is usually represented via a 1:1
+      relationship, or a 1:M relationship where the class that holds the
+      complex property is from the "many side" of the relationship and the
+      property itself is from the "one side" of the relationship. The column
+      returned from the database will not be the property we want; it is a key
+      to be used in another query.</para>
+
+      <para>From the framework's perspective, the problem is not so much
+      loading a complex type, but loading each "complex property". To solve
+      this problem, you can specify in the Result Map a statement to run to
+      load a given property. In Example 3.39, the "category" property of the
+      "select-product-result" element is a complex property. <example>
+          <title>A Result Map with a Complex Property</title>
+
+          <programlisting>
+&lt;resultMaps&gt;
+  &lt;resultMap id="select-product-result" class="product"&gt;
+    &lt;result property="id" column="PRD_ID"/&gt;
+    &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+    <emphasis role="blue">&lt;result property="category" column="PRD_CAT_ID" select="selectCategory"/&gt;</emphasis>
+  &lt;/resultMap&gt;
+
+  &lt;resultMap id="select-category-result" class="category"&gt;
+    &lt;result property="id" column="CAT_ID"/&gt;
+    &lt;result property="description" column="CAT_DESCRIPTION"/&gt;
+  &lt;/resultMap&gt;
+&lt;/resultMaps&gt;
+
+&lt;statements&gt;
+  &lt;select id="selectProduct" parameterClass="int" resultMap="select-product-result"&gt;
+   select * from PRODUCT where PRD_ID = #value#
+  &lt;/select&gt;
+
+  &lt;select id="selectCategory" parameterClass="int" resultMap="select-category-result"&gt;
+   <emphasis role="blue">select * from CATEGORY where CAT_ID = #value#</emphasis>
+  &lt;/select&gt;
+&lt;/statements&gt;
+      </programlisting>
+        </example> In Example 3.39, the framework will use the
+      "selectCategory" statement to populate the "category" property. The
+      value of each category is passed to the "selectCategory" statement, and
+      the object returned is set to the category property. When the process
+      completes, each Product instance will have the the appropriate category
+      object instance set.</para>
+    </sect2>
+
+    <sect2>
+      <title>Avoiding N+1 Selects (1:1)</title>
+
+      <para>A problem with Example 3.39 may be that whenever you load a
+      Product, two statements execute: one for the Product and one for the
+      Category. For a single Product, this issue may seem trivial. But if you
+      load 10 products, then 11 statements execute. For 100 Products, instead
+      of one statement product statement executing, a total of 101 statements
+      execute. The number of statements executing for Example 3.40 will always
+      be N+1: 100+1=101.</para>
+
+      <example>
+        <title>N+1 Selects (1:1)</title>
+
+        <programlisting>
+&lt;resultMaps&gt;
+  &lt;resultMap id="select-product-result" class="product"&gt;
+    &lt;result property="id" column="PRD_ID"/&gt;
+    &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+    <emphasis role="blue">&lt;result property="category" column="PRD_CAT_ID" select="selectCategory"/&gt;</emphasis>
+  &lt;/resultMap&gt;
+
+  &lt;resultMap id="select-category-result" class="category"&gt;
+    &lt;result property="id" column="CAT_ID"/&gt;
+    &lt;result property="description" column="CAT_DESCRIPTION"/&gt;
+  &lt;/resultMap&gt;
+&lt;/resultMaps&gt;
+
+&lt;statements&gt;
+  <emphasis role="comment">&lt;!-- This statement executes 1 time --&gt;</emphasis>
+  &lt;select id="selectProducts" parameterClass="int" resultMap="select-product-result"&gt;
+   select * from PRODUCT
+  &lt;/select&gt;
+
+  <emphasis role="comment">&lt;!-- This statement executes N times (once for each product returned above) --&gt;</emphasis>
+  &lt;select id="selectCategory" parameterClass="int" resultMap="select-category-result"&gt;
+   <emphasis role="blue">select * from CATEGORY where CAT_ID = #value#</emphasis>
+  &lt;/select&gt;
+&lt;/statements&gt;
+      </programlisting>
+      </example>
+
+      <para>One way to mitigate the problem is to cache the "selectCategory"
+      statement . We might have a hundred products, but there might only be
+      five categories. Instead of running a SQL query or stored procedure, the
+      framework will return the category object from it cache. A 101
+      statements would still run, but they would not be hitting the database.
+      (See Section 3.8 for more about caches.)</para>
+
+      <para>Another solution is to use a standard SQL join to return the
+      columns you need from the another table. A join can bring all the
+      columns we need over from the database in a single query. When you have
+      a nested object, you can reference nested properties using a dotted
+      notation, like "category.description".</para>
+
+      <para>Example 3.41 solves the same problem as Example 3.40, but uses a
+      join instead of nested properties.</para>
+
+      <example>
+        <title>Resolving complex properties with a join</title>
+
+        <programlisting>
+&lt;resultMaps&gt;
+  &lt;resultMap id="select-product-result" class="product"&gt;
+    &lt;result property="id" column="PRD_ID"/&gt;
+    &lt;result property="description" column="PRD_DESCRIPTION"/&gt;
+    <emphasis role="blue">&lt;result property="category" resultMapping="Category.CategoryResult" /&gt;</emphasis>
+  &lt;/resultMap&gt;
+&lt;/resultMaps&gt;
+
+&lt;statements&gt;
+  &lt;statement id="selectProduct" parameterClass="int" resultMap="select-product-result"&gt;
+    select *
+    from PRODUCT, CATEGORY
+    where PRD_CAT_ID=CAT_ID
+    and PRD_ID = #value#
+  &lt;/statement&gt;
+&lt;/statements&gt;
+      </programlisting>
+      </example>
+
+      <sidebar>
+        <para><emphasis>Lazy Loading vs. Joins (1:1)</emphasis></para>
+
+        <para>It's important to note that using a join is not always better.
+        If you are in a situation where it is rare to access the related
+        object (e.g. the category property of the Product class) then it might
+        actually be faster to avoid the join and the unnecessary loading of
+        all category properties. This is especially true for database designs
+        that involve outer joins or nullable and/or non-indexed columns. In
+        these situations it might be better to use the sub-select solution
+        with lazy loading enabled. The general rule of thumb is: use the join
+        if you're more likely going to access the associated properties than
+        not. Otherwise, only use it if lazy loading is not an option.</para>
+
+        <para>If you're having trouble deciding which way to go, don't worry.
+        No matter which way you go, you can always change it without impacting
+        your application source code. Example 3.40 and 3.41 result in exactly
+        the same object graph and are loaded using the exact same method call
+        from the application. The only consideration is that if you were to
+        enable caching, then the using the separate select (not the join)
+        solution could result in a cached instance being returned. But more
+        often than not, that won't cause a problem (your application shouldn't
+        be dependent on instance level equality i.e. "==").</para>
+      </sidebar>
+    </sect2>
+
+    <sect2>
+      <title>Complex Collection Properties</title>
+
+      <para>It is also possible to load properties that represent lists of
+      complex objects. In the database the data would be represented by a M:M
+      relationship, or a 1:M relationship where the class containing the list
+      is on the "one side" of the relationship and the objects in the list are
+      on the "many side". To load an IList of objects, there is no change to
+      the statement (see example above). The only difference required to cause
+      the iBATIS DataMapper framework to load the property as an IList is that
+      the property on the business object must be of type
+      System.Collections.IList. For example, if a Category has a IList of
+      Product instances, the mapping would look like this (assuming Category
+      has a property called "ProductList" of
+      System.Collections.IList.):</para>
+
+      <example>
+        <title>Mapping that creates a list of complex objects</title>
+
+        <programlisting>
+&lt;resultMaps&gt;
+
+  &lt;resultMap id="select-category-result" class="Category"&gt;
+    &lt;result property="Id" column="CAT_ID"/&gt;
+    &lt;result property="Description" column="CAT_DESCRIPTION"/&gt;
+    <emphasis role="blue">&lt;result property="ProductList" column="CAT_ID" select="selectProductsByCatId"/&gt;</emphasis>
+  &lt;/resultMap&gt;
+
+  &lt;resultMap id="select-product-result" class="Product"&gt;
+    &lt;result property="Id" column="PRD_ID"/&gt;
+    &lt;result property="Description" column="PRD_DESCRIPTION"/&gt;
+  &lt;/resultMap&gt;
+&lt;resultMaps&gt;
+
+&lt;statements&gt;
+
+  &lt;statement id="selectCategory" parameterClass="int" resultMap="select-category-result"&gt;
+    select * from CATEGORY where CAT_ID = #value#
+  &lt;/statement&gt;
+
+  &lt;statement id="selectProductsByCatId" parameterClass="int" resultMap="select-product-result"&gt;
+    <emphasis role="blue">select * from PRODUCT where PRD_CAT_ID = #value#</emphasis>
+  &lt;/statement&gt;
+&lt;/statements&gt;</programlisting>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Avoiding N+1 Select Lists (1:M and M:N)</title>
+
+      <para>This is similar to the 1:1 situation above, but is of even greater
+      concern due to the potentially large amount of data involved. The
+      problem with the solution above is that whenever you load a Category,
+      two SQL statements are actually being run (one for the Category and one
+      for the list of associated Products). This problem seems trivial when
+      loading a single Category, but if you were to run a query that loaded
+      ten (10) Categories, a separate query would be run for each Category to
+      load its associated list of Products. This results in eleven (11)
+      queries total: one for the list of Categories and one for each Category
+      returned to load each related list of Products (N+1 or in this case
+      10+1=11). To make this situation worse, we're dealing with potentially
+      large lists of data.</para>
+
+      <example>
+        <title>N+1 Select Lists (1:M and M:N), example of problem</title>
+
+        <programlisting>
+&lt;resultMaps&gt;
+
+  &lt;resultMap id="select-category-result" class="Category"&gt;
+    &lt;result property="Id" column="CAT_ID"/&gt;
+    &lt;result property="Description" column="CAT_DESCRIPTION"/&gt;
+   <emphasis role="blue">&lt;result property="ProductList" column="CAT_ID" select="selectProductsByCatId"/&gt;</emphasis>
+  &lt;/resultMap&gt;
+
+  &lt;resultMap id="Product-result" class="Product"&gt;
+    &lt;result property="Id" column="PRD_ID"/&gt;
+    &lt;result property="Description" column="PRD_DESCRIPTION"/&gt;
+  &lt;/resultMap&gt;
+&lt;resultMaps&gt;
+
+&lt;statements&gt;
+
+  <emphasis role="comment">&lt;!-- This statement executes 1 time --&gt;</emphasis>
+  &lt;statement id="selectCategory" parameterClass="int" resultMap="select-category-result"&gt;
+    select * from CATEGORY where CAT_ID = #value#
+  &lt;/statement&gt;
+
+  <emphasis role="comment">&lt;!-- This statement executes N times (once for each category returned above) 
+       and returns a list of Products (1:M) --&gt;</emphasis>
+  &lt;statement id="selectProductsByCatId" parameterClass="int" resultMap="select-product-result"&gt;
+    <emphasis role="blue">select * from PRODUCT where PRD_CAT_ID = #value#</emphasis>
+  &lt;/statement&gt;
+&lt;/statements&gt;</programlisting>
+      </example>
+
+	  <para>iBATIS fully solves the N+1 selects problem. Here is the same example solved :</para>
+
+      <example>
+        <title>N+1 Select Lists (1:M and M:N) resolution</title>
+
+        <programlisting>
+&lt;sqlMap namespace="ProductCategory"&gt;
+&lt;resultMaps&gt;
+
+  &lt;resultMap id="Category-result" class="Category" <emphasis role="blue">groupBy="Id"</emphasis>&gt;
+    &lt;result property="Id" column="CAT_ID"/&gt;
+    &lt;result property="Description" column="CAT_DESCRIPTION"/&gt;
+    <emphasis role="blue">&lt;result property="ProductList" resultMapping="ProductCategory.Product-result"/&gt;</emphasis>
+  &lt;/resultMap&gt;
+
+  &lt;resultMap id="Product-result" class="Product"&gt;
+    &lt;result property="Id" column="PRD_ID"/&gt;
+    &lt;result property="Description" column="PRD_DESCRIPTION"/&gt;
+  &lt;/resultMap&gt;
+&lt;resultMaps&gt;
+
+&lt;statements&gt;
+
+  <emphasis role="comment">&lt;!-- This statement executes 1 time --&gt;</emphasis>
+  &lt;statement id="SelectCategory" parameterClass="int" resultMap="Category-result"&gt;
+    select C.CAT_ID, C.CAT_DESCRIPTION, P.PRD_ID, P.PRD_DESCRIPTION
+    from CATEGORY C
+    left outer join PRODUCT P
+    on C.CAT_ID = P.PRD_CAT_ID
+    where CAT_ID = #value#
+  &lt;/statement&gt;
+
+</programlisting>
+      </example>
+
+<para>When you call...</para>
+<programlisting>IList myList = sqlMap.QueryForList("SelectCategory", 1002);</programlisting>
+<para>...the main query is executed, and the results are stored in the myList variable containing .NET type
+"Category" element . Each object in that List will have a "ProductList" property that is also a List
+populated from the same query, but using the "Product-result" result map to populate the element in the child
+list. So, you end up with a list containing sub-lists, and only one database query is executed.</para>
+<para>The important items here are the...</para>
+<para><emphasis role="term"><emphasis role="blue">groupBy="Id"</emphasis></emphasis></para>
+<para>...attribute and the...</para>
+<para><emphasis role="term">&lt;result property="ProductList" <emphasis role="blue">resultMapping="ProductCategory.Product-result"</emphasis>/&gt;</emphasis></para>
+<para>...property mapping in the "Category-result" result map. One other important detail is that the result mapping
+for the ProductList property is namespace aware - had it been simply "Product-result" it would not work.
+Using this approach, you can solve any N+1 problem of any depth or breadth.</para>
+
+      <sidebar>
+        <para><emphasis>Lazy Loading vs. Joins (1:M and M:N)</emphasis></para>
+
+        <para>As with the 1:1 situation described previously, it's important
+        to note that using a join is not always better. This is even more true
+        for collection properties than it was for individual value properties
+        due to the greater amount of data. If you are in a situation where it
+        is rare to access the related object (e.g. the ProductList property of
+        the Category class) then it might actually be faster to avoid the join
+        and the unnecessary loading of the list of products. This is
+        especially true for database designs that involve outer joins or
+        nullable and/or non-indexed columns. In these situations it might be
+        better to use the sub-select solution with the lazy loading. The
+        general rule of thumb is: use the join if you're more likely going to
+        access the associated properties than not. Otherwise, only use it if
+        lazy loading is not an option.</para>
+
+        <para>As mentioned earlier, if you're having trouble deciding which
+        way to go, don't worry. No matter which way you go, you can always
+        change it without impacting your .NET code. The two examples above
+        would result in exactly the same object graph and are loaded using the
+        exact same method call. The only consideration is that if you were to
+        enable caching, then the using the separate select (not the join)
+        solution could result in a cached instance being returned. But more
+        often than not, that won't cause a problem (your application should
+        not be dependent on instance level equality i.e. "==").</para>
+      </sidebar>
+    </sect2>
+
+    <sect2>
+      <title>Composite Keys or Multiple Complex Parameters Properties</title>
+
+      <para>You might have noticed that in the above examples there is only a
+      single key being used as specified in the resultMap by the column
+      attribute. This would suggest that only a single column can be
+      associated to a related mapped statement. However, there is an alternate
+      syntax that allows multiple columns to be passed to the related mapped
+      statement. This comes in handy for situations where a composite key
+      relationship exists, or even if you simply want to use a parameter of
+      some name other than #value#. The alternate syntax for the column
+      attribute is simply param1=column1, param2=column2, …, paramN=columnN.
+      Consider the example below where the PAYMENT table is keyed by both
+      Customer ID and Order ID:</para>
+
+      <example>
+        <title>Mapping a composite key</title>
+
+        <programlisting>
+&lt;resultMaps&gt;
+  &lt;resultMap id="select-order-result" class="order"&gt;
+    &lt;result property="id" column="ORD_ID"/&gt;
+    &lt;result property="customerId" column="ORD_CST_ID"/&gt;
+    ...
+    &lt;result property="payments" column="<emphasis role="blue">itemId=ORD_ID, custId=ORD_CST_ID</emphasis>"
+      select="<emphasis role="blue">selectOrderPayments"</emphasis>/&gt;
+  &lt;/resultMap&gt;
+&lt;resultMaps&gt;
+
+&lt;statements&gt;
+
+  &lt;statement id="<emphasis role="blue">selectOrderPayments</emphasis>" resultMap="select-payment-result"&gt;
+    select * from PAYMENT
+    where PAY_ORD_ID = #<emphasis role="blue">itemId</emphasis>#
+    and PAY_CST_ID = #<emphasis role="blue">custId</emphasis>#
+  &lt;/statement&gt;
+&lt;/statements&gt;</programlisting>
+      </example>
+
+      <para>Optionally you can just specify the column names as long as
+      they're in the same order as the parameters. For example:</para>
+
+      <informalexample>
+        <programlisting><emphasis role="blue">ORD_ID, ORD_CST_ID</emphasis></programlisting>
+      </informalexample>
+
+      <para>As usual, this is a slight performance gain with an impact on
+      readability and maintainability.</para>
+
+      <para>Important! Currently the iBATIS DataMapper framework does not
+      automatically resolve circular relationships. Be aware of this when
+      implementing parent/child relationships (trees). An easy workaround is
+      to simply define a second result map for one of the cases that does not
+      load the parent object (or vice versa), or use a join as described in
+      the "N+1 avoidance" solutions.<note>
+          <para>Result Map names are always local to the Data Map definition
+          file that they are defined in. You can refer to a Result Map in
+          another Data Map definition file by prefixing the name of the Result
+          Map with the namespace of the SqlMap set in the &lt;sqlMap&gt; root
+          element.</para>
+        </note></para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Supported Types for Parameter Maps and Result Maps</title>
+
+    <para>Table 3.4 shows the basic Supported Types for Parameter Maps and
+    Result Maps for .NET. You can extend the framework's support for
+    additional types by using a Custom Type Handler.</para>
+	
+	<note>
+	<para>Nuallable type from .NET 2.0 are fully supported by iBATIS.NET.</para>
+	</note>
+
+	<para>
+	<table>
+        <title>Supported Types for Parameter Maps and Result Maps
+        (.NET)</title>
+
+        <tgroup cols="4">
+          <thead>
+            <row>
+              <entry>CLR Type</entry>
+
+              <entry>Object/Map Property Mapping</entry>
+
+              <entry>Result Class/Parameter Class**</entry>
+
+              <entry>Type Alias**</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>System.ArrayList</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>list</entry>
+            </row>
+
+            <row>
+              <entry>System.Boolean</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Boolean, bool</entry>
+            </row>
+
+            <row>
+              <entry>System.Byte</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Byte, byte</entry>
+            </row>
+
+            <row>
+              <entry>System.Char</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Char, char</entry>
+            </row>
+
+            <row>
+              <entry>System.DateTime</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>dateTime, date</entry>
+            </row>
+
+            <row>
+              <entry>System.Decimal</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Decimal, decimal</entry>
+            </row>
+
+            <row>
+              <entry>System.Double</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Double, double</entry>
+            </row>
+
+            <row>
+              <entry>System.Guid</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>guid</entry>
+            </row>
+
+            <row>
+              <entry>System.Hashtable</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>map, hashmap, hashtable</entry>
+            </row>
+
+            <row>
+              <entry>System.Int16</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int16, short, Short</entry>
+            </row>
+
+            <row>
+              <entry>System.Int32</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int32, int, Int, integer, Integer</entry>
+            </row>
+
+            <row>
+              <entry>System.Int64</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int64, long, Long</entry>
+            </row>
+
+            <row>
+              <entry>System.SByte</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>SByte, sbyte</entry>
+            </row>
+
+            <row>
+              <entry>System.Single</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Float, float, Single, single</entry>
+            </row>
+
+            <row>
+              <entry>System.String</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>String, string</entry>
+            </row>
+
+            <row>
+              <entry>System.TimeSpan</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>N/A</entry>
+            </row>
+
+            <row>
+              <entry>System.UInt16</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Short, short</entry>
+            </row>
+
+            <row>
+              <entry>System.UInt32</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Uint, uint</entry>
+            </row>
+
+            <row>
+              <entry>System.UInt64</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Ulong, ulong</entry>
+            </row>
+
+			<row>
+              <entry>Nullable&lt;bool&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>bool?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;byte&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>byte?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;char&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>char?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;DateTime&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>DateTime?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;decimal&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>decimal?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;double&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>double?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;Int16&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int16?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;Int32&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int32?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;Int64&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int64?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;SByte&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>SByte?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;Single&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Single?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;UInt16&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>UInt16?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;UInt32&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>UInt32?</entry>
+            </row>
+			<row>
+              <entry>Nullable&lt;UInt64&gt;</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+
+              <entry>UInt64?</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></para>
+  </sect1>
+
+  <sect1>
+    <title>Supported database types for Parameter Maps and Result Maps</title>
+
+    <para>Table 3.5 shows the basic Supported DbTypes for Parameter Maps and
+    Result Maps for .NET that come with the System.Data and
+    System.Data.OracleClient assemblies. See the .NET Developer Guide section
+    on configuring the DataMapper to work with your provider's DbTypes.</para>
+
+	<note>
+	<para>Nuallable type from .NET 2.0 are fully supported by iBATIS.NET.</para>
+	</note>
+
+    <para>The .NET Framework data provider type of a Parameter object is
+    inferred from the .NET Framework type of the Value of the Parameter
+    object, or from the DbType of the Parameter object. The following table
+    shows the inferred Parameter type based on the object passed as the
+    Parameter value or the specified DbType. You may specify the type of a
+    Parameter in a generic fashion by setting the DbType property of the
+    Parameter object to a particular System.Data.DbType specific to your
+    database. <table>
+        <title>Supported DbTypes for Parameter Maps and Result Maps
+        (.NET)</title>
+
+        <tgroup cols="6">
+          <thead>
+            <row>
+              <entry>CLR Type</entry>
+
+              <entry>iBATIS support</entry>
+
+              <entry>SqlDbType</entry>
+
+              <entry>OleDbType</entry>
+
+              <entry>OdbcType</entry>
+
+              <entry>OracleType</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Byte[]</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Binary, Image, VarBinary</entry>
+
+              <entry>Binary, VarBinary</entry>
+
+              <entry>Binary, Image, VarBinary</entry>
+
+              <entry>Raw</entry>
+            </row>
+
+            <row>
+              <entry>Boolean, bool?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Bit</entry>
+
+              <entry>Boolean</entry>
+
+              <entry>Bit</entry>
+
+              <entry>Byte</entry>
+            </row>
+
+            <row>
+              <entry>Byte, byte?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>TinyInt</entry>
+
+              <entry>-</entry>
+
+              <entry>TinyInt</entry>
+
+              <entry>Byte</entry>
+            </row>
+
+            <row>
+              <entry>DateTime, DateTime?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>DateTime, SmallDateTime</entry>
+
+              <entry>Date</entry>
+
+              <entry>Date, DateTime, SmallDateTime, Time</entry>
+
+              <entry>DateTime</entry>
+            </row>
+
+            <row>
+              <entry>char, char?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Not supported</entry>
+
+              <entry>Char</entry>
+
+              <entry>Char</entry>
+
+              <entry>Byte</entry>
+            </row>
+
+            <row>
+              <entry>Decimal, decimal?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Decimal, Money, SmallMoney</entry>
+
+              <entry>Decimal, Currency, Numeric</entry>
+
+              <entry>Decimal, Numeric</entry>
+
+              <entry>Number</entry>
+            </row>
+
+            <row>
+              <entry>Double, double?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Float</entry>
+
+              <entry>Double</entry>
+
+              <entry>Double</entry>
+
+              <entry>Double</entry>
+            </row>
+
+            <row>
+              <entry>Guid, Guid?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>UniqueIdentifier</entry>
+
+              <entry>Guid</entry>
+
+              <entry>UniqueIdentifier</entry>
+
+              <entry>Raw</entry>
+            </row>
+
+            <row>
+              <entry>Int16, Int16?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>SmallInt</entry>
+
+              <entry>SmallIInt</entry>
+
+              <entry>SmallInt</entry>
+
+              <entry>Int16</entry>
+            </row>
+
+            <row>
+              <entry>Int32, Int32?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Int</entry>
+
+              <entry>Integer</entry>
+
+              <entry>Int</entry>
+
+              <entry>Int32</entry>
+            </row>
+
+            <row>
+              <entry>Int64, Int64?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>BigInt</entry>
+
+              <entry>BigInt</entry>
+
+              <entry>BigInt</entry>
+
+              <entry>Number</entry>
+            </row>
+
+            <row>
+              <entry>Single, Single?</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Real</entry>
+
+              <entry>Single</entry>
+
+              <entry>Real</entry>
+
+              <entry>Float</entry>
+            </row>
+
+            <row>
+              <entry>String</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Char, Nchar, NVarchar, Text, VarChar</entry>
+
+              <entry>Char, VarChar</entry>
+
+              <entry>Char, NChar, NText, NVarChar, Text, VarChar</entry>
+
+              <entry>NVarChar, VarChar</entry>
+            </row>
+
+            <row>
+              <entry>TimeSpan</entry>
+
+              <entry>No</entry>
+
+              <entry>Not supported</entry>
+
+              <entry>DBTime</entry>
+
+              <entry>Time</entry>
+
+              <entry>DateTime</entry>
+            </row>
+
+            <row>
+              <entry>UInt16, UInt16?</entry>
+
+              <entry>yes</entry>
+
+              <entry>Int</entry>
+
+              <entry>-</entry>
+
+              <entry>-</entry>
+
+              <entry>UInt16</entry>
+            </row>
+
+            <row>
+              <entry>UInt32, UInt32?</entry>
+
+              <entry>yes</entry>
+
+              <entry>Decimal</entry>
+
+              <entry>-</entry>
+
+              <entry>-</entry>
+
+              <entry>UInt32</entry>
+            </row>
+
+            <row>
+              <entry>UInt64, UInt64?</entry>
+
+              <entry>yes</entry>
+
+              <entry>Decimal</entry>
+
+              <entry>-</entry>
+
+              <entry>-</entry>
+
+              <entry>Number</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></para>
+  </sect1>
+
+  <sect1>
+    <title>Cache Models</title>
+
+    <para>Some values in a database are know to change slower than others. To
+    improve performance, many developers like to cache often-used data to
+    avoid making unnecessary trips back to the database. iBATIS provides its
+    own caching system, that you configure through a &lt;cacheModel&gt;
+    element.</para>
+
+    <para>The results from a query Mapped Statement can be cached simply by
+    specifying the cacheModel parameter in the statement tag (seen above). A
+    cache model is a configured cache that is defined within your DataMapper
+    configuration file. Cache models are configured using the cacheModel
+    element as follows:</para>
+
+    <example>
+      <title>Configuation a cache using the Cache Model element</title>
+
+      <programlisting>&lt;cacheModel id="<emphasis role="blue">product-cache</emphasis>" implementation="LRU" readOnly="true" serialize="false"&gt;
+  &lt;flushInterval hours="24"/&gt;
+  &lt;flushOnExecute  statement="insertProduct"/&gt;
+  &lt;flushOnExecute  statement="updateProduct"/&gt;
+  &lt;flushOnExecute  statement="deleteProduct"/&gt;
+  &lt;property name="CacheSize" value="100"/&gt;
+&lt;/cacheModel&gt;</programlisting>
+    </example>
+
+    <para>The cache model above will create an instance of a cache named
+    "product-cache" that uses a Least Recently Used (LRU) implementation. The
+    value of the type attribute is either a fully qualified class name, or an
+    alias for one of the included implementations (see below). Based on the
+    flush elements specified within the cache model, this cache will be
+    flushed every 24 hours. There can be only one flush interval element and
+    it can be set using hours, minutes, seconds or milliseconds. In addition
+    the cache will be flushed whenever the insertProduct, updateProduct, or
+    deleteProduct mapped statements are executed. There can be any number of
+    "flush on execute" elements specified for a cache. Some cache
+    implementations may need additional properties, such as the ‘cache-size'
+    property demonstrated above. In the case of the LRU cache, the size
+    determines the number of entries to store in the cache. Once a cache model
+    is configured, you can specify the cache model to be used by a mapped
+    statement, for example:</para>
+
+    <example>
+      <title>Specifying a Cache Model from a Mapped Statement</title>
+
+      <programlisting>&lt;statement id="getProductList" <emphasis role="blue">cacheModel="product-cache"</emphasis>&gt;
+  select * from PRODUCT where PRD_CAT_ID = #value#
+&lt;/statement&gt;</programlisting>
+    </example>
+
+    <sect2>
+       
+
+      <title>Read-Only vs. Read/Write</title>
+
+       The framework supports both read-only and read/write caches. Read-only caches are shared among all users and therefore offer greater performance benefit. However, objects read from a read-only cache should not be modified. Instead, a new object should be read from the database (or a read/write cache) for updating. On the other hand, if there is an intention to use objects for retrieval and modification, a read/write cache is recommended (i.e. required). To use a read-only cache, set readOnly="true" on the cache model element. To use a read/write cache, set readOnly="false". The default is read-only (true). 
+    </sect2>
+
+    <sect2>
+       
+
+      <title>Serializable Read/Write Caches</title>
+
+       As you may agree, caching per-session as described above may offer little benefit to global application performance. Another type of read/write cache that can offer a performance benefit to the entire application (i.e. not just per session) is a serializable read/write cache. This cache will return different instances (copies) of the cached object to each session. Therefore each session can safely modify the instance returned. Realize the difference in semantics here, usually you would expect the same instance to be returned from a cache, but in this case you'll get a different one. Also note that every object stored by a serializable cache must be serializable. This means that you will have difficulty using both lazy loading features combined with a serializable cache, because lazy proxies are not serializable. The best way to figure out what combination of caching, lazy loading and table joining is simply to try it out. To use a serializable cache, set readOnly="false" and serialize="true". By default cache models are read-only and non-serializable. Read-only caches will not be serialized (there's no benefit). 
+    </sect2>
+
+    <sect2>
+      <title>Cache Implementation</title>
+
+      <para>The cache model uses a pluggable framework for supporting
+      different types of caches. The choice of cache is specified in the
+      "implementation" attribute of the cacheModel element as discussed above.
+      The class name specified must be an implementation of the
+      ICacheController interface, or one of the three aliases discussed below.
+      Further configuration parameters can be passed to the implementation via
+      the property elements contained within the body of the cacheModel.
+      Currently there are 3 implementations included with the .NET
+      distribution. These are as follows:</para>
+    </sect2>
+
+    <sect2>
+      <title>"MEMORY"</title>
+
+      <para>The MEMORY cache implementation uses reference types to manage the
+      cache behavior. That is, the garbage collector effectively determines
+      what stays in the cache or otherwise. The MEMORY cache is a good choice
+      for applications that don't have an identifiable pattern of object
+      reuse, or applications where memory is scarce.</para>
+
+      <para>The MEMORY implementation is configured as follows:</para>
+
+      <example>
+        <title>Configuring a memory-type cache</title>
+
+        <programlisting>&lt;cacheModel id="product-cache" <emphasis
+            role="blue">implementation="MEMORY"</emphasis> &gt;
+  &lt;flushInterval hours="24"/&gt;
+  &lt;flushOnExecute  statement="insertProduct"/&gt;
+  &lt;flushOnExecute  statement="updateProduct"/&gt;
+  &lt;flushOnExecute  statement="deleteProduct"/&gt;
+  <emphasis role="blue">&lt;property name="Type" value="WEAK"/&gt;</emphasis>
+&lt;/cacheModel&gt;</programlisting>
+      </example>
+
+      <para>Only a single property is recognized by the MEMORY cache
+      implementation. This property, named 'reference-type' must be set to a
+      value of STRONG, SOFT, or WEAK.</para>
+
+      <para>The following table describes the different reference types that
+      can be used for a MEMORY cache. <table>
+          <title>Reference types that can be used for a MEMORY cache</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Type</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>WEAK (default)</entry>
+
+                <entry>This reference type is probably the best choice in most
+                cases and is the default if the reference-type is not
+                specified. It will increase performance for popular results,
+                but it will absolutely release the memory to be used in
+                allocating other objects, assuming that the results are not
+                currently in use.</entry>
+              </row>
+
+              <row>
+                <entry>SOFT (currently Java only)</entry>
+
+                <entry>This reference type will reduce the likelihood of
+                running out of memory in case the results are not currently in
+                use and the memory is needed for other objects. However, this
+                is not the most aggressive reference type in that regard and
+                memory still might be allocated and made unavailable for more
+                important objects.</entry>
+              </row>
+
+              <row>
+                <entry>STRONG</entry>
+
+                <entry>This reference type will guarantee that the results
+                stay in memory until the cache is explicitly flushed (e.g. by
+                time interval or flush on execute). This is ideal for results
+                that are: 1) very small, 2) absolutely static, and 3) used
+                very often. The advantage is that performance will be very
+                good for this particular query. The disadvantage is that if
+                the memory used by these results is needed, then it will not
+                be released to make room for other objects (possibly more
+                important objects).</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+    </sect2>
+
+    <sect2>
+      <title>"LRU"</title>
+
+      <para>The LRU cache implementation uses an Least Recently Used algorithm
+      to determines how objects are automatically removed from the cache. When
+      the cache becomes over full, the object that was accessed least recently
+      will be removed from the cache. This way, if there is a particular
+      object that is often referred to, it will stay in the cache with the
+      least chance of being removed. The LRU cache makes a good choice for
+      applications that have patterns of usage where certain objects may be
+      popular to one or more users over a longer period of time (e.g.
+      navigating back and forth between paginated lists, popular search keys
+      etc.).</para>
+
+      <para>The LRU implementation is configured as follows:</para>
+
+      <example>
+        <title>Configuring a LRU type cache</title>
+
+        <programlisting>&lt;cacheModel id="product-cache"  <emphasis
+            role="blue">implementation="LRU"</emphasis> &gt;
+  &lt;flushInterval hours="24"/&gt;
+  &lt;flushOnExecute  statement="insertProduct"/&gt;
+  &lt;flushOnExecute  statement="updateProduct"/&gt;
+  &lt;flushOnExecute  statement="deleteProduct"/&gt;
+   <emphasis role="blue">&lt;property name="CacheSize" value="100"</emphasis>/&gt;
+&lt;/cacheModel&gt;</programlisting>
+      </example>
+
+      <para>Only a single property is recognized by the LRU cache
+      implementation. This property, named CacheSize must be set to an integer
+      value representing the maximum number of objects to hold in the cache at
+      once. An important thing to remember here is that an object can be
+      anything from a single String instance to an ArrayList of object. So
+      take care not to store too much in your cache and risk running out of
+      memory!</para>
+    </sect2>
+
+    <sect2>
+      <title>"FIFO"</title>
+
+      <para>The FIFO cache implementation uses an First In First Out algorithm
+      to determines how objects are automatically removed from the cache. When
+      the cache becomes over full, the oldest object will be removed from the
+      cache. The FIFO cache is good for usage patterns where a particular
+      query will be referenced a few times in quick succession, but then
+      possibly not for some time later.</para>
+
+      <para>The FIFO implementation is configured as follows:</para>
+
+      <example>
+        <title>Configuring a FIFO type cache</title>
+
+        <programlisting>&lt;cacheModel id="product-cache" <emphasis
+            role="blue">implementation="FIFO"</emphasis> &gt;
+  &lt;flushInterval hours="24"/&gt;
+  &lt;flushOnExecute  statement="insertProduct"/&gt;
+  &lt;flushOnExecute  statement="updateProduct"/&gt;
+  &lt;flushOnExecute  statement="deleteProduct"/&gt;
+  <emphasis role="blue">&lt;property name="CacheSize" value="100"/&gt;</emphasis>
+&lt;/cacheModel&gt;</programlisting>
+      </example>
+
+      <para>Only a single property is recognized by the FIFO cache
+      implementation. This property, named CacheSize must be set to an integer
+      value representing the maximum number of objects to hold in the cache at
+      once. An important thing to remember here is that an object can be
+      anything from a single String instance to an ArrayList of object. So
+      take care not to store too much in your cache and risk running out of
+      memory</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Dynamic SQL</title>
+
+    <para>A very common problem with working directly with ADO is dynamic SQL.
+    It is normally very difficult to work with SQL statements that change not
+    only the values of parameters, but which parameters and columns are
+    included at all. The typical solution is usually a mess of conditional
+    if-else statements and horrid string concatenations. The desired result is
+    often a query by example, where a query can be built to find objects that
+    are similar to the example object. The iBATIS DataMapper API provides a
+    relatively elegant solution that can be applied to any mapped statement
+    element. Here is a simple example:</para>
+
+    <example>
+      <title>A simple dynamic select sttatement, with two possible
+      outcomes</title>
+
+      <programlisting>&lt;select id="dynamicGetAccountList" cacheModel="account-cache" parameterClass="Account" resultMap="account-result" &gt;
+  <emphasis role="blue">select * from ACCOUNT</emphasis>
+    &lt;isGreaterThan prepend="and" property="Id" compareValue="0"&gt;
+       <emphasis role="blue">where ACC_ID = #Id#</emphasis>
+    &lt;/isGreaterThan&gt;
+  <emphasis role="blue">order by ACC_LAST_NAME</emphasis>
+&lt;/select&gt;</programlisting>
+    </example>
+
+    <para>In the above example, there are two possible statements that could
+    be created depending on the state of the Id property of the parameter
+    object. If the Id parameter is greater than 0, then the statement will be
+    created as follows:</para>
+
+    <informalexample>
+      <programlisting>select * from ACCOUNT where ACC_ID = ?</programlisting>
+    </informalexample>
+
+    <para>Or if the Id parameter is 0 or less, the statement will look as
+    follows.</para>
+
+    <informalexample>
+      <programlisting>select * from ACCOUNT</programlisting>
+    </informalexample>
+
+    <para>The immediate usefulness of this might not become apparent until a
+    more complex situation is encountered. For example, the following is a
+    somewhat more complex example.</para>
+
+    <example>
+      <title>A complex dynamic select statement, with 16 possible
+      outcomes</title>
+
+      <programlisting>&lt;select id="dynamicGetAccountList" parameterClass="Account" resultMap="account-result" &gt;
+  <emphasis role="blue">select * from ACCOUNT</emphasis>
+    &lt;dynamic prepend="WHERE"&gt;
+      &lt;isNotNull prepend="AND" property="FirstName"&gt;
+        <emphasis role="blue">( ACC_FIRST_NAME = #FirstName#</emphasis>
+        &lt;isNotNull prepend="OR" property="LastName"&gt;
+          <emphasis role="blue">ACC_LAST_NAME = #LastName#</emphasis>
+        &lt;/isNotNull&gt;
+        )
+      &lt;/isNotNull&gt;
+      &lt;isNotNull prepend="AND" property="EmailAddress"&gt;
+        <emphasis role="blue">ACC_EMAIL like #EmailAddress#</emphasis>
+      &lt;/isNotNull&gt;
+      &lt;isGreaterThan prepend="AND" property="Id" compareValue="0"&gt;
+        <emphasis role="blue">ACC_ID = #Id#</emphasis>
+      &lt;/isGreaterThan&gt;
+    &lt;/dynamic&gt;
+  <emphasis role="blue">order by ACC_LAST_NAME</emphasis>
+&lt;/select&gt;</programlisting>
+    </example>
+
+    <para>Depending on the situation, there could be as many as 16 different
+    SQL queries generated from the above dynamic statement. To code the
+    if-else structures and string concatenations could get quite messy and
+    require hundreds of lines of code.</para>
+
+    <para>Using dynamic statements is as simple as inserting some conditional
+    tags around the dynamic parts of your SQL. For example:</para>
+
+    <example>
+      <title>Creating a dynamic statement with conditional tags</title>
+
+      <para><programlisting>&lt;statement id="someName" parameterClass="Account" resultMap="account-result" &gt;
+  select * from ACCOUNT
+ <emphasis role="blue"> &lt;dynamic prepend="where"&gt;</emphasis>
+    <emphasis role="blue">&lt;isGreaterThan prepend="and" property="id" compareValue="0"&gt;</emphasis>
+      ACC_ID = #id#
+   <emphasis role="blue"> &lt;/isGreaterThan&gt;</emphasis>
+    <emphasis role="blue">&lt;isNotNull prepend="and" property="lastName"&gt;</emphasis>
+      ACC_LAST_NAME = #lastName#
+    <emphasis role="blue">&lt;/isNotNull&gt;</emphasis>
+  <emphasis role="blue">&lt;/dynamic&gt;</emphasis>
+order by ACC_LAST_NAME
+&lt;/statement&gt;</programlisting></para>
+    </example>
+
+    <para>In the above statement, the &lt;dynamic&gt; element demarcates a
+    section of the SQL that is dynamic. The dynamic element is optional and
+    provides a way to manage a prepend in cases where the prepend ("WHERE")
+    should not be included unless the contained conditions append to the
+    statement. The statement section can contain any number of conditional
+    elements (see below) that will determine whether the contained SQL code
+    will be included in the statement. All of the conditional elements work
+    based on the state of the parameter object passed into the query. Both the
+    dynamic element and the conditional elements have a "prepend" attribute.
+    The prepend attribute is a part of the code that is free to be overridden
+    by the a parent element's prepend if necessary. In the above example the
+    "where" prepend will override the first true conditional prepend. This is
+    necessary to ensure that the SQL statement is built properly. For example,
+    in the case of the first true condition, there is no need for the AND, and
+    in fact it would break the statement. The following sections describe the
+    various kinds of elements, including Binary Conditionals, Unary
+    Conditionals, and Iterate.</para>
+
+    <sect2>
+      <title>Binary Conditional Elements</title>
+
+      <para>Binary conditional elements compare a property value to a static
+      value or another property value. If the result is true, the body content
+      is included in the SQL query.</para>
+
+      <sect3>
+        <title>Binary Conditional Attributes:</title>
+
+        <simplelist>
+          <member>prepend – the overridable SQL part that will be prepended to
+          the statement (optional)</member>
+
+          <member>property – the property to be compared (required)</member>
+
+          <member>compareProperty – the other property to be compared
+          (required or compareValue)</member>
+
+          <member>compareValue – the value to be compared (required or
+          compareProperty)</member>
+        </simplelist>
+
+        <table>
+          <title>Binary conditional attributes</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Element</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>&lt;isEqual&gt;</entry>
+
+                <entry>Checks the equality of a property and a value, or
+                another property. Example Usage:<programlisting>&lt;isEqual prepend="AND" 
+             property="status" 
+             compareValue="Y"&gt;
+MARRIED = ‘TRUE'
+&lt;/isEqual&gt;               </programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isNotEqual&gt;</entry>
+
+                <entry>Checks the inequality of a property and a value, or
+                another property. Example Usage:<programlisting>&lt;isNotEqual prepend="AND" 
+             property="status" 
+             compareValue="N"&gt;
+MARRIED = ‘FALSE'
+&lt;/isNotEqual&gt;   </programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isGreaterThan&gt;</entry>
+
+                <entry>Checks if a property is greater than a value or another
+                property. Example Usage:<programlisting>&lt;isGreaterThan prepend="AND" 
+             property="age" 
+             compareValue="18"&gt;
+ADOLESCENT = ‘FALSE'
+&lt;/isGreaterThan&gt;   </programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isGreaterEqual&gt;</entry>
+
+                <entry>Checks if a property is greater than or equal to a
+                value or another property. Example Usage:<programlisting>&lt;isGreaterEqual prepend="AND" 
+             property="shoeSize" 
+             compareValue="12"&gt;
+BIGFOOT = ‘TRUE'
+&lt;/isGreaterEqual&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isLessEqual&gt;</entry>
+
+                <entry>Checks if a property is less than or equal to a value
+                or another property. Example Usage: <programlisting>&lt;isLessEqual prepend="AND" 
+             property="age" 
+             compareValue="18"&gt;
+ADOLESCENT = ‘TRUE'
+&lt;/isLessEqual&gt;</programlisting></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Unary Conditional Elements</title>
+
+      <para>Unary conditional elements check the state of a property for a
+      specific condition.</para>
+
+      <sect3>
+        <title>Unary Conditional Attributes:</title>
+
+        <simplelist>
+          <member>prepend – the overridable SQL part that will be prepended to
+          the statement (optional)</member>
+
+          <member>property – the property to be checked (required)</member>
+        </simplelist>
+
+        <table>
+          <title>Unary conditional attributes</title>
+
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry>Element</entry>
+
+                <entry>Description</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>&lt;isPropertyAvailable&gt;</entry>
+
+                <entry>Checks if a property is available (i.e is a property of
+                the parameter object). Example Usage: <programlisting>&lt;isPropertyAvailable property="id" &gt;
+  ACCOUNT_ID=#id# 
+&lt;/isPropertyAvailable&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isNotPropertyAvailable&gt;</entry>
+
+                <entry>Checks if a property is unavailable (i.e not a property
+                of the parameter object). Example Usage: <programlisting>&lt;isNotPropertyAvailable property="age" &gt;
+  STATUS='New' 
+&lt;/isNotEmpty&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isNull&gt;</entry>
+
+                <entry>Checks if a property is null. Example Usage:
+                <programlisting>&lt;isNull prepend="AND" property="order.id" &gt;
+  ACCOUNT.ACCOUNT_ID = ORDER.ACCOUNT_ID(+) 
+&lt;/isNotEmpty&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isNotNull&gt;</entry>
+
+                <entry>Checks if a property is not null. Example Usage:
+                <programlisting>&lt;isNotNull prepend="AND" property="order.id" &gt;
+  ORDER.ORDER_ID = #order.id#
+&lt;/isNotEmpty&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isEmpty&gt;</entry>
+
+                <entry>Checks to see if the value of a Collection, String
+                property is null or empty ("" or size() &lt; 1). Example
+                Usage: <programlisting>&lt;isEmpty property="firstName" &gt;
+  LIMIT 0, 20
+&lt;/isNotEmpty&gt;</programlisting></entry>
+              </row>
+
+              <row>
+                <entry>&lt;isNotEmpty&gt;</entry>
+
+                <entry>Checks to see if the value of a Collection, String
+                property is not null and not empty ("" or size() &lt; 1).
+                Example Usage: <programlisting>&lt;isNotEmpty prepend="AND" property="firstName" &gt;
+  FIRST_NAME LIKE '%$FirstName$%'
+&lt;/isNotEmpty&gt;</programlisting></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Parameter Present Elements</title>
+
+      <para>These elements check for parameter object existence.</para>
+
+      <sect3>
+        <title>Parameter Present Attributes:</title>
+
+        <para>prepend – the overridable SQL part that will be prepended to the
+        statement (optional)<table>
+            <title>Testing to see if a parameter is present</title>
+
+            <tgroup cols="2">
+              <thead>
+                <row>
+                  <entry>Element</entry>
+
+                  <entry>Description</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>&lt;isParameterPresent&gt;</entry>
+
+                  <entry>Checks to see if the parameter object is present (not
+                  null).<programlisting>&lt;isParameterPresent prepend="AND"&gt;
+  EMPLOYEE_TYPE = #empType#
+&lt;/isParameterPresent&gt;</programlisting></entry>
+                </row>
+
+                <row>
+                  <entry>&lt;isNotParameterPresent&gt;</entry>
+
+                  <entry>Checks to see if the parameter object is not present
+                  (null). Example Usage:<programlisting>&lt;isNotParameterPresent prepend="AND"&gt;
+  EMPLOYEE_TYPE = ‘DEFAULT'
+&lt;/isNotParameterPresent&gt;</programlisting></entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Iterate Element</title>
+
+      <para>This tag will iterate over a collection and repeat the body
+      content for each item in a List</para>
+
+      <sect3>
+        <title>Iterate Attributes:</title>
+
+        <simplelist>
+          <member>prepend – the overridable SQL part that will be prepended to
+          the statement (optional)</member>
+
+          <member>property – a property of type IList that is to be iterated
+          over (required)</member>
+
+          <member>open – the string with which to open the entire block of
+          iterations, useful for brackets (optional)</member>
+
+          <member>close – the string with which to close the entire block of
+          iterations, useful for brackets (optional)</member>
+
+          <member>conjunction – the string to be applied in between each
+          iteration, useful for AND and OR (optional)</member>
+        </simplelist>
+
+        <para><table>
+            <title>Creating a list of conditional clauses</title>
+
+            <tgroup cols="2">
+              <thead>
+                <row>
+                  <entry>Element</entry>
+
+                  <entry>Description</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>&lt;iterate&gt;</entry>
+
+                  <entry>Iterates over a property that is of type IList
+                  Example Usage:<programlisting>&lt;iterate prepend="AND" property="UserNameList"
+  open="(" close=")" conjunction="OR"&gt;
+  username=<emphasis role="blue">#UserNameList[]#</emphasis>
+&lt;/iterate&gt;</programlisting>Note: It is very important to include the
+                  square brackets[] at the end of the List property name when
+                  using the Iterate element. These brackets distinguish this
+                  object as an List to keep the parser from simply outputting
+                  the List as a string.</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Simple Dynamic SQL Elements</title>
+
+      <para>Despite the power of the full Dynamic Mapped Statement API
+      discussed above, sometimes you just need a simple, small piece of your
+      SQL to be dynamic. For this, SQL statements and statements can contain
+      simple dynamic SQL elements to help implement dynamic order by clauses,
+      dynamic select columns or pretty much any part of the SQL statement. The
+      concept works much like inline parameter maps, but uses a slightly
+      different syntax. Consider the following example:</para>
+
+      <example>
+        <title>A dynamic element that changes the collating order</title>
+
+        <para><programlisting>&lt;statement id="getProduct" resultMap="get-product-result"&gt;
+  select * from PRODUCT order by <emphasis role="blue">$preferredOrder$</emphasis>
+&lt;/statement&gt;</programlisting></para>
+      </example>
+
+      <para>In the above example the preferredOrder dynamic element will be
+      replaced by the value of the preferredOrder property of the parameter
+      object (just like a parameter map). The difference is that this is a
+      fundamental change to the SQL statement itself, which is much more
+      serious than simply setting a parameter value. A mistake made in a
+      Dynamic SQL Element can introduce security, performance and stability
+      risks. Take care to do a lot of redundant checks to ensure that the
+      simple dynamic SQL elements are being used appropriately. Also, be
+      mindful of your design, as there is potential for database specifics to
+      encroach on your business object model. For example, you may not want a
+      column name intended for an order by clause to end up as a property in
+      your business object, or as a field value on your server page.</para>
+
+      <para>Simple dynamic elements can be included within &lt;statements&gt;
+      and come in handy when there is a need to modify the SQL statement
+      itself. For example:</para>
+
+      <example>
+        <title>A dynamic element that changes the comparison operator</title>
+
+        <programlisting>
+&lt;statement id="getProduct" resultMap="get-product-result"&gt;
+  SELECT * FROM PRODUCT
+  &lt;dynamic prepend="WHERE"&gt;
+    &lt;isNotEmpty property="Description"&gt;
+       PRD_DESCRIPTION <emphasis role="blue">$operator$</emphasis> #Description#
+    &lt;/isNotEmpty&gt;
+  &lt;/dynamic&gt;
+&lt;/statement&gt;</programlisting>
+      </example>
+
+      <para>In the above example the operator property of the parameter object
+      will be used to replace the $operator$ token. So if the operator
+      property was equal to LIKE and the description property was equal to
+      %dog%, then the SQL statement generated would be:</para>
+
+      <informalexample>
+        <programlisting>  SELECT * FROM PRODUCT WHERE PRD_DESCRIPTION <emphasis
+            role="blue">LIKE</emphasis> ‘%dog%'</programlisting>
+      </informalexample>
+    </sect2>
+  </sect1>
+</chapter>

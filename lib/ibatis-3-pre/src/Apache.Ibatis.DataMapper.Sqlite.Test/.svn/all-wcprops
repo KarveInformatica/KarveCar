@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test
+END
+SqlMap.config
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/SqlMap.config
+END
+providers.config
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/providers.config
+END
+Apache.Ibatis.DataMapper.Sqlite.Test.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Apache.Ibatis.DataMapper.Sqlite.Test.csproj
+END

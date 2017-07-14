@@ -1,0 +1,410 @@
+<?xml version="1.0" ?>
+<project name="iBATIS.Net" default="test" xmlns="http://nant.sf.net/schemas/nant.xsd">
+
+	<!-- 
+		if nunit2report tasks from http://nunit2report.sourceforge.net/ has been installed
+		then change this to true.  It generates a nice looking html report for the test files
+		Made by Gilles :-))))
+	-->
+	<property name="nunit2report.installed" value="false" />
+
+	<!--
+		Cenqua provided a license of Clover.NET for the iBATIS.NET project to use. 
+	-->
+	<property name="clover.enabled" value="false" />
+    <!--
+    <property name="clover.src" value="src\CloverSrc" />
+	<property name="clover.db" value="${clover.src}\clover.cdb" />
+	<property name="clover.home" value="C:/Program Files/Cenqua/Clover.NET" />
+    -->
+
+	<property name="NDoc.home" value="C:\Program Files\NDoc 1.3\bin\net\1.1"/>
+
+    <!-- global project settings -->
+    <property name="project.name" value="iBATIS.Net" />
+    <property name="project.version" value="1.1" unless="${property::exists('project.version')}" />
+
+    <!-- default configuration -->
+    <property name="project.config" value="debug" /> <!-- debug|release -->
+    <property name="build.defines" value="" />
+
+    <!-- 1591 - do not report warnings for missing XML comments -->
+    <!-- 0618 - do not report deprecation warnings -->
+    <property name="nowarn.numbers" value="1591,0618"/>
+
+    <!-- platform specific properties. These are the defaults -->
+    <property name="current.build.defines" value="${build.defines}" />
+    
+    <!-- named project configurations (used by test and doc tasks) -->
+    <target name="debug" description="Perform a 'debug' build">
+        <property name="project.config" value="debug" />
+        <property name="build.debug" value="true" />
+        <property name="build.dir" value="${nant.project.basedir}/build/${nant.settings.currentframework}.${nant.platform.name}/${project.name}-${project.version}" />
+        <property name="lib.dir" value="${nant.project.basedir}/External-Bin" />
+    </target>
+
+    <target name="release" description="Perform a 'release' build">
+        <property name="project.config" value="release" />
+        <property name="build.debug" value="false" />
+        <property name="build.dir" value="${nant.project.basedir}/build/${nant.settings.currentframework}.${nant.platform.name}/${project.name}-${project.version}" />
+        <property name="lib.dir" value="${nant.project.basedir}/External-Bin" />
+    </target>
+
+    <!-- build tasks -->
+    <target name="init" description="Initializes build properties">
+		<!-- import system environment variables -->
+		<sysinfo />
+
+		<loadtasks assembly="C:\apps\nantcontrib\bin\NAnt.Contrib.Tasks.dll"/>
+		<loadtasks assembly="C:\apps\nunit2report\bin\NAnt.NUnit2ReportTasks.dll"/>
+
+        <call target="${project.config}" />
+        <call target="set-runtime-configuration" />
+    </target>
+    
+    <target name="clean" depends="init" description="Deletes current build configuration">
+        <delete dir="${build.dir}" failonerror="false" />
+    </target>
+    
+    <target name="cleanall" description="Deletes every build configuration">
+        <echo message="Deleting all builds from all configurations" />
+        <delete dir="build" failonerror="false" />
+    </target>
+    
+    <target name="build" depends="init" description="Builds current configuration">
+
+		<echo message="Build Directory is ${nant.project.basedir}" />
+
+        <echo message="Build Directory is ${build.dir}" />
+        <!-- prepare build directory -->
+        <mkdir dir="${build.dir}/${project.config}/bin" />
+
+        <!-- copy framework-specific libraries -->
+        <copy todir="${build.dir}/${project.config}/bin">
+            <fileset basedir="${lib.dir}">
+                <include name="*.dll" />
+                <include name="*.xml" />
+                <exclude name="System*" />
+            </fileset>
+        </copy>
+
+        <!-- build IBatisNet.Common assembly -->
+        <nant buildfile="IBatisNet.Common/IBatisNet.Common.build" target="build" />
+
+        <!-- build IBatisNet.DataMapper assembly -->
+        <nant buildfile="IBatisNet.DataMapper/IBatisNet.DataMapper.build" target="build" />
+
+        <!-- build IBatisNet.DataAccess -->
+        <nant buildfile="IBatisNet.DataAccess/IBatisNet.DataAccess.build" target="build" />
+
+        <!-- build IBatisNet.DataAccess.Extensions -->
+        <!--
+        <nant buildfile="IBatisNet.DataAccess.Extensions/IBatisNet.DataAccess.Extensions.build" target="build" />
+        -->
+
+    </target>
+
+    <!-- test the newly built IBatisNet librairies -->
+    <target name="test" depends="build">
+
+        <!-- test IBatisNet.Common assembly -->
+        <nant buildfile="IBatisNet.Common.Test/IBatisNet.Common.Test.build" target="test" />
+
+        <!-- test IBatisNet.DataMapper assembly -->
+        <nant buildfile="IBatisNet.DataMapper.Test/IBatisNet.DataMapper.Test.build" target="test" />
+
+        <!-- test IBatisNet.DataAccess assembly -->
+        <nant buildfile="IBatisNet.DataAccess.Test/IBatisNet.DataAccess.Test.build" target="test" />
+
+    </target>
+
+    <target name="ndoc" depends="init">
+        <!-- use ndoc to build sdk doc if they are not uptodate-->
+        <ifnot uptodatefile="${build.dir}/doc/sdk-help/*.chm">
+            <comparefiles basedir="${build.dir}/${project.config}/bin">
+                <includes name="IBatisNet.*.dll" />
+            </comparefiles>
+            <ndoc>
+                <assemblies basedir="${build.dir}/${project.config}/bin">
+                    <includes name="IBatisNet.*.dll" />
+                    <excludes name="*Test*.dll" />
+                </assemblies>
+                <summaries basedir=".">
+                    <includes name="doc/NamespaceSummary.xml" />
+                </summaries>
+                <documenters>
+                    <documenter name="MSDN">
+                        <property name="OutputDirectory" value="${build.dir}/doc/sdk-web" />
+                        <property name="OutputTarget" value="HtmlHelpAndWeb" />
+                        <property name="LinkToSdkDocVersion" value="${link.sdkdoc.version}" />
+                        <property name="HtmlHelpName" value="iBATISNET-SDK" />
+                        <property name="IncludeFavorites" value="False" />
+                        <property name="Title" value="iBATIS .NET SDK Documentation - v.${project.version}" />
+                        <property name="SplitTOCs" value="False" />
+                        <property name="DefaulTOC" value="" />
+						<property name="BinaryTOC" value="true" />
+						<property name="IncludeHierarchy" value="False" />
+                        <property name="ShowVisualBasic" value="True" />
+						<property name="RootPageContainsNamespaces" value="True" />
+						<property name="RootPageFileName" value="${nant.project.basedir}/HtmlHelpOverview.html" />
+						<property name="SortTOCByNamespace" value="True" />
+                        <property name="ShowMissingSummaries" value="${build.debug}" />
+                        <property name="ShowMissingRemarks" value="${build.debug}" />
+                        <property name="ShowMissingParams" value="${build.debug}" />
+                        <property name="ShowMissingReturns" value="${build.debug}" />
+                        <property name="ShowMissingValues" value="${build.debug}" />
+                        <property name="DocumentAttributes" value="True" />
+                        <property name="ShowTypeIdInAttributes" value="True" />
+                        <property name="DocumentInternals" value="False" />
+                        <property name="DocumentPrivates" value="False" />
+                        <property name="DocumentProtected" value="True" />
+						<property name="DocumentProtectedInternalAsProtected" value="False" />
+                        <property name="DocumentEmptyNamespaces" value="False" />
+                        <property name="IncludeAssemblyVersion" value="False" />
+						<property name="SkipNamespacesWithoutSummaries" value="False" />
+						<property name="UseNamespaceDocSummaries" value="False" />
+						<property name="AutoPropertyBackerSummaries" value="False" />
+						<property name="AutoDocumentConstructors" value="True" />
+						<property name="DocumentAttributes" value="False" />
+						<property name="ShowTypeIdInAttributes" value="False" />
+                        <property name="CopyrightText" value="Copyright 2003-2005 The Apache Software Foundation" />
+                        <property name="CopyrightHref" value="http://ibatis.apache.org/" />
+                        <property name="EditorBrowsableFilter" value="Off" />
+						<property name="FilesToInclude" value="${build.dir}/testResults/UnitTests.html" />
+                    </documenter>
+                </documenters>
+            </ndoc>
+            
+			<mkdir dir="${build.dir}/doc/sdk-web" />
+			<move file="${build.dir}/doc/sdk-web/iBATISNET-SDK.chm" tofile="${build.dir}/doc/sdk-help/iBATISNET-SDK.chm" />
+        </ifnot>
+
+		<!-- copy cover schema -->
+        <mkdir dir="${build.dir}/doc/schemas" />
+        <copy todir="${build.dir}/doc/schemas">
+    	    <fileset basedir=".">
+                <include name="**/*.xsd" />
+            </fileset>
+	    </copy>
+    </target>
+
+    <target name="deploy-schema" description="Deploys the Schema to VS.Net schemas dirs. For now it only copies to 7.0 and 7.1">
+        <!-- retrieve location of VS.NET 2002 schema store -->
+        <readregistry property="vs2002.xml.schemas" key="SOFTWARE\Microsoft\VisualStudio\7.0\InstallDir" hive="LocalMachine" failonerror="false" />
+        <if propertyexists="vs2002.xml.schemas">
+            <!-- deploy schema to VS.NET 2002 schema store -->
+            <copy file="${nant.project.basedir}/doc/schemas/**/*.xsd"
+	          todir="${vs2002.xml.schemas}..\\Packages\schemas\xml" />
+        </if>
+        
+        <!-- retrieve location of VS.NET 2003 schema store -->
+        <readregistry property="vs2003.xml.schemas" key="SOFTWARE\Microsoft\VisualStudio\7.1\InstallDir" hive="LocalMachine" failonerror="false" />
+        <if propertyexists="vs2003.xml.schemas">
+            <!-- deploy schema to VS.NET 2002 schema store -->
+            <copy file="${nant.project.basedir}/doc/schemas/**/*.xsd"
+	          todir="${vs2003.xml.schemas}..\\Packages\schemas\xml" />
+        </if>
+    </target>
+
+    <target name="package-common" depends="clean test ndoc" description="Creates a package zip file.">
+        <!-- remove non-release files -->
+        <delete>
+            <fileset basedir="${build.dir}/${project.config}/bin">
+                <!-- remove test files -->
+                <include name="*.Test.*" />
+				<include name="*.config" />
+				<include name="log.*" />
+				<include name="*.xml" />
+				<!-- <include name="nunit.framework.dll" /> -->
+                <!-- <include name="NHibernate.dll" /> -->
+				<!-- <include name="ByteFX.MySqlClient.dll" /> -->
+				<!-- <include name="ICSharpCode.SharpZipLib.dll" /> -->
+            </fileset>
+        </delete>
+
+        <!-- copy project files -->
+		<mkdir dir="${build.dir}/source" />
+        <copy todir="${build.dir}/source">
+            <fileset>
+				<includes name="External-Bin/**" />
+                <includes name="IBatisNet.Common/**/*.cs" />
+				<includes name="IBatisNet.DataAccess/**/*.cs" />
+				<includes name="IBatisNet.DataMapper/**/*.cs" />
+				<includes name="**/*.xsd" />
+
+				<includes name="IBatisNet.build"/>
+				<includes name="IBatisNet.sln"/>
+				<includes name="readme.txt"/>
+				<includes name="license.txt"/>
+                <!--exclude VS.Net stuff -->
+				<excludes name="**/sdk-web/**"/>
+                <excludes name="**/*.suo" />
+                <excludes name="**/*j.user" />
+                <excludes name="**/bin/**" />
+				<excludes name="**/.svn/**" />
+                <excludes name="**/_svn/**" />
+                <excludes name="**/obj/**" />
+            </fileset>
+        </copy>
+
+		<!-- copy user reference documentation -->
+		<mkdir dir="${build.dir}/doc/reference" />	
+		<copy todir="${build.dir}/doc/reference">
+		  <fileset basedir="doc/output/reference">
+			<includes name="html/**/*" />
+			<includes name="pdf/**/*"/>
+			<includes name="styles/**/*"/>
+		  </fileset>
+		</copy>
+	
+
+        <!-- copy third-party libraries -->
+        <mkdir dir="${build.dir}/lib" />
+        <copy todir="${build.dir}/lib">
+            <fileset basedir="External-Bin">
+                <includes name="**/*.dll" />
+                <includes name="**/*.xml" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="package-src" depends="package-common">
+        <!-- create zip file -->
+        <property name="project.zip-path.src" value="${nant.project.basedir}/build/${project.name}-${project.version}.zip" />	
+        <zip zipfile="${project.zip-path.src}">
+            <fileset basedir="${build.dir}">
+                <includes name="IBatisNet.build" />
+                <includes name="IBatisNet.sln" />
+				<includes name="readme.txt"/>
+				<includes name="license.txt"/>
+                <includes name="bin/IBatisNet.Common.dll" />
+                <includes name="bin/IBatisNet.DataAccess.dll" />
+                <includes name="bin/IBatisNet.DataMapper.dll" />
+                <includes name="doc/**/*" />			
+                <includes name="source/**/*" />
+            </fileset>
+        </zip>
+        <echo message="Created a '${project.config}' source package at ${project.zip-path.src}" />
+    </target>
+
+
+    <target name="package-bin" depends="package-common">
+        <!-- create zip file -->
+        <property name="project.zip-path.bin" value="${nant.project.basedir}/build/${project.name}-${project.version}-bin.zip" />	
+        <zip zipfile="${project.zip-path.bin}">
+            <fileset basedir="${build.dir}">
+				<includes name="readme.txt"/>
+				<includes name="license.txt"/>
+                <includes name="bin/IBatisNet.Common.dll" />
+                <includes name="bin/IBatisNet.DataAccess.dll" />
+                <includes name="bin/IBatisNet.DataMapper.dll" />
+                <includes name="doc/**/*" />		
+            </fileset>
+        </zip>
+        <echo message="Created a '${project.config}' binary package at ${project.zip-path.bin}" />
+    </target>
+    
+    <target name="package" depends="package-src, package-bin" description="Creates a binary and source distribution package." />
+
+    
+    <!-- Framework support targets -->
+    <target name="set-runtime-configuration-flags">
+        <property name="current.runtime.config.net" value="false" />
+        <property name="current.runtime.config.netcf" value="false" />
+        <property name="current.runtime.config.mono" value="false" />
+        <property name="current.runtime.config.sscli" value="false" />
+        <property name="current.runtime.config.${current.runtime.config}" value="true" />
+        <property name="current.runtime.net-1.0" value="false" />
+        <property name="current.runtime.net-1.1" value="false" />
+        <property name="current.runtime.net-1.2" value="false" />
+        <property name="current.runtime.netcf-1.0" value="false" />
+        <property name="current.runtime.mono-1.0" value="false" />
+        <property name="current.runtime.sscli-1.0" value="false" />
+        <property name="current.runtime.${current.runtime.config}-${current.runtime.version}" value="true" />
+    </target>
+    <target name="set-runtime-configuration">
+        <ifnot test="${property::exists('current.runtime.config')}">
+            <ifnot test="${property::exists('nant.settings.currentframework')}">
+                <fail message="No runtime configuration was specified and the default NAnt runtime is not available." />
+            </ifnot>
+            <ifnot test="${target::exists('set-' + nant.settings.currentframework + '-runtime-configuration')}">
+                <fail message="No runtime configuration was specified and the current runtime (${nant.settings.currentframework}) is not supported by NAnt." />
+            </ifnot>
+            <call target="set-${nant.settings.currentframework}-runtime-configuration"/>
+        </ifnot>
+        <ifnot test="${property::exists('current.runtime.version')}">
+            <ifnot test="${property::exists('nant.settings.currentframework')}">
+                <fail message="No runtime configuration was specified and the default NAnt runtime is not available." />
+            </ifnot>
+            <ifnot test="${target::exists('set-' + nant.settings.currentframework + '-runtime-configuration')}">
+                <fail message="No runtime configuration was specified and the current runtime (${nant.settings.currentframework}) is not supported by NDoc." />
+            </ifnot>
+            <call target="set-${nant.settings.currentframework}-runtime-configuration" />
+        </ifnot>
+        <ifnot test="${target::exists('set-' + current.runtime.config + '-' + current.runtime.version  + '-runtime-configuration')}">
+            <fail message="The ${current.runtime.config}-${current.runtime.version} runtime is not supported by NDoc." />
+        </ifnot>
+        <call target="set-${current.runtime.config}-${current.runtime.version}-runtime-configuration"/>
+    </target>
+    <target name="set-net-1.0-runtime-configuration">
+        <property name="current.runtime.config" value="net" />
+        <property name="current.runtime.version" value="1.0" />
+        <property name="current.runtime.description" value="Microsoft .NET Framework 1.0" />
+        <property name="current.build.defines" value="${build.defines}NET,NET_1_0" />
+        <property name="link.sdkdoc.version" value="SDK_v1_0" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags"/>
+    </target>
+    <target name="set-net-1.1-runtime-configuration">
+        <property name="current.runtime.config" value="net" />
+        <property name="current.runtime.version" value="1.1" />
+        <property name="current.runtime.description" value="Microsoft .NET Framework 1.1" />
+        <property name="current.build.defines" value="${build.defines}NET,NET_1_1" />
+        <property name="link.sdkdoc.version" value="SDK_v1_1" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />        
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags" />
+    </target>
+    <target name="set-net-1.2-runtime-configuration">
+        <property name="current.runtime.config" value="net" />
+        <property name="current.runtime.version" value="1.2" />
+        <property name="current.runtime.description" value="Microsoft .NET Framework 1.2" />
+        <property name="current.build.defines" value="${build.defines}NET,NET_1_2" />
+        <property name="link.sdkdoc.version" value="MsdnOnline" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />        
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags" />
+    </target>
+    <target name="set-netcf-1.0-runtime-configuration">
+        <property name="current.runtime.config" value="netcf" />
+        <property name="current.runtime.version" value="1.0" />
+        <property name="current.runtime.description" value="Microsoft .NET Compact Framework 1.0" />
+        <property name="current.build.defines" value="${build.defines}NETCF,NETCF_1_0" />
+        <property name="link.sdkdoc.version" value="SDK_v1_1" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags" />
+    </target>
+    <target name="set-mono-1.0-runtime-configuration">
+        <property name="current.runtime.config" value="mono" />
+        <property name="current.runtime.version" value="1.0" />
+        <property name="current.runtime.description" value="Mono 1.0" />
+        <property name="current.build.defines" value="${build.defines}MONO,MONO_1_0" />
+        <property name="link.sdkdoc.version" value="MsdnOnline" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags" />
+    </target>
+    <target name="set-sscli-1.0-runtime-configuration">
+        <property name="current.runtime.config" value="sscli" />
+        <property name="current.runtime.version" value="1.0" />
+        <property name="current.runtime.description" value="Microsoft Shared Source CLI 1.0" />
+        <property name="current.build.defines" value="${build.defines}SSCLI,SSCLI_1_0" />
+        <property name="link.sdkdoc.version" value="MsdnOnline" />
+        <property name="lib.dir" value="External-Bin/${current.runtime.config}/${current.runtime.version}" />
+        <property name="nant.settings.currentframework" value="${current.runtime.config}-${current.runtime.version}" />
+        <call target="set-runtime-configuration-flags" />
+    </target>
+</project>

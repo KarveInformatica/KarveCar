@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="interface">
+  <title>Implementing the DAO Interface (Creating Your Data Access
+  Objects)</title>
+
+  <sect1>
+    <title>Interface</title>
+
+    <para>The <interfacename>IDao</interfacename> interface is simple and
+    flexible because it does not declare any methods. It is intended to act as
+    a marker interface only (as per the Marker Interface pattern –Grand98). In
+    other words, by extending the <interfacename>IDao</interfacename>
+    interface, all that is really achieved for the class that implements your
+    DAO interface is the ability to be instantiated and managed by the
+    <classname>DaoManager</classname>. There are no limitations to the methods
+    that you use in your DAO interfaces. It is recommended for consistency
+    that DAO implementations only throw exceptions of type
+    <exceptionname>DataAccessException</exceptionname> which is an
+    <exceptionname>ApplicationException</exceptionname>. This helps to hide
+    the implementation details of your persistence solution.</para>
+
+    <para>An example of a DAO interface is:</para>
+
+    <programlisting>[C#]
+public interface IAccountDao : IDao {
+    Account GetAccountById(int accountID);
+    void Create(Account account);
+    <emphasis role="comment">// DAO Framework code may throw DataAccessException</emphasis>
+    void Update(Account account); 
+    void Delete(Account account);
+}</programlisting>
+  </sect1>
+
+  <sect1>
+    <title>DAO Design Considerations</title>
+
+    <para>When implementing your DAO classes for your DAO interfaces, it is
+    recommended to use a design that includes the DAO interface, an abstract
+    (base) class, and a concrete class. The advantage to having the base class
+    is that it can contain common methods that simplify the usage of your
+    persistence approach (wrapping up exception handling, transaction
+    acquisition, etc.).</para>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" fileref="images/DAODesign.gif" format="GIF" />
+      </imageobject>
+
+      <caption><para>DAO Implementation Diagram</para></caption>
+    </mediaobject>
+
+    <para>Notice that the <classname>BaseDao</classname> implements the
+    <interfacename>IDao</interfacename> marker and leaves the
+    <interfacename>IAccountDao</interfacename> without it. Furthermore, the
+    concrete <classname>AccountDao</classname> implements both by implementing
+    the <interfacename>IAccountDao</interfacename> and extending the
+    <classname>BaseDao</classname>. This allows your Account interface API to
+    remain free of the <interfacename>IDao</interfacename> marker.</para>
+  </sect1>
+
+  <sect1>
+    <title>An Example BaseDao</title>
+
+    <para>In case you are still wondering what the
+    <interfacename>IDao</interfacename> interface looks like in code, here it
+    is:</para>
+
+    <programlisting>using System;
+
+namespace IBatisNet.DataAccess.Interfaces {
+ public interface IDao {
+ 
+ }
+}</programlisting>
+
+    <para>It may not look like much, but that's the point! The iBATIS DAO
+    framework uses this interface to interact with your application DAOs since
+    they are marked as implementing it. As mentioned earlier, you don't have
+    to force your DAO interfaces to inherit
+    <interfacename>IDao</interfacename> if you create a class like
+    <classname>BaseDao</classname>.</para>
+
+    <programlisting>using System;
+using IBatisNet.Common;
+<emphasis role="blue">using IBatisNet.DataAccess; //DaoManager, DaoSession
+using IBatisNet.DataAccess.Interfaces; //IDao</emphasis>
+
+namespace IBatisNet.Test.Implementations {
+ public class <emphasis role="blue">BaseDao: IDao</emphasis> {
+  <emphasis role="blue">protected DaoSession GetContext()</emphasis> {
+   IDaoManager daoManager = DaoManager.GetInstance(this);
+   return (daoManager.LocalDaoSession as DaoSession);
+  }
+ }
+}</programlisting>
+
+    <para>The <classname>BaseDao</classname> class implements the
+    <interfacename>IDao</interfacename> marker interface and defines a
+    protected <methodname>GetContext </methodname>method that will be used by
+    DAO classes that inherit from <classname>BaseDao</classname>. By calling
+    <methodname>GetContext</methodname>, a DAO class gets a
+    <classname>DaoSession</classname> that is managed by the framework's
+    <classname>DaoManager</classname>. The <classname>DaoSession</classname>
+    abstract class uses the <interfacename>IDalSession</interfacename>
+    interface to provide an API to manage transactions and to access ADO.NET
+    objects during the session.</para>
+
+    <programlisting>namespace IBatisNet.DataAccess {
+ public abstract class DaoSession : IDalSession {
+
+  // Constructor
+  public <emphasis role="blue">DaoSession(DaoManager daoManager)</emphasis>
+
+  // Properties
+  public abstract DataSource DataSource
+  public abstract IDbConnection Connection
+  public abstract IDbTransaction Transaction
+  
+  // Methods
+
+  // Complete (commit) a transaction
+  public abstract void <emphasis role="blue">Complete</emphasis>();
+
+  // Open a database connection.
+  public abstract void <emphasis role="blue">OpenConnection</emphasis>();
+
+  // Close the connection
+  public abstract void <emphasis role="blue">CloseConnection</emphasis>();
+
+  // Begin a transaction.
+  public abstract void <emphasis role="blue">BeginTransaction</emphasis>();
+
+  // Begin a database transaction
+  public abstract void <emphasis role="blue">BeginTransaction(bool openConnection)</emphasis>;
+
+  // Begin a transaction at the data source 
+  // with the specified IsolationLevel value.
+  public abstract void <emphasis role="blue">BeginTransaction(IsolationLevel isolationLevel)</emphasis>;
+
+  // Begin a transaction on the current connection
+  // with the specified IsolationLevel value.
+  public abstract void <emphasis role="blue">BeginTransaction(bool openConnection, IsolationLevel isolationLevel)</emphasis>;
+
+  // Commit the database transaction.
+  // and close the connection.
+  public abstract void <emphasis role="blue">CommitTransaction</emphasis>();
+
+  // Commit the database transaction.
+  public abstract void <emphasis role="blue">CommitTransaction(bool closeConnection)</emphasis>;
+
+  // Rollback a transaction from a pending state
+  // and close the connection.
+  public abstract void <emphasis role="blue">RollBackTransaction</emphasis>();
+
+  // Rolls back a transaction from a pending state.
+  public abstract void <emphasis role="blue">RollBackTransaction(bool closeConnection)</emphasis>;
+
+  public abstract <emphasis role="blue">IDbCommand CreateCommand(CommandType commandType)</emphasis>;
+  public abstract <emphasis role="blue">IDataParameter CreateDataParameter()</emphasis>;
+  public abstract <emphasis role="blue">IDbDataAdapter CreateDataAdapter()</emphasis>;
+  public abstract <emphasis role="blue">IDbDataAdapter CreateDataAdapter(IDbCommand command)</emphasis>;
+}</programlisting>
+
+    <para>The ADO.NET access provided by the <classname>DaoSession</classname>
+    object gives you the flexibility to sprinkle in ADO-based DAO classes with
+    iBATIS Data Mapper-based DAOs and NHibernate-based DAOs for those special
+    circumstances that often pop up. And you get all this without losing the
+    consistent DAO interface layer or exposing your persistence implementation
+    details.</para>
+  </sect1>
+
+  <sect1>
+    <title>Consistency and Hidden Implementations</title>
+
+    <para>Let's take a look at a consistency means when using a DAO layer. We
+    will use the previously shown IAccountDao interface to create two example
+    implementations, the first using ADO.NET and the second using the iBATIS
+    Data Mapper framework. After that, we will go through the steps to
+    creating and using an NHibernate-based DAO to use with the framework.
+    (Complete code examples can be found in the IBatisNet-Test project found
+    in the distribution)</para>
+
+    <sect2>
+      <title>ADO.NET AccountDao with the Simple DAO Session Handler</title>
+
+      <para>First, we declare that we'll be using types from the
+      <classname>IBatisNet.DataAccess</classname>,
+      <classname>IBatisNet.DataAccess.Exceptions</classname>, and
+      <classname>IBatisNet.DataAccess.Interfaces</classname> namespaces with
+      our DAO. These provide the <classname>DaoSession</classname> and
+      <classname>DataAccessException</classname> classes as well as the
+      <interfacename>IDao</interfacename> interface.</para>
+
+      <programlisting>using System;
+using System.Collections;
+using System.Data;
+
+<emphasis role="blue">using IBatisNet.DataAccess; // DaoSession
+using IBatisNet.DataAccess.Exceptions; // DataAccessException
+using IBatisNet.DataAccess.Interfaces; // IDao</emphasis>
+
+using IBatisNet.Test.Dao.Interfaces; // IAccountDao
+using IBatisNet.Test.Implementations; // BaseDao
+using IBatisNet.Test.Domain; // Account</programlisting>
+
+      <para>The DAO will inherit from our <classname>BaseDao</classname> class
+      and implement our <interfacename>IAccountDao</interfacename> interface.
+      SQL queries are written to allow the DAO to be used with the SqlClient
+      provider for MS SQL Server. Additionally, command parameter names are
+      specified.</para>
+
+      <programlisting>namespace IBatisNet.Test.Dao.Implementations.Ado {
+
+ public class AccountDao : BaseDao, IAccountDao {
+  private const string SELECT_ACCOUNT_BY_ID ="select Account_ID, ...";
+  private const string INSERT_ACCOUNT = "insert into Accounts (Account_ID, ...";
+  private const string UPDATE_ACCOUNT = "update Accounts set Account_FirstName = @Account_FirstName, ...";
+  private const string DELETE_ACCOUNT = "delete from Accounts where Account_ID = @Account_ID";
+
+  private const string PARAM_ACCOUNT_ID = "@Account_ID";
+  private const string PARAM_ACCOUNT_FIRSTNAME = "@Account_FirstName";
+  private const string PARAM_ACCOUNT_LASTNAME = "@Account_LastName";
+  private const string PARAM_ACCOUNT_EMAIL = "@Account_Email";</programlisting>
+
+      <para>Now, let's let's see how this DAO's <methodname>Delete(Account
+      account)</methodname> method uses the framework.</para>
+
+      <programlisting>  public void Delete(Account account) {
+
+   IDbCommand command = null;
+   DaoSession daoSession = null;
+
+   <emphasis role="blue">daoSession = this.GetContext();</emphasis>
+   <emphasis role="blue">command = daoSession.CreateCommand(CommandType.Text);</emphasis>
+
+   try {
+    command.CommandText = DELETE_ACCOUNT;
+    IDbDataParameter sqlParameter = command.CreateParameter();
+    sqlParameter.ParameterName = PARAM_ACCOUNT_ID;
+    sqlParameter.Value = account.Id;
+    command.Parameters.Add(  sqlParameter );
+    command.ExecuteNonQuery();
+    command.Parameters.Clear();
+   }
+   catch (System.Exception e) {
+    throw new 
+       <emphasis role="blue">DataAccessException</emphasis>("Error executing AccountDao.Delete. Cause :" 
+                           + e.Message, e);
+   }
+   finally {
+    command.Dispose();
+   }
+  }</programlisting>
+
+      <para>The DAO obtains an instance of <classname>DaoSession</classname>
+      by calling the <methodname>GetContext</methodname> method inherited from
+      <classname>BaseDao</classname>. Next, it uses the simple
+      <classname>DaoSession</classname> to get a <varname>command</varname>
+      object to execute the <database>DELETE_ACCOUNT</database> SQL statement.
+      Lastly, if an exception is thrown, the DAO makes sure it is a
+      <classname>DataAccessException</classname>. Pretty
+      straightforward.</para>
+    </sect2>
+
+    <sect2>
+      <title>Data Mapper AccountDao with the SqlMap DAO Session
+      Handler</title>
+
+      <para>The Data Mapper <classname>AccountDao</classname> requires the use
+      of the iBATIS Data Mapper framework. For this reason, the DAO framework
+      provides a <classname>SqlMapDaoSession</classname> handler for Data
+      Mapper-based DAOs.</para>
+
+      <programlisting>using System;
+
+<emphasis role="blue">using IBatisNet.DataMapper; // SqlMapper
+using IBatisNet.DataAccess.DaoSessionHandlers; // SqlMapDaoSession</emphasis>
+using IBatisNet.DataAccess.Exceptions; // DataAccessException
+
+using IBatisNet.Test.Dao.Interfaces; // IAccountDao
+using IBatisNet.Test.Implementations; // BaseDao
+
+using IBatisNet.Test.Domain; // Account</programlisting>
+
+      <para>As with the ADO.NET implementation, the class will inherit from
+      our <classname>BaseDao</classname> class and implement our
+      <interfacename>IAccountDao</interfacename> interface. Since our queries
+      are handled by our work with the Data Mapper framework, we don't need to
+      define any SQL queries in this DAO.</para>
+
+      <programlisting>namespace IBatisNet.Test.Dao.Implementations.DataMapper {
+ public class AccountDao : BaseDao, IAccountDao {</programlisting>
+
+      <para>Here's how the <methodname>Delete(Account account)</methodname>
+      method is implemented in conjunction with the Data Mapper framework's
+      <classname>SqlMapper</classname> (see the iBATIS Data Mapper Guide for
+      details on using the <classname>SqlMapper</classname>):</para>
+
+      <programlisting>  public void Delete(Account account) {
+   SqlMapDaoSession sqlMapDaoSession = null;
+
+   try {
+    <emphasis role="blue">sqlMapDaoSession = (SqlMapDaoSession)this.GetContext();</emphasis>
+    <emphasis role="blue">SqlMapper sqlMap = sqlMapDaoSession.SqlMap;</emphasis>
+    sqlMap.Delete("DeleteAccount", account);
+   }
+   catch(DataAccessException ex) {
+    throw new <emphasis role="blue">DataAccessException</emphasis>("Error executing AccountDao.Delete. Cause :" 
+                                  + ex.Message,ex);
+   }
+  }</programlisting>
+
+      <para>In this example, the DAO obtains an instance of the Data Mapper
+      framework's <classname>SqlMapper</classname> through the
+      <classname>SqlMapDaoSession</classname> object. Next, the DAO passes in
+      the appropriate mapped statement name to the
+      <classname>SqlMapper</classname> to delete an
+      <classname>Account</classname>. If an exception is thrown, the DAO makes
+      sure it is a <classname>DataAccessException</classname>. Still
+      straightforward!</para>
+    </sect2>
+
+    <sect2>
+      <title>Using the AccountDao with the DaoManager</title>
+
+      <para>After configuring the framework's
+      <classname>DaoManager</classname> for either the ADO.NET or Data Mapper
+      <classname>AccountDao</classname> that we just created (see the
+      Configuration section), we can now look at how to use them.</para>
+
+      <programlisting>using System;
+
+using IBatisNet.DataAccess;
+
+using IBatisNet.Test.Dao.Interfaces;
+using IBatisNet.Test.Domain;
+
+namespace Examples.Services {
+
+ public class AccountService {
+
+  protected static IDaoManager daoManager = null;
+
+  static AccountService() {
+   daoManager = DaoManager.GetInstance();
+  }
+
+  public void someMethod () {
+   <emphasis role="blue">IAccountDao accountDao = (IAccountDao)daoManager[typeof(IAccountDao)];</emphasis>
+   Account account = NewAccount(); // get an example Account for us to use
+   daoManager.OpenConnection();
+   <emphasis role="blue">accountDao.Create(account);</emphasis>
+   account = accountDao.GetAccountById(1001);
+   <emphasis role="blue">accountDao.Delete(account);</emphasis>
+   daoManager.CloseConnection();
+  }
+ }
+}</programlisting>
+
+      <para>We get an instance of the <classname>AccountDao</classname> from
+      the <classname>DaoManager</classname> by requesting an instance of the
+      <interfacename>IAccountDao</interfacename> type. There is no indication
+      of whether the returned <varname>accountDao</varname> is the ADO.NET or
+      Data Mapper implementation. If we needed to for one reason or another,
+      we could easily change the configuration to switch between the DAO
+      implementations (use the DAO configuration file to switch database
+      platforms, run test DAOs, etc). After getting the
+      <varname>accountDao</varname>, we open a connection to the data source
+      and call the DAO method(s) that we need to execute. A consistent
+      interface for either ADO.NET or Data Mapper DAOs with no persistence
+      implementation details found in our code!</para>
+    </sect2>
+
+    <sect2>
+      <title>NHibernate DAO with the NHibernate DAO Session Handler</title>
+
+      <para>Using the DAO framework with the NHibernate object persistence
+      library is as easy as using the framework with raw ADO.NET or iBATIS
+      Data Maps. To demonstrate, we'll examine an NHibernate-based
+      <classname>UserDao</classname> class.</para>
+
+      <para>Like the <classname>SqlMapDaoSession</classname> handler, the
+      <classname>NHibernateDaoSession</classname> handler is found in the
+      <classname>IBatisNet.DataAccess.Extensions.DaoSessionHandlers</classname>
+      namespace.</para>
+
+      <programlisting>using System;
+
+using NHibernate;
+
+<emphasis role="blue">using IBatisNet.DataAccess.Extensions.DaoSessionHandlers; // NHibernateDaoSession
+using IBatisNet.DataAccess.Exceptions; // DataAccessException
+</emphasis>
+using IBatisNet.Test.Dao.Interfaces; // IUserDao
+using IBatisNet.Test.Implementations; // BaseDao
+
+using IBatisNet.Test.Domain; // User</programlisting>
+
+      <para>Our example NHibernate <classname>UserDao</classname> class will
+      inherit from our <classname>BaseDao</classname> class and implement our
+      <interfacename>IUserDao</interfacename> interface.</para>
+
+      <programlisting>namespace IBatisNet.Test.Dao.Implementations.NHibernate {
+ public class UserDao : BaseDao, IUserDao</programlisting>
+
+      <para>Here's how two methods are implemented in conjunction with an
+      NHibernate <classname>Session</classname>:</para>
+
+      <programlisting>  public void Create(User user) {
+   NHibernateDaoSession nHibernateDaoSession = null;
+
+   try {
+    <emphasis role="blue">nHibernateDaoSession = (NHibernateDaoSession)this.GetContext();</emphasis>
+    <emphasis role="blue">ISession session = nHibernateDaoSession.Session;</emphasis>
+    session.Save( user );
+   }
+   catch(Exception ex) {
+    throw new <emphasis role="blue">DataAccessException</emphasis>("Error executing UserDao.Create. Cause :" 
+                                  + ex.Message,ex);
+   }
+  }
+
+  public User Load(string id) {
+   NHibernateDaoSession nHibernateDaoSession = null;
+   User user = null;
+
+   try {
+    <emphasis role="blue">nHibernateDaoSession = (NHibernateDaoSession)this.GetContext();</emphasis>
+    <emphasis role="blue">ISession session = nHibernateDaoSession.Session;</emphasis>
+    user = session.Load(typeof(User),id) as User;
+   }
+   catch(Exception ex) {
+    throw new <emphasis role="blue">DataAccessException</emphasis>("Error executing UserDao.Create. Cause :" 
+                                  + ex.Message,ex);
+   }
+
+   return user;
+  }</programlisting>
+
+      <para>The DAO obtains an NHibernate <classname>Session</classname>
+      through the <classname>NHibernateDaoSession</classname> object and
+      executes the appropriate <classname>Session</classname> methods. If an
+      exception is thrown, the DAO makes sure it is a
+      <classname>DataAccessException</classname>.</para>
+    </sect2>
+  </sect1>
+</chapter>

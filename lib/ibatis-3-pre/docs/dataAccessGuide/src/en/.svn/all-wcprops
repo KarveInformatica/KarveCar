@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en
+END
+example.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/example.xml
+END
+handler.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/handler.xml
+END
+interface.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/interface.xml
+END
+introduction.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/introduction.xml
+END
+programming.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/programming.xml
+END
+dao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/dao.xml
+END
+index.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/index.xml
+END
+configuration.xml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/configuration.xml
+END
+xsd-template.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataAccessGuide/src/en/xsd-template.xml
+END

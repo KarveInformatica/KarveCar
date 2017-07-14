@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "../../docbook/docbook-dtd/docbookx.dtd" [
+<!ENTITY tutorial SYSTEM "tutorial.xml">
+]>
+<book>
+  <bookinfo>
+    <title>iBATIS.NET Tutorial</title>
+    <subtitle>Data Mapper Tutorial</subtitle>
+    <releaseinfo>Version 1.2.1</releaseinfo>
+    <pubdate>June 9 2005</pubdate>
+    <authorgroup>
+      <author>
+        <firstname>Ted</firstname>
+        <surname>Husted</surname>
+      </author>
+      <author>
+        <firstname>Clinton</firstname>
+        <surname>Begin</surname>
+      </author>
+    </authorgroup>
+
+    <legalnotice>
+      <para>Copies of this document may be made for your own use and for
+      distribution to others, provided that you do not charge any fee for such
+      copies and further provided that each copy contains this Copyright
+      Notice, whether distributed in print or electronically.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc></toc>
+
+  &tutorial;
+
+</book>

@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects
+END
+DelegateObjectFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/DelegateObjectFactory.cs
+END
+FactoryLogAdapter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/FactoryLogAdapter.cs
+END
+AbstractFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/AbstractFactory.cs
+END
+ActivatorObjectFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/ActivatorObjectFactory.cs
+END
+EmitObjectFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/EmitObjectFactory.cs
+END
+ObjectFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/ObjectFactory.cs
+END
+FactoryBuilder.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/FactoryBuilder.cs
+END
+ObjectProbe.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/ObjectProbe.cs
+END
+IFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/IFactory.cs
+END
+DelegateFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/DelegateFactory.cs
+END
+BoxingOpCodes.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/BoxingOpCodes.cs
+END
+ActivatorFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/ActivatorFactory.cs
+END
+ReflectionInfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/ReflectionInfo.cs
+END
+IObjectFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Objects/IObjectFactory.cs
+END

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<sqlMap namespace="Account"  xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<!-- =============================================                
+                <resultMap 
+					name="name"  
+					class="name"
+					extend="resultMapId" 
+				>
+				<result 
+					property="name" 
+					column="name" 
+					columnIndex="name" 
+					nullValue="value"
+					select="name"
+					resultMap="name"
+					lazyLoad="true/false"
+					dbType=""
+				/>
+				<procedure 
+					name="name" 
+					parameterMap="name"
+				>
+				<statement 
+						name="name"
+						parameterClass="name"
+						parameterMap="name"
+						resultClass="name"
+						resultMap="name"
+						listClass="name"
+				>
+				<parameterMap 
+						name="name" 
+						class=""
+				>
+				<parameter 
+						property="name" 
+						dbType="" 
+						output="true/false" 
+						type=""
+						nullValue=""
+						extend="parameterMapId"
+				/>
+
+       ============================================= -->
+       
+    <cacheModels>
+		
+		<cacheModel id="account-cache" implementation="MEMORY" >
+			<flushInterval hours="24"/>
+			<flushOnExecute  statement="UpdateAccountViaInlineParameters"/>
+			<flushOnExecute  statement="UpdateAccountViaParameterMap"/>
+			<property name="Type" value="Weak"/>
+		</cacheModel>
+		
+		<!-- <cacheModel name="account-cache" implementation="LRU" >
+			<flushInterval hours="24"/>
+			<flushOnExecute statement="UpdateAccountViaInlineParameters"/>
+			<flushOnExecute statement="UpdateAccountViaParameterMap"/>
+			<property name="CacheSize" value="50"/>
+		</cacheModel> -->
+		
+    </cacheModels>
+       
+	<resultMaps>                                    
+		<resultMap id="account-result"  class="Account" >
+			<result property="Id"           type="Int"		column="Account_ID"			dbType="Int32"/>
+			<result property="FirstName"    type="string"	column="Account_FirstName"	dbType="VarChar2"/>
+			<result property="LastName"     type="string"	column="Account_LastName"	dbType="VarChar2"/>
+			<result property="EmailAddress" type="string"	column="Account_Email"		dbType="VarChar2" nullValue="no_email@provided.com"/>
+		</resultMap>
+		<resultMap id="indexed-account-result" class="Account">
+			<result property="Id"           type="Int"		column="Account_ID"			dbType="Int32" columnIndex="0"/>
+			<result property="FirstName"    type="string"	column="Account_FirstName"	dbType="VarChar2" columnIndex="1"/>
+			<result property="LastName"     type="string"	column="Account_LastName"	dbType="VarChar2" columnIndex="2"/>
+			<result property="EmailAddress" type="string"	column="Account_Email"		dbType="VarChar2" columnIndex="3"	nullValue="no_email@provided.com"/>
+		</resultMap>
+		<resultMap id="account-result-nullable-email" class="Account">
+			<result property="Id"           type="Int"		column="Account_ID"			dbType="Int32"/>
+			<result property="FirstName"    type="string"	column="Account_FirstName"	dbType="VarChar2"/>
+			<result property="LastName"     type="string"	column="Account_LastName"	dbType="VarChar2"/>
+			<result property="EmailAddress" type="string"	column="Account_Email"		dbType="VarChar2"/>
+		</resultMap>
+		
+		<resultMap id="email-result" class="string">
+			<result property="value" type="string"	column="Account_Email"/>
+		</resultMap>
+		
+		<resultMap id="account-hashtable-result" class="Hashtable">
+			<result property="Id"           type="Int"		column="Account_ID" />
+			<result property="FirstName"    type="string"	column="Account_FirstName"/>
+			<result property="LastName"     type="string"	column="Account_LastName"/>
+			<result property="EmailAddress" type="string"	column="Account_Email"/>
+		</resultMap>
+		
+	</resultMaps>
+	
+	<!-- =============================================
+        MAPPED STATEMENTS - w/Inline Parameters
+    ============================================= 
+    -->
+	<statements>
+	
+		<!--
+		NOTE: Should NOT be a dynamic prepend test for Oracle since the rownum has to be
+		part of the where clause.  Best suited for MSSQL using TOP keyword in SELECT.
+		-->
+		<select id="GetAccountsDynamic" resultMap="account-result" parameterClass="Hashtable" >
+			select * from Accounts
+			<dynamic prepend="where">
+				<isParameterPresent>
+				<isNotEmpty prepend="and" property="FirstName" >
+						Account_FirstName LIKE '%$FirstName$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="LastName" >
+						Account_LastName LIKE '%$LastName$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="EmailAddress"  >
+						Account_Email LIKE '%$EmailAddress$%'
+				</isNotEmpty>
+				</isParameterPresent>
+			</dynamic>
+			<![CDATA[
+			and rownum <= $MaximumAllowed$ 
+			order by Account_LastName			
+			]]>			
+		</select>
+
+		<select id="GetCachedAccountsViaResultMap"
+					resultMap="account-result"
+					cacheModel="account-cache" >
+			select *
+			from Accounts
+			order by Account_ID
+		</select>
+  
+		<select id="GetAccountAsHashtable"
+						parameterClass="Integer"
+						resultMap="account-hashtable-result">
+			select *
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+  
+		<select id="GetAllAccountsAsHashMapViaResultMap"
+						resultMap="account-hashtable-result">
+			select *
+			from Accounts
+			order by Account_ID
+		</select>
+  
+  		<!-- 
+		StatementTest.TestExecuteQueryForObjectAsHashtableResultClass()
+		Throws exception due to provider returning Hashtable keys in all CAPS such as ["ID"]
+		while test does assert looking for ["Id"] in the returned Hashtable:
+		Assert.AreEqual(1, (int)account["Id"], "account.Id");
+		
+		Workaround:
+		See JIRA-14 for related note.  Store Hashtable keys in all CAPS and use all CAPS
+		for comparison if using OracleClient provider.
+		-->
+		<select id="GetAccountAsHashtableResultClass"
+						parameterClass="int"
+						resultClass="HashMap">
+			select
+			Account_ID as Id,
+			Account_FirstName as FirstName,
+			Account_LastName as LastName,
+			Account_Email as EmailAddress
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+  
+		<select id="GetAllAccountsAsHashtableViaResultClass"
+						resultClass="Hashtable">
+			select
+			Account_ID as Id,
+			Account_FirstName as FirstName,
+			Account_LastName as LastName,
+			Account_Email as EmailAddress
+			from Accounts
+			order by Account_ID
+		</select>
+    
+		<select id="GetAccountViaColumnName"
+				parameterClass="int"
+				resultMap="account-result">
+			select
+			Account_ID,
+			Account_FirstName,
+			Account_LastName,
+			Account_Email
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+		
+		<select id="GetAccountViaColumnIndex"
+				parameterClass="int"
+				resultMap="indexed-account-result">
+			select
+			Account_ID,
+			Account_FirstName,
+			Account_LastName,
+			Account_Email
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+  
+		<select id="GetAllAccountsViaResultMap"
+					resultMap="account-result">
+			select * from Accounts
+			order by Account_ID
+		</select>
+				
+		<select id="GetAllAccountsViaResultClass" 
+			resultClass="Account">
+			select
+			Account_ID as Id,
+			Account_FirstName as FirstName,
+			Account_LastName as LastName,
+			Account_Email as EmailAddress
+			from Accounts
+			order by Account_ID
+		</select>
+		
+		<select id="GetFewAccountsViaResultMap"
+			resultMap="account-result">
+			<![CDATA[
+			select * from Accounts
+			where Account_ID < 2
+			order by Account_ID
+			]]>
+		</select>
+  
+		<select id="GetNoAccountsViaResultMap"
+					resultMap="account-result">
+			select * from Accounts
+			where Account_ID > 1000
+			order by Account_ID
+		</select>
+
+  
+		<select id="GetAccountNullableEmail" 
+			resultMap="account-result-nullable-email">
+			select
+			Account_ID,
+			Account_FirstName,
+			Account_LastName,
+			Account_Email
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+  
+		<select id="GetAccountViaResultClass" 
+			resultClass="Account">
+			<![CDATA[
+					select
+					Account_ID as Id,
+					Account_FirstName as FirstName,
+					Account_LastName as LastName,
+					Account_Email as EmailAddress
+					from Accounts
+					where Account_ID = #value:Int32#
+			]]>
+		</select>
+		
+		<select id="GetAccountViaInlineParameters"
+				resultMap="account-result">
+			select
+			Account_ID,
+			Account_FirstName,
+			Account_LastName,
+			Account_Email
+			from Accounts
+			where Account_ID = #Id:Int32#
+		</select>
+		
+		 <select id="GetEmailAddressViaResultClass" resultClass="string">
+			select Account_Email as value
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+ 
+		<select id="GetEmailAddressViaResultMap"
+						parameterClass="int"
+						resultMap="email-result">
+			select Account_Email
+			from Accounts
+			where Account_ID = #value:Int32#
+		</select>
+
+		<select id="GetAllEmailAddressesViaResultClass"
+							resultClass="string">
+			select Account_Email
+			from Accounts
+			order by Account_ID
+		</select>
+		
+		 <select id="GetAllEmailAddressesViaResultMap"
+                    resultMap="email-result">
+			select Account_Email
+			from Accounts
+			order by Account_ID
+		</select>
+					
+		 <insert id="InsertAccountViaParameterMap"
+                    parameterMap="insert-params">
+			insert into Accounts  
+				(Account_ID, Account_FirstName, Account_LastName, Account_Email) 
+			values 
+				(?, ?, ?, ?)
+		</insert>
+		
+		 <update id="UpdateAccountViaParameterMap"
+                    parameterMap="update-params">
+			update Accounts set
+			Account_FirstName = ?,
+			Account_LastName = ?,
+			Account_Email = ?
+			where
+			Account_ID = ?
+		</update>
+		
+		<update id="UpdateAccountViaParameterMap2"
+                    parameterMap="update-params2">
+			update Accounts set
+			Account_ID = ?,
+			Account_FirstName = ?,
+			Account_LastName = ?,
+			Account_Email = ?
+			where
+			Account_ID = ?
+		</update>
+				
+		<delete id="DeleteAccountViaInlineParameters">
+			delete from Accounts 
+			where
+			Account_ID = #Id:Int32#
+		</delete>
+		
+		<select id="GetAccountComplexMapping"
+					resultMap="indexed-account-result"
+                    parameterClass="Hashtable">
+			select *
+			from Accounts 
+			where 
+			Account_FirstName = '$Account.FirstName$'
+			And Account_LastName = '$Order.City$'
+		</select>
+		
+		<select id="GetDynamicOrderedEmailAddressesViaResultMap"
+                    resultMap="email-result">
+			select Account_Email
+			from Accounts
+			order by $value$
+		</select>
+		
+		<!-- Dynamic statements -->
+		<select id="GetAllAccountsViaResultMapWithDynamicElement"
+				resultMap="account-result">
+			select * from Accounts
+			where Account_Email $value$ '%@%'
+			order by Account_ID
+		</select>
+		
+		
+		<!--
+		IBatisNet.Test.NUnit.SqlMapTests.StatementTest.TestSimpleDynamicSubstitution : 
+		Oracle.DataAccess.Client.OracleException : ORA-00904: "ID": invalid identifier
+		
+		at Oracle.DataAccess.Client.OracleException.HandleErrorHelper(Int32 errCode, OracleConnection conn, IntPtr opsErrCtx, OpoSqlValCtx* pOpoSqlValCtx, Object src, String procedure)
+		at Oracle.DataAccess.Client.OracleException.HandleError(Int32 errCode, OracleConnection conn, String procedure, IntPtr opsErrCtx, OpoSqlValCtx* pOpoSqlValCtx, Object src)
+		at Oracle.DataAccess.Client.OracleCommand.ExecuteReader(Boolean requery, Boolean fillRequest, CommandBehavior behavior)
+		at Oracle.DataAccess.Client.OracleCommand.System.Data.IDbCommand.ExecuteReader()
+		at IBatisNet.DataMapper.MappedStatements.MappedStatement.RunQueryForList(RequestScope request, IDalSession session, Object parameterObject, Int32 skipResults, Int32 maxResults, RowDelegate rowDelegate) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\mappedstatements\mappedstatement.cs:line 689
+		at IBatisNet.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForList(IDalSession session, Object parameterObject, Int32 skipResults, Int32 maxResults) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\mappedstatements\mappedstatement.cs:line 626
+		at IBatisNet.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForList(IDalSession session, Object parameterObject) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\mappedstatements\mappedstatement.cs:line 607
+		at IBatisNet.DataMapper.SqlMapper.QueryForList(String statementName, Object parameterObject) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\sqlmapper.cs:line 600
+		at IBatisNet.Test.NUnit.SqlMapTests.StatementTest.TestSimpleDynamicSubstitution() in c:\projects\ibatis\svn\source\ibatisnet.test\nunit\sqlmaptests\statementtest.cs:line 216		
+
+		Statement does not have parameterPrefix:
+		select    
+				Account_ID          as Id,    
+				Account_FirstName   as FirstName,    
+				Account_LastName    as LastName,    
+				Account_Email       as EmailAddress  
+		from Accounts  
+		WHERE Account_ID = id
+		
+		DynamicSubst statement works since $statement$ is in <dynamic> element and
+		gets parsed
+		-->
+		<select id="SimpleDynamicSubstitution"
+             parameterClass="Hashtable"
+             resultClass="Account">
+			$statement$
+		</select>
+		
+		<!-- Public Fields -->
+		<insert id="InsertAccountViaPublicFields">
+			insert into Accounts 
+				(Account_ID, Account_FirstName, Account_LastName, Account_Email) 
+			values 
+				(#Id:Int32#, '$FirstName$', '$LastName$', '$EmailAddress$')
+		</insert>
+		
+
+		<!--
+		StatementTest.TestUpdateWithInlineParameters : 
+		Throws Oracle.DataAccess.Client.OracleException : 
+		ORA-01407: cannot update ("IBATISNET"."ACCOUNTS"."ACCOUNT_FIRSTNAME") to NULL
+
+		at Oracle.DataAccess.Client.OracleException.HandleErrorHelper(Int32 errCode, OracleConnection conn, IntPtr opsErrCtx, OpoSqlValCtx* pOpoSqlValCtx, Object src, String procedure)
+		at Oracle.DataAccess.Client.OracleException.HandleError(Int32 errCode, OracleConnection conn, String procedure, IntPtr opsErrCtx, OpoSqlValCtx* pOpoSqlValCtx, Object src)
+		at Oracle.DataAccess.Client.OracleCommand.ExecuteNonQuery()
+		at IBatisNet.DataMapper.MappedStatements.MappedStatement.ExecuteUpdate(IDalSession session, Object parameterObject) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\mappedstatements\mappedstatement.cs:line 770
+		at IBatisNet.DataMapper.SqlMapper.Update(String statementName, Object parameterObject) in c:\projects\ibatis\svn\source\ibatisnet.datamapper\sqlmapper.cs:line 834
+		at IBatisNet.Test.NUnit.SqlMapTests.StatementTest.TestUpdateWithInlineParameters() in c:\projects\ibatis\svn\source\ibatisnet.test\nunit\sqlmaptests\statementtest.cs:line 924
+
+		Upon inspection, CommandText looks ok and Parameter order/types/values look ok:
+		update Accounts set Account_FirstName = :FirstName , Account_LastName = :LastName , Account_Email = :EmailAddress where Account_ID =  :Id
+
+			update Accounts set
+			Account_FirstName = #FirstName#,
+			Account_LastName = #LastName#,
+			Account_Email = #EmailAddress:VarChar2:no_email@provided.com#
+			where
+			Account_ID = #Id:Int32#
+		-->
+		<!-- Inline Parameters -->
+		<update id="UpdateAccountViaInlineParameters"
+			parameterMap="update-params">
+			update Accounts set
+			Account_FirstName = ?,
+			Account_LastName = ?,
+			Account_Email = ?
+			where
+			Account_ID = ?
+		</update>
+
+		<insert id="InsertAccountViaInlineParameters"
+			parameterClass="Account" >
+			insert into Accounts 
+				(Account_ID, Account_FirstName, Account_LastName, Account_Email) 
+			values 
+				(#Id:Int32#, '$FirstName$', '$LastName$', #EmailAddress:VarChar2:no_email@provided.com#
+			)
+		</insert>
+
+		<insert id="InsertAccountNullableEmail"
+			parameterClass="Account" >
+			insert into Accounts 
+				(Account_ID, Account_FirstName, Account_LastName, Account_Email) 
+			values 
+				( #Id:Int32#, '$FirstName$', '$LastName$', '$EmailAddress$' )
+		</insert>
+
+		<insert id="InsertAccountUknownParameterClass">
+			insert into Accounts 
+				(Account_ID, Account_FirstName, Account_LastName, Account_Email) 
+			values 
+				( #Id:Int32#, '$FirstName$', '$LastName$', '$EmailAddress$' )
+		</insert>
+  
+		<delete id="DeleteAccount"
+			parameterClass="Account">
+			delete from Accounts
+			where Account_ID = #Id:Int32#
+		</delete>
+		
+		<!-- Extends statement -->
+		<select id="GetAllAccounts"
+					resultMap="account-result">
+			select
+			Account_ID,
+			Account_FirstName,
+			Account_LastName,
+			Account_Email
+			from Accounts
+		</select>
+		
+		<select id="GetAllAccountsOrderByName"
+			extends="GetAllAccounts"
+			resultMap="account-result">
+			order by Account_FirstName
+		</select>
+		
+		<select id="GetOneAccount"
+			extends="GetAllAccounts"
+			resultMap="account-result">
+			where Account_ID = #value:Int32#
+		</select>
+		
+		<select id="GetSomeAccount"
+			extends="GetAllAccounts"
+			parameterClass="Hashtable"
+			resultMap="account-result">
+			where Account_ID between #lowID:Int32# and #hightID:Int32#
+		</select>
+		
+		<!--
+		NOTE:
+		ODP.NET 9.2 does not have a DeriveParameters method for iBATIS.NET
+		to dynamically determine the procedure's parameters.  You cannot
+		use the <procedure> statement.
+		
+		IBatisNet.Test.NUnit.SqlMapTests.Oracle.ProcedureTest.InsertTestSequenceViaProcedure : IBatisNet.Common.Exceptions.IBatisNetException : 
+		Could not retrieve parameters for the store procedure named {call prc_InsertCategory(?, ?, ?)}
+		System.MissingMethodException : Method Oracle.DataAccess.Client.OracleCommandBuilder.DeriveParameters not found.		
+		-->
+		<!-- For procedure, the parameters of the parameterMap must in the same order 
+		as for the procedure paramaters-->
+		<statement id="InsertAccountViaStoreProcedure" parameterMap="insert-params">
+			call prc_InsertAccount(?, ?, ?, ?)
+		</statement>
+		
+		<!--
+		See InsertCategoryViaStoreProcedure issue with ODP.NET due to lack of
+		DeriveParameters (cannot use <procedure> statement)
+		-->
+		<statement id="SwapEmailAddresses" parameterMap="swap-params">
+			call prc_Swap_Email_Address(?, ?)
+		</statement>
+	</statements>
+
+	<!-- =============================================
+            OPTIONAL EXPLICIT PARAMETER MAP
+    ============================================= -->
+	<parameterMaps>   
+		
+		<parameterMap id="swap-params">
+			<parameter property="email1" column="p_First" direction="InputOutput" dbType="VarChar2" size="64"/>
+			<parameter property="email2" column="p_Second" direction="InputOutput" dbType="VarChar2" size="64"/>
+		</parameterMap>
+		
+		<parameterMap id="insert-params">
+			<parameter property="Id" dbType="Int32"/>
+			<parameter property="FirstName" dbType="VarChar2" size="32"/>
+			<parameter property="LastName" dbType="VarChar2" size="32"/>			
+			<parameter property="EmailAddress" dbType="VarChar2" size="128" nullValue="no_email@provided.com"/>
+		</parameterMap>
+		
+		<parameterMap id="update-params">
+			<parameter property="FirstName" dbType="VarChar2" size="32"/>
+			<parameter property="LastName" dbType="VarChar2" size="32"/>			
+			<parameter property="EmailAddress" dbType="VarChar2" size="128" nullValue="no_email@provided.com"/>
+			<parameter property="Id" dbType="Int32"/>
+		</parameterMap>
+		
+		<parameterMap id="update-params2">
+			<parameter property="Id" dbType="Int32"/>
+			<parameter property="FirstName" dbType="VarChar2" size="32" />
+			<parameter property="LastName" dbType="VarChar2" size="32" />			
+			<parameter property="EmailAddress" dbType="VarChar2" size="128" nullValue="no_email@provided.com"/>
+			<parameter property="Id" dbType="Int32"/>
+		</parameterMap>
+		
+	</parameterMaps>
+	
+</sqlMap>

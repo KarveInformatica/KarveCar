@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en
+END
+index.xml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/index.xml
+END
+xsd-config-template.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/xsd-config-template.xml
+END
+dotnet.xml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/dotnet.xml
+END
+working.xml
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/working.xml
+END
+introduction.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/introduction.xml
+END
+architecture.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/architecture.xml
+END
+xsd-sqlMap-template.xml
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/docs/dataMapperGuide/src/en/xsd-sqlMap-template.xml
+END

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql
+END
+user-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/user-init.sql
+END
+swap-procedure.sql
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/swap-procedure.sql
+END
+other-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/other-init.sql
+END
+account-procedure.sql
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/account-procedure.sql
+END
+category-procedure.sql
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/category-procedure.sql
+END
+DataBase.sql
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/DataBase.sql
+END
+line-item-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/line-item-init.sql
+END
+enumeration-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/enumeration-init.sql
+END
+more-account-records.sql
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/more-account-records.sql
+END
+order-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/order-init.sql
+END
+account-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/account-init.sql
+END
+category-init.sql
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Scripts/MySql/category-init.sql
+END

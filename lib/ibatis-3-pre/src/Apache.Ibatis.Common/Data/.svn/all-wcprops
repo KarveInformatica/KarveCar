@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data
+END
+DbProviderFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DbProviderFactory.cs
+END
+IDbProvider.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/IDbProvider.cs
+END
+DataSource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DataSource.cs
+END
+DBHelperParameterCache.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DBHelperParameterCache.cs
+END
+ProviderDeSerializer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/ProviderDeSerializer.cs
+END
+DataSourceDeSerializer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DataSourceDeSerializer.cs
+END
+DbProvider.cs
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DbProvider.cs
+END
+SqliteDbProvider.cs
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/SqliteDbProvider.cs
+END
+IDataSource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/IDataSource.cs
+END
+ProviderSerializer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/ProviderSerializer.cs
+END
+DataConstants.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/DataConstants.cs
+END
+SqlServerDbProvider.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Data/SqlServerDbProvider.cs
+END

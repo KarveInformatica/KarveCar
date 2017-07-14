@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="programming">
+  <title>DAO Programming</title>
+
+  <sect1>
+    <title>Overview</title>
+
+    <para>The iBATIS.NET Data Access Objects framework has a number of goals.
+    First, it attempts to hide the details of your persistence layer. This
+    includes hiding all interface, implementation, and exception details of
+    your persistence solution. For example: if your application is using raw
+    ADO, the DAO framework will hide classes like
+    <classname>DataReader</classname>, <classname>DataAdapter</classname>,
+    <classname>Connection</classname>, and <classname>Command</classname>.
+    Similarly, if your application is using the NHibernate object persistence
+    library, the DAO framework will hide classes like
+    <classname>Configuration</classname>,
+    <classname>SessionFactory</classname>, <classname>Session</classname>, and
+    <classname>HibernateException</classname>. All of these implementation
+    details will be hidden behind a consistent DAO interface layer.
+    Furthermore, the number of different data sources that are being used can
+    be hidden from the view of the application.</para>
+
+    <para>The second goal of the framework is to simplify the persistence
+    programming model while keeping it more homogeneous at the same time.
+    Different persistence solutions have different programming semantics and
+    behavior. The DAO framework attempts to hide this as much as possible,
+    allowing the service and domain layer of your application to be written in
+    a uniform fashion.</para>
+
+    <para>The <classname>DomDaoManagerBuilder</classname> class is responsible
+    for the proper configuration of the DAO framework (via
+    <filename>dao.config</filename> as described in previous sections). After
+    configuration, another class called the <classname>DaoManager</classname>
+    provides the core DAO API for each of your data access contexts. In
+    particular, the <classname>DaoManager</classname> provides methods that
+    allow you to access connection, transaction, and DAO instances.</para>
+
+    <note>
+      <para>In prior versions of the DAO framework, the
+      <classname>DaoManager</classname> handled configuration
+      responsibilities. This has been superceded by a new configuration API
+      found within the <classname>DomDaoManagerBuilder</classname> class. Old
+      configuration method signatures have remained the same, but new
+      configuration methods have been added for more flexibility. These new
+      methods support the loading of configuration information through a
+      <classname>Stream</classname>, <classname>Uri</classname>,
+      <classname>FileInfo</classname>, or <classname>XmlDocument</classname>
+      instance.</para>
+    </note>
+  </sect1>
+
+  <sect1>
+    <title>Configuration with the DomDaoManagerBuilder</title>
+
+    <para>iBATIS offers you a plethora of options for loading your
+    <filename>dao.config</filename> file, such as loading it through a file
+    path<classname>, Stream</classname>, <classname>Uri</classname>,
+    <classname>FileInfo</classname>, or <classname>XmlDocument</classname>.
+    All of these methods are available through the
+    <classname>DomDaoManagerBuilder</classname> API for creating
+    <classname>DaoManager</classname> instances.</para>
+
+    <para>The basic <methodname>DomDaoManagerBuilder.Configure()</methodname>
+    call will look for a file named <filename>dao.config</filename> in your
+    application's root directory. This directory's location differs by project
+    type but is normally the directory where you place your web.config or
+    app.config file.</para>
+
+    <example>
+      <title>Basic Configuration Call</title>
+
+      <programlisting>DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure();
+IDaoManager daoManager = DaoManager.GetInstance("SqlMapDaoContext");</programlisting>
+    </example>
+
+    <para>If you have named your configuration file something other than
+    <filename>dao.config</filename> or if you have located your configuration
+    file in a directory other than the application root directory, you can
+    also pass in a relative or absolute file path to the<methodname>
+    Configure</methodname> method.</para>
+
+    <example>
+      <title>Configuration through an absolute or relative file path</title>
+
+      <programlisting><emphasis role="comment">/* Configure from a file path.
+   Uses a relative resource path from your application root 
+   or an absolute file path such as "file://c:\dir\a.config" */
+</emphasis>DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure(strPath);
+IDaoManager daoManager = DaoManager.GetInstance("AnotherContext");</programlisting>
+    </example>
+
+    <tip>
+      <para>Since the application root directory location differs by project
+      type (Windows, Web, or library), you can use an AppSettings key for
+      defining a relative path to your <filename>dao.config</filename> file.
+      Having this key defined makes it easy to change the path without having
+      to recompile your code:</para>
+
+      <programlisting>builder.Configure(
+        ConfigurationSettings.AppSettings["rootPath"]+"dao.config");</programlisting>
+    </tip>
+
+    <para>Aside from using a simple string filepath, you can also pass in a
+    <classname>FileInfo</classname> or <classname>Uri</classname> instance for
+    the <classname>DomDaoManagerBuilder</classname> to use in locating your
+    <filename>dao.config</filename> file.</para>
+
+    <example>
+      <title>Configuration with a FileInfo or Uri instance</title>
+
+      <programlisting><emphasis role="comment">/* Configure with FileInfo. */</emphasis>
+FileInfo aFileInfo = someSupportClass.GetDynamicFileInfo();
+DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure(aFileInfo);
+IDaoManager daoManager = DaoManager.GetInstance("NHibernateContext");
+
+<emphasis role="comment">/* Configure through a Uri. */</emphasis>
+Uri aUri = someSupportClass.GetDynamicUri();
+DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure(aUri);
+IDaoManager daoManager = DaoManager.GetInstance("SimpleDao");</programlisting>
+    </example>
+
+    <para>If you find that you already have loaded your DAO configuration
+    information as an <classname>XmlDocument</classname> or <classname>Stream
+    </classname>instance within your application, the
+    <classname>DomDaoManagerBuilder</classname> provides
+    <methodname>Configure</methodname> overloads for those types as
+    well.</para>
+
+    <example>
+      <title>Configuration with an XmlDocument or Stream</title>
+
+      <programlisting><emphasis role="comment">/* Configure with an XmlDocument */</emphasis>
+XmlDocument anXmlDoc = someSupportClass.GetDynamicXmlDocument();
+DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure(anXmlDoc);
+IDaoManager daoManager = DaoManager.GetInstance("Petstore");
+
+<emphasis role="comment">/* Configure from a stream. */</emphasis>
+Stream aStream = someSupportClass.GetDynamicStream();
+DomDaoManagerBuilder builder = new DomDaoManagerBuilder();
+builder.Configure(aStream);
+IDaoManager daoManager = DaoManager.GetInstance("AnotherPetstore");</programlisting>
+    </example>
+
+    <para>In addition to the straightforward
+    <methodname>Configure</methodname> methods, the
+    <classname>DomDaoManagerBuilder</classname> provides
+    <methodname>ConfigureAndWatch</methodname> methods that can be used to
+    monitor changes to the configuration files so that
+    <classname>DaoManagers</classname> can be reconfigured and reloaded on the
+    fly. To use this functionality, you application will need to pass a
+    <classname>ConfigureHandler</classname> (callback delegate) to the
+    <classname>DomDaoManagerBuilder</classname> so that it knows the method
+    for resetting your application's <classname>DaoManager</classname>
+    instances.</para>
+
+    <para>Since the configuration files need to be watched for changes, your
+    <filename>dao.config</filename> file must be accessible through the file
+    system. This means that configuration is limited to the three methods
+    shown below.</para>
+
+    <example>
+      <title>DomDaoManagerBuilder ConfigureAndWatch methods</title>
+
+      <programlisting><emphasis role="comment">/* Configure and monitor the configuration file for modifications 
+   and automatically reconfigure DaoManagers. 
+   This basic ConfigureAndWatch method looks for a file with the 
+   default name of dao.config in the application root directory. */
+</emphasis>public void ConfigureAndWatch(ConfigureHandler configureDelegate)
+
+<emphasis role="comment">/* Configure and monitor the configuration file for modifications 
+   and automatically reconfigure DaoManagers. 
+   Uses a relative path from your application root 
+   or an absolute file path such as "file:\\c:\dir\a.config" */
+</emphasis>public void ConfigureAndWatch( string resource, ConfigureHandler configureDelegate )
+
+<emphasis role="comment">/* Configure and monitor the configuration file for modifications 
+   and automatically reconfigure DaoManagers. 
+   Uses a FileInfo instance for your config file. */</emphasis>
+public void ConfigureAndWatch( FileInfo resource, ConfigureHandler configureDelegate )</programlisting>
+    </example>
+  </sect1>
+
+  <sect1>
+    <title>Contexts, the DaoManager, and Session Handlers</title>
+
+    <para>The <classname>DaoManager</classname> instance that is built from a
+    <filename>dao.config</filename> file is aware of all of the contexts
+    contained within the configuration file. The context basically bundles DAO
+    implementations together with a session handler. The
+    <classname>DaoManager</classname> knows which DAOs and session handler
+    belong to which context. When you request a DAO instance from the
+    <classname>DaoManager</classname>, the proper session handler will be
+    provided with it. Therefore, there is no need to access the context or
+    session handler directly. Your DAO knows how it works.</para>
+  </sect1>
+
+  <sect1>
+    <title>Getting a Data Access Object</title>
+
+    <para>Once you get a <classname>DaoManager</classname> instance, you can
+    use it to retrieve the DAO implementation by type (as specified in the
+    <filename>dao.config</filename> file in the <literal>daoFactory</literal>
+    section). Getting a DataAccess object is simply a matter of using the
+    <methodname>GetDao(type)</methodname> method of a
+    <classname>DaoManager</classname> instance (or the more concise indexer
+    method <literal>DaoManager[type]</literal>) For example:</para>
+
+    <programlisting>[C#]
+IDaoManager daoManager = DaoManager.GetInstance("daoContextName"); 
+<emphasis role="comment">// gets the dao of type 'ICategoryDao'</emphasis>
+ICategoryDao categoryDao = daoManager.GetDao(typeof(ICategoryDao)) as ICategoryDao; 
+<emphasis role="comment">// same thing, just using the indexer</emphasis>
+IProductDao productDao = daoManager[typeof(IProductDao)] as IProductDao; </programlisting>
+  </sect1>
+
+  <sect1>
+    <title>Working with Connection and Transactions</title>
+
+    <para>The <classname>DaoManager</classname> provides methods for working
+    with connection and transaction. These methods allow you to demarcate
+    connection/transactions and avoid having to pass transaction objects, like
+    <classname>IDbTransaction</classname>, around to all of your DAOs.</para>
+
+    <example>
+      <title>Example DAO transaction management</title>
+
+      <programlisting>[C#]
+Product p1 = new Product();
+Product p2 = new Product();
+Category c 1= new Category()
+c1.Add(p1);
+c2.Add(p2);
+
+IDaoManager daoManager = DaoManager.GetInstance("PetStore"); 
+ICategoryDao categoryDao = daoManager[typeof(ICategoryDao)] as ICategoryDao;
+IProductDao productDao = daoManager[typeof(IProductDao)] as IProductDao;
+
+try {
+      daoManager.BeginTransaction();
+      productDao.Insert(p1);
+      productDao.Insert(p2);
+      categoryDao.Insert(c1);
+      daoManager.CommitTransaction();
+}
+catch {
+        daoManager.RollBackTransaction();
+}</programlisting>
+    </example>
+
+    <para>Calling <methodname>BeginTransaction()</methodname> lets the
+    <classname>DaoManager</classname> know that you are interested in managing
+    transactions programmatically. It is very important that you guarantee a
+    call to <methodname>RollBackTransaction()</methodname> if you’ve called
+    <methodname>BeginTransaction()</methodname>, which is why it is within the
+    <literal>catch</literal> block. The call to
+    <methodname>RollBackTransaction()</methodname> will rollback any changes
+    you’ve made in case an exception is thrown before the call to
+    <methodname>CommitTransaction()</methodname>. Be aware that if an
+    exception occurs before <methodname>BeginTransaction()</methodname>
+    completes and is caught in the <literal>catch</literal> block,
+    RollBackTransaction() will also throw another exception since a
+    transaction was not started.</para>
+
+    <para>When you deal with a connection and transaction, you can also use
+    the <methodname>using</methodname> syntax as in the examples below.</para>
+
+    <para><programlisting>[C#]
+IDaoManager daoManager = DaoManager.GetInstance("PetStore"); 
+IAccountDao accountDao = daoManager[typeof(IAccountDao)] as IAccountDao;
+
+using ( IDalSession session = daoManager.OpenConnection() )
+{
+   Account account = NewAccount();
+   accountDao.Create(account);
+}
+
+using ( IDalSession session = daoManager.BeginTransaction() )
+{
+   Account account = NewAccount();
+   Account account2 = accountDao.GetAccountById(1);
+   account2.EmailAddress = "someotherAddress@somewhere.com";
+
+   accountDao.Create(account);
+   accountDao.Update(account2);
+
+   session.Complete(); // Commit
+}</programlisting></para>
+  </sect1>
+
+  <sect1>
+    <title>"AutoConnection"-Behavior</title>
+
+    <para>In addition to programmatically demarcating a connection, you can
+    allow the <classname>DaoManager</classname> to automatically Open and
+    Close a connection for you. You don’t need to do anything special to use
+    the autoconnection behavior, just don’t call
+    <methodname>OpenConnection()</methodname>.</para>
+
+    <example>
+      <title>Example AutoConnection</title>
+
+      <programlisting>[C#]
+<emphasis role="comment">// Open/close first Connection</emphasis>
+Product product = productDao.GetProduct (5); 
+product.Description = "New description.";
+<emphasis role="comment">// Open/close second Connection</emphasis>
+productDao.UpdateProduct(product);
+<emphasis role="comment">// Open/close third Connection</emphasis>
+product = productDao.GetProduct (5);</programlisting>
+    </example>
+
+    <para><note>
+        <para>If the <methodname>UpdateProduct()</methodname> method contained
+        more than a single update, you would need to use the
+        <methodname>BeginTransaction()</methodname> method!</para>
+      </note></para>
+  </sect1>
+
+  <sect1>
+    <title>Distributed transactions</title>
+
+    <para>Distributed transactions are transactions that can span multiple
+    resource managers, such as SQL Server and Oracle, and reconcile
+    transactions among them.</para>
+
+    <para>iBATIS.NET introduces a new <classname>TransactionScope</classname>
+    class mimicking the new TransactionScope found in the
+    <classname>System.Transactions</classname> namespace (.NET Framework 2.0).
+    This class supports MSMQ, ADO.NET, SqlServer, and DTC transaction models.
+    This is a simple managed interface to COM+'s SWC (Services Without
+    Components) Transactions. It can be used only by developers using .NET 1.1
+    and Windows XP SP2 or Windows Server 2003 since it implements distributed
+    transactional support using the <classname>ServiceDomain</classname>
+    class.</para>
+
+    <para>Usage is simple, as seen in the following example where a code block
+    is made transactional à la Indigo (moving to Indigo will be easier since
+    it is the same API):</para>
+
+    <programlisting>[C#]
+using IBatisNet.Common.Transaction;
+
+using (TransactionScope tx = new TransactionScope())
+{
+   daoManager.OpenConnection();
+   <emphasis role="comment">// Transaction will be automatically associated with it</emphasis>
+   account = accountDao.GetAccountById(1001);
+   account.FirstName = "Gilles";
+   accountDao.Update(account);
+   daoManager.CloseConnection();
+
+   daoManager2.OpenConnection();
+   <emphasis role="comment">// Transaction will be automatically associated with it</emphasis>
+   joeCool = userDao.Load("joe_cool");
+   joeCool.LastLogon = stamp;
+   daoManager2.CloseConnection();
+
+   tx.Complete(); // Commit
+}</programlisting>
+
+    <para>It is important to make sure that each instance of this class gets
+    <methodname>Close()</methodname>'d. The easiest way to ensure that each
+    instance is closed is with the <literal>using</literal> statement in C#.
+    When <literal>using</literal> calls <methodname>Dispose</methodname> on
+    the transaction scope at the end of the <literal>using</literal> code
+    block, the <emphasis>ambient</emphasis> transaction will be commited only
+    if the <methodname>Complete()</methodname> method has been called.<note>
+        <para>This class does not support a nested transaction scope with
+        different transaction options.</para>
+      </note>The next section provides some tips on how to write a DAO like
+    the AccountDao shown in the previous example.</para>
+  </sect1>
+</chapter>

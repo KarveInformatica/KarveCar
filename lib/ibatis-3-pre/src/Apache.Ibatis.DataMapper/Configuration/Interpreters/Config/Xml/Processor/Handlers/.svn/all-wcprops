@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers
+END
+ProcessSqlElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessSqlElement.cs
+END
+ProcessFlushOnExecuteElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessFlushOnExecuteElement.cs
+END
+ProcessFlushIntervallElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessFlushIntervallElement.cs
+END
+ProcessDatabaseElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessDatabaseElement.cs
+END
+ProcessStatementElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessStatementElement.cs
+END
+ProcessDiscriminatorElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessDiscriminatorElement.cs
+END
+ProcessCaseElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessCaseElement.cs
+END
+ProcessResultMapElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessResultMapElement.cs
+END
+ProcessProvidersElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessProvidersElement.cs
+END
+ProcessSettingElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessSettingElement.cs
+END
+ProcessResultElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessResultElement.cs
+END
+ProcessParameterMapElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessParameterMapElement.cs
+END
+ProcessTypeHandlerElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessTypeHandlerElement.cs
+END
+ProcessParameterElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessParameterElement.cs
+END
+XmlTagHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/XmlTagHandler.cs
+END
+ProcessArgumentElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessArgumentElement.cs
+END
+ProcessIncludeElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessIncludeElement.cs
+END
+ProcessTextElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessTextElement.cs
+END
+ProcessCacheModelElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessCacheModelElement.cs
+END
+ProcessDynamicElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessDynamicElement.cs
+END
+ProcessPropertyElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessPropertyElement.cs
+END
+ProcessDefaultElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessDefaultElement.cs
+END
+ProcessConstructorElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessConstructorElement.cs
+END
+ProcessAddElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessAddElement.cs
+END
+ProcessDataSourceElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessDataSourceElement.cs
+END
+ProcessProviderElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessProviderElement.cs
+END
+ProcessTypeAliasElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessTypeAliasElement.cs
+END
+ProcessPropertiesElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessPropertiesElement.cs
+END
+ProcessSqlMapElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/Xml/Processor/Handlers/ProcessSqlMapElement.cs
+END

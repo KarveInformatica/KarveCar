@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "../../../docbook/docbook-dtd/docbookx.dtd" [
+<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY dao SYSTEM "dao.xml">
+<!ENTITY configuration SYSTEM "configuration.xml">
+<!ENTITY handler SYSTEM "handler.xml">
+<!ENTITY programming SYSTEM "programming.xml">
+<!ENTITY interface SYSTEM "interface.xml">
+<!ENTITY example	SYSTEM "example.xml">
+<!ENTITY xsd        SYSTEM "xsd.xml">
+]>
+<book>
+  <bookinfo>
+    <title>iBATIS.NET - Data Access Objects Application Framework</title>
+    <subtitle>Data Access Objects Developer Guide</subtitle>
+    <releaseinfo>Version 1.9.1</releaseinfo>
+    <pubdate>March 2007</pubdate>
+    <authorgroup>
+      <author>
+        <firstname>Gilles</firstname>
+        <surname>Bayon</surname>
+      </author>
+      <author>
+        <firstname>Clinton</firstname>
+        <surname>Begin</surname>
+      </author>
+      <author>
+        <firstname>Roberto</firstname>
+        <surname>Rabe</surname>
+      </author>
+    </authorgroup>
+
+    <legalnotice>
+      <para>Copies of this document may be made for your own use and for
+      distribution to others, provided that you do not charge any fee for such
+      copies and further provided that each copy contains this Copyright
+      Notice, whether distributed in print or electronically.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc></toc>
+
+  &introduction;
+  &dao;
+  &configuration;
+  &handler;
+  &programming;
+  &interface;
+  &example;
+  &xsd;
+
+</book>

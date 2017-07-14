@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="introduction">
+  <title>Introduction</title>
+
+  <sect1>
+    <title>Overview</title>
+
+    <para>When developing robust .NET connected applications, it is often a
+    good idea to isolate the specifics of your persistence implementation
+    behind a common API. Data Access Objects allow you to create simple
+    components that provide access to your data without revealing the
+    specifics of the implementation to the rest of your application. Using
+    DAOs, you can allow your application to be dynamically configured to use
+    different persistence mechanisms. If you have a complex application with a
+    number of different databases and persistence approaches involved, DAOs
+    can help you create a consistent API for the rest of your application to
+    use.</para>
+
+    <tip>
+      <para>If you would like to get the latest development (unreleased)
+      version of this Guide, please see the <ulink
+      url="http://opensource.atlassian.com/confluence/oss/display/IBATIS/">iBATIS
+      Wiki FAQ</ulink>. The FAQ entry explains how you can access our SVN
+      source repository and generate CHM and PDF files of the latest
+      development documentation for the DataAccess framework.</para>
+    </tip>
+  </sect1>
+
+  <sect1>
+    <title>License Information</title>
+
+    <para>iBATIS.NET is licensed according to the terms of the Apache License,
+    Version 2.0. The full text of this license are available online at <ulink
+    url="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</ulink>
+    (<ulink url="http://www.apache.org/licenses/LICENSE-2.0.txt">TXT</ulink>
+    or <ulink
+    url="http://www.apache.org/licenses/LICENSE-2.0.html">HTML</ulink>). You
+    can also view the full text of any of these licenses in the doc
+    subdirectory of the iBATIS.NET distribution.</para>
+  </sect1>
+
+  <sect1>
+    <title>Support</title>
+
+    <para>Mailing lists and bug trackers are available (courtesy of Apache
+    Software Foundation) at iBATIS’s Apache project page. Just direct your
+    browser to <ulink
+    url="http://ibatis.apache.org/">http://ibatis.apache.org/</ulink>.</para>
+  </sect1>
+
+  <sect1>
+    <title>Disclaimer</title>
+
+    <blockquote>
+      <para>iBATIS MAKES NO WARRANTIES, EXPRESS OR IMPLIED, AS TO THE
+      INFORMATION IN THIS DOCUMENT. The names of actual companies and products
+      mentioned herein may be the trademarks of their respective
+      owners.</para>
+    </blockquote>
+  </sect1>
+</chapter>

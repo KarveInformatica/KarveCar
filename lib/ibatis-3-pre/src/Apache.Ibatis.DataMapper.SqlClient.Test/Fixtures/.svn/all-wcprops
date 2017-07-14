@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures
+END
+ScriptBase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/ScriptBase.cs
+END
+ConfigureTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/ConfigureTest.cs
+END
+DefaultConfigurationEngineTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/DefaultConfigurationEngineTest.cs
+END
+BaseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/BaseTest.cs
+END
+DefaultModelBuilderTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/DefaultModelBuilderTest.cs
+END

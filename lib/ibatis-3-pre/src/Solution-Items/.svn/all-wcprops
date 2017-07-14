@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items
+END
+CommonAssemblyInfo.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/CommonAssemblyInfo.cs
+END
+iBATIS.build
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/iBATIS.build
+END
+Apache.Ibatis.Common.Test.nunit
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/Apache.Ibatis.Common.Test.nunit
+END
+providers.config
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/providers.config
+END
+VS2005.ndoc
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/VS2005.ndoc
+END
+Apache.Ibatis.DataMapper.Test.nunit
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/Apache.Ibatis.DataMapper.Test.nunit
+END
+AssemblyKey.snk
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Solution-Items/AssemblyKey.snk
+END

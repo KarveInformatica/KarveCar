@@ -1,0 +1,263 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8A1F6390-1D7C-47CA-AE8D-818408DD54E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Apache.Ibatis.DataMapper.SqlClient.Test</RootNamespace>
+    <AssemblyName>Apache.Ibatis.DataMapper.SqlClient.Test</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Net\2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Net\2.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Net\2.0\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\JsonInterpreter.cs" />
+    <Compile Include="Domain\NVelocityDynamicEngine.cs" />
+    <Compile Include="Domain\SimpleSqlSource.cs" />
+    <Compile Include="Domain\SqlSourceWithInlineParameter.cs" />
+    <Compile Include="Domain\SqlSourceWithParameter.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\BaseCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\CacheKeyTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\FifoCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\LruCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\PerpetualCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\ScheduledCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\WeakCacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\CircularReferenceTest.cs" />
+    <Compile Include="Fixtures\Mapping\EventTest.cs" />
+    <Compile Include="Fixtures\Mapping\IterateTest.cs" />
+    <Compile Include="Fixtures\Mapping\VelocityTest.cs" />
+    <Compile Include="Fixtures\Modules\AliasModule.cs" />
+    <Compile Include="Fixtures\Modules\EventModule.cs" />
+    <Compile Include="Fixtures\ScriptBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\A.cs" />
+    <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\AccountBis.cs" />
+    <Compile Include="Domain\AccountCollection.cs" />
+    <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\Application.cs" />
+    <Compile Include="Domain\B.cs" />
+    <Compile Include="Domain\Book.cs" />
+    <Compile Include="Domain\C.cs" />
+    <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\Child.cs" />
+    <Compile Include="Domain\Complex.cs" />
+    <Compile Include="Domain\Coupon.cs" />
+    <Compile Include="Domain\CustomInheritance.cs" />
+    <Compile Include="Domain\D.cs" />
+    <Compile Include="Domain\Document.cs" />
+    <Compile Include="Domain\DocumentCollection.cs" />
+    <Compile Include="Domain\E.cs" />
+    <Compile Include="Domain\Enumeration.cs" />
+    <Compile Include="Domain\F.cs" />
+    <Compile Include="Domain\GuidStringTypeHandlerCallback.cs" />
+    <Compile Include="Domain\HundredsTypeHandlerCallback.cs" />
+    <Compile Include="Domain\ImmutableCategory.cs" />
+    <Compile Include="Domain\ImmutableCategoryPropertyContainer.cs" />
+    <Compile Include="Domain\Item.cs" />
+    <Compile Include="Domain\LineItem.cs" />
+    <Compile Include="Domain\LineItemCollection.cs" />
+    <Compile Include="Domain\LineItemCollection2.cs" />
+    <Compile Include="Domain\ListeEntiteMetier.cs" />
+    <Compile Include="Domain\Newspaper.cs" />
+    <Compile Include="Domain\Nullable.cs" />
+    <Compile Include="Domain\OneZeroBoolTypeHandlerCallback.cs" />
+    <Compile Include="Domain\Order.cs" />
+    <Compile Include="Domain\Other.cs" />
+    <Compile Include="Domain\OuiNonBoolTypeHandlerCallback.cs" />
+    <Compile Include="Domain\Parent.cs" />
+    <Compile Include="Domain\Petshop\Category.cs" />
+    <Compile Include="Domain\Petshop\Item.cs" />
+    <Compile Include="Domain\Petshop\Product.cs" />
+    <Compile Include="Domain\Product.cs" />
+    <Compile Include="Domain\Query.cs" />
+    <Compile Include="Domain\Role.cs" />
+    <Compile Include="Domain\Sample.cs" />
+    <Compile Include="Domain\Search.cs" />
+    <Compile Include="Domain\Simple.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Fixtures\BaseTest.cs" />
+    <Compile Include="Fixtures\ConfigureTest.cs" />
+    <Compile Include="Fixtures\DefaultConfigurationEngineTest.cs" />
+    <Compile Include="Fixtures\DefaultModelBuilderTest.cs" />
+    <Compile Include="Fixtures\Mapping\Cache\CacheModelTest.cs" />
+    <Compile Include="Fixtures\Mapping\CacheTest.cs" />
+    <Compile Include="Fixtures\Mapping\ComplexTypeTest.cs" />
+    <Compile Include="Fixtures\Mapping\ConstructorTest.cs" />
+    <Compile Include="Fixtures\Mapping\DynamicPrependTest.cs" />
+    <Compile Include="Fixtures\Mapping\DynamicTest.cs" />
+    <Compile Include="Fixtures\Mapping\Generics\NullableTest.cs" />
+    <Compile Include="Fixtures\Mapping\Generics\ResultClassTest.cs" />
+    <Compile Include="Fixtures\Mapping\Generics\ResultMapTest.cs" />
+    <Compile Include="Fixtures\Mapping\Generics\StatementTest.cs" />
+    <Compile Include="Fixtures\Mapping\GroupByTest.cs" />
+    <Compile Include="Fixtures\Mapping\InheritanceTest.cs" />
+    <Compile Include="Fixtures\Mapping\MSSQL\Generics\StatementTest.cs" />
+    <Compile Include="Fixtures\Mapping\MSSQL\ProcedureTest.cs" />
+    <Compile Include="Fixtures\Mapping\MSSQL\StatementTest.cs" />
+    <Compile Include="Fixtures\Mapping\MultipleResultTest.cs" />
+    <Compile Include="Fixtures\Mapping\ParameterClass.cs" />
+    <Compile Include="Fixtures\Mapping\ParameterMapTest.cs" />
+    <Compile Include="Fixtures\Mapping\Perf\PerformanceTest.cs" />
+    <Compile Include="Fixtures\Mapping\ResultClassTest.cs" />
+    <Compile Include="Fixtures\Mapping\ResultMapTest.cs" />
+    <Compile Include="Fixtures\Mapping\StatementNamespaceTest.cs" />
+    <Compile Include="Fixtures\Mapping\StatementTest.cs" />
+    <Compile Include="Fixtures\Mapping\ThreadTest.cs" />
+    <Compile Include="Fixtures\Mapping\TransactionTest.cs" />
+    <Compile Include="Fixtures\Modules\AccountModule.cs" />
+    <Compile Include="Fixtures\Modules\DocumentModule.cs" />
+    <Compile Include="Fixtures\Modules\ModuleConfigurationTest.cs" />
+    <Compile Include="Fixtures\Modules\ParameterMapModuleTest.cs" />
+    <Compile Include="Fixtures\Modules\ResultMapModuleTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\SqlMap_StatementOnly.config" />
+    <None Include="bin\Debug\test.config" />
+    <EmbeddedResource Include="bin\Debug\SqlMap_Test_Configure.config" />
+    <EmbeddedResource Include="bin\Debug\SqlMap.config" />
+    <EmbeddedResource Include="bin\Debug\providers.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
+      <Project>{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE}</Project>
+      <Name>Apache.Ibatis.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Apache.Ibatis.DataMapper\Apache.Ibatis.DataMapper.csproj">
+      <Project>{F3E45F39-3224-4EAD-B138-EB5CC0E32824}</Project>
+      <Name>Apache.Ibatis.DataMapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Maps\Account.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cool.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fixtures\Mapping\Generics\GenericListTests.txt" />
+    <Content Include="Maps\AccountModule.xml" />
+    <Content Include="Maps\Category.xml" />
+    <Content Include="Maps\Complex.xml" />
+    <Content Include="Maps\ConstructorInjection.xml" />
+    <Content Include="Maps\Coupons.xml" />
+    <Content Include="Maps\Document.xml" />
+    <Content Include="Maps\DocumentModule.xml" />
+    <Content Include="Maps\Dynamic.Velocity.xml" />
+    <Content Include="Maps\DynamicAccount.xml" />
+    <Content Include="Maps\EmbedParameter.xml" />
+    <Content Include="Maps\Enumeration.xml" />
+    <Content Include="Maps\Event.xml" />
+    <Content Include="Maps\GroupByMapping.xml" />
+    <Content Include="Maps\Iterate.xml" />
+    <Content Include="Maps\LineItem.xml" />
+    <Content Include="Maps\Mapping1.xml" />
+    <EmbeddedResource Include="Maps\Mapping2.xml" />
+    <Content Include="Maps\Mapping3.xml" />
+    <Content Include="Maps\Mapping4.xml" />
+    <EmbeddedResource Include="Maps\Mapping5.xml" />
+    <Content Include="Maps\NewsPaper.xml" />
+    <Content Include="Maps\Nullable.xml" />
+    <Content Include="Maps\Order.xml" />
+    <Content Include="Maps\Other.xml" />
+    <Content Include="Maps\ParameterClass.xml" />
+    <Content Include="Maps\ParentChild1.xml" />
+    <Content Include="Maps\ParentChild2.xml" />
+    <Content Include="Maps\ResultClass.xml" />
+    <Content Include="Maps\Simple.xml" />
+    <Content Include="ReadMe.txt" />
+    <Content Include="Scripts\account-init.sql" />
+    <Content Include="Scripts\account-procedure.sql" />
+    <Content Include="Scripts\category-init.sql" />
+    <Content Include="Scripts\category-procedure.sql" />
+    <Content Include="Scripts\category-procedureWithReturn.sql" />
+    <Content Include="Scripts\child-parent-init.sql" />
+    <Content Include="Scripts\coupons-init.sql" />
+    <Content Include="Scripts\DataBase.sql" />
+    <Content Include="Scripts\DBCreation.sql" />
+    <Content Include="Scripts\documents-init.sql" />
+    <Content Include="Scripts\embed-param-setup-init.sql" />
+    <Content Include="Scripts\embed-param-test-init.sql" />
+    <Content Include="Scripts\enumeration-init.sql" />
+    <Content Include="Scripts\groupby-init.sql" />
+    <Content Include="Scripts\groupby-schema.sql" />
+    <Content Include="Scripts\line-item-init.sql" />
+    <Content Include="Scripts\more-account-records.sql" />
+    <Content Include="Scripts\Nullable-init.sql" />
+    <Content Include="Scripts\order-init.sql" />
+    <Content Include="Scripts\other-init.sql" />
+    <Content Include="Scripts\petstore-drop.sql" />
+    <Content Include="Scripts\petstore-init.sql" />
+    <Content Include="Scripts\petstore-schema.sql" />
+    <Content Include="Scripts\ps_InsertAccountWithDefault.sql" />
+    <Content Include="Scripts\ps_SelectAccount.sql" />
+    <Content Include="Scripts\ps_SelectAccountViaOuputParam.sql" />
+    <Content Include="Scripts\ps_SelectAccountWithOutPutParam.sql" />
+    <Content Include="Scripts\ps_SelectAllAccount.sql" />
+    <None Include="App.config" />
+    <None Include="bin\Debug\SqlMap.config.json" />
+    <None Include="bin\Debug\SqlMap.event.config" />
+    <None Include="bin\Debug\SqlMap.velocity.config" />
+    <None Include="DataBase.config" />
+    <None Include="Scripts\ps_SelectByIdList.sql" />
+    <Content Include="Scripts\ps_SelectLineItem.sql" />
+    <Content Include="Scripts\README-embed-param.txt" />
+    <Content Include="Scripts\simple-init.sql" />
+    <Content Include="Scripts\swap-procedure.sql" />
+    <Content Include="Scripts\user-init.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

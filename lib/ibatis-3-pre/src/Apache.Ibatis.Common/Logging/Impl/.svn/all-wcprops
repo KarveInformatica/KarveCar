@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl
+END
+TraceLoggerFA.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/TraceLoggerFA.cs
+END
+ConsoleOutLogger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/ConsoleOutLogger.cs
+END
+NoOpLogger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/NoOpLogger.cs
+END
+TraceLogger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/TraceLogger.cs
+END
+ConsoleOutLoggerFA.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/ConsoleOutLoggerFA.cs
+END
+NoOpLoggerFA.cs
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/NoOpLoggerFA.cs
+END
+AbstractLogger.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/Impl/AbstractLogger.cs
+END

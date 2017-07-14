@@ -1,0 +1,226 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5961F3DE-CB5E-40FE-AE89-D00D6E453907}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Apache.Ibatis.Common.Test</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Apache.Ibatis.Common.Test</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;dotnet2</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;dotnet2</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Net\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External-Bin\Net\2.0\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Domain\Account.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Domain\Address.cs" />
+    <Compile Include="Domain\BaseDomain.cs" />
+    <Compile Include="Domain\Book.cs" />
+    <Compile Include="Domain\Document.cs" />
+    <Compile Include="Domain\DocumentCollection.cs" />
+    <Compile Include="Domain\GenericDocumentCollection.cs" />
+    <Compile Include="Domain\IAddress.cs" />
+    <Compile Include="Domain\IBaseDomain.cs" />
+    <Compile Include="Domain\Item.cs" />
+    <Compile Include="Domain\IUser.cs" />
+    <Compile Include="Domain\Order.cs" />
+    <Compile Include="Domain\Property.cs" />
+    <Compile Include="Domain\Simple.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Fixtures\ConfigWatcher\ConfigWatcherTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fixtures\Contracts\EnsureTest.cs" />
+    <Compile Include="Fixtures\Contracts\RequireTest.cs" />
+    <Compile Include="Fixtures\Logging\LogTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fixtures\Resources\AssemblyResourceLoaderTest.cs" />
+    <Compile Include="Fixtures\Resources\CustomUriBuilderTest.cs" />
+    <Compile Include="Fixtures\Resources\UrlResourceLoaderTest.cs" />
+    <Compile Include="Fixtures\Utilities\BaseMemberTest.cs" />
+    <Compile Include="Fixtures\Utilities\FieldAccessorTest.cs" />
+    <Compile Include="Fixtures\Resources\FileResourceLoaderTest.cs" />
+    <Compile Include="Fixtures\Utilities\ObjectFactoryTest.cs" />
+    <Compile Include="Fixtures\Utilities\PropertyAccessorPerformance.cs" />
+    <Compile Include="Fixtures\Utilities\PropertyAccessorTest.cs" />
+    <Compile Include="Fixtures\Utilities\ProtectedFieldAccessorTest.cs" />
+    <Compile Include="Fixtures\Utilities\PublicFieldAccessorTest.cs" />
+    <Compile Include="Fixtures\Utilities\ReflectionInfoTest.cs" />
+    <Compile Include="Fixtures\Resources\ResourcesTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fixtures\Utilities\Timer.cs" />
+    <Compile Include="Fixtures\Utilities\TypeResolverTest.cs" />
+    <Compile Include="Fixtures\Utilities\TypeUtilsTest.cs" />
+    <None Include="App.config" />
+    <None Include="bin\Debug\SqlMap_MSSQL_SqlClient.config" />
+    <None Include="bin\Debug\test.config" />
+    <Content Include="bin\Debug\OctopusService.dll" />
+    <Content Include="license.txt" />
+    <EmbeddedResource Include="Fixtures\Utilities\sample.txt" />
+    <Content Include="Scripts\Access\account-init.sql" />
+    <Content Include="Scripts\Access\account-procedure.sql" />
+    <Content Include="Scripts\Access\category-init.sql" />
+    <Content Include="Scripts\Access\category-procedure.sql" />
+    <Content Include="Scripts\Access\DataBase.sql" />
+    <Content Include="Scripts\Access\DataBaseNHibernate.sql" />
+    <Content Include="Scripts\Access\documents-init.sql" />
+    <Content Include="Scripts\Access\enumeration-init.sql" />
+    <Content Include="Scripts\Access\line-item-init.sql" />
+    <Content Include="Scripts\Access\more-account-records.sql" />
+    <Content Include="Scripts\Access\order-init.sql" />
+    <Content Include="Scripts\Access\other-init.sql" />
+    <Content Include="Scripts\Access\swap-procedure.sql" />
+    <Content Include="Scripts\Access\user-init.sql" />
+    <Content Include="Scripts\MSSQL\account-init.sql" />
+    <Content Include="Scripts\MSSQL\account-procedure.sql" />
+    <Content Include="Scripts\MSSQL\category-init.sql" />
+    <Content Include="Scripts\MSSQL\category-procedure.sql" />
+    <Content Include="Scripts\MSSQL\DataBase.sql" />
+    <Content Include="Scripts\MSSQL\DBCreation.sql" />
+    <Content Include="Scripts\MSSQL\enumeration-init.sql" />
+    <Content Include="Scripts\MSSQL\line-item-init.sql" />
+    <Content Include="Scripts\MSSQL\more-account-records.sql" />
+    <Content Include="Scripts\MSSQL\order-init.sql" />
+    <Content Include="Scripts\MSSQL\other-init.sql" />
+    <Content Include="Scripts\MSSQL\swap-procedure.sql" />
+    <Content Include="Scripts\MSSQL\user-init.sql" />
+    <Content Include="Scripts\MySql\account-init.sql" />
+    <Content Include="Scripts\MySql\account-procedure.sql" />
+    <Content Include="Scripts\MySql\category-init.sql" />
+    <Content Include="Scripts\MySql\category-procedure.sql" />
+    <Content Include="Scripts\MySql\DataBase.sql" />
+    <Content Include="Scripts\MySql\enumeration-init.sql" />
+    <Content Include="Scripts\MySql\line-item-init.sql" />
+    <Content Include="Scripts\MySql\more-account-records.sql" />
+    <Content Include="Scripts\MySql\order-init.sql" />
+    <Content Include="Scripts\MySql\other-init.sql" />
+    <Content Include="Scripts\MySql\swap-procedure.sql" />
+    <Content Include="Scripts\MySql\user-init.sql" />
+    <Content Include="Scripts\Oracle\account-init.sql" />
+    <Content Include="Scripts\Oracle\account-procedure.sql" />
+    <Content Include="Scripts\Oracle\category-init.sql" />
+    <Content Include="Scripts\Oracle\category-procedure.sql" />
+    <Content Include="Scripts\Oracle\DataBase.sql" />
+    <Content Include="Scripts\Oracle\DataBaseNHibernate.sql" />
+    <Content Include="Scripts\Oracle\enumeration-init.sql" />
+    <Content Include="Scripts\Oracle\line-item-init.sql" />
+    <Content Include="Scripts\Oracle\more-account-records.sql" />
+    <Content Include="Scripts\Oracle\order-init.sql" />
+    <Content Include="Scripts\Oracle\other-init.sql" />
+    <Content Include="Scripts\Oracle\swap-procedure.sql" />
+    <Content Include="Scripts\Oracle\user-init.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
+      <Project>{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE}</Project>
+      <Name>Apache.Ibatis.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="properties.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fixtures\CommonTests\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables
+END
+NullableDoubleTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableDoubleTypeHandler.cs
+END
+NullableCharTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableCharTypeHandler.cs
+END
+NullableBooleanTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableBooleanTypeHandler.cs
+END
+NullableTimeSpanTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableTimeSpanTypeHandler.cs
+END
+NullableSingleTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableSingleTypeHandler.cs
+END
+NullableUInt32TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableUInt32TypeHandler.cs
+END
+NullableSByteTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableSByteTypeHandler.cs
+END
+NullableUInt16TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableUInt16TypeHandler.cs
+END
+NullableGuidTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableGuidTypeHandler.cs
+END
+NullableUInt64TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableUInt64TypeHandler.cs
+END
+NullableDateTimeTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableDateTimeTypeHandler.cs
+END
+NullableDecimalTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableDecimalTypeHandler.cs
+END
+NullableInt32TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableInt32TypeHandler.cs
+END
+NullableInt16TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableInt16TypeHandler.cs
+END
+NullableByteTypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableByteTypeHandler.cs
+END
+NullableInt64TypeHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/TypeHandlers/Nullables/NullableInt64TypeHandler.cs
+END

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="handler">
+  <title>Session Handler Implementations and Configuration</title>
+
+  <sect1>
+    <title>Overview</title>
+
+    <para>A Session Handler implementation is a component that manages
+    transaction and connections for a session. There are currently three
+    implementations of session handlers that come with the framework: Simple,
+    SqlMap, and NHibernate.</para>
+  </sect1>
+
+  <sect1>
+    <title>Simple DAO Session Handler (Default) Example Configuration</title>
+
+    <para>This implementation uses ADO.NET to provide a connection and
+    transaction via the ADO.NET API.</para>
+
+    <example>
+      <title>Example Simple DAO Session Handler configuration</title>
+
+      <programlisting>&lt;context id="<emphasis role="blue">SimpleDao</emphasis>" default="<emphasis
+          role="blue">true</emphasis>"&gt;
+  &lt;properties resource="<emphasis role="blue">database.config</emphasis>"/&gt;
+
+  &lt;database&gt;
+    <emphasis role="comment">&lt;!-- Optional ( default ) --&gt;</emphasis>
+    &lt;provider name="<emphasis role="blue">sqlServer1.1</emphasis>"/&gt;
+    &lt;dataSource name="<emphasis role="blue">iBatisNet</emphasis>" 
+                connectionString="<emphasis role="blue">data source=${datasource};database=${database};
+                user id=${userid};password=${password}</emphasis>"/&gt;
+  &lt;/database&gt;
+
+  <emphasis role="comment">&lt;!-- Element daoSessionHandler (ADONET) is Optional ( default ) --&gt;</emphasis>
+
+  &lt;daoFactory&gt;
+    &lt;dao interface="<emphasis role="blue">IBatisNet.Test.Dao.Interfaces.IAccountDao, IBatisNet.Test</emphasis>"
+         implementation="<emphasis role="blue">IBatisNet.Test.Dao.Implementations.Ado.AccountDao, IBatisNet.Test</emphasis>"/&gt;
+  &lt;/daoFactory&gt;
+&lt;/context&gt;</programlisting>
+    </example>
+
+    <para></para>
+  </sect1>
+
+  <sect1>
+    <title>SqlMap DAO Session Handler Example Configuration</title>
+
+    <para>The SqlMap session handler implementation wraps iBATIS Data Mapper
+    SqlMapper session management services for simple use via the DAO
+    framework. All you need to specify is the SqlMap configuration
+    file.</para>
+
+    <example>
+      <title>Example SqlMap DAO Session Handler configuration</title>
+
+      <programlisting>&lt;context id="<emphasis role="blue">SqlMapDao</emphasis>"&gt;
+  &lt;properties resource="<emphasis role="blue">database.config</emphasis>"/&gt;
+
+  &lt;database&gt;
+    &lt;provider name="<emphasis role="blue">OleDb1.1</emphasis>"/&gt;
+    &lt;dataSource name="<emphasis role="blue">iBatisNet</emphasis>" 
+                connectionString="<emphasis role="blue">Provider=SQLOLEDB;Server=${database};database=IBatisNet;
+                user id=${userid};password=${password};</emphasis>"/&gt;
+  &lt;/database&gt;
+
+  &lt;daoSessionHandler id="SqlMap"&gt;
+    &lt;property name="resource" value="<emphasis role="blue">SqlMap.config</emphasis>"/&gt;
+  &lt;/daoSessionHandler&gt;
+
+  &lt;daoFactory&gt;
+    &lt;dao interface="<emphasis role="blue">IBatisNet.Test.Dao.Interfaces.IAccountDao, IBatisNet.Test</emphasis>" 
+         implementation="<emphasis role="blue">IBatisNet.Test.Dao.Implementations.DataMapper.AccountDao, IBatisNet.Test"</emphasis>/&gt;
+ &lt;/daoFactory&gt;
+&lt;/context&gt;</programlisting>
+    </example>
+
+    <para></para>
+  </sect1>
+
+  <sect1>
+    <title>NHibernate DAO Session Handler Example Configuration</title>
+
+    <para>Similar to the SqlMap implementation, the NHibernate session handler
+    implementation wraps the NHibernate session management services for simple
+    use via the DAO framework. Basically, the properties specified in the
+    configuration are the same as those that would normally be specified in an
+    NHibernate configuration section. Here is an example configuration:</para>
+
+    <example>
+      <title>Example NHibernate DAO Session Handler configuration</title>
+
+      <programlisting>&lt;context id="<emphasis role="blue">NHibernateDao</emphasis>"&gt;
+  &lt;properties resource="<emphasis role="blue">database.config</emphasis>"/&gt;
+    
+  &lt;database&gt;
+    &lt;provider name="<emphasis role="blue">OleDb1.1</emphasis>"/&gt;
+    &lt;dataSource name="<emphasis role="blue">iBatisNet</emphasis>" 
+                connectionString="<emphasis role="blue">Provider=SQLOLEDB;Server=${database};database=IBatisNet;
+                user id=${userid};password=${password};</emphasis>"/&gt;
+  &lt;/database&gt;
+
+  &lt;daoSessionHandler id="NHibernate"&gt;
+    &lt;property name="hibernate.dialect" 
+              value="<emphasis role="blue">NHibernate.Dialect.MsSql2000Dialect</emphasis>"/&gt;
+    &lt;property name="hibernate.connection.provider"
+              value="<emphasis role="blue">NHibernate.Connection.DriverConnectionProvider</emphasis>"/&gt;
+    &lt;property name="hibernate.connection.driver_class" 
+              value="<emphasis role="blue">NHibernate.Driver.SqlClientDrive</emphasis>r"/&gt;
+    &lt;property name="mapping" value="<emphasis role="blue">IBatisNet.Test</emphasis>"/&gt;
+    &lt;property name="show_sql" value="<emphasis role="blue">false</emphasis>"/&gt;
+    &lt;property name="use_outer_join" value="<emphasis role="blue">true</emphasis>"/&gt;
+  &lt;/daoSessionHandler&gt;
+
+  &lt;daoFactory&gt;
+    &lt;dao interface="<emphasis role="blue">IBatisNet.Test.Dao.Interfaces.IAccountDao, IBatisNet.Test</emphasis>" 
+         implementation="<emphasis role="blue">IBatisNet.Test.Dao.Implementations.DataMapper.AccountDao, IBatisNet.Test</emphasis>"/&gt;
+  &lt;/daoFactory&gt;
+&lt;/context&gt;</programlisting>
+    </example>
+  </sect1>
+</chapter>

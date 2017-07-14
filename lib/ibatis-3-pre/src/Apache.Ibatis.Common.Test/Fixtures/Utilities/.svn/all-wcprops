@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities
+END
+AssemblyResourceLoaderTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/AssemblyResourceLoaderTest.cs
+END
+FileResourceLoaderTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/FileResourceLoaderTest.cs
+END
+ProtectedFieldAccessorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/ProtectedFieldAccessorTest.cs
+END
+Timer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/Timer.cs
+END
+PropertyAccessorPerformance.cs
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/PropertyAccessorPerformance.cs
+END
+sample.txt
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/sample.txt
+END
+ObjectFactoryTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/ObjectFactoryTest.cs
+END
+TypeUtilsTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/TypeUtilsTest.cs
+END
+BaseMemberTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/BaseMemberTest.cs
+END
+TypeResolverTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/TypeResolverTest.cs
+END
+PublicFieldAccessorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/PublicFieldAccessorTest.cs
+END
+FieldAccessorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/FieldAccessorTest.cs
+END
+ReflectionInfoTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/ReflectionInfoTest.cs
+END
+PropertyAccessorTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/PropertyAccessorTest.cs
+END
+ResourcesTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Utilities/ResourcesTest.cs
+END

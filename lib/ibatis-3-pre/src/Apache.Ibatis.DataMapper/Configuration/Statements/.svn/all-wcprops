@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements
+END
+Update.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Update.cs
+END
+Delete.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Delete.cs
+END
+Insert.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Insert.cs
+END
+Statement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Statement.cs
+END
+SqlGenerator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/SqlGenerator.cs
+END
+PreparedStatement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/PreparedStatement.cs
+END
+Procedure.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Procedure.cs
+END
+SelectKey.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/SelectKey.cs
+END
+Generate.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Generate.cs
+END
+IStatement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/IStatement.cs
+END
+PreparedStatementFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/PreparedStatementFactory.cs
+END
+Select.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Statements/Select.cs
+END

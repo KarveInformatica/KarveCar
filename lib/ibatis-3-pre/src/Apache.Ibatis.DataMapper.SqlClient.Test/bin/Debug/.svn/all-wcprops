@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug
+END
+SqlMap.velocity.config
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap.velocity.config
+END
+SqlMap.config
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap.config
+END
+providers.config
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/providers.config
+END
+SqlMap.event.config
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap.event.config
+END
+SqlMap_Test_Configure.config
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap_Test_Configure.config
+END
+test.config
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/test.config
+END
+SqlMap_StatementOnly.config
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap_StatementOnly.config
+END
+SqlMap.config.json
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/bin/Debug/SqlMap.config.json
+END

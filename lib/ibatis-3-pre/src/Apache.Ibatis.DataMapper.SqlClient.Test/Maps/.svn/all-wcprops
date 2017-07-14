@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps
+END
+ParameterClass.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/ParameterClass.xml
+END
+LineItem.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/LineItem.xml
+END
+Complex.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Complex.xml
+END
+Order.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Order.xml
+END
+Mapping1.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Mapping1.xml
+END
+EmbedParameter.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/EmbedParameter.xml
+END
+Category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Category.xml
+END
+Mapping2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Mapping2.xml
+END
+Document.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Document.xml
+END
+ParentChild1.xml
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/ParentChild1.xml
+END
+Mapping3.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Mapping3.xml
+END
+Mapping4.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Mapping4.xml
+END
+ParentChild2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/ParentChild2.xml
+END
+Mapping5.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Mapping5.xml
+END
+Other.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Other.xml
+END
+Event.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Event.xml
+END
+Dynamic.Velocity.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Dynamic.Velocity.xml
+END
+DocumentModule.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/DocumentModule.xml
+END
+Coupons.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Coupons.xml
+END
+Enumeration.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Enumeration.xml
+END
+ConstructorInjection.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/ConstructorInjection.xml
+END
+Simple.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Simple.xml
+END
+Account.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Account.xml
+END
+Iterate.xml
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Iterate.xml
+END
+Nullable.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/Nullable.xml
+END
+DynamicAccount.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/DynamicAccount.xml
+END
+AccountModule.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/AccountModule.xml
+END
+GroupByMapping.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/GroupByMapping.xml
+END
+NewsPaper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/NewsPaper.xml
+END
+ResultClass.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Maps/ResultClass.xml
+END

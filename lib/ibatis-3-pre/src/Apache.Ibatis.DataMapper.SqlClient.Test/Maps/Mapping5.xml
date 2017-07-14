@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<sqlMap namespace="Order" 
+xmlns="http://ibatis.apache.org/mapping" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<alias>
+		<typeAlias alias="Order" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.Order, Apache.Ibatis.DataMapper.SqlClient.Test" />
+	</alias>
+
+	<parameterMaps>   
+		
+		<parameterMap id="insert-params" class="Order">
+			<parameter property="Id" dbType="Int"/>	<!-- Int for SqlClient, Obdc; Integer for Oledb -->
+			<parameter property="Account.Id"/>
+			<parameter property="Date" nullValue="01/01/0001 00:00:00" />
+			<parameter property="CardExpiry" />
+			<parameter property="CardType" />			
+			<parameter property="CardNumber" />
+			<parameter property="Street" />
+			<parameter property="City" />			
+			<parameter property="Province" />
+			<parameter property="PostalCode" />
+		</parameterMap>
+		
+		<parameterMap id="params-parent" class="Order"> <!-- 1043181 support request -->
+			<parameter property="Id" dbType="Int"/>	
+			<parameter property="Account.Id"/>
+			<parameter property="Date" nullValue="01/01/0001 00:00:00" />
+			<parameter property="CardExpiry" />
+			<parameter property="CardType" />			
+			<parameter property="CardNumber" />
+    </parameterMap>
+
+    <parameterMap id="insert-extend" extends="params-parent" class="Order">
+      <parameter property="Street" />
+      <parameter property="City" />
+      <parameter property="Province" />
+      <parameter property="PostalCode" />
+    </parameterMap>
+		
+	</parameterMaps>
+
+</sqlMap>

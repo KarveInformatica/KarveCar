@@ -1,0 +1,226 @@
+<?xml version="1.0" ?>
+<project name="iBATIS.NET reference" default="refDoc" >
+
+	<property name="project.dao.version" value="1.9.1" unless="${property::exists('project.dao.version')}" />
+	<property name="project.sqlMap.version" value="1.6.1" unless="${property::exists('project.sqlMap.version')}" />
+
+	<property name="project.name" value="Data Access Guide" />
+
+	<!-- docbook libraries and dependencies -->
+	<property name="docbook.lib.dir" value="docbook" />
+	<!-- xsltproc libraries and dependencies -->
+	<property name="xsltproc.lib.dir" value="xsltproc" />
+	<!-- fop libraries and dependencies -->
+	<property name="fop.lib.dir" value="fop" />
+
+	<!-- The current Guide -->
+	<property name="guide.dir" value="dataAccessGuide" />
+
+	<!-- the current language  -->	
+	<property name="src.lang" value="en" />
+	<property name="xml.src.dir" value="${guide.dir}/src/${src.lang}" />
+	<property name="style.src.dir" value="${guide.dir}/styles" />
+
+	<!-- ******************************* -->
+	<!-- docbook reference documentation -->
+	<!-- ******************************* -->
+	<property name="doc.output.dir" value="output" />
+	<!-- reference docbook source base directory -->	
+	<property name="doc.ref.dir" value="reference" />
+	<!-- reference docbook output base directory -->
+	<property name="doc.ref.output.dir" value="${doc.output.dir}" />
+
+	<!-- the main source code directory for the iBATIS.NET codebase  -->	
+	<property name="src.dir" value="../mapper" />
+
+	<target name="clean" description="Delete output and temporary directories.">
+		<delete dir="${doc.output.dir}" failonerror="false"/>
+	</target>
+
+	<target name="refDoc" depends="clean, daoDoc, sqlMapDoc" description="Generate iBATIS.NET documentation" />
+
+	<target name="daoDoc" description="Generate DataAccess documentation">
+		<property name="project.name" value="Data Access Guide" />
+		<property name="project.version" value="${project.dao.version}" />
+		<property name="guide.dir" value="dataAccessGuide" />
+
+		<property name="xml.src.dir" value="${guide.dir}/src/${src.lang}" />
+		<property name="style.src.dir" value="${guide.dir}/styles" />
+
+ 		<call target="prepareDaoDocs" />
+		<call target="docHtmlHelp" />
+		<call target="docPDF" />
+	</target>
+
+	<target name="sqlMapDoc" description="Generate DataMapper documentation">
+		<property name="project.name" value="Data Mapper Guide" />
+		<property name="project.version" value="${project.sqlMap.version}" />
+		<property name="guide.dir" value="dataMapperGuide" />
+	
+		<property name="xml.src.dir" value="${guide.dir}/src/${src.lang}" />
+		<property name="style.src.dir" value="${guide.dir}/styles" />
+
+		<call target="prepareSqlMapDocs" />
+		<call target="docHtmlHelp" />
+		<call target="docPDF" />
+	</target>
+
+	<target name="tutorialDoc" description="Generate DataMapper tutorial">
+		<property name="project.name" value="Data Mapper tutorial" />
+		<property name="project.version" value="${project.sqlMap.version}" />
+		<property name="guide.dir" value="tutorial" />
+	
+		<property name="xml.src.dir" value="${guide.dir}/src/${src.lang}" />
+		<property name="style.src.dir" value="${guide.dir}/styles" />
+
+		<call target="docHtmlHelp" />
+		<call target="docPDF" />
+	</target>
+
+	<target name="docHTML" depends="prepareDocsHTML" description="Build reference documentation to html">
+
+		<exec program="${xsltproc.lib.dir}/xsltproc.exe" 
+		 failonerror="false"
+		 commandline="--nonet ${style.src.dir}/html.xsl ${xml.src.dir}/index.xml -o ${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/" />
+
+		<!-- copy dev guide images -->
+		<copy todir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/images">
+		  <fileset basedir="${xml.src.dir}/images/">
+			<include name="*.gif"/>
+			<include name="*.svg"/>
+			<include name="*.jpg"/>
+			<include name="*.png"/>
+		  </fileset>
+		</copy>
+
+		<!-- copy docBook images -->
+		<copy todir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/images">
+		  <fileset basedir="${docbook.lib.dir}/images">
+			<include name="**/*.gif"/>
+			<include name="**/*.png"/>
+		  </fileset>
+		</copy>
+	</target>
+
+	<target name="docHtmlHelp" depends="docHTML" description="Build reference documentation to MS HTML-HELP">
+		<mkdir dir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/htmlhelp" />
+
+		<!-- Build CHM guide  -->
+		<exec program="hhc.exe" 
+		failonerror="false"
+		commandline="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/htmlhelp.hhp" />
+
+		<!-- Copy CHM guide  -->
+		<copy 
+		file="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/doc.chm" 
+		tofile="${doc.ref.output.dir}/${guide.dir}/${src.lang}/htmlhelp/${project.name}-${project.version}.chm">
+		</copy>
+
+		<!-- remove temp files -->
+        <delete>
+            <fileset basedir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/">
+                <!-- remove test files -->
+                <include name="*.hhc" />
+				<include name="*.chm" />
+				<include name="*.hhp" />
+            </fileset>
+        </delete>
+  </target>
+
+
+	<target name="docPDF" description="Compile reference documentation to pdf">
+		
+		<!-- copy dev guide images -->
+		<copy todir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/images">
+		  <fileset basedir="${xml.src.dir}/images/">
+			<include name="*.gif"/>
+			<include name="*.svg"/>
+			<include name="*.jpg"/>
+			<include name="*.png"/>
+		  </fileset>
+		</copy>
+
+		<!-- copy docBook images -->
+		<copy todir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html/images">
+		  <fileset basedir="${docbook.lib.dir}/images">
+			<include name="**/*.gif"/>
+			<include name="**/*.png"/>
+		  </fileset>
+		</copy>
+
+	   	<exec program="${xsltproc.lib.dir}/xsltproc.exe" 
+		 failonerror="false"
+		 commandline="--nonet ${style.src.dir}/fopdf.xsl ${xml.src.dir}/index.xml -o ${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}_temp.fo" />
+
+	   	<exec program="${fop.lib.dir}/fop.bat" 
+		 failonerror="false"
+		 commandline="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}_temp.fo ${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}.pdf" />
+
+		<copy file="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}.pdf" tofile="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${project.name}-${project.version}.pdf" />
+
+		<!-- remove temp files/dir -->
+		<delete dir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/images" failonerror="false"/>
+		<delete file="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}.pdf" failonerror="false"/>
+		<delete file="${doc.ref.output.dir}/${guide.dir}/${src.lang}/pdf/${guide.dir}_temp.fo" failonerror="false"/>
+
+	</target>
+
+	<!-- Extra preparation for HTML documentation -->
+	<target name="prepareDocsHTML">
+		<mkdir dir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html" />
+		<copy file="${style.src.dir}/html.css"
+		todir="${doc.ref.output.dir}/${guide.dir}/${src.lang}/html"/>
+	</target>
+	
+
+	<!-- Extra preparation for dao documentation (common to all formats)-->
+	<target name="prepareDaoDocs" description="Extra preparation for the dao documentation (common to all formats)">
+		<delete file="${xml.src.dir}/xsd.xml" failonerror="false"/>
+
+		<loadfile property="doc.dao.schema" file="${src.dir}/IBatisNet.DataAccess/DaoConfig.xsd" />
+
+		<copy file="${xml.src.dir}/xsd-template.xml" tofile="${xml.src.dir}/xsd.xml" >
+			<filterchain>
+				<replacestring from="@xsd-include@" to="${doc.dao.schema}"/>
+			</filterchain>
+		</copy> 
+	</target>
+
+ 	<!-- Extra preparation for SqlMap documentation (common to all formats)-->
+	<target name="prepareSqlMapDocs" description="Extra preparation for the SqlMap documentation (common to all formats)">
+		<delete file="${xml.src.dir}/xsd-config.xml" failonerror="false"/>
+ 		<delete file="${xml.src.dir}/xsd-sqlMap.xml" failonerror="false"/>
+
+		<loadfile property="doc.config.schema" file="${src.dir}/IBatisNet.DataMapper/SqlMapConfig.xsd" />
+ 		<loadfile property="doc.sqlMap.schema" file="${src.dir}/IBatisNet.DataMapper/SqlMap.xsd" />
+
+		<copy file="${xml.src.dir}/xsd-config-template.xml" tofile="${xml.src.dir}/xsd-config.xml" >
+			<filterchain>
+				<replacestring from="@xsd-include@" to="${doc.config.schema}"/>
+			</filterchain>
+		</copy> 
+		<copy file="${xml.src.dir}/xsd-sqlMap-template.xml" tofile="${xml.src.dir}/xsd-sqlMap.xml" >
+			<filterchain>
+				<replacestring from="@xsd-include@" to="${doc.sqlMap.schema}"/>
+			</filterchain>
+		</copy> 
+	</target>
+
+<!--
+    
+  copies content common to all docs to the dir in the ${doc.type.output.dir} property
+ 
+  <target name="copycommoncontent">
+    <mkdir dir="${doc.type.output.dir}"/>
+    <copy todir="${doc.type.output.dir}">
+      <fileset dir="${basedir}/${doc.ref.dir}/src/images">
+        <include name="*.gif"/>
+        <include name="*.svg"/>
+        <include name="*.jpg"/>
+        <include name="*.png"/>
+      </fileset>
+    </copy>
+  </target>
+	
+ -->
+</project>

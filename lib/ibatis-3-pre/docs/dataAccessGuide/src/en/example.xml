@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="example">
+  <title>Examples</title>
+
+  <sect1>
+    <title>NPetshop Application</title>
+
+    <para>For a complete example of using the DAO Framework, please visit
+    <ulink url="http://ibatis.apache.org/">http://ibatis.apache.org/</ulink>
+    and download the NPetshop demo application. Have fun!</para>
+  </sect1>
+</chapter>

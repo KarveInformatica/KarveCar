@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements
+END
+Generate.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Generate.cs
+END
+IStatement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/IStatement.cs
+END
+PreparedStatementFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/PreparedStatementFactory.cs
+END
+Select.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Select.cs
+END
+Update.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Update.cs
+END
+Delete.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Delete.cs
+END
+Insert.cs
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Insert.cs
+END
+Statement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Statement.cs
+END
+SqlGenerator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/SqlGenerator.cs
+END
+PreparedStatement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/PreparedStatement.cs
+END
+Procedure.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/Procedure.cs
+END
+SelectKey.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/Statements/SelectKey.cs
+END

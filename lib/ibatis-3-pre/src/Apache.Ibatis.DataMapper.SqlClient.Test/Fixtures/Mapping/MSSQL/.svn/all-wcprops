@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/MSSQL
+END
+StatementTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/MSSQL/StatementTest.cs
+END
+ProcedureTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/MSSQL/ProcedureTest.cs
+END

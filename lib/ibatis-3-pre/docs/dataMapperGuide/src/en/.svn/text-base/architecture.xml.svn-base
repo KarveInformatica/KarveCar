@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="architecture">
+  <title>The Big Picture</title>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>iBATIS is a simple but complete framework that makes it easy for you
+    to map your objects to your SQL statements or stored procedures. The goal
+    of the iBATIS framework is to obtain 80% of data access functionality
+    using only 20% of the code.</para>
+  </sect1>
+
+  <sect1>
+    <title>What does it do?</title>
+
+    <para>Developers often create maps between objects within an application.
+    One definition of a Mapper is an "object that sets up communication
+    between two independent objects." A Data Mapper is a "layer of mappers
+    that moves data between objects and a database while keeping them
+    independent of each other and the mapper itself. " [Patterns of Enterprise
+    Architecture, ISBN 0-321-12742-0].</para>
+
+    <para>You provide the database and the objects; iBATIS provides the
+    mapping layer that goes between the two.</para>
+  </sect1>
+
+  <sect1>
+     
+
+    <title>How does it work?</title>
+
+     
+
+    <para>Your programming platform already provides a capable library for
+    accessing databases, whether through SQL statements or stored procedures.
+    But developers find several things are still hard to do well when using
+    "stock" ADO.NET, including:<itemizedlist>
+        <listitem>Separating SQL code from programming code</listitem>
+
+        <listitem>Passing input parameters to the library classes and
+        extracting the output</listitem>
+
+        <listitem>Separating data access classes from business logic
+        classes</listitem>
+
+        <listitem>Caching often-used data until it changes</listitem>
+
+        <listitem>Managing transactions and threading</listitem>
+      </itemizedlist></para>
+
+     
+
+    <para>iBATIS DataMapper solves these problems -- and many more -- by using
+    XML documents to create a mapping between a plain-old object and a SQL
+    statement or a stored procedure. The "plain-old object" can be a
+    IDictionary or property object. <tip>
+        <para>The object does not need to be part of a special object
+        hierarchy or implement a special interface. (Which is why we call them
+        "plain-old" objects.) Whatever you are already using should work just
+        fine.</para>
+      </tip></para>
+
+     
+
+    <para>
+      <figure>
+        <title>iBATIS DataMapper workflow</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="images/devguide-1.gif"
+                       format="GIF" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </para>
+
+     Here's a high level description of the workflow diagrammed by Figure 2.1: 
+
+    <orderedlist>
+      <listitem>
+        <para>Provide a parameter, either as an object or a native type. The
+        parameter can be used to set runtime values in your SQL statement or
+        stored procedure. If a runtime value is not needed, the parameter can
+        be omitted.</para>
+      </listitem>
+
+      <listitem>
+        <para>Execute the mapping by passing the parameter and the name you
+        gave the statement or procedure in your XML descriptor. This step is
+        where the magic happens. The framework will prepare the SQL statement
+        or stored procedure, set any runtime values using your parameter,
+        execute the procedure or statement, and return the result.</para>
+      </listitem>
+
+      <listitem>
+        <para>In the case of an update, the number of rows affected is
+        returned. In the case of a query, a single object, or a collection of
+        objects is returned. Like the parameter, the result object, or
+        collection of objects, can be a plain-old object or a native
+        type.</para>
+      </listitem>
+    </orderedlist>
+
+     
+
+    <para>So, what does all this look like in your source code? Here's how you
+    might code the insert of a "lineItem" object into your
+    database:<programlisting>C#
+Mapper.Instance().Insert("InsertLineItem",lineItem);</programlisting>If your
+    database is generating the primary keys, the generated key can be returned
+    from the same method call, like this:</para>
+
+     
+
+    <programlisting>C#
+int myKey = Mapper.Instance().Insert("InsertLineItem",lineItem);</programlisting>
+
+     
+
+    <para>Example 2.1 shows an XML descriptor for "InsertLineItem".</para>
+
+     
+
+    <para>
+      <example>
+        <title>The "InsertLineItem" descriptor</title>
+
+        <programlisting>&lt;insert id="InsertLineItem" parameterClass="LineItem"&gt;
+  INSERT INTO [LinesItem] 
+    (Order_Id, LineItem_LineNum, Item_Id, LineItem_Quantity, LineItem_UnitPrice)
+  VALUES
+    (#Order.Id#, #LineNumber#, #Item.Id#, #Quantity#, #Item.ListPrice#)
+ &lt;selectKey type="post" resultClass="int" property="Id" &gt;
+  select @@IDENTITY as value
+ &lt;/selectKey&gt;
+&lt;/insert&gt;</programlisting>
+      </example>
+    </para>
+
+     
+
+    <para>The &lt;selectKey&gt; stanza returns an autogenerated key from a SQL
+    Server database (for example).</para>
+
+     
+
+    <para>If you need to select multiple rows, iBATIS can return a list of
+    objects, each mapped to a row in the result set:</para>
+
+     
+
+    <para>
+      <programlisting>C#
+IList productList = Mapper.Instance().QueryForList("selectProduct",categoryKey);</programlisting>
+    </para>
+
+     
+
+    <para>Or just one, if that's all you need:<programlisting>C#
+Product product = Mapper.Instance().QueryForObject("SelectProduct",productKey) as Product;</programlisting></para>
+
+     
+
+    <para>Of course, there's more, but this is iBATIS from 10,000 meters. (For
+    a longer, gentler introduction, see the Tutorial.) Section 3 describes the
+    Data Map definition files -- where the statement for "InsertLineItem"
+    would be defined. The Developers Guide for your platform (Section 4)
+    describes the "bootstrap" configuration file that exposes iBATIS to your
+    application.</para>
+
+     
+  </sect1>
+
+  <sect1>
+    <title>Is iBATIS the best choice for my project?</title>
+
+    <para>iBATIS is a Data Mapping tool. Its role is to map the columns of a
+    database query (including a stored procedure) to the properties of an
+    object. If your application is based on business objects (including Maps
+    or IDictionary objects), then iBATIS can be a good choice. iBATIS is an
+    even better choice when your application is layered, so that that the
+    business layer is distinct from the user-interface layer.</para>
+
+    <para>Under these circumstances, another good choice would be an
+    Object/Relational Mapping tool (OR/M tool), like NHibernate. Other
+    products in this category are Apache ObjectRelationalBridge and
+    Gentle.NET. An OR/M tool generates all or most of the SQL for you, either
+    beforehand or at runtime. These products are called OR/M tools because
+    they try to map an object graph to a relational schema.</para>
+
+    <para>iBATIS is not an OR/M tool. iBATIS helps you map objects to stored
+    procedures or SQL statements. The underlying schema is irrelevant. An OR/M
+    tool is great if you can map your objects to tables. But they are not so
+    great if your objects are stored as a relational view rather than as a
+    table. If you can write a statement or procedure that exposes the columns
+    for your object, regardless of how they are stored, iBATIS can do the
+    rest.</para>
+
+    <para>So, how do you decide whether to OR/M or to DataMap? As always, the
+    best advice is to implement a representative part of your project using
+    either approach, and then decide. But, in general, OR/M is a good thing
+    when you</para>
+
+    <orderedlist spacing="compact">
+      <listitem>
+        <para>Have complete control over your database implementation</para>
+      </listitem>
+
+      <listitem>
+        <para>Do not have a Database Administrator or SQL guru on the
+        team</para>
+      </listitem>
+
+      <listitem>
+        <para>Need to model the problem domain outside the database as an
+        object graph.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>Likewise, the best time to use a Data Mapper, like iBATIS, is
+    when:</para>
+
+    <orderedlist spacing="compact">
+      <listitem>
+        <para>You do <emphasis>not</emphasis> have complete control over the
+        database implementation, or want to continue to access a legacy
+        database as it is being refactored.</para>
+      </listitem>
+
+      <listitem>
+        <para>You have database administrators or SQL gurus on the
+        team.</para>
+      </listitem>
+
+      <listitem>
+        <para>The database is being used to model the problem domain, and the
+        application's primary role is to help the client use the database
+        model.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>In the end, <emphasis>you</emphasis> have to decide what's best for
+    <emphasis>your</emphasis> project. If a OR/M tool works better for you,
+    that's great! If your next project has different needs, then we hope you
+    give iBATIS another look. If iBATIS works for you now: Excellent! Join the
+    iBATIS user mailing list if you have any questions.</para>
+  </sect1>
+</chapter>

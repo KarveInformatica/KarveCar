@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dao">
+  <title>Data Access Objects</title>
+
+  <sect1>
+    <title>Data Access Objects</title>
+
+    <para>The iBATIS.NET Data Access Objects API can be used to help hide
+    persistence layer implementation details from the rest of your application
+    by allowing dynamic and pluggable DAO components to be easily swapped in
+    and out. For example, you could have two implementations of a particular
+    DAO, one that uses the iBATIS.NET DataMapper framework and another that
+    uses the NHibernate framework, to persist objects to the database. Another
+    example would be a DAO that provides caching services for another DAO.
+    Depending on the situation (e.g. limited database performance vs. limited
+    memory), either the cache DAO could be plugged in or the standard
+    un-cached DAO could be used. These examples show the convenience, and more
+    importantly, the safety that the DAO pattern provides. The DAO pattern
+    protects your application from possibly being tied to a particular
+    persistence approach. In the event that your current solution becomes
+    unsuitable (or even unavailable), you can simply create new DAO
+    implementations to support a new solution without having to modify any
+    code in the other layers of your application.</para>
+
+    <note>
+      <para>The iBATIS.NET DAO Framework and DataMapper Framework are
+      completely separate and are not dependent on each other in any way.
+      Please feel free to use either one separately, or both together.</para>
+    </note>
+  </sect1>
+
+  <sect1>
+    <title>The Components of the Data Access Objects API</title>
+
+    <para>There are a number of classes that make up the IBatisNet.DataAccess
+    API. Each has a very specific and important role. The following table
+    lists the classes and a brief description. The next sections will provide
+    more detail on how to use these classes.</para>
+
+    <table>
+      <title>IBatisNet.DataAccess API Classes</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>Class/Interface (Patterns)</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+		
+		 <row>
+            
+			<entry>DomDaoManagerBuilder</entry>
+
+            <entry>Responsible for configuration of the DAO framework (via
+            dao.config), instantiating DAO implementations and IDaoManager instances.</entry>
+          </row>
+
+		<row>
+			<entry>IDaoManager (Facade)</entry>
+
+            <entry>Acting as a façade to the rest of the API.</entry>
+          </row>
+
+          <row>
+            <entry>IDalSession (Marker Interface)</entry>
+
+            <entry>A generic marker interface for a database session. A common
+            implementation would wrap an ADO.NET connection/transaction
+            object.</entry>
+          </row>
+
+          <row>
+            <entry>DataAccessException (Runtime Exception)</entry>
+
+            <entry>All methods and classes in the DAO API throw this exception
+            exclusively. DAO implementations should also throw this exception
+            exclusively and avoid throwing any other exception type by nesting
+            them within the DataAccessException.</entry>
+          </row>
+
+          <row>
+            <entry>IDao (Marker Interface)</entry>
+
+            <entry>A marker interface for all DAO implementations. This
+            interface must be implemented by all DAO classes. This interface
+            does not declare any methods to be implemented and only acts as a
+            marker (i.e. something for the XML-based DaoFactory to identify
+            the class by).</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </sect1>
+
+  <sect1>
+    <title>Session Handler</title>
+
+    <table>
+      <title>Session Handler Implementations</title>
+
+      <tgroup cols="2">
+        <thead>
+          <row>
+            <entry>Session Handler</entry>
+
+            <entry>Description</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry>SqlMap</entry>
+
+            <entry>Manages connection and transactions via the DataMapper
+            framework.</entry>
+          </row>
+
+          <row>
+            <entry>NHibernate</entry>
+
+            <entry>Provides easy integration for NHibernate and its associated
+            transaction facilities (SessionFactory, Session,
+            Transaction).</entry>
+          </row>
+
+          <row>
+            <entry>ADONET</entry>
+
+            <entry>Manages connection and transactions via ADO.NET using the
+            basic iBATIS.NET DataSource, IDbConnection, and IDbTransaction
+            interfaces.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" fileref="images/DAODiagram.gif" format="GIF" />
+      </imageobject>
+
+      <caption>
+        <para>iBATIS.NET Data Access Objects</para>
+      </caption>
+    </mediaobject>
+  </sect1>
+</chapter>

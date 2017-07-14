@@ -1,0 +1,6 @@
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\Apache.Ibatis.Common.pdb
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\IBatisNet.Common.xml
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.pdb

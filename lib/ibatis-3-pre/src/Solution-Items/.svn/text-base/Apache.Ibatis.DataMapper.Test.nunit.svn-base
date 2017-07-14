@@ -1,0 +1,6 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Default" />
+  <Config name="Default" binpathtype="Auto">
+    <assembly path="..\Apache.Ibatis.DataMapper.Test\bin\Debug\Apache.Ibatis.DataMapper.Test.dll" />
+  </Config>
+</NUnitProject>
