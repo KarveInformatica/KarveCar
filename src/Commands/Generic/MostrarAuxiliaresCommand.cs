@@ -1,8 +1,8 @@
-﻿using KRibbon.ViewModel.MaestrosViewModel;
+﻿using KarveCar.ViewModel.MaestrosViewModel;
 using System;
 using System.Windows.Input;
 
-namespace KRibbon.Commands.Generic
+namespace KarveCar.Commands.Generic
 {
     public class MostrarAuxiliaresCommand : ICommand
     {

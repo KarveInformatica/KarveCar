@@ -1,4 +1,4 @@
-﻿using KRibbon.ViewModel.GenericViewModel;
+﻿using KarveCar.ViewModel.GenericViewModel;
 using System;
 using System.Windows.Input;
 

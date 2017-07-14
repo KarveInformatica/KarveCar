@@ -1,4 +1,4 @@
-﻿namespace KRibbon.Properties {
+﻿namespace KarveCar.Properties {
     
     
     // Esta clase le permite controlar eventos específicos en la clase de configuración:

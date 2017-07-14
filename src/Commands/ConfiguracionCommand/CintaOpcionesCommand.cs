@@ -1,8 +1,8 @@
-﻿using KRibbon.ViewModel.ConfiguracionViewModel;
+﻿using KarveCar.ViewModel.ConfiguracionViewModel;
 using System;
 using System.Windows.Input;
 
-namespace KRibbon.Commands.ConfiguracionCommand
+namespace KarveCar.Commands.ConfiguracionCommand
 {
     public class CintaOpcionesCommand : ICommand
     {

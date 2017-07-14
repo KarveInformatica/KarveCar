@@ -1,8 +1,8 @@
-﻿using KRibbon.ViewModel.GenericViewModel;
+﻿using KarveCar.ViewModel.GenericViewModel;
 using System;
 using System.Windows.Input;
 
-namespace KRibbon.Commands.Generic
+namespace KarveCar.Commands.Generic
 {
     public class CloseTabItemCommand : ICommand
     {

@@ -7,11 +7,11 @@ using System.Windows;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("KRibbon")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("KarveCar")]
+[assembly: AssemblyDescription("Karve Rent a Car")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("KRibbon")]
+[assembly: AssemblyCompany("Karve Informatica S.L.")]
+[assembly: AssemblyProduct("KarveWinRentACar Next Generation.")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
