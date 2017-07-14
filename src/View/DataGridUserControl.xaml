@@ -1,0 +1,28 @@
+﻿<DataGrid x:Class="KRibbon.View.DataGridUserControl"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+          xmlns:local="clr-namespace:KRibbon.View"
+          mc:Ignorable="d" 
+          
+          HorizontalAlignment="Left"
+          AlternatingRowBackground="WhiteSmoke" 
+          AutoGenerateColumns="True"
+          CanUserAddRows="True"
+          CanUserDeleteRows="True"
+          IsReadOnly="False"
+          SelectionMode="Extended" 
+          SelectionUnit="FullRow"
+          CanUserReorderColumns="True" 
+          CanUserResizeColumns="True" 
+          CanUserResizeRows="True" 
+          CanUserSortColumns="False"
+          FrozenColumnCount="1"
+          
+          SelectedItem="{Binding SelectedIndex}" 
+          PreviewKeyDown="DataGrid_PreviewKeyDown" 
+          CellEditEnding="DataGrid_CellEditEnding">
+    
+</DataGrid>
