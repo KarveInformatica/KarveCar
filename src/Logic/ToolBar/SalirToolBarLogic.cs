@@ -1,4 +1,4 @@
-﻿using KarveCar.Utility;
+﻿ using KarveCar.Utility;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.ToolBar

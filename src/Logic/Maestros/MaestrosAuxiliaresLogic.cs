@@ -329,7 +329,7 @@ namespace KarveCar.Logic.Maestros
             // create the command action and bind the command to it
             var invokeCommandAction = new InvokeCommandAction { CommandParameter = "datagridcommandtest" };
             var binding = new Binding { Path = new PropertyPath("CloseWindowCommand") };
-            BindingOperations.SetBinding(invokeCommandAction, InvokeCommandAction.CommandProperty, binding);
+            BindingOperations.SetBinding(invokeCommandAction, InvokeCommandAction.CommandParameterProperty, binding);
 
             // create the event trigger and add the command action to it
             var eventTrigger = new System.Windows.Interactivity.EventTrigger { EventName = "MouseEnter" };

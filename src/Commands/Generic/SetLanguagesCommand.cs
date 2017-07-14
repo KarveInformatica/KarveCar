@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.Generic
 {
-    public class SetLanguagesCommand : ICommand
+    public class SetLanguagesCommand : AbstractCommand
     {
         private SetLanguagesViewModel setlanguagesvm;
 
@@ -14,15 +14,13 @@ namespace KarveCar.Commands.Generic
         {
             this.setlanguagesvm = vm;
         }
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
+        
+        public override bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             setlanguagesvm.SetLanguages(parameter);
         }

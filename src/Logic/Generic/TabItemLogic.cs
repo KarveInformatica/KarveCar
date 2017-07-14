@@ -39,12 +39,11 @@ namespace KarveCar.Logic.Generic
         /// <param name="opcion"></param>
         public static void RemoveTabItem(EOpcion opcion)
         {
-            if (opcion != null)
-            {   //Se elimina el TabItem del TabControl
-                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem);
+         //Se elimina el TabItem del TabControl
+           ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem);
                 //Se elimina el TabItem del Dictionary tabitemdictionary
-                tabitemdictionary.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Key);
-            }
+           tabitemdictionary.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Key);
+            
         }
     }
 }
