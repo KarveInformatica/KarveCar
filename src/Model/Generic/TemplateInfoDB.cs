@@ -1,6 +1,6 @@
-﻿using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+﻿using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// Plantilla con la info para los campos de la datagrid, y de su correspondiente campo en la DB:<para/>

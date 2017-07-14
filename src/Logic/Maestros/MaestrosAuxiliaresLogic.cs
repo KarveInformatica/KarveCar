@@ -1,19 +1,19 @@
-﻿using KRibbon.Logic.Generic;
-using KRibbon.Logic.ToolBar;
-using KRibbon.Model.Classes;
-using KRibbon.Model.Generic;
-using KRibbon.Model.Sybase;
-using KRibbon.View;
+﻿using KarveCar.Logic.Generic;
+using KarveCar.Logic.ToolBar;
+using KarveCar.Model.Classes;
+using KarveCar.Model.Generic;
+using KarveCar.Model.Sybase;
+using KarveCar.View;
 using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Logic.Maestros
+namespace KarveCar.Logic.Maestros
 {
     public class MaestrosAuxiliaresLogic
     {

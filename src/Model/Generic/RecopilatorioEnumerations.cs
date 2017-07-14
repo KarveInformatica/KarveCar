@@ -1,4 +1,4 @@
-﻿namespace KRibbon.Model.Generic
+﻿namespace KarveCar.Model.Generic
 {
     public class RecopilatorioEnumerations
     {

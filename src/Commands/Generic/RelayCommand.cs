@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace KRibbon.Commands.Generic
+namespace KarveCar.Commands.Generic
 {
     public class RelayCommand : ICommand
     {

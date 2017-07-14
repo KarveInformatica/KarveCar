@@ -1,7 +1,7 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KRibbon.Properties;
+using KarveCar.Properties;
 
-namespace KRibbon.Model.Sybase
+namespace KarveCar.Model.Sybase
 {
     public class ErrorsDB
     {

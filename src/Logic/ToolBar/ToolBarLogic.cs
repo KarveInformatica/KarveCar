@@ -1,9 +1,9 @@
-﻿using KRibbon.Utility;
-using KRibbon.View;
+﻿using KarveCar.Utility;
+using KarveCar.View;
 using System.Windows;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Logic.ToolBar
+namespace KarveCar.Logic.ToolBar
 {
     public class ToolBarLogic
     {

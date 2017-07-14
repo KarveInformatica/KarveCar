@@ -1,7 +1,7 @@
 ﻿using Microsoft.Windows.Controls.Ribbon;
 using System.Collections.Generic;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// Plantilla con la info de los RibbonTab y de los RibbonGroup:<para/>

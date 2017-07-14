@@ -1,7 +1,7 @@
-﻿using KRibbon.Model.Sybase;
-using KRibbon.Properties;
-using KRibbon.View;
-using KRibbon.ViewModel.GenericViewModel;
+﻿using KarveCar.Model.Sybase;
+using KarveCar.Properties;
+using KarveCar.View;
+using KarveCar.ViewModel.GenericViewModel;
 using Microsoft.Windows.Controls.Ribbon;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
 
-namespace KRibbon.Utility
+namespace KarveCar.Utility
 {
     public class UserAndDefaultConfig
     {

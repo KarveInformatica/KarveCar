@@ -1,12 +1,12 @@
-﻿using KRibbon.Commands.Generic;
-using KRibbon.Logic.Generic;
-using KRibbon.Model.Generic;
-using KRibbon.Utility;
+﻿using KarveCar.Commands.Generic;
+using KarveCar.Logic.Generic;
+using KarveCar.Model.Generic;
+using KarveCar.Utility;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Input;
 
-namespace KRibbon.ViewModel.GenericViewModel
+namespace KarveCar.ViewModel.GenericViewModel
 {
     public class SetLanguagesViewModel : GenericPropertyChanged
     {

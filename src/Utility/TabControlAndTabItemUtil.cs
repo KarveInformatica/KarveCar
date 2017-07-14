@@ -1,12 +1,12 @@
-﻿using KRibbon.View;
+﻿using KarveCar.View;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Utility
+namespace KarveCar.Utility
 {
     public class TabControlAndTabItemUtil
     {

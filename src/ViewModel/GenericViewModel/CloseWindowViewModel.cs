@@ -1,8 +1,8 @@
-﻿using KRibbon.Commands.Generic;
-using KRibbon.Model.Generic;
+﻿using KarveCar.Commands.Generic;
+using KarveCar.Model.Generic;
 using System.Windows.Input;
 
-namespace KRibbon.ViewModel.GenericViewModel
+namespace KarveCar.ViewModel.GenericViewModel
 {
     class CloseWindowViewModel : GenericPropertyChanged
     {

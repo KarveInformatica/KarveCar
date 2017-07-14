@@ -1,17 +1,17 @@
-﻿using KRibbon.Logic.Generic;
-using KRibbon.Logic.ToolBar;
-using KRibbon.Model.Generic;
-using KRibbon.Model.Sybase;
-using KRibbon.Utility;
-using KRibbon.View;
+﻿using KarveCar.Logic.Generic;
+using KarveCar.Logic.ToolBar;
+using KarveCar.Model.Generic;
+using KarveCar.Model.Sybase;
+using KarveCar.Utility;
+using KarveCar.View;
 using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Controls;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Logic.Configuracion
+namespace KarveCar.Logic.Configuracion
 {
     public class CintaOpcionesLogic
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// ObservableCollection<object>() genérica que implementa INotifyPropertyChanged

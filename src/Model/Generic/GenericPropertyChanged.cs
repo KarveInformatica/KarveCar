@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     ///  Abstract Class que implementa INotifyPropertyChanged

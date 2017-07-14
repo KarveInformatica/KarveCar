@@ -1,11 +1,11 @@
-﻿using KRibbon.Model.Generic;
+﻿using KarveCar.Model.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
 
-namespace KRibbon.Logic.Maestros
+namespace KarveCar.Logic.Maestros
 {
     public class DataGridMaestrosAuxiliaresLogic
     {

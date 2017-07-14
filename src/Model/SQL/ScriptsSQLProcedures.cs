@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KRibbon.Model.Classes.SQL
+namespace KarveCar.Model.Classes.SQL
 {
     public partial class ScriptsSQL
     {

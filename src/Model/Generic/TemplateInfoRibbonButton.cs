@@ -1,4 +1,4 @@
-﻿namespace KRibbon.Model.Generic
+﻿namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// Plantilla con la info de los RibbonButton:<para/>

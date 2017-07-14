@@ -1,10 +1,10 @@
-﻿using KRibbon.View;
+﻿using KarveCar.View;
 using Microsoft.Windows.Controls.Ribbon;
 using System.Collections.Generic;
 using System.Windows;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     public class RecopilatorioCollections
     {

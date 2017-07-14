@@ -1,7 +1,7 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KRibbon.Model.Classes.SQL;
+using KarveCar.Model.Classes.SQL;
 
-namespace KRibbon.Model.Sybase
+namespace KarveCar.Model.Sybase
 {
     public class DBConnect
     {

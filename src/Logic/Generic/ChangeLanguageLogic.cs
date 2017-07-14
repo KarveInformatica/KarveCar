@@ -1,8 +1,8 @@
-﻿using KRibbon.Properties;
+﻿using KarveCar.Properties;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace KRibbon.Logic.Generic
+namespace KarveCar.Logic.Generic
 {
     public class ChangeLanguageLogic
     {

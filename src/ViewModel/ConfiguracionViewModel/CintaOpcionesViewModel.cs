@@ -1,12 +1,12 @@
-﻿using KRibbon.Commands.ConfiguracionCommand;
-using KRibbon.Logic.Configuracion;
-using KRibbon.Model.Generic;
+﻿using KarveCar.Commands.ConfiguracionCommand;
+using KarveCar.Logic.Configuracion;
+using KarveCar.Model.Generic;
 using System.Linq;
 using System.Windows.Input;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.ViewModel.ConfiguracionViewModel
+namespace KarveCar.ViewModel.ConfiguracionViewModel
 {
     public class CintaOpcionesViewModel : GenericPropertyChanged
     {

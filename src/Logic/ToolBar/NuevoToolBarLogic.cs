@@ -1,7 +1,7 @@
-﻿using KRibbon.Utility;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+﻿using KarveCar.Utility;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Logic.ToolBar
+namespace KarveCar.Logic.ToolBar
 {
     public class NuevoToolBarLogic
     {

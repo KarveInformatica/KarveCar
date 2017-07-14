@@ -1,12 +1,12 @@
-﻿using KRibbon.Commands.Generic;
-using KRibbon.Logic.Maestros;
-using KRibbon.Model.Generic;
+﻿using KarveCar.Commands.Generic;
+using KarveCar.Logic.Maestros;
+using KarveCar.Model.Generic;
 using System.Linq;
 using System.Windows.Input;
-using static KRibbon.Model.Generic.RecopilatorioCollections;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.ViewModel.MaestrosViewModel
+namespace KarveCar.ViewModel.MaestrosViewModel
 {
     public class MostrarAuxiliaresViewModel : GenericPropertyChanged
     {

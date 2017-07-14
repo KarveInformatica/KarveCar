@@ -1,10 +1,10 @@
-﻿using KRibbon.Commands.ToolBarCommand;
-using KRibbon.Logic.ToolBar;
-using KRibbon.Model.Generic;
+﻿using KarveCar.Commands.ToolBarCommand;
+using KarveCar.Logic.ToolBar;
+using KarveCar.Model.Generic;
 using System.Windows;
 using System.Windows.Input;
 
-namespace KRibbon.ViewModel.GenericViewModel
+namespace KarveCar.ViewModel.GenericViewModel
 {
     public class ToolBarViewModel : GenericPropertyChanged
     {

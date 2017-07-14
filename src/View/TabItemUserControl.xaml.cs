@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace KRibbon.View
+namespace KarveCar.View
 {
     /// <summary>
     /// Lógica de interacción para TabItemUserControl.xaml

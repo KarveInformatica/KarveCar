@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 
-namespace KRibbon.Commands.Generic
+namespace KarveCar.Commands.Generic
 {
     class CloseWindowCommand : ICommand
     {

@@ -1,9 +1,9 @@
-﻿using KRibbon.Model.Generic;
-using KRibbon.Properties;
+﻿using KarveCar.Model.Generic;
+using KarveCar.Properties;
 using System.Collections.Generic;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Model.Classes
+namespace KarveCar.Model.Classes
 {
     public class FormaPagoProveedor : GenericPropertyChanged
     {

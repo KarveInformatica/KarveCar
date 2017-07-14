@@ -1,11 +1,11 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KRibbon.Utility;
-using KRibbon.Model.Classes.SQL;
-using KRibbon.Model.Generic;
+using KarveCar.Utility;
+using KarveCar.Model.Classes.SQL;
+using KarveCar.Model.Generic;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace KRibbon.Model.Sybase
+namespace KarveCar.Model.Sybase
 {
     public class MaestrosAuxiliaresModel
     {

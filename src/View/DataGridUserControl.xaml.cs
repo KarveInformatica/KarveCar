@@ -1,8 +1,8 @@
-﻿using KRibbon.Logic.Maestros;
+﻿using KarveCar.Logic.Maestros;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace KRibbon.View
+namespace KarveCar.View
 {
     /// <summary>
     /// Lógica de interacción para DataGridUserControl.xaml

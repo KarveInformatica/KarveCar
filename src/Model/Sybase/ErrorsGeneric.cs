@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KRibbon.Model.Sybase
+namespace KarveCar.Model.Sybase
 {
     class ErrorsGeneric
     {

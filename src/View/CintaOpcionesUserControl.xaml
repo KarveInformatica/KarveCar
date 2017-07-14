@@ -1,9 +1,9 @@
-﻿<UserControl x:Name="cintaOpcionesUserControl" x:Class="KRibbon.View.CintaOpcionesUserControl"
+﻿<UserControl x:Name="cintaOpcionesUserControl" x:Class="KarveCar.View.CintaOpcionesUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KRibbon.View"
+             xmlns:local="clr-namespace:KarveCar.View"
              mc:Ignorable="d" 
              Height="200" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25,0,0">
     <StackPanel x:Name="stckpCintaOpciones">

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KRibbon.Utility
+namespace KarveCar.Utility
 {
     public class ValidateData
     {

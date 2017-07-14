@@ -1,5 +1,5 @@
-﻿using KRibbon.Logic.ToolBar;
-using KRibbon.Utility;
+﻿using KarveCar.Logic.ToolBar;
+using KarveCar.Utility;
 using Microsoft.Windows.Controls.Ribbon;
 using System;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace KRibbon.View
+namespace KarveCar.View
 {
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml

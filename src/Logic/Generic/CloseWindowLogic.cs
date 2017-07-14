@@ -1,11 +1,11 @@
-﻿using KRibbon.Model.Sybase;
-using KRibbon.Properties;
-using KRibbon.View;
+﻿using KarveCar.Model.Sybase;
+using KarveCar.Properties;
+using KarveCar.View;
 using System;
 using System.ComponentModel;
 using System.Windows;
 
-namespace KRibbon.Logic.Generic
+namespace KarveCar.Logic.Generic
 {
     public class CloseWindowLogic
     {

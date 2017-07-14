@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace KRibbon.Model.Generic
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// Plantilla con la info de los TabItem:<para/>

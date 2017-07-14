@@ -1,9 +1,9 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KRibbon.Properties;
+using KarveCar.Properties;
 using System;
 using System.Windows;
 
-namespace KRibbon.Model.Sybase
+namespace KarveCar.Model.Sybase
 {
     public class ErrorsMessage
     {

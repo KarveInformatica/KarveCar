@@ -1,12 +1,12 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KRibbon.Model.Generic;
-using KRibbon.Model.Sybase;
+using KarveCar.Model.Generic;
+using KarveCar.Model.Sybase;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Utility
+namespace KarveCar.Utility
 {
     public class ManageGenericObject
     {

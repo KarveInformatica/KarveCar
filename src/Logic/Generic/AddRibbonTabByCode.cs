@@ -1,10 +1,10 @@
-﻿using KRibbon.View;
+﻿using KarveCar.View;
 using Microsoft.Windows.Controls.Ribbon;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using static KRibbon.Model.Generic.RecopilatorioEnumerations;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
-namespace KRibbon.Logic.Generic
+namespace KarveCar.Logic.Generic
 {
     public partial class AddTab : MainWindow
     {
