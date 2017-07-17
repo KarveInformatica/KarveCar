@@ -1,7 +1,7 @@
 using System.Collections;
-using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping
 {

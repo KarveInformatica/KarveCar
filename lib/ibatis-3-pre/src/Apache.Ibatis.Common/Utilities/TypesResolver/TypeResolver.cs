@@ -39,6 +39,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 #endregion
 

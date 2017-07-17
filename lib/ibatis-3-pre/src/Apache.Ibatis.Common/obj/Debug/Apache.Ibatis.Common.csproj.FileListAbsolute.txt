@@ -4,3 +4,11 @@ C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\A
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.csprojResolveAssemblyReference.cache
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.dll
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\Apache.Ibatis.Common.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\IBatisNet.Common.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\iAnywhere.Data.SQLAnywhere.v4.5.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\bin\Debug\iAnywhere.Data.SQLAnywhere.v4.5.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common\obj\Debug\Apache.Ibatis.Common.pdb

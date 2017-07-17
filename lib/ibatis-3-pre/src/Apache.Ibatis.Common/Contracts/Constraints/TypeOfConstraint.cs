@@ -26,7 +26,7 @@
 
 using System;
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Checks that an object is of the same type provided or derived from it.

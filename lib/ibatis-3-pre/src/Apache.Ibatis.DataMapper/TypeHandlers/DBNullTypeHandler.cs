@@ -27,7 +27,6 @@
 
 using System;
 using System.Data;
-
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 
 namespace Apache.Ibatis.DataMapper.TypeHandlers

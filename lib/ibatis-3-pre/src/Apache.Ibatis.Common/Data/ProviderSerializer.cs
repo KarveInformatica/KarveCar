@@ -24,7 +24,9 @@
 #endregion
 
 #region Using
+
 using Apache.Ibatis.Common.Configuration;
+
 #endregion 
 
 namespace Apache.Ibatis.Common.Data

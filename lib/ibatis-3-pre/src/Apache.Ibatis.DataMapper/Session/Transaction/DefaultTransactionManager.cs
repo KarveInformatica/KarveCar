@@ -26,6 +26,7 @@
 
 using System.Data;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 namespace Apache.Ibatis.DataMapper.Session.Transaction
 {

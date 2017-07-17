@@ -20,7 +20,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
 		Fri
 	};
 
-	[FlagsAttribute]
+	[Flags]
 	public enum Colors 
 	{ 
 		Red = 1, 

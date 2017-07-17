@@ -8,7 +8,7 @@ using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Session;
 using NUnit.Framework;
 
-namespace Apache.Ibatis.DataMapper.Sqlite.Test.Fixtures
+namespace Apache.Ibatis.DataMapper.Sysbase.Test.Fixtures
 {
     [TestFixture]
     public abstract class BaseTest : ScriptBase

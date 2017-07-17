@@ -103,7 +103,7 @@ namespace Apache.Ibatis.Common.Logging
             
 			if ( factoryTypeString == string.Empty )
 			{
-				throw new ConfigurationException
+				throw new Exceptions.ConfigurationException
 					( "Required Attribute '" 
 					+ LOGFACTORYADAPTER_ELEMENT_TYPE_ATTRIB 
 					+ "' not found in element '"
@@ -134,7 +134,7 @@ namespace Apache.Ibatis.Common.Logging
 			}
 			catch ( Exception e )
 			{
-				throw new ConfigurationException
+				throw new Exceptions.ConfigurationException
 					( "Unable to create type '" + factoryTypeString + "'"
 					  , e
 					);
@@ -154,7 +154,7 @@ namespace Apache.Ibatis.Common.Logging
 
 				if ( keyAttrib == null )
 				{
-					throw new ConfigurationException
+					throw new Exceptions.ConfigurationException
 						( "Required Attribute '" 
 						  + ARGUMENT_ELEMENT_KEY_ATTRIB 
 						  + "' not found in element '"
@@ -196,7 +196,7 @@ namespace Apache.Ibatis.Common.Logging
 			
 			if ( logFactoryElementsCount > 1 )
 			{
-				throw new ConfigurationException( "Only one <logFactoryAdapter> element allowed" );
+				throw new Exceptions.ConfigurationException( "Only one <logFactoryAdapter> element allowed" );
 			}
 			else if ( logFactoryElementsCount == 1 )
 			{

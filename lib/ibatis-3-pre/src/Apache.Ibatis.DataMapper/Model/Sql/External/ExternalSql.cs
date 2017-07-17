@@ -26,6 +26,7 @@
 
 using System.Data;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.Data;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.MappedStatements;

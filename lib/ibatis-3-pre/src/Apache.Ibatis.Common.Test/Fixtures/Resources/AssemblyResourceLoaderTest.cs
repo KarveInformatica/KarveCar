@@ -1,10 +1,9 @@
 
 using System;
 using System.IO;
+using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Resources;
 using NUnit.Framework;
-
-using Apache.Ibatis.Common.Exceptions;
 
 namespace Apache.Ibatis.Common.Test.Fixtures.Resources
 {

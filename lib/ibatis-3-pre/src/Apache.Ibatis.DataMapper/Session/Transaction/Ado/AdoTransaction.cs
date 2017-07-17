@@ -28,10 +28,10 @@
 using System;
 using System.Data;
 using System.Reflection;
-
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.DataMapper.Exceptions;
-using Apache.Ibatis.Common.Contracts;
 
 namespace Apache.Ibatis.DataMapper.Session.Transaction.Ado
 {

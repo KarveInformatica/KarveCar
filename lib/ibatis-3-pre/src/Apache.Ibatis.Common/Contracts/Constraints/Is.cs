@@ -25,7 +25,8 @@
 #endregion
 
 using System;
-namespace Apache.Ibatis.Common.Contracts
+
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Helper class to work with constraints. 

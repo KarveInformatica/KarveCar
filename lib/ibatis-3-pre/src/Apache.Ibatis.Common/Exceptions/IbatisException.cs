@@ -39,7 +39,7 @@ namespace Apache.Ibatis.Common.Exceptions
 	public class IbatisException : ApplicationException
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.IbatisException"/> class.
+		/// Initializes a new instance of the <see cref="IbatisException"/> class.
 		/// </summary>
 		/// <remarks>
 		/// This constructor initializes the <para>Message</para> property of the new instance 
@@ -48,7 +48,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public IbatisException() : base("iBatis.NET framework caused an exception.") { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.IbatisException"/> 
+		/// Initializes a new instance of the <see cref="IbatisException"/> 
 		/// class with a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>
@@ -63,7 +63,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public IbatisException(Exception ex) : base("iBatis.NET framework caused an exception.", ex) {  }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.IbatisException"/> 
+		/// Initializes a new instance of the <see cref="IbatisException"/> 
 		/// class with a specified error message.
 		/// </summary>
 		/// <remarks>
@@ -74,7 +74,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public IbatisException( string message ) : base ( message ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.IbatisException"/> 
+		/// Initializes a new instance of the <see cref="IbatisException"/> 
 		/// class with a specified error message and a reference to the inner exception 
 		/// that is the cause of this exception.
 		/// </summary>
@@ -90,7 +90,7 @@ namespace Apache.Ibatis.Common.Exceptions
 
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.IbatisException"/> 
+		/// Initializes a new instance of the <see cref="IbatisException"/> 
 		/// class with serialized data.
 		/// </summary>
 		/// <remarks>

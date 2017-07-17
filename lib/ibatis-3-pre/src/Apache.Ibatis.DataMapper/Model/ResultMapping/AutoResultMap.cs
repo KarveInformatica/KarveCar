@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.DataMapper.DataExchange;

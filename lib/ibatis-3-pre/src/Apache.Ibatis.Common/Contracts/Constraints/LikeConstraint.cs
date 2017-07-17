@@ -26,7 +26,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Checks to validate according to regex pattern

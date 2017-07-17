@@ -24,9 +24,9 @@
 #endregion
 
 using System;
+using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
-using Apache.Ibatis.Common.Data;
 
 
 namespace Apache.Ibatis.DataMapper.Configuration

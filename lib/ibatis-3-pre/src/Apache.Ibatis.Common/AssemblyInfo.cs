@@ -13,7 +13,7 @@ using System.Security;
 [assembly: AssemblyCopyright("Copyright 2009,2005 The Apache Software Foundation")]
 [assembly: AssemblyTrademark("Licensed under the Apache License, Version 2.0")]
 [assembly: AssemblyCulture("")]
-
+[assembly: SecurityRules(SecurityRuleSet.Level1)]
 #if DEBUG
 #else
     [assembly: AssemblyConfiguration("net-2.0.win32; Release")]

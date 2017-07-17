@@ -27,8 +27,8 @@
 #region Imports
 using System;
 using System.Collections;
-
 using Apache.Ibatis.DataMapper.Exceptions;
+
 #endregion
 
 namespace Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Handlers

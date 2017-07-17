@@ -28,7 +28,6 @@ using System;
 using System.Collections;
 using System.Data;
 using System.IO;
-
 using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Exceptions;
 

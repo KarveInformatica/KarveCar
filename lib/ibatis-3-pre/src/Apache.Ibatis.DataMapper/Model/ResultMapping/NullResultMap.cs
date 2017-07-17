@@ -24,8 +24,8 @@
 #endregion
 
 using System;
-using Apache.Ibatis.DataMapper.DataExchange;
 using System.Collections.Generic;
+using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.Model.Events;
 
 namespace Apache.Ibatis.DataMapper.Model.ResultMapping

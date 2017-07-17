@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Data;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities.Objects;
@@ -35,7 +36,6 @@ using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using System.Data;
 
 #endregion 
 

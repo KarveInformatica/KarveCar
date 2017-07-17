@@ -9,7 +9,7 @@ create table ACCOUNTS
    ACCOUNT_LASTNAME               varchar(32)                    not null,
    ACCOUNT_EMAIL                  varchar(128),
    primary key (ACCOUNT_ID)
-) TYPE=INNODB;
+);
 
 INSERT INTO Accounts VALUES(1,'Joe', 'Dalton', 'Joe.Dalton@somewhere.com');
 INSERT INTO Accounts VALUES(2,'Averel', 'Dalton', 'Averel.Dalton@somewhere.com');

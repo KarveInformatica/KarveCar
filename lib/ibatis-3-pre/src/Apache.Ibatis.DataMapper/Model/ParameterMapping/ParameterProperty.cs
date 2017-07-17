@@ -32,6 +32,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Utilities.Objects;

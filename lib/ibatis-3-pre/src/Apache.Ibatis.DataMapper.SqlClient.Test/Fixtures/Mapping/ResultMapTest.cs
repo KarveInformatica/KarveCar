@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Apache.Ibatis.DataMapper.Session;
+using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures;
 using NUnit.Framework;
-
-using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
-using Apache.Ibatis.DataMapper.Session;
 
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping

@@ -10,3 +10,15 @@ C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\A
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.csprojResolveAssemblyReference.cache
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.dll
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.DataMapper.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.DataMapper.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.DataMapper.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Castle.Core.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Castle.DynamicProxy2.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.Common.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Castle.Core.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\bin\Debug\Castle.DynamicProxy2.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.DataMapper\obj\Debug\Apache.Ibatis.DataMapper.pdb

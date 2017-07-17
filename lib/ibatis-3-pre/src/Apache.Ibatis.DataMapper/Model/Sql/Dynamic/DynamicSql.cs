@@ -29,18 +29,19 @@
 using System.Collections;
 using System.Data;
 using System.Text;
+using System.Collections.Generic;
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
+using Apache.Ibatis.DataMapper.Data;
+using Apache.Ibatis.DataMapper.DataExchange;
+using Apache.Ibatis.DataMapper.MappedStatements;
 using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Handlers;
 using Apache.Ibatis.DataMapper.Model.Sql.SimpleDynamic;
 using Apache.Ibatis.DataMapper.Model.Statements;
-using Apache.Ibatis.DataMapper.DataExchange;
-using Apache.Ibatis.DataMapper.MappedStatements;
 using Apache.Ibatis.DataMapper.Scope;
-using System.Collections.Generic;
 using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.DataMapper.Data;
-using Apache.Ibatis.Common.Contracts;
 
 #endregion
 

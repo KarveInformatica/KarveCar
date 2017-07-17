@@ -4,7 +4,7 @@ using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Logging.Impl;
 using NUnit.Framework;
 
-namespace Apache.Ibatis.DataMapper.Sqlite.Test.Fixtures
+namespace Apache.Ibatis.DataMapper.Sysbase.Test.Fixtures
 {
     [TestFixture]
     public class PreserveWhitespaceTestFixture : BaseTest

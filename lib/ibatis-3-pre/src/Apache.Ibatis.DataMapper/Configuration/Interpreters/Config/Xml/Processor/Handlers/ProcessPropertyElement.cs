@@ -24,7 +24,6 @@
 #endregion
 
 using System.Xml;
-
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Resources;
 

@@ -26,27 +26,27 @@
 
 using System.Reflection;
 using System.Collections.Generic;
-
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Data;
+using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
-using Apache.Ibatis.DataMapper.Model.Alias;
-using Apache.Ibatis.DataMapper.DataExchange;
-using Apache.Ibatis.DataMapper.Model;
-using Apache.Ibatis.DataMapper.Model.Cache.Implementation;
-using Apache.Ibatis.DataMapper.Session.Transaction;
-using Apache.Ibatis.DataMapper.TypeHandlers;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
-using Apache.Ibatis.Common.Contracts;
-using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Configuration.Serializers;
-using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using Apache.Ibatis.DataMapper.Model.Cache;
+using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.MappedStatements;
-using Apache.Ibatis.Common.Logging;
+using Apache.Ibatis.DataMapper.Model;
+using Apache.Ibatis.DataMapper.Model.Alias;
+using Apache.Ibatis.DataMapper.Model.Cache;
+using Apache.Ibatis.DataMapper.Model.Cache.Implementation;
+using Apache.Ibatis.DataMapper.Model.ParameterMapping;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
+using Apache.Ibatis.DataMapper.Session;
 using Apache.Ibatis.DataMapper.Session.Stores;
+using Apache.Ibatis.DataMapper.Session.Transaction;
 using Apache.Ibatis.DataMapper.Session.Transaction.Ado;
+using Apache.Ibatis.DataMapper.TypeHandlers;
 
 namespace Apache.Ibatis.DataMapper.Configuration
 {

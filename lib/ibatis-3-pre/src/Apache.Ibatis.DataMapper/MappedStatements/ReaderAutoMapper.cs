@@ -30,14 +30,14 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Reflection;
+using System.Collections.Generic;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.TypeHandlers;
-using System.Collections.Generic;
 
 #endregion
 

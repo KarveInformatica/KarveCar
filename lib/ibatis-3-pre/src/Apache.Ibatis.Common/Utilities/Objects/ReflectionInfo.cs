@@ -28,9 +28,8 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
-
-using Apache.Ibatis.Common.Exceptions;
 using System.Collections.Generic;
+using Apache.Ibatis.Common.Exceptions;
 
 namespace Apache.Ibatis.Common.Utilities.Objects
 {

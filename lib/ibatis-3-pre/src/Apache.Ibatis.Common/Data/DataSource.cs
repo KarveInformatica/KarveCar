@@ -27,8 +27,9 @@
 #region Using
 
 using System;
-using Apache.Ibatis.Common.Contracts;
 using System.Diagnostics;
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 #endregion
 

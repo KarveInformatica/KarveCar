@@ -31,9 +31,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Apache.Ibatis.DataMapper.Data;
+using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model;
 using Apache.Ibatis.DataMapper.Model.Statements;
 using Apache.Ibatis.DataMapper.Session;
+
 #endregion
 
 namespace Apache.Ibatis.DataMapper.MappedStatements
@@ -93,7 +95,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 		/// <param name="keyProperty">The property of the result object to be used as the key. </param>
 		/// <param name="valueProperty">The property of the result object to be used as the value (or null)</param>
 		/// <returns>A hashtable of object containing the rows keyed by keyProperty.</returns>
-		///<exception cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
+		///<exception cref="DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
 		IDictionary ExecuteQueryForMap( ISession session, object parameterObject, string keyProperty, string valueProperty );
 
 		#endregion
@@ -110,7 +112,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <param name="keyProperty">The property of the result object to be used as the key. </param>
         /// <param name="valueProperty">The property of the result object to be used as the value (or null)</param>
         /// <returns>A IDictionary of object containing the rows keyed by keyProperty.</returns>
-        ///<exception cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
+        ///<exception cref="DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
         IDictionary<K, V> ExecuteQueryForDictionary<K, V>(ISession session, object parameterObject, string keyProperty, string valueProperty);
 
         /// <summary>
@@ -123,7 +125,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <param name="valueProperty">The property of the result object to be used as the value (or null)</param>
         /// <param name="rowDelegate">A delegate called once per row in the QueryForDictionary method</param>
         /// <returns>A hashtable of object containing the rows keyed by keyProperty.</returns>
-        /// <exception cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
+        /// <exception cref="DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
         IDictionary<K, V> ExecuteQueryForDictionary<K, V>(ISession session, object parameterObject, string keyProperty, string valueProperty, DictionaryRowDelegate<K, V> rowDelegate);
 
         #endregion
@@ -244,7 +246,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 		/// <param name="valueProperty">The property of the result object to be used as the value (or null)</param>
 		/// <param name="rowDelegate"></param>
 		/// <returns>A hashtable of object containing the rows keyed by keyProperty.</returns>
-		/// <exception cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
+		/// <exception cref="DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
 		IDictionary ExecuteQueryForMapWithRowDelegate( ISession session, object parameterObject, string keyProperty, string valueProperty, DictionaryRowDelegate rowDelegate );
 
 		#endregion 

@@ -24,10 +24,10 @@
 #endregion
 
 using System.Data;
+using System;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.TypeHandlers;
-using System;
 
 namespace Apache.Ibatis.DataMapper.MappedStatements.ResultStrategy
 {

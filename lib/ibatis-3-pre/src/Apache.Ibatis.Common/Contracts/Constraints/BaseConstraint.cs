@@ -24,7 +24,7 @@
  ********************************************************************************/
 #endregion
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Base class for all constraint.
@@ -64,6 +64,7 @@ namespace Apache.Ibatis.Common.Contracts
         /// </returns>
         public abstract bool IsSatisfiedBy(object obj, AppendErrorMessage appendErrorMessage);
 
+        /// <summary>
         /// Represents the And operator between two constraints
         /// </summary>
         /// <param name="left">The first constraint</param>

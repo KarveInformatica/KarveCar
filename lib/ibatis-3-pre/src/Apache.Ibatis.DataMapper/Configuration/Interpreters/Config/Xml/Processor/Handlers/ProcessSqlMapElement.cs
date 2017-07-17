@@ -27,6 +27,7 @@ using System;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Resources;
 
 namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml.Processor

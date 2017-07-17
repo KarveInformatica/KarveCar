@@ -38,7 +38,7 @@ namespace Apache.Ibatis.Common.Exceptions
     public class ResourceException : IbatisException
     {
         		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ResourceException"/> class.
+		/// Initializes a new instance of the <see cref="ResourceException"/> class.
 		/// </summary>
 		/// <remarks>
 		/// This constructor initializes the Message property of the new instance to a system-supplied message 
@@ -47,7 +47,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ResourceException() :base ("Could not configure the iBatis.NET framework."){ }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ResourceException"/> 
+		/// Initializes a new instance of the <see cref="ResourceException"/> 
 		/// class with a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>
@@ -62,7 +62,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ResourceException(Exception ex) : base (ex.Message,ex) {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ResourceException"/> 
+		/// Initializes a new instance of the <see cref="ResourceException"/> 
 		/// class with a specified error message.
 		/// </summary>
 		/// <remarks>
@@ -73,7 +73,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ResourceException( string message ) : base ( message ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ResourceException"/> 
+		/// Initializes a new instance of the <see cref="ResourceException"/> 
 		/// class with a specified error message and a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>

@@ -1,6 +1,6 @@
+using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
-using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.TypeHandlers;
 
 #region Apache Notice

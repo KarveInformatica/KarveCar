@@ -45,7 +45,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ProbeException() : base("A foreign key conflict has occurred.") { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ProbeException"/> 
+		/// Initializes a new instance of the <see cref="ProbeException"/> 
 		/// class with a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>
@@ -60,7 +60,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ProbeException(Exception ex) : base (ex.Message,ex) {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ProbeException"/> 
+		/// Initializes a new instance of the <see cref="ProbeException"/> 
 		/// class with a specified error message.
 		/// </summary>
 		/// <remarks>
@@ -71,7 +71,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ProbeException( string message ) : base ( message ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ProbeException"/> 
+		/// Initializes a new instance of the <see cref="ProbeException"/> 
 		/// class with a specified error message and a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>

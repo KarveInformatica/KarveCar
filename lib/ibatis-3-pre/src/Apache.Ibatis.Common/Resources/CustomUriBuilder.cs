@@ -26,8 +26,9 @@
 using System;
 using System.IO;
 using System.Text;
-using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
+using Apache.Ibatis.Common.Exceptions;
 
 namespace Apache.Ibatis.Common.Resources
 {

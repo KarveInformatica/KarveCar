@@ -25,10 +25,10 @@
 
 using System;
 using Apache.Ibatis.Common.Configuration;
-using Apache.Ibatis.DataMapper.Configuration.Serializers;
-using Apache.Ibatis.DataMapper.TypeHandlers;
 using Apache.Ibatis.Common.Exceptions;
+using Apache.Ibatis.DataMapper.Configuration.Serializers;
 using Apache.Ibatis.DataMapper.Model.Alias;
+using Apache.Ibatis.DataMapper.TypeHandlers;
 
 
 namespace Apache.Ibatis.DataMapper.Configuration

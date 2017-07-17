@@ -10,3 +10,15 @@ C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\A
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.csprojResolveAssemblyReference.cache
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.dll
 C:\Users\Usuario\Downloads\source-archive\mybatisnet\branches\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\Apache.Ibatis.Common.Test.dll.config
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\Apache.Ibatis.Common.Test.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\Apache.Ibatis.Common.Test.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\Apache.Ibatis.Common.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\log4net.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\nunit.framework.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\Apache.Ibatis.Common.pdb
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\log4net.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\bin\Debug\nunit.framework.xml
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.dll
+C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\lib\ibatis-3-pre\src\Apache.Ibatis.Common.Test\obj\Debug\Apache.Ibatis.Common.Test.pdb

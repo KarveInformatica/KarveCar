@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Security.Permissions;
 using System.Xml;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Logging;
 

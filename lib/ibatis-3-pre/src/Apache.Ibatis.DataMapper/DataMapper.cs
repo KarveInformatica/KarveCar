@@ -28,10 +28,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Apache.Ibatis.Common.Contracts;
-using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.DataMapper.Model;
-using Apache.Ibatis.DataMapper.MappedStatements;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.MappedStatements;
+using Apache.Ibatis.DataMapper.Model;
+using Apache.Ibatis.DataMapper.Session;
 
 namespace Apache.Ibatis.DataMapper
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.MappedStatements;

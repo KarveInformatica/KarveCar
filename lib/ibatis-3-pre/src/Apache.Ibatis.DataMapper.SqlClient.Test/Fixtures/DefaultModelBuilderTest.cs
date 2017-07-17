@@ -1,10 +1,9 @@
-﻿using Apache.Ibatis.DataMapper.Configuration;
+﻿using NUnit.Framework;
+using System;
+using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Model;
-
-using NUnit.Framework;
-using System;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures
 {

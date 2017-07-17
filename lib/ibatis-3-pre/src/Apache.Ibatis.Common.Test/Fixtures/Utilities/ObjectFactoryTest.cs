@@ -1,8 +1,8 @@
+using NUnit.Framework;
+using System;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Test.Domain;
 using Apache.Ibatis.Common.Utilities.Objects;
-using NUnit.Framework;
-using System;
 
 namespace Apache.Ibatis.Common.Test.Fixtures.Utilities
 {

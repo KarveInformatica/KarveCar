@@ -27,8 +27,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 
 namespace Apache.Ibatis.DataMapper.MappedStatements.ArgumentStrategy

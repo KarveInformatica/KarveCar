@@ -24,7 +24,7 @@
  ********************************************************************************/
 #endregion
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// OrConstraint succeeds if either member succeeds 

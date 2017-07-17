@@ -28,11 +28,11 @@
 using System;
 using System.Data;
 using System.Xml.Serialization;
-using Apache.Ibatis.DataMapper.Model.ParameterMapping;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
+using System.Diagnostics;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.DataMapper.Model.Cache;
-using System.Diagnostics;
+using Apache.Ibatis.DataMapper.Model.ParameterMapping;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Model.Sql.External;
 
 #endregion

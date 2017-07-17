@@ -1,4 +1,3 @@
-
 using Apache.Ibatis.DataMapper.MappedStatements;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain

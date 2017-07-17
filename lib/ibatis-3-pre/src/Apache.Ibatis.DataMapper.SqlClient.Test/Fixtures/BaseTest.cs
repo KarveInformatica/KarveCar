@@ -5,13 +5,13 @@ using System.IO;
 using System.Reflection;
 using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Logging;
-using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Session;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Modules;
+using Apache.Ibatis.Common.Resources;
 using NUnit.Framework;
 // DataSource definition
     // ScriptRunner definition

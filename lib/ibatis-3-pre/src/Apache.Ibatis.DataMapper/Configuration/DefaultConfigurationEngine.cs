@@ -29,12 +29,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
-using Apache.Ibatis.DataMapper.Model;
 using Apache.Ibatis.DataMapper.Configuration.Module;
+using Apache.Ibatis.DataMapper.Model;
 
 namespace Apache.Ibatis.DataMapper.Configuration
 {

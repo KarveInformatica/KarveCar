@@ -24,11 +24,11 @@
 #endregion
 
 
+using System.Collections.Generic;
+using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.Common.Data;
-using System.Collections.Generic;
 
 namespace Apache.Ibatis.DataMapper.Configuration
 {

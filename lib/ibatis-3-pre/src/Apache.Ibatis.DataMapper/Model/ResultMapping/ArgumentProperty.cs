@@ -29,6 +29,7 @@
 using System;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.MappedStatements.ArgumentStrategy;
 using Apache.Ibatis.DataMapper.TypeHandlers;

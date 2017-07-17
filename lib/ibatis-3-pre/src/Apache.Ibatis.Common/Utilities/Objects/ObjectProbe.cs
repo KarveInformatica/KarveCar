@@ -27,7 +27,6 @@
 using System;
 using System.Collections;
 using System.Reflection;
-
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 

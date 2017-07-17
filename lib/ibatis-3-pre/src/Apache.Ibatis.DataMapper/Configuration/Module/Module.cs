@@ -25,6 +25,7 @@
 #endregion
 
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 namespace Apache.Ibatis.DataMapper.Configuration.Module
 {

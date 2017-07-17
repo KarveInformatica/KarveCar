@@ -1,4 +1,3 @@
-
 using Apache.Ibatis.DataMapper.Model.Cache.Decorators;
 using Apache.Ibatis.DataMapper.Model.Cache.Implementation;
 using NUnit.Framework;

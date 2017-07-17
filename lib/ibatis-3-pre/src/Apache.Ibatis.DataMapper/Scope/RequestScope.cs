@@ -28,13 +28,13 @@
 
 using System.Data;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using Apache.Ibatis.DataMapper.DataExchange;
+using Apache.Ibatis.DataMapper.MappedStatements;
 using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Model.Statements;
-using Apache.Ibatis.DataMapper.DataExchange;
-using Apache.Ibatis.DataMapper.MappedStatements;
 using Apache.Ibatis.DataMapper.Session;
-using System.Collections.Generic;
 
 #endregion
 

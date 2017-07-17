@@ -27,6 +27,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 namespace Apache.Ibatis.Common.Resources
 {

@@ -24,11 +24,10 @@
 #endregion
 
 using System;
-
-using Apache.Ibatis.DataMapper.MappedStatements;
-using Apache.Ibatis.Common.Utilities.Objects.Members;
 using System.Collections.Generic;
 using Apache.Ibatis.Common.Utilities.Objects;
+using Apache.Ibatis.Common.Utilities.Objects.Members;
+using Apache.Ibatis.DataMapper.MappedStatements;
 
 namespace Apache.Ibatis.DataMapper.Proxy
 {

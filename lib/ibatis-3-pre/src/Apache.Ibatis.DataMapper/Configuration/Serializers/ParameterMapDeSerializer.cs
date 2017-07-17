@@ -28,13 +28,14 @@
 using System.Collections.Specialized;
 using System.Xml;
 using Apache.Ibatis.Common.Xml;
-using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Scope;
+using System;
 using Apache.Ibatis.Common.Configuration;
+using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.Model;
-using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
-using System;
+using Apache.Ibatis.DataMapper.Model.ParameterMapping;
+
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

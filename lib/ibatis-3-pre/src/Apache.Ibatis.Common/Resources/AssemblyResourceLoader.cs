@@ -30,11 +30,11 @@ namespace Apache.Ibatis.Common.Resources
 {
     /// <summary>
     /// Assembly resource loader implementation of the
-    /// <see cref="Apache.Ibatis.Common.Resources.IResourceLoader"/> interface.
+    /// <see cref="IResourceLoader"/> interface.
     /// </summary>
     /// <remarks>
     /// <p>
-    /// This <see cref="Apache.Ibatis.Common.Resources.IResourceLoader"/> implementation
+    /// This <see cref="IResourceLoader"/> implementation
     /// allows the creation of embeded assembly resource.
     /// </p>
     /// <p>
@@ -61,12 +61,12 @@ namespace Apache.Ibatis.Common.Resources
         #region IResourceLoader Members
 
         /// <summary>
-        /// Return an <see cref="Apache.Ibatis.Common.Resources.IResource"/> handle for the
+        /// Return an <see cref="IResource"/> handle for the
         /// specified URI.
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>
-        /// An appropriate <see cref="Apache.Ibatis.Common.Resources.IResource"/> handle.
+        /// An appropriate <see cref="IResource"/> handle.
         /// </returns>
         public IResource Create(Uri uri)
         {

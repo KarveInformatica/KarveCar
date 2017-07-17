@@ -24,6 +24,7 @@
 #endregion
 
 using System.Runtime.Remoting.Messaging;
+using System.Security.Permissions;
 
 namespace Apache.Ibatis.DataMapper.Session.Stores
 {
@@ -35,8 +36,7 @@ namespace Apache.Ibatis.DataMapper.Session.Stores
 	/// </summary>
 	public class CallContextSessionStore : AbstractSessionStore
 	{
-
-        /// <summary>
+	    /// <summary>
         /// Initializes a new instance of the <see cref="CallContextSessionStore"/> class.
         /// </summary>
         /// <param name="id">The id.</param>
@@ -51,19 +51,21 @@ namespace Apache.Ibatis.DataMapper.Session.Stores
             get { return (ISession)CallContext.GetData(sessionName); }
 		}
 
-		/// <summary>
-		/// Store the specified session.
-		/// </summary>
-		/// <param name="session">The session to store</param>
+        /// <summary>
+        /// Store the specified session.
+        /// </summary>
+        /// <param name="session">The session to store</param>
+        [PermissionSet(SecurityAction.LinkDemand)]
         public override void Store(ISession session)
 		{
 			CallContext.SetData(sessionName, session);
 		}
 
-		/// <summary>
-		/// Remove the local session.
-		/// </summary>
-		public override void Dispose()
+        /// <summary>
+        /// Remove the local session.
+        /// </summary>
+        [PermissionSet(SecurityAction.LinkDemand)]
+        public override void Dispose()
 		{
 			CallContext.SetData(sessionName, null);
 		}

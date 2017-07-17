@@ -26,7 +26,7 @@
 
 using System;
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Checks f the value is an event announced by a specific object.

@@ -29,6 +29,7 @@ using System;
 using System.Xml.Serialization;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Handlers;
+
 #endregion
 
 namespace Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements

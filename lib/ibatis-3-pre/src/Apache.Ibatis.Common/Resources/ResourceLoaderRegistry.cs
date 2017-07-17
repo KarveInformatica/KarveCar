@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 namespace Apache.Ibatis.Common.Resources
 {
@@ -61,12 +62,12 @@ namespace Apache.Ibatis.Common.Resources
         }
 
         /// <summary>
-        /// Return an <see cref="Apache.Ibatis.Common.Resources.IResource"/> for the
+        /// Return an <see cref="IResource"/> for the
         /// specified string address.
         /// </summary>
         /// <param name="resource">The string adress.</param>
         /// <returns>
-        /// An appropriate <see cref="Apache.Ibatis.Common.Resources.IResource"/>.
+        /// An appropriate <see cref="IResource"/>.
         /// </returns>
         public static IResource GetResource(string resource)
         {

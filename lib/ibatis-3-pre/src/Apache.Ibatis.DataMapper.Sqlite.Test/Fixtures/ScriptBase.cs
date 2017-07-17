@@ -3,7 +3,7 @@ using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.Common.Utilities;
 
-namespace Apache.Ibatis.DataMapper.Sqlite.Test.Fixtures
+namespace Apache.Ibatis.DataMapper.Sysbase.Test.Fixtures
 {
     public abstract class ScriptBase
     {

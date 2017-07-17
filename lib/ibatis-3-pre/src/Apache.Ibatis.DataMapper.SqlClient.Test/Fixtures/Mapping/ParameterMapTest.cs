@@ -3,11 +3,10 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-
 using Apache.Ibatis.Common.Resources;
+using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.DataMapper.Model.ParameterMapping;
-using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures;
 using NUnit.Framework;
 

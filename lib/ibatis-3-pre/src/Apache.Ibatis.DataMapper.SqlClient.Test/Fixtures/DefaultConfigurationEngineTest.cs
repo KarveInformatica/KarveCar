@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
+using NUnit.Framework;
+using System.Collections.Generic;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Configuration.Module;
 using Apache.Ibatis.DataMapper.Session.Stores;
-using NUnit.Framework;
-
 using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
-using System.Collections.Generic;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures
 {

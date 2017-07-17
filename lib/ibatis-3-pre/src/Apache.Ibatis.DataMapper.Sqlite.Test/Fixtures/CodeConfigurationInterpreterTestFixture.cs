@@ -7,7 +7,7 @@ using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Sqlite.Test.Domain;
 using NUnit.Framework;
 
-namespace Apache.Ibatis.DataMapper.Sqlite.Test.Fixtures
+namespace Apache.Ibatis.DataMapper.Sysbase.Test.Fixtures
 {
     [TestFixture]
     public class CodeConfigurationInterpreterTestFixture : BaseTest

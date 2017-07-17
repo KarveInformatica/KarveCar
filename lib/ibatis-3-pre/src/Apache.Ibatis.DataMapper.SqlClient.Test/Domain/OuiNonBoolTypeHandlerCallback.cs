@@ -1,5 +1,4 @@
 using System;
-
 using Apache.Ibatis.DataMapper.TypeHandlers;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain

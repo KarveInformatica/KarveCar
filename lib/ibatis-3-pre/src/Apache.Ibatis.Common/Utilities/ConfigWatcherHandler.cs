@@ -31,32 +31,7 @@ using Apache.Ibatis.Common.Logging;
 
 namespace Apache.Ibatis.Common.Utilities
 {
-
-	/// <summary>
-	/// Represents the method that handles calls from Configure.
-	/// </summary>
-	/// <remarks>
-	/// obj is a null object in a DaoManager context.
-	/// obj is the reconfigured sqlMap in a SqlMap context.
-	/// </remarks>
-	public delegate void ConfigureHandler(object obj);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public struct StateConfig
-	{
-		/// <summary>
-		/// Master Config File name.
-		/// </summary>
-		public string FileName;
-		/// <summary>
-		/// Delegate called when a file is changed, use it to rebuild.
-		/// </summary>
-		public ConfigureHandler ConfigureHandler;
-	}
-
-	/// <summary>
+    /// <summary>
 	/// Class used to watch config files.
 	/// </summary>
 	/// <remarks>

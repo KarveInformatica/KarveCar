@@ -27,8 +27,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Apache.Ibatis.Common.Utilities.Objects;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.MappedStatements.PropertyStrategy;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 
 namespace Apache.Ibatis.DataMapper.MappedStatements.PropertStrategy

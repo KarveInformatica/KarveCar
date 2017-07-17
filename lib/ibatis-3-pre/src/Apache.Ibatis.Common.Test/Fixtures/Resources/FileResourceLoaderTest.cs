@@ -63,7 +63,7 @@ namespace Apache.Ibatis.Common.Test.Fixtures.Resources
         [Test]
         public void Test_resource_creation_with_absolute_path_and_slash()
         {
-            string file = "file:///" + Apache.Ibatis.Common.Resources.Resources.ApplicationBase + Path.DirectorySeparatorChar + "SqlMap_MSSQL_SqlClient.config";
+            string file = "file:///" + Common.Resources.Resources.ApplicationBase + Path.DirectorySeparatorChar + "SqlMap_MSSQL_SqlClient.config";
 
             CustomUriBuilder builder = new CustomUriBuilder(file, AppDomain.CurrentDomain.BaseDirectory);
 

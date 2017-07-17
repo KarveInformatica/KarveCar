@@ -26,7 +26,6 @@
 
 using System;
 using System.Runtime.Serialization;
-
 using Apache.Ibatis.Common.Exceptions;
 
 namespace Apache.Ibatis.DataMapper.Exceptions
@@ -38,7 +37,7 @@ namespace Apache.Ibatis.DataMapper.Exceptions
 	public class DataMapperException : IbatisException
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException"/> class.
+		/// Initializes a new instance of the <see cref="DataMapperException"/> class.
 		/// </summary>
 		/// <remarks>
 		/// This constructor initializes the <para>Message</para> property of the new instance 
@@ -47,7 +46,7 @@ namespace Apache.Ibatis.DataMapper.Exceptions
 		public DataMapperException(): base("iBATIS.NET DataMapper component caused an exception.") { }
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException"/> 
+		/// Initializes a new instance of the <see cref="DataMapperException"/> 
 		/// class with a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>
@@ -63,7 +62,7 @@ namespace Apache.Ibatis.DataMapper.Exceptions
 
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException"/> 
+		/// Initializes a new instance of the <see cref="DataMapperException"/> 
 		/// class with a specified error message.
 		/// </summary>
 		/// <remarks>
@@ -74,7 +73,7 @@ namespace Apache.Ibatis.DataMapper.Exceptions
 		public DataMapperException( string message ) : base ( message ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException"/> 
+		/// Initializes a new instance of the <see cref="DataMapperException"/> 
 		/// class with a specified error message and a reference to the inner exception 
 		/// that is the cause of this exception.
 		/// </summary>
@@ -89,7 +88,7 @@ namespace Apache.Ibatis.DataMapper.Exceptions
 		public DataMapperException( string message, Exception inner ) : base ( message, inner ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.DataMapper.Exceptions.DataMapperException"/> 
+		/// Initializes a new instance of the <see cref="DataMapperException"/> 
 		/// class with serialized data.
 		/// </summary>
 		/// <remarks>

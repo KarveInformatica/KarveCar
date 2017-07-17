@@ -349,19 +349,19 @@
             Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Ensure"/> class.
             </summary>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.AndConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.AndConstraint">
             <summary>
             AndConstraint succeeds only if both members succeed. 
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.AndConstraint.#ctor(Apache.Ibatis.Common.Contracts.BaseConstraint,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.AndConstraint.#ctor(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.AndConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.AndConstraint"/> class.
             </summary>
             <param name="left">The left side.</param>
             <param name="right">The right side.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.AndConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.AndConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -371,12 +371,12 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.AnythingConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.AnythingConstraint">
             <summary>
             A constraint that always returns <code>true</code>.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.AnythingConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.AnythingConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -386,18 +386,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.AssignableFromConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.AssignableFromConstraint">
             <summary>
             Checks whether an instance of the current Type can be assigned from an instance of the specified Type. 
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.AssignableFromConstraint.#ctor(System.Type)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.AssignableFromConstraint.#ctor(System.Type)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.TypeOfConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.TypeOfConstraint"/> class.
             </summary>
             <param name="expectedType">The expected type.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.AssignableFromConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.AssignableFromConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -407,36 +407,36 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.CompositeConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.CompositeConstraint">
             <summary>
             Abstract base class for Composite constraints 
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.CompositeConstraint.#ctor(Apache.Ibatis.Common.Contracts.BaseConstraint,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.CompositeConstraint.#ctor(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.CompositeConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.CompositeConstraint"/> class.
             </summary>
             <param name="left">The left side.</param>
             <param name="right">The right side.</param>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.BaseConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint">
             <summary>
             Base class for all constraint.
             </summary>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.BaseConstraint.ErrorMessage">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.ErrorMessage">
             <summary>
             Gets or sets the error message.
             </summary>
             <value>The error message.</value>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.BaseConstraint.NegationMessage">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.NegationMessage">
             <summary>
             Gets or sets the negation message.
             </summary>
             <value>The negation message.</value>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.BaseConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -446,8 +446,15 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <!-- El comentario XML con formato incorrecto se ha omitido para el miembro "M:Apache.Ibatis.Common.Contracts.BaseConstraint.op_BitwiseAnd(Apache.Ibatis.Common.Contracts.BaseConstraint,Apache.Ibatis.Common.Contracts.BaseConstraint)" -->
-        <member name="M:Apache.Ibatis.Common.Contracts.BaseConstraint.op_BitwiseOr(Apache.Ibatis.Common.Contracts.BaseConstraint,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.op_BitwiseAnd(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
+            <summary>
+            Represents the And operator between two constraints
+            </summary>
+            <param name="left">The first constraint</param>
+            <param name="right">The second constraint</param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.op_BitwiseOr(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
             Represents the Or operator between two constraints
             </summary>
@@ -455,25 +462,25 @@
             <param name="right">The second constraint</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.BaseConstraint.op_LogicalNot(Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint.op_LogicalNot(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
             Inverts the result of the specified constraint.
             </summary>
             <param name="constraint">The constraint.</param>
             <returns></returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.ContainsConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.ContainsConstraint">
             <summary>
             Checks that the string contains the specified string.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.ContainsConstraint.#ctor(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.ContainsConstraint.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.ContainsConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.ContainsConstraint"/> class.
             </summary>
             <param name="expected">The expected string.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.ContainsConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.ContainsConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -483,18 +490,18 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.EventFromConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.EventFromConstraint">
             <summary>
             Checks f the value is an event announced by a specific object.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.EventFromConstraint.#ctor(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.EventFromConstraint.#ctor(System.Object)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.EventFromConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.EventFromConstraint"/> class.
             </summary>
             <param name="expected">The expected.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.EventFromConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.EventFromConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -504,18 +511,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.GreaterThanConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.GreaterThanConstraint">
             <summary>
             Checks that an object is greater than another
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.GreaterThanConstraint.#ctor(System.IComparable)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.GreaterThanConstraint.#ctor(System.IComparable)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.GreaterThanConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.GreaterThanConstraint"/> class.
             </summary>
             <param name="expected">The expected.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.GreaterThanConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.GreaterThanConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -525,18 +532,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.LessThanConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.LessThanConstraint">
             <summary>
             Checks that an object is less than another
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.LessThanConstraint.#ctor(System.IComparable)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.LessThanConstraint.#ctor(System.IComparable)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.LessThanConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.LessThanConstraint"/> class.
             </summary>
             <param name="expected">The expected.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.LessThanConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.LessThanConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -546,18 +553,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.LikeConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.LikeConstraint">
             <summary>
             Checks to validate according to regex pattern
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.LikeConstraint.#ctor(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.LikeConstraint.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.LikeConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.LikeConstraint"/> class.
             </summary>
             <param name="pattern">The pattern.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.LikeConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.LikeConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -567,83 +574,83 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.NegationBuilder">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder">
             <summary>
             Resolve the Not constraint
             </summary>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.NegationBuilder.Empty">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.Empty">
             <summary>
             Check if it is Empty
             </summary>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.NegationBuilder.False">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.False">
             <summary>
             Check if it is False
             </summary>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.NegationBuilder.Null">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.Null">
             <summary>
             Check if it is Null
             </summary>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.NegationBuilder.True">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.True">
             <summary>
             Check if it is True
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.EqualTo(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.EqualTo(System.Object)">
             <summary>
             Check whether an object is Equals to the specified object.
             </summary>
             <param name="specified">The specified object.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.TypeOf``1">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.TypeOf``1">
             <summary>
             Checks whether an object is of the specified type.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.AssignableFrom``1">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.AssignableFrom``1">
             <summary>
             Checks whether an object is Assignables from the specified type.
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.Contains(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.Contains(System.String)">
             <summary>
             Checks whether a string contains the specified string.
             </summary>
             <param name="specified">The specified string.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.Like(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.Like(System.String)">
             <summary>
             Checks whether a string is validated according to regex pattern.
             </summary>
             <param name="pattern">The pattern.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NegationBuilder.SameAs(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.SameAs(System.Object)">
             <summary>
             Checks whether an object is identical to the specified object 
             </summary>
             <param name="specified">The specified object.</param>
             <returns></returns>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.NegationBuilder.Not">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.NegationBuilder.Not">
             <summary>
             Negate teh next constraint.
             </summary>
             <value>The not.</value>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.EmptyConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.EmptyConstraint">
             <summary>
             Checks whether a string or collection is empty
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.EmptyConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.EmptyConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -653,18 +660,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.EqualConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.EqualConstraint">
             <summary>
             Checks that an object equals another
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.EqualConstraint.#ctor(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.EqualConstraint.#ctor(System.Object)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.EqualConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.EqualConstraint"/> class.
             </summary>
             <param name="expected">The expected.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.EqualConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.EqualConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -674,109 +681,109 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.Is">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.Is">
             <summary>
             Helper class to work with constraints. 
             </summary>
         </member>
-        <member name="F:Apache.Ibatis.Common.Contracts.Is.Empty">
+        <member name="F:Apache.Ibatis.Common.Contracts.Constraints.Is.Empty">
             <summary>
             Check if it is Empty
             </summary>
         </member>
-        <member name="F:Apache.Ibatis.Common.Contracts.Is.False">
+        <member name="F:Apache.Ibatis.Common.Contracts.Constraints.Is.False">
             <summary>
             Check if it is False
             </summary>
         </member>
-        <member name="F:Apache.Ibatis.Common.Contracts.Is.Null">
+        <member name="F:Apache.Ibatis.Common.Contracts.Constraints.Is.Null">
             <summary>
             Check if it is Null
             </summary>
         </member>
-        <member name="F:Apache.Ibatis.Common.Contracts.Is.True">
+        <member name="F:Apache.Ibatis.Common.Contracts.Constraints.Is.True">
             <summary>
             Check if it is True
             </summary>
         </member>
-        <member name="F:Apache.Ibatis.Common.Contracts.Is.Anything">
+        <member name="F:Apache.Ibatis.Common.Contracts.Constraints.Is.Anything">
             <summary>
             A constraint that always returns <code>true</code>
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.GreaterThan(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.GreaterThan(System.Object)">
             <summary>
             Check whether an object is greater than the specified object.
             </summary>
             <param name="specified">The specified.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.LessThan(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.LessThan(System.Object)">
             <summary>
             Check whether an object is less than the specified object.
             </summary>
             <param name="specified">The specified.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.EqualTo(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.EqualTo(System.Object)">
             <summary>
             Check whether an object is Equals to the specified object.
             </summary>
             <param name="specified">The specified object.</param>
             <returns></returns>
         </member>
-        <member name="P:Apache.Ibatis.Common.Contracts.Is.Not">
+        <member name="P:Apache.Ibatis.Common.Contracts.Constraints.Is.Not">
             <summary>
             Negates the next constraint.
             </summary>
             <value>The not.</value>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.TypeOf``1">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.TypeOf``1">
             <summary>
             Checks whether an object is of the specified type.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.AssignableFrom``1">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.AssignableFrom``1">
             <summary>
             Checks whether an object is Assignables from the specified type.
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.Contains(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.Contains(System.String)">
             <summary>
             Checks whether a string contains the specified string.
             </summary>
             <param name="specified">The specified string.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.Like(System.String)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.Like(System.String)">
             <summary>
             Checks whether a string is validated according to regex pattern.
             </summary>
             <param name="pattern">The pattern.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Is.SameAs(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.Is.SameAs(System.Object)">
             <summary>
             Checks whether an object is identical to the specified object 
             </summary>
             <param name="expected">The expected.</param>
             <returns></returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.OrConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.OrConstraint">
             <summary>
             OrConstraint succeeds if either member succeeds 
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.OrConstraint.#ctor(Apache.Ibatis.Common.Contracts.BaseConstraint,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.OrConstraint.#ctor(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.OrConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.OrConstraint"/> class.
             </summary>
             <param name="left">The left side.</param>
             <param name="right">The right side.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.OrConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.OrConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -786,18 +793,18 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.NotConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.NotConstraint">
             <summary>
             NotConstraint negates the effect of some other constraint 
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NotConstraint.#ctor(Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NotConstraint.#ctor(Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.NotConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.NotConstraint"/> class.
             </summary>
             <param name="baseConstraint">The base constraint.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.NotConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.NotConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified actual].
             </summary>
@@ -807,18 +814,18 @@
             	<c>true</c> if [is satisfied by] [the specified actual]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.SameAsConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.SameAsConstraint">
             <summary>
             Checks whether the actual value is the same object as the supplied
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.SameAsConstraint.#ctor(System.Object)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.SameAsConstraint.#ctor(System.Object)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.SameAsConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.SameAsConstraint"/> class.
             </summary>
             <param name="expected">The expected.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.SameAsConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.SameAsConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -828,18 +835,18 @@
             	<c>true</c> if [is satisfied by] [the specified obj]; otherwise, <c>false</c>.
             </returns>
         </member>
-        <member name="T:Apache.Ibatis.Common.Contracts.TypeOfConstraint">
+        <member name="T:Apache.Ibatis.Common.Contracts.Constraints.TypeOfConstraint">
             <summary>
             Checks that an object is of the same type provided or derived from it.
             </summary>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.TypeOfConstraint.#ctor(System.Type)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.TypeOfConstraint.#ctor(System.Type)">
             <summary>
-            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.TypeOfConstraint"/> class.
+            Initializes a new instance of the <see cref="T:Apache.Ibatis.Common.Contracts.Constraints.TypeOfConstraint"/> class.
             </summary>
             <param name="expectedType">The expected type.</param>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.TypeOfConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Constraints.TypeOfConstraint.IsSatisfiedBy(System.Object,Apache.Ibatis.Common.Contracts.AppendErrorMessage)">
             <summary>
             Determines whether [is satisfied by] [the specified obj].
             </summary>
@@ -890,7 +897,7 @@
             <param name="condition">if set to <c>true</c> [condition].</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Contract.That``1(System.Object,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Contract.That``1(System.Object,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
             Thats the specified actual verify the constraint
             else throw exception  of type <typeparamref name="TException"/>
@@ -899,7 +906,7 @@
             <param name="constraint">The constraint.</param>
             <returns></returns>
         </member>
-        <member name="M:Apache.Ibatis.Common.Contracts.Contract.That(System.Object,Apache.Ibatis.Common.Contracts.BaseConstraint)">
+        <member name="M:Apache.Ibatis.Common.Contracts.Contract.That(System.Object,Apache.Ibatis.Common.Contracts.Constraints.BaseConstraint)">
             <summary>
             Thats the specified verify the constraint.
             </summary>
@@ -3848,21 +3855,6 @@
             obj is the reconfigured sqlMap in a SqlMap context.
             </remarks>
         </member>
-        <member name="T:Apache.Ibatis.Common.Utilities.StateConfig">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Apache.Ibatis.Common.Utilities.StateConfig.FileName">
-            <summary>
-            Master Config File name.
-            </summary>
-        </member>
-        <member name="F:Apache.Ibatis.Common.Utilities.StateConfig.ConfigureHandler">
-            <summary>
-            Delegate called when a file is changed, use it to rebuild.
-            </summary>
-        </member>
         <member name="T:Apache.Ibatis.Common.Utilities.ConfigWatcherHandler">
             <summary>
             Class used to watch config files.
@@ -5769,6 +5761,21 @@
             Parse and tokenize the sql script into multiple statements
             </summary>
             <param name="script">the script to parse</param>
+        </member>
+        <member name="T:Apache.Ibatis.Common.Utilities.StateConfig">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Apache.Ibatis.Common.Utilities.StateConfig.FileName">
+            <summary>
+            Master Config File name.
+            </summary>
+        </member>
+        <member name="F:Apache.Ibatis.Common.Utilities.StateConfig.ConfigureHandler">
+            <summary>
+            Delegate called when a file is changed, use it to rebuild.
+            </summary>
         </member>
         <member name="T:Apache.Ibatis.Common.Utilities.StringTokenizer">
             <summary>

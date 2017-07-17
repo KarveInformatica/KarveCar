@@ -25,7 +25,6 @@
 
 
 using System.Collections;
-
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model;
 using Apache.Ibatis.DataMapper.Model.Statements;

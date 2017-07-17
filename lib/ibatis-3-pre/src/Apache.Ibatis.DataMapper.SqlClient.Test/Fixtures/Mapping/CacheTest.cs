@@ -4,13 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Apache.Ibatis.Common.Utilities;
-
 using Apache.Ibatis.DataMapper.MappedStatements;
+using Apache.Ibatis.DataMapper.Model.Cache;
 using Apache.Ibatis.DataMapper.Model.Cache.Implementation;
+using Apache.Ibatis.DataMapper.Session;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using NUnit.Framework;
-using Apache.Ibatis.DataMapper.Model.Cache;
-using Apache.Ibatis.DataMapper.Session;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping
 {

@@ -23,7 +23,7 @@
  ********************************************************************************/
 #endregion
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// NotConstraint negates the effect of some other constraint 

@@ -27,8 +27,9 @@
 
 using System.Collections.Specialized;
 using System.Xml;
-using Apache.Ibatis.Common.Xml;
 using Apache.Ibatis.Common.Configuration;
+using Apache.Ibatis.Common.Xml;
+
 #endregion 
 
 namespace Apache.Ibatis.Common.Data

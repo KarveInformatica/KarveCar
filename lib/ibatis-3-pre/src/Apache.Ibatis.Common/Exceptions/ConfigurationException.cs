@@ -44,7 +44,7 @@ namespace Apache.Ibatis.Common.Exceptions
 	{
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ConfigurationException"/> class.
+		/// Initializes a new instance of the <see cref="ConfigurationException"/> class.
 		/// </summary>
 		/// <remarks>
 		/// This constructor initializes the Message property of the new instance to a system-supplied message 
@@ -53,7 +53,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ConfigurationException() :base ("Could not configure the iBatis.NET framework."){ }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ConfigurationException"/> 
+		/// Initializes a new instance of the <see cref="ConfigurationException"/> 
 		/// class with a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>
@@ -68,7 +68,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ConfigurationException(Exception ex) : base (ex.Message,ex) {}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ConfigurationException"/> 
+		/// Initializes a new instance of the <see cref="ConfigurationException"/> 
 		/// class with a specified error message.
 		/// </summary>
 		/// <remarks>
@@ -79,7 +79,7 @@ namespace Apache.Ibatis.Common.Exceptions
 		public ConfigurationException( string message ) : base ( message ) { }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Apache.Ibatis.Common.Exceptions.ConfigurationException"/> 
+		/// Initializes a new instance of the <see cref="ConfigurationException"/> 
 		/// class with a specified error message and a reference to the inner exception that is the cause of this exception.
 		/// </summary>
 		/// <remarks>

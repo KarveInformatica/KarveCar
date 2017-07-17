@@ -1,6 +1,6 @@
 using System;
-using NUnit.Framework;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
+using NUnit.Framework;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping.MSSQL
 {

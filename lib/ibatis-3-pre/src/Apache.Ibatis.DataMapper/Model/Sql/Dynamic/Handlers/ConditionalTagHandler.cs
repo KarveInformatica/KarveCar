@@ -27,10 +27,10 @@
 #region Imports
 using System;
 using System.Text;
+using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
-using Apache.Ibatis.Common.Utilities.Objects;
 
 #endregion
 

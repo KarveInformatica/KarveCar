@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 using Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures;
 using NUnit.Framework;
 
 using System.Collections.Generic;
+using Apache.Ibatis.DataMapper.SqlClient.Test.Domain;
 
 namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping.MSSQL
 {

@@ -25,14 +25,10 @@
 #endregion
 
 using System;
+using Apache.Ibatis.Common.Contracts.Constraints;
 
 namespace Apache.Ibatis.Common.Contracts
 {
-    public delegate void ThrowException(string message);
-    public delegate bool IsSatisfied();
-    public delegate string GetErrorMessage();
-    public delegate void AppendErrorMessage(string message);
-
     /// <summary>
     /// Design By Contract Checks.
     /// </summary>

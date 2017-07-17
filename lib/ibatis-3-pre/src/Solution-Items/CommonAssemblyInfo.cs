@@ -9,12 +9,12 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyCompany("http://ibatis.apache.org/")]
-[assembly: AssemblyProduct("iBATIS.NET")]
+[assembly: AssemblyCompany("http://www.karveinformatica.com/")]
+[assembly: AssemblyProduct("KarveIbatis.NET")]
 [assembly: AssemblyCopyright("Copyright 2006-2008 The Apache Software Foundation")]
 [assembly: AssemblyTrademark("Licensed under the Apache License, Version 2.0")]
-[assembly: AssemblyCulture("")]	
-	
+[assembly: AssemblyCulture("")]
+[assembly: SecurityRules(SecurityRuleSet.Level1)]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

@@ -27,8 +27,8 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Data;
-using Apache.Ibatis.Common;
 using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.Common;
 
 namespace Apache.Ibatis.DataMapper.Data
 {

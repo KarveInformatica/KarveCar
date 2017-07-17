@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml.Processor;

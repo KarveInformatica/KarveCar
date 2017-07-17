@@ -25,6 +25,7 @@
 
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.Exceptions;
 

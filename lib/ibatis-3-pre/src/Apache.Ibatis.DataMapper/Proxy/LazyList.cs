@@ -25,11 +25,10 @@
 
 using System;
 using System.Collections;
-
-using Apache.Ibatis.DataMapper.MappedStatements;
-using Apache.Ibatis.Common.Utilities.Objects.Members;
-using Apache.Ibatis.Common.Logging;
 using System.Reflection;
+using Apache.Ibatis.Common.Logging;
+using Apache.Ibatis.Common.Utilities.Objects.Members;
+using Apache.Ibatis.DataMapper.MappedStatements;
 
 namespace Apache.Ibatis.DataMapper.Proxy
 {

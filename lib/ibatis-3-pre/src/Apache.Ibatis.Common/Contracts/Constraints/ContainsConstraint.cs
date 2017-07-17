@@ -24,7 +24,7 @@
  ********************************************************************************/
 #endregion
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Checks that the string contains the specified string.

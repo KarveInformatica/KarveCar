@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Logging.Impl;

@@ -28,6 +28,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Session.Transaction;

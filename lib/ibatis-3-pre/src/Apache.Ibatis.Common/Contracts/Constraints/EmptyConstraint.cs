@@ -24,10 +24,10 @@
  ********************************************************************************/
 #endregion
 
-using System.Collections;
 using System;
+using System.Collections;
 
-namespace Apache.Ibatis.Common.Contracts
+namespace Apache.Ibatis.Common.Contracts.Constraints
 {
     /// <summary>
     /// Checks whether a string or collection is empty

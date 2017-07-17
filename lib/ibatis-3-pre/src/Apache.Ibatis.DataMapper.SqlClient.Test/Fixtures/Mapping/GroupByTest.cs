@@ -46,7 +46,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping
         [Test]
         public void Can_groupBy_primitive_type()
         {
-            IList<Category> list = dataMapper.QueryForList<Category>("GetCategories-SimpleResult", null);
+            IList<Domain.Petshop.Category> list = dataMapper.QueryForList<Domain.Petshop.Category>("GetCategories-SimpleResult", null);
             Assert.AreEqual(6, list.Count);
         }
 
@@ -172,9 +172,9 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Fixtures.Mapping
         [Test]
         public void TestJira241()
         {
-            Category myCategory = new Category();
+            Domain.Petshop.Category myCategory = new Domain.Petshop.Category();
 
-            dataMapper.QueryForObject<Category>("GetFishGeneric", null, myCategory);
+            dataMapper.QueryForObject<Domain.Petshop.Category>("GetFishGeneric", null, myCategory);
             Assert.IsNotNull(myCategory);
 
             Assert.AreEqual("FISH", myCategory.Id);

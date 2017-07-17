@@ -96,13 +96,13 @@
     <None Include="Scripts\account-init.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
+    <ProjectReference Include="..\Apache.Ibatis.Common\Karve.Ibatis.Common.csproj">
       <Project>{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE}</Project>
-      <Name>Apache.Ibatis.Common</Name>
+      <Name>Karve.Ibatis.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Apache.Ibatis.DataMapper\Apache.Ibatis.DataMapper.csproj">
+    <ProjectReference Include="..\Apache.Ibatis.DataMapper\Karve.Ibatis.DataMapper.csproj">
       <Project>{F3E45F39-3224-4EAD-B138-EB5CC0E32824}</Project>
-      <Name>Apache.Ibatis.DataMapper</Name>
+      <Name>Karve.Ibatis.DataMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

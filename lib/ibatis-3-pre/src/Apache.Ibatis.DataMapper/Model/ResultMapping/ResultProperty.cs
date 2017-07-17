@@ -34,6 +34,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Utilities.Objects;

@@ -29,6 +29,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.Common.Exceptions;
 using CommonExceptions = Apache.Ibatis.Common.Exceptions;
 

@@ -30,10 +30,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.Cache;
+using Apache.Ibatis.DataMapper.Model.ParameterMapping;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Model.Sql;
 using Apache.Ibatis.DataMapper.Model.Sql.External;
 

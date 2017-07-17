@@ -26,8 +26,9 @@
 #region Using
 
 using System.Xml;
-using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
 using Apache.Ibatis.Common.Configuration;
+using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
+
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

@@ -27,9 +27,10 @@
 #region using
 
 using System.Text;
+using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
-using Apache.Ibatis.Common.Utilities.Objects;
+
 #endregion
 
 

@@ -24,11 +24,11 @@
 #endregion
 
 
+using System;
 using Apache.Ibatis.Common.Configuration;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.DataExchange;
-using System;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers
 {

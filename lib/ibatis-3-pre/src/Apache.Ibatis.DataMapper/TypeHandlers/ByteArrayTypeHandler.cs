@@ -27,9 +27,9 @@
 #region using
 using System;
 using System.Data;
-
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
+
 #endregion
 
 namespace Apache.Ibatis.DataMapper.TypeHandlers

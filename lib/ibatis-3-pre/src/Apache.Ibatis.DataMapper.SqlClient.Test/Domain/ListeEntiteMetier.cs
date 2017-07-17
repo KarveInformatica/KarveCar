@@ -15,7 +15,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Item"/>.
+        /// Overloads <see cref="List{T}.Item"/>.
         /// </summary>
         /// <value></value>
         public new virtual T this[int index]
@@ -25,7 +25,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List`1.Add"/>.
+        /// Overloads <see cref="List{T}.Add"/>.
         /// </summary>
         /// <param name="item">The object to be added to the end of the <see cref="T:System.Collections.Generic.List`1"/>. The value can be null for reference types.</param>
         public new virtual void Add(T item)
@@ -34,7 +34,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.AddRange"/>.
+        /// Overloads <see cref="List{T}.AddRange"/>.
         /// </summary>
         /// <param name="collection">The collection whose elements should be added to the end of the <see cref="T:System.Collections.Generic.List`1"/>. The collection itself cannot be null, but it can contain elements that are null, if type <paramref name="T"/> is a reference type.</param>
         /// <exception cref="T:System.ArgumentNullException">
@@ -45,7 +45,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Clear"/>.
+        /// Overloads <see cref="List{T}.Clear"/>.
         /// </summary>
         public new virtual void Clear()
         {
@@ -53,7 +53,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Insert"/>.
+        /// Overloads <see cref="List{T}.Insert"/>.
         /// </summary>
         public new virtual void Insert(int index, T item)
         {
@@ -61,7 +61,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.InsertRange"/>.
+        /// Overloads <see cref="List{T}.InsertRange"/>.
         /// </summary>
         public new virtual void InsertRange(int index, IEnumerable<T> collection)
         {
@@ -69,7 +69,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Remove"/>.
+        /// Overloads <see cref="List{T}.Remove"/>.
         /// </summary>
         public new virtual bool Remove(T item)
         {
@@ -78,7 +78,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.RemoveAll"/>.
+        /// Overloads <see cref="List{T}.RemoveAll"/>.
         /// </summary>
         public new virtual int RemoveAll(Predicate<T> match)
         {
@@ -87,7 +87,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.RemoveAt"/>.
+        /// Overloads <see cref="List{T}.RemoveAt"/>.
         /// </summary>
         public new virtual void RemoveAt(int index)
         {
@@ -95,7 +95,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.RemoveRange"/>.
+        /// Overloads <see cref="List{T}.RemoveRange"/>.
         /// </summary>
         public new virtual void RemoveRange(int index, int count)
         {
@@ -104,7 +104,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Find"/>.
+        /// Overloads <see cref="List{T}.Find"/>.
         /// </summary>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
         /// <returns></returns>
@@ -114,7 +114,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindAll"/>.
+        /// Overloads <see cref="List{T}.FindAll"/>.
         /// </summary>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
         /// <returns></returns>
@@ -124,7 +124,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindIndex"/>.
+        /// Overloads <see cref="List{T}.FindIndex"/>.
         /// </summary>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
         /// <returns></returns>
@@ -134,7 +134,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindIndex"/>.
+        /// Overloads <see cref="List{T}.FindIndex"/>.
         /// </summary>
         /// <param name="startIndex">Index de début de base zéro de la recherche</param>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
@@ -145,7 +145,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindIndex"/>.
+        /// Overloads <see cref="List{T}.FindIndex"/>.
         /// </summary>
         /// <param name="startIndex">Index de début de base zéro de la recherche</param>
         /// <param name="count">Nombre d'élément contenus dans la section où la recherche doit être effectuée</param>
@@ -157,7 +157,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindLast"/>.
+        /// Overloads <see cref="List{T}.FindLast"/>.
         /// </summary>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
         /// <returns></returns>
@@ -167,7 +167,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindLastIndex"/>.
+        /// Overloads <see cref="List{T}.FindLastIndex"/>.
         /// </summary>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
         /// <returns></returns>
@@ -177,7 +177,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindLastIndex"/>.
+        /// Overloads <see cref="List{T}.FindLastIndex"/>.
         /// </summary>
         /// <param name="startIndex">Index de début de base zéro de la recherche</param>
         /// <param name="match">Délégué qui définit les conditions de l'élément à rechercher</param>
@@ -188,7 +188,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.FindLastIndex"/>.
+        /// Overloads <see cref="List{T}.FindLastIndex"/>.
         /// </summary>
         /// <param name="startIndex">Index de début de base zéro de la recherche</param>
         /// <param name="count">Nombre d'élément contenus dans la section où la recherche doit être effectuée</param>
@@ -200,7 +200,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.ForEach"/>.
+        /// Overloads <see cref="List{T}.ForEach"/>.
         /// </summary>
         /// <param name="action">Délégué à éxécuter sur chaque élément de la liste</param>
         /// <returns></returns>
@@ -210,7 +210,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.GetEnumerator"/>.
+        /// Overloads <see cref="List{T}.GetEnumerator"/>.
         /// </summary>
         /// <param name="action">Délégué à éxécuter sur chaque élément de la liste</param>
         /// <returns></returns>
@@ -220,7 +220,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.GetRange"/>.
+        /// Overloads <see cref="List{T}.GetRange"/>.
         /// </summary>
         /// <param name="index">Index de base zéro auquel la plage commence</param>
         /// <param name="count">Nombre d'élément dans la plage</param>
@@ -231,7 +231,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.IndexOf"/>.
+        /// Overloads <see cref="List{T}.IndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <returns></returns>
@@ -241,7 +241,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.IndexOf"/>.
+        /// Overloads <see cref="List{T}.IndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <param name="index">Index de début de base zéro de la recherche</param>
@@ -252,7 +252,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.IndexOf"/>.
+        /// Overloads <see cref="List{T}.IndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <param name="index">Index de début de base zéro de la recherche</param>
@@ -264,7 +264,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.LastIndexOf"/>.
+        /// Overloads <see cref="List{T}.LastIndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <returns></returns>
@@ -274,7 +274,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.LastIndexOf"/>.
+        /// Overloads <see cref="List{T}.LastIndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <param name="index">Index de début de base zéro de la recherche</param>
@@ -284,7 +284,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.LastIndexOf"/>.
+        /// Overloads <see cref="List{T}.LastIndexOf"/>.
         /// </summary>
         /// <param name="item">Objet à trouver</param>
         /// <param name="index">Index de début de base zéro de la recherche</param>
@@ -295,7 +295,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Reverse"/>.
+        /// Overloads <see cref="List{T}.Reverse"/>.
         /// </summary>
         public new virtual void Reverse()
         {
@@ -303,7 +303,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Reverse"/>.
+        /// Overloads <see cref="List{T}.Reverse"/>.
         /// </summary>
         /// <param name="index">Index de début de base zéro de la recherche</param>
         /// <param name="count">Nombre d'éléments contenus dans la section où la recherche doit être effectuée</param>
@@ -313,7 +313,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Sort"/>.
+        /// Overloads <see cref="List{T}.Sort"/>.
         /// </summary>
         /// <returns></returns>
         public new virtual void Sort()
@@ -322,7 +322,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Sort"/>.
+        /// Overloads <see cref="List{T}.Sort"/>.
         /// </summary>
         /// <param name="comparison">System.Comparison à utiliser lors de la comparaison d'éléments</param>
         public new virtual void Sort(Comparison<T> comparison)
@@ -331,7 +331,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Sort"/>.
+        /// Overloads <see cref="List{T}.Sort"/>.
         /// </summary>
         /// <param name="comparer">Implémentation de IComparer à utiliser lors de la comparaison d'éléments</param>
         public new virtual void Sort(IComparer<T> comparer)
@@ -340,7 +340,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.Sort"/>.
+        /// Overloads <see cref="List{T}.Sort"/>.
         /// </summary>
         /// <param name="index">Index de début de base zéro de la plage à trier</param>
         /// <param name="count">Longueur de la plage à trier</param>
@@ -353,7 +353,7 @@ namespace Apache.Ibatis.DataMapper.SqlClient.Test.Domain
         }
 
         /// <summary>
-        /// Overloads <see cref="System.Collections.Generic.List.ToArray"/>.
+        /// Overloads <see cref="List{T}.ToArray"/>.
         /// </summary>
         /// <returns></returns>
         public new virtual T[] ToArray()

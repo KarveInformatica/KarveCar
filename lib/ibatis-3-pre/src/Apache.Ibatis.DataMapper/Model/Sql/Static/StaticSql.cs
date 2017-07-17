@@ -26,13 +26,14 @@
 
 #region Imports
 
-using Apache.Ibatis.DataMapper.Model.Statements;
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
+using Apache.Ibatis.DataMapper.Data;
 using Apache.Ibatis.DataMapper.DataExchange;
 using Apache.Ibatis.DataMapper.MappedStatements;
+using Apache.Ibatis.DataMapper.Model.Statements;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.DataMapper.Data;
-using Apache.Ibatis.Common.Contracts;
 
 #endregion
 

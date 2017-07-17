@@ -31,14 +31,14 @@ using System.Collections.Specialized;
 using System.Reflection;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
+using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
+using Apache.Ibatis.DataMapper.DataExchange;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Xml;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.TypeHandlers;
-using Apache.Ibatis.DataMapper.DataExchange;
-using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 
 #endregion 
 

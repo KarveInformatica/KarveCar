@@ -30,12 +30,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
-using Apache.Ibatis.Common.Xml;
-using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
-using Apache.Ibatis.DataMapper.TypeHandlers;
 using Apache.Ibatis.DataMapper.DataExchange;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
+using Apache.Ibatis.Common.Xml;
+using Apache.Ibatis.DataMapper.Scope;
+using Apache.Ibatis.DataMapper.TypeHandlers;
+
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

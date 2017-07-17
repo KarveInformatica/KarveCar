@@ -32,16 +32,17 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Reflection;
 using System.Text;
+using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
+using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Utilities.Objects;
-using Apache.Ibatis.DataMapper.Model.ParameterMapping;
-using Apache.Ibatis.DataMapper.Exceptions;
-using Apache.Ibatis.DataMapper.Scope;
-using Apache.Ibatis.Common.Contracts;
-using Apache.Ibatis.Common.Data;
-using Apache.Ibatis.DataMapper.Session;
 using Apache.Ibatis.DataMapper.Data;
+using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ParameterMapping;
+using Apache.Ibatis.DataMapper.Scope;
+using Apache.Ibatis.DataMapper.Session;
 
 #endregion
 

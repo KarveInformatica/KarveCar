@@ -25,9 +25,10 @@
 #endregion
 
 using System;
-using Apache.Ibatis.Common.Utilities;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Contracts;
+using Apache.Ibatis.Common.Contracts.Constraints;
+using Apache.Ibatis.Common.Utilities;
 
 namespace Apache.Ibatis.DataMapper.Model.Alias
 {

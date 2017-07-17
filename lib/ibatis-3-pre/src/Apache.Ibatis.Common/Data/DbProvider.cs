@@ -30,9 +30,9 @@ using System;
 using System.Data;
 using System.Reflection;
 using System.Xml.Serialization;
+using System.Diagnostics;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.Common.Utilities;
-using System.Diagnostics;
 
 #endregion
 
@@ -443,7 +443,8 @@ namespace Apache.Ibatis.Common.Data
 
 			try
 			{
-				assembly = Assembly.Load(_assemblyName);
+			   
+                assembly = Assembly.Load(_assemblyName);
 
 				// Build the connection template 
 				type = assembly.GetType(_connectionClass, true);

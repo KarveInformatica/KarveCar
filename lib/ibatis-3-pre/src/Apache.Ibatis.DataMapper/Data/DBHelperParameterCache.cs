@@ -27,10 +27,10 @@
 using System;
 using System.Data;
 using System.Reflection;
+using System.Collections.Generic;
+using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Exceptions;
 using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.Common.Data;
-using System.Collections.Generic;
 
 namespace Apache.Ibatis.DataMapper.Data
 {

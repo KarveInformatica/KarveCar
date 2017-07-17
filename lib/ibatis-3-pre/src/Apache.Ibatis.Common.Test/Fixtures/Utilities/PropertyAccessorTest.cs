@@ -1,5 +1,4 @@
 using System;
-
 using Apache.Ibatis.Common.Test.Domain;
 using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
