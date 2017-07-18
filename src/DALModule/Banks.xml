@@ -7,13 +7,15 @@
 			<result property="Swift"     column="SWIFT"/>
 		</resultMap>	    
 	</resultMaps>
+<parameterMaps>
+</parameterMaps>
   <statements>
-    <sql id="GetAllBanks">
+    <select id="GetAllBanks"  resultMap="BankResultMap">
       select 
       * 
       from 
       Banco 
       order by NOMBRE
-    </sql>
+    </select>
 </statements>
 </sqlMap>
