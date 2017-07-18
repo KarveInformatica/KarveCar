@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using KarveCar.Common;
+using KarveCommon.Generic;
 
 namespace KarveCar.Model.Generic
 {

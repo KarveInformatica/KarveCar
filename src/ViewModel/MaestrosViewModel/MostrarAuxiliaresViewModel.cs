@@ -3,6 +3,7 @@ using KarveCar.Logic.Maestros;
 using KarveCar.Model.Generic;
 using System.Linq;
 using System.Windows.Input;
+using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 

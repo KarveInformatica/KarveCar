@@ -1,6 +1,7 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCar.Properties;
 using System.Collections.Generic;
+using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Classes

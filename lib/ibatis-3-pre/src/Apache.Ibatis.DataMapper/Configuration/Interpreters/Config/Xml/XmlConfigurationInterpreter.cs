@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Reflection;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
@@ -91,7 +92,7 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml
 
             using (Resource)
             {
-                IConfiguration setting = configurationStore.Settings[ConfigConstants.ATTRIBUTE_VALIDATE_SQLMAP];
+               IConfiguration setting = configurationStore.Settings[ConfigConstants.ATTRIBUTE_VALIDATE_SQLMAP];
                 if(setting !=null)
                 {
                     bool mustValidate = false;

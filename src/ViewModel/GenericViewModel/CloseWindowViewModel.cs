@@ -1,6 +1,7 @@
 ﻿using KarveCar.Commands.Generic;
 using KarveCar.Model.Generic;
 using System.Windows.Input;
+using KarveCommon.Generic;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {

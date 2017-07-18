@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.Generic
 {
-    public class CloseTabItemCommand : ICommand
+    public class CloseTabItemCommand : AbstractCommand
     {
         private CloseTabItemViewModel closetabitemvm;
 
@@ -15,14 +15,7 @@ namespace KarveCar.Commands.Generic
             this.closetabitemvm = vm;
         }
 
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             closetabitemvm.CloseTabItem(parameter);         
         }

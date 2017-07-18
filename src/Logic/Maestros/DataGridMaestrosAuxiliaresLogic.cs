@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KarveCar.Common;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 
 namespace KarveCar.Logic.Maestros

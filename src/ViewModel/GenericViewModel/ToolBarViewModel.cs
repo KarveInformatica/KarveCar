@@ -3,6 +3,7 @@ using KarveCar.Logic.ToolBar;
 using KarveCar.Model.Generic;
 using System.Windows;
 using System.Windows.Input;
+using KarveCommon.Generic;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {

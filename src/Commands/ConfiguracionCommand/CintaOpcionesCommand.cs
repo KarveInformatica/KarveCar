@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.ConfiguracionCommand
 {
-    public class CintaOpcionesCommand : ICommand
+    public class CintaOpcionesCommand : AbstractCommand
     {
         private CintaOpcionesViewModel cintaopcionesvm;
 
@@ -14,14 +14,7 @@ namespace KarveCar.Commands.ConfiguracionCommand
             this.cintaopcionesvm = vm;
         }
 
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             cintaopcionesvm.CintaOpciones(parameter);
         }

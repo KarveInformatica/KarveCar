@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Karve.DAL
+namespace KarveTest
 {
-    public class User
+    public class TestBase
     {
-        string Name { get; set; }
-        string Address { get; set; }
     }
 }

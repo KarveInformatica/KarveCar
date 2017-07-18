@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="DataAccessLayer" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <statements>
+    <statement id="FindDepartment" parameterClass="System.Int32" resultClass="System.String" >
+      SELECT Name
+      FROM Department
+      WHERE Id =  #value#
+    </statement>
+    <procedure id="GetEmployees" parameterMap="get-employees-params"  resultMap="get-employee-result">
+      GetEmployees
+    </procedure>
+  </statements>
+  <parameterMaps>
+  <parameterMap id="get-employees-params">
+    <parameter property="Id" column="DepartmentId" />
+  </parameterMap>
+  </parameterMaps>
+  <resultMaps>
+    <resultMap id="get-bank-result" class="">
+      <result property="Id" column="Id" dbType="Int"/>
+      <result property="Name" column="Name" dbType="Varchar"/>
+      <result property="Age" column="Age" dbType="Varchar"/>
+      <result property="DepartmentId" column="DepartmentId" dbType="Int"/>
+    </resultMap>
+  </resultMaps>
+</sqlMap>

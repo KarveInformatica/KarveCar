@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.Generic
 {
-    class CloseWindowCommand : ICommand
+    class CloseWindowCommand : AbstractCommand
     {
         private CloseWindowViewModel closewindowvm;
 
@@ -14,15 +14,7 @@ namespace KarveCar.Commands.Generic
         {
             this.closewindowvm = vm;
         }
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        public override  void Execute(object parameter)
         {
             closewindowvm.CloseWindow(parameter);         
         }

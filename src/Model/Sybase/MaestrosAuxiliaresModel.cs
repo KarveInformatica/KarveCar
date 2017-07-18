@@ -5,17 +5,17 @@ using KarveCar.Model.Generic;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
+using KarveCar.Common;
+using  KarveCommon.Generic;
 
 namespace KarveCar.Model.Sybase
 {
     public class MaestrosAuxiliaresModel
     {
-        private ISqlMapper mapper;
+        
 
         public MaestrosAuxiliaresModel()
         {
-            // here we do the connection to the db.
-            mapper = Mapper.Instance();
         }
         /// <summary>
         /// Devuelve una colección con los valores recuperados de la tabla de auxiliares(tablaauxiliares) de la DB mediante el SADataReader, 
@@ -34,9 +34,9 @@ namespace KarveCar.Model.Sybase
             //string pwd = "1929";
             //string host = "172.26.0.45";            
             //SAConnection conn = new SAConnection(string.Format(ScriptsSQL.CONNECTION_STRING, enginename, databasename, uid, pwd, host));
-            //SAConnection conn = new DBConnect().GetConnection(new DBConnect("DBRENT_NET16", "DBRENT_NET16", "cv", "1929" , "172.26.0.45"));
+            SAConnection conn = new DBConnect().GetConnection(new DBConnect("DBRENT_NET16", "DBRENT_NET16", "cv", "1929" , "172.26.0.45"));
             //SAConnection conn = new SAConnection(new DBConnect().ConnexionString());            
-            //string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
+            string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
             //Se crea una ObservableCollection del tipo de dato recibido por params
             GenericObservableCollection auxobscollection = new GenericObservableCollection();
                         

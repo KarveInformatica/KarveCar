@@ -183,7 +183,6 @@
     <Compile Include="Utility\ManageGenericObject.cs" />
     <Compile Include="Utility\RibbonGroupDragDrop.cs" />
     <Compile Include="Utility\TabControlAndTabItemUtil.cs" />
-    <Compile Include="Model\Generic\GenericObservableCollection.cs" />
     <Compile Include="Model\Generic\TemplateInfoRibbonTabAndGroup.cs" />
     <Compile Include="Model\Generic\TemplateInfoTabItem.cs" />
     <Compile Include="Model\Generic\TemplateInfoRibbonButton.cs" />
@@ -197,7 +196,6 @@
     <Compile Include="ViewModel\GenericViewModel\ToolBarViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
-    <Compile Include="Model\Generic\GenericPropertyChanged.cs" />
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
     </Compile>
@@ -299,7 +297,6 @@
     <Folder Include="Logic\Incidencias\" />
     <Folder Include="Logic\Listados\" />
     <Folder Include="Logic\Reservas\" />
-    <Folder Include="Test\" />
     <Folder Include="ViewModel\AtipicosViewModel\" />
     <Folder Include="ViewModel\ComercialViewModel\" />
     <Folder Include="ViewModel\ContratosViewModel\" />
@@ -394,6 +391,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="rentCarIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="KarveCommon\KarveCommon.csproj">
+      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
+      <Name>KarveCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

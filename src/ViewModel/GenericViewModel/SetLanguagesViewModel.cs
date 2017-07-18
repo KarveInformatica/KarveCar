@@ -5,6 +5,7 @@ using KarveCar.Utility;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Input;
+using KarveCommon.Generic;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {
