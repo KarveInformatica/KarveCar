@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("Karve Rent a Car")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Karve Informatica S.L.")]
-[assembly: AssemblyProduct("KarveWinRentACar Next Generation.")]
+[assembly: AssemblyProduct("KarveWinRentACar NG.")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

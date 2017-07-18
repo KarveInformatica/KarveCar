@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("KarveCommon")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Common .NET classes for Karve")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("KarveCommon")]
+[assembly: AssemblyCompany("Karve Informatica S.L.")]
+[assembly: AssemblyProduct("KarveCar")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
