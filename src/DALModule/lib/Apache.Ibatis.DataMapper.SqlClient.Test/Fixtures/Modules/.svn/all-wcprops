@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules
+END
+ModuleConfigurationTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/ModuleConfigurationTest.cs
+END
+AliasModule.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/AliasModule.cs
+END
+ResultMapModuleTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/ResultMapModuleTest.cs
+END
+AccountModule.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/AccountModule.cs
+END
+DocumentModule.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/DocumentModule.cs
+END
+ParameterMapModuleTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/ParameterMapModuleTest.cs
+END
+EventModule.cs
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Modules/EventModule.cs
+END

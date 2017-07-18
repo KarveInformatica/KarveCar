@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements
+END
+Iterate.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/Iterate.cs
+END
+IsNotParameterPresent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNotParameterPresent.cs
+END
+IsGreaterThan.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsGreaterThan.cs
+END
+IsNotPropertyAvailable.cs
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNotPropertyAvailable.cs
+END
+IsEqual.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsEqual.cs
+END
+Conditional.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/Conditional.cs
+END
+BaseTag.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/BaseTag.cs
+END
+IsNull.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNull.cs
+END
+IDynamicParent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IDynamicParent.cs
+END
+IsNotEmpty.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNotEmpty.cs
+END
+IsParameterPresent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsParameterPresent.cs
+END
+IsLessThan.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsLessThan.cs
+END
+IsGreaterEqual.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsGreaterEqual.cs
+END
+IsPropertyAvailable.cs
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsPropertyAvailable.cs
+END
+IsNotEqual.cs
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNotEqual.cs
+END
+Dynamic.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/Dynamic.cs
+END
+IsNotNull.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsNotNull.cs
+END
+IsEmpty.cs
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsEmpty.cs
+END
+IsLessEqual.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/IsLessEqual.cs
+END
+SqlTag.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Sql/Dynamic/Elements/SqlTag.cs
+END

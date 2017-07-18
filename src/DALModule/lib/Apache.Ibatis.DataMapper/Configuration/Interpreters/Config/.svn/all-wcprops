@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config
+END
+ConfigConstants.cs
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/ConfigConstants.cs
+END
+IConfigurationInterpreter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/IConfigurationInterpreter.cs
+END
+AbstractInterpreter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Configuration/Interpreters/Config/AbstractInterpreter.cs
+END

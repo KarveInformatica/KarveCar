@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions
+END
+ForeignKeyException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions/ForeignKeyException.cs
+END
+ConfigurationException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions/ConfigurationException.cs
+END
+ProbeException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions/ProbeException.cs
+END
+ResourceException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions/ResourceException.cs
+END
+IbatisException.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Exceptions/IbatisException.cs
+END

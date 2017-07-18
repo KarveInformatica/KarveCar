@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Fixtures
+END
+BaseTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Fixtures/BaseTest.cs
+END
+CodeConfigurationInterpreterTestFixture.cs
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Fixtures/CodeConfigurationInterpreterTestFixture.cs
+END
+ScriptBase.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Fixtures/ScriptBase.cs
+END
+PreserveWhitespaceTestFixture.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.Sqlite.Test/Fixtures/PreserveWhitespaceTestFixture.cs
+END

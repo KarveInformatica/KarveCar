@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Iterate" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <statements>
+
+    <select id="DynamicIterateInConditional" parameterClass="list" resultClass="Account">
+      select
+      Account_ID			as Id,
+      Account_FirstName	as FirstName,
+      Account_LastName	as LastName,
+      Account_Email		as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction=",">
+        <isEqual property="[]" compareValue="1">
+          #[]#
+        </isEqual>
+        <isEqual property="[]" compareValue="3">
+          #[]#
+        </isEqual>
+      </iterate>
+    </select>
+    
+    <statement id="DynamicIterate" parameterClass="list" resultClass="Account">
+      select
+      Account_ID			as Id,
+      Account_FirstName	as FirstName,
+      Account_LastName	as LastName,
+      Account_Email		as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction=",">
+        #[]#
+      </iterate>
+    </statement>
+
+    <statement id="DynamicIterate2" parameterClass="Account" resultClass="Account">
+      select
+      Account_ID			as Id,
+      Account_FirstName	as FirstName,
+      Account_LastName	as LastName,
+      Account_Email		as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate property="Ids" open="(" close=")"  conjunction="," >
+        #Ids[]#
+      </iterate>
+    </statement>
+
+    <select id="DynamicIterateLiteral" parameterClass="list" resultClass="Account">
+      select
+      Account_ID			as Id,
+      Account_FirstName	as FirstName,
+      Account_LastName	as LastName,
+      Account_Email		as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction=",">
+        $[]$
+      </iterate>
+    </select>
+    
+    <select id="IterateNestedListProperty" parameterClass="Account" resultClass="Account">
+      select
+      Account_ID          as Id,
+      Account_FirstName  as FirstName,
+      Account_LastName   as LastName,
+      Account_Email       as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction="," property="Accounts">
+        #Accounts[].Id#
+      </iterate>
+    </select>
+
+    <select id="IterateNestedListPropertyB" parameterClass="Account" resultClass="Account">
+      select
+      Account_ID          as Id,
+      Account_FirstName  as FirstName,
+      Account_LastName   as LastName,
+      Account_Email       as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction="," property="Accounts">
+        #Accounts[].Id#
+        <isNotEqual prepend="," compareProperty="FirstName" compareValue="test">
+          #Id#
+        </isNotEqual>
+      </iterate>
+    </select>
+
+    <select id="IterateNestedMapListProperty" parameterClass="map" resultClass="Account">
+      select
+      Account_ID          as Id,
+      Account_FirstName  as FirstName,
+      Account_LastName   as LastName,
+      Account_Email       as EmailAddress
+      from Accounts
+      WHERE Account_ID IN
+      <iterate open="(" close=")" conjunction="," property="Accounts">
+        #Accounts[].Id#
+      </iterate>
+    </select>
+    
+  </statements>
+  
+</sqlMap>

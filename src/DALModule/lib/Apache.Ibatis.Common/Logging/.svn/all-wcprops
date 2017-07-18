@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging
+END
+IDbConnectionProxy.cs
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/IDbConnectionProxy.cs
+END
+ILoggerFactoryAdapter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/ILoggerFactoryAdapter.cs
+END
+IDataReaderProxy.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/IDataReaderProxy.cs
+END
+LogLevel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/LogLevel.cs
+END
+ConfigurationSectionHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/ConfigurationSectionHandler.cs
+END
+ILog.cs
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/ILog.cs
+END
+LogManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/LogManager.cs
+END
+IDbCommandProxy.cs
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/IDbCommandProxy.cs
+END
+LogSetting.cs
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Logging/LogSetting.cs
+END

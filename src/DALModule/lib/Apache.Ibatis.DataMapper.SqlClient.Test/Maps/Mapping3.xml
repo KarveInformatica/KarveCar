@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Document" 
+xmlns="http://ibatis.apache.org/mapping" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<alias>
+		<typeAlias alias="Book" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.Book, Apache.Ibatis.DataMapper.SqlClient.Test" />
+		<typeAlias alias="DocumentCollection" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.DocumentCollection, Apache.Ibatis.DataMapper.SqlClient.Test" />
+		<typeAlias alias="CustomInheritance" type="Apache.Ibatis.DataMapper.SqlClient.Test.Domain.CustomInheritance, Apache.Ibatis.DataMapper.SqlClient.Test"/>
+	</alias>
+
+	<resultMaps>
+		<resultMap id="document" class="Document" extends="NewsPaper.baseDocument">
+			<result property="Test"			column="Document_Title"/>
+			<discriminator column="Document_Type" type="string">
+        <case value="Book" resultMap="book"/>
+        <case value="Newspaper" resultMap="NewsPaper.newspaper"/>
+      </discriminator >
+    </resultMap>
+
+    <resultMap id="document-custom-handler" class="Document" extends="NewsPaper.baseDocument">
+      <discriminator column="Document_Type"  typeHandler="CustomInheritance">
+        <case value="Book" resultMap="book"/>
+        <case value="Newspaper" resultMap="NewsPaper.newspaper"/>
+      </discriminator >
+		</resultMap>
+
+		<resultMap id="book" class="Book" extends="document">
+			<result property="PageNumber" column="Document_PageNumber"/>
+		</resultMap>
+
+	</resultMaps>
+
+	<statements>
+
+		<select id="GetAllDocument"
+			resultMap="document">
+			select
+			*
+			from Documents
+			order by Document_Type, Document_Id
+		</select>
+
+		<select id="SelectDocument" resultMap="document">
+			select
+			*
+			from Documents
+			Where Account_ID = #Id#
+		</select>
+
+		<select id="GetTypedCollection"
+			listClass="DocumentCollection"
+			resultMap="document">
+			select
+			*
+			from Documents
+			order by Document_Type, Document_Id
+		</select>
+
+		<select id="GetAllDocumentWithCustomTypeHandler"
+			resultMap="document-custom-handler">
+			select
+			*
+			from Documents
+			order by Document_Type, Document_Id
+		</select>
+
+		<select id="GetMultipleDocument"
+		  resultMap="book, NewsPaper.newspaper">
+			select
+			Document_ID, Document_Title, Document_PageNumber
+			from Documents
+			where Document_Type = 'Book';
+
+			select
+			Document_ID, Document_Title, Document_City
+			from Documents
+			where Document_Type = 'Newspaper';
+		</select>
+
+	</statements>
+
+
+</sqlMap>

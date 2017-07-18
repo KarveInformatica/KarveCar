@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache
+END
+WeakCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/WeakCacheTest.cs
+END
+CacheKeyTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/CacheKeyTest.cs
+END
+BaseCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/BaseCacheTest.cs
+END
+ScheduledCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/ScheduledCacheTest.cs
+END
+CacheModelTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/CacheModelTest.cs
+END
+PerpetualCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/PerpetualCacheTest.cs
+END
+LruCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/LruCacheTest.cs
+END
+FifoCacheTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper.SqlClient.Test/Fixtures/Mapping/Cache/FifoCacheTest.cs
+END

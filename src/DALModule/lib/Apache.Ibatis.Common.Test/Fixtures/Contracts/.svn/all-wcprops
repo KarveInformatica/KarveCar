@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Contracts
+END
+RequireTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Contracts/RequireTest.cs
+END
+EnsureTest.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common.Test/Fixtures/Contracts/EnsureTest.cs
+END

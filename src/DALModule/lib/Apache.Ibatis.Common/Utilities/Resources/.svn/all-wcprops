@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources
+END
+FileResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/FileResource.cs
+END
+IResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/IResourceLoader.cs
+END
+UrlResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/UrlResource.cs
+END
+AbstractResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/AbstractResource.cs
+END
+FileResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/FileResourceLoader.cs
+END
+AssemblyResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/AssemblyResourceLoader.cs
+END
+IResource.cs
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/IResource.cs
+END
+UrlResourceLoader.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.Common/Utilities/Resources/UrlResourceLoader.cs
+END

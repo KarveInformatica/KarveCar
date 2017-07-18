@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping
+END
+IResultMapEvents.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/IResultMapEvents.cs
+END
+Case.cs
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/Case.cs
+END
+ResultMapEventSupport.cs
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultMapEventSupport.cs
+END
+ResultMap.cs
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultMap.cs
+END
+IResultPropertySupportEvents.cs
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/IResultPropertySupportEvents.cs
+END
+ResultPropertyEventSupport.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultPropertyEventSupport.cs
+END
+ResultProperty.cs
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultProperty.cs
+END
+IResultMap.cs
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/IResultMap.cs
+END
+ArgumentProperty.cs
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ArgumentProperty.cs
+END
+ResultMapCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultMapCollection.cs
+END
+ResultPropertyCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ResultPropertyCollection.cs
+END
+ArgumentPropertyCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/ArgumentPropertyCollection.cs
+END
+AutoResultMap.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/AutoResultMap.cs
+END
+NullResultMap.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/NullResultMap.cs
+END
+Discriminator.cs
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/40/branches/ibatis-3-pre/src/Apache.Ibatis.DataMapper/Model/ResultMapping/Discriminator.cs
+END
