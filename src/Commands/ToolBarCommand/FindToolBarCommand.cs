@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.ToolBarCommand
 {
-    public class FindToolBarCommand : ICommand
+    public class FindToolBarCommand : AbstractCommand
     {
         private ToolBarViewModel toolbarvm;
 
@@ -12,17 +12,14 @@ namespace KarveCar.Commands.ToolBarCommand
         {
             this.toolbarvm = vm;
         }
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             toolbarvm.BuscarToolBar(parameter);
+        }
+
+        public override bool UnExecute()
+        {
+            throw new NotImplementedException();
         }
     }
 }

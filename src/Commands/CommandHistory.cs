@@ -44,8 +44,12 @@ namespace KarveCar.Commands
         private IList<CommandWrapper> redoList;
         // List of the undo command
         private IList<CommandWrapper> undoList;
+
+        private IList<CommandWrapper> historyList;
+
         // single instance of the command list.
         private static CommandHistory _instance;
+
         // This is useful to enable or disable the Undo. In case is different from zero there are some command in the lists.
         private int _cleanUpCount;
 
@@ -57,6 +61,7 @@ namespace KarveCar.Commands
         {
             redoList = new List<CommandWrapper>();
             undoList = new List<CommandWrapper>();
+            historyList = new List<CommandWrapper>();
             _cleanUpCount = 0;
         }
        /// <summary>
@@ -112,6 +117,7 @@ namespace KarveCar.Commands
             {
                 command.Execute(param);
                 AddUndo(commandWrapper);
+                historyList.Add(commandWrapper);
             }
         }
         /// <summary>

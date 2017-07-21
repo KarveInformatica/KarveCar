@@ -23,6 +23,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.DataMapper", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.DataMapper.Sysbase.Test", "DALModule\lib\Apache.Ibatis.DataMapper.Sysbase.Test\Karve.Ibatis.DataMapper.Sysbase.Test.csproj", "{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{31310D87-8201-43E3-A023-DC5B6999B02C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "..\ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,12 +63,24 @@ Global
 		{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{140C1044-4F56-4855-AF52-A2F91B369460} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{F3E45F39-3224-4EAD-B138-EB5CC0E32824} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{469678FF-D8AB-4DE7-99AC-D91FB5E6E547} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{31310D87-8201-43E3-A023-DC5B6999B02C} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_DuplicateKeyHandling = Fail
 		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
 	EndGlobalSection
 EndGlobal

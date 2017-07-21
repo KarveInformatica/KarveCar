@@ -46,7 +46,7 @@ namespace Apache.Ibatis.DataMapper.Sysbase.Test.Fixtures
         /// <param name="script">The sql batch</param>
         public static void InitScript(IDataSource datasource, string script)
         {
-            InitScript(datasource, script, true);
+            BaseTest.InitScript(datasource, script, true);
         }
 
         /// <summary>

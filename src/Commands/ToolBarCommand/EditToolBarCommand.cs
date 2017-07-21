@@ -4,19 +4,17 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.ToolBarCommand
 {
-
-    public class NextToolBarCommand : AbstractCommand
+    public class EditToolBarCommand : AbstractCommand
     {
         private ToolBarViewModel toolbarvm;
 
-        public NextToolBarCommand(ToolBarViewModel vm)
+        public EditToolBarCommand(ToolBarViewModel vm)
         {
             this.toolbarvm = vm;
         }
-
         public override void Execute(object parameter)
         {
-            toolbarvm.SiguienteToolBar(parameter);
+            toolbarvm.EditarToolBar(parameter);
         }
 
         public override bool UnExecute()

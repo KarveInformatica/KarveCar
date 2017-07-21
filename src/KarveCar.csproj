@@ -127,7 +127,7 @@
     <Compile Include="Commands\ToolBarCommand\PreviousToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\FindToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\CancelToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\EditarToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\EditToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\DeleteToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\SaveToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\PrintToolBarCommand.cs" />

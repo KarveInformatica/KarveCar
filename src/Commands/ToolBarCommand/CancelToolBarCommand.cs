@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace KarveCar.Commands.ToolBarCommand
 {
-    public class CancelToolBarCommand : ICommand
+    public class CancelToolBarCommand : AbstractCommand
     {
         private ToolBarViewModel toolbarvm;
 
@@ -12,17 +12,13 @@ namespace KarveCar.Commands.ToolBarCommand
         {
             this.toolbarvm = vm;
         }
-
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
+        public override void Execute(object parameter)
         {
-            return true;
+            toolbarvm.CancelarToolBar(parameter);          
         }
-
-        public void Execute(object parameter)
+        public override bool UnExecute()
         {
-            toolbarvm.CancelarToolBar(parameter);
+            throw new NotImplementedException();
         }
     }
 }

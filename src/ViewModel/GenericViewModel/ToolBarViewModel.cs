@@ -13,7 +13,7 @@ namespace KarveCar.ViewModel.GenericViewModel
         private PreviousToolBarCommand  anteriortoolbarcommand;
         private FindToolBarCommand    buscartoolbarcommand;
         private CancelToolBarCommand  cancelartoolbarcommand;
-        private EditarToolBarCommand    editartoolbarcommand;
+        private EditToolBarCommand    editartoolbarcommand;
         private DeleteToolBarCommand  eliminartoolbarcommand;
         private SaveToolBarCommand   guardartoolbarcommand;
         private PrintToolBarCommand  imprimirtoolbarcommand;
@@ -28,7 +28,7 @@ namespace KarveCar.ViewModel.GenericViewModel
             this.anteriortoolbarcommand  = new PreviousToolBarCommand(this);
             this.buscartoolbarcommand    = new FindToolBarCommand(this);
             this.cancelartoolbarcommand  = new CancelToolBarCommand(this);
-            this.editartoolbarcommand    = new EditarToolBarCommand(this);
+            this.editartoolbarcommand    = new EditToolBarCommand(this);
             this.eliminartoolbarcommand  = new DeleteToolBarCommand(this);
             this.guardartoolbarcommand   = new SaveToolBarCommand(this);
             this.imprimirtoolbarcommand  = new PrintToolBarCommand(this);
