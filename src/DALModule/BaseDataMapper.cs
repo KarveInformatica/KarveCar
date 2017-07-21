@@ -29,6 +29,7 @@ namespace DataAccessLayer
         public abstract void SetUniqueItems(GenericObservableCollection collection);
         public abstract string Id {get;}
         public abstract Type DalType { set; get; }
+        /* add exception handling and pop up the exception */
         protected BaseDataMapper(string uri)
         {
             string directoryName = System.Environment.CurrentDirectory;

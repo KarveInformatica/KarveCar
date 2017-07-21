@@ -5,8 +5,7 @@
              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
              xmlns:cfg="clr-namespace:KarveCar.ViewModel.ConfiguracionViewModel"
              xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
-             xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel"
-             StartupUri="View/MainWindow.xaml">
+             xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel">
     <Application.Resources>
         <ObjectDataProvider x:Key="ResourceLanguage" 
                             ObjectType="{x:Type lang:ChangeLanguageLogic}" 
