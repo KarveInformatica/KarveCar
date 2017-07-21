@@ -1,0 +1,94 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ControlsTheme/ControlMedia.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="{DynamicResource DynamicAutoFilterBrush}" />
+    </Style>
+    <Style TargetType="CheckBox">
+        
+    </Style>
+    <SolidColorBrush x:Key="DynamicSeperatorBrush" Color="White"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlBorderBrush" Color="#9CA3B5"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlBackgroundBrush" Color="#121212"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="DynamicRowDragBorderBrush" Color="#151D25"/>
+    <LinearGradientBrush x:Key="DynamicRowDragBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#151D25" Offset="0"/>
+        <GradientStop Color="#12273D" Offset="0.55"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="DynamicSortBrush" Color="White"/>
+    <SolidColorBrush x:Key="SortOrderForeGroundBrushBrush" Color="Navy"/>
+    <SolidColorBrush x:Key="DynamicHeaderBorderBrush" Color="#9CA3BB"/>
+    <SolidColorBrush x:Key="DynamicGridLineColorBrush" Color="#37383A" />
+    <SolidColorBrush x:Key="DynamicDragForegroundBrush" Color="White"/>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource DynamicAutoFilterBrush}" />
+        <Setter Property="Foreground" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="Button.IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <SolidColorBrush x:Key="AutoFilterBrush" Color="Wheat"/>
+    <SolidColorBrush x:Key="AutoFilterDarkBrush" Color="White"/>
+
+    <LinearGradientBrush x:Key="DynamicHeaderBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#454C5F" Offset="0.4"/>
+        <GradientStop Color="#121212" Offset="0.6"/>
+        <GradientStop Color="#303A5A" Offset="0.85"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="DynamicAutoFilterForegroundBrushBrush" Color="White"/>
+
+    <LinearGradientBrush x:Key="DynamicHeaderHighlightedBackgoundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#7A8592" Offset="0.4"/>
+        <GradientStop Color="#0E223D" Offset="0.6"/>
+        <GradientStop Color="#122C4F" Offset="0.7"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicHeaderPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#576DB8" Offset="0.4"/>
+        <GradientStop Color="#16359C" Offset="0.5"/>
+        <GradientStop Color="#28B5DB" Offset="0.95"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush  x:Key="DynamicAutoFilterBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#121212" Offset="0"/>
+        <GradientStop Color="#4A5267" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicAlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#121212" Offset="0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#1B1C1F" Offset="0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicCurrentRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#12253F" Offset="0.3"/>
+        <GradientStop Color="#0F4C87" Offset="0.9"/>
+        <GradientStop Color="#03B8EE" Offset="0.95"/>
+    </LinearGradientBrush>
+
+    <DataTemplate x:Key="SigmaContentTemplate">
+        <Image  Height="12" Width="15" RenderOptions.BitmapScalingMode="HighQuality" Source="../Images/greek_letter_sigma_white.gif">
+
+        </Image>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditingPen">
+        <Image  Source="../Images/pen_white_write.png" Width="12" Height="12"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Visible"/>
+    </DataTemplate>
+
+
+
+</ResourceDictionary>

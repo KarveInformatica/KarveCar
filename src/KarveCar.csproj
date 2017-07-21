@@ -116,6 +116,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\AbstractCommand.cs" />
+    <Compile Include="Commands\CommandHistory.cs" />
     <Compile Include="Commands\ConfiguracionCommand\CintaOpcionesCommand.cs" />
     <Compile Include="Commands\Generic\BanksUpdateCommand.cs" />
     <Compile Include="Commands\Generic\RelayCommand.cs" />
@@ -123,16 +124,16 @@
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\AnteriorToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\BuscarToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\CancelarToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\PreviousToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\FindToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\CancelToolBarCommand.cs" />
     <Compile Include="Commands\ToolBarCommand\EditarToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\EliminarToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\GuardarToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\ImprimirToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\NuevoToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\SalirToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\SiguienteToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\DeleteToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\SaveToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\PrintToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\NewToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\ExitToolBarCommand.cs" />
+    <Compile Include="Commands\ToolBarCommand\NextToolBarCommand.cs" />
     <Compile Include="Logic\Configuracion\CintaOpcionesLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Model\Classes\FormaPagoProveedor.cs" />
     <Compile Include="Model\Classes\TipoComisionista.cs" />
     <Compile Include="Model\Classes\GrupoTarifa.cs" />
+    <Compile Include="Model\Generic\lControlCambioDataGrid.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
     <Compile Include="Model\SQL\ScriptsSQLUpdate.cs" />
@@ -185,7 +187,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.es-ES.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Generic\AddRibbonTabByCode.cs" />
     <Compile Include="Logic\Generic\ChangeLanguageLogic.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -203,6 +204,7 @@
     <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
     <Compile Include="Model\Generic\RecopilatorioEnumerations.cs" />
+    <Compile Include="Utility\ValidationRuleDataGrid.cs" />
     <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />

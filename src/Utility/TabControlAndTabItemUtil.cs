@@ -27,5 +27,17 @@ namespace KarveCar.Utility
 
             return opcion;
         }
+        public static TabControl GetCurrentTabControl()
+        {
+            TabControl ctrl = null;
+            try
+            {
+                ctrl = ((MainWindow)Application.Current.MainWindow).tbControl as TabControl;
+                return ctrl;
+            }
+            catch (Exception) { }
+
+            return ctrl;
+        }
     }
 }

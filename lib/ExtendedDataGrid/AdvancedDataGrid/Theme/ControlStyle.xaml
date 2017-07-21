@@ -1,0 +1,147 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Resource dictionary entries should be defined here. -->
+
+
+   
+
+  <LinearGradientBrush x:Key="TreeBackGroundBrush" EndPoint="0.5,1" StartPoint="0.5,0"
+                       MappingMode="RelativeToBoundingBox">
+    <GradientStop Color="#FFAFD2FE" />
+    <GradientStop Color="#FF2A5394" Offset="0.992" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="LightBlueBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF71C2E6" />
+    <GradientStop Color="#FFF0F3F4" />
+    <GradientStop Color="#FFB0D7E4" Offset="0.979" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="OutlookStyle" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF71C2E6" />
+    <GradientStop Color="#FFECEFF2" />
+    <GradientStop Color="#FF8AB6E0" Offset="0.979" />
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="GradientBlueBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF71C2E6" />
+    <GradientStop Color="#FFDBE1E6" />
+    <GradientStop Color="#FFACCEF0" Offset="1" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="PopupBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+    <GradientStop Color="#FF6489BC" Offset="0" />
+    <GradientStop Color="#FF86A8D6" Offset="1" />
+    <GradientStop Color="#FF5B80B5" Offset="0.132" />
+    <GradientStop Color="#FF5C81B6" Offset="0.251" />
+    <GradientStop Color="#FF597EB4" Offset="0.534" />
+    <GradientStop Color="#FF6A8EC1" Offset="0.704" />
+    <GradientStop Color="#FF7C9FCE" Offset="0.841" />
+  </LinearGradientBrush>
+
+
+  <SolidColorBrush x:Key="MSWordBlueBrush" Color="#FF8DAED9" />
+  <Style x:Key="ButtonFocusVisual">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border>
+            <Rectangle SnapsToDevicePixels="true" Margin="4" Stroke="Black" StrokeDashArray="1 2"
+                       StrokeThickness="1" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+    <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+    <Setter Property="Background" Value="#FFA8C6E2" />
+    <Setter Property="Foreground" Value="#FF15428B" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="0,0,1,1" />
+        <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Button}">
+          <Border CornerRadius="5,5,5,5" BorderThickness="1,1,1,1" RenderTransformOrigin="0.5,0.5"
+                  x:Name="border" BorderBrush="#FFFFFFFF">
+            <Border.RenderTransform>
+              <TransformGroup>
+                <ScaleTransform ScaleX="1" ScaleY="1" />
+                <SkewTransform AngleX="0" AngleY="0" />
+                <RotateTransform Angle="0" />
+                <TranslateTransform X="0" Y="0" />
+              </TransformGroup>
+            </Border.RenderTransform>
+            <Border Background="{TemplateBinding Background}" CornerRadius="5,5,5,5" x:Name="border1">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="0.5*" />
+                  <RowDefinition Height="0.5*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" CornerRadius="5,5,0,0">
+                  <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                      <GradientStop Color="#00FFFFFF" Offset="0" />
+                      <GradientStop Color="#7EFFFFFF" Offset="1" />
+                    </LinearGradientBrush>
+                  </Border.Background>
+                </Border>
+                <Border Grid.Row="1" Opacity="0" x:Name="Shine" Width="Auto" Height="Auto"
+                        CornerRadius="0,0,5,5" Margin="1,0,-1,0" Background="{TemplateBinding BorderBrush}" />
+                <ContentPresenter VerticalAlignment="Center" Grid.RowSpan="2"
+                                  HorizontalAlignment="Center" x:Name="contentPresenter" />
+              </Grid>
+            </Border>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" TargetName="border1" Value="0.5" />
+              <Setter Property="Opacity" TargetName="border" Value="1" />
+              <Setter Property="Opacity" TargetName="contentPresenter" Value="0.5" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background">
+          <Setter.Value>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+              <GradientStop Color="BurlyWood" Offset="0" />
+              <GradientStop Color="Orange" Offset="1" />
+            </LinearGradientBrush>
+          </Setter.Value>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+
+  </Style>
+  <SolidColorBrush x:Key="OfficeStyleButtonBrush" Color="#FFCBDEF4" />
+
+  <LinearGradientBrush x:Key="WindowBackground" EndPoint="0.5,1" StartPoint="0.5,0"
+                       MappingMode="RelativeToBoundingBox">
+    <GradientStop Color="#FFA3BCCD" />
+    <GradientStop Color="#FFCFE4FF" Offset="1" />
+    <GradientStop Color="#FFEAF2FB" Offset="0.37" />
+  </LinearGradientBrush>
+
+  <RadialGradientBrush x:Key="RadialWindowBackground">
+    <GradientStop Color="#FF71C2E6" />
+    <GradientStop Color="#FFEEEEEE" />
+    <GradientStop Color="#FFBFDBFF" Offset="0.9" />
+    <GradientStop Color="#FFC2D9F0" Offset="0.4" />
+  </RadialGradientBrush>
+
+  <SolidColorBrush x:Key="WindowForeground" Color="#FF15428B"></SolidColorBrush>
+
+  <Style x:Key="DefaultWindowStyle" TargetType="{x:Type Window}">
+    <Setter Property="Background" Value="{StaticResource RadialWindowBackground}"></Setter>
+    <Setter Property="Foreground" Value="{StaticResource WindowForeground}"></Setter>
+  </Style>
+
+  <Style x:Key="DefaultUserControlStyle" TargetType="{x:Type UserControl}">
+    <Setter Property="Background" Value="{StaticResource RadialWindowBackground}"></Setter>
+    <Setter Property="Foreground" Value="{StaticResource WindowForeground}"></Setter>
+  </Style>
+</ResourceDictionary>

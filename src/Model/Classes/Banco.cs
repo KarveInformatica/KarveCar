@@ -3,31 +3,14 @@ using KarveCar.Properties;
 using System.Collections.Generic;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 using KarveCommon.Generic;
+using KarveCar.Model;
 
 namespace KarveCar.Model.Classes
 {
-    public class Banco : GenericPropertyChanged
+    public class Banco : GenericPropertyChanged, lControlCambioDataGrid
     {
-        #region List<DBCriterios>
-        public static List<TemplateInfoDB> templateinfodb = new List<TemplateInfoDB>()
-        {
-            new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
-                                  nombrecolumnadb    = "CODBAN",
-                                  tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
-                                  datagridheader     = Resources.dttcCodigo },
-            new TemplateInfoDB(){ nombrepropiedadobj = "Nombre",
-                                  nombrecolumnadb    = "NOMBRE",
-                                  tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
-                                  datagridheader     = Resources.dttcDefinicion },
-            new TemplateInfoDB(){ nombrepropiedadobj = "Swift",
-                                  nombrecolumnadb    = "SWIFT",
-                                  tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
-                                  datagridheader     = Resources.dttcBicSwift }
-        };
-        #endregion
-
         #region Constructores
-        public Banco() { }
+        public Banco() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
         public Banco(string codigo, string nombre, string swift)
         {
             this.codigo = codigo;
@@ -68,6 +51,17 @@ namespace KarveCar.Model.Classes
             {
                 swift = value;
                 OnPropertyChanged("Swift");
+            }
+        }
+
+        private EControlCambioDataGrid controlcambiodatagrid;
+        public EControlCambioDataGrid ControlCambioDataGrid
+        {
+            get { return controlcambiodatagrid; }
+            set
+            {
+                controlcambiodatagrid = value;
+                OnPropertyChanged("ControlCambioDataGrid");
             }
         }
         #endregion

@@ -19,5 +19,10 @@ namespace KarveCar.Commands.Generic
         {
             closetabitemvm.CloseTabItem(parameter);         
         }
+
+        public override bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

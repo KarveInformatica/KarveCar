@@ -6,24 +6,10 @@ using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Classes
 {
-    public class BloqueFacturacion : GenericPropertyChanged
+    public class BloqueFacturacion : GenericPropertyChanged, lControlCambioDataGrid
     {
-        #region List<DBCriterios>
-        public static List<TemplateInfoDB> templateinfodb = new List<TemplateInfoDB>()
-        {
-            new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
-                                  nombrecolumnadb    = "CODIGO",
-                                  tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
-                                  datagridheader     = Resources.dttcCodigo },
-            new TemplateInfoDB(){ nombrepropiedadobj = "Nombre",
-                                  nombrecolumnadb    = "NOMBRE",
-                                  tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
-                                  datagridheader     = Resources.dttcDefinicion }
-        };
-        #endregion
-
         #region Constructores
-        public BloqueFacturacion() { }
+        public BloqueFacturacion() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
         public BloqueFacturacion(string codigo, string nombre)
         {
             this.codigo = codigo;
@@ -51,6 +37,17 @@ namespace KarveCar.Model.Classes
             {
                 nombre = value;
                 OnPropertyChanged("Nombre");
+            }
+        }
+
+        private EControlCambioDataGrid controlcambiodatagrid;
+        public EControlCambioDataGrid ControlCambioDataGrid
+        {
+            get { return controlcambiodatagrid; }
+            set
+            {
+                controlcambiodatagrid = value;
+                OnPropertyChanged("ControlCambioDataGrid");
             }
         }
         #endregion

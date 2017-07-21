@@ -18,5 +18,10 @@ namespace KarveCar.Commands.Generic
         {
             closewindowvm.CloseWindow(parameter);         
         }
+
+        public override bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

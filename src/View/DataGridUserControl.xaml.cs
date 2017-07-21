@@ -14,12 +14,22 @@ namespace KarveCar.View
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Proceso de delete de un valor del DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             DataGridMaestrosAuxiliaresLogic.DataGridDelete(sender, e);           
         }
 
-        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        /// <summary>
+        /// Proceso de insert/update de un valor del DataGrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             DataGridMaestrosAuxiliaresLogic.DataGridInsertEdit(sender, e);
         }

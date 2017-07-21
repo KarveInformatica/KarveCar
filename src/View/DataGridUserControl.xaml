@@ -4,25 +4,26 @@
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-          xmlns:local="clr-namespace:KarveCar.View"
-          mc:Ignorable="d" 
-          
+          xmlns:local="clr-namespace:KarveCar.View"        
+          xmlns:vr="clr-namespace:KarveCar.Utility"
+          mc:Ignorable="d"      
           HorizontalAlignment="Left"
           AlternatingRowBackground="WhiteSmoke" 
           AutoGenerateColumns="True"
+          IsReadOnly="False"
           CanUserAddRows="True"
           CanUserDeleteRows="True"
-          IsReadOnly="False"
           SelectionMode="Extended" 
           SelectionUnit="FullRow"
           CanUserReorderColumns="True" 
           CanUserResizeColumns="True" 
           CanUserResizeRows="True" 
-          CanUserSortColumns="False"
+          CanUserSortColumns="True"
           FrozenColumnCount="1"
-          
-          SelectedItem="{Binding SelectedIndex}" 
           PreviewKeyDown="DataGrid_PreviewKeyDown" 
-          CellEditEnding="DataGrid_CellEditEnding">
-    
+          RowEditEnding="DataGrid_RowEditEnding">
+
+    <DataGrid.RowValidationRules>
+        <vr:ValidationRuleDataGrid ValidationStep="UpdatedValue"></vr:ValidationRuleDataGrid>
+    </DataGrid.RowValidationRules>
 </DataGrid>

@@ -26,44 +26,11 @@ namespace KarveCar.Logic.Maestros
         public static void PrepareTabItemDataGrid(EOpcion opcion)
         {
             if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
-            {   //Se crea un nuevo GenericObservableCollection donde guardaremos los datos recibidos de la BBDD
-                //Se recupera el nombre de la tabla de la BBDD
-                string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;
-                //Según la opcion recibida por params, se recuperan los datos de su correspondiente tabla de la BBDD, teniendo en cuenta su tipo de dato.
-                //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection.
-                DalLocator locator = DalLocator.GetInstance();
-                GenericObservableCollection genericobscollection = null;
-
-                if (EOpcion.rbtnBancosClientes ==opcion)
-                {
-                    IDalObject dalObject = locator.FindDalObject(EOpcion.rbtnBancosClientes.ToString());
-                    genericobscollection = dalObject.GetItems();
-                }
-                // extend polimorphism.
-                switch (opcion)
-                {
-                    case EOpcion.rbtnBloqueFacturacion:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, BloqueFacturacion.templateinfodb, new BloqueFacturacion());
-                        break;
-                    case EOpcion.rbtnCanales:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, CanalCliente.templateinfodb, new CanalCliente());
-                        break;
-                    case EOpcion.rbtnCargosPersonal:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, CargoPersonal.templateinfodb, new CargoPersonal());
-                        break;
-                    case EOpcion.rbtnTipoComisionista:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, TipoComisionista.templateinfodb, new TipoComisionista());
-                        break;
-
-                    case EOpcion.rbtnFormaPagoProveedor:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, FormaPagoProveedor.templateinfodb, new FormaPagoProveedor());
-                        break;
-                    case EOpcion.rbtnGruposTarifa:
-                        genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(nombretabladb, GrupoTarifa.templateinfodb, new GrupoTarifa());
-                        break;
-                } 
-                // need return value.
-                CreateTabItemDataGrid(opcion, genericobscollection);
+            {
+                //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
+                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(opcion);
+                //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
+                CreateTabItemDataGrid(opcion, genericobscollection);                
             }
             else
             {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
@@ -83,9 +50,23 @@ namespace KarveCar.Logic.Maestros
         private static void CreateTabItemDataGrid(EOpcion opcion, GenericObservableCollection genericobscollection)
         {
             if (genericobscollection.GenericObsCollection.Count != 0)
-            {
+            {                
                 //Creamos el DataGrid
                 DataGridUserControl datagrid = new DataGridUserControl();
+
+                //datagrid.HorizontalAlignment = HorizontalAlignment.Left;
+                //datagrid.AlternatingRowBackground = Brushes.WhiteSmoke;
+                //datagrid.AutoGenerateColumns = true;
+                //datagrid.CanUserAddRows = true;
+                //datagrid.CanUserDeleteRows = true;
+                //datagrid.IsReadOnly = false;
+                //datagrid.SelectionMode = DataGridSelectionMode.Extended;
+                //datagrid.SelectionUnit = DataGridSelectionUnit.FullRow;
+                //datagrid.CanUserReorderColumns = true;
+                //datagrid.CanUserResizeColumns = true;
+                //datagrid.CanUserResizeRows = true;
+                //datagrid.CanUserSortColumns = true;
+                //datagrid.FrozenColumnCount = 1;
 
                 #region Se añade la ObservableCollection<object> directamente como el datagrid.ItemsSource, rellena las columnas según las propiedades que tenga el object, tenga o no tenga datos; el header será el nombre de cada propiedad del object
 
@@ -94,18 +75,21 @@ namespace KarveCar.Logic.Maestros
 
                 #region Se crean los DataGridTextColumn dinámicamente, dándole el nombre al header, y binding cada columna según establecido en la List<DBCriterios> del object; se añade cada columna individualmente al DataGrid
                 ////Creamos los DataGridTextColumn
-                //DataGridTextColumn col;
-
+                //DataGridTextColumn column;
                 //foreach (var item in templateinfodb)
                 //{
-                //    col = new DataGridTextColumn();
-                //    col.Header = item.datagridheader; // new KarveDataGridTextColum(item.datagridheader);
-                //    col.Binding = new Binding(item.nombrepropiedadobj);
-                //    datagrid.Columns.Add(col);
+                //    //var binding = new Binding();
+                //    //binding.Path = new PropertyPath(item.datagridheader);
+                //    //binding.Source = (ObjectDataProvider)App.Current.FindResource("ResourceLanguage");
+
+                //    column = new DataGridTextColumn();
+                //    column.Header = item.datagridheader; //binding.Path;
+                //    column.Binding = new Binding(item.nombrepropiedadobj);
+                //    datagrid.Columns.Add(column);
                 //}
 
                 ////Añadimos los valores al Datagrid
-                //foreach (var item in dgitemslist)
+                //foreach (var item in genericobscollection.GenericObsCollection)
                 //{
                 //    datagrid.Items.Add(item);
                 //}
@@ -120,7 +104,7 @@ namespace KarveCar.Logic.Maestros
 
                 //Se añade el EOpcion, el GenericObservableCollection recibido por params (como origin y copy) y el nuevo TabItem,  
                 //al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
-                tabitemdictionary.Add(opcion, new TemplateInfoTabItem(genericobscollection, genericobscollection, tabitem));
+                tabitemdictionary.Add(opcion, new TemplateInfoTabItem(genericobscollection, tabitem));
 
                 //Se añade el DataGridUserControl al TabItem
                 tabitem.Content = datagrid;
@@ -130,12 +114,12 @@ namespace KarveCar.Logic.Maestros
             }
         }
 
-        public static void SetTrigger(DataGrid contentControl) //Posiblemente se pueda eliminar este método
+        public static void SetTrigger(DataGrid contentControl) //***Posiblemente se pueda eliminar este método
         {
             // create the command action and bind the command to it
             var invokeCommandAction = new InvokeCommandAction { CommandParameter = "datagridcommandtest" };
             var binding = new Binding { Path = new PropertyPath("CloseWindowCommand") };
-            BindingOperations.SetBinding(invokeCommandAction, InvokeCommandAction.CommandParameterProperty, binding);
+            BindingOperations.SetBinding(invokeCommandAction, InvokeCommandAction.CommandProperty, binding);
 
             // create the event trigger and add the command action to it
             var eventTrigger = new System.Windows.Interactivity.EventTrigger { EventName = "MouseEnter" };

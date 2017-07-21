@@ -16,5 +16,7 @@ namespace KarveCar.Commands
             return true;
         }
         public abstract void Execute(object parameter);
+        public abstract bool UnExecute();
+
     }
 }

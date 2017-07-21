@@ -325,9 +325,10 @@
         public enum ETiposDatoColumnaDB
         {
             DBstring,
+            DBchar,
             DBbool,
             DBbyte, //byte en C# = tinyint en la DB
-            DBsmallint,
+            DBshort,
             DBint,
             DBlong,
             DBdecimal,
@@ -335,7 +336,20 @@
             DBdate,
             DBdatetime,
             DBsmalldatetime,
-            DBtime
+            DBtime,
+            DBdefault
+        }
+
+        /// <summary>
+        /// Enumeración con los tipos de de Control de Cambio de los DataGrid
+        /// </summary>
+        public enum EControlCambioDataGrid
+        {
+            Null,
+            Delete,
+            Insert,
+            Update,
+            HasNull
         }
     }
 }

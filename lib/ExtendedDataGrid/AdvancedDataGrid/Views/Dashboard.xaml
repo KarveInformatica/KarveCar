@@ -1,0 +1,102 @@
+﻿<Fluent:RibbonWindow x:Class="MultiEventCommand.Views.Dashboard"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                     xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent" AllowsTransparency="False"
+                     xmlns:UserControls1="clr-namespace:TestClient.UserControls" WindowStartupLocation="CenterScreen" WindowState="Maximized" 
+                     Title="WPF Extended DataGrid 4.0" Height="700" Width="1200" MinHeight="700" MinWidth="1200" WindowStyle="ThreeDBorderWindow"
+                     Icon="../Images/data-grid.ico"
+                     >
+    <DockPanel LastChildFill="True">
+        <Grid ShowGridLines="False" DockPanel.Dock="Top">
+            <Fluent:Ribbon x:Name="ribbon" SelectedTabIndex="-1">
+                <!--Quick Access Toolbar Items-->
+                <Fluent:Ribbon.QuickAccessItems>
+                    <!--Use Content or Target Property to set QAT item-->
+                   
+                    <!--You Can Just Bind with Any Control-->
+                    <Fluent:QuickAccessMenuItem />
+                </Fluent:Ribbon.QuickAccessItems>
+                <!--Backstage-->
+                <Fluent:Ribbon.Menu>
+                    <Fluent:Backstage IsOpen="True" Header="Features">
+                        <Fluent:BackstageTabControl>
+                            <Fluent:BackstageTabItem Header="Auro Filter" x:Name="backStageTaItemAutoFilter" Icon="pack://application:,,,/ImagePackage;component/filter.png">
+                                <UserControls1:AutoFilterPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:AutoFilterPlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Column Chooser" x:Name="backStageTaItemDashboard" Icon="pack://application:,,,/ImagePackage;component/columnChooser.ico">
+                                <UserControls1:ColumnChooserPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:ColumnChooserPlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Copy Paste To Excel" x:Name="backStageTaItemCopyPaste" Icon="pack://application:,,,/ImagePackage;component/Paste.png">
+                                <UserControls1:CopyPastePlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:CopyPastePlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Sorting" x:Name="backStageTaItemOther" Icon="pack://application:,,,/ImagePackage;component/sort-ascend.png">
+                                <TabControl>
+                                    <TabItem HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <TabItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Images/sort-ascend.png" Height="15" Width="15"/>
+                                                <TextBlock>3 state Sorting</TextBlock>
+                                            </StackPanel>
+                                        </TabItem.Header>
+                                        <UserControls1:TrippleSortPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:TrippleSortPlacerControl>
+                                    </TabItem>
+                                    <TabItem HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <TabItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Images/view-sort-descending.png" Height="15" Width="15"/>
+                                                <TextBlock>Multi Column Sorting</TextBlock>
+                                            </StackPanel>
+                                        </TabItem.Header>
+                                        <UserControls1:MultiTrippleSortPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:MultiTrippleSortPlacerControl>
+                                    </TabItem>
+                                </TabControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Export To Excel"  Icon="pack://application:,,,/ImagePackage;component/Office 2007 Excel.png">
+                                <UserControls1:ExportToExcelPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:ExportToExcelPlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Export To Pdf"  Icon="pack://application:,,,/ImagePackage;component/Pdf.png">
+                                <UserControls1:ExortToPdfPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:ExortToPdfPlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Export To CSV"  Icon="pack://application:,,,/ImagePackage;component/csv.png">
+                                <UserControls1:ExortToCSvPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:ExortToCSvPlacerControl>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Column Splitter"  Icon="pack://application:,,,/ImagePackage;component/splitter.png">
+                                <UserControls1:ColumnSplitterPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Footer"  Icon="pack://application:,,,/ImagePackage;component/footer.png">
+                                <UserControls1:FooterPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Scroll ToolTip"  Icon="pack://application:,,,/ImagePackage;component/ToolTip.png">
+                                <UserControls1:ScrollToolTipPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Row Re Order"  Icon="pack://application:,,,/ImagePackage;component/drag_hand.png">
+                                <UserControls1:ReOrderRowsPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Frozen Rows"  Icon="pack://application:,,,/ImagePackage;component/table-fixed.PNG">
+                                <UserControls1:FrozenRowsPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Row Number"  Icon="pack://application:,,,/ImagePackage;component/Black_Numbered-List.png">
+                                <UserControls1:RowNumberPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Row Summaries"  Icon="pack://application:,,,/ImagePackage;component/greek_letter_sigma.gif">
+                                <UserControls1:RowSummariesPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Themes"  Icon="pack://application:,,,/ImagePackage;component/themes.png">
+                                <UserControls1:ThemesPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Grouping"  Icon="pack://application:,,,/ImagePackage;component/Table.png">
+                                <UserControls1:GroupingPlacerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Fluent:BackstageTabItem>
+                            <Fluent:BackstageTabItem Header="Saving Column Information"  Icon="pack://application:,,,/ImagePackage;component/filesaveas.png">
+                                <UserControls1:ColumnInformationSave  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></UserControls1:ColumnInformationSave>
+                            </Fluent:BackstageTabItem>
+                        </Fluent:BackstageTabControl>
+                    </Fluent:Backstage>
+                </Fluent:Ribbon.Menu>
+              
+              
+            </Fluent:Ribbon>
+        </Grid>
+    </DockPanel>
+   
+</Fluent:RibbonWindow>

@@ -1,0 +1,75 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource DynamicAutoFilterBrush}"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
+    <SolidColorBrush x:Key="DynamicDragForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DynamicAutoFilterForegroundBrushBrush" Color="Black"/>
+
+    <SolidColorBrush x:Key="AutoFilterBrush" Color="Gray"/>
+    <SolidColorBrush x:Key="AutoFilterDarkBrush" Color="Black"/>
+
+    <LinearGradientBrush x:Key="DynamicHeaderBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#EBEADB" Offset="0.5" />
+        <GradientStop Color="#D3D0C0" Offset="1"/>
+    </LinearGradientBrush>
+
+
+    <SolidColorBrush x:Key="DynamicHeaderBorderBrush" Color="#D3D0C0"/>
+
+    <SolidColorBrush x:Key="SortOrderForeGroundBrushBrush" Color="White"/>
+
+    <LinearGradientBrush x:Key="DynamicHeaderHighlightedBackgoundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FAF8F3" Offset="0.8"/>
+        <GradientStop Color="#F9A900" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicHeaderPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FAF8F3" Offset="0.7"/>
+        <GradientStop Color="#F9A900" Offset="1"/>
+    </LinearGradientBrush>
+
+
+
+    <LinearGradientBrush x:Key="DynamicAutoFilterBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="White" Offset="0"/>
+    </LinearGradientBrush>
+
+    
+
+    <SolidColorBrush x:Key="DynamicSeperatorBrush" Color="#C6C7B5"/>
+
+    <!-- Generic brushes -->
+    <SolidColorBrush x:Key="DynamicDefaultControlBorderBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlBackgroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlForegroundBrush" Color="Black"/>
+
+    <!-- DataGrid related brushes -->
+    <SolidColorBrush x:Key="DynamicGridLineColorBrush" Color="#808080" />
+    <LinearGradientBrush x:Key="DynamicAlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#F2F1E7" Offset="0"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="DynamicRowDragBorderBrush" Color="#808080"/>
+    <SolidColorBrush x:Key="DynamicRowDragBrush" Color="#F2F1E7"/>
+
+    <SolidColorBrush x:Key="DynamicSortBrush" Color="Black"/>
+
+    <LinearGradientBrush x:Key="DynamicRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="White" Offset="0"/>
+    </LinearGradientBrush>
+
+    <DataTemplate x:Key="SigmaContentTemplate">
+        <Image  Height="12" Width="15" RenderOptions.BitmapScalingMode="HighQuality" Source="../Images/greek_letter_sigma.gif">
+        </Image>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditingPen">
+        <Image  Source="../Images/pen_write.png" Width="12" Height="12"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Visible"/>
+    </DataTemplate>
+
+</ResourceDictionary>

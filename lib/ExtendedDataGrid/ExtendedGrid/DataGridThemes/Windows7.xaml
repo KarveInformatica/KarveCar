@@ -1,0 +1,89 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ControlsTheme/ControlWindows7.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="ListBox">
+        <Setter Property="Background" Value="{DynamicResource DynamicAutoFilterBrush}" />
+    </Style>
+    <SolidColorBrush x:Key="DynamicSeperatorBrush" Color="#299DF8"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlBorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlBackgroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="DynamicDefaultControlForegroundBrush" Color="Black"/>
+    <SolidColorBrush x:Key="DynamicRowDragBorderBrush" Color="Black"/>
+    <LinearGradientBrush x:Key="DynamicRowDragBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#1594F8" Offset="0.4"/>
+        <GradientStop Color="#47BFF6" Offset="0.6"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="DynamicSortBrush" Color="White"/>
+    <SolidColorBrush x:Key="SortOrderForeGroundBrushBrush" Color="Navy"/>
+    <SolidColorBrush x:Key="DynamicHeaderBorderBrush" Color="#BEE8FC"/>
+    <SolidColorBrush x:Key="DynamicGridLineColorBrush" Color="#AEAEAE" />
+
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource DynamicAutoFilterBrush}" />
+        <Setter Property="Foreground" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="Button.IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="{DynamicResource DynamicCurrentRowBackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <SolidColorBrush x:Key="DynamicDragForegroundBrush" Color="Black"/>
+
+    <SolidColorBrush x:Key="AutoFilterBrush" Color="Wheat"/>
+    <SolidColorBrush x:Key="AutoFilterDarkBrush" Color="White"/>
+
+    <LinearGradientBrush x:Key="DynamicHeaderBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#1594F8" Offset="0.4"/>
+        <GradientStop Color="#47BFF6" Offset="0.6"/>
+       
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicHeaderHighlightedBackgoundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3EBCF6" Offset="0.4"/>
+        <GradientStop Color="#9EDDFA" Offset="0.6"/>
+        
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicHeaderPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#2AADF3" Offset="0.5"/>
+        <GradientStop Color="#C2EBFD" Offset="1"/>
+    </LinearGradientBrush>
+
+
+    <SolidColorBrush x:Key="DynamicAutoFilterBackGroundBrushBrush" Color="White"/>
+
+    <LinearGradientBrush  x:Key="DynamicAutoFilterBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#1684D6" Offset="0"/>
+        <GradientStop Color="#06397B" Offset="1" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="DynamicAutoFilterForegroundBrushBrush" Color="White"/>
+
+    <LinearGradientBrush x:Key="DynamicAlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#D1ECFF" Offset="0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="White" Offset="0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DynamicCurrentRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#3EBCF6" Offset="0.4"/>
+        <GradientStop Color="#9EDDFA" Offset="0.6"/>
+    </LinearGradientBrush>
+
+    <DataTemplate x:Key="SigmaContentTemplate">
+        <Image  Height="12" Width="15" RenderOptions.BitmapScalingMode="HighQuality" Source="../Images/greek_letter_sigma.gif">
+        </Image>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EditingPen">
+        <Image  Source="../Images/pen_write.png" Width="12" Height="12"  VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Visibility="Visible"/>
+    </DataTemplate>
+
+</ResourceDictionary>

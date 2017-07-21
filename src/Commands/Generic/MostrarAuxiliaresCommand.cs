@@ -19,5 +19,10 @@ namespace KarveCar.Commands.Generic
         {
             mostrarauxiliaresvm.MostrarAuxiliares(parameter);        
         }
+
+        public override bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

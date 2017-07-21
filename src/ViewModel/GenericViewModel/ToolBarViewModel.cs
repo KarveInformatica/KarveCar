@@ -10,31 +10,31 @@ namespace KarveCar.ViewModel.GenericViewModel
     public class ToolBarViewModel : GenericPropertyChanged
     {
         #region Variables
-        private AnteriorToolBarCommand  anteriortoolbarcommand;
-        private BuscarToolBarCommand    buscartoolbarcommand;
-        private CancelarToolBarCommand  cancelartoolbarcommand;
+        private PreviousToolBarCommand  anteriortoolbarcommand;
+        private FindToolBarCommand    buscartoolbarcommand;
+        private CancelToolBarCommand  cancelartoolbarcommand;
         private EditarToolBarCommand    editartoolbarcommand;
-        private EliminarToolBarCommand  eliminartoolbarcommand;
-        private GuardarToolBarCommand   guardartoolbarcommand;
-        private ImprimirToolBarCommand  imprimirtoolbarcommand;
-        private NuevoToolBarCommand     nuevotoolbarcommand;
-        private SalirToolBarCommand     salirtoolbarcommand;
-        private SiguienteToolBarCommand siguientetoolbarcommand;
+        private DeleteToolBarCommand  eliminartoolbarcommand;
+        private SaveToolBarCommand   guardartoolbarcommand;
+        private PrintToolBarCommand  imprimirtoolbarcommand;
+        private NewToolBarCommand     nuevotoolbarcommand;
+        private ExitToolBarCommand     salirtoolbarcommand;
+        private NextToolBarCommand siguientetoolbarcommand;
         #endregion
 
         #region Constructor
         public ToolBarViewModel()
         {
-            this.anteriortoolbarcommand  = new AnteriorToolBarCommand(this);
-            this.buscartoolbarcommand    = new BuscarToolBarCommand(this);
-            this.cancelartoolbarcommand  = new CancelarToolBarCommand(this);
+            this.anteriortoolbarcommand  = new PreviousToolBarCommand(this);
+            this.buscartoolbarcommand    = new FindToolBarCommand(this);
+            this.cancelartoolbarcommand  = new CancelToolBarCommand(this);
             this.editartoolbarcommand    = new EditarToolBarCommand(this);
-            this.eliminartoolbarcommand  = new EliminarToolBarCommand(this);
-            this.guardartoolbarcommand   = new GuardarToolBarCommand(this);
-            this.imprimirtoolbarcommand  = new ImprimirToolBarCommand(this);
-            this.nuevotoolbarcommand     = new NuevoToolBarCommand(this);
-            this.salirtoolbarcommand     = new SalirToolBarCommand(this);
-            this.siguientetoolbarcommand = new SiguienteToolBarCommand(this);
+            this.eliminartoolbarcommand  = new DeleteToolBarCommand(this);
+            this.guardartoolbarcommand   = new SaveToolBarCommand(this);
+            this.imprimirtoolbarcommand  = new PrintToolBarCommand(this);
+            this.nuevotoolbarcommand     = new NewToolBarCommand(this);
+            this.salirtoolbarcommand     = new ExitToolBarCommand(this);
+            this.siguientetoolbarcommand = new NextToolBarCommand(this);
         }
         #endregion
 
@@ -54,57 +54,51 @@ namespace KarveCar.ViewModel.GenericViewModel
         #region Métodos
         public void AnteriorToolBar(object parameter)
         {
-            //MessageBox.Show("public void AnteriorToolBar(object parameter) -> " + parameter.ToString());
             AnteriorToolBarLogic.AnteriorToolBar();
         }
 
         public void BuscarToolBar(object parameter)
         {
-            //MessageBox.Show("public void BuscarToolBar(object parameter) -> " + parameter.ToString());
             BuscarToolBarLogic.BuscarToolBar();
         }
 
         public void CancelarToolBar(object parameter)
         {
-            //MessageBox.Show("public void CancelarToolBar(object parameter) -> " + parameter.ToString());
             CancelarToolBarLogic.CancelarToolBar();
         }
 
         public void EditarToolBar(object parameter)
         {
-            //MessageBox.Show("public void EditarToolBar(object parameter) -> " + parameter.ToString());
             EditarToolBarLogic.EditarToolBar();
         }
 
         public void EliminarToolBar(object parameter)
         {
-            //MessageBox.Show("public void EliminarToolBar(object parameter) -> " + parameter.ToString());
             EliminarToolBarLogic.EliminarToolBar();
         }
 
         public void GuardarToolBar(object parameter)
         {
-            //MessageBox.Show("public void GuardarToolBar(object parameter) -> " + parameter.ToString());
             GuardarToolBarLogic.GuardarToolBar();
         }
+
         public void ImprimirToolBar(object parameter)
         {
-            //MessageBox.Show("public void ImprimirToolBar(object parameter) -> " + parameter.ToString());
             ImprimirToolBarLogic.ImprimirToolBar();
         }
+
         public void NuevoToolBar(object parameter)
         {
-            //MessageBox.Show("public void NuevoToolBar(object parameter) -> " + parameter.ToString());
             NuevoToolBarLogic.NuevoToolBar();
         }
+
         public void SalirToolBar(object parameter)
         {
-            //MessageBox.Show("public void SalirToolBar(object parameter) -> " + parameter.ToString());
             SalirToolBarLogic.SalirToolBar();
         }
+
         public void SiguienteToolBar(object parameter)
         {
-            //MessageBox.Show("public void SiguienteToolBar(object parameter) -> " + parameter.ToString());
             SiguienteToolBarLogic.SiguienteToolBar();
         }
         #endregion

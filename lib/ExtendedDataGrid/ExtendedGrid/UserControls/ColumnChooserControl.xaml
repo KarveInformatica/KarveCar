@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="ExtendedGrid.UserControls.ColumnChooserControl"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" SizeChanged="UserControlSizeChanged" FontFamily="Arial" FontSize="9"
+   >
+    <UserControl.Resources>
+        <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}"/>
+            <Setter Property="Background" Value="{DynamicResource NormalBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border>
+                            <Grid>
+                                <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}"  />
+                                <Border>
+                                    <Border.Background>
+                                        <VisualBrush Opacity="1.0" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <Path Name="path" Opacity="0.1" Data="M 0 5 L 3 10 10 0" Stroke="#FF3838BA" StrokeThickness="1.5" 
+			StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="path" Property="Opacity" Value="1.0" />
+                                <Setter TargetName="path" Property="Stroke" Value="#FF70A16F" />
+                                <Setter TargetName="path" Property="StrokeThickness" Value="2.5" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <EventSetter Event="Checked" Handler="CheckBoxChecked"/>
+            <EventSetter Event="Unchecked" Handler="CheckBoxChecked"/>
+            <EventSetter Event="MouseDoubleClick" Handler="DoubleClick"/>
+
+        </Style>
+        <DataTemplate x:Key="editingTextBoxTemplate">
+            <TextBox Foreground="Red" FontFamily="Arial" Height="15" VerticalAlignment="Top" FontSize="9" Loaded="TextBoxLoaded" Text="{Binding columnHeader, Mode=TwoWay}" MouseLeave="TextBoxMouseLeave" MouseDown="TextBoxMouseDown" MouseDoubleClick="TextBoxMouseDoubleClick" TextChanged="TextBoxTextChanged"/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <DockPanel Grid.Row="0" LastChildFill="True" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" Margin="-14,0,0,0" >
+        <!-- Drag and Drop Popup -->
+        <Popup x:Name="popupDrag" IsHitTestVisible="False" Placement="RelativePoint" PlacementTarget="{Binding}" AllowsTransparency="True" IsOpen="False">
+            <Border BorderBrush="LightSteelBlue" BorderThickness="1"  Background="AliceBlue"  Opacity="0.9">
+                <StackPanel  Orientation="Horizontal" Margin="4,3,8,3">
+                    <Image Source="../Images/plus.png" Width="16" Height="16" />
+                    <TextBlock
+                                FontSize="9"
+                                Foreground="Black"
+                                FontWeight="Bold"
+                                VerticalAlignment="Center"
+                                Text="{Binding Path=DraggedItem[columnHeader]}"
+                                Margin="4,0,0,0">
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <!-- Drag and Drop Popup -->
+        <DataGrid x:Name="grid" AutoGenerateColumns="False" IsReadOnly="False" 
+                           ItemsSource="{Binding ColumnChooserDataTable}" HeadersVisibility="None"
+                           CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                           CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                           Style="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" GridLinesVisibility="None" 
+                           Loaded="DataGridLoaded" SizeChanged="GridSizeChanged" MouseMove="GridMouseMove" PreviewMouseLeftButtonUp="GridPreviewMouseLeftButtonUp"
+                           >
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PreviewDataCellMouseLeftButtonDown"/>
+                    <EventSetter Event="MouseEnter" Handler="CellMouseEnter"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn  Width="SizeToCells" MinWidth="25" 
+                                           Binding="{Binding chkBox}"
+                                           IsReadOnly="False" ElementStyle="{StaticResource CheckBoxStyle}" >
+
+                </DataGridCheckBoxColumn>
+                <DataGridTemplateColumn 
+                                   >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell Content="{Binding columnHeader}" 
+                                       Foreground="Black" 
+                  VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn CellEditingTemplate="{StaticResource editingTextBoxTemplate}"
+                                                 Visibility="Collapsed"  >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataGridCell Content="{Binding columnField}" 
+                                       Foreground="Black" 
+                  VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </DockPanel>
+</UserControl>

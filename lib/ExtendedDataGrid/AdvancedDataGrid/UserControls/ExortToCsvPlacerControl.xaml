@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="TestClient.UserControls.ExortToCSvPlacerControl"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ExtendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
+             xmlns:ExtendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
+             xmlns:UserControls="clr-namespace:TestClient.UserControls" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <!--Attach Default Fluent Control's Theme-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical">
+            <ContentControl  HorizontalAlignment="Stretch"  >
+                <DockPanel LastChildFill="True">
+                    <Image Source="../Images/help.ico" Height="16" HorizontalAlignment="Left" DockPanel.Dock="Left"></Image>
+                    <Border Background="LightYellow" Height="22">
+                        <TextBlock Background="LightYellow" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold">Use grid.ExportToCsv method</TextBlock>
+                    </Border>
+
+                </DockPanel>
+            </ContentControl>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="25" Margin="0,3,0,3" >
+                    <TextBlock VerticalAlignment="Center" Margin="3,0,3,0" >Csv File Location:</TextBlock>
+                    <TextBox VerticalAlignment="Center" Width="300" Margin="3,0,3,0" x:Name="txtCsvFileLocation"></TextBox>
+                    <Button VerticalAlignment="Center" Margin="3,0,3,0"  Content="..." Height="Auto" Click="ButtonClick"/>
+
+                    <Button  VerticalAlignment="Center"  Margin="3,0,3,0" Click="ExportClick">Export</Button>
+                </StackPanel>
+                <ExtendedGridControl:ExtendedDataGrid x:Name="grid" ItemsSource="{Binding SourceTable}" AutoGenerateColumns="False" HideColumnChooser="False" 
+                           CanUserAddRows="False" GroupByControlVisibility="Collapsed">
+                    <DataGrid.Columns>
+                        <ExtendedColumn:ExtendedDataGridTextColumn Header="Game Name" AllowAutoFilter="False"
+                                           Binding="{Binding GameName}" />
+                        <ExtendedColumn:ExtendedDataGridTextColumn Header="Creator" AllowAutoFilter="False"
+                                           Binding="{Binding Creator}" />
+                        <ExtendedColumn:ExtendedDataGridTextColumn Header="Owner"
+                                           Binding="{Binding Owner}" AllowAutoFilter="False"/>
+                        <ExtendedColumn:ExtendedDataGridTextColumn Header="Publisher"
+                                           Binding="{Binding Publisher}" AllowAutoFilter="False"
+                                           CanUserSort="False" Width="*"/>
+
+                    </DataGrid.Columns>
+                </ExtendedGridControl:ExtendedDataGrid>
+            </StackPanel>
+        </StackPanel>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5"></GridSplitter>
+        <UserControls:CodeViewer x:Name="codeViewer" Grid.Row="2">
+        </UserControls:CodeViewer>
+    </Grid>
+  
+</UserControl>

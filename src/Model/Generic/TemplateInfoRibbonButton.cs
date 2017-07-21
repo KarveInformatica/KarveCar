@@ -1,4 +1,5 @@
-﻿namespace KarveCar.Model.Generic
+﻿using System.Collections.Generic;
+namespace KarveCar.Model.Generic
 {
     /// <summary>
     /// Plantilla con la info de los RibbonButton:<para/>
@@ -9,5 +10,7 @@
     {        
         public string propertiesresources { get; set; }
         public string nombretabladb { get; set; }
+        public object obj { get; set; }
+        public List<TemplateInfoDB> templateinfodb { get; set; }
     }
 }

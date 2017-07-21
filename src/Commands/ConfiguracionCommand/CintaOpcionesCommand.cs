@@ -18,5 +18,10 @@ namespace KarveCar.Commands.ConfiguracionCommand
         {
             cintaopcionesvm.CintaOpciones(parameter);
         }
+
+        public override bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
