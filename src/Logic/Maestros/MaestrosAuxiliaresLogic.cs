@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using DataAccessLayer;
-using KarveCar.Common;
+using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 

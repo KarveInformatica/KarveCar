@@ -16,8 +16,9 @@ namespace KarveCar.View
     {        
         public MainWindow()
         {
+           
             InitializeComponent();
-
+            
             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
                 this.stInicio.Text = "Aquí ponemos algún texto, p.e.: " + DateTime.Now.ToString("dd/MMMM/yyyy HH:mm:ss");

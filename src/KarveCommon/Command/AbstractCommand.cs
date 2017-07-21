@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace KarveCar.Commands
+namespace KarveCommon.Command
 {
     public abstract class  AbstractCommand: ICommand
 

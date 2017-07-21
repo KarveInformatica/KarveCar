@@ -1361,8 +1361,7 @@
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
         </r:Ribbon>
         <!--</ScrollViewer>-->
-        
-        <!--Toolbar Acciones-->
+
         <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" >
             <ToolBar x:Name="tbAcciones" HorizontalAlignment="Left" ToolBar.OverflowMode="Never" >
                 <Button x:Name="tbbtnNuevo" 
@@ -1471,8 +1470,8 @@
                                     Command="{Binding GuardarToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding GuardarToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding GuardarToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
                 <Button x:Name="tbbtnCancelar"
@@ -1498,8 +1497,8 @@
                                     Command="{Binding CancelarToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding CancelarToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding CancelarToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
                 <Button x:Name="tbbtnImprimir" 
@@ -1525,8 +1524,8 @@
                                     Command="{Binding ImprimirToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding ImprimirToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding ImprimirToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
                 <Button x:Name="tbbtnAnterior" 
@@ -1552,8 +1551,8 @@
                                     Command="{Binding AnteriorToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding AnteriorToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding AnteriorToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
                 <Button x:Name="tbbtnSiguiente" 
@@ -1579,8 +1578,8 @@
                                     Command="{Binding SiguienteToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding SiguienteToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding SiguienteToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
                 <Button x:Name="tbbtnSalir" 
@@ -1606,8 +1605,8 @@
                                     Command="{Binding SalirToolBarCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         <MouseBinding MouseAction="LeftClick"
-                                        Command="{Binding SalirToolBarCommand}" 
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                      Command="{Binding SalirToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                 </Button>
             </ToolBar>
@@ -1620,23 +1619,23 @@
                             HorizontalAlignment="Left"
                             IsEnabled="False"
                             DataContext="{StaticResource toolBarViewModel}" >
-                            <Button.ToolTip>
-                                <StackPanel Orientation="Horizontal">
-                                    <!--<TextBlock Text="{Binding ltbbtnBuscar, Source={StaticResource ResourceLanguage}}" />-->
-                                    <TextBlock Text=" (Ctrl+S)" />
-                                </StackPanel>
-                            </Button.ToolTip>
-                            <Button.InputBindings>
-                                <KeyBinding Key="S" 
-                                            Modifiers="Ctrl" 
-                                            Command="{Binding BuscarToolBarCommand}" 
-                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
-                                <KeyBinding Key="Return"                                                
-                                            Command="{Binding BuscarToolBarCommand}" 
-                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
-                                <MouseBinding MouseAction="LeftClick"
-                                            Command="{Binding BuscarToolBarCommand}" 
-                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                        <Button.ToolTip>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<TextBlock Text="{Binding ltbbtnBuscar, Source={StaticResource ResourceLanguage}}" />-->
+                                <TextBlock Text=" (Ctrl+S)" />
+                            </StackPanel>
+                        </Button.ToolTip>
+                        <Button.InputBindings>
+                            <KeyBinding Key="S" 
+                                        Modifiers="Ctrl" 
+                                        Command="{Binding BuscarToolBarCommand}" 
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                            <KeyBinding Key="Return"                                                
+                                        Command="{Binding BuscarToolBarCommand}" 
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                            <MouseBinding MouseAction="LeftClick"
+                                          Command="{Binding BuscarToolBarCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                         </Button.InputBindings>
                         <StackPanel>
                             <Image Source="..\Images\search.png" Stretch="Fill" Height="35" />
@@ -1646,6 +1645,7 @@
                 </TextBlock>
             </ToolBar>
         </ToolBarTray>
+       
         <!--<Label Content="{Binding ElementName=tbControl, Path=SelectedItem.Header}"/>
         <Label Content="{Binding ElementName=tbControl, Path=SelectedItem.Name}"/>
         <Label Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=SelectedItem.Object.ToString()}"/>

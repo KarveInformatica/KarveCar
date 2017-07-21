@@ -1,10 +1,10 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
 using KarveCar.Utility;
-using KarveCar.Model.Classes.SQL;
 using KarveCar.Model.Generic;
 using System.Collections.Generic;
 using System.Linq;
-using KarveCar.Common;
+using KarveCar.Model.SQL;
+using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 

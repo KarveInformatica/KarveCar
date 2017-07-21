@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KarveTest
+namespace KarveCar.ViewModel
 {
-    public class TestBase
+    class DataGridUserControlViewModel
     {
     }
 }

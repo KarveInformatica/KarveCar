@@ -2,8 +2,8 @@
 using KarveCar.Properties;
 using System.Collections.Generic;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
-using KarveCommon.Generic;
 using KarveCar.Model;
+using KarveCommon.Generic;
 
 namespace KarveCar.Model.Classes
 {

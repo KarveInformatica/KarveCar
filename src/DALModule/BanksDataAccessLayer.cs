@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using Apache.Ibatis.DataMapper;
-using KarveCar.Common;
 using KarveCommon.Generic;
 
 namespace DataAccessLayer

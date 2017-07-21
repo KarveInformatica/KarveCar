@@ -17,17 +17,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCommon", "KarveCommon\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveTest", "..\test\KarveTest\KarveTest\KarveTest.csproj", "{B1BCB441-8F41-4B63-9FAD-2EB0083260A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.Common", "DALModule\lib\Apache.Ibatis.Common\Karve.Ibatis.Common.csproj", "{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Ibatis.Common", "DALModule\lib\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj", "{BBC8DA4A-EA88-41D9-8B93-929B8F3ADADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.DataMapper", "DALModule\lib\Apache.Ibatis.DataMapper\Karve.Ibatis.DataMapper.csproj", "{F3E45F39-3224-4EAD-B138-EB5CC0E32824}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Ibatis.DataMapper", "DALModule\lib\Apache.Ibatis.DataMapper\Apache.Ibatis.DataMapper.csproj", "{F3E45F39-3224-4EAD-B138-EB5CC0E32824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.DataMapper.Sysbase.Test", "DALModule\lib\Apache.Ibatis.DataMapper.Sysbase.Test\Karve.Ibatis.DataMapper.Sysbase.Test.csproj", "{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apache.Ibatis.DataMapper.Sysbase.Test", "DALModule\lib\Apache.Ibatis.DataMapper.Sysbase.Test\Apache.Ibatis.DataMapper.Sysbase.Test.csproj", "{469678FF-D8AB-4DE7-99AC-D91FB5E6E547}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{31310D87-8201-43E3-A023-DC5B6999B02C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "..\ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,7 +80,7 @@ Global
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = es-ES
 		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
 	EndGlobalSection
 EndGlobal

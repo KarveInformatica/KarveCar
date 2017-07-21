@@ -10,9 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using KarveCommon.Command;
 
 
-namespace KarveCar.Commands
+namespace KarveCommon.Command
 {
     /// <summary>
     ///  CommandWrapper. It wraps the command for placing in the parameters.

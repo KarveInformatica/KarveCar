@@ -1,40 +1,39 @@
-﻿using KarveCar.Commands.ToolBarCommand;
-using KarveCar.Logic.ToolBar;
-using KarveCar.Model.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using KarveCar.Logic.ToolBar;
 using KarveCommon.Generic;
+using ToolBarModule.Command;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {
     public class ToolBarViewModel : GenericPropertyChanged
     {
         #region Variables
-        private PreviousToolBarCommand  anteriortoolbarcommand;
-        private FindToolBarCommand    buscartoolbarcommand;
-        private CancelToolBarCommand  cancelartoolbarcommand;
-        private EditToolBarCommand    editartoolbarcommand;
-        private DeleteToolBarCommand  eliminartoolbarcommand;
-        private SaveToolBarCommand   guardartoolbarcommand;
-        private PrintToolBarCommand  imprimirtoolbarcommand;
-        private NewToolBarCommand     nuevotoolbarcommand;
-        private ExitToolBarCommand     salirtoolbarcommand;
-        private NextToolBarCommand siguientetoolbarcommand;
+        private PreviousCommand anteriortoolbarcommand;
+        private FindCommand    buscartoolbarcommand;
+        private CancelCommand  cancelartoolbarcommand;
+        private EditCommand    editartoolbarcommand;
+        private DeleteCommand  eliminartoolbarcommand;
+        private SaveCommand   guardartoolbarcommand;
+        private PrintCommand  imprimirtoolbarcommand;
+        private NewCommand     nuevotoolbarcommand;
+        private ExitCommand     salirtoolbarcommand;
+        private NextCommand siguientetoolbarcommand;
         #endregion
 
         #region Constructor
+        // TODO: Remove this.
         public ToolBarViewModel()
         {
-            this.anteriortoolbarcommand  = new PreviousToolBarCommand(this);
-            this.buscartoolbarcommand    = new FindToolBarCommand(this);
-            this.cancelartoolbarcommand  = new CancelToolBarCommand(this);
-            this.editartoolbarcommand    = new EditToolBarCommand(this);
-            this.eliminartoolbarcommand  = new DeleteToolBarCommand(this);
-            this.guardartoolbarcommand   = new SaveToolBarCommand(this);
-            this.imprimirtoolbarcommand  = new PrintToolBarCommand(this);
-            this.nuevotoolbarcommand     = new NewToolBarCommand(this);
-            this.salirtoolbarcommand     = new ExitToolBarCommand(this);
-            this.siguientetoolbarcommand = new NextToolBarCommand(this);
+            this.anteriortoolbarcommand  = new PreviousCommand(null);
+            this.buscartoolbarcommand    = new FindCommand(null);
+            this.cancelartoolbarcommand  = new CancelCommand(null);
+            this.editartoolbarcommand    = new EditCommand(null);
+            this.guardartoolbarcommand   = new SaveCommand(null);
+            this.imprimirtoolbarcommand  = new PrintCommand(null);
+            this.nuevotoolbarcommand     = new NewCommand(null);
+            this.salirtoolbarcommand     = new ExitCommand(null);
+            this.siguientetoolbarcommand = new NextCommand(null);
         }
         #endregion
 

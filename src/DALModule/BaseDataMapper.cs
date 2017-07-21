@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Apache.Ibatis.Common.Resources;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
-using Apache.Ibatis.Common.Data;
-using Apache.Ibatis.Common.Logging;
-using Apache.Ibatis.Common.Logging.Impl;
-using Apache.Ibatis.Common.Utilities;
 using Apache.Ibatis.DataMapper.Session;
-using KarveCar.Common;
+using KarveCommon.Generic;
 
 namespace DataAccessLayer
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using KarveCar.Common;
+using KarveCommon.Generic;
+
 namespace DataAccessLayer
 {
     public interface IDalObject
