@@ -1,13 +1,9 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using Apache.Ibatis.DataMapper;
+﻿using Apache.Ibatis.DataMapper;
 using KarveCar.Common;
 using KarveCommon.Generic;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DataAccessLayer
 {
@@ -93,8 +89,8 @@ namespace DataAccessLayer
             SetBanks(currentBanks);
         }
 
-        public override string Id { get => _id; }
-        public override  Type DalType { get => _dalType; set => _dalType = value; }
+        public override string Id { get { return _id; } }
+        public override  Type DalType { get { return _dalType; } set { _dalType = value; } }
     }
 
 }

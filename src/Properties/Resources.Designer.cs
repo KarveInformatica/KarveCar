@@ -61,11 +61,29 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Abreviatura.
+        /// </summary>
+        public static string dttcAbreviatura {
+            get {
+                return ResourceManager.GetString("dttcAbreviatura", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a BIC/Swift.
         /// </summary>
         public static string dttcBicSwift {
             get {
                 return ResourceManager.GetString("dttcBicSwift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Capital.
+        /// </summary>
+        public static string dttcCapital {
+            get {
+                return ResourceManager.GetString("dttcCapital", resourceCulture);
             }
         }
         
@@ -79,6 +97,24 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Compra.
+        /// </summary>
+        public static string dttcCompra {
+            get {
+                return ResourceManager.GetString("dttcCompra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Condiciones.
+        /// </summary>
+        public static string dttcCondiciones {
+            get {
+                return ResourceManager.GetString("dttcCondiciones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Definición.
         /// </summary>
         public static string dttcDefinicion {
@@ -88,11 +124,74 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Descripción.
+        /// </summary>
+        public static string dttcDescripcion {
+            get {
+                return ResourceManager.GetString("dttcDescripcion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Observaciones.
+        /// </summary>
+        public static string dttcObservaciones {
+            get {
+                return ResourceManager.GetString("dttcObservaciones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Precio.
+        /// </summary>
+        public static string dttcPrecio {
+            get {
+                return ResourceManager.GetString("dttcPrecio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Prefijo.
+        /// </summary>
+        public static string dttcPrefijo {
+            get {
+                return ResourceManager.GetString("dttcPrefijo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tipo de Color.
+        /// </summary>
+        public static string dttcTipoColor {
+            get {
+                return ResourceManager.GetString("dttcTipoColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Fecha Última Modificación.
         /// </summary>
         public static string dttcUltModi {
             get {
                 return ResourceManager.GetString("dttcUltModi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Usuario.
+        /// </summary>
+        public static string dttcUsuario {
+            get {
+                return ResourceManager.GetString("dttcUsuario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Venta.
+        /// </summary>
+        public static string dttcVenta {
+            get {
+                return ResourceManager.GetString("dttcVenta", resourceCulture);
             }
         }
         
@@ -421,15 +520,6 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Tipo Contacto Comercial.
-        /// </summary>
-        public static string lrbtnbitTipoContacto {
-            get {
-                return ResourceManager.GetString("lrbtnbitTipoContacto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Bloque de Facturación.
         /// </summary>
         public static string lrbtnBloqueFacturacion {
@@ -624,6 +714,15 @@ namespace KarveCar.Properties {
         public static string lrbtnCategoriasPersonal {
             get {
                 return ResourceManager.GetString("lrbtnCategoriasPersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Comunidades Autónomas.
+        /// </summary>
+        public static string lrbtnCCAA {
+            get {
+                return ResourceManager.GetString("lrbtnCCAA", resourceCulture);
             }
         }
         
@@ -2140,6 +2239,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tipo Contacto Potencial.
+        /// </summary>
+        public static string lrbtnTipoContactoPotencial {
+            get {
+                return ResourceManager.GetString("lrbtnTipoContactoPotencial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Tipo Impreso de Contrato.
         /// </summary>
         public static string lrbtnTipoImpresoContrato {
@@ -2338,11 +2446,11 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Zonas.
+        ///   Busca una cadena traducida similar a Zonas Cliente.
         /// </summary>
-        public static string lrbtnZonas {
+        public static string lrbtnZonasCliente {
             get {
-                return ResourceManager.GetString("lrbtnZonas", resourceCulture);
+                return ResourceManager.GetString("lrbtnZonasCliente", resourceCulture);
             }
         }
         
@@ -2919,6 +3027,51 @@ namespace KarveCar.Properties {
         public static string ltbbtnSiguiente {
             get {
                 return ResourceManager.GetString("ltbbtnSiguiente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Edición de registro.
+        /// </summary>
+        public static string msgEdicionRegistroTitulo {
+            get {
+                return ResourceManager.GetString("msgEdicionRegistroTitulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se admiten valores repetidos.
+        /// </summary>
+        public static string msgEdicionRegistroValorRepetido {
+            get {
+                return ResourceManager.GetString("msgEdicionRegistroValorRepetido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se admiten valores vacíos.
+        /// </summary>
+        public static string msgEdicionRegistroValorVacio {
+            get {
+                return ResourceManager.GetString("msgEdicionRegistroValorVacio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Está seguro que desea eliminar este registro?.
+        /// </summary>
+        public static string msgEliminarRegistro {
+            get {
+                return ResourceManager.GetString("msgEliminarRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Eliminar registro.
+        /// </summary>
+        public static string msgEliminarRegistroTitulo {
+            get {
+                return ResourceManager.GetString("msgEliminarRegistroTitulo", resourceCulture);
             }
         }
         

@@ -350,6 +350,10 @@
     <value>Claves de Presupuesto</value>
     <comment>Ribbon\Maestros\Auxiliares\Clientes\Claves de Presupuesto</comment>
   </data>
+  <data name="lrbtnCCAA" xml:space="preserve">
+    <value>Comunidades Autónomas</value>
+    <comment>Ribbon\Maestros\Auxiliares\Clientes\CCAA</comment>
+  </data>
   <data name="lrbtnFormasCobroClientes" xml:space="preserve">
     <value>Formas de Cobro a Clientes</value>
     <comment>Ribbon\Maestros\Auxiliares\Clientes\Formas de Cobro a Clientes</comment>
@@ -410,9 +414,9 @@
     <value>Vendedores</value>
     <comment>Ribbon\Maestros\Auxiliares\Clientes\Vendedores</comment>
   </data>
-  <data name="lrbtnZonas" xml:space="preserve">
-    <value>Zonas</value>
-    <comment>Ribbon\Maestros\Auxiliares\Clientes\Zonas</comment>
+  <data name="lrbtnZonasCliente" xml:space="preserve">
+    <value>Zonas Cliente</value>
+    <comment>Ribbon\Maestros\Auxiliares\Clientes\Zonas Cliente</comment>
   </data>
   <data name="lrmnbtnAuxiliaresComisionistas" xml:space="preserve">
     <value>Comisionistas</value>
@@ -598,8 +602,8 @@
     <value>Textos Estandars</value>
     <comment>Ribbon\Maestros\Auxiliares\Varios\Textos Estandars</comment>
   </data>
-  <data name="lrbtnbitTipoContacto" xml:space="preserve">
-    <value>Tipo Contacto Comercial</value>
+  <data name="lrbtnTipoContactoPotencial" xml:space="preserve">
+    <value>Tipo Contacto Potencial</value>
     <comment>Ribbon\Maestros\Auxiliares\Varios\Tipo Contacto Comercial</comment>
   </data>
   <data name="lrbtnTiposDocumentos" xml:space="preserve">
@@ -1370,21 +1374,65 @@
     <value>Validar</value>
     <comment>Ribbon\Reservas Web\Validar</comment>
   </data>
+  <data name="dttcAbreviatura" xml:space="preserve">
+    <value>Abreviatura</value>
+    <comment>dttcAbreviatura</comment>
+  </data>
   <data name="dttcBicSwift" xml:space="preserve">
     <value>BIC/Swift</value>
     <comment>dttcBicSwift</comment>
+  </data>
+  <data name="dttcCapital" xml:space="preserve">
+    <value>Capital</value>
+    <comment>dttcCapital</comment>
   </data>
   <data name="dttcCodigo" xml:space="preserve">
     <value>Código</value>
     <comment>dttcCodigo</comment>
   </data>
+  <data name="dttcCompra" xml:space="preserve">
+    <value>Compra</value>
+    <comment>dttcCompra</comment>
+  </data>
+  <data name="dttcCondiciones" xml:space="preserve">
+    <value>Condiciones</value>
+    <comment>dttcCondiciones</comment>
+  </data>
   <data name="dttcDefinicion" xml:space="preserve">
     <value>Definición</value>
     <comment>dttcDefinicion</comment>
   </data>
+  <data name="dttcDescripcion" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>dttcDescripcion</comment>
+  </data>
+  <data name="dttcObservaciones" xml:space="preserve">
+    <value>Observaciones</value>
+    <comment>dttcObservaciones</comment>
+  </data>
+  <data name="dttcPrecio" xml:space="preserve">
+    <value>Precio</value>
+    <comment>dttcPrecio</comment>
+  </data>
+  <data name="dttcPrefijo" xml:space="preserve">
+    <value>Prefijo</value>
+    <comment>dttcPrefijo</comment>
+  </data>
+  <data name="dttcTipoColor" xml:space="preserve">
+    <value>Tipo de Color</value>
+    <comment>dttcTipoColor</comment>
+  </data>
   <data name="dttcUltModi" xml:space="preserve">
     <value>Fecha Última Modificación</value>
     <comment>dttcUltModi</comment>
+  </data>
+  <data name="dttcUsuario" xml:space="preserve">
+    <value>Usuario</value>
+    <comment>dttcUsuario</comment>
+  </data>
+  <data name="dttcVenta" xml:space="preserve">
+    <value>Venta</value>
+    <comment>dttcVenta</comment>
   </data>
   <data name="msgSaveCintaOpcionesOK" xml:space="preserve">
     <value>El orden de los grupos de las pestañas de la cinta seleccionadas, se han restaurado a su posición inicial.</value>
@@ -1393,6 +1441,26 @@
   <data name="msgSalir" xml:space="preserve">
     <value>¿Está seguro que desea salir de la aplicación?</value>
     <comment>msgSalir</comment>
+  </data>
+  <data name="msgEliminarRegistro" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar este registro?</value>
+    <comment>msgEliminarRegistro</comment>
+  </data>
+  <data name="msgEliminarRegistroTitulo" xml:space="preserve">
+    <value>Eliminar registro</value>
+    <comment>msgEliminarRegistroTitulo</comment>
+  </data>
+  <data name="msgEdicionRegistroValorVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos</value>
+    <comment>msgEdicionRegistroValorVacio</comment>
+  </data>
+  <data name="msgEdicionRegistroValorRepetido" xml:space="preserve">
+    <value>No se admiten valores repetidos</value>
+    <comment>msgEdicionRegistroValorRepetido</comment>
+  </data>
+  <data name="msgEdicionRegistroTitulo" xml:space="preserve">
+    <value>Edición de registro</value>
+    <comment>msgEdicionRegistroTitulo</comment>
   </data>
   <data name="msgErrorTitulo" xml:space="preserve">
     <value>Mensaje de Error</value>

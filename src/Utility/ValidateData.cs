@@ -1,8 +1,4 @@
-﻿using iAnywhere.Data.SQLAnywhere;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace KarveCar.Utility
 {

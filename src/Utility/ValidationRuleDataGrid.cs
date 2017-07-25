@@ -1,11 +1,11 @@
-﻿using KarveCar.Model.Generic;
+﻿using KarveCar.Common;
+using KarveCar.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using KarveCar.Common;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
@@ -25,13 +25,11 @@ namespace KarveCar.Utility
 
             if (ValidateNotNullOrEmpty(obj))
             {
-                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
-                                                                                "\n-No se admite un valor vacío"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
+                return new ValidationResult(false, MessageBox.Show(string.Concat(Resources.msgEdicionRegistroValorVacio), Resources.msgEdicionRegistroTitulo, MessageBoxButton.OK, MessageBoxImage.Error));
             }
             else if (ValidateDuplicateValue(obj))
             {
-                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
-                                                                                "\n-No se admite un valor repetido"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
+                return new ValidationResult(false, MessageBox.Show(string.Concat(Resources.msgEdicionRegistroValorRepetido), Resources.msgEdicionRegistroTitulo, MessageBoxButton.OK, MessageBoxImage.Error));
             }
             else
             {

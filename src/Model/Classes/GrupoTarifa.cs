@@ -1,20 +1,19 @@
 ﻿using KarveCar.Model.Generic;
-using KarveCar.Properties;
-using System.Collections.Generic;
 using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Classes
 {
-    public class GrupoTarifa : GenericPropertyChanged, lControlCambioDataGrid
+    public class GrupoTarifa : GenericPropertyChanged, IDataGridRowChange
     {       
         #region Constructores
         public GrupoTarifa() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
-        public GrupoTarifa(string codigoAux, string nombre, string ultmodi)
+        public GrupoTarifa(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
-            this.codigo = codigoAux;
-            this.nombre = nombre;
-            this.ultmodi = ultmodi;
+            this.codigo = codigo;
+            this.definicion = definicion;
+            this.ultimamodificacion = ultimamodificacion;
+            this.usuario = usuario;
         }
         #endregion
 
@@ -30,25 +29,36 @@ namespace KarveCar.Model.Classes
             }
         }
 
-        private string nombre;
-        public string Nombre
+        private string definicion;
+        public string Definicion
         {
-            get { return nombre; }
+            get { return definicion; }
             set
             {
-                nombre = value;
-                OnPropertyChanged("Nombre");
+                definicion = value;
+                OnPropertyChanged("Definicion");
             }
         }
 
-        private string ultmodi;
-        public string UltModi
+        private string ultimamodificacion;
+        public string UltimaModificacion
         {
-            get { return ultmodi; }
-            private set
+            get { return ultimamodificacion; }
+            set
             {
-                ultmodi = value;
-                OnPropertyChanged("UltModi");
+                ultimamodificacion = value;
+                OnPropertyChanged("UltimaModificacion");
+            }
+        }
+
+        private string usuario;
+        public string Usuario
+        {
+            get { return usuario; }
+            set
+            {
+                usuario = value;
+                OnPropertyChanged("Usuario");
             }
         }
 

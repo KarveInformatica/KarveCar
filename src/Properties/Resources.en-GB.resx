@@ -294,6 +294,9 @@
   <data name="lrbtnClavesPresupuesto" xml:space="preserve">
     <value>Budget Keys</value>
   </data>
+  <data name="lrbtnCCAA" xml:space="preserve">
+    <value>Autonomous Regions</value>
+  </data>
   <data name="lrbtnFormasCobroClientes" xml:space="preserve">
     <value>Forms of Customer Collection</value>
   </data>
@@ -339,8 +342,8 @@
   <data name="lrbtnVendedores" xml:space="preserve">
     <value>Sellers</value>
   </data>
-  <data name="lrbtnZonas" xml:space="preserve">
-    <value>Areas</value>
+  <data name="lrbtnZonasCliente" xml:space="preserve">
+    <value>Client Areas</value>
   </data>
   <data name="lrmnbtnAuxiliaresComisionistas" xml:space="preserve">
     <value>Brokers</value>
@@ -480,8 +483,8 @@
   <data name="lrbtnTextosEstandars" xml:space="preserve">
     <value>Standard Texts</value>
   </data>
-  <data name="lrbtnbitTipoContacto" xml:space="preserve">
-    <value>Commercial Contact Type</value>
+  <data name="lrbtnTipoContactoPotencial" xml:space="preserve">
+    <value>Potential Contact Type</value>
   </data>
   <data name="lrbtnTiposDocumentos" xml:space="preserve">
     <value>Documents Types</value>
@@ -1059,23 +1062,71 @@
   <data name="lrbtnValidar" xml:space="preserve">
     <value>Validate</value>
   </data>
+  <data name="dttcAbreviatura" xml:space="preserve">
+    <value>Abbreviation</value>
+  </data>
   <data name="dttcBicSwift" xml:space="preserve">
     <value>BIC/Swift</value>
+  </data>
+  <data name="dttcCapital" xml:space="preserve">
+    <value>Provincial Capital</value>
   </data>
   <data name="dttcCodigo" xml:space="preserve">
     <value>Code</value>
   </data>
+  <data name="dttcCompra" xml:space="preserve">
+    <value>Purchase</value>
+  </data>
+  <data name="dttcCondiciones" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
   <data name="dttcDefinicion" xml:space="preserve">
     <value>Definition</value>
   </data>
+  <data name="dttcDescripcion" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="dttcObservaciones" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
+  <data name="dttcPrecio" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="dttcPrefijo" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="dttcTipoColor" xml:space="preserve">
+    <value>Color Type</value>
+  </data>
   <data name="dttcUltModi" xml:space="preserve">
     <value>Last Modification Date</value>
+  </data>
+  <data name="dttcUsuario" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="dttcVenta" xml:space="preserve">
+    <value>Sale</value>
   </data>
   <data name="msgSaveCintaOpcionesOK" xml:space="preserve">
     <value>The order of the groups of selected ribbon tabs, have been restored to their initial position.</value>
   </data>
   <data name="msgSalir" xml:space="preserve">
-    <value>Do you want to quit the application?</value>
+    <value>Are you sure you want to quit the application?</value>
+  </data>
+  <data name="msgEliminarRegistro" xml:space="preserve">
+    <value>Are you sure you want to delete this record?</value>
+  </data>
+  <data name="msgEliminarRegistroTitulo" xml:space="preserve">
+    <value>Delete record</value>
+  </data>
+  <data name="msgEdicionRegistroValorVacio" xml:space="preserve">
+    <value>Empty values are not allowed</value>
+  </data>
+  <data name="msgEdicionRegistroValorRepetido" xml:space="preserve">
+    <value>Repeated values are not allowed</value>
+  </data>
+  <data name="msgEdicionRegistroTitulo" xml:space="preserve">
+    <value>Record editing</value>
   </data>
   <data name="msgErrorTitulo" xml:space="preserve">
     <value>Error Message</value>

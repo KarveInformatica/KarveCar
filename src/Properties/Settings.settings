@@ -108,5 +108,8 @@
     <Setting Name="rbtbConfiguracion5" Type="System.String" Scope="User">
       <Value Profile="(Default)">rgrKarve</Value>
     </Setting>
+    <Setting Name="Usuario" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cv</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

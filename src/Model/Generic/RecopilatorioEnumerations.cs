@@ -38,6 +38,7 @@
             rbtnBloqueFacturacion,
             rbtnCanales,
             rbtnCargosPersonal,
+            rbtnCCAA,
             rbtnClavesPresupuesto,
             rbtnFormasCobroClientes,
             rbtnMercados,
@@ -54,7 +55,7 @@
             rbtnTiposVisita,
             rbtnUsoAlquiler,
             rbtnVendedores,
-            rbtnZonas,
+            rbtnZonasCliente,
 
             rbtnEmpleadosAgencia,
             rbtnTipoComisionista,
@@ -101,7 +102,7 @@
             rbtnCategoriasPersonal,
             rbtnConceptosSalidaCaja,
             rbtnTextosEstandars,
-            rbtnbitTipoContacto,
+            rbtnTipoContactoPotencial,
             rbtnTiposDocumentos,
             rbtnTipoImpresoFactura,
             #endregion

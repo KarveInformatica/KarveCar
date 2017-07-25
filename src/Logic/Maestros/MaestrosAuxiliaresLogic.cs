@@ -1,6 +1,6 @@
-﻿using KarveCar.Logic.Generic;
+﻿using KarveCar.Common;
+using KarveCar.Logic.Generic;
 using KarveCar.Logic.ToolBar;
-using KarveCar.Model.Classes;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
@@ -9,8 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using DataAccessLayer;
-using KarveCar.Common;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
@@ -76,6 +74,7 @@ namespace KarveCar.Logic.Maestros
                 #region Se crean los DataGridTextColumn dinámicamente, dándole el nombre al header, y binding cada columna según establecido en la List<DBCriterios> del object; se añade cada columna individualmente al DataGrid
                 ////Creamos los DataGridTextColumn
                 //DataGridTextColumn column;
+                //List<TemplateInfoDB> templateinfodb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.templateinfodb;
                 //foreach (var item in templateinfodb)
                 //{
                 //    //var binding = new Binding();

@@ -199,11 +199,20 @@
                     </r:RibbonButton>
                     <r:RibbonButton x:Name="rbtnOficinas"
                                     Label="{Binding lrbtnOficinas, Source={StaticResource ResourceLanguage}}"
-                                    SmallImageSource="..\Images\user.png" >
+                                    SmallImageSource="..\Images\new.png" >
                     </r:RibbonButton>
                     <r:RibbonButton x:Name="rbtnZonasOficina"
                                     Label="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}"
-                                    SmallImageSource="..\Images\group.png" >
+                                    SmallImageSource="..\Images\new.png"
+                                    DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                        <r:RibbonButton.InputBindings>
+                            <KeyBinding Key="Return"                                                
+                                        Command="{Binding MostrarAuxCommand}" 
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            <MouseBinding MouseAction="LeftClick"
+                                          Command="{Binding MostrarAuxCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                        </r:RibbonButton.InputBindings>
                     </r:RibbonButton>
                 </r:RibbonGroup>
                 <r:RibbonGroup x:Name="rgrClientes" Header="{Binding lrgrClientes, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
@@ -349,10 +358,33 @@
                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
                             </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
+                        <r:RibbonButton x:Name="rbtnCCAA" 
+                                        Label="{Binding lrbtnCCAA, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
+                        </r:RibbonButton>                        
                         <r:RibbonButton x:Name="rbtnClavesPresupuesto" 
                                         Label="{Binding lrbtnClavesPresupuesto, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
                                         Label="{Binding lrbtnFormasCobroClientes, Source={StaticResource ResourceLanguage}}" 
@@ -362,17 +394,44 @@
                         <r:RibbonButton x:Name="rbtnMercados" 
                                         Label="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnNegocios" 
                                         Label="{Binding lrbtnNegocios, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnOrigenClientes" 
                                         Label="{Binding lrbtnOrigenClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnPaises" 
                                         Label="{Binding lrbtnPaises, Source={StaticResource ResourceLanguage}}" 
@@ -382,57 +441,147 @@
                         <r:RibbonButton x:Name="rbtnPoblaciones" 
                                         Label="{Binding lrbtnPoblaciones, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnProvincias" 
                                         Label="{Binding lrbtnProvincias, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnSectoresActividad" 
                                         Label="{Binding lrbtnSectoresActividad, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTarjetasCredito" 
                                         Label="{Binding lrbtnTarjetasCredito, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTarjetasEmpresa" 
                                         Label="{Binding lrbtnTarjetasEmpresa, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposCliente" 
                                         Label="{Binding lrbtnTiposCliente, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposContacto" 
                                         Label="{Binding lrbtnTiposContacto, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposVisita" 
                                         Label="{Binding lrbtnTiposVisita, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnUsoAlquiler" 
                                         Label="{Binding lrbtnUsoAlquiler, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnVendedores" 
                                         Label="{Binding lrbtnVendedores, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\new.png" >
                         </r:RibbonButton>
-                        <r:RibbonButton x:Name="rbtnZonas" 
-                                        Label="{Binding lrbtnZonas, Source={StaticResource ResourceLanguage}}" 
+                        <r:RibbonButton x:Name="rbtnZonasCliente" 
+                                        Label="{Binding lrbtnZonasCliente, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresComisionistas" Label="{Binding lrmnbtnAuxiliaresComisionistas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="M" >
@@ -466,48 +615,138 @@
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosAnulacionContratos" 
                                         Label="{Binding lrbtnMotivosAnulacionContratos, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosCambioVehiculo" 
                                         Label="{Binding lrbtnMotivosCambioVehiculo, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosCancelacion" 
                                         Label="{Binding lrbtnMotivosCancelacion, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosImproductivo" 
                                         Label="{Binding lrbtnMotivosImproductivo, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTipoImpresoContrato" 
                                         Label="{Binding lrbtnTipoImpresoContrato, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresIncidencias" Label="{Binding lrmnbtnAuxiliaresIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="I" >
                         <r:RibbonButton x:Name="rbtnTiposIncidenciasClientes" 
                                         Label="{Binding lrbtnTiposIncidenciasClientes, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposIncidenciasContratos" 
                                         Label="{Binding lrbtnTiposIncidenciasContratos, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposIncidenciasProveedores" 
                                         Label="{Binding lrbtnTiposIncidenciasProveedores, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposIncidenciasReservas" 
                                         Label="{Binding lrbtnTiposIncidenciasReservas, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresProveedores" Label="{Binding lrmnbtnAuxiliaresProveedores, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="P" >
                         <r:RibbonButton x:Name="rbtnDivisas" 
-                                            Label="{Binding lrbtnDivisas, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="..\Images\new.png" >
+                                        Label="{Binding lrbtnDivisas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnFormaPagoProveedor"
                                             DataContext="{StaticResource mostrarAuxiliaresViewModel}"
@@ -526,25 +765,70 @@
                         <r:RibbonButton x:Name="rbtnTiposProveedores" 
                                             Label="{Binding lrbtnTiposProveedores, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="..\Images\new.png" >
+                                            SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresReservas" Label="{Binding lrmnbtnAuxiliaresReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="R" >
                         <r:RibbonButton x:Name="rbtnClavesFee" 
                                         Label="{Binding lrbtnClavesFee, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMediosRecepcion" 
                                         Label="{Binding lrbtnMediosRecepcion, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosAnulacionReservas" 
                                         Label="{Binding lrbtnMotivosAnulacionReservas, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosNoServicio" 
                                         Label="{Binding lrbtnMotivosNoServicio, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresTarifas" Label="{Binding lrmnbtnAuxiliaresTarifas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="F" >
@@ -572,17 +856,44 @@
                         <r:RibbonButton x:Name="rbtnAccesoriosVehiculos" 
                                         Label="{Binding lrbtnAccesoriosVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnActividadesVehiculos" 
                                         Label="{Binding lrbtnActividadesVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnCodigosInmovilizacion" 
                                         Label="{Binding lrbtnCodigosInmovilizacion, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnCodigosMantenimiento" 
                                         Label="{Binding lrbtnCodigosMantenimiento, Source={StaticResource ResourceLanguage}}" 
@@ -592,7 +903,16 @@
                         <r:RibbonButton x:Name="rbtnColores" 
                                         Label="{Binding lrbtnColores, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnExtras" 
                                         Label="{Binding lrbtnExtras, Source={StaticResource ResourceLanguage}}" 
@@ -602,7 +922,16 @@
                         <r:RibbonButton x:Name="rbtnFormasTraslado" 
                                         Label="{Binding lrbtnFormasTraslado, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnGruposVehiculos" 
                                         Label="{Binding lrbtnGruposVehiculos, Source={StaticResource ResourceLanguage}}" 
@@ -622,7 +951,16 @@
                         <r:RibbonButton x:Name="rbtnMotivosRepostaje" 
                                         Label="{Binding lrbtnMotivosRepostaje, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnPropietarios" 
                                         Label="{Binding lrbtnPropietarios, Source={StaticResource ResourceLanguage}}" 
@@ -632,7 +970,16 @@
                         <r:RibbonButton x:Name="rbtnTiposVehiculos" 
                                         Label="{Binding lrbtnTiposVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                     <r:RibbonMenuButton x:Name="rmnbtnAuxiliaresVarios" Label="{Binding lrmnbtnAuxiliaresVarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="A" >
@@ -644,17 +991,35 @@
                         <r:RibbonButton x:Name="rbtnConceptosSalidaCaja" 
                                         Label="{Binding lrbtnConceptosSalidaCaja, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTextosEstandars" 
                                         Label="{Binding lrbtnTextosEstandars, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
                                         SmallImageSource="..\Images\new.png" >
                         </r:RibbonButton>
-                        <r:RibbonButton x:Name="rbtnbitTipoContacto" 
-                                        Label="{Binding lrbtnbitTipoContacto, Source={StaticResource ResourceLanguage}}" 
+                        <r:RibbonButton x:Name="rbtnTipoContactoPotencial" 
+                                        Label="{Binding lrbtnTipoContactoPotencial, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposDocumentos" 
                                         Label="{Binding lrbtnTiposDocumentos, Source={StaticResource ResourceLanguage}}" 
@@ -664,7 +1029,16 @@
                         <r:RibbonButton x:Name="rbtnTipoImpresoFactura" 
                                         Label="{Binding lrbtnTipoImpresoFactura, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                            Command="{Binding MostrarAuxCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                              Command="{Binding MostrarAuxCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                 </r:RibbonGroup>
