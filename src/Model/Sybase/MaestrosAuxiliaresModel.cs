@@ -19,6 +19,10 @@ namespace KarveCar.Model.Sybase
         /// <returns></returns>
         public static GenericObservableCollection GetMaestrosAuxiliares(RecopilatorioEnumerations.EOpcion opcion)
         {
+
+
+
+           
             //Se recupera el nombre de la tabla de la BBDD(nombretabladb), el List<TemplateInfoDB> (templateinfodb)
             //y el object (obj) según el EOpcion pasado por params
             string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;

@@ -14,35 +14,44 @@ namespace KarveCar.Utility
     public class ValidationRuleDataGrid : ValidationRule
     {
         /// <summary>
-        /// Valida que no hayan valores vacíos o repetidos cuando se modifica o inserta un nuevo Row en el DataGrid
+        /// It validates that the values are not empty.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">DataGrid entry to be validated</param>
         /// <param name="cultureInfo"></param>
         /// <returns></returns>
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
+
+
+            if (value == null)
+            {
+                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
+                    "\n-No se admite un valor vacío"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
+            }
             object obj = (value as BindingGroup).Items[0] as object;
 
             if (ValidateNotNullOrEmpty(obj))
             {
+                // TODO: this string shall be inserted in the resx manager
                 return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
                                                                                 "\n-No se admite un valor vacío"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
             }
-            else if (ValidateDuplicateValue(obj))
+            if (ValidateDuplicateValue(obj))
             {
+                // TODO: this string shall be inserted in the resx manager
+
                 return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
                                                                                 "\n-No se admite un valor repetido"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
             }
-            else
-            {
-                return ValidationResult.ValidResult;
-            }
+
+            return ValidationResult.ValidResult;
+
         }
 
         /// <summary>
-        /// Valida que no hayan valores vacíos cuando se modifica o inserta un nuevo Row en el DataGrid
+        /// This function validates that the values are not empty and insert the value inside the grid
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Object to be inserted</param>
         /// <returns></returns>
         private bool ValidateNotNullOrEmpty(object obj)
         {
@@ -50,29 +59,24 @@ namespace KarveCar.Utility
             //Se recuperan las properties del object pasado por params
             var objproperties = ManageGenericObject.GetProperties(obj);
 
-            
+
             foreach (var objprop in objproperties)
             {   //Para cada property del object, se recupera su valor
                 object objvalue = ManageGenericObject.PropertyGetValue(obj, objprop.Name.ToString());
-                
+
                 //Se comprueba que no sea nulo o esté vacío
                 if (objvalue == null)
                 {
                     result = true;
                     break;
                 }
-                else
+                if (objvalue.ToString().Length == 0)
                 {
-                    if ((objvalue.ToString() == null) || (objvalue.ToString().Length == 0))
-                    {
-                        result = true;
-                        break;
-                    }
-                    result = false;
+                    result = true;
+                    break;
                 }
             }
             return result;
-
         }
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace KarveCar.Utility
         private bool ValidateDuplicateValue(object obj)
         {
             bool result = false;
-            
+
             try
             {   //Se recupera la EOpcion del TabItem activo
                 EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
@@ -95,7 +99,7 @@ namespace KarveCar.Utility
                 //y así poderlos comparar con el value del object pasado por params para esa property
                 ISet<string> collectionTemp = new SortedSet<string>();
 
-                
+
                 foreach (var itemStringItem in auxobscollection.GenericObsCollection)
                 {   //Se recorre la GenericObservableCollection, y cada object se convierte en un string
                     //como el ejemplo: [key1, value1];[ke2, value2]...
@@ -103,20 +107,23 @@ namespace KarveCar.Utility
                     //Se hace un split del string con los object de la GenericObservableCollection, y se
                     //guardan los valores de una misma propiedad en una IList
                     IList<string> tempString = stringItem.Split(';').ToList();
-
+                    
                     //Se recorren los valores para cada IList que corresponde a cada propiedad del object,
                     //y se comprueba que no haya valores repetidos
                     foreach (string itemTempString in tempString)
-                    {   //Si el valor no existe, se añade a la SortedSet temporal(collectionAux), y se 
-                        //comprueba que el siguiente valor no esté en esta SortedSet temporal
-                        if (!collectionTemp.Contains(itemTempString))
+                    { 
+                        // We have to check that the code is not duplicated.
+                        if (itemTempString.Contains("CODE"))
                         {
-                            collectionTemp.Add(itemTempString);
-                        }
-                        else
-                        {
-                            result = true;
-                            break;
+                            if (!collectionTemp.Contains(itemTempString))
+                            {
+                                collectionTemp.Add(itemTempString);
+                            }
+                            else
+                            {
+                                result = true;
+                                break;
+                            }
                         }
                     }
                     if (result)
@@ -128,6 +135,6 @@ namespace KarveCar.Utility
             }
             catch (Exception) { }
             return result;
-        }      
+        }
     }
 }
