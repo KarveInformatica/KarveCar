@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Prism.Unity;
 using System.Windows;
+using DataAccessLayer;
 using KarveCar.View;
 
 namespace KarveCar
@@ -20,6 +21,10 @@ namespace KarveCar
             protected override void InitializeShell()
             {
                 Application.Current.MainWindow.Show();
+                this.Container.RegisterType<IDalLocator, DalLocator>();
+
+            //_container.RegisterType<IArticleView, ArticleView>();
+
             /*
                 {
                     _container.RegisterType<INewsFeedService, NewsFeedService>(new ContainerControlledLifetimeManager());
@@ -31,7 +36,7 @@ namespace KarveCar
                 }
 
            */
-            }
         }
+    }
     
 }

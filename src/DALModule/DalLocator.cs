@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class DalLocator
+    public class DalLocator: IDalLocator
     {
         private IDictionary<string, IDalObject> dalObjects = new Dictionary<string, IDalObject>();
 
@@ -25,7 +25,7 @@ namespace DataAccessLayer
             dalObjects.TryGetValue(name, out result);
             return result;
         }
-        private DalLocator()
+        public DalLocator()
         {
             BanksDataAccessLayer banksDataAccessLayer = new BanksDataAccessLayer();
             dalObjects.Add(banksDataAccessLayer.Id, banksDataAccessLayer);

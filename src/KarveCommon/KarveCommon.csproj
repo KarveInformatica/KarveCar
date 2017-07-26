@@ -61,6 +61,7 @@
     <Compile Include="Generic\Enum.cs" />
     <Compile Include="Generic\ViewModelBase.cs" />
     <Compile Include="ICareKeeperService.cs" />
+    <Compile Include="Generic\ManageGenericObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
