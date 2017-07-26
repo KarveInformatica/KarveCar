@@ -67,6 +67,8 @@ namespace KarveCar.Logic.ToolBar
                     break;
                 case EOpcion.rbtnCargosPersonal:
                     break;
+                case EOpcion.rbtnCCAA:
+                    break;
                 case EOpcion.rbtnClavesPresupuesto:
                     break;
                 case EOpcion.rbtnFormasCobroClientes:
@@ -99,7 +101,7 @@ namespace KarveCar.Logic.ToolBar
                     break;
                 case EOpcion.rbtnVendedores:
                     break;
-                case EOpcion.rbtnZonas:
+                case EOpcion.rbtnZonasCliente:
                     break;
 
                 case EOpcion.rbtnEmpleadosAgencia:
@@ -185,7 +187,7 @@ namespace KarveCar.Logic.ToolBar
                     break;
                 case EOpcion.rbtnTextosEstandars:
                     break;
-                case EOpcion.rbtnbitTipoContacto:
+                case EOpcion.rbtnTipoContactoPotencial:
                     break;
                 case EOpcion.rbtnTiposDocumentos:
                     break;

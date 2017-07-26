@@ -31,8 +31,8 @@ namespace KarveCommon.Command
             this.Command = cmd;
         }
 
-        public object Parameters { get => _parameters; set => _parameters = value; }
-        public AbstractCommand Command { get => _command; set => _command = value; }
+        public object Parameters { get { return _parameters; } set { _parameters = value; } }
+        public AbstractCommand Command { get { return _command; } set { _command = value; } }
         
     }
     /// <summary>
@@ -194,5 +194,5 @@ namespace KarveCommon.Command
             return tmpCommandWrapper;
         }
     }
-
+        
 }

@@ -1,4 +1,5 @@
-﻿using KarveCar.Model.Generic;
+﻿using KarveCar.Common;
+using KarveCar.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using KarveCommon.Generic;
-using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Utility
 {
@@ -38,10 +37,8 @@ namespace KarveCar.Utility
             }
             if (ValidateDuplicateValue(obj))
             {
+                return new ValidationResult(false, MessageBox.Show(string.Concat(Resources.msgEdicionRegistroValorRepetido), Resources.msgEdicionRegistroTitulo, MessageBoxButton.OK, MessageBoxImage.Error));
                 // TODO: this string shall be inserted in the resx manager
-
-                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
-                                                                                "\n-No se admite un valor repetido"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
             }
 
             return ValidationResult.ValidResult;

@@ -1,4 +1,4 @@
-﻿using System;
+using KarveCar.Common;
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +7,9 @@ using System.Linq;
 using System.Reflection;
 using Apache.Ibatis.DataMapper;
 using KarveCommon.Generic;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DataAccessLayer
 {

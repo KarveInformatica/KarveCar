@@ -2,8 +2,10 @@
 
 namespace KarveCar.Model.Generic
 {
-    public interface lControlCambioDataGrid
+    public interface IDataGridRowChange
     {
+        string UltimaModificacion { get; set; }
+        string Usuario { get; set; }
         EControlCambioDataGrid ControlCambioDataGrid { get; set; }
     }
 }

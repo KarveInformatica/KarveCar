@@ -30,6 +30,7 @@ namespace KarveCar.Logic.ToolBar
                 case EOpcion.rbtnOficinas:
                     break;
                 case EOpcion.rbtnZonasOficina:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnClientes:
@@ -72,50 +73,66 @@ namespace KarveCar.Logic.ToolBar
                     break;
 
                 case EOpcion.rbtnBancosClientes:
-                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, false, false, false, true);
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnBloqueFacturacion:
-                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, false, false, false, true);
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnCanales:
-                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, false, false, false, true);
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnCargosPersonal:
-                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, false, false, false, true);
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
+                    break;
+                case EOpcion.rbtnCCAA:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnClavesPresupuesto:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnFormasCobroClientes:
                     break;
                 case EOpcion.rbtnMercados:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnNegocios:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnOrigenClientes:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnPaises:
                     break;
                 case EOpcion.rbtnPoblaciones:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnProvincias:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnSectoresActividad:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTarjetasCredito:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTarjetasEmpresa:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposCliente:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposContacto:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposVisita:
                     break;
                 case EOpcion.rbtnUsoAlquiler:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnVendedores:
                     break;
-                case EOpcion.rbtnZonas:
+                case EOpcion.rbtnZonasCliente:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnEmpleadosAgencia:
@@ -129,40 +146,55 @@ namespace KarveCar.Logic.ToolBar
                 case EOpcion.rbtnLugaresEntrega:
                     break;
                 case EOpcion.rbtnMotivosAnulacionContratos:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMotivosCambioVehiculo:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMotivosCancelacion:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMotivosImproductivo:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTipoImpresoContrato:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnTiposIncidenciasClientes:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposIncidenciasContratos:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposIncidenciasProveedores:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposIncidenciasReservas:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnDivisas:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnFormaPagoProveedor:
                     ToolBarButtonsByEOpcion(false, false, false, true, true, true, false, false, false, true);
                     break;
                 case EOpcion.rbtnTiposProveedores:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnClavesFee:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMediosRecepcion:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMotivosAnulacionReservas:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnMotivosNoServicio:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnConceptosFacturacion:
@@ -172,18 +204,23 @@ namespace KarveCar.Logic.ToolBar
                     break;
 
                 case EOpcion.rbtnAccesoriosVehiculos:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnActividadesVehiculos:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnCodigosInmovilizacion:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnCodigosMantenimiento:
                     break;
                 case EOpcion.rbtnColores:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnExtras:
                     break;
                 case EOpcion.rbtnFormasTraslado:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnGruposVehiculos:
                     break;
@@ -192,23 +229,28 @@ namespace KarveCar.Logic.ToolBar
                 case EOpcion.rbtnModelos:
                     break;
                 case EOpcion.rbtnMotivosRepostaje:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnPropietarios:
                     break;
                 case EOpcion.rbtnTiposVehiculos:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
 
                 case EOpcion.rbtnCategoriasPersonal:
                     break;
                 case EOpcion.rbtnConceptosSalidaCaja:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTextosEstandars:
                     break;
-                case EOpcion.rbtnbitTipoContacto:
+                case EOpcion.rbtnTipoContactoPotencial:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 case EOpcion.rbtnTiposDocumentos:
                     break;
                 case EOpcion.rbtnTipoImpresoFactura:
+                    ToolBarButtonsByEOpcion(false, false, false, true, true, true, true, true, false, true);
                     break;
                 #endregion
 

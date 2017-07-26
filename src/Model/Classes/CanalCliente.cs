@@ -1,19 +1,19 @@
 ﻿using KarveCar.Model.Generic;
-using KarveCar.Properties;
-using System.Collections.Generic;
 using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Classes
 {
-    public class CanalCliente : GenericPropertyChanged, lControlCambioDataGrid
+    public class CanalCliente : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
         public CanalCliente() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
-        public CanalCliente(string codigo, string nombre)
+        public CanalCliente(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
-            this.nombre = nombre;
+            this.definicion = definicion;
+            this.ultimamodificacion = ultimamodificacion;
+            this.usuario = usuario;
         }
         #endregion
 
@@ -29,15 +29,36 @@ namespace KarveCar.Model.Classes
             }
         }
 
-        private string nombre;
-        public string Nombre
+        private string definicion;
+        public string Definicion
         {
-            get
-            { return nombre; }
+            get { return definicion; }
             set
             {
-                nombre = value;
-                OnPropertyChanged("Nombre");
+                definicion = value;
+                OnPropertyChanged("Definicion");
+            }
+        }
+
+        private string ultimamodificacion;
+        public string UltimaModificacion
+        {
+            get { return ultimamodificacion; }
+            set
+            {
+                ultimamodificacion = value;
+                OnPropertyChanged("UltimaModificacion");
+            }
+        }
+
+        private string usuario;
+        public string Usuario
+        {
+            get { return usuario; }
+            set
+            {
+                usuario = value;
+                OnPropertyChanged("Usuario");
             }
         }
 
