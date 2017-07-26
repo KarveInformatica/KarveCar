@@ -1,5 +1,4 @@
-﻿using KarveCar.Common;
-using KarveCar.Logic.Generic;
+﻿using KarveCar.Logic.Generic;
 using KarveCar.Logic.ToolBar;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
@@ -9,11 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-<<<<<<< HEAD
-=======
 using DataAccessLayer;
 using KarveCommon.Generic;
->>>>>>> bdf210e7656c4e8dc0e53d6bdd0ef6e2db226d10
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 

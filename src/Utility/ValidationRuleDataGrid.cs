@@ -1,17 +1,21 @@
-﻿using KarveCar.Common;
-using KarveCar.Properties;
+﻿using KarveCar.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using KarveCar.Model.Generic;
 using KarveCommon.Generic;
+using static KarveCar.Model.Generic.RecopilatorioCollections;
+
 
 namespace KarveCar.Utility
 {
     public class ValidationRuleDataGrid : ValidationRule
     {
+
+        public const string UniqueField = "CODE";
         /// <summary>
         /// It validates that the values are not empty.
         /// </summary>
@@ -87,7 +91,7 @@ namespace KarveCar.Utility
 
             try
             {   //Se recupera la EOpcion del TabItem activo
-                EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
+                RecopilatorioEnumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
 
                 //Se recupera la GenericObservableCollection del TabItem activo
                 GenericObservableCollection auxobscollection = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.GenericObsCollection;
@@ -110,7 +114,7 @@ namespace KarveCar.Utility
                     foreach (string itemTempString in tempString)
                     { 
                         // We have to check that the code is not duplicated.
-                        if (itemTempString.Contains("CODE"))
+                        if (itemTempString.Contains(UniqueField))
                         {
                             if (!collectionTemp.Contains(itemTempString))
                             {
