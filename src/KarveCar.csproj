@@ -58,6 +58,10 @@
     <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
@@ -249,6 +253,7 @@
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\ToolBarViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
     </Compile>

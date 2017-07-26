@@ -15,15 +15,15 @@ namespace ToolBarModule.Command
         public override void Execute(object parameter)
         {
             CommandWrapper cw = new CommandWrapper(this, parameter);
-            ViewModel.SaveCommand(cw);
+            //ViewModel.SaveCommand(cw);
 
             //toolbarvm.GuardarToolBar(parameter);
         }
         public override bool UnExecute()
         {
-            return ViewModel.Undo();
+            return true; //ViewModel.Undo();
 
-          
+
         }
     }
 }

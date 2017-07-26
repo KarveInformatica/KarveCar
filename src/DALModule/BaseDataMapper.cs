@@ -26,7 +26,6 @@ namespace DataAccessLayer
         /* add exception handling and pop up the exception */
         protected BaseDataMapper(string uri)
         {
-            string directoryName = System.Environment.CurrentDirectory;
             string resource = "SqlMap.config";
             // Before have 4 properties
             ConfigurationEngine = new DefaultConfigurationEngine();

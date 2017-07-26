@@ -29,7 +29,7 @@ namespace KarveCar.Logic.Maestros
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
                 
                 GenericObservableCollection genericobscollection = null;
-                // TODO: 
+                // TODO: remove all this make in a way that it is using all the aux.
                 if (option != EOpcion.rbtnBancosClientes)
                 {
                  genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);

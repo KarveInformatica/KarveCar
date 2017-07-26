@@ -5,6 +5,8 @@ using KarveCommon.Command;
 
 namespace KarveCar.Commands.Generic
 {
+    // TODO: code duplication. The real one shall be the KarveCommon.
+
     public class SetLanguagesCommand : AbstractCommand
     {
         private SetLanguagesViewModel setlanguagesvm;

@@ -611,6 +611,7 @@ namespace KarveCar.Logic.ToolBar
         /// <param name="buscar"></param>
         private static void ToolBarButtonsByEOpcion(bool nuevo, bool editar, bool eliminar, bool guardar, bool cancelar, bool imprimir, bool anterior, bool siguiente, bool salir, bool buscar)
         {
+            /*
             ((MainWindow)Application.Current.MainWindow).tbbtnNuevo.IsEnabled = nuevo;
             ((MainWindow)Application.Current.MainWindow).tbbtnEditar.IsEnabled = editar;
             ((MainWindow)Application.Current.MainWindow).tbbtnEliminar.IsEnabled = eliminar;
@@ -623,6 +624,7 @@ namespace KarveCar.Logic.ToolBar
 
             ((MainWindow)Application.Current.MainWindow).tbbtnBuscar.IsEnabled = buscar;
             ((MainWindow)Application.Current.MainWindow).txtBuscar.IsEnabled = buscar;
+            */
         }
     }
 }

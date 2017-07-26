@@ -124,6 +124,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
       <Project>{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}</Project>
       <Name>KarveCommon</Name>

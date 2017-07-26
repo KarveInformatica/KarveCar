@@ -51,7 +51,7 @@
     <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
     <Compile Include="IDalLocator.cs" />
-    <Compile Include="IDALObject.cs" />
+    <Compile Include="IDalObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,4 +78,16 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy providers.config ../bin/Debug/
+xcopy providers.config ../bin/Release/
+xcopy sqlFile.xml ../bin/Debug/
+xcopy sqlFile.xml ../bin/Release/
+xcopy sqlMap.config ../bin/Release/
+xcopy sqlMap.config ../bin/Debug/
+
+
+
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

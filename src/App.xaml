@@ -17,7 +17,6 @@
         <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
         <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
         <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
-        <vm:ToolBarViewModel      x:Key="toolBarViewModel"/>        
         
         <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
     </Application.Resources>
