@@ -37,7 +37,7 @@ namespace ToolBarModule.ViewModel
             this.UndoCommand = new DelegateCommand(DoUndoCommand, CanExecute);
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this.RedoCommand = new DelegateCommand(DoRedoCommand);
-            this.ExitCommand = new DelegateCommand(DoExitCommand);
+            this.ExitCommand = new DelegateCommand(DoExitCommand, CanExecute);
             this._locator = locator;
         }
 
