@@ -206,7 +206,7 @@
     <Compile Include="Model\Classes\FormaPagoProveedor.cs" />
     <Compile Include="Model\Classes\TipoComisionista.cs" />
     <Compile Include="Model\Classes\GrupoTarifa.cs" />
-    <Compile Include="Model\Generic\lControlCambioDataGrid.cs" />
+    <Compile Include="Model\Generic\IDataGridRowChange.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
     <Compile Include="Model\SQL\ScriptsSQLUpdate.cs" />
