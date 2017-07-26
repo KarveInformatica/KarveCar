@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using KarveCar.Common;
 using KarveCar.Utility;
+using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using KarveCar.Properties;
 
@@ -28,7 +28,10 @@ namespace KarveCar.Logic.Maestros
                 GenericObservableCollection auxobscollection = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.GenericObsCollection;
                 TabItem tabitem = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.TabItem;
                 DataGrid datagrid = tabitem.Content as DataGrid;
-                
+                /** FIXME: the idea here shall be different. I shall pass just the candidate to the delete to the view model. DataGridViewModel
+                 * and than when i sent savecommand i can send to CareKeeperService the elements to restore and than after that 
+                 * I can do/undo the stuff..
+                 */
                 if (e.Key == Key.Delete )
                 {   //Se consulta si realmente se desea eliminar el registro
                     if (!(MessageBox.Show(Resources.msgEliminarRegistro, Resources.msgEliminarRegistroTitulo, MessageBoxButton.YesNo) == MessageBoxResult.No))
@@ -75,6 +78,8 @@ namespace KarveCar.Logic.Maestros
                 TabItem tabitem = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.TabItem;
                 DataGrid datagrid = tabitem.Content as DataGrid;
 
+                /* here i dont mark the row. just sending command or insert to the view model and than i can unedit or some things simerlar in the rew.
+                 */
                 foreach (var itemdatagrid in datagrid.SelectedItems)
                 {
                     foreach (var itemobscollection in auxobscollection.GenericObsCollection)

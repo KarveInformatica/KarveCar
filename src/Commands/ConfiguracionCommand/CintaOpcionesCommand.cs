@@ -1,6 +1,7 @@
 ﻿using KarveCar.ViewModel.ConfiguracionViewModel;
 using System;
 using System.Windows.Input;
+using KarveCommon.Command;
 
 namespace KarveCar.Commands.ConfiguracionCommand
 {

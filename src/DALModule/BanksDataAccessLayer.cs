@@ -1,5 +1,16 @@
+<<<<<<< HEAD
 ﻿using Apache.Ibatis.DataMapper;
 using KarveCar.Common;
+=======
+﻿using System;
+using System.CodeDom;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
+using Apache.Ibatis.DataMapper;
+>>>>>>> bdf210e7656c4e8dc0e53d6bdd0ef6e2db226d10
 using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
@@ -15,39 +26,36 @@ namespace DataAccessLayer
     {
         private readonly string _id = Maestro.rbtnBancosClientes.ToString();
         private Type _dalType = typeof(BankDataObject);
-        private ObservableCollection<BankDataObject> cachedCollection = null;
 
-        public BanksDataAccessLayer(): base(DataAccessLayer.Constants.BanksDataUri)
+        public BanksDataAccessLayer() : base(DataAccessLayer.Constants.BanksDataUri)
         {
         }
 
         private void QueryCopy(IDataMapper mapper, out ObservableCollection<BankDataObject> collection)
         {
-            ICollection <BankDataObject> banks = DataMapper.QueryForList<BankDataObject>("Banks.GetAllBanks", null);
+            ICollection<BankDataObject> banks = DataMapper.QueryForList<BankDataObject>("Banks.GetAllBanks", null);
             collection = new ObservableCollection<BankDataObject>();
 
             foreach (var bank in banks)
             {
-                collection.Add((BankDataObject)bank);
+                collection.Add((BankDataObject) bank);
             }
 
         }
+
         /// <summary>
         ///  We want to ask to the db just after an update.
         /// </summary>
         /// <returns></returns>
         public ObservableCollection<BankDataObject> GetBanks()
         {
-            if (cachedCollection == null)
-            {
-                cachedCollection = new ObservableCollection<BankDataObject>();
-                QueryCopy(DataMapper, out cachedCollection);
-            }
-            return cachedCollection;
+            ObservableCollection<BankDataObject> dataCollection = new ObservableCollection<BankDataObject>();
+            QueryCopy(DataMapper, out dataCollection);
+            return dataCollection;
         }
+
         public void SetBanks(ObservableCollection<BankDataObject> banks)
         {
-            cachedCollection = null;
             IList<BankDataObject> current = new List<BankDataObject>();
             foreach (var bank in banks)
             {
@@ -58,16 +66,12 @@ namespace DataAccessLayer
 
         public override GenericObservableCollection GetItems()
         {
-            if (cachedCollection == null)
-            {
-                cachedCollection = new ObservableCollection<BankDataObject>();
-                QueryCopy(DataMapper, out cachedCollection);
-            }
+            ObservableCollection<BankDataObject> dataCollection = new ObservableCollection<BankDataObject>();
+            QueryCopy(DataMapper, out dataCollection);
+            // filter repeated data
+            ISet<string> collectionTemp = new SortedSet<string>();
             ObservableCollection<object> abstractCollection = new ObservableCollection<object>();
-            foreach (var bank in cachedCollection)
-            {
-                abstractCollection.Add((object)bank);
-            }
+            abstractCollection = FilterCollectionDuplicates<BankDataObject>(dataCollection);
             GenericObservableCollection generic = new GenericObservableCollection();
             generic.GenericObsCollection = abstractCollection;
             return generic;
@@ -77,6 +81,7 @@ namespace DataAccessLayer
         {
             throw new NotImplementedException();
         }
+
         public override void SetItems(GenericObservableCollection collection)
         {
             ObservableCollection<object> abstractCollection = collection.GenericObsCollection;
@@ -84,13 +89,26 @@ namespace DataAccessLayer
 
             foreach (var bank in abstractCollection)
             {
-                currentBanks.Add((BankDataObject)bank);
+                currentBanks.Add((BankDataObject) bank);
             }
             SetBanks(currentBanks);
         }
 
+<<<<<<< HEAD
         public override string Id { get { return _id; } }
         public override  Type DalType { get { return _dalType; } set { _dalType = value; } }
+=======
+        public override string Id
+        {
+            get { return _id; }
+        }
+
+        public override  Type DalType {
+            set { _dalType = value; }
+            get { return _dalType; }
+        }
+  
+>>>>>>> bdf210e7656c4e8dc0e53d6bdd0ef6e2db226d10
     }
 
 }

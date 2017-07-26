@@ -9,6 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
+<<<<<<< HEAD
+=======
+using DataAccessLayer;
+using KarveCommon.Generic;
+>>>>>>> bdf210e7656c4e8dc0e53d6bdd0ef6e2db226d10
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
@@ -21,18 +26,31 @@ namespace KarveCar.Logic.Maestros
         /// no se carga de nuevo, simplemente se establece el foco en ese TabItem.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void PrepareTabItemDataGrid(EOpcion opcion)
+        public static void PrepareTabItemDataGrid(EOpcion option)
         {
-            if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
+            if (tabitemdictionary.Where(p => p.Key == option).Count() == 0)
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
-                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(opcion);
+                
+                GenericObservableCollection genericobscollection = null;
+                // TODO: 
+                if (option != EOpcion.rbtnBancosClientes)
+                {
+                 genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
+                }
+                else
+                {
+                    DalLocator loc = DalLocator.GetInstance();
+                    IDalObject dalObject =  loc.FindDalObject(option.ToString());
+                    genericobscollection = dalObject.GetItems();
+
+                }
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
-                CreateTabItemDataGrid(opcion, genericobscollection);                
+                CreateTabItemDataGrid(option, genericobscollection);                
             }
             else
             {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
+                tabitemdictionary.Where(z => z.Key == option).FirstOrDefault().Value.TabItem.Focus();
             }
         }
 

@@ -20,6 +20,5 @@
         <vm:ToolBarViewModel      x:Key="toolBarViewModel"/>        
         
         <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
-
     </Application.Resources>
 </Application>

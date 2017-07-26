@@ -7,6 +7,7 @@ namespace Apache.Ibatis.Common.Data
     /// <summary>
     /// System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
     /// </summary>
+    /// TODO: Updatre to the lasted Sql Provider.
     public class SqlServerDbProvider : DbProvider
     {
         /// <summary>
@@ -36,12 +37,6 @@ namespace Apache.Ibatis.Common.Data
             // parameterClass="System.Data.SqlClient.SqlParameter"
             // dataAdapterClass="System.Data.SqlClient.SqlDataAdapter"
         }
-
-        public void Initialize()
-        {
-            // empty
-        }
-
         public override IDbConnection CreateConnection()
         {
             return new SqlConnection();

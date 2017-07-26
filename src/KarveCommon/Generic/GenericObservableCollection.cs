@@ -1,7 +1,6 @@
-﻿using KarveCommon.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace KarveCar.Common
+namespace KarveCommon.Generic
 {
     /// <summary>
     /// ObservableCollection<object>() genérica que implementa INotifyPropertyChanged

@@ -4,9 +4,8 @@ using KarveCar.Model.Sybase;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using KarveCar.Common;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 using KarveCommon.Generic;
+using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Utility
 {

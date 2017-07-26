@@ -50,6 +50,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
+    <Compile Include="IDalLocator.cs" />
     <Compile Include="IDALObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,13 +68,13 @@
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="lib\Apache.Ibatis.Common\Karve.Ibatis.Common.csproj">
+    <ProjectReference Include="lib\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
       <Project>{bbc8da4a-ea88-41d9-8b93-929b8f3adade}</Project>
-      <Name>Karve.Ibatis.Common</Name>
+      <Name>Apache.Ibatis.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="lib\Apache.Ibatis.DataMapper\Karve.Ibatis.DataMapper.csproj">
+    <ProjectReference Include="lib\Apache.Ibatis.DataMapper\Apache.Ibatis.DataMapper.csproj">
       <Project>{f3e45f39-3224-4ead-b138-eb5cc0e32824}</Project>
-      <Name>Karve.Ibatis.DataMapper</Name>
+      <Name>Apache.Ibatis.DataMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

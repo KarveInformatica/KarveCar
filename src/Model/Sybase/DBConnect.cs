@@ -1,5 +1,5 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KarveCar.Model.Classes.SQL;
+using KarveCar.Model.SQL;
 
 namespace KarveCar.Model.Sybase
 {

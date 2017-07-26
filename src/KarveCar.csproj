@@ -123,8 +123,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Commands\AbstractCommand.cs" />
-    <Compile Include="Commands\CommandHistory.cs" />
     <Compile Include="Commands\ConfiguracionCommand\CintaOpcionesCommand.cs" />
     <Compile Include="Commands\Generic\BanksUpdateCommand.cs" />
     <Compile Include="Commands\Generic\RelayCommand.cs" />
@@ -132,16 +130,6 @@
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\PreviousToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\FindToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\CancelToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\EditarToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\DeleteToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\SaveToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\PrintToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\NewToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\ExitToolBarCommand.cs" />
-    <Compile Include="Commands\ToolBarCommand\NextToolBarCommand.cs" />
     <Compile Include="Logic\Configuracion\CintaOpcionesLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
@@ -255,10 +243,11 @@
     <Compile Include="Model\Generic\RecopilatorioEnumerations.cs" />
     <Compile Include="Utility\ValidationRuleDataGrid.cs" />
     <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
+    <Compile Include="ViewModel\DataGridUserControlViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\ToolBarViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
+    <Compile Include="ViewModel\GenericViewModel\ToolBarViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
@@ -352,6 +341,7 @@
     <Folder Include="Commands\ListadosCommand\" />
     <Folder Include="Commands\MaestrosCommand\" />
     <Folder Include="Commands\ReservasCommand\" />
+    <Folder Include="Commands\ToolBarCommand\" />
     <Folder Include="Logic\Atipicos\" />
     <Folder Include="Logic\Comercial\" />
     <Folder Include="Logic\Contratos\" />
@@ -361,6 +351,7 @@
     <Folder Include="Logic\Incidencias\" />
     <Folder Include="Logic\Listados\" />
     <Folder Include="Logic\Reservas\" />
+    <Folder Include="Services\" />
     <Folder Include="ViewModel\AtipicosViewModel\" />
     <Folder Include="ViewModel\ComercialViewModel\" />
     <Folder Include="ViewModel\ContratosViewModel\" />
@@ -464,6 +455,10 @@
     <ProjectReference Include="KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="ToolBarModule\ToolBarModule.csproj">
+      <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
+      <Name>ToolBarModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
