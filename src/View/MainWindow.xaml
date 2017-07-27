@@ -307,6 +307,7 @@
                                         Label="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\new.png"
+                                        AutomationProperties.AutomationId ="AuxBanksClients"
                                         DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
                             <r:RibbonButton.InputBindings>
                                 <KeyBinding Key="Return"                                                

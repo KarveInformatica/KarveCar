@@ -27,7 +27,7 @@ namespace KarveTest.DAL
                 Assert.Fail(ex.Message);
             }
         }
-        [Test]
+       
         public void SetBanks()
         {
             IDalObject dalObject = _locator.FindDalObject(Maestro.rbtnBancosClientes.ToString());

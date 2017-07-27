@@ -16,7 +16,7 @@ namespace ToolBarModule
         private readonly IUnityContainer _container;
         private ICareKeeperService _undoService;
         private IDalLocator _dalLocator;
-        private IRegionManager _regionManager;
+        private IRegionManager  _regionManager;
 
         public ToolBarModule(IUnityContainer container, IRegionManager regionManager)
         {
