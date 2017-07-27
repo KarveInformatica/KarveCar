@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Command;
-using ToolBarModule.ViewModel;
 
 namespace ToolBarModule.Command
 {
     public abstract class ToolBarCommand: AbstractCommand
     {
-      //  private KarveToolBarViewModel ViewModel;
+        private KarveToolBarViewModel viewModel;
 
         public ToolBarCommand(KarveToolBarViewModel vm)
         {
-            this.ViewModel = vm;
+            this.viewModel = vm;
         }
 
         private KarveToolBarViewModel ViewModel { set; get; }

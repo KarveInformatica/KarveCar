@@ -14,14 +14,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
-namespace ToolBarModule.View
+namespace ToolBarModule
 {
     /// <summary>
-    /// Interaction logic for KarveToolBar.xaml
+    /// Interaction logic for KarveToolBarView.xaml
     /// </summary>
-    public partial class KarveToolBar : UserControl
+    public partial class KarveToolBarView : UserControl, IToolBarView
     {
-        public KarveToolBar()
+        public KarveToolBarView()
         {
             InitializeComponent();
         }

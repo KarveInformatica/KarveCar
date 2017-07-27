@@ -1,5 +1,4 @@
 ﻿using KarveCar.Logic.Generic;
-using KarveCar.Logic.ToolBar;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.Utility;
@@ -13,7 +12,7 @@ using static KarveCar.Model.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.Configuracion
 {
-    public class CintaOpcionesLogic
+    public class RibbonOptionLogic
     {
         /// <summary>
         /// Añade un UserControl al TabControl según la EOpcion que recibe por param. Si el TabItem ya está mostrado, 
@@ -37,8 +36,6 @@ namespace KarveCar.Logic.Configuracion
                     //Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
                     tabitemdictionary.Add(opcion, new TemplateInfoTabItem(tabitem));
 
-                    //Se habilitan/deshabilitan los Buttons del ToolBar según corresponda
-                    ToolBarLogic.EnabledDisabledToolBarButtonsByEOpcion(opcion);
                 }
                 else
                 {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
@@ -56,7 +53,7 @@ namespace KarveCar.Logic.Configuracion
         /// de los RibbonGroups de los RibbonTab seleccionados
         /// </summary>
         /// <param name="opcion"></param>
-        public static void GuardarCintaOpciones(EOpcion opcion)
+        public static void SaveRibbonOptions(EOpcion opcion)
         {
             try
             {
@@ -75,7 +72,7 @@ namespace KarveCar.Logic.Configuracion
         /// Desmarca todos los CheckBox
         /// </summary>
         /// <param name="opcion"></param>
-        public static void CancelarCintaOpciones(EOpcion opcion)
+        public static void DeleteRibbonOptions(EOpcion opcion)
         {
             try
             {

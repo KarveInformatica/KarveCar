@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="ToolBarModule.View.KarveToolBar"
+﻿<UserControl x:Class="ToolBarModule.KarveToolBarView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:local="clr-namespace:ToolBarModule.View"
+             xmlns:local="clr-namespace:ToolBarModule"
              >
     <UserControl.Resources>
         <Style x:Key="ImageEnabled" TargetType="Image">

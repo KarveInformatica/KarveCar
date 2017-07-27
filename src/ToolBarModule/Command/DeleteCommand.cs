@@ -1,5 +1,4 @@
 ﻿using KarveCommon.Command;
-using ToolBarModule.ViewModel;
 
 namespace ToolBarModule.Command
 {

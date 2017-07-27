@@ -45,7 +45,7 @@ namespace KarveCar.ViewModel.ConfiguracionViewModel
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                CintaOpcionesLogic.PrepareTabItemUserControl(opcion);
+                RibbonOptionLogic.PrepareTabItemUserControl(opcion);
             }
         }
         #endregion

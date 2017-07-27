@@ -1,5 +1,4 @@
-﻿using KarveCar.Logic.ToolBar;
-using KarveCar.Utility;
+﻿using KarveCar.Utility;
 using Microsoft.Windows.Controls.Ribbon;
 using System;
 using System.Windows;
@@ -57,7 +56,8 @@ namespace KarveCar.View
 
         private void tbControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ToolBarLogic.EnabledDisabledToolBarButtonsByEOpcion();
+            // this has to be done currently by the configuration service.
+            //ToolBarLogic.EnabledDisabledToolBarButtonsByEOpcion();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using KarveCar.Logic.Generic;
-using KarveCar.Logic.ToolBar;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
@@ -62,24 +61,12 @@ namespace KarveCar.Logic.Maestros
         private static void CreateTabItemDataGrid(EOpcion opcion, GenericObservableCollection genericobscollection)
         {
             if (genericobscollection.GenericObsCollection.Count != 0)
-            {                
+            {   
+                /* this can easily replaced creating a tabcontrol custom */
+
                 //Creamos el DataGrid
                 DataGridUserControl datagrid = new DataGridUserControl();
-
-                //datagrid.HorizontalAlignment = HorizontalAlignment.Left;
-                //datagrid.AlternatingRowBackground = Brushes.WhiteSmoke;
-                //datagrid.AutoGenerateColumns = true;
-                //datagrid.CanUserAddRows = true;
-                //datagrid.CanUserDeleteRows = true;
-                //datagrid.IsReadOnly = false;
-                //datagrid.SelectionMode = DataGridSelectionMode.Extended;
-                //datagrid.SelectionUnit = DataGridSelectionUnit.FullRow;
-                //datagrid.CanUserReorderColumns = true;
-                //datagrid.CanUserResizeColumns = true;
-                //datagrid.CanUserResizeRows = true;
-                //datagrid.CanUserSortColumns = true;
-                //datagrid.FrozenColumnCount = 1;
-
+                
                 #region Se añade la ObservableCollection<object> directamente como el datagrid.ItemsSource, rellena las columnas según las propiedades que tenga el object, tenga o no tenga datos; el header será el nombre de cada propiedad del object
 
                 //SetTrigger(datagrid);
@@ -122,8 +109,7 @@ namespace KarveCar.Logic.Maestros
                 //Se añade el DataGridUserControl al TabItem
                 tabitem.Content = datagrid;
 
-                //Se habilitan/deshabilitan los Buttons del ToolBar según corresponda
-                ToolBarLogic.EnabledDisabledToolBarButtonsByEOpcion(opcion);
+                
             }
         }
 

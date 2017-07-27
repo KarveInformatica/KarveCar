@@ -1,12 +1,8 @@
-﻿using System.ComponentModel;
-using KarveCommon;
-using KarveCommon.Services;
+﻿using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
-using ToolBarModule.View;
 using DataAccessLayer;
 using Prism.Regions;
-
 
 namespace ToolBarModule
 {
@@ -17,6 +13,7 @@ namespace ToolBarModule
         private ICareKeeperService _undoService;
         private IDalLocator _dalLocator;
         private IRegionManager  _regionManager;
+        private IConfigurationService _configurationService;
 
         public ToolBarModule(IUnityContainer container, IRegionManager regionManager)
         {
@@ -24,13 +21,19 @@ namespace ToolBarModule
             _regionManager = regionManager;
         }
 
-        public void Initialize()
+        protected void RegisterViewsAndServices()
         {
-
-            _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBar));
+            _container.RegisterType<IToolBarViewModel, KarveToolBarViewModel>();
+            _container.RegisterType<IToolBarView, KarveToolBarView>();
             _undoService = _container.Resolve<ICareKeeperService>();
             _dalLocator = _container.Resolve<IDalLocator>();
-
+            _configurationService = _container.Resolve<IConfigurationService>();
+        }
+        public void Initialize()
+        {
+            RegisterViewsAndServices();
+            _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
+           
         }
     }
 

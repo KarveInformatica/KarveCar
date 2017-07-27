@@ -79,12 +79,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy providers.config ../bin/Debug/
-xcopy providers.config ../bin/Release/
-xcopy sqlFile.xml ../bin/Debug/
-xcopy sqlFile.xml ../bin/Release/
-xcopy sqlMap.config ../bin/Release/
-xcopy sqlMap.config ../bin/Debug/
+    <PostBuildEvent>if exist  "$(TargetDir)\..\..\providers.config" xcopy $(TargetDir)\..\..\providers.config $(TargetDir) /Y
+if exist  "$(TargetDir)\..\..\sqlFile.xml" xcopy $(TargetDir)\..\..\sqlFile.xml $(TargetDir) /Y
+if exist  "$(TargetDir)\..\..\SqlMap.config" xcopy $(TargetDir)\..\..\SqlMap.config $(TargetDir) /Y
 
 
 

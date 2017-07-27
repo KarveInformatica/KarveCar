@@ -16,7 +16,11 @@ namespace KarveCommon.Command
             return true;
         }
         public abstract void Execute(object parameter);
-        public abstract bool UnExecute();
+
+        public virtual bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }
