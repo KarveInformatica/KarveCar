@@ -9,8 +9,8 @@ namespace KarveCommon.Services
     /// </summary>
     public interface IConfigurationService
     {
-        void NotifyDataChange(ObservableCollection<object> changedData);
-        void SubscribeDataChange(Action<ObservableCollection<object>> dataChanged);
+        void NotifyDataChange(DataPayLoad changedData);
+        void SubscribeDataChange(Action<DataPayLoad> dataChanged);
         bool CloseApplication();
     }
 }

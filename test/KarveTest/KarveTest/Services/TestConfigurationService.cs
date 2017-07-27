@@ -43,17 +43,22 @@ namespace KarveTest.Services
                 ObservableCollection<object> obs = new ObservableCollection<object>();
                 var currentValue = 3;
                 obs.Add(currentValue);
-                _service.NotifyDataChange(obs);
+                DataPayLoad payLoad = new DataPayLoad();
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
+                payLoad.CollectionData = obs;
+                _service.NotifyDataChange(payLoad);
             }).Start();
 
 
         }
         [Test]
        
-        private void CheckData(ObservableCollection<object> data)
+        private void CheckData(DataPayLoad data)
         {
-            var currentValue = data[0];
+            var currentValue = data.CollectionData[3];
+            var currentType = data.PayloadType;
             Assert.AreEqual(currentValue, 3);
+            Assert.AreEqual(currentType, DataPayLoad.Type.Insert);
         }
     }
 }

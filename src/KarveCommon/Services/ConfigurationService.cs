@@ -33,7 +33,7 @@ namespace KarveCommon.Services
             this.mainWindow = mainWindow;
         }
         
-        public void NotifyDataChange(ObservableCollection<object> changedData)
+        public void NotifyDataChange(DataPayLoad changedData)
         {
             lock (this)
             {
@@ -58,7 +58,7 @@ namespace KarveCommon.Services
             }
             return true;
         }
-        public void SubscribeDataChange(Action<ObservableCollection<object>> action)
+        public void SubscribeDataChange(Action<DataPayLoad> action)
         {
             // thread safety.
             lock (this)

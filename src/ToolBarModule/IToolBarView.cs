@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToolBarModule
 {
+    // marker interface.
     public interface IToolBarView
     {
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,31 +25,48 @@ namespace ToolBarModule
     {
         private ICareKeeperService _careKeeper;
         private IDalLocator _locator;
-        private bool saveEnabled;
+        private bool _buttonEnabled = false;
         private IConfigurationService _configurationService;
+       private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
 
         public KarveToolBarViewModel(ICareKeeperService careKeeperService, 
                                      IDalLocator locator,
                                      IConfigurationService configurationService)
         {
             this._careKeeper = careKeeperService;
-            this.EnableSaveCommand = new DelegateCommand(DoEnableSave, CanExecute);
-            this.DisableSaveCommand = new DelegateCommand(DoDisableSave, CanExecute);
-            this.DisableDeleteCommand = new DelegateCommand(DoDisableCommand, CanExecute);
-            this.EnableDeleteCommand = new DelegateCommand(DoEnableDeleteCommand, CanExecute);
             this.UndoCommand = new DelegateCommand(DoUndoCommand, CanExecute);
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this.RedoCommand = new DelegateCommand(DoRedoCommand);
             this.ExitCommand = new DelegateCommand(DoExitCommand, CanExecute);
             this._locator = locator;
             this._configurationService = configurationService;
+            this._configurationService.SubscribeDataChange(NewData);
+        }
+        public bool ButtonEnabled
+        {
+            get { return _buttonEnabled; }
+            set
+            {
+                _buttonEnabled = value;
+                RaisePropertyChanged();
+            }
         }
 
+        private void NewData(DataPayLoad dataCollection)
+        {
+            // ok in this case we can 
+            ButtonEnabled = true;
+            // new data has been arrived.
+            _dataPayLoadLifo.Push(dataCollection);
+        }
         private void DoSaveCommand()
         {
-            if (saveEnabled)
+            SaveDataLayerCommand command = new SaveDataLayerCommand(_locator, _careKeeper);
+            foreach (var item in _dataPayLoadLifo)
             {
+                command.Do(item);
             }
+            
         }
 
         private void DoExitCommand()
@@ -65,26 +83,7 @@ namespace ToolBarModule
         {
 
         }
-
-        private void DoEnableDeleteCommand()
-        {
-        }
-
-        private void DoDisableCommand()
-        {
-        }
-
-        private void DoEnableSave()
-        {
-            saveEnabled = true;
-        }
-
-
-        private void DoDisableSave()
-        {
-            saveEnabled = false;
-        }
-
+        
         private bool CanExecute()
         {
             return true;

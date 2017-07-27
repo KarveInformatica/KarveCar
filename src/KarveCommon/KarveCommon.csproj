@@ -66,6 +66,7 @@
     <Compile Include="Generic\Enum.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\DataChangeEvent.cs" />
+    <Compile Include="Services\DataPayLoad.cs" />
     <Compile Include="Services\ICareKeeperService.cs" />
     <Compile Include="Generic\ManageGenericObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -49,8 +49,9 @@
             </Button>
             <Button x:Name="tbbtnEditar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False"
+                   
                     >
+               
                 <StackPanel>
                     <Image Source="..\..\Images\edit.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
@@ -78,8 +79,7 @@
             </Button>
             <Button x:Name="tbbtnEliminar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False"
-                    DataContext="KarveToolBarViewModel"
+                    IsEnabled="{Binding ButtonEnabled}"
                     >
                 <StackPanel>
                     <Image Source="..\..\Images\delete.png" Stretch="Fill" Height="35" />
@@ -106,7 +106,7 @@
             </Button>
             <Button x:Name="tbbtnGuardar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False"
+                    IsEnabled="{Binding ButtonEnabled}"
                     >
                 <StackPanel>
                     <Image Source="..\..\Images\save.png" Stretch="Fill" Height="35" />

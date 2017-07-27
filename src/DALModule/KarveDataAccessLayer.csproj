@@ -50,6 +50,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
+    <Compile Include="DataLayerExecutionException.cs" />
     <Compile Include="IDalLocator.cs" />
     <Compile Include="IDalObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

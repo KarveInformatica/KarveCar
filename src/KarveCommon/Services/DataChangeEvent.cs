@@ -8,10 +8,9 @@ using Prism.Events;
 
 namespace KarveCommon.Services
 {
-    class DataChangeEvent: PubSubEvent<ObservableCollection<object>>
+    class DataChangeEvent: PubSubEvent<DataPayLoad>
     {
-        private int typeOP; // it can be delete or update.
-
+      
         public DataChangeEvent()
         {
 

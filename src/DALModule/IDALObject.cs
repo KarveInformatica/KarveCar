@@ -11,5 +11,7 @@ namespace DataAccessLayer
         void SetItems(GenericObservableCollection collection);
         void SetUniqueItems(GenericObservableCollection collection);
         Type DalType { get; set; }
+        bool StoreCollection<T>(ObservableCollection<T> collection);
+        bool RemoveCollection<T>(ObservableCollection<T> collection);
     }
 }

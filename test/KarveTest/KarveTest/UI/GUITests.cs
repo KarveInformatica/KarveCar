@@ -25,7 +25,8 @@ using Window = TestStack.White.UIItems.WindowItems.Window;
 namespace KarveTest.UI
 {
     [TestFixture]
-    public class GuiTests
+
+    public class GUITests
     {
 
         private string applicationPath = @"C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\src\bin\Debug\";
@@ -54,7 +55,11 @@ namespace KarveTest.UI
         {
             Application application = Application.Launch(applicationPath);
             Window mainWindow = application.GetWindows()[0];
-            MenuBar clients = mainWindow.MenuBar;
+            MenuBar clients = mainWindow.MenuBars[3];
+            clients.Click();
+            // here we have to adjust the click;
+            Point point = new Point(718,130);
+            Mouse.Instance.Click(point);
             application.Close();
         }
 
@@ -91,6 +96,5 @@ namespace KarveTest.UI
         public void Should_ToolBarNewButton_Enabled_AfterShowingATab()
         {
         }
-
     }
 }
