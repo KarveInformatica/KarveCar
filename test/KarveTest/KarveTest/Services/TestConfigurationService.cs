@@ -51,7 +51,7 @@ namespace KarveTest.Services
 
 
         }
-        [Test]
+       
        
         private void CheckData(DataPayLoad data)
         {
