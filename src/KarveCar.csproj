@@ -98,6 +98,9 @@
       <HintPath>packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ReuxablesLegacy">
+      <HintPath>.\ReuxablesLegacy.dll</HintPath>
+    </Reference>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -139,55 +142,6 @@
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
-    <Compile Include="Model\Classes\Banco.cs" />
-    <Compile Include="Model\Classes\ActividadVehiculo.cs" />
-    <Compile Include="Model\Classes\CodigoInmovilizacion.cs" />
-    <Compile Include="Model\Classes\Color.cs" />
-    <Compile Include="Model\Classes\FormaTraslado.cs" />
-    <Compile Include="Model\Classes\MotivoRepostaje.cs" />
-    <Compile Include="Model\Classes\TipoVehiculo.cs" />
-    <Compile Include="Model\Classes\AccesorioVehiculo.cs" />
-    <Compile Include="Model\Classes\TipoContactoPotencial.cs" />
-    <Compile Include="Model\Classes\TipoImpresoFactura.cs" />
-    <Compile Include="Model\Classes\ConceptoSalidaCaja.cs" />
-    <Compile Include="Model\Classes\MedioRecepcion.cs" />
-    <Compile Include="Model\Classes\MotivoAnulacionReserva.cs" />
-    <Compile Include="Model\Classes\MotivoNoServicio.cs" />
-    <Compile Include="Model\Classes\ClaveFee.cs" />
-    <Compile Include="Model\Classes\IncidenciaContrato.cs" />
-    <Compile Include="Model\Classes\IncidenciaProveedor.cs" />
-    <Compile Include="Model\Classes\TipoProveedor.cs" />
-    <Compile Include="Model\Classes\Divisa.cs" />
-    <Compile Include="Model\Classes\IncidenciaReserva.cs" />
-    <Compile Include="Model\Classes\IncidenciaCliente.cs" />
-    <Compile Include="Model\Classes\OrigenCliente.cs" />
-    <Compile Include="Model\Classes\TipoImpresoContrato.cs" />
-    <Compile Include="Model\Classes\MotivoImproductivo.cs" />
-    <Compile Include="Model\Classes\MotivoCancelacion.cs" />
-    <Compile Include="Model\Classes\MotivoCambioVehiculo.cs" />
-    <Compile Include="Model\Classes\MotivoAnulacionContrato.cs" />
-    <Compile Include="Model\Classes\UsoAlquiler.cs" />
-    <Compile Include="Model\Classes\TipoVisita.cs" />
-    <Compile Include="Model\Classes\TipoContactoCliente.cs" />
-    <Compile Include="Model\Classes\TipoCliente.cs" />
-    <Compile Include="Model\Classes\TarjetaEmpresa.cs" />
-    <Compile Include="Model\Classes\TarjetaCredito.cs" />
-    <Compile Include="Model\Classes\SectorActividad.cs" />
-    <Compile Include="Model\Classes\Provincia.cs" />
-    <Compile Include="Model\Classes\Poblacion.cs" />
-    <Compile Include="Model\Classes\Negocio.cs" />
-    <Compile Include="Model\Classes\Mercado.cs" />
-    <Compile Include="Model\Classes\ClavePresupuesto.cs" />
-    <Compile Include="Model\Classes\ComunidadAutonoma.cs" />
-    <Compile Include="Model\Classes\ZonaCliente.cs" />
-    <Compile Include="Model\Classes\ZonaOficina.cs" />
-    <Compile Include="Model\Classes\CargoPersonal.cs" />
-    <Compile Include="Model\Classes\CanalCliente.cs" />
-    <Compile Include="Model\Classes\BloqueFacturacion.cs" />
-    <Compile Include="Model\Classes\FormaPagoProveedor.cs" />
-    <Compile Include="Model\Classes\TipoComisionista.cs" />
-    <Compile Include="Model\Classes\GrupoTarifa.cs" />
-    <Compile Include="Model\Generic\IDataGridRowChange.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
     <Compile Include="Model\SQL\ScriptsSQLUpdate.cs" />
@@ -326,6 +280,7 @@
     <Folder Include="Logic\Atipicos\" />
     <Folder Include="Logic\Comercial\" />
     <Folder Include="Logic\Contratos\" />
+    <Folder Include="Model\Classes\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

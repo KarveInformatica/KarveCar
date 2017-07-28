@@ -11,7 +11,7 @@
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
                 mc:Ignorable="d"
-                Title="MainWindow" x:Name="mainwindow" WindowState="Maximized" Closing="mainwindow_Closing">
+                Title="MainWindow" x:Name="mainwindow" WindowState="Maximized" Closing="mainwindow_Closing" >
     <r:RibbonWindow.DataContext>
         <vm:SetLanguagesViewModel/>
     </r:RibbonWindow.DataContext>

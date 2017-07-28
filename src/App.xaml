@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
              xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel">
     <Application.Resources>
+        
         <ObjectDataProvider x:Key="ResourceLanguage" 
                             ObjectType="{x:Type lang:ChangeLanguageLogic}" 
                             MethodName="GetResourceLanguage">
@@ -19,5 +20,7 @@
         <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
         
         <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+        
     </Application.Resources>
+  
 </Application>
