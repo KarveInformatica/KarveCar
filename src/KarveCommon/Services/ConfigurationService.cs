@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using KarveCommon.Services;
-using Prism.Commands;
 using Prism.Events;
-using Prism.Modularity;
 
 
 namespace KarveCommon.Services
 {
     /// <summary>
     ///  Configuration services is a service configuration used around the application for 
-    ///  providing communication between the view models.
+    ///  providing a communication mechanism between the view models.
     /// </summary>
     public class ConfigurationService: IConfigurationService
     {
@@ -32,7 +23,10 @@ namespace KarveCommon.Services
         {
             this.mainWindow = mainWindow;
         }
-        
+        /// <summary>
+        /// This method notify the change of the DataPayLoad the receiver.
+        /// </summary>
+        /// <param name="changedData">Payload changed. In case of DataPayload it has inside the data.</param>
         public void NotifyDataChange(DataPayLoad changedData)
         {
             lock (this)
@@ -40,6 +34,10 @@ namespace KarveCommon.Services
                 eventAggregator.GetEvent<DataChangeEvent>().Publish(changedData);
             }
         }
+        /// <summary>
+        ///  This close the application.
+        /// </summary>
+        /// <returns>true if the close has been successfully.</returns>
         public bool CloseApplication()
         {
 
@@ -53,11 +51,14 @@ namespace KarveCommon.Services
             }  
             catch (Exception ex)
             {
-                return false;
-                //  ErrorsGeneric.MessageError(ex);
+                throw new ConfigurationServiceException("ConfigurationService Error during CloseApplication. Reason:" + ex.Message);
             }
             return true;
         }
+        /// <summary>
+        /// This method subscribe waiting for the change of the data. It shall be an asynchronous subscribtion.
+        /// </summary>
+        /// <param name="action"></param>
         public void SubscribeDataChange(Action<DataPayLoad> action)
         {
             // thread safety.
@@ -65,6 +66,15 @@ namespace KarveCommon.Services
             {
                 this.eventAggregator.GetEvent<DataChangeEvent>().Subscribe(action);
             }
+        }
+    }
+    /// <summary>
+    ///  Customization of the service.
+    /// </summary>
+    public class ConfigurationServiceException : Exception
+    {
+        public ConfigurationServiceException(string exMessage): base(exMessage)
+        {
         }
     }
 }

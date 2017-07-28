@@ -74,6 +74,8 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                // FIXME: antipattern.
+                throw e;
             }
             string ret = string.Join(";", dic);
             return ret.ToUpper();
@@ -101,6 +103,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                // FIXME: fixed the exception handling .
                 //ErrorsDB.MessageError(e);
             }
         }
