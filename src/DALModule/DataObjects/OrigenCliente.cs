@@ -2,7 +2,7 @@
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class OrigenCliente : GenericPropertyChanged, IDataGridRowChange
     {
@@ -39,6 +39,10 @@ namespace KarveDataAccessLayer.DataObjects
                 OnPropertyChanged("Definicion");
             }
         }
+
+        public string  Clave { get; set; }
+        public string  Grupo { get; set; }
+        public string  Telefono { get; set; }
 
         private string ultimamodificacion;
         public string UltimaModificacion

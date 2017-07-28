@@ -3,6 +3,7 @@ using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DataAccessLayer.DataObjects;
 
 namespace DataAccessLayer
 {
@@ -13,102 +14,105 @@ namespace DataAccessLayer
     public class BanksDataAccessLayer : BaseDataMapper
     {
         private readonly string _id = RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString();
-        private Type _dalType = typeof(BankDataObject);
-
-        public BanksDataAccessLayer() : base(DataAccessLayer.Constants.BanksDataUri)
+        private Type _dalType = typeof(BancoDataObject);
+        /// <summary>
+        ///  This method queries the data mapper and return an observable collection.
+        /// </summary>
+        /// <param name="mapper"> DataMapper value </param>
+        /// <param name="collection">Collection to be filled in output</param>
+        private void QueryCopy(IDataMapper mapper, out ObservableCollection<BancoDataObject> collection)
         {
-        }
-
-        private void QueryCopy(IDataMapper mapper, out ObservableCollection<BankDataObject> collection)
-        {
-            ICollection<BankDataObject> banks = DataMapper.QueryForList<BankDataObject>("Banks.GetAllBanks", null);
-            collection = new ObservableCollection<BankDataObject>();
-
+            ICollection<BancoDataObject> banks = DataMapper.QueryForList<BancoDataObject>("Auxiliares.GetAllBanks", null);
+            collection = new ObservableCollection<BancoDataObject>();
             foreach (var bank in banks)
             {
-                collection.Add((BankDataObject) bank);
+                collection.Add(bank);
             }
 
         }
-
         /// <summary>
-        ///  We want to ask to the db just after an update.
+        ///  Get an observable collection of banks.
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<BankDataObject> GetBanks()
+        public ObservableCollection<BancoDataObject> GetBanks()
         {
-            ObservableCollection<BankDataObject> dataCollection = new ObservableCollection<BankDataObject>();
+            ObservableCollection<BancoDataObject> dataCollection = new ObservableCollection<BancoDataObject>();
             QueryCopy(DataMapper, out dataCollection);
             return dataCollection;
         }
-
-        public void SetBanks(ObservableCollection<BankDataObject> banks)
+        /// <summary>
+        ///  This replace the banks.
+        /// </summary>
+        /// <param name="banks"></param>
+        public void ReplaceItems(ObservableCollection<BancoDataObject> banks)
         {
-            IList<BankDataObject> current = new List<BankDataObject>();
+            /*
+            foreach (BancoDataObject item in banks)
+            {
+                item.Codigo
+            }
+            */
+        }
+        /// <summary>
+        /// For each item in the collection bank. It does an update.
+        /// </summary>
+        /// <param name="banks"></param>
+        public void UpdateBanks(ObservableCollection<BancoDataObject> banks)
+        {
+            IList<BancoDataObject> current = new List<BancoDataObject>();
             foreach (var bank in banks)
             {
                 current.Add(bank);
             }
-            int ret = DataMapper.Update("Banks.UpdateBanks", current);
+            int ret = DataMapper.Update("Auxiliares.UpdateBanks", current);
         }
-
+        /// <summary>
+        ///  This returns the number of items of an observable collection.
+        /// </summary>
+        /// <returns></returns>
         public override GenericObservableCollection GetItems()
         {
-            ObservableCollection<BankDataObject> dataCollection = new ObservableCollection<BankDataObject>();
+            ObservableCollection<BancoDataObject> dataCollection = new ObservableCollection<BancoDataObject>();
             QueryCopy(DataMapper, out dataCollection);
             // filter repeated data
             ISet<string> collectionTemp = new SortedSet<string>();
             ObservableCollection<object> abstractCollection = new ObservableCollection<object>();
-            abstractCollection = FilterCollectionDuplicates<BankDataObject>(dataCollection);
             GenericObservableCollection generic = new GenericObservableCollection();
             generic.GenericObsCollection = abstractCollection;
             return generic;
         }
 
-        public override void SetUniqueItems(GenericObservableCollection collection)
-        {
-            throw new NotImplementedException();
-        }
 
         public override bool StoreCollection<T>(ObservableCollection<T> collection)
         {
-            IList<BankDataObject> current = new List<BankDataObject>();
+            IList<BancoDataObject> current = new List<BancoDataObject>();
             foreach (var bank in collection)
             {
                 // ok in this case. the type safety is wrong
-                BankDataObject tmpObject = bank as BankDataObject;
+                BancoDataObject tmpObject = bank as BancoDataObject;
                 current.Add(tmpObject);
             }
-            int ret = DataMapper.Update("Banks.UpdateBanks", current);
+            base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
             return true;
         }
 
         public override bool RemoveCollection<T>(ObservableCollection<T> collection)
         {
+            IList<BancoDataObject> current = new List<BancoDataObject>();
+            foreach (var bank in collection)
+            {
+                // ok in this case. the type safety is wrong
+                BancoDataObject tmpObject = bank as BancoDataObject;
+                current.Add(tmpObject);
+            }
+            base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
             return true;
         }
         public override void SetItems(GenericObservableCollection collection)
         {
             ObservableCollection<object> abstractCollection = collection.GenericObsCollection;
-            ObservableCollection<BankDataObject> currentBanks = new ObservableCollection<BankDataObject>();
-
-            foreach (var bank in abstractCollection)
-            {
-                currentBanks.Add((BankDataObject) bank);
-            }
-            SetBanks(currentBanks);
+            StoreCollection(abstractCollection);
         }
-
-        public override string Id
-        {
-            get { return _id; }
-        }
-
-        public override  Type DalType {
-            set { _dalType = value; }
-            get { return _dalType; }
-        }
-  
     }
 
 }

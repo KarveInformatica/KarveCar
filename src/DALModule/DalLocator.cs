@@ -27,8 +27,8 @@ namespace DataAccessLayer
         }
         public DalLocator()
         {
-            BanksDataAccessLayer banksDataAccessLayer = new BanksDataAccessLayer();
-            dalObjects.Add(banksDataAccessLayer.Id, banksDataAccessLayer);
+            //BanksDataAccessLayer banksDataAccessLayer = new BanksDataAccessLayer();
+            //dalObjects.Add(banksDataAccessLayer.Id, banksDataAccessLayer);
         }
     }
 }

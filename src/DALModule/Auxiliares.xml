@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="Auxiliares" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >	       
+	<resultMaps>                                    
+		<resultMap id="BankResultMap"  class="BancoDataObject" >
+			<result property="Codigo"     		column="CODBAN"/>
+			<result property="Nombre"    		column="NOMBRE"/>
+			<result property="Swift"     		column="SWIFT"/>
+			<result property="Gestionar"     		column="GESTIONAR"/>
+			<result property="UltimaModifica"     	column="ULTMODI"/>
+			<result property="Usuario"     	column="USUARIO"/>
+		</resultMap>
+		<resultMap id ="OfficeZoneResultMap" class="ZonaOfficina">
+			<result property="Codigo" column="COD_ZONAOFI" />
+			<result property="Definicion" column="NOM_ZONA" />
+			<result property="Plaza" column="PLAZA" />
+			<result property="UltimaModifica" column="ULTMODI" />
+			<result property="Usuario" column="USUARIO" />		
+		</resultMap>
+		<resultMap id="FacturationResultMap" class="BloqueFacturacion">
+		<result property="Codigo" column="CODIGO" />
+		<result property="Definicion"  column="NOMBRE" />
+		</resultMap>
+		<resultMap id="CanalesResultMap" class="CanalCliente">
+		<result property="Codigo" column="CODIGO" />
+		<result property="Definicion"  column="NOMBRE" />
+		<result property="UltimaModificacion"  column="ULTMODI" />
+		<result property="Usuario"  column="USUARIO" />
+		</resultMap>
+		<resultMap id="CargoPersonalResultMap" class="CargoPersonal">
+		<result property="Codigo" column="COD_CAT" />
+		<result property="Definicion"  column="NOM_CAT" />
+		<result property="UltimaModificacion"  column="ULTMODI" />
+		<result property="Usuario"  column="USUARIO" />
+		</resultMap>
+		<resultMap id="MercadoResultMap" class="Mercado">
+		<result property="Codigo" column="CODIGO" />
+		<result property="Definicion"  column="NOMBRE" />
+		<result property="UltimaModificacion"  column="ULTMODI" />
+		<result property="Usuario"  column="USUARIO" />
+		</resultMap>
+		<resultMap id="ClavePresupuestoResultMap" class="ClavePresupuesto">
+		<result property="Codigo" column="COD_CLAVE" />
+		<result property="Definicion"  column="NOM_CAT" />
+		<result property="UltimaModificacion"  column="ULTMODI" />
+		<result property="Usuario"  column="USUARIO" />
+		</resultMap>
+		<resultMap id="NegociosResultMap" class="Negocios">
+		<result property="Codigo" column="COD_CLAVE" />
+		<result property="Definicion"  column="NOM_CAT" />
+		<result property="UltimaModificacion"  column="ULTMODI" />
+		<result property="Usuario"  column="USUARIO" />
+		</resultMap>
+	  
+    <resultMap id="OriginClientesResultMap" class="OriginCliente">
+		<result property="Codigo" column="NUM_ORIGEN" />
+		<result property="Definicion"  column="NOMBRE" />
+    <result property="ClaveFee"  column="CLAFEE" />
+    <result property="Telefono"  column="TELF_TC" />
+    <result property="Grupo"  column="CLAFEE" />  
+    <result property="Mail"  column="MAIL_TC" />
+    <result property="Logo"  column="LOGO_TC" />
+    <result property="Domicilio1"  column="DIR_TC" />
+    <result property="Domicilio2"  column="DIR2_TC" />
+    <result property="Pais"  column="PAIS_TC" />
+		</resultMap>
+    <resultMap id="PoblacionResultMap" class="Poblacion">
+	    <result property="Codigo" column="CP" />
+	    <result property="Definicion"  column="POBLA" />
+	    <result property="Pais"  column="PAIS" />
+	    <result property="ZonaCommercial"  column="ZONACOMER_CP" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+	  <resultMap id="PoblacionResultMap" class="Poblacion">
+	    <result property="Codigo" column="CP" />
+	    <result property="Definicion"  column="Pobla" />
+	    <result property="Telefono"  column="TELF_TC" />
+	    <result property="ClaveFee"  column="CLAFEE" />
+	    <result property="Mail"  column="MAIL_TC" />
+	    <result property="Logo"  column="LOGO_TC" />
+	    <result property="Domicilio1"  column="DIR_TC" />
+	    <result property="Domicilio2"  column="DIR2_TC" />
+	    <result property="Pais"  column="PAIS_TC" />
+	  </resultMap>
+	  <resultMap id="ProvinciasResultMap" class="Provincia">
+	    <result property="Codigo" column="SIGLAS" />
+	    <result property="Definicion"  column="PROV" />
+	    <result property="CodigoProvincia"  column="CP" />
+      <result property="Prefijo"  column="PREFIJO" />
+	    <result property="Pais"  column="PAIS" />
+	    <result property="Capital"  column="CAPITAL" />
+	    <result property="Abbreviacion"  column="ABREVIA" />
+	    <result property="CCAA"  column="CCCA" />
+	    <result property="Concesionaria"  column="CONCESIO_PROV" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	  </resultMap>
+   
+	  <resultMap id="SectorActividadResultMap" class="SectorActividad">
+	    <result property="Codigo" column="NUM_ACTIVI" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="NuevoCodigo"  column="NUEVOCOD" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+
+    <resultMap id="TarjetaCreditoResultMap" class="TarjetaCredito">
+      <result property="Codigo" column="CODIGO" />
+      <result property="Definicion"  column="NOMBRE" />
+      <result property="Marca"  column="MARCA" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+	  <resultMap id="TarjetaEmpresaResultMap" class="TarjetaEmpresa">
+	    <result property="Codigo" column="COD_TARJETA" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="Precio"  column="PRECIO" />
+	    <result property="Condiciones"  column="CONDICIONES" />
+	    <result property="Prefijo"  column="PREFIJO" />
+	  </resultMap>
+	  <resultMap id="TipoClienteResultMap" class="TipoCliente">
+	    <result property="Codigo" column="NUM_TICLI" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="PeriodoVisita"  column="PERIOVISITA" />
+	    <result property="Minimo"  column="MINANO" />
+	    <result property="TipoCliente"  column="OBS_TICLI" />
+	    <result property="ImporteMaximo"  column="IMPMAXIMO" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Summa" column="SUMALINS" />
+	    <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+	  <resultMap id="TipoContactoResultMap" class="TipoContactoCliente">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="TipoVisitaResultMap" class="TipoVisita">
+	    <result property="Codigo" column="CODIGO_VIS" />
+	    <result property="Definicion"  column="NOMBRE_VIS" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+    <resultMap id="UsoAlquilerResultMap" class="UsoAlquiler">
+      <result property="Codigo" column="CODIGO" />
+      <result property="Definicion"  column="NOMBRE" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+	  <resultMap id="ZonaClienteResultMap" class="ZonaCliente">
+	    <result property="Codigo" column="NUM_ZONA" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="ZonaBaja"  column="BAJAZONA" />
+	    <result property="IdentitySyncronization"  column="ID_SYNC" />
+	    <result property="Personal"  column="PERSONAL" />
+	    <result property="UltimaVisita"  column="ULTIMA_VISITA_ZN" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="ZonaClienteResultMap" class="ZonaCliente">
+	    <result property="Codigo" column="NUM_ZONA" />
+	    <result property="Nombre"  column="NOMBRE" />
+	    <result property="ZonaBaja"  column="BAJAZONA" />
+	    <result property="IdentitySyncronization"  column="ID_SYNC" />
+	    <result property="Personal"  column="PERSONAL" />
+	    <result property="UltimaVisita"  column="ULTIMA_VISITA_ZN" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="TipoComisionistaResultMap" class="TipoComisionista">
+	    <result property="Codigo" column="NUM_TICOMI" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="Observacion"  column="OBSERVA_TC" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="MotivoAnulacionResultMap" class="MotivoAnulacionReserva">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="Observacion"  column="OBSERVA_TC" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="MotivoCambioVehiculoResultMap" class="MotivoCambioVehiculo">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="UltimaModificacion"  column="ULTMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="MotivosCancelacionResultMap" class="MotivosCancelacion">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+	    <result property="UltimaModificacion"  column="ULMODI" />
+	    <result property="Usuario"  column="USUARIO" />
+	  </resultMap>
+	  <resultMap id="MotivosImproductivoResultMap" class="MotivosImproductivo">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+	  </resultMap>
+	  <resultMap id="TipoImpresoContractoResultMap" class="TipoImpresoContracto">
+	    <result property="Codigo" column="CODIGO" />
+	    <result property="Definicion"  column="NOMBRE" />
+      
+	  </resultMap>
+    Auxiliares/Contratos	Motivos Improductivo	2	0	MOTIMPRODUC	Tabla	MOTIMPRODUC	MOTIMPRODUC	Tabla
+    Auxiliares/Contratos	Motivos Improductivo	2	1	CODIGO 	integer	CODIGO integer	CODIGO 	integer
+    Auxiliares/Contratos	Motivos Improductivo	2	2	NOMBRE 	varchar(250)	NOMBRE varchar(250)	NOMBRE 	varchar(250)
+    Auxiliares/Contratos	Tipos Impreso Contratos	2	0	CONTRATIPIMPR	Tabla	CONTRATIPIMPR	CONTRATIPIMPR	Tabla
+    Auxiliares/Contratos	Tipos Impreso Contratos	2	1	CODIGO 	tinyint	CODIGO tinyint	CODIGO 	tinyint
+    Auxiliares/Contratos	Tipos Impreso Contratos	2	2	NOMBRE 	varchar(30)	NOMBRE varchar(30)	NOMBRE 	varchar(30)
+    Auxiliares/Contratos	Tipos Impreso Contratos	2	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Contratos	Tipos Impreso Contratos	2	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Incidencias	Clientes	2	0	INCIDENCIAS_CLI	Tabla	INCIDENCIAS_CLI	INCIDENCIAS_CLI	Tabla
+    Auxiliares/Incidencias	Clientes	2	1	COD_INCI 	char(7)	COD_INCI char(7)	COD_INCI 	char(7)
+    Auxiliares/Incidencias	Clientes	2	2	DESCRIPCION 	varchar(500)	DESCRIPCION varchar(500)	DESCRIPCION 	varchar(500)
+    Auxiliares/Incidencias	Clientes	2	3	CLIENTE 	char(7)	CLIENTE char(7)	CLIENTE 	char(7)
+    Auxiliares/Incidencias	Clientes	2	4	FECHA 	date	FECHA date	FECHA 	date
+    Auxiliares/Incidencias	Clientes	2	5	EMPRESA 	char(2)	EMPRESA char(2)	EMPRESA 	char(2)
+    Auxiliares/Incidencias	Clientes	2	6	OFICINA 	char(2)	OFICINA char(2)	OFICINA 	char(2)
+    Auxiliares/Incidencias	Clientes	2	7	INCIDEN 	tinyint	INCIDEN tinyint	INCIDEN 	tinyint
+    Auxiliares/Incidencias	Clientes	2	8	NOTAS 	varchar(500)	NOTAS varchar(500)	NOTAS 	varchar(500)
+    Auxiliares/Incidencias	Clientes	2	9	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Incidencias	Clientes	2	10	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Incidencias	Contratos	2	0	COINRE	Tabla	COINRE	COINRE	Tabla
+    Auxiliares/Incidencias	Contratos	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Incidencias	Contratos	2	2	NOMBRE 	varchar(100)	NOMBRE varchar(100)	NOMBRE 	varchar(100)
+    Auxiliares/Incidencias	Contratos	2	3	TIPO 	tinyint	TIPO tinyint	TIPO 	tinyint
+    Auxiliares/Incidencias	Contratos	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Incidencias	Contratos	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Incidencias	Proveedores	2	0	INCIDENCIAS_PRO	Tabla	INCIDENCIAS_PRO	INCIDENCIAS_PRO	Tabla
+    Auxiliares/Incidencias	Proveedores	2	1	COD_INCI 	char(7)	COD_INCI char(7)	COD_INCI 	char(7)
+    Auxiliares/Incidencias	Proveedores	2	2	DESCRIPCION 	varchar(500)	DESCRIPCION varchar(500)	DESCRIPCION 	varchar(500)
+    Auxiliares/Incidencias	Proveedores	2	3	PROVEE 	char(7)	PROVEE char(7)	PROVEE 	char(7)
+    Auxiliares/Incidencias	Proveedores	2	4	FECHA 	date	FECHA date	FECHA 	date
+    Auxiliares/Incidencias	Proveedores	2	5	EMPRESA 	char(2)	EMPRESA char(2)	EMPRESA 	char(2)
+    Auxiliares/Incidencias	Proveedores	2	6	OFICINA 	char(2)	OFICINA char(2)	OFICINA 	char(2)
+    Auxiliares/Incidencias	Proveedores	2	7	INCIDEN 	tinyint	INCIDEN tinyint	INCIDEN 	tinyint
+    Auxiliares/Incidencias	Proveedores	2	8	NOTAS 	varchar(500)	NOTAS varchar(500)	NOTAS 	varchar(500)
+    Auxiliares/Incidencias	Proveedores	2	9	STATUS_IP 	tinyint	STATUS_IP tinyint	STATUS_IP 	tinyint
+    Auxiliares/Incidencias	Proveedores	2	10	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Incidencias	Reservas	2	0	COINRE	Tabla	COINRE	COINRE	Tabla
+    Auxiliares/Incidencias	Reservas	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Incidencias	Reservas	2	2	NOMBRE 	varchar(100)	NOMBRE varchar(100)	NOMBRE 	varchar(100)
+    Auxiliares/Incidencias	Reservas	2	3	TIPO 	tinyint	TIPO tinyint	TIPO 	tinyint
+    Auxiliares/Incidencias	Reservas	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Incidencias	Reservas	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Proveedor	Divisas	2	0	DIVISAS	Tabla	DIVISAS	DIVISAS	Tabla
+    Auxiliares/Proveedor	Divisas	2	1	CODIGO 	char(3)	CODIGO char(3)	CODIGO 	char(3)
+    Auxiliares/Proveedor	Divisas	2	2	NOMBRE 	char(250)	NOMBRE char(250)	NOMBRE 	char(250)
+    Auxiliares/Proveedor	Divisas	2	3	COMPRA 	decimal(15,5)	COMPRA decimal(15,5)	COMPRA 	decimal(15,5)
+    Auxiliares/Proveedor	Divisas	2	4	VENTA 	decimal(15,5)	VENTA decimal(15,5)	VENTA 	decimal(15,5)
+    Auxiliares/Proveedor	Divisas	2	5	FEBAJA 	date	FEBAJA date	FEBAJA 	date
+    Auxiliares/Proveedor	Divisas	2	6	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Proveedor	Divisas	2	7	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	0	FORPRO	Tabla	FORPRO	FORPRO	Tabla
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	1	CODIGO 	tinyint	CODIGO tinyint	CODIGO 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	3	CTAPAGO 	char(10)	CTAPAGO char(10)	CTAPAGO 	char(10)
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	4	CTA_EFECTO 	tinyint	CTA_EFECTO tinyint	CTA_EFECTO 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	5	SALCAJA 	tinyint	SALCAJA tinyint	SALCAJA 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	6	VTO_FCONTA 	tinyint	VTO_FCONTA tinyint	VTO_FCONTA 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	7	ESPAGARE 	tinyint	ESPAGARE tinyint	ESPAGARE 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	8	CCC 	char(50)	CCC char(50)	CCC 	char(50)
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	9	NO_PRECIBOS 	tinyint	NO_PRECIBOS tinyint	NO_PRECIBOS 	tinyint
+    Auxiliares/Proveedor	Forma Pago Proveedor	2	10	AFCAJA 	tinyint	AFCAJA tinyint	AFCAJA 	tinyint
+    Auxiliares/Proveedor	Tipos Proveedor	2	0	TIPOPROVE	Tabla	TIPOPROVE	TIPOPROVE	Tabla
+    Auxiliares/Proveedor	Tipos Proveedor	2	1	NUM_TIPROVE	smallint	NUM_TIPROVE	NUM	smallint
+    Auxiliares/Proveedor	Tipos Proveedor	2	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Proveedor	Tipos Proveedor	2	3	CTAGASTO 	char(14)	CTAGASTO char(14)	CTAGASTO 	char(14)
+    Auxiliares/Proveedor	Tipos Proveedor	2	4	ULTMODI 	varchar(15)	ULTMODI varchar(15)	ULTMODI 	varchar(15)
+    Auxiliares/Proveedor	Tipos Proveedor	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Reservas	Claves Fee	2	0	ORIRE	Tabla	ORIRE	ORIRE	Tabla
+    Auxiliares/Reservas	Claves Fee	2	1	NUM_ORIRE 	char(3)	NUM_ORIRE char(3)	NUM_ORIRE 	char(3)
+    Auxiliares/Reservas	Claves Fee	2	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Reservas	Claves Fee	2	3	FEE 	decimal(7,2)	FEE decimal(7,2)	FEE 	decimal(7,2)
+    Auxiliares/Reservas	Claves Fee	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Reservas	Claves Fee	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Reservas	Medios Recepción	2	0	MEDIO_RES	Tabla	MEDIO_RES	MEDIO_RES	Tabla
+    Auxiliares/Reservas	Medios Recepción	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Reservas	Medios Recepción	2	2	NOMBRE 	varchar(60)	NOMBRE varchar(60)	NOMBRE 	varchar(60)
+    Auxiliares/Reservas	Medios Recepción	2	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Reservas	Medios Recepción	2	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Reservas	Motivos Anulación	2	0	MOTANU	Tabla	MOTANU	MOTANU	Tabla
+    Auxiliares/Reservas	Motivos Anulación	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Reservas	Motivos Anulación	2	2	NOMBRE 	varchar(60)	NOMBRE varchar(60)	NOMBRE 	varchar(60)
+    Auxiliares/Reservas	Motivos Anulación	2	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Reservas	Motivos Anulación	2	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Reservas	Motivos No Servicio	2	0	MOPETI	Tabla	MOPETI	MOPETI	Tabla
+    Auxiliares/Reservas	Motivos No Servicio	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Reservas	Motivos No Servicio	2	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Reservas	Motivos No Servicio	2	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Reservas	Motivos No Servicio	2	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Tarifas	Grupos Tarifa	2	0	GRUPOS_TARI	Tabla	GRUPOS_TARI	GRUPOS_TARI	Tabla
+    Auxiliares/Tarifas	Grupos Tarifa	2	1	COD_GT 	char(2)	COD_GT char(2)	COD_GT 	char(2)
+    Auxiliares/Tarifas	Grupos Tarifa	2	2	NOMBRE 	varchar(50)	NOMBRE varchar(50)	NOMBRE 	varchar(50)
+    Auxiliares/Tarifas	Grupos Tarifa	2	3	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Tarifas	Grupos Tarifa	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Vehículos	Accesorios Vehículos	2	0	VEHI_ACC	Tabla	VEHI_ACC	VEHI_ACC	Tabla
+    Auxiliares/Vehículos	Accesorios Vehículos	2	1	COD_ACC 	integer	COD_ACC integer	COD_ACC 	integer
+    Auxiliares/Vehículos	Accesorios Vehículos	2	2	NOM_ACC 	varchar(25)	NOM_ACC varchar(25)	NOM_ACC 	varchar(25)
+    Auxiliares/Vehículos	Actividades Vehículos	2	0	ACTIVEHI	Tabla	ACTIVEHI	ACTIVEHI	Tabla
+    Auxiliares/Vehículos	Actividades Vehículos	2	1	NUM_ACTIVEHI 	char(4)	NUM_ACTIVEHI char(4)	NUM_ACTIVEHI 	char(4)
+    Auxiliares/Vehículos	Actividades Vehículos	2	2	NOMBRE 	char(35)	NOMBRE char(35)	NOMBRE 	char(35)
+    Auxiliares/Vehículos	Actividades Vehículos	2	3	CALCULO 	char(1)	CALCULO char(1)	CALCULO 	char(1)
+    Auxiliares/Vehículos	Actividades Vehículos	2	4	SEGURO_ANUAL 	decimal(12,2)	SEGURO_ANUAL decimal(12,2)	SEGURO_ANUAL 	decimal(12,2)
+    Auxiliares/Vehículos	Actividades Vehículos	2	5	SIGLAS_ACT 	char(5)	SIGLAS_ACT char(5)	SIGLAS_ACT 	char(5)
+    Auxiliares/Vehículos	Actividades Vehículos	2	6	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Vehículos	Actividades Vehículos	2	7	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	0	COCIN	Tabla	COCIN	COCIN	Tabla
+    Auxiliares/Vehículos	Códigos Inmovilización	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	2	NOMBRE 	varchar(50)	NOMBRE varchar(50)	NOMBRE 	varchar(50)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	3	CTAGASTO 	varchar(15)	CTAGASTO varchar(15)	CTAGASTO 	varchar(15)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	4	FAM 	char(3)	FAM char(3)	FAM 	char(3)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	5	MESES_GARAN_CI 	tinyint	MESES_GARAN_CI tinyint	MESES_GARAN_CI 	tinyint
+    Auxiliares/Vehículos	Códigos Inmovilización	2	6	COLOR_INMO 	integer	COLOR_INMO integer	COLOR_INMO 	integer
+    Auxiliares/Vehículos	Códigos Inmovilización	2	7	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Vehículos	Códigos Inmovilización	2	8	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Vehículos	Colores	2	0	COLORFL	Tabla	COLORFL	COLORFL	Tabla
+    Auxiliares/Vehículos	Colores	2	1	CODIGO 	char(6)	CODIGO char(6)	CODIGO 	char(6)
+    Auxiliares/Vehículos	Colores	2	2	NOMBRE 	char(20)	NOMBRE char(20)	NOMBRE 	char(20)
+    Auxiliares/Vehículos	Colores	2	3	TIPOCOLOR 	char(1)	TIPOCOLOR char(1)	TIPOCOLOR 	char(1)
+    Auxiliares/Vehículos	Colores	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Vehículos	Colores	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Vehículos	Formas Traslado	2	0	VIAS	Tabla	VIAS	VIAS	Tabla
+    Auxiliares/Vehículos	Formas Traslado	2	1	NUM_VIA 	tinyint	NUM_VIA tinyint	NUM_VIA 	tinyint
+    Auxiliares/Vehículos	Formas Traslado	2	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Vehículos	Formas Traslado	2	3	OBS1 	varchar(150)	OBS1 varchar(150)	OBS1 	varchar(150)
+    Auxiliares/Vehículos	Formas Traslado	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Vehículos	Formas Traslado	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Vehículos	Motivos Repostaje	2	0	MOT_REPOSTAJE	Tabla	MOT_REPOSTAJE	MOT_REPOSTAJE	Tabla
+    Auxiliares/Vehículos	Motivos Repostaje	2	1	COD_MOT 	tinyint	COD_MOT tinyint	COD_MOT 	tinyint
+    Auxiliares/Vehículos	Motivos Repostaje	2	2	NOM_MOT 	char(30)	NOM_MOT char(30)	NOM_MOT 	char(30)
+    Auxiliares/Vehículos	Tipos Vehículo	2	0	CATEGO	Tabla	CATEGO	CATEGO	Tabla
+    Auxiliares/Vehículos	Tipos Vehículo	2	1	CODIGO 	char(1)	CODIGO char(1)	CODIGO 	char(1)
+    Auxiliares/Vehículos	Tipos Vehículo	2	2	NOMBRE 	char(35)	NOMBRE char(35)	NOMBRE 	char(35)
+    Auxiliares/Vehículos	Tipos Vehículo	2	3	NUMNEU_LC smallint	Tabla	NUMNEU_LC smallint	NUMNEU_LC smallint	Tabla
+    Auxiliares/Vehículos	Tipos Vehículo	2	4	ESVEHICULO_T 	tinyint	ESVEHICULO_T tinyint	ESVEHICULO_T 	tinyint
+    Auxiliares/Vehículos	Tipos Vehículo	2	5	ORDEN 	tinyint	ORDEN tinyint	ORDEN 	tinyint
+    Auxiliares/Vehículos	Tipos Vehículo	2	6	NOMWEB 	varchar(100)	NOMWEB varchar(100)	NOMWEB 	varchar(100)
+    Auxiliares/Vehículos	Tipos Vehículo	2	7	DIAS_MARGEN 	integer	DIAS_MARGEN integer	DIAS_MARGEN 	integer
+    Auxiliares/Vehículos	Tipos Vehículo	2	8	INFREV 	char(7)	INFREV char(7)	INFREV 	char(7)
+    Auxiliares/Vehículos	Tipos Vehículo	2	9	FAMILIA 	char(5)	FAMILIA char(5)	FAMILIA 	char(5)
+    Auxiliares/Vehículos	Tipos Vehículo	2	10	PORSEGURO 	decimal(12,2)	PORSEGURO decimal(12,2)	PORSEGURO 	decimal(12,2)
+    Auxiliares/Varios	Conceptos Salida Caja	3	0	CASHAUX	Tabla	CASHAUX	CASHAUX	Tabla
+    Auxiliares/Varios	Conceptos Salida Caja	3	1	COD_CASH 	char(3)	COD_CASH char(3)	COD_CASH 	char(3)
+    Auxiliares/Varios	Conceptos Salida Caja	3	2	NOMBRE 	varchar(35)	NOMBRE varchar(35)	NOMBRE 	varchar(35)
+    Auxiliares/Varios	Conceptos Salida Caja	3	3	CUENTA 	char(12)	CUENTA char(12)	CUENTA 	char(12)
+    Auxiliares/Varios	Conceptos Salida Caja	3	4	MAXIMO 	tinyint	MAXIMO tinyint	MAXIMO 	tinyint
+    Auxiliares/Varios	Conceptos Salida Caja	3	5	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Varios	Conceptos Salida Caja	3	6	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Varios	Tipos Contacto Potenciales	3	0	TIPO_POTENCIAL	Tabla	TIPO_POTENCIAL	TIPO_POTENCIAL	Tabla
+    Auxiliares/Varios	Tipos Contacto Potenciales	3	1	CODIGO 	integer	CODIGO integer	CODIGO 	integer
+    Auxiliares/Varios	Tipos Contacto Potenciales	3	2	NOMBRE 	varchar(30)	NOMBRE varchar(30)	NOMBRE 	varchar(30)
+    Auxiliares/Varios	Tipos Contacto Potenciales	3	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Varios	Tipos Contacto Potenciales	3	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    Auxiliares/Varios	Tipos Impreso Factura	3	0	FRATIPIMPR	Tabla	FRATIPIMPR	FRATIPIMPR	Tabla
+    Auxiliares/Varios	Tipos Impreso Factura	3	1	CODIGO 	tinyint	CODIGO tinyint	CODIGO 	tinyint
+    Auxiliares/Varios	Tipos Impreso Factura	3	2	NOMBRE 	char(255)	NOMBRE char(255)	NOMBRE 	char(255)
+    Auxiliares/Varios	Tipos Impreso Factura	3	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
+    Auxiliares/Varios	Tipos Impreso Factura	3	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+
+  </resultMaps>
+<parameterMaps>
+<parameterMap id="DeleteBankParam" class="BancoDataObject">
+	<parameter property="Codigo" column="CODBAN" />
+</parameterMap>
+<parameterMap id="UpdateBankParam" class="BancoDataObject">
+	<parameter property="Nombre" column="NOMBRE" />
+	<parameter property="Swift" column="SWIFT" />
+	<parameter property="Codigo" column="CODBAN" />
+</parameterMap>
+</parameterMaps>
+  <statements>
+    <select id="GetAllBanks"  resultMap="BankResultMap">
+      select 
+      * 
+      from 
+      Banco 
+      order by NOMBRE
+    </select>
+    <delete id="DeleteBank" parameterMap="DeleteBankParam">
+	delete from Banco
+	where
+	CODBAN = ?
+  </delete>
+  <update id ="UpdateBank" parameterMap="UpdateBankParam">
+  UPDATE Banco
+	NOMBRE = ?, 
+	SWIFT = ?,
+	WHERE CODBAN= ?;
+  </update>
+  <insert id = "InsertBank" parameter ="UpdateBankParam">
+  INSERT INTO Banco (NOMBRE, SWIFT, CODBAN)
+   VALUES (?, ?, ?);
+  </insert>
+</statements>
+</sqlMap>

@@ -29,19 +29,18 @@ namespace KarveCar.Logic.Maestros
                 
                 GenericObservableCollection genericobscollection = null;
                 // TODO: 
-                if (option != RecopilatorioEnumerations.EOpcion.rbtnBancosClientes)
                 // TODO: remove all this make in a way that it is using all the aux.
-                if (option != EOpcion.rbtnBancosClientes)
-                {
+                
                  genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
-                }
-                else
+                
+              /*  else
                 {
                     DalLocator loc = DalLocator.GetInstance();
                     IDalObject dalObject =  loc.FindDalObject(option.ToString());
                     genericobscollection = dalObject.GetItems();
 
                 }
+                */
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
                 CreateTabItemDataGrid(option, genericobscollection);                
             }

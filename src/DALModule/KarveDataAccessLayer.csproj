@@ -45,10 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataObjects\AccesorioVehiculo.cs" />
+    <Compile Include="AccessoryDataAccessLayer.cs" />
+    <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
-    <Compile Include="DataObjects\Banco.cs" />
-    <Compile Include="DataObjects\BankDataObject.cs" />
+    <Compile Include="DataObjects\BancoDataObject.cs" />
     <Compile Include="BaseDataMapper.cs" />
     <Compile Include="DataObjects\BloqueFacturacion.cs" />
     <Compile Include="DataObjects\CanalCliente.cs" />
@@ -107,7 +107,9 @@
     <None Include="providers.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SqlMap.config" />
+    <None Include="SqlMap.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
@@ -124,9 +126,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Banks.xml" />
+    <Content Include="Auxiliares.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if exist  "$(TargetDir)\..\..\providers.config" xcopy $(TargetDir)\..\..\providers.config $(TargetDir) /Y

@@ -2,7 +2,7 @@
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class ConceptoSalidaCaja : GenericPropertyChanged, IDataGridRowChange
     {

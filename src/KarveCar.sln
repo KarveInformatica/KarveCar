@@ -26,9 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{31310D87-8201-43E3-A023-DC5B6999B02C}"
-	ProjectSection(SolutionItems) = preProject
-		DALModule\Banks.xml = DALModule\Banks.xml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
 EndProject
@@ -83,7 +80,7 @@ Global
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = es-ES
 		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
 	EndGlobalSection
 EndGlobal

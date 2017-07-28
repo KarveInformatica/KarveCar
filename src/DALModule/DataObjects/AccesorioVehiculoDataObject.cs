@@ -2,25 +2,22 @@
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
-    public class Banco : GenericPropertyChanged, IDataGridRowChange
+    public class AccesorioVehiculoDataObject : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Banco() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
-        public Banco(string codigo, string definicion, string swift, string ultimamodificacion, string usuario)
+        public AccesorioVehiculoDataObject() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public AccesorioVehiculoDataObject(int codigo, string definicion)
         {
             this.codigo = codigo;
             this.definicion = definicion;
-            this.swift  = swift;
-            this.ultimamodificacion = ultimamodificacion;
-            this.usuario = usuario;
         }
         #endregion
 
         #region Propiedades
-        private string codigo;
-        public string Codigo
+        private int codigo;
+        public int Codigo
         {
             get { return codigo; }
             set
@@ -38,18 +35,6 @@ namespace KarveDataAccessLayer.DataObjects
             {
                 definicion = value;
                 OnPropertyChanged("Definicion");
-            }
-        }
-
-
-        private string swift;
-        public string Swift
-        {
-            get { return swift; }
-            set
-            {
-                swift = value;
-                OnPropertyChanged("Swift");
             }
         }
 
