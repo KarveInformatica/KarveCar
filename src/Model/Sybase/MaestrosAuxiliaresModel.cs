@@ -1,12 +1,12 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KarveCar.Utility;
 using KarveCar.Model.Generic;
+using KarveCar.Model.SQL;
+using KarveCar.Utility;
+using KarveCommon.Generic;
 using System.Collections.Generic;
 using System.Linq;
-using KarveCar.Model.SQL;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Sybase
 {
@@ -19,10 +19,6 @@ namespace KarveCar.Model.Sybase
         /// <returns></returns>
         public static GenericObservableCollection GetMaestrosAuxiliares(EOpcion opcion)
         {
-
-
-
-           
             //Se recupera el nombre de la tabla de la BBDD(nombretabladb), el List<TemplateInfoDB> (templateinfodb)
             //y el object (obj) según el EOpcion pasado por params
             string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;

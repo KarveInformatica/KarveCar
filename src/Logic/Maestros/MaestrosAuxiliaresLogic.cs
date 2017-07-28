@@ -1,16 +1,16 @@
-﻿using KarveCar.Logic.Generic;
+using DataAccessLayer;
+using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
+using KarveCommon.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using DataAccessLayer;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.Maestros
 {
@@ -28,6 +28,8 @@ namespace KarveCar.Logic.Maestros
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
                 
                 GenericObservableCollection genericobscollection = null;
+                // TODO: 
+                if (option != RecopilatorioEnumerations.EOpcion.rbtnBancosClientes)
                 // TODO: remove all this make in a way that it is using all the aux.
                 if (option != EOpcion.rbtnBancosClientes)
                 {
@@ -58,7 +60,7 @@ namespace KarveCar.Logic.Maestros
         /// </summary>
         /// <param name="opcion"></param>
         /// <param name="genericobscollection"></param>
-        private static void CreateTabItemDataGrid(EOpcion opcion, GenericObservableCollection genericobscollection)
+        private static void CreateTabItemDataGrid(RecopilatorioEnumerations.EOpcion opcion, GenericObservableCollection genericobscollection)
         {
             if (genericobscollection.GenericObsCollection.Count != 0)
             {   

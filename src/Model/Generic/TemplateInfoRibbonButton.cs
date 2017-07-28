@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace KarveCar.Model.Generic
 {
     /// <summary>

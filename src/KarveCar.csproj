@@ -187,7 +187,6 @@
     <Compile Include="Utility\UserAndDefaultConfig.cs" />
     <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
-    <Compile Include="Model\Generic\RecopilatorioEnumerations.cs" />
     <Compile Include="Utility\ValidationRuleDataGrid.cs" />
     <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
     <Compile Include="ViewModel\DataGridUserControlViewModel.cs" />

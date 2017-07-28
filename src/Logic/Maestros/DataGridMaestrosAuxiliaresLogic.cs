@@ -1,13 +1,13 @@
-﻿using System;
-using KarveCar.Model.Generic;
+﻿using KarveCar.Model.Generic;
+using KarveCar.Properties;
+using KarveCar.Utility;
+using KarveCommon.Generic;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using KarveCar.Utility;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using KarveCar.Properties;
 
 namespace KarveCar.Logic.Maestros
 {

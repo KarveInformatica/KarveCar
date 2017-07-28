@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using KarveDataAccessLayer.DataObjects;
 using KarveCar.Properties;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Generic
 {

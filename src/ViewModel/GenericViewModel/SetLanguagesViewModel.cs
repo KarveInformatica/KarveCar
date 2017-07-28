@@ -1,6 +1,5 @@
 ﻿using KarveCar.Commands.Generic;
 using KarveCar.Logic.Generic;
-using KarveCar.Model.Generic;
 using KarveCar.Utility;
 using System.Globalization;
 using System.Threading;

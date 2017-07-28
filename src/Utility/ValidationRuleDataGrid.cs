@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 

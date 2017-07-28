@@ -64,7 +64,7 @@
     <Compile Include="Command\CommandHistory.cs" />
     <Compile Include="Generic\GenericObservableCollection.cs" />
     <Compile Include="Generic\GenericPropertyChanged.cs" />
-    <Compile Include="Generic\Enum.cs" />
+    <Compile Include="Generic\RecopilatorioEnumerations.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\DataChangeEvent.cs" />
     <Compile Include="Services\DataPayLoad.cs" />

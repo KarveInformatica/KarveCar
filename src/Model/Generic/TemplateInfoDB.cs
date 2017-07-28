@@ -1,4 +1,4 @@
-﻿using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Generic
 {
