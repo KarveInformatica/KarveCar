@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
+﻿using NUnit.Framework;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using DataAccessLayer;
-using KarveCommon.Generic;
-using NUnit.Framework;
 using TestStack.White.InputDevices;
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.Finders;
-using TestStack.White.UIItems.MenuItems;
 using TestStack.White.UIItems.WindowStripControls;
-using TestStack.White.UIItems.WPFUIItems;
 using Application = TestStack.White.Application;
 using Window = TestStack.White.UIItems.WindowItems.Window;
 

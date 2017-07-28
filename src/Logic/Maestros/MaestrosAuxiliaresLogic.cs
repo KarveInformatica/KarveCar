@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-﻿using DataAccessLayer;
+using DataAccessLayer;
 using KarveCar.Logic.Generic;
-using KarveCar.Logic.ToolBar;
-=======
-﻿using KarveCar.Logic.Generic;
->>>>>>> b012777bc8b5acfeb11d35c3790a6386b3282746
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
@@ -26,20 +21,17 @@ namespace KarveCar.Logic.Maestros
         /// no se carga de nuevo, simplemente se establece el foco en ese TabItem.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void PrepareTabItemDataGrid(RecopilatorioEnumerations.EOpcion option)
+        public static void PrepareTabItemDataGrid(EOpcion option)
         {
             if (tabitemdictionary.Where(p => p.Key == option).Count() == 0)
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
                 
                 GenericObservableCollection genericobscollection = null;
-<<<<<<< HEAD
                 // TODO: 
                 if (option != RecopilatorioEnumerations.EOpcion.rbtnBancosClientes)
-=======
                 // TODO: remove all this make in a way that it is using all the aux.
                 if (option != EOpcion.rbtnBancosClientes)
->>>>>>> b012777bc8b5acfeb11d35c3790a6386b3282746
                 {
                  genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
                 }

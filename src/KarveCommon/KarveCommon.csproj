@@ -63,17 +63,11 @@
     <Compile Include="Command\CommandHistory.cs" />
     <Compile Include="Generic\GenericObservableCollection.cs" />
     <Compile Include="Generic\GenericPropertyChanged.cs" />
-<<<<<<< HEAD
     <Compile Include="Generic\RecopilatorioEnumerations.cs" />
-    <Compile Include="Generic\ViewModelBase.cs" />
-    <Compile Include="ICareKeeperService.cs" />
-=======
-    <Compile Include="Generic\Enum.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="Services\DataChangeEvent.cs" />
     <Compile Include="Services\DataPayLoad.cs" />
     <Compile Include="Services\ICareKeeperService.cs" />
->>>>>>> b012777bc8b5acfeb11d35c3790a6386b3282746
     <Compile Include="Generic\ManageGenericObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IConfigurationService.cs" />

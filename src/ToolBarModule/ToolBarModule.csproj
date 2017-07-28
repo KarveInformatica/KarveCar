@@ -131,7 +131,7 @@
       <Name>KarveDataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
-      <Project>{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}</Project>
+      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
   </ItemGroup>
