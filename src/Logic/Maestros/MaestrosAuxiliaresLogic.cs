@@ -1,17 +1,17 @@
-﻿using KarveCar.Logic.Generic;
+﻿using DataAccessLayer;
+using KarveCar.Logic.Generic;
 using KarveCar.Logic.ToolBar;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
+using KarveCommon.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
-using DataAccessLayer;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.Maestros
 {
@@ -22,7 +22,7 @@ namespace KarveCar.Logic.Maestros
         /// no se carga de nuevo, simplemente se establece el foco en ese TabItem.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void PrepareTabItemDataGrid(EOpcion option)
+        public static void PrepareTabItemDataGrid(RecopilatorioEnumerations.EOpcion option)
         {
             if (tabitemdictionary.Where(p => p.Key == option).Count() == 0)
             {
@@ -30,7 +30,7 @@ namespace KarveCar.Logic.Maestros
                 
                 GenericObservableCollection genericobscollection = null;
                 // TODO: 
-                if (option != EOpcion.rbtnBancosClientes)
+                if (option != RecopilatorioEnumerations.EOpcion.rbtnBancosClientes)
                 {
                  genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
                 }
@@ -59,7 +59,7 @@ namespace KarveCar.Logic.Maestros
         /// </summary>
         /// <param name="opcion"></param>
         /// <param name="genericobscollection"></param>
-        private static void CreateTabItemDataGrid(EOpcion opcion, GenericObservableCollection genericobscollection)
+        private static void CreateTabItemDataGrid(RecopilatorioEnumerations.EOpcion opcion, GenericObservableCollection genericobscollection)
         {
             if (genericobscollection.GenericObsCollection.Count != 0)
             {                

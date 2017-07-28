@@ -1,11 +1,11 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
+using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using KarveCommon.Generic;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Utility
 {

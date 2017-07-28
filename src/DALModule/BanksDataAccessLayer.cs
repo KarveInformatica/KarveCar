@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Apache.Ibatis.DataMapper;
 using KarveCommon.Generic;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DataAccessLayer
 {
@@ -12,7 +12,7 @@ namespace DataAccessLayer
     /// </summary>
     public class BanksDataAccessLayer : BaseDataMapper
     {
-        private readonly string _id = Maestro.rbtnBancosClientes.ToString();
+        private readonly string _id = RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString();
         private Type _dalType = typeof(BankDataObject);
 
         public BanksDataAccessLayer() : base(DataAccessLayer.Constants.BanksDataUri)

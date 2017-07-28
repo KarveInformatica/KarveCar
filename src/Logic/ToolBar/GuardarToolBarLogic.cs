@@ -1,6 +1,6 @@
 ﻿using KarveCar.Logic.Configuracion;
 using KarveCar.Utility;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.ToolBar
 {

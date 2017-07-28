@@ -1,7 +1,7 @@
 ﻿using KarveCar.Utility;
 using KarveCar.View;
 using System.Windows;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.ToolBar
 {

@@ -9,7 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Controls;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCar.Model.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Logic.Configuracion
 {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer;
+﻿using DataAccessLayer;
 using KarveCommon.Generic;
 using NUnit.Framework;
+using System;
 namespace KarveTest.DAL
 {
     [TestFixture]
@@ -17,7 +12,7 @@ namespace KarveTest.DAL
         [Test]
         public void GetBanks()
         {
-          IDalObject dalObject = _locator.FindDalObject(Maestro.rbtnBancosClientes.ToString());
+          IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
             try
             {
                 GenericObservableCollection obsCollection =  dalObject.GetItems();
@@ -30,7 +25,7 @@ namespace KarveTest.DAL
         [Test]
         public void SetBanks()
         {
-            IDalObject dalObject = _locator.FindDalObject(Maestro.rbtnBancosClientes.ToString());
+            IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
             BankDataObject newBank = new BankDataObject();
             newBank.Code = "0001";
             newBank.Name = "INTESA_SANPAOLO";
