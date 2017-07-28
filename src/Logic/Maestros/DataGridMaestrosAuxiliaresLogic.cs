@@ -78,7 +78,7 @@ namespace KarveCar.Logic.Maestros
                 TabItem tabitem = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.TabItem;
                 DataGrid datagrid = tabitem.Content as DataGrid;
 
-                /* here i dont mark the row. just sending command or insert to the view model and than i can unedit or some things simerlar in the rew.
+                /* here i dont mark the row. just sending command or insert to the view model and than i can unedit or some things similar in the row.
                  */
                 foreach (var itemdatagrid in datagrid.SelectedItems)
                 {
@@ -89,7 +89,6 @@ namespace KarveCar.Logic.Maestros
                             //del object del GenericObservableCollection
                             IDataGridRowChange idatagridrowchange = itemobscollection as IDataGridRowChange;
                             idatagridrowchange.ControlCambioDataGrid = e.Row.IsNewItem ? RecopilatorioEnumerations.EControlCambioDataGrid.Insert : RecopilatorioEnumerations.EControlCambioDataGrid.Update;
-
                             DateTime time = DateTime.Now;
                             idatagridrowchange.UltimaModificacion = time.ToString("yyyyMMddHH:mm");
 

@@ -1,0 +1,302 @@
+﻿<UserControl x:Class="ToolBarModule.KarveToolBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:ToolBarModule"
+             >
+    <UserControl.Resources>
+        <Style x:Key="ImageEnabled" TargetType="Image">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.50"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" >
+        <ToolBar x:Name="tbAcciones" HorizontalAlignment="Left" ToolBar.OverflowMode="Never" >
+            <Button x:Name="tbbtnNuevo" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="False"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\new.png" Stretch="Fill" Height="35"  Style="{StaticResource ImageEnabled}" />
+                    <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+N)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="N" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding NewCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding NewCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding NewCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnEditar" 
+                    HorizontalAlignment="Left"
+                   
+                    >
+               
+                <StackPanel>
+                    <Image Source="..\..\Images\edit.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+E)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="E" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding EditCommand}" 
+                                
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding EditCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding EditCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnEliminar" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding ButtonEnabled}"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\delete.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnEliminar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnEliminar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+Supr)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="Delete" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding DeleteCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding DeleteCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding DeleteCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnGuardar" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding ButtonEnabled}"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\save.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+G)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="G" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding SaveCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding SaveCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding SaveCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnCancelar"
+                    HorizontalAlignment="Left"
+                    IsEnabled="False">
+                <StackPanel>
+                    <Image Source="..\..\Images\cancel.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnCancelar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnCancelar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+C)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="C" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding CancelCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding CancelCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding CancelCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnImprimir" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="False"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\print.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnImprimir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnImprimir, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+I)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="I" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding PrintCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding PrintCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding PrintCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnAnterior" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="False"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\previous.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnAnterior, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnAnterior, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+←)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="Left" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding PreviousCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding PreviousCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding PreviousCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnSiguiente" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="False"
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\next.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnSiguiente, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnSiguiente, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+→)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="Right" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding SiguienteToolBarCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding SiguienteToolBarCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding SiguienteToolBarCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                </Button.InputBindings>
+            </Button>
+            <Button x:Name="tbbtnSalir" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="True"
+                    Command="{Binding ExitCommand}" 
+                   
+                    >
+                <StackPanel>
+                    <Image Source="..\..\Images\exit.png" Stretch="Fill" Height="35" />
+                    <TextBlock Text="{Binding ltbbtnSalir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnSalir, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+Q)" />
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="Q" 
+                                Modifiers="Ctrl" 
+                                />
+                    <KeyBinding Key="Return"                                                
+                                />
+                    <MouseBinding MouseAction="LeftClick"
+                                  />
+                </Button.InputBindings>
+            </Button>
+        </ToolBar>
+        <ToolBar x:Name="Search" HorizontalAlignment="Stretch" UseLayoutRounding="True">
+            <TextBlock Foreground="Transparent">
+                <TextBox x:Name="txtBuscar" Height="40" FontFamily="Calibri" FontSize="16" Width="600"
+                         HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="False"/>     
+                <Button x:Name="tbbtnBuscar" 
+                        BorderBrush="Transparent" Background="Transparent"
+                        HorizontalAlignment="Left"
+                        IsEnabled="False"
+                        >
+                    <Button.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text=" (Ctrl+S)" />
+                        </StackPanel>
+                    </Button.ToolTip>
+                    <Button.InputBindings>
+                        <KeyBinding Key="S" 
+                                    Modifiers="Ctrl" 
+                                    Command="{Binding BuscarToolBarCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                        <KeyBinding Key="Return"                                                
+                                    Command="{Binding BuscarToolBarCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                        <MouseBinding MouseAction="LeftClick"
+                                      Command="{Binding BuscarToolBarCommand}" 
+                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                    </Button.InputBindings>
+                    <StackPanel>
+                        <Image Source="..\..\Images\search.png" Stretch="Fill" Height="35" />
+                        <TextBlock Text="{Binding ltbbtnBuscar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </TextBlock>
+        </ToolBar>
+    </ToolBarTray>
+ </UserControl>

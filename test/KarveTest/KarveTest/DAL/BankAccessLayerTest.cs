@@ -10,7 +10,7 @@ namespace KarveTest.DAL
         private DalLocator _locator = DalLocator.GetInstance();
         
         [Test]
-        public void GetBanks()
+        public void Should_Return_Banks_FromDB()
         {
           IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
             try
@@ -22,7 +22,8 @@ namespace KarveTest.DAL
                 Assert.Fail(ex.Message);
             }
         }
-        [Test]
+        /*
+       
         public void SetBanks()
         {
             IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
@@ -42,5 +43,6 @@ namespace KarveTest.DAL
                 Assert.Fail(ex.Message);
             }
         }
+        */
     }
 }

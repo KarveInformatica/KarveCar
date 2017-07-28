@@ -70,6 +70,23 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
+        public override bool StoreCollection<T>(ObservableCollection<T> collection)
+        {
+            IList<BankDataObject> current = new List<BankDataObject>();
+            foreach (var bank in collection)
+            {
+                // ok in this case. the type safety is wrong
+                BankDataObject tmpObject = bank as BankDataObject;
+                current.Add(tmpObject);
+            }
+            int ret = DataMapper.Update("Banks.UpdateBanks", current);
+            return true;
+        }
+
+        public override bool RemoveCollection<T>(ObservableCollection<T> collection)
+        {
+            return true;
+        }
         public override void SetItems(GenericObservableCollection collection)
         {
             ObservableCollection<object> abstractCollection = collection.GenericObsCollection;

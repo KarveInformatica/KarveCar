@@ -1,24 +1,24 @@
 ﻿using KarveCommon.Command;
-using ToolBarModule.ViewModel;
 
 namespace ToolBarModule.Command
 {
     public class DeleteCommand : AbstractCommand
     {
-        private KarveToolBarViewModel ViewModel;
+        private KarveToolBarViewModel _viewModel;
 
         public DeleteCommand(KarveToolBarViewModel vm)
         {
-            this.ViewModel = vm;
+            this._viewModel = vm;
         }
         public override void Execute(object parameter)
         {
             CommandWrapper wrapper = new CommandWrapper(this, parameter);
-            ViewModel.DeleteItem(wrapper);
+       //     ViewModel.DeleteItem(wrapper);
         }
         public override bool UnExecute()
         {
-            return ViewModel.Undo();
+         //   return ViewModel.Undo();
+            return true;
         }
     }
 }

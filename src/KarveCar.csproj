@@ -58,6 +58,10 @@
     <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
@@ -130,22 +134,11 @@
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
-    <Compile Include="Logic\Configuracion\CintaOpcionesLogic.cs" />
+    <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
-    <Compile Include="Logic\ToolBar\AnteriorToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\BuscarToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\CancelarToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\EditarToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\EliminarToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\GuardarToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\ImprimirToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\NuevoToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\SalirToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\SiguienteToolBarLogic.cs" />
-    <Compile Include="Logic\ToolBar\ToolBarLogic.cs" />
     <Compile Include="Model\Classes\Banco.cs" />
     <Compile Include="Model\Classes\ActividadVehiculo.cs" />
     <Compile Include="Model\Classes\CodigoInmovilizacion.cs" />
@@ -246,7 +239,6 @@
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\ToolBarViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
@@ -330,36 +322,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\AtipicosCommand\" />
-    <Folder Include="Commands\ComercialCommand\" />
-    <Folder Include="Commands\ContratosCommand\" />
-    <Folder Include="Commands\EstadisticasCommand\" />
-    <Folder Include="Commands\FacturacionCommand\" />
-    <Folder Include="Commands\FlotaCommand\" />
-    <Folder Include="Commands\IncidenciasCommand\" />
-    <Folder Include="Commands\ListadosCommand\" />
-    <Folder Include="Commands\MaestrosCommand\" />
-    <Folder Include="Commands\ReservasCommand\" />
-    <Folder Include="Commands\ToolBarCommand\" />
     <Folder Include="Logic\Atipicos\" />
     <Folder Include="Logic\Comercial\" />
     <Folder Include="Logic\Contratos\" />
-    <Folder Include="Logic\Estadisticas\" />
-    <Folder Include="Logic\Facturacion\" />
-    <Folder Include="Logic\Flota\" />
-    <Folder Include="Logic\Incidencias\" />
-    <Folder Include="Logic\Listados\" />
-    <Folder Include="Logic\Reservas\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModel\AtipicosViewModel\" />
-    <Folder Include="ViewModel\ComercialViewModel\" />
-    <Folder Include="ViewModel\ContratosViewModel\" />
-    <Folder Include="ViewModel\EstadisticasViewModel\" />
-    <Folder Include="ViewModel\FacturacionViewModel\" />
-    <Folder Include="ViewModel\FlotaViewModel\" />
-    <Folder Include="ViewModel\IncidenciasViewModel\" />
-    <Folder Include="ViewModel\ListadosViewModel\" />
-    <Folder Include="ViewModel\ReservasViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

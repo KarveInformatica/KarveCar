@@ -90,8 +90,10 @@
     <Compile Include="Command\NextCommand.cs" />
     <Compile Include="Command\PreviousCommand.cs" />
     <Compile Include="Command\PrintCommand.cs" />
-    <Compile Include="Command\SaveCommand.cs" />
+    <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />
+    <Compile Include="IToolBarView.cs" />
+    <Compile Include="IToolBarViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,8 +109,8 @@
     </Compile>
     <Compile Include="ToolBarModule.cs" />
     <Compile Include="ViewModel\KarveToolBarViewModel.cs" />
-    <Compile Include="View\KarveToolBar.xaml.cs">
-      <DependentUpon>KarveToolBar.xaml</DependentUpon>
+    <Compile Include="View\KarveToolBarView.xaml.cs">
+      <DependentUpon>KarveToolBarView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -124,13 +126,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
       <Project>{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\KarveToolBar.xaml">
+    <Page Include="View\KarveToolBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

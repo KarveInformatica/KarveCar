@@ -19,6 +19,8 @@ namespace DataAccessLayer
         public abstract GenericObservableCollection GetItems();
         public abstract void SetItems(GenericObservableCollection collection);
         public abstract void SetUniqueItems(GenericObservableCollection collection);
+        public abstract bool StoreCollection<T>(ObservableCollection<T> collection);
+        public abstract bool RemoveCollection<T>(ObservableCollection<T> collection);
         public abstract string Id { get; }
         public abstract Type DalType { set; get; }
         public const string DuplicateFieldCheck = "CODE";
@@ -26,7 +28,6 @@ namespace DataAccessLayer
         /* add exception handling and pop up the exception */
         protected BaseDataMapper(string uri)
         {
-            string directoryName = System.Environment.CurrentDirectory;
             string resource = "SqlMap.config";
             // Before have 4 properties
             ConfigurationEngine = new DefaultConfigurationEngine();

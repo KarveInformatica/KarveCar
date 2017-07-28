@@ -26,7 +26,7 @@ namespace KarveCar.Logic.Generic
             tbitem.SetBinding(TabItem.HeaderProperty, binding);
             tbitem.Name = opcion.ToString();
             tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
-
+            
             //Se añade el nuevo TabItem al TabControl, le ponemos el focus y devolvemos el nuevo TabItem
             ((MainWindow)Application.Current.MainWindow).tbControl.Items.Add(tbitem);
             tbitem.Focus();

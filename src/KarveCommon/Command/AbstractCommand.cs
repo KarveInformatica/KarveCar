@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Prism.Commands;
 
 namespace KarveCommon.Command
 {
@@ -16,7 +17,11 @@ namespace KarveCommon.Command
             return true;
         }
         public abstract void Execute(object parameter);
-        public abstract bool UnExecute();
+
+        public virtual bool UnExecute()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

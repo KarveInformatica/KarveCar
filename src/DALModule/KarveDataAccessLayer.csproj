@@ -50,8 +50,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
+    <Compile Include="DataLayerExecutionException.cs" />
     <Compile Include="IDalLocator.cs" />
-    <Compile Include="IDALObject.cs" />
+    <Compile Include="IDalObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,4 +79,13 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist  "$(TargetDir)\..\..\providers.config" xcopy $(TargetDir)\..\..\providers.config $(TargetDir) /Y
+if exist  "$(TargetDir)\..\..\sqlFile.xml" xcopy $(TargetDir)\..\..\sqlFile.xml $(TargetDir) /Y
+if exist  "$(TargetDir)\..\..\SqlMap.config" xcopy $(TargetDir)\..\..\SqlMap.config $(TargetDir) /Y
+
+
+
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

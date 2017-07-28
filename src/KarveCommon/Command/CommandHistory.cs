@@ -109,7 +109,7 @@ namespace KarveCommon.Command
         /// Check if a command can be executed, a
         /// </summary>
         /// <param name="commandWrapper"></param>
-        private void DoCommand(CommandWrapper commandWrapper)
+        public void DoCommand(CommandWrapper commandWrapper)
         {
             ICommand command = commandWrapper.Command;
             object param = commandWrapper.Parameters;
