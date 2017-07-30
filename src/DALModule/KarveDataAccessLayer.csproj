@@ -50,6 +50,7 @@
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
     <Compile Include="DataObjects\BancoDataObject.cs" />
     <Compile Include="BaseDataMapper.cs" />
+    <Compile Include="DataObjects\BaseAuxDataObject.cs" />
     <Compile Include="DataObjects\BloqueFacturacion.cs" />
     <Compile Include="DataObjects\CanalCliente.cs" />
     <Compile Include="DataObjects\CargoPersonal.cs" />
