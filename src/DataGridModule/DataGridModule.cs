@@ -4,12 +4,13 @@ using Prism.Modularity;
 using DataAccessLayer;
 using Prism.Regions;
 
-namespace DataGridModule
+namespace ToolBarModule
 {
 
-    public class DataGridModule : IModule
+    public class ToolBarModule : IModule
     {
         private readonly IUnityContainer _container;
+        private ICareKeeperService _undoService;
         private IDalLocator _dalLocator;
         private IRegionManager  _regionManager;
         private IConfigurationService _configurationService;
@@ -22,6 +23,8 @@ namespace DataGridModule
 
         protected void RegisterViewsAndServices()
         {
+            _container.RegisterType<IToolBarViewModel, KarveToolBarViewModel>();
+            _container.RegisterType<IToolBarView, KarveToolBarView>();
             _undoService = _container.Resolve<ICareKeeperService>();
             _dalLocator = _container.Resolve<IDalLocator>();
             _configurationService = _container.Resolve<IConfigurationService>();
@@ -29,7 +32,7 @@ namespace DataGridModule
         public void Initialize()
         {
             RegisterViewsAndServices();
-            _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
+            _regionManager.RegisterViewWithRegion("KarveDataGrid", typeof(KarveToolBarView));
            
         }
     }

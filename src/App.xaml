@@ -10,6 +10,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary  Source="/ReuxablesLegacy;component/mercury.xaml" />
+                <ResourceDictionary  Source="./View/StyledWindow.xaml" />
+
                 <ResourceDictionary>
 
                     <Style x:Key="MyWindowStyle" TargetType="Window">
