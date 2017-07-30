@@ -3,7 +3,7 @@
 	<resultMaps>                                    
 		<resultMap id="BankResultMap"  class="BancoDataObject" >
 			<result property="Codigo"     		column="CODBAN"/>
-			<result property="Nombre"    		column="NOMBRE"/>
+			<result property="Definicion"    		column="NOMBRE"/>
 			<result property="Swift"     		column="SWIFT"/>
 			<result property="Gestionar"     		column="GESTIONAR"/>
 			<result property="UltimaModifica"     	column="ULTMODI"/>

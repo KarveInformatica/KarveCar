@@ -4,73 +4,14 @@ using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace DataAccessLayer.DataObjects
 {
-    public class ActividadVehiculo : GenericPropertyChanged, IDataGridRowChange
+    public class ActividadVehiculo : BaseAuxDataObject
     {
         #region Constructores
-        public ActividadVehiculo() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
-        public ActividadVehiculo(string codigo, string definicion, string ultimamodificacion, string usuario)
+        public ActividadVehiculo():base()
         {
-            this.codigo = codigo;
-            this.definicion = definicion;
-            this.ultimamodificacion = ultimamodificacion;
-            this.usuario = usuario;
         }
-        #endregion
-
-        #region Propiedades
-        private string codigo;
-        public string Codigo
+        public ActividadVehiculo(string codigo, string definicion, string ultimamodificacion, string usuario): base(codigo, definicion, ultimamodificacion, usuario)
         {
-            get { return codigo; }
-            set
-            {
-                codigo = value;
-                OnPropertyChanged("Codigo");
-            }
-        }
-
-        private string definicion;
-        public string Definicion
-        {
-            get { return definicion; }
-            set
-            {
-                definicion = value;
-                OnPropertyChanged("Definicion");
-            }
-        }
-
-        private string ultimamodificacion;
-        public string UltimaModificacion
-        {
-            get { return ultimamodificacion; }
-            set
-            {
-                ultimamodificacion = value;
-                OnPropertyChanged("UltimaModificacion");
-            }
-        }
-
-        private string usuario;
-        public string Usuario
-        {
-            get { return usuario; }
-            set
-            {
-                usuario = value;
-                OnPropertyChanged("Usuario");
-            }
-        }
-
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
-        {
-            get { return controlcambiodatagrid; }
-            set
-            {
-                controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
-            }
         }
         #endregion
     }
