@@ -11,5 +11,9 @@ namespace DataAccessLayer
         public DataLayerExecutionException() : base("Cannot save the data. Null data object")
         {   
         }
+        public DataLayerExecutionException(string ex) : base(ex)
+        {
+
+        }
     }
 }

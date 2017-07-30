@@ -199,50 +199,48 @@
 	  <resultMap id="TipoImpresoContractoResultMap" class="TipoImpresoContracto">
 	    <result property="Codigo" column="CODIGO" />
 	    <result property="Definicion"  column="NOMBRE" />
-      
+      <result property="UltimaModificacion"  column="ULTMODI" />
+     <result property="Usuario"  column="USUARIO" />
 	  </resultMap>
-    Auxiliares/Contratos	Motivos Improductivo	2	0	MOTIMPRODUC	Tabla	MOTIMPRODUC	MOTIMPRODUC	Tabla
-    Auxiliares/Contratos	Motivos Improductivo	2	1	CODIGO 	integer	CODIGO integer	CODIGO 	integer
-    Auxiliares/Contratos	Motivos Improductivo	2	2	NOMBRE 	varchar(250)	NOMBRE varchar(250)	NOMBRE 	varchar(250)
-    Auxiliares/Contratos	Tipos Impreso Contratos	2	0	CONTRATIPIMPR	Tabla	CONTRATIPIMPR	CONTRATIPIMPR	Tabla
-    Auxiliares/Contratos	Tipos Impreso Contratos	2	1	CODIGO 	tinyint	CODIGO tinyint	CODIGO 	tinyint
-    Auxiliares/Contratos	Tipos Impreso Contratos	2	2	NOMBRE 	varchar(30)	NOMBRE varchar(30)	NOMBRE 	varchar(30)
-    Auxiliares/Contratos	Tipos Impreso Contratos	2	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
-    Auxiliares/Contratos	Tipos Impreso Contratos	2	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
-    Auxiliares/Incidencias	Clientes	2	0	INCIDENCIAS_CLI	Tabla	INCIDENCIAS_CLI	INCIDENCIAS_CLI	Tabla
-    Auxiliares/Incidencias	Clientes	2	1	COD_INCI 	char(7)	COD_INCI char(7)	COD_INCI 	char(7)
-    Auxiliares/Incidencias	Clientes	2	2	DESCRIPCION 	varchar(500)	DESCRIPCION varchar(500)	DESCRIPCION 	varchar(500)
-    Auxiliares/Incidencias	Clientes	2	3	CLIENTE 	char(7)	CLIENTE char(7)	CLIENTE 	char(7)
-    Auxiliares/Incidencias	Clientes	2	4	FECHA 	date	FECHA date	FECHA 	date
-    Auxiliares/Incidencias	Clientes	2	5	EMPRESA 	char(2)	EMPRESA char(2)	EMPRESA 	char(2)
-    Auxiliares/Incidencias	Clientes	2	6	OFICINA 	char(2)	OFICINA char(2)	OFICINA 	char(2)
-    Auxiliares/Incidencias	Clientes	2	7	INCIDEN 	tinyint	INCIDEN tinyint	INCIDEN 	tinyint
-    Auxiliares/Incidencias	Clientes	2	8	NOTAS 	varchar(500)	NOTAS varchar(500)	NOTAS 	varchar(500)
-    Auxiliares/Incidencias	Clientes	2	9	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
-    Auxiliares/Incidencias	Clientes	2	10	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
-    Auxiliares/Incidencias	Contratos	2	0	COINRE	Tabla	COINRE	COINRE	Tabla
-    Auxiliares/Incidencias	Contratos	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
-    Auxiliares/Incidencias	Contratos	2	2	NOMBRE 	varchar(100)	NOMBRE varchar(100)	NOMBRE 	varchar(100)
-    Auxiliares/Incidencias	Contratos	2	3	TIPO 	tinyint	TIPO tinyint	TIPO 	tinyint
-    Auxiliares/Incidencias	Contratos	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
-    Auxiliares/Incidencias	Contratos	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
-    Auxiliares/Incidencias	Proveedores	2	0	INCIDENCIAS_PRO	Tabla	INCIDENCIAS_PRO	INCIDENCIAS_PRO	Tabla
-    Auxiliares/Incidencias	Proveedores	2	1	COD_INCI 	char(7)	COD_INCI char(7)	COD_INCI 	char(7)
-    Auxiliares/Incidencias	Proveedores	2	2	DESCRIPCION 	varchar(500)	DESCRIPCION varchar(500)	DESCRIPCION 	varchar(500)
-    Auxiliares/Incidencias	Proveedores	2	3	PROVEE 	char(7)	PROVEE char(7)	PROVEE 	char(7)
-    Auxiliares/Incidencias	Proveedores	2	4	FECHA 	date	FECHA date	FECHA 	date
-    Auxiliares/Incidencias	Proveedores	2	5	EMPRESA 	char(2)	EMPRESA char(2)	EMPRESA 	char(2)
-    Auxiliares/Incidencias	Proveedores	2	6	OFICINA 	char(2)	OFICINA char(2)	OFICINA 	char(2)
-    Auxiliares/Incidencias	Proveedores	2	7	INCIDEN 	tinyint	INCIDEN tinyint	INCIDEN 	tinyint
-    Auxiliares/Incidencias	Proveedores	2	8	NOTAS 	varchar(500)	NOTAS varchar(500)	NOTAS 	varchar(500)
-    Auxiliares/Incidencias	Proveedores	2	9	STATUS_IP 	tinyint	STATUS_IP tinyint	STATUS_IP 	tinyint
-    Auxiliares/Incidencias	Proveedores	2	10	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
-    Auxiliares/Incidencias	Reservas	2	0	COINRE	Tabla	COINRE	COINRE	Tabla
-    Auxiliares/Incidencias	Reservas	2	1	CODIGO 	char(4)	CODIGO char(4)	CODIGO 	char(4)
-    Auxiliares/Incidencias	Reservas	2	2	NOMBRE 	varchar(100)	NOMBRE varchar(100)	NOMBRE 	varchar(100)
-    Auxiliares/Incidencias	Reservas	2	3	TIPO 	tinyint	TIPO tinyint	TIPO 	tinyint
-    Auxiliares/Incidencias	Reservas	2	4	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
-    Auxiliares/Incidencias	Reservas	2	5	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
+    <resultMap id="IncidenciaClienteResultMap" class="IncidenciaCliente">
+      <result property="Codigo" column="COD_INCI" />
+      <result property="Definicion"  column="DESCRIPICION" />
+      <result property="Cliente"  column="CLIENTE" />
+      <result property="Fecha"  column="FECHA" />
+      <result property="Empresa"  column="EMPRESA" />
+      <result property="Oficina"  column="OFICINA" />
+      <result property="Incidencia"  column="INCIDEN" />
+      <result property="Notas"  column="NOTAS" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+    <resultMap id="IncidenciaContractoResultMap" class="IncidenciaContracto">
+      <result property="Codigo" column="CODIGO" />
+      <result property="Definicion"  column="NOMBRE" />
+      <result property="Cliente"  column="TIPO" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+    <resultMap id="IncidenciaProveedorResultMap" class="IncidenciaProveedor">
+      <result property="Codigo" column="COD_INCI" />
+      <result property="Definicion"  column="DESCRIPCION" />
+      <result property="Prove"  column="PROVEE" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Fecha"  column="FECHA" />
+      <result property="Empresa"  column="EMPRESA" />
+      <result property="Oficina"  column="OFICINA" />
+      <result property="Indidencia"  column="INCIDEN" />
+      <result property="Notas"  column="NOTAS" />
+      <result property="Status"  column="STATUS_IP" />
+    </resultMap>
+    <resultMap id="IncidenciaReservaResultMap" class="IncidenciaReserva">
+      <result property="Codigo" column="CODIGO" />
+      <result property="Definicion"  column="NOMBRE" />
+      <result property="Cliente"  column="TIPO" />
+      <result property="UltimaModificacion"  column="ULTMODI" />
+      <result property="Usuario"  column="USUARIO" />
+    </resultMap>
+    /*
     Auxiliares/Proveedor	Divisas	2	0	DIVISAS	Tabla	DIVISAS	DIVISAS	Tabla
     Auxiliares/Proveedor	Divisas	2	1	CODIGO 	char(3)	CODIGO char(3)	CODIGO 	char(3)
     Auxiliares/Proveedor	Divisas	2	2	NOMBRE 	char(250)	NOMBRE char(250)	NOMBRE 	char(250)
@@ -357,7 +355,7 @@
     Auxiliares/Varios	Tipos Impreso Factura	3	2	NOMBRE 	char(255)	NOMBRE char(255)	NOMBRE 	char(255)
     Auxiliares/Varios	Tipos Impreso Factura	3	3	ULTMODI 	char(15)	ULTMODI char(15)	ULTMODI 	char(15)
     Auxiliares/Varios	Tipos Impreso Factura	3	4	USUARIO 	char(4)	USUARIO char(4)	USUARIO 	char(4)
-
+*/
   </resultMaps>
 <parameterMaps>
 <parameterMap id="DeleteBankParam" class="BancoDataObject">

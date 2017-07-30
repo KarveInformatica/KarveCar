@@ -7,19 +7,37 @@
              xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
              xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel">
     <Application.Resources>
-        
-        <ObjectDataProvider x:Key="ResourceLanguage" 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="/ReuxablesLegacy;component/mercury.xaml" />
+                <ResourceDictionary>
+
+                    <Style x:Key="MyWindowStyle" TargetType="Window">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Arial" />
+                    </Style>
+
+                    <Style x:Key="MyPageStyle" TargetType="Page">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontFamily" Value="Arial" />
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <ObjectDataProvider x:Key="ResourceLanguage" 
                             ObjectType="{x:Type lang:ChangeLanguageLogic}" 
                             MethodName="GetResourceLanguage">
-        </ObjectDataProvider>
+            </ObjectDataProvider>
 
-        <cfg:CintaOpcionesViewModel x:Key="cintaOpcionesViewModel"/>
+            <cfg:CintaOpcionesViewModel x:Key="cintaOpcionesViewModel"/>
 
-        <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
-        <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
-        <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
-        
-        <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
+            <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
+            <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
+
+            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+
+        </ResourceDictionary>
         
     </Application.Resources>
   

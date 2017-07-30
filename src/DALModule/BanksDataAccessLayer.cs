@@ -41,19 +41,6 @@ namespace DataAccessLayer
             return dataCollection;
         }
         /// <summary>
-        ///  This replace the banks.
-        /// </summary>
-        /// <param name="banks"></param>
-        public void ReplaceItems(ObservableCollection<BancoDataObject> banks)
-        {
-            /*
-            foreach (BancoDataObject item in banks)
-            {
-                item.Codigo
-            }
-            */
-        }
-        /// <summary>
         /// For each item in the collection bank. It does an update.
         /// </summary>
         /// <param name="banks"></param>
@@ -81,9 +68,7 @@ namespace DataAccessLayer
             generic.GenericObsCollection = abstractCollection;
             return generic;
         }
-
-
-        public override bool StoreCollection<T>(ObservableCollection<T> collection)
+        public override void StoreCollection<T>(ObservableCollection<T> collection)
         {
             IList<BancoDataObject> current = new List<BancoDataObject>();
             foreach (var bank in collection)
@@ -93,20 +78,18 @@ namespace DataAccessLayer
                 current.Add(tmpObject);
             }
             base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
-            return true;
+           
         }
 
-        public override bool RemoveCollection<T>(ObservableCollection<T> collection)
+        public override void RemoveCollection<T>(ObservableCollection<T> collection)
         {
             IList<BancoDataObject> current = new List<BancoDataObject>();
             foreach (var bank in collection)
             {
-                // ok in this case. the type safety is wrong
                 BancoDataObject tmpObject = bank as BancoDataObject;
                 current.Add(tmpObject);
             }
             base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
-            return true;
         }
         public override void SetItems(GenericObservableCollection collection)
         {

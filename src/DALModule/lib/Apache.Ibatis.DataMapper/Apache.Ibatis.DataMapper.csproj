@@ -123,12 +123,12 @@
     </Compile>
     <Compile Include="Configuration\ConfigurationSetting.cs" />
     <Compile Include="Configuration\DefaultConfigurationEngine.cs" />
-    <Compile Include="Configuration\DefaultConfigurationStore.cs" />
+    <Compile Include="Configuration\Interpreters\DefaultConfigurationStore.cs" />
     <Compile Include="Configuration\DefaultModelBuilder.cs" />
     <Compile Include="Configuration\Interpreters\Config\Xml\CodeConfigurationInterpreter.cs" />
     <Compile Include="Configuration\Interpreters\Config\Xml\Processor\Handlers\ProcessDefaultElement.cs" />
     <Compile Include="Configuration\Interpreters\Config\Xml\Processor\Handlers\ProcessIncludeElement.cs" />
-    <Compile Include="Configuration\IConfigurationEngine.cs" />
+    <Compile Include="Data\IConfigurationEngine.cs" />
     <Compile Include="Configuration\IConfigurationStore.cs" />
     <Compile Include="Configuration\Interpreters\Config\Xml\SchemaValidator.cs" />
     <Compile Include="Configuration\Module\ArgumentExpression.cs" />

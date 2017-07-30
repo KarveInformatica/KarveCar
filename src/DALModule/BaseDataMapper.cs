@@ -25,41 +25,54 @@ namespace DataAccessLayer
         protected IConfigurationEngine ConfigurationEngine;
         // Get the lower level of Items.
         public abstract GenericObservableCollection GetItems();
-        // Set the provided items
+        // Deprecate store a GenericObservableCollection to the database
         public abstract void SetItems(GenericObservableCollection collection);
-        public abstract bool RemoveCollection<T>(ObservableCollection<T> collection);
-
-        
-
-        public abstract bool StoreCollection<T>(ObservableCollection<T> collection);
-
+        // Store an observable collection from the database.
+        public abstract void StoreCollection<T>(ObservableCollection<T> collection);
+        // Remove a collection from the the database.
+        public abstract void RemoveCollection<T>(ObservableCollection<T> collection);
+        // Object identifieer of the data object
         public string Id { get; protected set; }
+        // Type of the data object
         public Type DalType { set; get; }
-        // this is enforce the name of the field of the duplicates
+        // Field of the data object that shall be not duplicated.
         public const string DuplicateFieldCheck = "Codigo";
-
-        /* add exception handling and pop up the exception */
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         protected BaseDataMapper()
         {
             string resource = "SqlMap.config";
-            // Before have 4 properties
-            ConfigurationEngine = new DefaultConfigurationEngine();
-            ConfigurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
-            MapperFactory = ConfigurationEngine.BuildMapperFactory();
-            SessionFactory = ConfigurationEngine.ModelStore.SessionFactory;
-            DataMapper = ((IDataMapperAccessor)MapperFactory).DataMapper;
-
+            InitMapper(resource);
         }
-        protected bool StoreCollection<T>(string mapperMethod, IList<T> current)
+        protected BaseDataMapper(string resource)
         {
-            int ret = DataMapper.Update(mapperMethod, current);
-            return true;
+            InitMapper(resource);
         }
-        protected bool RemoveCollection<T>(string mapperMethod, IList<T> current)
+        private void InitMapper(string resource)
         {
-            int ret = DataMapper.Delete(mapperMethod, current);
-            return true;
+            try
+            {
+                ConfigurationEngine = new DefaultConfigurationEngine();
+                ConfigurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
+                MapperFactory = ConfigurationEngine.BuildMapperFactory();
+                SessionFactory = ConfigurationEngine.ModelStore.SessionFactory;
+                DataMapper = ((IDataMapperAccessor)MapperFactory).DataMapper;
+            }
+            catch (Exception e)
+            {
+                string reason = e.Message + " BaseDataMapper failed initialization";
+                DataLayerExecutionException ex = new DataLayerExecutionException(reason);
+            }
         }
-
+        protected void StoreCollection<T>(string mapperMethod, IList<T> current)
+        {
+            DataMapper.Update(mapperMethod, current);
+        }
+        protected void RemoveCollection<T>(string mapperMethod, IList<T> current)
+        {
+            DataMapper.Delete(mapperMethod, current);
+            
+        }
     }
 }

@@ -24,18 +24,17 @@ namespace DataAccessLayer
             return null;
         }
 
-        public override bool RemoveCollection<T>(ObservableCollection<T> collection)
+        public override void RemoveCollection<T>(ObservableCollection<T> collection)
         {
-            return true;
+      
         }
 
         public override void SetItems(GenericObservableCollection collection)
         {
         }
 
-        public override bool StoreCollection<T>(ObservableCollection<T> collection)
+        public override void StoreCollection<T>(ObservableCollection<T> collection)
         {
-            return true;
         }
     }
 }

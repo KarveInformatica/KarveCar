@@ -58,13 +58,8 @@
     <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
+      <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Blend.Interactivity.Wpf.1.0.1340.0\lib\net\Microsoft.Expression.Interactions.dll</HintPath>
