@@ -47,7 +47,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrCentrosAlquiler")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosCentrosAlquiler")]
         public string rbtbMaestros0 {
             get {
                 return ((string)(this["rbtbMaestros0"]));
@@ -59,7 +59,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrClientes")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosClientes")]
         public string rbtbMaestros1 {
             get {
                 return ((string)(this["rbtbMaestros1"]));
@@ -71,7 +71,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrComisionistas")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosComisionistas")]
         public string rbtbMaestros2 {
             get {
                 return ((string)(this["rbtbMaestros2"]));
@@ -83,7 +83,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrProveedores")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosContratos")]
         public string rbtbMaestros3 {
             get {
                 return ((string)(this["rbtbMaestros3"]));
@@ -95,7 +95,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrTarifas")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosIncidencias")]
         public string rbtbMaestros4 {
             get {
                 return ((string)(this["rbtbMaestros4"]));
@@ -107,7 +107,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrVehiculos")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosProveedores")]
         public string rbtbMaestros5 {
             get {
                 return ((string)(this["rbtbMaestros5"]));
@@ -119,7 +119,7 @@ namespace KarveCar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rgrAuxiliares")]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosReservas")]
         public string rbtbMaestros6 {
             get {
                 return ((string)(this["rbtbMaestros6"]));
@@ -438,6 +438,54 @@ namespace KarveCar.Properties {
             }
             set {
                 this["Usuario"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosTarifas")]
+        public string rbtbMaestros7 {
+            get {
+                return ((string)(this["rbtbMaestros7"]));
+            }
+            set {
+                this["rbtbMaestros7"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosVehiculos")]
+        public string rbtbMaestros8 {
+            get {
+                return ((string)(this["rbtbMaestros8"]));
+            }
+            set {
+                this["rbtbMaestros8"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrMaestrosVarios")]
+        public string rbtbMaestros9 {
+            get {
+                return ((string)(this["rbtbMaestros9"]));
+            }
+            set {
+                this["rbtbMaestros9"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("rgrServicios")]
+        public string rbtbServicios0 {
+            get {
+                return ((string)(this["rbtbServicios0"]));
+            }
+            set {
+                this["rbtbServicios0"] = value;
             }
         }
     }

@@ -189,7 +189,7 @@
   <data name="lrbtbMaestros" xml:space="preserve">
     <value>Master Data</value>
   </data>
-  <data name="lrrCentrosAlquiler" xml:space="preserve">
+  <data name="lrgrCentrosAlquiler" xml:space="preserve">
     <value>Renting Centers</value>
   </data>
   <data name="lrbtnEmpresas" xml:space="preserve">
@@ -201,82 +201,10 @@
   <data name="lrbtnZonasOficina" xml:space="preserve">
     <value>Office Areas</value>
   </data>
-  <data name="lrgrClientes" xml:space="preserve">
+  <data name="lrgrMaestrosClientes" xml:space="preserve">
     <value>Customers</value>
   </data>
-  <data name="lrbtnClientes" xml:space="preserve">
-    <value>Customers</value>
-  </data>
-  <data name="lrbtnCambioCodigoCliente" xml:space="preserve">
-    <value>Change Customer Code</value>
-  </data>
-  <data name="lrbtnEntradaRapida" xml:space="preserve">
-    <value>Quick Entrance</value>
-  </data>
-  <data name="lrgrComisionistas" xml:space="preserve">
-    <value>Brokers</value>
-  </data>
-  <data name="lrbtnComisionistas" xml:space="preserve">
-    <value>Brokers</value>
-  </data>
-  <data name="lrgrProveedores" xml:space="preserve">
-    <value>Suppliers</value>
-  </data>
-  <data name="lrbtnProveedores" xml:space="preserve">
-    <value>Suppliers</value>
-  </data>
-  <data name="lrgrTarifas" xml:space="preserve">
-    <value>Rates</value>
-  </data>
-  <data name="lrmnbtnTarifas" xml:space="preserve">
-    <value>Rates</value>
-  </data>
-  <data name="lrbtnTarifas" xml:space="preserve">
-    <value>Rates</value>
-  </data>
-  <data name="lrbtnCambioCodigoTarifas" xml:space="preserve">
-    <value>Change Rate Code</value>
-  </data>
-  <data name="lrbtnCrearTarifaDesdeOtraTarifa" xml:space="preserve">
-    <value>Create Rate From Another</value>
-  </data>
-  <data name="lrbtnIncrementoPrecios" xml:space="preserve">
-    <value>Increase Prices</value>
-  </data>
-  <data name="lrbtnTarifaCliente" xml:space="preserve">
-    <value>Rate per Customer</value>
-  </data>
-  <data name="lrbtnTarifasComisionista" xml:space="preserve">
-    <value>Rates per Borker</value>
-  </data>
-  <data name="lrbtnVerTarifa" xml:space="preserve">
-    <value>See Rate</value>
-  </data>
-  <data name="lrbtnVincularClienteTarifa" xml:space="preserve">
-    <value>Link Customer to Rates</value>
-  </data>
-  <data name="lrgrVehiculos" xml:space="preserve">
-    <value>Vehicles</value>
-  </data>
-  <data name="lrmnbtnVehiculos" xml:space="preserve">
-    <value>Vehicles</value>
-  </data>
-  <data name="lrbtnVehiculos" xml:space="preserve">
-    <value>Vehicles</value>
-  </data>
-  <data name="lrbtnCambioCodigoVehiculo" xml:space="preserve">
-    <value>Change Vehicle Code</value>
-  </data>
-  <data name="lrbtnModificacionMasivaAux" xml:space="preserve">
-    <value>Massive Modification</value>
-  </data>
-  <data name="lrbtnRecalculoMantenimiento" xml:space="preserve">
-    <value>Maintenance Recalculation</value>
-  </data>
-  <data name="lrgrAuxiliares" xml:space="preserve">
-    <value>Auxiliaries</value>
-  </data>
-  <data name="lrmnbtnAuxiliaresClientes" xml:space="preserve">
+  <data name="lrmnbtnMaestrosClientes" xml:space="preserve">
     <value>Customers</value>
   </data>
   <data name="lrbtnBancosClientes" xml:space="preserve">
@@ -285,17 +213,26 @@
   <data name="lrbtnBloqueFacturacion" xml:space="preserve">
     <value>Billing Block</value>
   </data>
+  <data name="lrbtnCambioCodigoCliente" xml:space="preserve">
+    <value>Change Customer Code</value>
+  </data>
   <data name="lrbtnCanales" xml:space="preserve">
     <value>Chanels</value>
   </data>
   <data name="lrbtnCargosPersonal" xml:space="preserve">
     <value>Staff Charges</value>
   </data>
+  <data name="lrbtnCCAA" xml:space="preserve">
+    <value>Autonomous Regions</value>
+  </data>
   <data name="lrbtnClavesPresupuesto" xml:space="preserve">
     <value>Budget Keys</value>
   </data>
-  <data name="lrbtnCCAA" xml:space="preserve">
-    <value>Autonomous Regions</value>
+  <data name="lrbtnClientes" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="lrbtnEntradaRapida" xml:space="preserve">
+    <value>Quick Entrance</value>
   </data>
   <data name="lrbtnFormasCobroClientes" xml:space="preserve">
     <value>Forms of Customer Collection</value>
@@ -345,7 +282,13 @@
   <data name="lrbtnZonasCliente" xml:space="preserve">
     <value>Client Areas</value>
   </data>
-  <data name="lrmnbtnAuxiliaresComisionistas" xml:space="preserve">
+  <data name="lrgrMaestrosComisionistas" xml:space="preserve">
+    <value>Brokers</value>
+  </data>
+  <data name="rmnbtnMaestrosComisionistas" xml:space="preserve">
+    <value>Brokers</value>
+  </data>
+  <data name="lrbtnComisionistas" xml:space="preserve">
     <value>Brokers</value>
   </data>
   <data name="lrbtnEmpleadosAgencia" xml:space="preserve">
@@ -354,7 +297,10 @@
   <data name="lrbtnTipoComisionista" xml:space="preserve">
     <value>Broker Types</value>
   </data>
-  <data name="lrmnbtnAuxiliaresContratos" xml:space="preserve">
+  <data name="lrgrMaestrosContratos" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
+  <data name="lrmnbtnMaestrosContratos" xml:space="preserve">
     <value>Contracts</value>
   </data>
   <data name="lrbtnAccesorios" xml:space="preserve">
@@ -378,7 +324,10 @@
   <data name="lrbtnTipoImpresoContrato" xml:space="preserve">
     <value>Contract Forms Type</value>
   </data>
-  <data name="lrmnbtnAuxiliaresIncidencias" xml:space="preserve">
+  <data name="lrgrMaestrosIncidencias" xml:space="preserve">
+    <value>Incidents</value>
+  </data>
+  <data name="lrmnbtnMaestrosIncidencias" xml:space="preserve">
     <value>Incidents</value>
   </data>
   <data name="lrbtnTiposIncidenciasClientes" xml:space="preserve">
@@ -393,7 +342,10 @@
   <data name="lrbtnTiposIncidenciasReservas" xml:space="preserve">
     <value>Bookings</value>
   </data>
-  <data name="lrmnbtnAuxiliaresProveedores" xml:space="preserve">
+  <data name="lrgrMaestrosProveedores" xml:space="preserve">
+    <value>Suppliers</value>
+  </data>
+  <data name="lrmnbtnMaestrosProveedores" xml:space="preserve">
     <value>Suppliers</value>
   </data>
   <data name="lrbtnDivisas" xml:space="preserve">
@@ -402,10 +354,16 @@
   <data name="lrbtnFormaPagoProveedor" xml:space="preserve">
     <value>Payment Methods</value>
   </data>
+  <data name="lrbtnProveedores" xml:space="preserve">
+    <value>Suppliers</value>
+  </data>
   <data name="lrbtnTiposProveedores" xml:space="preserve">
     <value>Supplier Types</value>
   </data>
-  <data name="lrmnbtnAuxiliaresReservas" xml:space="preserve">
+  <data name="lrgrMaestrosReservas" xml:space="preserve">
+    <value>Bookings</value>
+  </data>
+  <data name="lrmnbtnMaestrosReservas" xml:space="preserve">
     <value>Bookings</value>
   </data>
   <data name="lrbtnClavesFee" xml:space="preserve">
@@ -420,16 +378,46 @@
   <data name="lrbtnMotivosNoServicio" xml:space="preserve">
     <value>No Service Reasons</value>
   </data>
-  <data name="lrmnbtnAuxiliaresTarifas" xml:space="preserve">
+  <data name="lrgrMaestrosTarifas" xml:space="preserve">
     <value>Rates</value>
+  </data>
+  <data name="lrmnbtnMaestrosTarifas" xml:space="preserve">
+    <value>Rates</value>
+  </data>
+  <data name="lrbtnCambioCodigoTarifas" xml:space="preserve">
+    <value>Change Rate Code</value>
   </data>
   <data name="lrbtnConceptosFacturacion" xml:space="preserve">
     <value>Billing Concepts</value>
   </data>
+  <data name="lrbtnCrearTarifaDesdeOtraTarifa" xml:space="preserve">
+    <value>Create Rate From Another</value>
+  </data>
   <data name="lrbtnGruposTarifa" xml:space="preserve">
     <value>Rates Groups</value>
   </data>
-  <data name="lrmnbtnAuxiliaresVehiculos" xml:space="preserve">
+  <data name="lrbtnIncrementoPrecios" xml:space="preserve">
+    <value>Increase Prices</value>
+  </data>
+  <data name="lrbtnTarifas" xml:space="preserve">
+    <value>Rates</value>
+  </data>
+  <data name="lrbtnTarifaCliente" xml:space="preserve">
+    <value>Rate per Customer</value>
+  </data>
+  <data name="lrbtnTarifasComisionista" xml:space="preserve">
+    <value>Rates per Borker</value>
+  </data>
+  <data name="lrbtnVerTarifa" xml:space="preserve">
+    <value>See Rate</value>
+  </data>
+  <data name="lrbtnVincularClienteTarifa" xml:space="preserve">
+    <value>Link Customer to Rates</value>
+  </data>
+  <data name="lrgrMaestrosVehiculos" xml:space="preserve">
+    <value>Vehicles</value>
+  </data>
+  <data name="lrmnbtnMaestrosVehiculos" xml:space="preserve">
     <value>Vehicles</value>
   </data>
   <data name="lrbtnAccesoriosVehiculos" xml:space="preserve">
@@ -437,6 +425,9 @@
   </data>
   <data name="lrbtnActividadesVehiculos" xml:space="preserve">
     <value>Vehicle Activities</value>
+  </data>
+  <data name="lrbtnCambioCodigoVehiculo" xml:space="preserve">
+    <value>Change Vehicle Code</value>
   </data>
   <data name="lrbtnCodigosInmovilizacion" xml:space="preserve">
     <value>Immobilization Codes</value>
@@ -462,16 +453,28 @@
   <data name="lrbtnModelos" xml:space="preserve">
     <value>Models</value>
   </data>
+  <data name="lrbtnModificacionMasivaAux" xml:space="preserve">
+    <value>Massive Modification</value>
+  </data>
   <data name="lrbtnMotivosRepostaje" xml:space="preserve">
     <value>Refuel Reasons</value>
   </data>
   <data name="lrbtnPropietarios" xml:space="preserve">
     <value>Owners</value>
   </data>
+  <data name="lrbtnRecalculoMantenimiento" xml:space="preserve">
+    <value>Maintenance Recalculation</value>
+  </data>
   <data name="lrbtnTiposVehiculos" xml:space="preserve">
     <value>Vehicle Types</value>
   </data>
-  <data name="lrmnbtnAuxiliaresVarios" xml:space="preserve">
+  <data name="lrbtnVehiculos" xml:space="preserve">
+    <value>Vehicles</value>
+  </data>
+  <data name="lrgrMaestrosVarios" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="lrmnbtnMaestrosVarios" xml:space="preserve">
     <value>Others</value>
   </data>
   <data name="lrbtnCategoriasPersonal" xml:space="preserve">
@@ -780,9 +783,6 @@
   <data name="lrbtnCambioUbicacion" xml:space="preserve">
     <value>Change of Location</value>
   </data>
-  <data name="lrbtnDescargarMultas" xml:space="preserve">
-    <value>Download Fines</value>
-  </data>
   <data name="lrbtnHistoricoSeguros" xml:space="preserve">
     <value>Insurance History</value>
   </data>
@@ -890,6 +890,30 @@
   </data>
   <data name="lrbtnListadosVehiculos" xml:space="preserve">
     <value>Vehicles</value>
+  </data>
+  <data name="lrbtbServicios" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="lrgrServicios" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="lrbtnDescargarMultas" xml:space="preserve">
+    <value>Download Traffic Fines</value>
+  </data>
+  <data name="lrbtnMantenimientoServicios" xml:space="preserve">
+    <value>Services Maintenance</value>
+  </data>
+  <data name="lrbtnMultas" xml:space="preserve">
+    <value>Traffic Fines</value>
+  </data>
+  <data name="lrbtnNeumaticos" xml:space="preserve">
+    <value>Tires</value>
+  </data>
+  <data name="lrbtnTarjetaCombustible" xml:space="preserve">
+    <value>Fuel Card</value>
+  </data>
+  <data name="lrbtnVehiculoSustitucion" xml:space="preserve">
+    <value>Replacement Vehicle</value>
   </data>
   <data name="lrbtbConfiguracion" xml:space="preserve">
     <value>Configuration</value>
@@ -1128,6 +1152,12 @@
   <data name="msgEdicionRegistroTitulo" xml:space="preserve">
     <value>Record editing</value>
   </data>
+  <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
+    <value>Mark All</value>
+  </data>
+  <data name="lrdbCintaOpcionesDesmarcarTodos" xml:space="preserve">
+    <value>Unmark All</value>
+  </data>
   <data name="msgErrorTitulo" xml:space="preserve">
     <value>Error Message</value>
   </data>
@@ -1145,11 +1175,5 @@
   </data>
   <data name="msgError141" xml:space="preserve">
     <value>Table not found</value>
-  </data>
-  <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
-    <value>Mark All</value>
-  </data>
-  <data name="lrdbCintaOpcionesDesmarcarTodos" xml:space="preserve">
-    <value>Unmark All</value>
   </data>
 </root>

@@ -376,6 +376,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Servicios.
+        /// </summary>
+        public static string lrbtbServicios {
+            get {
+                return ResourceManager.GetString("lrbtbServicios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Abonar Factura.
         /// </summary>
         public static string lrbtnAbonarFactura {
@@ -1636,6 +1645,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Mantenimiento Servicios.
+        /// </summary>
+        public static string lrbtnMantenimientoServicios {
+            get {
+                return ResourceManager.GetString("lrbtnMantenimientoServicios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Marcas.
         /// </summary>
         public static string lrbtnMarcas {
@@ -1780,11 +1798,29 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Multas.
+        /// </summary>
+        public static string lrbtnMultas {
+            get {
+                return ResourceManager.GetString("lrbtnMultas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Negocios.
         /// </summary>
         public static string lrbtnNegocios {
             get {
                 return ResourceManager.GetString("lrbtnNegocios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Neumáticos.
+        /// </summary>
+        public static string lrbtnNeumaticos {
+            get {
+                return ResourceManager.GetString("lrbtnNeumaticos", resourceCulture);
             }
         }
         
@@ -2203,6 +2239,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tarjeta Combustible.
+        /// </summary>
+        public static string lrbtnTarjetaCombustible {
+            get {
+                return ResourceManager.GetString("lrbtnTarjetaCombustible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Tarjetas de Crédito.
         /// </summary>
         public static string lrbtnTarjetasCredito {
@@ -2401,6 +2446,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Vehículo de Sustitución.
+        /// </summary>
+        public static string lrbtnVehiculoSustitucion {
+            get {
+                return ResourceManager.GetString("lrbtnVehiculoSustitucion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Vendedores.
         /// </summary>
         public static string lrbtnVendedores {
@@ -2491,15 +2545,6 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Auxiliares.
-        /// </summary>
-        public static string lrgrAuxiliares {
-            get {
-                return ResourceManager.GetString("lrgrAuxiliares", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Cambios.
         /// </summary>
         public static string lrgrCambiosContratos {
@@ -2509,11 +2554,11 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Clientes.
+        ///   Busca una cadena traducida similar a Centros de Alquiler.
         /// </summary>
-        public static string lrgrClientes {
+        public static string lrgrCentrosAlquiler {
             get {
-                return ResourceManager.GetString("lrgrClientes", resourceCulture);
+                return ResourceManager.GetString("lrgrCentrosAlquiler", resourceCulture);
             }
         }
         
@@ -2523,15 +2568,6 @@ namespace KarveCar.Properties {
         public static string lrgrComercial {
             get {
                 return ResourceManager.GetString("lrgrComercial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Comisionistas.
-        /// </summary>
-        public static string lrgrComisionistas {
-            get {
-                return ResourceManager.GetString("lrgrComisionistas", resourceCulture);
             }
         }
         
@@ -2653,20 +2689,92 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Personal.
+        ///   Busca una cadena traducida similar a Clientes.
         /// </summary>
-        public static string lrgrPersonal {
+        public static string lrgrMaestrosClientes {
             get {
-                return ResourceManager.GetString("lrgrPersonal", resourceCulture);
+                return ResourceManager.GetString("lrgrMaestrosClientes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Comisionistas.
+        /// </summary>
+        public static string lrgrMaestrosComisionistas {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosComisionistas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contratos.
+        /// </summary>
+        public static string lrgrMaestrosContratos {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosContratos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incidencias.
+        /// </summary>
+        public static string lrgrMaestrosIncidencias {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosIncidencias", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a Proveedores.
         /// </summary>
-        public static string lrgrProveedores {
+        public static string lrgrMaestrosProveedores {
             get {
-                return ResourceManager.GetString("lrgrProveedores", resourceCulture);
+                return ResourceManager.GetString("lrgrMaestrosProveedores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reservas.
+        /// </summary>
+        public static string lrgrMaestrosReservas {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosReservas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tarifas.
+        /// </summary>
+        public static string lrgrMaestrosTarifas {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosTarifas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Varios.
+        /// </summary>
+        public static string lrgrMaestrosVarios {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosVarios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Vehículos.
+        /// </summary>
+        public static string lrgrMaestrosVehiculos {
+            get {
+                return ResourceManager.GetString("lrgrMaestrosVehiculos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Personal.
+        /// </summary>
+        public static string lrgrPersonal {
+            get {
+                return ResourceManager.GetString("lrgrPersonal", resourceCulture);
             }
         }
         
@@ -2698,11 +2806,11 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Tarifas.
+        ///   Busca una cadena traducida similar a Servicios.
         /// </summary>
-        public static string lrgrTarifas {
+        public static string lrgrServicios {
             get {
-                return ResourceManager.GetString("lrgrTarifas", resourceCulture);
+                return ResourceManager.GetString("lrgrServicios", resourceCulture);
             }
         }
         
@@ -2752,96 +2860,6 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Vehículos.
-        /// </summary>
-        public static string lrgrVehiculos {
-            get {
-                return ResourceManager.GetString("lrgrVehiculos", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Clientes.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresClientes {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresClientes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Comisionistas.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresComisionistas {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresComisionistas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Contratos.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresContratos {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresContratos", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Incidencias.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresIncidencias {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresIncidencias", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Proveedores.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresProveedores {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresProveedores", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Reservas.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresReservas {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresReservas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Tarifas.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresTarifas {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresTarifas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Varios.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresVarios {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresVarios", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Vehículos.
-        /// </summary>
-        public static string lrmnbtnAuxiliaresVehiculos {
-            get {
-                return ResourceManager.GetString("lrmnbtnAuxiliaresVehiculos", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Configuración.
         /// </summary>
         public static string lrmnbtnConfiguracion {
@@ -2878,6 +2896,78 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Clientes.
+        /// </summary>
+        public static string lrmnbtnMaestrosClientes {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosClientes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contratos.
+        /// </summary>
+        public static string lrmnbtnMaestrosContratos {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosContratos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Incidencias.
+        /// </summary>
+        public static string lrmnbtnMaestrosIncidencias {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosIncidencias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Proveedores.
+        /// </summary>
+        public static string lrmnbtnMaestrosProveedores {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosProveedores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reservas.
+        /// </summary>
+        public static string lrmnbtnMaestrosReservas {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosReservas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tarifas.
+        /// </summary>
+        public static string lrmnbtnMaestrosTarifas {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosTarifas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Varios.
+        /// </summary>
+        public static string lrmnbtnMaestrosVarios {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosVarios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Vehículos.
+        /// </summary>
+        public static string lrmnbtnMaestrosVehiculos {
+            get {
+                return ResourceManager.GetString("lrmnbtnMaestrosVehiculos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Permisos.
         /// </summary>
         public static string lrmnbtnPermisos {
@@ -2905,38 +2995,11 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Tarifas.
-        /// </summary>
-        public static string lrmnbtnTarifas {
-            get {
-                return ResourceManager.GetString("lrmnbtnTarifas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Utilitarios.
         /// </summary>
         public static string lrmnbtnUtilitarios {
             get {
                 return ResourceManager.GetString("lrmnbtnUtilitarios", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Vehículos.
-        /// </summary>
-        public static string lrmnbtnVehiculos {
-            get {
-                return ResourceManager.GetString("lrmnbtnVehiculos", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Centros de Alquiler.
-        /// </summary>
-        public static string lrrCentrosAlquiler {
-            get {
-                return ResourceManager.GetString("lrrCentrosAlquiler", resourceCulture);
             }
         }
         
@@ -3162,6 +3225,15 @@ namespace KarveCar.Properties {
         public static string rmnbtnFacturas {
             get {
                 return ResourceManager.GetString("rmnbtnFacturas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Comisionistas.
+        /// </summary>
+        public static string rmnbtnMaestrosComisionistas {
+            get {
+                return ResourceManager.GetString("rmnbtnMaestrosComisionistas", resourceCulture);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace KarveCar.Model.Generic
         public static Dictionary<EOpcion, TemplateInfoRibbonButton> ribbonbuttondictionary = new Dictionary<EOpcion, TemplateInfoRibbonButton>()
         {
             #region Maestros
-            #region Clientes
+            #region Maestros/Centros de Alquiler
             { EOpcion.rbtnZonasOficina,       new TemplateInfoRibbonButton { propertiesresources = "lrbtnZonasOficina",
                                                                              nombretabladb = "ZONAOFI",
                                                                              obj = new ZonaOficina(),
@@ -45,7 +45,9 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
+            #endregion
 
+            #region Maestros/Clientes
             { EOpcion.rbtnBancosClientes,     new TemplateInfoRibbonButton { propertiesresources = "lrbtnBancosClientes",
                                                                              nombretabladb = "BANCO",
                                                                              obj = new Banco(),
@@ -427,7 +429,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
             #endregion
-            #region Comisionistas
+            #region Maestros/Comisionistas
             { EOpcion.rbtnTipoComisionista,          new TemplateInfoRibbonButton { propertiesresources = "lrbtnTipoComisionista",
                                                                              nombretabladb =  "TIPOCOMI",
                                                                              obj = new TipoComisionista(),
@@ -450,7 +452,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 
 	        #endregion
-            #region Contratos
+            #region Maestros/Contratos
             { EOpcion.rbtnMotivosAnulacionContratos, new TemplateInfoRibbonButton { propertiesresources = "lrbtnMotivosAnulacionContratos",
                                                                              nombretabladb =  "MOTANU",
                                                                              obj = new MotivoAnulacionContrato(),
@@ -544,7 +546,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Incidencias
+            #region Maestros/Incidencias
             { EOpcion.rbtnTiposIncidenciasClientes,    new TemplateInfoRibbonButton { propertiesresources = "lrbtnIncidenciasClientes",
                                                                              nombretabladb = "INCIDENCIAS_CLI",
                                                                              obj = new IncidenciaCliente(),
@@ -626,7 +628,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Proveedores
+            #region Maestros/Proveedores
             { EOpcion.rbtnDivisas,            new TemplateInfoRibbonButton { propertiesresources = "lrbtnDivisas",
                                                                              nombretabladb = "DIVISAS",
                                                                              obj = new Divisa(),
@@ -696,7 +698,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Reservas
+            #region Maestros/Reservas
             { EOpcion.rbtnClavesFee,          new TemplateInfoRibbonButton { propertiesresources = "lrbtnClavesFee",
                                                                              nombretabladb = "ORIRE",
                                                                              obj = new ClaveFee(),
@@ -778,7 +780,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Tarifas
+            #region Maestros/Tarifas
             { EOpcion.rbtnGruposTarifa,       new TemplateInfoRibbonButton { propertiesresources = "lrbtnGruposTarifa",
                                                                              nombretabladb = "GRUPOS_TARI",
                                                                              obj = new GrupoTarifa(),
@@ -800,7 +802,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Vehículos
+            #region Maestros/Vehículos
             { EOpcion.rbtnAccesoriosVehiculos,   new TemplateInfoRibbonButton { propertiesresources = "lrbtnAccesoriosVehiculos",
                                                                              nombretabladb = "VEHI_ACC",
                                                                              obj = new AccesorioVehiculo(),
@@ -934,7 +936,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
 	        #endregion
-            #region Varios
+            #region Maestros/Varios
             { EOpcion.rbtnConceptosSalidaCaja, new TemplateInfoRibbonButton { propertiesresources = "lrbtnConceptosSalidaCaja",
                                                                              nombretabladb = "CASHAUX",
                                                                              obj = new ConceptoSalidaCaja(),
@@ -1040,13 +1042,16 @@ namespace KarveCar.Model.Generic
             { ERibbonTab.rbtbMaestros,      new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbMaestros,
                                                                               checkbox  = "ckbCintaOpcionesMaestros",
                                                                               ribbongroup = new List<RibbonGroup>() {
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrCentrosAlquiler ,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrClientes,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrComisionistas,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrProveedores,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrTarifas,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrVehiculos,
-                                                                                            ((MainWindow)Application.Current.MainWindow).rgrAuxiliares } }},
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosCentrosAlquiler ,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosClientes,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosComisionistas,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosContratos,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosIncidencias,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosProveedores,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosReservas,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosTarifas,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosVehiculos,
+                                                                                            ((MainWindow)Application.Current.MainWindow).rgrMaestrosVarios } } },
 
             { ERibbonTab.rbtbContratos,     new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbContratos,
                                                                               checkbox  = "ckbCintaOpcionesContratos",
@@ -1099,6 +1104,11 @@ namespace KarveCar.Model.Generic
                                                                               ribbongroup = new List<RibbonGroup>() {
                                                                                           ((MainWindow)Application.Current.MainWindow).rgrListados } } },
 
+            { ERibbonTab.rbtbServicios,      new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbServicios,
+                                                                              checkbox  = "ckbCintaOpcionesServicios",
+                                                                              ribbongroup = new List<RibbonGroup>() {
+                                                                                          ((MainWindow)Application.Current.MainWindow).rgrServicios } } },
+
             { ERibbonTab.rbtbConfiguracion, new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbConfiguracion,
                                                                               checkbox  = "ckbCintaOpcionesConfiguracion",
                                                                               ribbongroup = new List<RibbonGroup>() {
@@ -1125,6 +1135,7 @@ namespace KarveCar.Model.Generic
             ((MainWindow)Application.Current.MainWindow).rbtbFlota,
             ((MainWindow)Application.Current.MainWindow).rbtbIncidencias,
             ((MainWindow)Application.Current.MainWindow).rbtbListados,
+            ((MainWindow)Application.Current.MainWindow).rbtbServicios,
             ((MainWindow)Application.Current.MainWindow).rbtbConfiguracion
         };
     }

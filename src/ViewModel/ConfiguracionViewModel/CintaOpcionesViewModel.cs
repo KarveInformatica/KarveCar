@@ -1,8 +1,8 @@
 ﻿using KarveCar.Commands.ConfiguracionCommand;
 using KarveCar.Logic.Configuracion;
+using KarveCommon.Generic;
 using System.Linq;
 using System.Windows.Input;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -38,7 +38,7 @@ namespace KarveCar.ViewModel.ConfiguracionViewModel
         /// <param name="parameter"></param>
         public void CintaOpciones(object parameter)
         {
-            RecopilatorioEnumerations.EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;          
+            EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;          
 
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion

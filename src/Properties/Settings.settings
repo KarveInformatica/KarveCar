@@ -13,25 +13,25 @@
       <Value Profile="(Default)">Dsn=DBRENT_NET16;uid=cv;pwd=1929</Value>
     </Setting>
     <Setting Name="rbtbMaestros0" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrCentrosAlquiler</Value>
+      <Value Profile="(Default)">rgrMaestrosCentrosAlquiler</Value>
     </Setting>
     <Setting Name="rbtbMaestros1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrClientes</Value>
+      <Value Profile="(Default)">rgrMaestrosClientes</Value>
     </Setting>
     <Setting Name="rbtbMaestros2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrComisionistas</Value>
+      <Value Profile="(Default)">rgrMaestrosComisionistas</Value>
     </Setting>
     <Setting Name="rbtbMaestros3" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrProveedores</Value>
+      <Value Profile="(Default)">rgrMaestrosContratos</Value>
     </Setting>
     <Setting Name="rbtbMaestros4" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrTarifas</Value>
+      <Value Profile="(Default)">rgrMaestrosIncidencias</Value>
     </Setting>
     <Setting Name="rbtbMaestros5" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrVehiculos</Value>
+      <Value Profile="(Default)">rgrMaestrosProveedores</Value>
     </Setting>
     <Setting Name="rbtbMaestros6" Type="System.String" Scope="User">
-      <Value Profile="(Default)">rgrAuxiliares</Value>
+      <Value Profile="(Default)">rgrMaestrosReservas</Value>
     </Setting>
     <Setting Name="rbtbContratos0" Type="System.String" Scope="User">
       <Value Profile="(Default)">rgrContratos</Value>
@@ -110,6 +110,18 @@
     </Setting>
     <Setting Name="Usuario" Type="System.String" Scope="User">
       <Value Profile="(Default)">cv</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros7" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosTarifas</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros8" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosVehiculos</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros9" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosVarios</Value>
+    </Setting>
+    <Setting Name="rbtbServicios0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrServicios</Value>
     </Setting>
   </Settings>
 </SettingsFile>

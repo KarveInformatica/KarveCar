@@ -109,9 +109,7 @@ namespace KarveCar.Logic.Maestros
                 tabitemdictionary.Add(opcion, new TemplateInfoTabItem(genericobscollection, tabitem));
 
                 //Se añade el DataGridUserControl al TabItem
-                tabitem.Content = datagrid;
-
-                
+                tabitem.Content = datagrid;                
             }
         }
 

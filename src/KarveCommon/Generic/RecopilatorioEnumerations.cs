@@ -317,6 +317,7 @@
             rbtbIncidencias,
             rbtbEstadisticas,
             rbtbListados,
+            rbtbServicios,
             rbtbConfiguracion
         }
 

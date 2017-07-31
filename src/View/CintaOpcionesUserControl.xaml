@@ -23,7 +23,8 @@
                 <CheckBox x:Name="ckbCintaOpcionesIncidencias"    Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}"   Margin="25,50,0,0" />
                 <CheckBox x:Name="ckbCintaOpcionesEstadisticas"   Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}"  Margin="25,75,0,0" />
                 <CheckBox x:Name="ckbCintaOpcionesListados"       Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}"      Margin="25,100,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesConfiguracion"  Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbConfiguracion, Source={StaticResource ResourceLanguage}}" Margin="25,125,0,0" />
+                <CheckBox x:Name="ckbCintaOpcionesServicios"      Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbServicios, Source={StaticResource ResourceLanguage}}"     Margin="25,125,0,0" />
+                <CheckBox x:Name="ckbCintaOpcionesConfiguracion"  Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbConfiguracion, Source={StaticResource ResourceLanguage}}" Margin="25,150,0,0" />
             </Grid>
         </Border>
     </StackPanel>
