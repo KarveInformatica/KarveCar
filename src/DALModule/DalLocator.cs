@@ -25,10 +25,27 @@ namespace DataAccessLayer
             dalObjects.TryGetValue(name, out result);
             return result;
         }
+        private void AddLayer(IDalObject dalObject)
+        {
+            if (dalObject != null)
+            {
+           //     dalObjects.Add(dalObject.Id, dalObject);
+            }
+        }
         public DalLocator()
         {
-            BanksDataAccessLayer banksDataAccessLayer = new BanksDataAccessLayer();
-            dalObjects.Add(banksDataAccessLayer.Id, banksDataAccessLayer);
+            BanksDataAccessLayer banksDataAccessLayer = null;
+            // check if it is working again.
+            try
+            {
+                banksDataAccessLayer = new BanksDataAccessLayer();
+
+            }
+            catch (Exception e)
+            {
+                banksDataAccessLayer = null;
+            }
+            AddLayer(banksDataAccessLayer);
         }
     }
 }

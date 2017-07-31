@@ -91,7 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Maps\Account.xml" />
+    <Content Include="Fixtures\Maps\Account.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SqlMap.config">

@@ -21,8 +21,7 @@ namespace KarveCar.View
             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
                 this.stInicio.Text = "Aquí ponemos algún texto, p.e.: " + DateTime.Now.ToString("dd/MMMM/yyyy HH:mm:ss");
-                this.Title = "Aquí ponemos algún texto, p.e.: KarveWin[Versión: " 
-                            + DateTime.Now.ToString("dd/MMMM/yyyy HH:mm:ss" + "]         C1[PRUEBA, S.A].USUARIO: JORDI");
+                this.Title = "KarveWin  v0.1";
             }, this.Dispatcher);
 
             //Carga la configuración personalizada del usuario (idioma y RibbonTabs/RibbonGroups). En caso que no exista configuración personalizada,

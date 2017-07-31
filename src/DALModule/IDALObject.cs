@@ -9,9 +9,8 @@ namespace DataAccessLayer
         string Id { get; }
         GenericObservableCollection GetItems();
         void SetItems(GenericObservableCollection collection);
-        void SetUniqueItems(GenericObservableCollection collection);
         Type DalType { get; set; }
-        bool StoreCollection<T>(ObservableCollection<T> collection);
-        bool RemoveCollection<T>(ObservableCollection<T> collection);
+        void StoreCollection<T>(ObservableCollection<T> collection);
+        void RemoveCollection<T>(ObservableCollection<T> collection);
     }
 }

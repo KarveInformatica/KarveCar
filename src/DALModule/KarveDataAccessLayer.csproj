@@ -45,24 +45,72 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankDataObject.cs" />
+    <Compile Include="AccessoryDataAccessLayer.cs" />
+    <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
+    <Compile Include="DataObjects\ActividadVehiculo.cs" />
+    <Compile Include="DataObjects\BancoDataObject.cs" />
     <Compile Include="BaseDataMapper.cs" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="DataObjects\BaseAuxDataObject.cs" />
+    <Compile Include="DataObjects\BloqueFacturacion.cs" />
+    <Compile Include="DataObjects\CanalCliente.cs" />
+    <Compile Include="DataObjects\CargoPersonal.cs" />
+    <Compile Include="DataObjects\ClaveFee.cs" />
+    <Compile Include="DataObjects\ClavePresupuesto.cs" />
+    <Compile Include="DataObjects\CodigoInmovilizacion.cs" />
+    <Compile Include="DataObjects\Color.cs" />
+    <Compile Include="DataObjects\ComunidadAutonoma.cs" />
+    <Compile Include="DataObjects\ConceptoSalidaCaja.cs" />
+    <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
     <Compile Include="DataLayerExecutionException.cs" />
+    <Compile Include="DataObjects\Divisa.cs" />
+    <Compile Include="DataObjects\FormaPagoProveedor.cs" />
+    <Compile Include="DataObjects\FormaTraslado.cs" />
+    <Compile Include="DataObjects\GrupoTarifa.cs" />
     <Compile Include="IDalLocator.cs" />
     <Compile Include="IDalObject.cs" />
+    <Compile Include="DataObjects\IncidenciaCliente.cs" />
+    <Compile Include="DataObjects\IncidenciaContrato.cs" />
+    <Compile Include="DataObjects\IncidenciaProveedor.cs" />
+    <Compile Include="DataObjects\IncidenciaReserva.cs" />
+    <Compile Include="DataObjects\MedioRecepcion.cs" />
+    <Compile Include="DataObjects\Mercado.cs" />
+    <Compile Include="DataObjects\MotivoAnulacionContrato.cs" />
+    <Compile Include="DataObjects\MotivoAnulacionReserva.cs" />
+    <Compile Include="DataObjects\MotivoCambioVehiculo.cs" />
+    <Compile Include="DataObjects\MotivoCancelacion.cs" />
+    <Compile Include="DataObjects\MotivoImproductivo.cs" />
+    <Compile Include="DataObjects\MotivoNoServicio.cs" />
+    <Compile Include="DataObjects\MotivoRepostaje.cs" />
+    <Compile Include="DataObjects\Negocio.cs" />
+    <Compile Include="DataObjects\OrigenCliente.cs" />
+    <Compile Include="DataObjects\Poblacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataObjects\Provincia.cs" />
+    <Compile Include="DataObjects\SectorActividad.cs" />
+    <Compile Include="DataObjects\TarjetaCredito.cs" />
+    <Compile Include="DataObjects\TarjetaEmpresa.cs" />
+    <Compile Include="DataObjects\TipoCliente.cs" />
+    <Compile Include="DataObjects\TipoComisionista.cs" />
+    <Compile Include="DataObjects\TipoContactoCliente.cs" />
+    <Compile Include="DataObjects\TipoContactoPotencial.cs" />
+    <Compile Include="DataObjects\TipoImpresoContrato.cs" />
+    <Compile Include="DataObjects\TipoImpresoFactura.cs" />
+    <Compile Include="DataObjects\TipoProveedor.cs" />
+    <Compile Include="DataObjects\TipoVehiculo.cs" />
+    <Compile Include="DataObjects\TipoVisita.cs" />
+    <Compile Include="DataObjects\UsoAlquiler.cs" />
+    <Compile Include="DataObjects\ZonaCliente.cs" />
+    <Compile Include="DataObjects\ZonaOficina.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="providers.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SqlMap.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="sqlFile.xml" />
+    <None Include="SqlMap.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
@@ -77,6 +125,9 @@
       <Project>{f3e45f39-3224-4ead-b138-eb5cc0e32824}</Project>
       <Name>Apache.Ibatis.DataMapper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Auxiliares.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

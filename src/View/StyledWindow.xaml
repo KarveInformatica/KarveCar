@@ -1,0 +1,355 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="KarveCar.View.StyledWindow">
+
+    <!-- Border defining the frame of the Window -->
+    <Style x:Key="StyledWindowBorder" TargetType="Border">
+        <Setter Property="CornerRadius" Value="20, 20, 0, 0" />
+        <Setter Property="Background" Value="#Ababab" />
+        <Setter Property="BorderBrush" Value="DimGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    
+    <!-- Default Gray Button -->
+    <RadialGradientBrush x:Key="ButtonOffStateColor" RadiusX="0.35" RadiusY="0.35" GradientOrigin="0.4,0.4" Center="0.4,0.4">
+        <GradientStop Color="DimGray" Offset="1" />
+        <GradientStop Color="#FFFFFFFF" Offset="0" />
+        <GradientStop Color="#Ababab" Offset="0.64595660749506867" />
+    </RadialGradientBrush>
+    
+    <!-- Brushes: Close Button -->
+    <RadialGradientBrush x:Key="CloseButtonOnStateColor" RadiusX="0.35" RadiusY="0.35" GradientOrigin="0.4,0.4" Center="0.4,0.4">
+        <GradientStop Color="#FFC20303" Offset="1" />
+        <GradientStop Color="White" Offset="0" />
+        <GradientStop Color="#FFC82424" Offset="0.659" />
+        <GradientStop Color="#FFB70000" Offset="1" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="CloseButtonPressedStateColor">
+        <GradientStop Color="#FFC20303" Offset="1" />
+        <GradientStop Color="#FFC82424" Offset="0.659" />
+        <GradientStop Color="#FFB70000" Offset="1" />
+    </RadialGradientBrush>
+    
+    <!-- Brushes: Minimize Button -->
+    <RadialGradientBrush x:Key="MinimizeButtonOnStateColor" RadiusX="0.35" RadiusY="0.35" GradientOrigin="0.4,0.4" Center="0.4,0.4">
+        <GradientStop Color="White" Offset="0.349" />
+        <GradientStop Color="#FFFFF400" Offset="0.616" />
+        <GradientStop Color="#FFF88804" Offset="1" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="MinimizeButtonPressedStateColor">
+        <GradientStop Color="#FFFFF400" Offset="0.616" />
+        <GradientStop Color="#FFF88804" Offset="1" />
+    </RadialGradientBrush>
+    
+    <!-- Brushes: Maximize Button -->
+    <RadialGradientBrush x:Key="MaximizeButtonOnStateColor" RadiusX="0.35" RadiusY="0.35" GradientOrigin="0.4,0.4" Center="0.4,0.4">
+        <GradientStop Color="White" Offset="0.349" />
+        <GradientStop Color="#FF24D600" Offset="0.616" />
+        <GradientStop Color="#FF189000" Offset="1" />
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="MaximizeButtonPressedStateColor">
+        <GradientStop Color="#FF24D600" Offset="0.616" />
+        <GradientStop Color="#FF189000" Offset="1" />
+    </RadialGradientBrush>
+
+    <!-- Close Button -->
+    <Style x:Key="CloseRadialButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="MinHeight" Value="13" />
+        <Setter Property="MinWidth" Value="13" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    
+                    
+                    <Grid>
+                        <Ellipse Stroke="{x:Null}" Fill="{StaticResource CloseButtonOnStateColor}" HorizontalAlignment="Center" 
+                                 VerticalAlignment="Center" Width="13" Height="13" x:Name="Ellipse" />
+                        <TextBlock x:Name="closeTextBlock" Margin="4,0,0,1" RenderTransformOrigin="0.5,0.5" Text="+" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" FontWeight="Bold" 
+                                   FontSize="10" Foreground="#FF242424">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                    <RotateTransform Angle="45" />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource CloseButtonOnStateColor}" />
+                            <Setter TargetName="closeTextBlock" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource CloseButtonPressedStateColor}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Minimize Button -->
+    <Style x:Key="MinimizeRadialButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="MinHeight" Value="13" />
+        <Setter Property="MinWidth" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Stroke="{x:Null}" Fill="{StaticResource MinimizeButtonOnStateColor}" HorizontalAlignment="Center" 
+                                 VerticalAlignment="Center" Width="13" Height="13" x:Name="Ellipse" />
+                        <TextBlock x:Name="minimizeTextBlock" RenderTransformOrigin="0.5,0.5" Text="-" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Opacity="0" Margin="0,-2,0,0" FontWeight="Bold" FontSize="10"
+                                Foreground="#FF242424">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="3" ScaleY="1.5" />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource MinimizeButtonOnStateColor}" />
+                            <Setter TargetName="minimizeTextBlock" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource MinimizeButtonPressedStateColor}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Maximize Button -->
+    <Style x:Key="MaximizeRadialButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="MinHeight" Value="13" />
+        <Setter Property="MinWidth" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Stroke="{x:Null}" Fill="{StaticResource MaximizeButtonOnStateColor}" HorizontalAlignment="Center" 
+                                 VerticalAlignment="Center" Width="13" Height="13" x:Name="Ellipse" />
+                        <TextBlock x:Name="closeTextBlock" RenderTransformOrigin="0.5,0.5" Text="+" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Margin="0,-2,0,0" Opacity="0" FontWeight="Bold" FontSize="10"
+                                Foreground="#FF242424">
+                             <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource MaximizeButtonOnStateColor}" />
+                            <Setter TargetName="closeTextBlock" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource MaximizeButtonPressedStateColor}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+	<!-- Window Template -->
+	<ControlTemplate x:Key="StyledWindowTemplate" TargetType="{x:Type Window}">
+		<Grid>
+			<Border Name="StyledWindowFrame" Style="{StaticResource StyledWindowBorder}">
+				<Grid Background="Transparent">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="30" />
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<!-- The title bar. -->
+					<Border MouseLeftButtonDown="titleBar_MouseLeftButtonDown" Padding="15" CornerRadius="10, 10, 0, 0" Background="#FF133864" />
+
+        			<TextBlock Foreground="White" Text="{TemplateBinding Title}" MouseLeftButtonDown="titleBar_MouseLeftButtonDown"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" />
+
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,10,5">
+						<Button Style="{StaticResource MinimizeRadialButton}" Click="MinimizeButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Button Style="{StaticResource MaximizeRadialButton}" Click="MaximizeButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Button Style="{StaticResource CloseRadialButton}" Click="CloseButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+					</StackPanel>
+
+					<!-- The window content. -->
+					<Border Grid.Row="1" >
+						<AdornerDecorator>
+							<ContentPresenter />
+						</AdornerDecorator>
+					</Border>
+
+				</Grid>
+			</Border>
+		</Grid>
+	</ControlTemplate>
+
+	<!-- Window Template Only Close Button -->
+	<ControlTemplate x:Key="StyledWindowTemplate_OnlyClose" TargetType="{x:Type Window}">
+		<Grid>
+			<Border Name="StyledWindowFrame" Style="{StaticResource StyledWindowBorder}">
+				<Grid Background="Transparent">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="30" />
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<!-- The title bar. -->
+					<Border MouseLeftButtonDown="titleBar_MouseLeftButtonDown" Padding="15" CornerRadius="10, 10, 0, 0" Background="#FF133864" />
+
+					<TextBlock Foreground="White" Text="{TemplateBinding Title}" MouseLeftButtonDown="titleBar_MouseLeftButtonDown"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" />
+
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,10,0">
+						<Button Style="{StaticResource CloseRadialButton}" Click="CloseButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+					</StackPanel>
+
+					<!-- The window content. -->
+					<Border Grid.Row="1" >
+						<AdornerDecorator>
+							<ContentPresenter />
+						</AdornerDecorator>
+					</Border>
+
+				</Grid>
+			</Border>
+		</Grid>
+	</ControlTemplate>
+
+	<!-- Window Template Red -->
+    <ControlTemplate x:Key="StyledWindowTemplate_Red" TargetType="{x:Type Window}">
+        <Grid>
+            <Border Name="StyledWindowFrame" Style="{StaticResource StyledWindowBorder}">
+                <Grid Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- The title bar. -->
+                    <Border MouseLeftButtonDown="titleBar_MouseLeftButtonDown" Padding="15" CornerRadius="10, 10, 0, 0" Background="Red" />
+
+                    <TextBlock Foreground="White" Text="{TemplateBinding Title}" MouseLeftButtonDown="titleBar_MouseLeftButtonDown"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,10,0">
+                        <Button Style="{StaticResource MinimizeRadialButton}" Click="MinimizeButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Button Style="{StaticResource MaximizeRadialButton}" Click="MaximizeButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Button Style="{StaticResource CloseRadialButton}" Click="CloseButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                    </StackPanel>
+
+                    <!-- The window content. -->
+                    <Border Grid.Row="1" >
+                        <AdornerDecorator>
+                            <ContentPresenter />
+                        </AdornerDecorator>
+                    </Border>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Window Template Red Only Close Button-->
+    <ControlTemplate x:Key="StyledWindowTemplate_RedOnlyClose" TargetType="{x:Type Window}">
+        <Grid>
+            <Border Name="StyledWindowFrame" Style="{StaticResource StyledWindowBorder}">
+                <Grid Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- The title bar. -->
+                    <Border MouseLeftButtonDown="titleBar_MouseLeftButtonDown" Padding="15" CornerRadius="10, 10, 0, 0" Background="Red" />
+
+                    <TextBlock Foreground="White" Text="{TemplateBinding Title}" MouseLeftButtonDown="titleBar_MouseLeftButtonDown"  HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Normal" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,10,0">
+                        <Button Style="{StaticResource CloseRadialButton}" Click="CloseButton_Click" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                    </StackPanel>
+
+                    <!-- The window content. -->
+                    <Border Grid.Row="1" >
+                        <AdornerDecorator>
+                            <ContentPresenter />
+                        </AdornerDecorator>
+                    </Border>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+
+
+
+    <!-- StyledWindow -->
+    <Style x:Key="StyledWindow" TargetType="Window">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Opacity" Value="0.98" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="Template" Value="{StaticResource StyledWindowTemplate}" />
+	</Style>
+	<!-- StyledWindow Only Close -->
+	<Style x:Key="StyledWindowOnlyClose" TargetType="Window">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="WindowStyle" Value="None" />
+		<Setter Property="AllowsTransparency" Value="True" />
+		<Setter Property="Opacity" Value="0.98" />
+		<Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+		<Setter Property="Template" Value="{StaticResource StyledWindowTemplate_OnlyClose}" />
+	</Style>
+
+	<!-- StyledWindow Red Border -->
+    <Style x:Key="RedStyledWindow" TargetType="Window">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Opacity" Value="0.98" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="Template" Value="{StaticResource StyledWindowTemplate_Red}" />
+    </Style>
+
+    <!-- StyledWindow Red Border Only Close -->
+    <Style x:Key="RedStyledWindowOnlyClose" TargetType="Window">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Opacity" Value="0.98" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="Template" Value="{StaticResource StyledWindowTemplate_RedOnlyClose}" />
+    </Style>
+    
+</ResourceDictionary>

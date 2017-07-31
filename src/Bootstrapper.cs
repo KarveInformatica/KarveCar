@@ -10,11 +10,18 @@ namespace KarveCar
 {
     class Bootstrapper : UnityBootstrapper
     {
+        /// <summary>
+        ///  This create a new Prism Shell
+        /// </summary>
+        /// <returns></returns>
         protected override DependencyObject CreateShell()
         {
             return Container.Resolve<MainWindow>();
         }
-
+        /// <summary>
+        ///  This method configure the catalog of the prism modules.
+        ///  
+        /// </summary>
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
@@ -22,7 +29,7 @@ namespace KarveCar
         }
 
         /// <summary>
-        ///  This register a services.
+        ///  This method register global services provided to to the module.
         /// </summary>
         protected override void ConfigureContainer()
         {

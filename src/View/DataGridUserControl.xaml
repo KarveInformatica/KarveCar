@@ -8,6 +8,7 @@
           xmlns:vr="clr-namespace:KarveCar.Utility"
           mc:Ignorable="d"      
           HorizontalAlignment="Left"
+          Background="{StaticResource WindowBackgroundBrush}" 
           AlternatingRowBackground="WhiteSmoke" 
           AutoGenerateColumns="True"
           IsReadOnly="False"

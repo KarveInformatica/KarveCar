@@ -2,7 +2,7 @@
 using Microsoft.Windows.Controls.Ribbon;
 using System.Collections.Generic;
 using System.Windows;
-using KarveCar.Model.Classes;
+using DataAccessLayer.DataObjects;
 using KarveCar.Properties;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -50,7 +50,7 @@ namespace KarveCar.Model.Generic
             #region Maestros/Clientes
             { EOpcion.rbtnBancosClientes,     new TemplateInfoRibbonButton { propertiesresources = "lrbtnBancosClientes",
                                                                              nombretabladb = "BANCO",
-                                                                             obj = new Banco(),
+                                                                             obj = new BancoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
                                                                                                                     nombrecolumnadb    = "CODBAN",
@@ -805,7 +805,7 @@ namespace KarveCar.Model.Generic
             #region Maestros/Vehículos
             { EOpcion.rbtnAccesoriosVehiculos,   new TemplateInfoRibbonButton { propertiesresources = "lrbtnAccesoriosVehiculos",
                                                                              nombretabladb = "VEHI_ACC",
-                                                                             obj = new AccesorioVehiculo(),
+                                                                             obj = new AccesorioVehiculoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
                                                                                                                     nombrecolumnadb    = "COD_ACC",
