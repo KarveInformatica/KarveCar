@@ -215,7 +215,6 @@ namespace Apache.Ibatis.DataMapper.Scope
         /// <summary>
         /// The <see cref="ParameterMap"/> used by this request.
         /// </summary>
-        /// suppose this doenst exists crashes.
         public ParameterMap ParameterMap
         {
             set { parameterMap = value; }

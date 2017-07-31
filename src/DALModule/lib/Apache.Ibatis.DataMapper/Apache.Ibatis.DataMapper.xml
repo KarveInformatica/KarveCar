@@ -12188,7 +12188,6 @@
             <summary>
             The <see cref="P:Apache.Ibatis.DataMapper.Scope.RequestScope.ParameterMap"/> used by this request.
             </summary>
-            suppose this doenst exists crashes.
         </member>
         <member name="P:Apache.Ibatis.DataMapper.Scope.RequestScope.PreparedStatement">
             <summary>

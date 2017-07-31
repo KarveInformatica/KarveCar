@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Reflection;
 using System.Xml;
 using Apache.Ibatis.Common.Configuration;
@@ -91,8 +92,7 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml
 
             using (Resource)
             {
-                // this is an error if setting is 0.
-                IConfiguration setting = configurationStore.Settings[ConfigConstants.ATTRIBUTE_VALIDATE_SQLMAP];
+               IConfiguration setting = configurationStore.Settings[ConfigConstants.ATTRIBUTE_VALIDATE_SQLMAP];
                 if(setting !=null)
                 {
                     bool mustValidate = false;
@@ -104,7 +104,7 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml
                         SchemaValidator.Validate(document.ChildNodes[1], "SqlMapConfig.xsd");             
                     }                    
                 }
-               
+
                 Resource.Stream.Position = 0; 
                 using (XmlTextReader reader = new XmlTextReader(Resource.Stream))
                 {
