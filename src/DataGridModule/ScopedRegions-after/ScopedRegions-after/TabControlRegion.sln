@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabControlRegion", "TabControlRegion\TabControlRegion.csproj", "{C4BB8EC0-C547-4A5E-9447-CDC534F02E6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{EE70C159-BBFA-47FE-8636-CF5E59140D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleA", "ModuleA\ModuleA.csproj", "{B6FDA096-2F7C-41EF-8C38-AC58249407D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabControlRegion.Core", "TabControlRegion.Core\TabControlRegion.Core.csproj", "{D1401115-C117-4F0F-AC94-65BBE5736668}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4BB8EC0-C547-4A5E-9447-CDC534F02E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BB8EC0-C547-4A5E-9447-CDC534F02E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BB8EC0-C547-4A5E-9447-CDC534F02E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BB8EC0-C547-4A5E-9447-CDC534F02E6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6FDA096-2F7C-41EF-8C38-AC58249407D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6FDA096-2F7C-41EF-8C38-AC58249407D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6FDA096-2F7C-41EF-8C38-AC58249407D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6FDA096-2F7C-41EF-8C38-AC58249407D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1401115-C117-4F0F-AC94-65BBE5736668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1401115-C117-4F0F-AC94-65BBE5736668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1401115-C117-4F0F-AC94-65BBE5736668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1401115-C117-4F0F-AC94-65BBE5736668}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B6FDA096-2F7C-41EF-8C38-AC58249407D6} = {EE70C159-BBFA-47FE-8636-CF5E59140D9E}
+	EndGlobalSection
+EndGlobal

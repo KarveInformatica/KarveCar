@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="ModuleA.Views.ViewB"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ModuleA"
+             xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:mvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.Resources>
+            <xcdg:DataGridCollectionViewSource x:Key="customersKey" 
+                                               Source="{Binding Customers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                
+            </xcdg:DataGridCollectionViewSource>
+        </Grid.Resources>
+
+        <xcdg:DataGridControl x:Name="MainGrid" ItemsSource="{Binding Source={StaticResource customersKey}}" AllowDrag="True" ReadOnly="False" />
+    </Grid>
+</UserControl>
