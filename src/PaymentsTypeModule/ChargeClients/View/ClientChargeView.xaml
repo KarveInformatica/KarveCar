@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="PaymentTypeModule.ChargeClients.View.ClientChargeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ExtendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
+             xmlns:ExtendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"  
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients"
+             xmlns:view="clr-namespace:PaymentTypeModule.ChargeClients.View"
+             xmlns:clientesFormaDeCobros="clr-namespace:PaymentTypeModule"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:validationRules="clr-namespace:PaymentTypeModule.ChargeClients.ValidationRules"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="200">
+    
+    <i:Interaction.Triggers>
+        <mvvm1:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">  
+        <mvvm1:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True" />  
+        </mvvm1:InteractionRequestTrigger>  
+    </i:Interaction.Triggers>  
+    
+    <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Name="ChargeState" Height="20" Width="100" Content="{Binding ChargeStateProperties}" />
+            <Label Name="LastUserTextBox"  Height="20" Width="100" Content="{Binding LastUser}"/>
+            <Label Name="LastModificationTextBox" Height="20" Width="100" Content="{Binding LastModificationTime}"/>
+        </StackPanel>
+        <TabControl Grid.Row="1">
+            <TabItem Header="General">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="92*"/>
+                            <ColumnDefinition Width="160*"/>
+                            <ColumnDefinition Width="81*"/>
+                            <ColumnDefinition Width="79*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0">Número</Label>
+                        
+                        
+                        
+                        <TextBox Name="ChargeNumber"  Grid.Row="0" Grid.Column="1">
+                            <TextBox.Text>
+                                <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
+                                <!--Binding.ValidationRules>
+                                        <validationRules:NumberValidationRule />
+                               -->
+                            </Binding>
+                        </TextBox.Text>
+                        </TextBox>
+                        <CheckBox Name="DependencyOnCash" Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=IsDependencyOnCash, Mode=TwoWay}">
+                            <!-- Visibility="{Binding Path=ClientChargeWindow, Converter={StaticResource RoleToVisibilityConverter}}" --> Afecta a caja
+                        </CheckBox>
+                        <CheckBox Name="AskCreditCard" Grid.Row="0" Grid.Column="3" IsChecked="{Binding Path=IsAskedCreditCard, Mode=TwoWay}">
+                            <!-- Visibility="{Binding Path=ClientChargeWindow, Converter={StaticResource RoleToVisibilityConverter}}" --> Pedir Tarjeta
+                        </CheckBox>
+                        <Label Grid.Row="1" Grid.Column="0">Nombre</Label>
+                        <TextBox Name="ChargeName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Background="LightCyan" Text="{Binding Path=ChargeName}"/>
+                        <Label Grid.Row="2" Grid.Column="0">Cuenta</Label>
+                        <TextBox Name="ChargeAccount1" Grid.Row="2" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeAccount1}"/>
+                        <TextBox Name="ChargeAccount2" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  Background="LightBlue" Text="{Binding Path=ChargeAccount2}"/>
+                        <Button  Name="FindChargeAccount" Grid.Row="2" Grid.Column="4"  HorizontalAlignment="Center" Width="100"  Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindChargeAccount">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="3" Grid.Column="0">Cuenta Comisión</Label>
+                        <TextBox Name="ChargeCommissionAccount"  Grid.Row="3" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeCommissionAccount1}"/>
+                        <TextBox Name="ChargeCommissionAccount2" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeCommissionAccount2}"/>
+                        <Button  Name="FindChargeCommissionAccount"  Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindChargeCommissionAccount" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="4" Grid.Column="0">Comisión %</Label>
+                        <TextBox Name="CommissionPercentage"  Grid.Row="4" Grid.Column="1" Background="LightCyan" Text="{Binding Path=CommissionPercentage}"/>
+                        <Label Grid.Row="4" Grid.Column="2">Banco</Label>
+                        <TextBox Name="CommissionBank" Grid.Row="4" Grid.Column="2" Background="LightCyan" Grid.ColumnSpan="2" Margin="75,0,0,0" Text="{Binding Path=CommissionBank}"/>
+                        <Button  Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" Name="FindCommissionBank" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindCommissionBank" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
+                        <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}"/>
+                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office1}" Background="LightBlue"/>
+                        <Button  Grid.Row="5" Grid.Column="4" HorizontalAlignment="Center" Name="FindOffice2" Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindOffice" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="6" Grid.Column="0" Height="20" Background="White" Grid.ColumnSpan="5"></Label>
+                        <Label Grid.Row="7" Grid.Column="0">IBAN</Label>
+                        <TextBox Grid.Row="7" Name="IbanValue" Text="{Binding Path=IbanValue}" Grid.Column="1" Grid.ColumnSpan="2" Background="LightCyan"/>
+                        <Label Grid.Row="7" Grid.Column="3">SWIFT</Label>
+                        <TextBox Grid.Row="7" Name="SwiftValue" Text="{Binding Path=SwiftValue}" Grid.Column="3"  Background="LightCyan" Grid.ColumnSpan="1" Margin="48,0,0,0"/>
+                        <Label Grid.Row="8" Grid.Column="0">Banco Cobro</Label>
+                        <TextBox Grid.Row="8" Name="ChargeBank1" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeBank1}"/>
+                        <TextBox Grid.Row="8" Name="ChargeBank2" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeBank2}"/>
+                        <Button  Grid.Row="8" Name="FindChargeBank" Grid.Column="4" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindChargeBank">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="./search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="9" Grid.Column="0">Facturación</Label>
+                        <TextBox Name="Billing1" Text="{Binding Path=Billing1}" Grid.Row="9" Grid.Column="1" Background="LightCyan"/>
+                        <TextBox Name="Billing2" Text="{Binding Path=Billing2}" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue"/>
+                        <Button  Name="FindBillingAccount" Grid.Row="9" Grid.Column="4" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindBillingAccount" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="./search.png" Height="20" Width="18"/>
+                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
+                            </StackPanel>
+                        </Button>
+                        <Label Grid.Row="10" Grid.Column="0" Height="20" Background="White" Grid.ColumnSpan="5"></Label>
+                        <WrapPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5">
+                            <CheckBox Name="IsClientAccount" IsChecked="{Binding IsClientAccountChecked}" Width="151">Cuenta contable cliente</CheckBox>
+                            <CheckBox Name="IsAllowedShower" IsChecked="{Binding IsAllShowerChecked}" Width="151">Permitido en mostrador</CheckBox>
+                            <CheckBox Name="IsTeleCheck" IsChecked="{Binding IsTeleCheckChecked}" Width="100">Es telecheque</CheckBox>
+                            <CheckBox Name="IsPortfolioEffect" IsChecked="{Binding IsPortfolioEffectChecked}" Width="146">Effecto en carteras</CheckBox>
+                            <CheckBox Name="IsRemittable" IsChecked="{Binding IsRemittableChecked}" Width="151">No Remesable</CheckBox>
+                            <CheckBox Name="IsMultiSeatCommission" IsChecked="{Binding IsMultiSeatCommission}" Width="151">Comision 2 asientos</CheckBox>
+                            <CheckBox Name="IsNoAutoList" IsChecked="{Binding IsNoAutoList}" Width="151">No Autocotizar</CheckBox>
+                        </WrapPanel>
+                    </Grid>
+                    <StackPanel Orientation="Vertical" Grid.Row="1">
+                        <ExtendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
+                                                              x:Name="PaymentSystem" 
+                                                              ItemsSource="{Binding SourceTable}" 
+                                                              RowHeaderWidth="17" 
+                                                              IsReadOnly="True"
+                                                              AutoGenerateColumns="False" 
+                                                              HideColumnChooser="True" 
+                                                              AllowUserToCopy="True"
+                                                              ShowColumnSplitter="True"
+                                                              SearchAutoFilterVisibility="Visible" 
+                                                              AutoFilterFontSize="12"
+                                                              GroupByControlVisibility="Collapsed" 
+                                                              IsSynchronizedWithCurrentItem="True"  
+                                                              SelectionMode="Extended" 
+                                                              SelectionUnit="CellOrRowHeader" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=PaymentSystem, Path=SelectedValue}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <DataGrid.Columns>
+                            <ExtendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"
+                            />
+                            <ExtendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"
+                            />
+                        </DataGrid.Columns>
+                        </ExtendedGridControl:ExtendedDataGrid>
+                        </StackPanel>
+                    </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
+

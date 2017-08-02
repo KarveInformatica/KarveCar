@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="PaymentTypeModule.ChargeClients.View.GridQuery"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients.View"
+             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
+             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="300" >
+    <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="75*"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+            <Label Grid.Row="0" Width="300" HorizontalAlignment="Left" Content="{Binding QueryType}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
+      
+        <Border Grid.Row="2" Width="150" BorderBrush="LightBlue" BorderThickness="2">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0"  Content="Aceptar"  FontWeight="Bold" />
+                <Button Grid.Row="0" Grid.Column="1"  Content="Cancelar" FontWeight="Bold" />
+        </Grid>
+            </Border>
+    </Grid>
+</UserControl>
+

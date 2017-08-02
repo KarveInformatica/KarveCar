@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientesFormaDeCobros.Properties {
+namespace PaymentTypeModule.Properties {
     using System;
     
     

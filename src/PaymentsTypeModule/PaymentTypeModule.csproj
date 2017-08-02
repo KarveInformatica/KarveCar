@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3F0503DE-3DDE-40A4-AF70-F698BFA9F844}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>ClientPaymentTypes</RootNamespace>
     <AssemblyName>ClientPaymentTypes</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -33,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Apache.Ibatis.Common">
@@ -89,53 +92,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="ChargeClients\View\ClientChargeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ChargeClients\View\GridPopUpView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ChargeClients\View\GridQuery.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ChargeClients\ValidationRules\Iban.cs" />
     <Compile Include="ChargeClients\ValidationRules\IbanLibrary.cs" />
-    <Compile Include="ChargeClients\ViewModel\GridPopUpViewModel.cs" />
-    <Compile Include="ChargeClients\ViewModel\RoleToVisibilityConverter.cs" />
-    <Compile Include="ChargeClients\ViewModel\ClientChargeViewModel.cs" />
-    <Compile Include="ChargeClients\View\ClientChargeView.xaml.cs">
-      <DependentUpon>ClientChargeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChargeClients\View\GridPopUpView.xaml.cs">
-      <DependentUpon>GridPopUpView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChargeClients\View\GridQuery.xaml.cs">
-      <DependentUpon>GridQuery.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ChargeClients\ValidationRules\IBANValidationRule.cs" />
     <Compile Include="ChargeClients\ValidationRules\NumberValidationRule.cs" />
     <Compile Include="ChargeClients\ValidationRules\PercentageValidationRule.cs" />
     <Compile Include="ChargeClients\ValidationRules\SwiftValidationRule.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ChargeClients\ViewModel\ClientChargeViewModel.cs" />
+    <Compile Include="ChargeClients\ViewModel\GridPopUpViewModel.cs" />
+    <Compile Include="ChargeClients\ViewModel\RoleToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChargeClients\View\ClientChargeView.xaml.cs" />
+    <Compile Include="ChargeClients\View\GridPopUpView.xaml.cs" />
+    <Compile Include="ChargeClients\View\GridQuery.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,9 +130,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
@@ -171,6 +138,20 @@
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ChargeClients\View\ClientChargeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChargeClients\View\GridPopUpView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChargeClients\View\GridQuery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
