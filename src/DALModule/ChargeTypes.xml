@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="Auxiliares" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <resultMaps>
+    <resultMap id="ChargeTypeResultMap"  class="ChargeTypeObject" >
+      <result property="Numero"     		column="CODIGO"/>
+      <result property="Nombre"    		column="NOMBRE"/>
+    </resultMap>
+    <resultMap id="InvoiceTypeResultMap"  class="InvoiceDataObject" >
+      <result property="Codigo"         column="CODIDO_FE"/>
+      <result property="Nombre"       column="NOMBRE_FE"/>
+    </resultMap>
+     <resultMap id="OfficePerInvoiceTypeResultMap"  class="OfficePerInvoiceTypeObject" >
+      <result property="Codigo"       column="OFICINA"/>
+      <result property="Oficina"      column="NOMBRE"/>
+      <result property="Telefono"     column="TELEFONO"/>
+      <result property="Empresa"      column="SUBLICEN"/>
+      <result property="FechaBaja"    column="FEC_BAJA"/>
+      <result property="Zona"         column="ZONA_OF"/>
+      <result property="Direccion"    column="DIRECCION"/>
+      <result property="CodigoPostal" column="CP"/>
+      <result property="Poblacion"    column="POBLACION"/>
+    </resultMap>
+    <resultMap id="ZoneOfficePerInvoiceTypeResultMap" class="ZoneOfficeDataObject">
+      <result property="Codigo"       column="ZONA_OF"/>
+      <result property="Nombre "   column="NOM_ZONA"/>
+    </resultMap>
+    <resultMap id="ChargeOptionResultMap"  class="ChargeOptionDataObject">
+      <result property="IsShowerChecked"           column="MOSTRADOR"/>
+      <result property="IsClientAccountChecked"    column="CTACLIENTE"/>
+      <result property="IsCashFlowChecked"         column="AF_CAJA"/>
+      <result property="IsTeleChequeChecked"       column="TELECHEQUE"/>
+      <result property="IsPortfolioEffectsChecked" column="EFECTOS"/>
+      <result property="IsSeatingFeeChecked"       column="COMI_2ASIENTO"/>
+      <result property="IsNoRemittableChecked"     column="NO_REMESABLE"/>    
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetAllChargeType"  resultMap="ChargeTypeResultMap">
+      select
+      CODIGO, NOMBRE
+      from
+      FORMAS
+      order by CODIGO
+    </select>
+    <select id="GetAllInvoiceType" resultMap="InvoiceTypeResultMap">
+      select CODIGO_FE, NOMBRE_FE
+      from FORMAS_FACE
+      order by CODIGO_FE
+    </select>
+    <select id="GetAllInvoiceOffices" resultMap="OfficePerInvoiceTypeResultMap">
+      SELECT CuentaCobro.OFICINA, Office.NOMBRE, Office.TELEFONO, Office.SUBLICEN, Office.FEC_BAJA, Office.ZONAOFI,
+      Office.DIRECCION, Office.CP, Office.POBLACION   
+      FROM CTA_FCOBRO_OFI CuentaCobro
+      INNER JOIN OFICINA Office on CuentaCobro.OFICINA = Office.CODIGO
+    </select>
+     <select id="GetAllOfficeZonesPerInvoice" resultMap="ZoneOfficePerInvoiceTypeResultMap">
+      SELECT  Office.ZONA_OF, OfficeZone.NOM_ZONA 
+      FROM ZONAOFI OfficeZone
+      INNER JOIN OFICINA Office on OfficeZone.COD_ZONAOFI = Office.ZONA_OF
+    </select>
+    <select id="GetChargeOptions" parameterClass="Integer" resultMap="ChargeOptionResultMap">
+      select 
+       MOSTRADOR, 
+       CTACLIENTE, 
+       PEDIR, 
+       AF_CAJA,
+       TELECHEQUE, 
+       EFECTOS, 
+       COMI_2ASIENTO,
+       NO_REMESABLE
+      from FORMAS
+      where CODIGO = #value#
+    </select>
+</statements>
+</sqlMap>
