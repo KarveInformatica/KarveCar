@@ -68,6 +68,7 @@
     <Compile Include="DataObjects\FormaPagoProveedor.cs" />
     <Compile Include="DataObjects\FormaTraslado.cs" />
     <Compile Include="DataObjects\GrupoTarifa.cs" />
+    <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
     <Compile Include="IDalLocator.cs" />
     <Compile Include="IDalObject.cs" />
     <Compile Include="DataObjects\IncidenciaCliente.cs" />

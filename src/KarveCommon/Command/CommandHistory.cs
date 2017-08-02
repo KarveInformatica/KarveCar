@@ -4,13 +4,8 @@
  * author Giorgio Zoppi <giorgio.zoppi@karveinformatica.com>
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using KarveCommon.Command;
 
 
 namespace KarveCommon.Command
@@ -20,7 +15,7 @@ namespace KarveCommon.Command
     /// </summary>
     public class CommandWrapper
     {
-       // Command
+        // Command
         private AbstractCommand _command;
         // Parameters of the command.
         private object _parameters;
@@ -33,7 +28,7 @@ namespace KarveCommon.Command
 
         public object Parameters { get { return _parameters; } set { _parameters = value; } }
         public AbstractCommand Command { get { return _command; } set { _command = value; } }
-        
+
     }
     /// <summary>
     ///  CommandHistory. It take trace of each command fired in the application and it allows the redo/undo.
@@ -65,15 +60,15 @@ namespace KarveCommon.Command
             historyList = new List<CommandWrapper>();
             _cleanUpCount = 0;
         }
-       /// <summary>
-       ///  Singleton accessory method.
-       /// </summary>
-       /// <returns> The current command history.</returns>
+        /// <summary>
+        ///  Singleton accessory method.
+        /// </summary>
+        /// <returns> The current command history.</returns>
         public static CommandHistory GetInstance()
         {
             if (_instance == null)
             {
-                _instance= new CommandHistory();
+                _instance = new CommandHistory();
             }
             return _instance;
         }
@@ -98,7 +93,7 @@ namespace KarveCommon.Command
             {
                 tmpList.Add(cmd);
             }
-            
+
             tmpList.RemoveAt(tmpList.Count - 1);
             foreach (var cmd in tmpList)
             {
@@ -129,7 +124,7 @@ namespace KarveCommon.Command
         {
             return (_cleanUpCount != 0);
         }
-       
+
         public CommandWrapper GetLastRedoCommand()
         {
             return redoList[redoList.Count - 1];
@@ -179,7 +174,7 @@ namespace KarveCommon.Command
 
         private void AddUndo(CommandWrapper commandWrapper)
         {
-             undoList.Add(commandWrapper);
+            undoList.Add(commandWrapper);
             _cleanUpCount = ((_cleanUpCount < 0) && (redoList.Count > 0)) ? undoList.Count + redoList.Count + 1 : _cleanUpCount++;
         }
 
@@ -194,5 +189,4 @@ namespace KarveCommon.Command
             return tmpCommandWrapper;
         }
     }
-        
 }

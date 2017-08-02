@@ -19,7 +19,8 @@ namespace KarveCar.Model.Generic
 
         /// <summary>
         /// Dictionary que recopila la información de los RibbonButtons (la referencia en Resources, el nombre de la tabla de la BBDD)
-        /// Key=EOpcion, Value=DatosInfoRibbonButton(string propertiesresources, string nombretabladb)
+        /// Key=EOpcion, Value=DatosInfoRibbonButton(string propertiesresources, string nombretabladb,  object obj, List<TemplateInfoDB> templateinfodb 
+        /// (string nombrepropiedadobj, string nombrecolumnadb, ETiposDatoColumnaDB tipodatocolumnadb, Resources datagridheader))
         /// </summary>
         public static Dictionary<EOpcion, TemplateInfoRibbonButton> ribbonbuttondictionary = new Dictionary<EOpcion, TemplateInfoRibbonButton>()
         {
@@ -46,7 +47,6 @@ namespace KarveCar.Model.Generic
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
             #endregion
-
             #region Maestros/Clientes
             { EOpcion.rbtnBancosClientes,     new TemplateInfoRibbonButton { propertiesresources = "lrbtnBancosClientes",
                                                                              nombretabladb = "BANCO",
@@ -903,6 +903,9 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETiposDatoColumnaDB.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUltModi } } } },
+            { EOpcion.rbtnGruposVehiculos,    new TemplateInfoRibbonButton { propertiesresources = "lrbtnGruposVehiculos",
+                                                                             nombretabladb = string.Empty,
+                                                                             obj = new GrupoVehiculoUserControl() } },
             { EOpcion.rbtnMotivosRepostaje,   new TemplateInfoRibbonButton { propertiesresources = "lrbtnMotivosRepostaje",
                                                                              nombretabladb = "MOT_REPOSTAJE",
                                                                              obj = new MotivoRepostaje(),
@@ -1029,7 +1032,8 @@ namespace KarveCar.Model.Generic
 
             #region Configuración
             { EOpcion.rbtnCinta,            new TemplateInfoRibbonButton { propertiesresources = "lrbtnCinta",
-                                                                           nombretabladb = string.Empty } },
+                                                                           nombretabladb = string.Empty,
+                                                                           obj = new CintaOpcionesUserControl() } },
             #endregion
         };
 

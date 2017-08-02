@@ -13,7 +13,7 @@ namespace ToolBarModule.Command
         }
         public override void Execute(object parameter)
         {
-           // toolbarvm.NuevoToolBar(parameter);
+            // toolbarvm.NuevoToolBar(parameter);
         }
 
         public override bool UnExecute()

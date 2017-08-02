@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using DataAccessLayer;
+﻿using DataAccessLayer;
 using KarveCommon.Command;
 using KarveCommon.Services;
 
@@ -20,7 +18,7 @@ namespace ToolBarModule.Command
         /// </summary>
         /// <param name="dalLocator">Database AccessLayer Inteface API</param>
         /// <param name="careKeeperService">Carekeeper Do/Undo mechanism</param>
-        public SaveDataLayerCommand(IDalLocator dalLocator, ICareKeeperService  careKeeperService)
+        public SaveDataLayerCommand(IDalLocator dalLocator, ICareKeeperService careKeeperService)
         {
             this.dalLocator = dalLocator;
             this.careKeeperService = careKeeperService;
@@ -45,7 +43,7 @@ namespace ToolBarModule.Command
                 dataPayLoad = parameter as DataPayLoad;
                 if ((dataPayLoad == null) || (dataPayLoad.DataObjectName == null))
                     throw new DataLayerExecutionException();
-                
+
                 IDalObject dalObject = dalLocator.FindDalObject(dataPayLoad.DataObjectName);
                 if (dalObject != null)
                 {
@@ -62,7 +60,7 @@ namespace ToolBarModule.Command
             IDalObject dalObject = dalLocator.FindDalObject(dataPayLoad.DataObjectName);
             try
             {
-               dalObject.RemoveCollection(dataPayLoad.CollectionData);
+                dalObject.RemoveCollection(dataPayLoad.CollectionData);
             }
             catch (DataLayerExecutionException e)
             {

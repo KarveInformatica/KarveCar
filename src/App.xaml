@@ -26,19 +26,22 @@
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- Generic -->
             <ObjectDataProvider x:Key="ResourceLanguage" 
-                            ObjectType="{x:Type lang:ChangeLanguageLogic}" 
-                            MethodName="GetResourceLanguage">
+                                ObjectType="{x:Type lang:ChangeLanguageLogic}" 
+                                MethodName="GetResourceLanguage">
             </ObjectDataProvider>
-
-            <cfg:CintaOpcionesViewModel x:Key="cintaOpcionesViewModel"/>
 
             <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
             <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
             <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
 
+            <!-- Maestros-->
             <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
 
+            <!-- Configuracion-->
+            <cfg:CintaOpcionesViewModel x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>
         
     </Application.Resources>

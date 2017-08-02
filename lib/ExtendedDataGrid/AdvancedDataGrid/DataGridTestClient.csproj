@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7F67668A-8D50-45E7-BE40-3ADAB7BD3A32}</ProjectGuid>
+    <ProjectGuid>{E9E3D0DF-00AC-44BA-B677-0692689A64D0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestClient</RootNamespace>
@@ -73,6 +73,10 @@
     <ApplicationIcon>data-grid.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+    </Reference>
     <Reference Include="Fluent">
       <HintPath>lib\Fluent.dll</HintPath>
     </Reference>
@@ -351,10 +355,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExtendedGrid\ExtendedGrid.csproj">
-      <Project>{EF568126-A1D2-49CF-A2C1-1EDB8DFC3E40}</Project>
-      <Name>ExtendedGrid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ImagePackage\ImagePackage.csproj">
       <Project>{5a62f980-937c-43c0-ab78-8a9fb80e33d6}</Project>
       <Name>ImagePackage</Name>

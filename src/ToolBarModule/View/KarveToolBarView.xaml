@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:local="clr-namespace:ToolBarModule"
-             >
+             xmlns:local="clr-namespace:ToolBarModule">
     <UserControl.Resources>
         <Style x:Key="ImageEnabled" TargetType="Image">
             <Style.Triggers>
@@ -16,13 +15,12 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" >
         <ToolBar x:Name="tbAcciones" HorizontalAlignment="Left" ToolBar.OverflowMode="Never" >
             <Button x:Name="tbbtnNuevo" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False"
-                    >
+                    IsEnabled="False" >
                 <StackPanel>
                     <Image Source="..\..\Images\new.png" Stretch="Fill" Height="35"  Style="{StaticResource ImageEnabled}" />
                     <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
@@ -51,7 +49,7 @@
                     HorizontalAlignment="Left"
                    
                     >
-               
+
                 <StackPanel>
                     <Image Source="..\..\Images\edit.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
@@ -66,7 +64,6 @@
                     <KeyBinding Key="E" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding EditCommand}" 
-                                
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding EditCommand}" 
@@ -299,4 +296,4 @@
             </TextBlock>
         </ToolBar>
     </ToolBarTray>
- </UserControl>
+</UserControl>

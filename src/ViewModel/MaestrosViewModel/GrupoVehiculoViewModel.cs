@@ -1,50 +1,50 @@
-﻿using KarveCar.Commands.ConfiguracionCommand;
+﻿using KarveCar.Commands.MaestrosCommand;
 using KarveCar.Logic.Generic;
 using KarveCommon.Generic;
 using System.Linq;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveCar.ViewModel.ConfiguracionViewModel
+namespace KarveCar.ViewModel.MaestrosViewModel
 {
-    public class CintaOpcionesViewModel : GenericPropertyChanged
+    public class GrupoVehiculoViewModel : GenericPropertyChanged
     {
         #region Variables
-        private CintaOpcionesCommand cintaopcionescommand;
+        private GrupoVehiculoCommand grupovehiculocommand;
         #endregion
 
         #region Constructor
-        public CintaOpcionesViewModel()
+        public GrupoVehiculoViewModel()
         {
-            this.cintaopcionescommand = new CintaOpcionesCommand(this);
+            this.grupovehiculocommand = new GrupoVehiculoCommand(this);
         }
         #endregion
 
         #region Commands
-        public ICommand CintaOpcionesCommand
+        public ICommand GrupoVehiculoCommand
         {
             get
             {
-                return cintaopcionescommand;
+                return grupovehiculocommand;
             }
         }
         #endregion
 
         #region Métodos
         /// <summary>
-        /// Muestra los RibbonTab de los cuales se deseen guardar la configuración por defecto de los RibbonGroups 
+        /// Crea el TabItem para CRUD los Grupos de Vehículos
         /// </summary>
         /// <param name="parameter"></param>
-        public void CintaOpciones(object parameter)
+        public void GrupoVehiculo(object parameter)
         {
-            EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;          
+            RecopilatorioEnumerations.EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;
 
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
                 TabItemLogic.CreateTabItemUserControl(opcion);
+                var obscollection = tabitemdictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Value.GenericObsCollection;
             }
         }
         #endregion
