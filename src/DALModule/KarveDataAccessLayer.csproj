@@ -35,6 +35,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Apache.Ibatis.Common\bin\Debug\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessoryDataAccessLayer.cs" />
+    <Compile Include="ChargeTypeDataAccessLayer.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
     <Compile Include="DataObjects\BancoDataObject.cs" />
@@ -54,6 +56,8 @@
     <Compile Include="DataObjects\BloqueFacturacion.cs" />
     <Compile Include="DataObjects\CanalCliente.cs" />
     <Compile Include="DataObjects\CargoPersonal.cs" />
+    <Compile Include="DataObjects\ChargeOptionDataObject.cs" />
+    <Compile Include="DataObjects\ChargeTypeObject.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />
     <Compile Include="DataObjects\CodigoInmovilizacion.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="DataObjects\FormaPagoProveedor.cs" />
     <Compile Include="DataObjects\FormaTraslado.cs" />
     <Compile Include="DataObjects\GrupoTarifa.cs" />
+    <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="IDalLocator.cs" />
     <Compile Include="IDalObject.cs" />
     <Compile Include="DataObjects\IncidenciaCliente.cs" />
@@ -128,6 +133,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Auxiliares.xml" />
+    <Content Include="Banks.xml" />
+    <Content Include="ChargeTypes.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

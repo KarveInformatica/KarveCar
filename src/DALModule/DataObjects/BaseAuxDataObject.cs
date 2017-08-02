@@ -10,11 +10,12 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     public class BaseAuxDataObject : GenericPropertyChanged, IDataGridRowChange
     {
-        private string codigo;
-        private string definicion;
-        private string ultimamodificacion;
-        private string usuario;
-        private EControlCambioDataGrid controlcambiodatagrid;
+        private string _codigo;
+        private string _definicion;
+        private string _ultimamodificacion;
+        private string _usuario;
+        private string _nombre;
+        private EControlCambioDataGrid _controlcambiodatagrid;
 
         public BaseAuxDataObject()
         {
@@ -22,53 +23,65 @@ namespace DataAccessLayer.DataObjects
         }
         public BaseAuxDataObject(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
-            this.codigo = codigo;
-            this.definicion = definicion;
-            this.ultimamodificacion = ultimamodificacion;
-            this.usuario = usuario;
+            this._codigo = codigo;
+            this._definicion = definicion;
+            this._ultimamodificacion = ultimamodificacion;
+            this._usuario = usuario;
         }
         public string Codigo
         {
-            get { return codigo; }
+            get
+            {
+                return _codigo;
+            }
             set
             {
-                codigo = value;
+                _codigo = value;
                 OnPropertyChanged("Codigo");
+            }
+        }
+        public string Nombre
+        {
+            get { return _nombre; }
+            set
+            {
+                _nombre = value;
+                OnPropertyChanged("Nombre");
             }
         }
         public string Definicion
         {
-            get { return definicion; }
+            get { return _definicion; }
             set
             {
-                definicion = value;
+                _definicion = value;
                 OnPropertyChanged("Definicion");
             }
         }
         public string UltimaModificacion
         {
-            get { return ultimamodificacion; }
+            get { return _ultimamodificacion; }
             set
             {
-                ultimamodificacion = value;
+                _ultimamodificacion = value;
                 OnPropertyChanged("UltimaModificacion");
             }
         }
         public string Usuario
         {
-            get { return usuario; }
+            get { return _usuario; }
             set
             {
-                usuario = value;
+                _usuario = value;
                 OnPropertyChanged("Usuario");
             }
         }
         public EControlCambioDataGrid ControlCambioDataGrid
         {
-            get { return controlcambiodatagrid; }
+            get { return _controlcambiodatagrid; }
             set
             {
-                controlcambiodatagrid = value;
+                _controlcambiodatagrid = value;
                 OnPropertyChanged("ControlCambioDataGrid");
             }
         }

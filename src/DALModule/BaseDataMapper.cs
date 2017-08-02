@@ -63,8 +63,10 @@ namespace DataAccessLayer
             {
                 string reason = e.Message + " BaseDataMapper failed initialization";
                 DataLayerExecutionException ex = new DataLayerExecutionException(reason);
+                throw ex;
             }
         }
+        
         protected void StoreCollection<T>(string mapperMethod, IList<T> current)
         {
             DataMapper.Update(mapperMethod, current);
