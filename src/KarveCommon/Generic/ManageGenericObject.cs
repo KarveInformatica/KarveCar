@@ -6,9 +6,9 @@ using KarveCommon.Generic;
 namespace KarveCommon.Generic
 {
     public class GenericObjectHelper
-    {
-      
+    {      
         static readonly string HelperColumn = "ControlCambioDataGrid"; 
+
         /// <summary>
         /// Crea un objeto del tipo del objeto(objoriginal) pasado por params
         /// </summary>

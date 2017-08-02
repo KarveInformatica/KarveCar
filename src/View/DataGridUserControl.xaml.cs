@@ -20,9 +20,7 @@ namespace KarveCar.View
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-
-           
+        {           
             DataGridMaestrosAuxiliaresLogic.DataGridDelete(sender, e);           
         }
 

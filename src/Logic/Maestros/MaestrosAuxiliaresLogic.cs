@@ -1,4 +1,4 @@
-using DataAccessLayer;
+using System.Data;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
@@ -27,20 +27,17 @@ namespace KarveCar.Logic.Maestros
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
                 
-                GenericObservableCollection genericobscollection = null;
-                // TODO: 
                 // TODO: remove all this make in a way that it is using all the aux.
-                
-                 genericobscollection   = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
-                
-              /*  else
-                {
-                    DalLocator loc = DalLocator.GetInstance();
-                    IDalObject dalObject =  loc.FindDalObject(option.ToString());
-                    genericobscollection = dalObject.GetItems();
+                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
 
-                }
-                */
+                /*  else
+                  {
+                      DalLocator loc = DalLocator.GetInstance();
+                      IDalObject dalObject =  loc.FindDalObject(option.ToString());
+                      genericobscollection = dalObject.GetItems();
+
+                  }
+                  */
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
                 CreateTabItemDataGrid(option, genericobscollection);                
             }
@@ -59,7 +56,7 @@ namespace KarveCar.Logic.Maestros
         /// </summary>
         /// <param name="opcion"></param>
         /// <param name="genericobscollection"></param>
-        private static void CreateTabItemDataGrid(RecopilatorioEnumerations.EOpcion opcion, GenericObservableCollection genericobscollection)
+        private static void CreateTabItemDataGrid(EOpcion opcion, GenericObservableCollection genericobscollection)
         {
             if (genericobscollection.GenericObsCollection.Count != 0)
             {   
@@ -67,7 +64,7 @@ namespace KarveCar.Logic.Maestros
 
                 //Creamos el DataGrid
                 DataGridUserControl datagrid = new DataGridUserControl();
-                
+
                 #region Se añade la ObservableCollection<object> directamente como el datagrid.ItemsSource, rellena las columnas según las propiedades que tenga el object, tenga o no tenga datos; el header será el nombre de cada propiedad del object
 
                 //SetTrigger(datagrid);
@@ -98,6 +95,7 @@ namespace KarveCar.Logic.Maestros
 
                 //datagrid.SetBinding(ItemsControl.ItemsSourceProperty, new Binding("SelectedItem") { Source = genericobscollection });
                 //Se añade al DataGridUserControl el GenericObservableCollection recibido por params como ItemsSource
+                //datagrid.ItemsSource = genericobscollection.GenericObsCollection;
                 datagrid.ItemsSource = genericobscollection.GenericObsCollection;
 
                 //Se crea el Tabitem
@@ -110,22 +108,6 @@ namespace KarveCar.Logic.Maestros
                 //Se añade el DataGridUserControl al TabItem
                 tabitem.Content = datagrid;                
             }
-        }
-
-        public static void SetTrigger(DataGrid contentControl) //***Posiblemente se pueda eliminar este método
-        {
-            // create the command action and bind the command to it
-            var invokeCommandAction = new InvokeCommandAction { CommandParameter = "datagridcommandtest" };
-            var binding = new Binding { Path = new PropertyPath("CloseWindowCommand") };
-            BindingOperations.SetBinding(invokeCommandAction, InvokeCommandAction.CommandProperty, binding);
-
-            // create the event trigger and add the command action to it
-            var eventTrigger = new System.Windows.Interactivity.EventTrigger { EventName = "MouseEnter" };
-            eventTrigger.Actions.Add(invokeCommandAction);
-
-            // attach the trigger to the control
-            var triggers = Interaction.GetTriggers(contentControl);
-            triggers.Add(eventTrigger);
         }
     }
 }

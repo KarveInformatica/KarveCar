@@ -98,8 +98,8 @@
                     <r:RibbonContextualTabGroup Header="Acciones" Visibility="Visible" Background="Azure" />
                 </r:Ribbon.ContextualTabGroups>
 
-                <!--QuickAccessToolBar-->
-                <r:Ribbon.QuickAccessToolBar>
+                <!--QuickAccess-->
+                <!--<r:Ribbon.QuickAccessToolBar>
                     <r:RibbonQuickAccessToolBar Visibility="Visible" >
                         <r:RibbonButton x:Name="rbtntCortar" 
                                     Label="Cortar" 
@@ -136,7 +136,7 @@
                                     Label="Opciones" 
                                     SmallImageSource="..\Images\tools.png" />
                     </r:RibbonQuickAccessToolBar>
-                </r:Ribbon.QuickAccessToolBar>
+                </r:Ribbon.QuickAccessToolBar>-->
 
                 <!--AplicationMenu-->
                 <r:Ribbon.ApplicationMenu >
@@ -945,7 +945,16 @@
                             <r:RibbonButton x:Name="rbtnGruposVehiculos" 
                                         Label="{Binding lrbtnGruposVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png" 
+                                        DataContext="{StaticResource grupoVehiculoViewModel}" >
+                                <r:RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return"                                                
+                                                Command="{Binding GrupoVehiculoCommand}" 
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding GrupoVehiculoCommand}" 
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                </r:RibbonButton.InputBindings>
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnMarcas" 
                                         Label="{Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}" 

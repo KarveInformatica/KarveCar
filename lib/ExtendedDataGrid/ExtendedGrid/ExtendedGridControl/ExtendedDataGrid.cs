@@ -1394,7 +1394,7 @@ namespace ExtendedGrid.ExtendedGridControl
 
         public static readonly DependencyProperty GroupByHeaderTextProperty = DependencyProperty.Register(
             "GroupByHeaderText", typeof (string), typeof (ExtendedDataGrid),
-            new PropertyMetadata("Click a plus sign in column header to group by that column."));
+            new PropertyMetadata());
         /// <summary>
         /// Group By Header Text
         /// </summary>

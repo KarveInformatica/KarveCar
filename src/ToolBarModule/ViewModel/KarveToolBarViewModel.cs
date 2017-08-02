@@ -1,35 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using DataAccessLayer;
-using KarveCommon;
-using KarveCommon.Command;
-using KarveCommon.Generic;
+﻿using DataAccessLayer;
 using KarveCommon.Services;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using ToolBarModule.Command;
-using ToolBarModule.Properties;
 
 namespace ToolBarModule
 {
     /// <summary>
     /// View model that is able to manage the tool bar.
     /// </summary>
-    public class KarveToolBarViewModel: BindableBase, IToolBarViewModel
+    public class KarveToolBarViewModel : BindableBase, IToolBarViewModel
     {
         private ICareKeeperService _careKeeper;
         private IDalLocator _locator;
         private bool _buttonEnabled = false;
         private IConfigurationService _configurationService;
-       private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
+        private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
 
-        public KarveToolBarViewModel(ICareKeeperService careKeeperService, 
+        public KarveToolBarViewModel(ICareKeeperService careKeeperService,
                                      IDalLocator locator,
                                      IConfigurationService configurationService)
         {
@@ -66,7 +55,7 @@ namespace ToolBarModule
             {
                 command.Do(item);
             }
-            
+
         }
 
         private void DoExitCommand()
@@ -76,14 +65,14 @@ namespace ToolBarModule
 
         private void DoUndoCommand()
         {
-            
+
         }
 
         private void DoRedoCommand()
         {
 
         }
-        
+
         private bool CanExecute()
         {
             return true;
@@ -91,7 +80,7 @@ namespace ToolBarModule
 
         private void DoSave()
         {
-       
+
         }
         public DelegateCommand EnableSaveCommand { set; get; }
         public DelegateCommand DisableSaveCommand { set; get; }
@@ -110,7 +99,7 @@ namespace ToolBarModule
 
         /*
          
-         System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'KeyBinding' (HashCode=62726408); target property is 'Command' (type 'ICommand')
+System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'KeyBinding' (HashCode=62726408); target property is 'Command' (type 'ICommand')
 System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'KeyBinding' (HashCode=17753217); target property is 'Command' (type 'ICommand')
 System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'MouseBinding' (HashCode=19714419); target property is 'Command' (type 'ICommand')
 System.Windows.Data Error: 40 : BindingExpression path error: 'CancelCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=CancelCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=18291919); target property is 'Command' (type 'ICommand')

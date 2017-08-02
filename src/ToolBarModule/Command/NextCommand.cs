@@ -3,10 +3,8 @@ using KarveCommon.Command;
 
 namespace ToolBarModule.Command
 {
-
     public class NextCommand : ToolBarCommand
     {
-     
         public NextCommand(KarveToolBarViewModel vm) : base(vm)
         {
         }

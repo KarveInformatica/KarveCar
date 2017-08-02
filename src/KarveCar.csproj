@@ -58,6 +58,9 @@
     <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExtendedGrid">
+      <HintPath>..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
@@ -132,6 +135,7 @@
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
@@ -188,7 +192,11 @@
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
+    <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
+      <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
     </Compile>
@@ -202,6 +210,10 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\GrupoVehiculoUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\CintaOpcionesUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -279,7 +291,6 @@
     <Folder Include="Logic\Atipicos\" />
     <Folder Include="Logic\Comercial\" />
     <Folder Include="Logic\Contratos\" />
-    <Folder Include="Model\Classes\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

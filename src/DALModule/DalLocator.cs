@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DataAccessLayer
@@ -43,10 +40,11 @@ namespace DataAccessLayer
                 banksDataAccessLayer = new BanksDataAccessLayer();
                 chargeTypeDataAccessLayer = new ChargeTypeDataAccessLayer();
                 AddLayer(chargeTypeDataAccessLayer);
-				AddLayer(banksDataAccessLayer);
+		        AddLayer(banksDataAccessLayer);
             }
             catch (Exception e)
             {
+                // we need to pop up the exception
                 MessageBox.Show(e.Message);
             }
          

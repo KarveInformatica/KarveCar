@@ -4,7 +4,7 @@ using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace DataAccessLayer.DataObjects
 {
-    public class CargoPersonal : GenericPropertyChanged, IDataGridRowChange
+    public class CargoPersonal : BaseAuxDataObject
     {
         #region Constructores
         public CargoPersonal() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }

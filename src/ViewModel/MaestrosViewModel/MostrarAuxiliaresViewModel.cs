@@ -1,12 +1,11 @@
-﻿using KarveCar.Commands.Generic;
+﻿using DataAccessLayer;
+using KarveCar.Commands.Generic;
 using KarveCar.Logic.Maestros;
-using System.Linq;
-using System.Windows.Input;
-using DataAccessLayer;
 using KarveCommon.Generic;
 using Prism.Mvvm;
+using System.Linq;
+using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {

@@ -1343,7 +1343,7 @@
                                                         </ContentControl.Resources>
                                                         <StackPanel Orientation="Vertical" MinHeight="30"  VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ExtendedGridControl:ExtendedDataGrid}, Path=GroupByControlVisibility}">
 
-                                                            <TextBlock x:Name="txtDragName" Loaded="TxtDragLoaded"  Visibility="Visible"  VerticalAlignment="Stretch" Padding="8">Click a plus sign in column header to group by that column.</TextBlock>
+                                                            <TextBlock x:Name="txtDragName" Loaded="TxtDragLoaded"  Visibility="Visible" VerticalAlignment="Stretch" Padding="8">Click a plus sign in column header to group by that column.</TextBlock>
 
                                                             <DockPanel LastChildFill="True"  HorizontalAlignment="Stretch">
                                                                 <Button DockPanel.Dock="Right" Cursor="Hand" Margin="3" x:Name="btnClearGroup" Click="ClearGroupClick" VerticalAlignment="Center" HorizontalAlignment="Right" Visibility="Collapsed">

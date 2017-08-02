@@ -12,34 +12,15 @@
             rbtnOficinas,
             rbtnZonasOficina,
 
-            rbtnClientes,
-            rbtnCambioCodigoCliente,
-            rbtnEntradaRapida,
-
-            rbtnComisionistas,
-
-            rbtnProveedores,
-
-            rbtnTarifas,
-            rbtnCambioCodigoTarifas,
-            rbtnCrearTarifaDesdeOtraTarifa,
-            rbtnIncrementoPrecios,
-            rbtnTarifaCliente,
-            rbtnTarifasComisionista,
-            rbtnVerTarifa,
-            rbtnVincularClienteTarifa,
-
-            rbtnVehiculos,
-            rbtnCambioCodigoVehiculo,
-            rbtnModificacionMasivaAux,
-            rbtnRecalculoMantenimiento,
-
             rbtnBancosClientes,
             rbtnBloqueFacturacion,
+            rbtnCambioCodigoCliente,
             rbtnCanales,
             rbtnCargosPersonal,
             rbtnCCAA,
             rbtnClavesPresupuesto,
+            rbtnClientes,
+            rbtnEntradaRapida,
             rbtnFormasCobroClientes,
             rbtnMercados,
             rbtnNegocios,
@@ -57,16 +38,9 @@
             rbtnVendedores,
             rbtnZonasCliente,
 
+            rbtnComisionistas,
             rbtnEmpleadosAgencia,
             rbtnTipoComisionista,
-
-            rbtnAccesorios,
-            rbtnLugaresEntrega,
-            rbtnMotivosAnulacionContratos,
-            rbtnMotivosCambioVehiculo,
-            rbtnMotivosCancelacion,
-            rbtnMotivosImproductivo,
-            rbtnTipoImpresoContrato,
 
             rbtnTiposIncidenciasClientes,
             rbtnTiposIncidenciasContratos,
@@ -76,17 +50,27 @@
             rbtnDivisas,
             rbtnFormaPagoProveedor,
             rbtnTiposProveedores,
+            rbtnProveedores,
 
             rbtnClavesFee,
             rbtnMediosRecepcion,
             rbtnMotivosAnulacionReservas,
             rbtnMotivosNoServicio,
 
+            rbtnCambioCodigoTarifas,
             rbtnConceptosFacturacion,
-            rbtnGruposTarifa,
+            rbtnCrearTarifaDesdeOtraTarifa,
+            rbtnGruposTarifa,           
+            rbtnIncrementoPrecios,
+            rbtnTarifas,
+            rbtnTarifaCliente,
+            rbtnTarifasComisionista,
+            rbtnVerTarifa,
+            rbtnVincularClienteTarifa,
 
             rbtnAccesoriosVehiculos,
             rbtnActividadesVehiculos,
+            rbtnCambioCodigoVehiculo,
             rbtnCodigosInmovilizacion,
             rbtnCodigosMantenimiento,
             rbtnColores,
@@ -95,15 +79,25 @@
             rbtnGruposVehiculos,
             rbtnMarcas,
             rbtnModelos,
+            rbtnModificacionMasivaAux,
             rbtnMotivosRepostaje,
             rbtnPropietarios,
+            rbtnRecalculoMantenimiento,
             rbtnTiposVehiculos,
+            rbtnVehiculos,
 
+            rbtnAccesorios,
             rbtnCategoriasPersonal,
             rbtnConceptosSalidaCaja,
+            rbtnLugaresEntrega,
+            rbtnMotivosAnulacionContratos,
+            rbtnMotivosCambioVehiculo,
+            rbtnMotivosCancelacion,
+            rbtnMotivosImproductivo,
             rbtnTextosEstandars,
             rbtnTipoContactoPotencial,
             rbtnTiposDocumentos,
+            rbtnTipoImpresoContrato,
             rbtnTipoImpresoFactura,
             #endregion
 
@@ -204,7 +198,6 @@
 
             rbtnCambioEmpresa,
             rbtnCambioUbicacion,
-            rbtnDescargarMultas,
             rbtnHistoricoSeguros,
             rbtnImpresionLlaveros,
             rbtnPrevisionEntradas,
@@ -244,6 +237,15 @@
             rbtnListadosProveedores,
             rbtnListadosReservas,
             rbtnListadosVehiculos,
+            #endregion
+
+            #region Servicios
+            rbtnDescargarMultas,
+            rbtnMantenimientoServicios,
+            rbtnMultas,
+            rbtnNeumaticos,
+            rbtnTarjetaCombustible,
+            rbtnVehiculoSustitucion,
             #endregion
 
             #region Configuración

@@ -585,6 +585,47 @@
             </summary>
             <param name="store">The store.</param>
         </member>
+        <member name="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine">
+            <summary>
+            The <see cref="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine"/> defines the contract used to build
+            an <see cref="T:Apache.Ibatis.DataMapper.IMapperFactory"/>.    
+            </summary>
+        </member>
+        <member name="E:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.FileResourceLoad">
+            <summary>
+            Event launch on processing file resource
+            </summary>
+        </member>
+        <member name="P:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.ModelStore">
+            <summary>
+            Gets the model store.
+            </summary>
+            <value>The model store.</value>
+        </member>
+        <member name="P:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.ConfigurationStore">
+            <summary>
+            Gets the configuration store.
+            </summary>
+            <value>The configuration store.</value>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.BuildMapperFactory">
+            <summary>
+            Builds the mapper factory.
+            </summary>
+            <returns>The mapper factory</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.RegisterModule(Apache.Ibatis.DataMapper.Configuration.Module.IModule)">
+            <summary>
+            Add a module to the <see cref="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine"/>.
+            </summary>
+            <param name="module">The module.</param>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.RegisterInterpreter(Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.IConfigurationInterpreter)">
+            <summary>
+            Registers an <see cref="T:Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.IConfigurationInterpreter"/>.
+            </summary>
+            <param name="interpreter">The interpreter.</param>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml.CodeConfigurationInterpreter">
              <summary>
              Allows most of the XML normally contained in SqlMapConfig.xml to be expressed in code. SqlMap items 
@@ -1707,47 +1748,6 @@
             accordingly.
             </summary>
             <param name="store">The store.</param>
-        </member>
-        <member name="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine">
-            <summary>
-            The <see cref="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine"/> defines the contract used to build
-            an <see cref="T:Apache.Ibatis.DataMapper.IMapperFactory"/>.    
-            </summary>
-        </member>
-        <member name="E:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.FileResourceLoad">
-            <summary>
-            Event launch on processing file resource
-            </summary>
-        </member>
-        <member name="P:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.ModelStore">
-            <summary>
-            Gets the model store.
-            </summary>
-            <value>The model store.</value>
-        </member>
-        <member name="P:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.ConfigurationStore">
-            <summary>
-            Gets the configuration store.
-            </summary>
-            <value>The configuration store.</value>
-        </member>
-        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.BuildMapperFactory">
-            <summary>
-            Builds the mapper factory.
-            </summary>
-            <returns>The mapper factory</returns>
-        </member>
-        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.RegisterModule(Apache.Ibatis.DataMapper.Configuration.Module.IModule)">
-            <summary>
-            Add a module to the <see cref="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine"/>.
-            </summary>
-            <param name="module">The module.</param>
-        </member>
-        <member name="M:Apache.Ibatis.DataMapper.Configuration.IConfigurationEngine.RegisterInterpreter(Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.IConfigurationInterpreter)">
-            <summary>
-            Registers an <see cref="T:Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.IConfigurationInterpreter"/>.
-            </summary>
-            <param name="interpreter">The interpreter.</param>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.Configuration.IConfigurationStore">
             <summary>
