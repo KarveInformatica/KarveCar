@@ -1,14 +1,11 @@
-using System.Data;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
 using KarveCommon.Generic;
+using System.Data;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Interactivity;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -21,29 +18,27 @@ namespace KarveCar.Logic.Maestros
         /// no se carga de nuevo, simplemente se establece el foco en ese TabItem.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void PrepareTabItemDataGrid(EOpcion option)
+        public static void PrepareTabItemDataGrid(EOpcion opcion)
         {
-            if (tabitemdictionary.Where(p => p.Key == option).Count() == 0)
+            if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
             {
-                //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params
-                
+                //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params                
                 // TODO: remove all this make in a way that it is using all the aux.
-                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
+                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(opcion);
 
                 /*  else
                   {
                       DalLocator loc = DalLocator.GetInstance();
                       IDalObject dalObject =  loc.FindDalObject(option.ToString());
                       genericobscollection = dalObject.GetItems();
-
                   }
                   */
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
-                CreateTabItemDataGrid(option, genericobscollection);                
+                CreateTabItemDataGrid(opcion, genericobscollection);                
             }
             else
             {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                tabitemdictionary.Where(z => z.Key == option).FirstOrDefault().Value.TabItem.Focus();
+                tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
             }
         }
 

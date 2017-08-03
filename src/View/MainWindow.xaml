@@ -1800,22 +1800,20 @@
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
             </r:Ribbon>
             <!--</ScrollViewer>-->
-            <ScrollViewer>
-                <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+            <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-                    <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
-                    <TabControl Grid.Row="1"  x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
-
-                    </TabControl>
-                </Grid>
-            </ScrollViewer>
+                <ContentControl Grid.Row="0" prism:RegionManager.RegionName="KarveToolBar"/>
+                <TabControl     Grid.Row="1" x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                    <ScrollViewer/>
+                </TabControl>
+            </Grid>
         </DockPanel>
     </Grid>
 </r:RibbonWindow>
