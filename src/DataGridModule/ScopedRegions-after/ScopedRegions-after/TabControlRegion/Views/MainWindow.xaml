@@ -1,0 +1,52 @@
+﻿<Window x:Class="TabControlRegion.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:local="clr-namespace:TabControlRegion"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:mvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        Title="MainWindow" Height="350" Width="525">
+
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            Margin="0,0,7,0" Content="{Binding}"/>
+                            <Button Grid.Column="1" Content="x">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <local:CloseTabAction/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ViewA">Navigate A</Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate B</Button>
+        </StackPanel>
+
+        <TabControl Grid.Row="1" prism:RegionManager.RegionName="TabRegion" />
+    </Grid>
+</Window>

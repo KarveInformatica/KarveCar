@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="Banks" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >	       
+	<resultMaps>                                    
+		<resultMap id="BankResultMap"  class="BankDataObject" >
+			<result property="Codigo"     column="CODBAN"/>
+			<result property="Definicion"    column="NOMBRE"/>
+			<result property="Swift"     column="SWIFT"/>
+		</resultMap>	    
+	</resultMaps>
+  <statements>
+    <select id="GetAllBanks"  resultMap="BankResultMap">
+      select 
+      * 
+      from 
+      Banco 
+      order by NOMBRE
+    </select>
+</statements>
+</sqlMap>

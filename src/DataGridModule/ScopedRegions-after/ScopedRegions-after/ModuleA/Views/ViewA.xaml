@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="ModuleA.Views.ViewA"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvm="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Desktop"
+             xmlns:prism="http://www.codeplex.com/prism"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="View A" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" />
+            <Button Grid.Row="1" Command="{Binding NavigateCommand}" CommandParameter="ViewB">Navigate ViewB in Scoped Region</Button>
+            <TabControl Grid.Row="2" prism:RegionManager.RegionName="ChildRegion"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -68,7 +68,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
                     {
                         DataRow dataRow = dataTable.NewRow();
                         dataTable.Rows.Add(dataRow);
-                        resultStrategy.Process(request, ref reader, dataRow);
+                        //resultStrategy.Process(request, ref reader, dataRow);
                     }
                 }
                 finally

@@ -3,6 +3,7 @@ using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using DataAccessLayer.DataObjects;
 
 namespace DataAccessLayer
@@ -29,6 +30,25 @@ namespace DataAccessLayer
                 collection.Add(bank);
             }
 
+        }
+        /// <summary>
+        /// Lists all banks
+        /// </summary>
+        /// <returns>Returns a table of all available banks</returns>
+        public DataTable GetAllBanksTable()
+        {
+            DataTable table = new DataTable();
+            ICollection<BancoDataObject> charges = DataMapper.QueryForList<BancoDataObject>("Auxiliares.GetAllBanks", null);
+            table.Columns.Add(new DataColumn("Codigo", typeof(long)));
+            table.Columns.Add(new DataColumn("Banco", typeof(string)));
+            foreach (BancoDataObject item in charges)
+            {
+                var row = table.NewRow();
+                row["Codigo"] = item.Codigo;
+                row["Banco"] = item.Definicion;
+                table.Rows.Add(row);
+            }
+            return table;
         }
         /// <summary>
         ///  Get an observable collection of banks.
@@ -62,12 +82,16 @@ namespace DataAccessLayer
             ObservableCollection<BancoDataObject> dataCollection = new ObservableCollection<BancoDataObject>();
             QueryCopy(DataMapper, out dataCollection);
             // filter repeated data
-            ISet<string> collectionTemp = new SortedSet<string>();
             ObservableCollection<object> abstractCollection = new ObservableCollection<object>();
             GenericObservableCollection generic = new GenericObservableCollection();
             generic.GenericObsCollection = abstractCollection;
             return generic;
         }
+        /// <summary>
+        ///  This updates an observable collection to database.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
         public override void StoreCollection<T>(ObservableCollection<T> collection)
         {
             IList<BancoDataObject> current = new List<BancoDataObject>();
@@ -80,7 +104,6 @@ namespace DataAccessLayer
             base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
            
         }
-
         public override void RemoveCollection<T>(ObservableCollection<T> collection)
         {
             IList<BancoDataObject> current = new List<BancoDataObject>();

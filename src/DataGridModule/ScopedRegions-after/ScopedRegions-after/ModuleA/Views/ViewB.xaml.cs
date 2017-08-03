@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using Microsoft.Practices.Prism.Mvvm;
-
+using Xceed.Wpf.DataGrid;
 namespace ModuleA.Views
 {
     /// <summary>
@@ -11,6 +11,7 @@ namespace ModuleA.Views
         public ViewB()
         {
             InitializeComponent();
+            
         }
     }
 }

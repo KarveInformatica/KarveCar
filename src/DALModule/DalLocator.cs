@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DataAccessLayer
 {
@@ -26,23 +27,27 @@ namespace DataAccessLayer
         {
             if (dalObject != null)
             {
-           //     dalObjects.Add(dalObject.Id, dalObject);
+                 dalObjects.Add(dalObject.Id, dalObject);
             }
         }
         public DalLocator()
         {
             BanksDataAccessLayer banksDataAccessLayer = null;
+            ChargeTypeDataAccessLayer chargeTypeDataAccessLayer = null;
             // check if it is working again.
             try
             {
                 banksDataAccessLayer = new BanksDataAccessLayer();
-
+                chargeTypeDataAccessLayer = new ChargeTypeDataAccessLayer();
+                AddLayer(chargeTypeDataAccessLayer);
+		        AddLayer(banksDataAccessLayer);
             }
             catch (Exception e)
             {
-                banksDataAccessLayer = null;
+                // we need to pop up the exception
+                MessageBox.Show(e.Message);
             }
-            AddLayer(banksDataAccessLayer);
+         
         }
     }
 }
