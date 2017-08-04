@@ -228,7 +228,8 @@ namespace KarveCar.Utility
                 string lang = GetSetting("Language");
                 if (!lang.Equals(string.Empty))
                 {
-                    SetLanguagesViewModel slvm = new SetLanguagesViewModel();
+                    KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
+                    MainWindowViewModel slvm = new MainWindowViewModel(window.UnityContainer);
                     slvm.SetLanguages(lang);
                 }
             }

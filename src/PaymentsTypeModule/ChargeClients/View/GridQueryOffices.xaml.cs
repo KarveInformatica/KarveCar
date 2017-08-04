@@ -17,16 +17,22 @@ using PaymentTypeModule.ChargeClients.ViewModel;
 namespace PaymentTypeModule.ChargeClients.View
 {
     /// <summary>
-    /// Interaction logic for ClientChargeWindow.xaml
+    /// Interaction logic for GridQueryOffices.xaml
     /// </summary>
-    public partial class ClientChargeView: UserControl, IPaymentView
+    public partial class GridQueryOffices : UserControl
     {
-        public ClientChargeView()
-
+        public GridQueryOffices()
         {
             InitializeComponent();
-            this.PaymentSystem.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
-           
+            this.QueryType.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+        }
+
+        public GridQueryOffices(GridPopUpViewModel viewModel)
+        {
+            InitializeComponent();
+            this.DataContext = viewModel;
+            this.QueryType.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+
         }
     }
 }

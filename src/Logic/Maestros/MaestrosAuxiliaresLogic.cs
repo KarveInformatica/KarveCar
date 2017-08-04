@@ -29,16 +29,7 @@ namespace KarveCar.Logic.Maestros
                 
                 // TODO: remove all this make in a way that it is using all the aux.
                 GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(option);
-
-                /*  else
-                  {
-                      DalLocator loc = DalLocator.GetInstance();
-                      IDalObject dalObject =  loc.FindDalObject(option.ToString());
-                      genericobscollection = dalObject.GetItems();
-
-                  }
-                  */
-                //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
+                    //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
                 CreateTabItemDataGrid(option, genericobscollection);                
             }
             else

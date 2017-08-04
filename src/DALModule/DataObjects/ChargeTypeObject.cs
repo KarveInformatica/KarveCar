@@ -20,14 +20,5 @@ namespace DataAccessLayer.DataObjects
                 OnPropertyChanged("Numero");
             }
         }
-        public object Nombre
-        {
-            get { return nombre; }
-            set
-            {
-                nombre = value;
-                OnPropertyChanged("Nombre");
-            }
-        }
     }
 }

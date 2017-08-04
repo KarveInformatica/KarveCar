@@ -10,11 +10,14 @@
                 xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"                
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
+
                 mc:Ignorable="d"
-                Title="MainWindow" x:Name="mainwindow" WindowState="Maximized" Closing="mainwindow_Closing" >
-    <r:RibbonWindow.DataContext>
-        <vm:SetLanguagesViewModel/>
-    </r:RibbonWindow.DataContext>
+                Title="{Binding Title}" x:Name="mainwindow" Icon="rentCarIcon.ico">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -325,10 +328,19 @@
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\new.png" >
                         </r:RibbonButton>
-                        <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
+                            <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
                                         Label="{Binding lrbtnFormasCobroClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png"  DataContext="{StaticResource paymentResolverViewModel}">
+                                <r:RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return"                                                
+                                                Command="{Binding ShowPaymentCommand}" 
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding ShowPaymentCommand}" 
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                  </r:RibbonButton.InputBindings>
+
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnMercados" 
                                         Label="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}" 
@@ -1800,22 +1812,21 @@
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
             </r:Ribbon>
             <!--</ScrollViewer>-->
-            <ScrollViewer>
+           
+
                 <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
-                    <TabControl Grid.Row="1"  x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
-
-                    </TabControl>
+                    <ScrollViewer Grid.Row="1">
+                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                        </TabControl>
+                    </ScrollViewer>
                 </Grid>
-            </ScrollViewer>
+
         </DockPanel>
     </Grid>
 </r:RibbonWindow>

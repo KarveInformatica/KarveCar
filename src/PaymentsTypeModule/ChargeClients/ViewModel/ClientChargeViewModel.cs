@@ -5,17 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using DataAccessLayer;
+using KarveCommon.Generic;
+using KarveCommon.Services;
 using PaymentTypeModule.ChargeClients.View;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Regions;
 
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {
-    public class ClientChargeViewModel : BindableBase
+    public class ClientChargeViewModel : BindableBase, IPaymentViewModule
     {
         private string _chargeStateProperties;
         private string _lastUser;
@@ -48,19 +52,36 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private string _dataGridColName1;
         private string _dataGridColName2;
         private GridPopUpViewModel viewModel = new GridPopUpViewModel();
-        private GridPopUpView popUpView = new GridPopUpView();
-        private IDalLocator locator;
+        private GridQuery _queryControl = new GridQuery();
+        private IDalLocator _dalLocator;
         private DataTable _sourceDataTable;
         // interaction requests are of two types: Notification and Confirmation requests.
 
         public InteractionRequest<INotification> ErrorDialog { get; private set; }
         private DelegateCommand ErrorDialogCommand;
+        private bool _isVisible = false;
+        private IRegionManager _regionManager;
+        private ChargeTypeDataAccessLayer _chargeType;
+        private BanksDataAccessLayer _bankAccessLayer;
+        private DataTable _bankDataTable;
 
-        public ClientChargeViewModel()
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                _isVisible = value;
+                RaisePropertyChanged("IsVisible");
+            }
+
+        }
+        public ClientChargeViewModel(ICareKeeperService careKeeperService,
+            IDalLocator dalLocator,
+            IConfigurationService configurationService, IRegionManager regionManager)
         {
             this.ClickCommand = new DelegateCommand<string>(OnClickCommand);
-            locator = DalLocator.GetInstance();
-            IDalObject obj = locator.FindDalObject("ChargeTypeDAL");
+            this.DataGridChangedSelection = new DelegateCommand<object>(OnSelectedRow);
+            _dalLocator = dalLocator;
             _currentClickCommand.Add("FindChargeNumber", new DelegateCommand(ChargeNumberPopUp));
             _currentClickCommand.Add("FindChargeName", new DelegateCommand(ChargeNamePopUp));
             _currentClickCommand.Add("FindChargeAccount", new DelegateCommand(ChargeAccountPopUp));
@@ -69,92 +90,158 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             _currentClickCommand.Add("FindOffice", new DelegateCommand(ChargeOfficePopUp));
             _currentClickCommand.Add("FindChargeBank", new DelegateCommand(ChargeBankPopUp));
             _currentClickCommand.Add("FindBillingAccount", new DelegateCommand(ChargeBillingAccountPopUp));
+            _regionManager = regionManager;
             InitDataLayer();
-
         }
         private void InitDataLayer()
         {
             try
             {
-                locator = DalLocator.GetInstance();
-                IDalObject obj = locator.FindDalObject("ChargeTypeDAL");
-                _sourceDataTable = ((ChargeTypeDataAccessLayer)obj).GetChargeObjects();
+                _chargeType = _dalLocator.FindDalObject("ChargeTypeDAL") as ChargeTypeDataAccessLayer;
+                if (_chargeType != null)
+                {
+                    _sourceDataTable = _chargeType.GetChargeObjects();
+                }
+                _bankAccessLayer =
+                    _dalLocator.FindDalObject(
+                        RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString()) as BanksDataAccessLayer;
+                _bankDataTable = _bankAccessLayer.GetAllBanksTable();
+                viewModel.QueryTable = _bankDataTable;
+
             }
             catch (Exception e)
             {
-                this.ErrorDialog = new InteractionRequest<INotification>();
-                this.ErrorDialogCommand = new DelegateCommand(() =>
-                {
-                    this.ErrorDialog.Raise(
-                        new Notification
-                        {
-                            Title = "Error during data layer loading",
-                            Content = e.Message
-                        },
-                        (dialog) =>
-                        {
 
-                        });
-
-                });
+                ShowError(e, "Error during data later loading");
             }
+        }
+
+        private void OnSelectedRow(object param)
+        {
+            MessageBox.Show("Not in my name");
         }
         private void ChargeBillingAccountPopUp()
         {
             viewModel.Title = "Formas Cobro e Facturacion";
+            viewModel.QueryTable = null;
             viewModel.QueryType = "Formas Cobro e Facturacion";
-            ShowPopUp(viewModel);
+            DataTable invoice = null;
+            try
+            {
+                invoice = _chargeType.GetAllInvoiceTypeDataTable();
+            }
+            catch (Exception e)
+            {
+                ShowError(e, "Error during data later loading");
+            }
+            viewModel.QueryTable = invoice;
+            ShowRegion(viewModel, false);
         }
 
         private void ChargeBankPopUp()
         {
             viewModel.Title = "Consulta de Bancos";
+            viewModel.QueryTable = _bankDataTable; ;
             viewModel.QueryType = "Consulta de Bancos";
-            ShowPopUp(viewModel);
+            ShowRegion(viewModel, false);
         }
 
+      
         private void ChargeOfficePopUp()
         {
             viewModel.Title = "Consulta Cuenta de Oficinas";
             viewModel.QueryType = "Consulta Cuenta de Oficinas";
-            ShowPopUp(viewModel);
+            try
+            {
+                DataTable offices = _chargeType.GetAllInvoiceOfficesDataTable();
+                viewModel.QueryTable = offices;
+                ShowRegion(viewModel, true);
+            }
+            catch (Exception e)
+            {
+                ShowError(e, "Error during data layer loading");
+            }
+             
         }
 
         private void ChargeCommissionBankPopUp()
         {
             viewModel.Title = "Consulta de Bancos";
             viewModel.QueryType = "Consulta de Bancos";
-            ShowPopUp(viewModel);
+            viewModel.QueryTable = _bankDataTable;
+            ShowRegion(viewModel, false);
 
         }
 
         private void ChargeCommisionAccountPopUp()
         {
-            viewModel.Title = "Consulta de Cuentas Contables";
-            viewModel.QueryType = "Consulta de Cuentas Contables";
-            ShowPopUp(viewModel);
+            viewModel.Title = "Consulta de Cuentas Commision";
+            viewModel.QueryType = "Consulta de Cuentas Commision";
+            viewModel.QueryTable = null;
+            DataTable table = null;
+
+            try
+            {
+                table = _chargeType.GetAllAccountsDataTable();
+            }
+            catch (Exception e)
+            {
+
+            }
+            viewModel.QueryTable = table;
+            ShowRegion(viewModel, false);
         }
 
         private void ChargeAccountPopUp()
         {
             viewModel.Title = "Consulta de Cuentas Contables";
             viewModel.QueryType = "Consulta de Cuentas Contables";
-            ShowPopUp(viewModel);
+            DataTable table = null;
+            try
+            {
+                table = _chargeType.GetAllAccountsDataTable();
+            }
+            catch (Exception e)
+            {
+                ShowError(e, "Error during data layer loading");
+            }
+            viewModel.QueryTable = table;
+            ShowRegion(viewModel, false);
         }
 
         private void ChargeNamePopUp()
         {
             viewModel.Title = "Consulta Nombre";
             viewModel.QueryType = "Consulta Nombre";
-            ShowPopUp(viewModel);
+            viewModel.QueryTable = null;
+            ShowRegion(viewModel, false);
 
         }
 
+        private void ShowError(Exception e, string error)
+        {
+            this.ErrorDialog = new InteractionRequest<INotification>();
+            this.ErrorDialogCommand = new DelegateCommand(() =>
+            {
+                this.ErrorDialog.Raise(
+                    new Notification
+                    {
+                        Title = error,
+                        Content = e.Message
+                    },
+                    (dialog) =>
+                    {
+
+                    });
+
+            });
+        }
         private void ChargeNumberPopUp()
         {
             viewModel.Title = "Consulta Numero";
             viewModel.QueryType = "Consulta Numero";
-            ShowPopUp(viewModel);
+            viewModel.QueryTable = null;
+            ShowRegion(viewModel, false);
         }
 
         public ICommand DataGridChangedSelection { get; set; }
@@ -179,6 +266,8 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             }
 
         }
+
+
         /// <summary>
         ///  Last user that has done the modification in this table
         /// </summary>
@@ -557,13 +646,24 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
 
         }
 
-        private void ShowPopUp(GridPopUpViewModel viewModel)
+        private void ShowRegion(GridPopUpViewModel viewModel, bool gridQueryOffices)
         {
-            // this works but is wrong.
-            popUpView = new GridPopUpView();
-            popUpView.DataContext = viewModel;
-            popUpView.ShowDialog();
-        }
+            UserControl rightRegionView;
 
+            if (gridQueryOffices)
+            {
+                rightRegionView = new GridQueryOffices(viewModel);
+            }
+            else
+            {
+                rightRegionView = new GridQuery(viewModel);
+            }
+
+            //  popUpView.DataContext = viewModel;
+            IRegion region = _regionManager.Regions["SearchRegion"];
+            region.RemoveAll();
+            region.Add(rightRegionView);
+
+        }
     }
 }

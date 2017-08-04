@@ -9,11 +9,11 @@ namespace KarveCar.Commands.Generic
 
     public class SetLanguagesCommand : AbstractCommand
     {
-        private SetLanguagesViewModel setlanguagesvm;
+        private MainWindowViewModel setlanguagesvm;
 
         public SetLanguagesCommand() { }
 
-        public SetLanguagesCommand(SetLanguagesViewModel vm)
+        public SetLanguagesCommand(MainWindowViewModel vm)
         {
             this.setlanguagesvm = vm;
         }

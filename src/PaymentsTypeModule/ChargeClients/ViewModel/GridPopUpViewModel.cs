@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Policy;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
@@ -15,6 +16,21 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private string _title;
         private string _firstColumnQuery;
         private string _secondColumnQuery;
+        private DataTable _sourceDataTable;
+        private bool _isVisible = true;
+
+
+       
+        public  bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                _isVisible = value;
+                RaisePropertyChanged("IsVisible");
+            }
+
+        }
 
         public string QueryType
         {
@@ -56,6 +72,14 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             }
 
         }
-        public DataTable SourceTable { get; set; }
+
+        public DataTable QueryTable
+        {
+            get { return _sourceDataTable; }
+            set {
+                _sourceDataTable = value;
+                RaisePropertyChanged("QueryTable");
+            }
+        }
     }
 }

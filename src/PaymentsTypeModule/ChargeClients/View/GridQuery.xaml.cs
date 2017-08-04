@@ -24,7 +24,14 @@ namespace PaymentTypeModule.ChargeClients.View
         public GridQuery()
         {
             InitializeComponent();
-            var name = this.DataContext;
+            this.QueryType.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+            //this.PayementSystem.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+        }
+        public GridQuery(GridPopUpViewModel vm)
+        {
+            this.DataContext = vm;
+            InitializeComponent();
+            this.QueryType.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
             //this.PayementSystem.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
         }
     }

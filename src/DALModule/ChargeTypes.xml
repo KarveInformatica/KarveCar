@@ -22,7 +22,7 @@
     </resultMap>
     <resultMap id="ZoneOfficePerInvoiceTypeResultMap" class="ZoneOfficeDataObject">
       <result property="Codigo"       column="ZONA_OF"/>
-      <result property="Nombre "   column="NOM_ZONA"/>
+      <result property="Nombre"   column="NOM_ZONA"/>
     </resultMap>
     <resultMap id="ChargeOptionResultMap"  class="ChargeOptionDataObject">
       <result property="IsShowerChecked"           column="MOSTRADOR"/>

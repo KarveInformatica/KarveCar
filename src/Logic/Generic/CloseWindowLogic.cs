@@ -4,9 +4,12 @@ using KarveCar.View;
 using System;
 using System.ComponentModel;
 using System.Windows;
-
 namespace KarveCar.Logic.Generic
 {
+    /// <summary>
+    /// <author>Jordi Fernández Moreno</author>
+    /// </summary>
+
     public class CloseWindowLogic
     {
         /// <summary>

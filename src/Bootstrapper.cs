@@ -26,6 +26,7 @@ namespace KarveCar
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
+            catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
         }
 
         /// <summary>
@@ -49,6 +50,14 @@ namespace KarveCar
             values[0] = Application.Current.MainWindow;
             InjectionConstructor injectionConstructor = new InjectionConstructor(values);
             Container.RegisterType<IConfigurationService, ConfigurationService>(injectionConstructor);
+
+            /*
+             * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
+             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
+             */
+            KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
+            window.UnityContainer = Container;
+
             Application.Current.MainWindow.Show();
         }
     }

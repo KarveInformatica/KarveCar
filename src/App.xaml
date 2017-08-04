@@ -34,12 +34,11 @@
 
             <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
             <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
-            <vm:SetLanguagesViewModel x:Key="setLanguagesViewModel"/>
-
+         
             <!-- Maestros-->
             <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
             <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
-
+            <ms:PaymentResolverViewModel x:Key="paymentResolverViewModel"/>
             <!-- Configuracion-->
             <cfg:CintaOpcionesViewModel x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>

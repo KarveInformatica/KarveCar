@@ -92,6 +92,7 @@
     <Compile Include="DataObjects\Negocio.cs" />
     <Compile Include="DataObjects\OrigenCliente.cs" />
     <Compile Include="DataObjects\Poblacion.cs" />
+    <Compile Include="IDataAccessLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataObjects\Provincia.cs" />
     <Compile Include="DataObjects\SectorActividad.cs" />
@@ -134,8 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Auxiliares.xml" />
-    <Content Include="Banks.xml" />
-    <Content Include="ChargeTypes.xml" />
+    <Content Include="Banks.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ChargeTypes.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

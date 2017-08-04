@@ -1133,7 +1133,7 @@ namespace ExtendedGrid.ExtendedGridControl
                 sortIndex++;
                 var sortOrder = new Path();
                 var txtSortOrder = new TextBlock();
-
+                
                 DataGridColumnHeader header =
                     FindControls.GetColumnHeaderFromColumn(Columns[GetColumnIndex(Columns, sortDesc.PropertyName)], this);
                 if (header != null)

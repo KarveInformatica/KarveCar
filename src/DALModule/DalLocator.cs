@@ -39,13 +39,14 @@ namespace DataAccessLayer
             {
                 banksDataAccessLayer = new BanksDataAccessLayer();
                 chargeTypeDataAccessLayer = new ChargeTypeDataAccessLayer();
+                if (chargeTypeDataAccessLayer!=null)
                 AddLayer(chargeTypeDataAccessLayer);
-		        AddLayer(banksDataAccessLayer);
+                if (banksDataAccessLayer != null)
+                    AddLayer(banksDataAccessLayer);
             }
             catch (Exception e)
             {
-                // we need to pop up the exception
-                MessageBox.Show(e.Message);
+                throw new DataLayerExecutionException(e.Message);
             }
          
         }
