@@ -118,7 +118,13 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
 
         private void OnSelectedRow(object param)
         {
-            MessageBox.Show("Not in my name");
+            DataRowView local = param as DataRowView;
+            this.ChargeNumber = Convert.ToString(local.Row.ItemArray[0]);
+            this.ChargeName = local.Row.ItemArray[1] as string;
+            this.ChargeAccount1 = local.Row.ItemArray[2] as string;
+            this.ChargeAccount2 = _chargeType.GetAccountDefinitionByCode(this.ChargeAccount1);
+            //RaisePropertyChanged();
+
         }
         private void ChargeBillingAccountPopUp()
         {

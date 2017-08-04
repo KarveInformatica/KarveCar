@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
-using System.Data;
 
 namespace DataAccessLayer
 {
@@ -21,6 +17,9 @@ namespace DataAccessLayer
     {
         private readonly string _id = "ChargeTypeDAL";
         private Type _dalType = typeof(ChargeTypeObject);
+
+        private ICollection<BaseAuxDataObject> _accountDataTable;
+
         // logical a component shall not depende on other one the same level.
         
         /// <summary>
@@ -71,13 +70,32 @@ namespace DataAccessLayer
             }
             return table;
         }
+
+        public string GetAccountDefinitionByCode(string inCode)
+        {
+            if (_accountDataTable == null)
+            {
+                _accountDataTable = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
+            }
+            foreach (var item in _accountDataTable)
+            {
+                string code = CheckNullToEmptyString(item.Codigo);
+                string definicion = CheckNullToEmptyString(item.Nombre);
+                if (String.Compare(code, inCode, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    return definicion;
+                }
+            }
+            return "";
+        }
+
         public DataTable GetAllAccountsDataTable()
         {
-            ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
+            _accountDataTable = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
             DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("Codigo", typeof(string)));
             table.Columns.Add(new DataColumn("Definicion", typeof(string)));
-            foreach (var item in invoiceTypes)
+            foreach (var item in _accountDataTable)
             {
                 var row = table.NewRow();
                 row["Codigo"] = CheckNullToEmptyString(item.Codigo);
@@ -188,11 +206,14 @@ namespace DataAccessLayer
             ICollection<ChargeTypeObject> charges = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
             table.Columns.Add(new DataColumn("Numero", typeof(long)));
             table.Columns.Add(new DataColumn("Nombre", typeof(string)));
+            table.Columns.Add(new DataColumn("Cuenta", typeof(string)));
+
             foreach (ChargeTypeObject item in charges)
             {
                 var row = table.NewRow();
                 row["Numero"] = item.Numero;
                 row["Nombre"] = item.Nombre;
+                row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
             }
             return table;

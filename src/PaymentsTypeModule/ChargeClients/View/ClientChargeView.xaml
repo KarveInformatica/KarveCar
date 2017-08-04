@@ -94,8 +94,7 @@
                                  CommandParameter="FindChargeAccount" Grid.ColumnSpan="2" Margin="94,0,-2,0">
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
-                            </StackPanel>
+                                </StackPanel>
                         </Button>
                         <Label Grid.Row="3" Grid.Column="0">Cuenta Comisión</Label>
                         <TextBox Name="ChargeCommissionAccount"  Grid.Row="3" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeCommissionAccount1}" Height="Auto" Margin="0,5"/>
@@ -104,7 +103,6 @@
                                  CommandParameter="FindChargeCommissionAccount" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
                             </StackPanel>
                         </Button>
                         <Label Grid.Row="4" Grid.Column="0">Comisión %</Label>
@@ -122,8 +120,7 @@
                         <Button  Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Name="FindCommissionBank" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindCommissionBank" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
-                            </StackPanel>
+                                </StackPanel>
                         </Button>
                         <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
                         <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}" Height="Auto" Margin="0,5"/>
@@ -132,7 +129,6 @@
                                  CommandParameter="FindOffice" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                    <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
                             </StackPanel>
                         </Button>
                         <Label Grid.Row="6" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
@@ -154,8 +150,7 @@
                         <Button  Grid.Row="8" Name="FindChargeBank" Grid.Column="3" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindChargeBank" Grid.ColumnSpan="2" Margin="94,0,-2,0">
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
-                            </StackPanel>
+                                  </StackPanel>
                         </Button>
                         <Label Grid.Row="9" Grid.Column="0">Facturación</Label>
                         <TextBox Name="Billing1" Text="{Binding Path=Billing1}" Grid.Row="9" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5"/>
@@ -164,8 +159,7 @@
                                  CommandParameter="FindBillingAccount" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                <Label Padding="4" Height="27" Width="55" FontWeight="Bold" FontFamily="Times New Roman">Buscar..</Label>
-                            </StackPanel>
+                                                          </StackPanel>
                         </Button>
                         <Label Grid.Row="10" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
                         <WrapPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5">
