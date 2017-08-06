@@ -5,22 +5,21 @@ using System.Data;
 using Apache.Ibatis.DataMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
+using KarveDataServices;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.
     /// </summary>
-    /// <remarks>Depends on BankDataAccessLayer</remarks>
-
-    public class ChargeTypeDataAccessLayer : BaseDataMapper
+    
+    public class ChargeTypeDataAccessLayer : BaseDataMapper, IPaymentDataServices
     {
         private readonly string _id = "ChargeTypeDAL";
         private Type _dalType = typeof(ChargeTypeObject);
 
         private ICollection<BaseAuxDataObject> _accountDataTable;
 
-        // logical a component shall not depende on other one the same level.
         
         /// <summary>
         ///  This dal object is useful for accessing to the different types of charging

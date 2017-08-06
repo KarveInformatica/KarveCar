@@ -7,6 +7,9 @@ using System.Data;
 
 namespace KarveDataServices
 {
+    /// <summary>
+    ///  This data service provide the data for the kind of payment
+    /// </summary>
     public interface IPaymentDataServices
     {
         /// <summary>
@@ -20,7 +23,7 @@ namespace KarveDataServices
         /// <returns></returns>
         DataTable GetAllInvoiceTypeDataTable();
         /// <summary>
-        ///  Retrive the bank account name using a code
+        ///  Retrieve the bank account name using a code
         /// </summary>
         /// <param name="inCode">bank account code </param>
         /// <returns></returns>

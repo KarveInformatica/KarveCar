@@ -46,7 +46,7 @@ namespace DataAccessLayer
             }
             catch (Exception e)
             {
-                throw new DataLayerExecutionException(e.Message);
+                //throw new DataLayerExecutionException(e.Message);
             }
          
         }
