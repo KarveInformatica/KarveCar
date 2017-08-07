@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generic\IDataGridRowChange.cs" />
+    <Compile Include="KarveCommonException.cs" />
     <Compile Include="Services\CareKeeper.cs" />
     <Compile Include="Command\AbstractCommand.cs" />
     <Compile Include="Command\CommandHistory.cs" />

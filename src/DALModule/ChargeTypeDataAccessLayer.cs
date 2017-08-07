@@ -66,6 +66,7 @@ namespace DataAccessLayer
                 row["Codigo"] = item.Codigo;
                 row["Definicion"] = item.Nombre;
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }
@@ -100,6 +101,7 @@ namespace DataAccessLayer
                 row["Codigo"] = CheckNullToEmptyString(item.Codigo);
                 row["Definicion"] = CheckNullToEmptyString(item.Nombre);
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }
@@ -176,6 +178,7 @@ namespace DataAccessLayer
                     row["CP"] = CheckNullToEmptyString(officeObj.CodigoPostal);
                     row["Poblacion"] = CheckNullToEmptyString(officeObj.Poblacion);
                     officeDataTable.Rows.Add(row);
+                    officeDataTable.AcceptChanges();
                 }
             }
             return officeDataTable;
@@ -203,7 +206,7 @@ namespace DataAccessLayer
         {
             DataTable table = new DataTable();
             ICollection<ChargeTypeObject> charges = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
-            table.Columns.Add(new DataColumn("Numero", typeof(long)));
+            table.Columns.Add(new DataColumn("Numero", typeof(string)));
             table.Columns.Add(new DataColumn("Nombre", typeof(string)));
             table.Columns.Add(new DataColumn("Cuenta", typeof(string)));
 
@@ -214,6 +217,7 @@ namespace DataAccessLayer
                 row["Nombre"] = item.Nombre;
                 row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }

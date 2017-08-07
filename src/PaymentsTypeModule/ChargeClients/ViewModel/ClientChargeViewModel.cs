@@ -1,24 +1,28 @@
-﻿using DataAccessLayer;
-using PaymentTypeModule.ChargeClients.View;
+﻿using PaymentTypeModule.ChargeClients.View;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using Prism.Regions;
-
+using KarveDataServices;
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {
+    /// <summary>
+    ///  This view model has the resposability of manage the kind of payment that we can afford.
+    /// </summary>
     public class ClientChargeViewModel : BindableBase, IPaymentViewModule
     {
+        /// <summary>
+        ///  Internal fields of the view
+        /// </summary>
         private bool _askedCreditCard;
-        
         private string _chargeStateProperties;
         private string _lastUser;
         private string _chargeNumber;
@@ -48,11 +52,21 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private bool _isNoAutoListChecked;
         private string _dataGridColName1;
         private string _dataGridColName2;
-
+        /// <summary>
+        ///  Set of delegate commands.
+        /// </summary>
         private IDictionary<string, DelegateCommand> _currentClickCommand = new Dictionary<string, DelegateCommand>();
         private GridPopUpViewModel viewModel = new GridPopUpViewModel();
         private GridQuery _queryControl = new GridQuery();
-        private IDalLocator _dalLocator;
+        /// <summary>
+        /// Data services interace
+        /// </summary>
+        private IDataServices _dataServices;
+        /// <summary>
+        ///  Type of payment data services.
+        /// </summary>
+        private IPaymentDataServices _paymentDataServices;
+
         private DataTable _sourceDataTable;
         // interaction requests are of two types: Notification and Confirmation requests.
 
@@ -60,9 +74,9 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private DelegateCommand ErrorDialogCommand;
         private bool _isVisible = false;
         private IRegionManager _regionManager;
-        private ChargeTypeDataAccessLayer _chargeType;
-        private BanksDataAccessLayer _bankAccessLayer;
         private DataTable _bankDataTable;
+        private int _selectedIndex;
+        private bool movedSelection = false;
 
         public bool IsVisible
         {
@@ -75,14 +89,15 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
 
         }
         public ClientChargeViewModel(ICareKeeperService careKeeperService,
-            IDalLocator dalLocator,
+            IDataServices dataServices,
             IConfigurationService configurationService, IRegionManager regionManager)
         {
             this.ClickCommand = new DelegateCommand<string>(OnClickCommand);
             this.DataGridChangedSelection = new DelegateCommand<object>(OnSelectedRow);
-            _dalLocator = dalLocator;
-            _currentClickCommand.Add("FindChargeNumber", new DelegateCommand(ChargeNumberPopUp));
-            _currentClickCommand.Add("FindChargeName", new DelegateCommand(ChargeNamePopUp));
+            _dataServices = dataServices;
+            this.NumberTextChanged = new DelegateCommand<string>(OnTextChanged);
+            //_currentClickCommand.Add("FindChargeNumber", new DelegateCommand(ChargeNumberPopUp));
+            //_currentClickCommand.Add("FindChargeName", new DelegateCommand(ChargeNamePopUp));
             _currentClickCommand.Add("FindChargeAccount", new DelegateCommand(ChargeAccountPopUp));
             _currentClickCommand.Add("FindChargeCommissionAccount", new DelegateCommand(ChargeCommisionAccountPopUp));
             _currentClickCommand.Add("FindCommissionBank", new DelegateCommand(ChargeCommissionBankPopUp));
@@ -90,40 +105,81 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             _currentClickCommand.Add("FindChargeBank", new DelegateCommand(ChargeBankPopUp));
             _currentClickCommand.Add("FindBillingAccount", new DelegateCommand(ChargeBillingAccountPopUp));
             _regionManager = regionManager;
+            _selectedIndex = 0;
             InitDataLayer();
+        }
+
+        private void emptyFields()
+        {
+            this.ChargeName = "";
+            this.ChargeAccount1 = "";
+            this.ChargeAccount2 = "";
+            this.Billing1 = "";
+            this.Billing2 = "";
+            this.ChargeBank1 = "";
+            this.ChargeBank2 = "";
+            this.ChargeCommissionAccount1 = "";
+            this.ChargeCommissionAccount2 = "";
+            this.CommissionBank = "";
+            this.CommissionPercentage = "";
+            this.IbanValue = "";
+            this.SwiftValue = "";
+            this.Office1 = "";
+            this.Office2 = "";
+
+        }
+        private void OnTextChanged(string value)
+        {
+            int candidateIndex;
+            
+            if ((Int32.TryParse(value, out candidateIndex)) && (!movedSelection))
+            {
+
+                var rows = _sourceDataTable.AsEnumerable().Where(dr => dr.Field<string>("Numero") == value);
+                foreach (var row in rows)
+                {
+                    DataRow tmp = row as DataRow;
+                    this.ChargeNumber = tmp.ItemArray[0] as string;
+                    this.ChargeName = tmp.ItemArray[1] as string;
+                    this.ChargeAccount1 = tmp.ItemArray[2] as string;
+                    this.ChargeAccount2 = _paymentDataServices.GetAccountDefinitionByCode(this.ChargeAccount1);
+                    break;
+                }
+            }
+            movedSelection = false;
+
         }
         private void InitDataLayer()
         {
             try
             {
-                _chargeType = _dalLocator.FindDalObject("ChargeTypeDAL") as ChargeTypeDataAccessLayer;
-                if (_chargeType != null)
-                {
-                    _sourceDataTable = _chargeType.GetChargeObjects();
-                }
-                _bankAccessLayer =
-                    _dalLocator.FindDalObject(
-                        RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString()) as BanksDataAccessLayer;
-                _bankDataTable = _bankAccessLayer.GetAllBanksTable();
-                viewModel.QueryTable = _bankDataTable;
 
+                _paymentDataServices = _dataServices.GetPaymentDataService();
+                if (_paymentDataServices != null)
+                {
+                    _sourceDataTable = _paymentDataServices.GetChargeObjects();
+                }
+                _bankDataTable = _dataServices.GetAllBanks();
+                viewModel.QueryTable = _bankDataTable;
             }
             catch (Exception e)
             {
 
-                ShowError(e, "Error during data later loading");
+                ShowError(e, "Error during data loading");
             }
         }
 
         private void OnSelectedRow(object param)
         {
             DataRowView local = param as DataRowView;
-            this.ChargeNumber = Convert.ToString(local.Row.ItemArray[0]);
-            this.ChargeName = local.Row.ItemArray[1] as string;
-            this.ChargeAccount1 = local.Row.ItemArray[2] as string;
-            this.ChargeAccount2 = _chargeType.GetAccountDefinitionByCode(this.ChargeAccount1);
-            //RaisePropertyChanged();
-
+            if (local != null)
+            {
+                movedSelection = true;
+                this.ChargeNumber = local.Row.ItemArray[0] as string;
+                this.ChargeName = local.Row.ItemArray[1] as string;
+                this.ChargeAccount1 = local.Row.ItemArray[2] as string;
+                this.ChargeAccount2 = _paymentDataServices.GetAccountDefinitionByCode(this.ChargeAccount1);
+            }
         }
         private void ChargeBillingAccountPopUp()
         {
@@ -133,7 +189,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             DataTable invoice = null;
             try
             {
-                invoice = _chargeType.GetAllInvoiceTypeDataTable();
+                invoice = _paymentDataServices.GetAllInvoiceTypeDataTable();
             }
             catch (Exception e)
             {
@@ -151,14 +207,14 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             ShowRegion(viewModel, false);
         }
 
-      
+
         private void ChargeOfficePopUp()
         {
             viewModel.Title = "Consulta Cuenta de Oficinas";
             viewModel.QueryType = "Consulta Cuenta de Oficinas";
             try
             {
-                DataTable offices = _chargeType.GetAllInvoiceOfficesDataTable();
+                DataTable offices = _paymentDataServices.GetAllInvoiceOfficesDataTable();
                 viewModel.QueryTable = offices;
                 ShowRegion(viewModel, true);
             }
@@ -166,7 +222,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             {
                 ShowError(e, "Error during data layer loading");
             }
-             
+
         }
 
         private void ChargeCommissionBankPopUp()
@@ -187,11 +243,11 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
 
             try
             {
-                table = _chargeType.GetAllAccountsDataTable();
+                table = _paymentDataServices.GetAllAccountsDataTable();
             }
             catch (Exception e)
             {
-
+                ShowError(e, "Error during data layer loading");
             }
             viewModel.QueryTable = table;
             ShowRegion(viewModel, false);
@@ -204,7 +260,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             DataTable table = null;
             try
             {
-                table = _chargeType.GetAllAccountsDataTable();
+                table = _paymentDataServices.GetAllAccountsDataTable();
             }
             catch (Exception e)
             {
@@ -213,16 +269,6 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             viewModel.QueryTable = table;
             ShowRegion(viewModel, false);
         }
-
-        private void ChargeNamePopUp()
-        {
-            viewModel.Title = "Consulta Nombre";
-            viewModel.QueryType = "Consulta Nombre";
-            viewModel.QueryTable = null;
-            ShowRegion(viewModel, false);
-
-        }
-
         private void ShowError(Exception e, string error)
         {
             this.ErrorDialog = new InteractionRequest<INotification>();
@@ -240,13 +286,6 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                     });
 
             });
-        }
-        private void ChargeNumberPopUp()
-        {
-            viewModel.Title = "Consulta Numero";
-            viewModel.QueryType = "Consulta Numero";
-            viewModel.QueryTable = null;
-            ShowRegion(viewModel, false);
         }
 
         public ICommand DataGridChangedSelection { get; set; }
@@ -636,6 +675,18 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             }
         }
 
+        /// <summary>
+        ///  The selectedIndex in the datagrid.
+        /// </summary>
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                _selectedIndex = value;
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         ///  Delegate command to the value.
         /// </summary>

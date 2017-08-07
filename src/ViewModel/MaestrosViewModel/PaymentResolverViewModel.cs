@@ -52,14 +52,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IPaymentView paymentView = container.Resolve<IPaymentView>();
-            IDalLocator dalLocator = container.Resolve<IDalLocator>();
-            IConfigurationService configurationService = container.Resolve<IConfigurationService>();
-            ICareKeeperService careKeeperService = container.Resolve<ICareKeeperService>();
             IPaymentViewModule paymentViewModule = container.Resolve<IPaymentViewModule>();
-            //= new ClientChargeViewModel(careKeeperService, dalLocator, configurationService);   
             UserControl view = paymentView as UserControl;
             view.DataContext = paymentViewModule;
-
             if (!ribbonbuttondictionary.ContainsKey(RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();

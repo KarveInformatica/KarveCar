@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using KarveCommon.Services;
+using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
@@ -13,13 +14,13 @@ namespace ToolBarModule
     public class KarveToolBarViewModel : BindableBase, IToolBarViewModel
     {
         private ICareKeeperService _careKeeper;
-        private IDalLocator _locator;
+        private IDataServices _dataServices;
         private bool _buttonEnabled = false;
         private IConfigurationService _configurationService;
         private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
 
         public KarveToolBarViewModel(ICareKeeperService careKeeperService,
-                                     IDalLocator locator,
+                                     IDataServices dataServices,
                                      IConfigurationService configurationService)
         {
             this._careKeeper = careKeeperService;
@@ -27,7 +28,7 @@ namespace ToolBarModule
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this.RedoCommand = new DelegateCommand(DoRedoCommand);
             this.ExitCommand = new DelegateCommand(DoExitCommand, CanExecute);
-            this._locator = locator;
+            this._dataServices = dataServices;
             this._configurationService = configurationService;
             this._configurationService.SubscribeDataChange(NewData);
         }
@@ -50,11 +51,11 @@ namespace ToolBarModule
         }
         private void DoSaveCommand()
         {
-            SaveDataLayerCommand command = new SaveDataLayerCommand(_locator, _careKeeper);
-            foreach (var item in _dataPayLoadLifo)
-            {
-                command.Do(item);
-            }
+            //SaveDataLayerCommand command = new SaveDataLayerCommand(_locator, _careKeeper);
+            //foreach (var item in _dataPayLoadLifo)
+           // {
+             //   command.Do(item);
+           // }
 
         }
 
@@ -97,29 +98,7 @@ namespace ToolBarModule
         public DelegateCommand PrintCommand { set; get; }
         public DelegateCommand SearchCommand { set; get; }
 
-        /*
-         
-System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'KeyBinding' (HashCode=62726408); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'KeyBinding' (HashCode=17753217); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'DeleteCommand' property not found on 'object' ''String' (HashCode=2065684750)'. BindingExpression:Path=DeleteCommand; DataItem='String' (HashCode=2065684750); target element is 'MouseBinding' (HashCode=19714419); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'CancelCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=CancelCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=18291919); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'CancelCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=CancelCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=21522228); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'CancelCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=CancelCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'MouseBinding' (HashCode=28433766); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PrintCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PrintCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=65099051); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PrintCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PrintCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=8065117); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PrintCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PrintCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'MouseBinding' (HashCode=25051543); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PreviousCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PreviousCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=20649961); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PreviousCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PreviousCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=57687380); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'PreviousCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=PreviousCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'MouseBinding' (HashCode=29922341); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'SiguienteToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=SiguienteToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=20292006); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'SiguienteToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=SiguienteToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=12502218); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'SiguienteToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=SiguienteToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'MouseBinding' (HashCode=11363535); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'BuscarToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=BuscarToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=8031928); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'BuscarToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=BuscarToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'KeyBinding' (HashCode=36554565); target property is 'Command' (type 'ICommand')
-System.Windows.Data Error: 40 : BindingExpression path error: 'BuscarToolBarCommand' property not found on 'object' ''KarveToolBarViewModel' (HashCode=1114082)'. BindingExpression:Path=BuscarToolBarCommand; DataItem='KarveToolBarViewModel' (HashCode=1114082); target element is 'MouseBinding' (HashCode=55361044); target property is 'Command' (type 'ICommand')
-
-         */
-
+   
     }
 
 }

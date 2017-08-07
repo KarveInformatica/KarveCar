@@ -1,14 +1,7 @@
 ﻿using Prism.Mvvm;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Prism.Commands;
-using Prism.Mvvm;
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {

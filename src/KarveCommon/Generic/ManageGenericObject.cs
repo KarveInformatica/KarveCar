@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using KarveCommon.Generic;
 
@@ -103,6 +104,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                throw new KarveCommonException(e.Message);
                 // FIXME: fixed the exception handling .
                 //ErrorsDB.MessageError(e);
             }
@@ -131,6 +133,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                throw  new KarveCommonException(e.Message);
                 //ErrorsDB.MessageError(e);
             }
             return value;        

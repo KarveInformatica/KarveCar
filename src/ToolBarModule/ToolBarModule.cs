@@ -9,11 +9,8 @@ namespace ToolBarModule
     public class ToolBarModule : IModule
     {
         private readonly IUnityContainer _container;
-        private ICareKeeperService _undoService;
-        private IDalLocator _dalLocator;
         private IRegionManager _regionManager;
-        private IConfigurationService _configurationService;
-
+        
         public ToolBarModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
@@ -24,9 +21,6 @@ namespace ToolBarModule
         {
             _container.RegisterType<IToolBarViewModel, KarveToolBarViewModel>();
             _container.RegisterType<IToolBarView, KarveToolBarView>();
-            _undoService = _container.Resolve<ICareKeeperService>();
-            _dalLocator  = _container.Resolve<IDalLocator>();
-            _configurationService = _container.Resolve<IConfigurationService>();
         }
         public void Initialize()
         {
