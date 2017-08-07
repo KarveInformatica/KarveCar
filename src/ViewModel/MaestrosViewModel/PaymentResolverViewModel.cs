@@ -1,30 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using DataAccessLayer;
-using DataAccessLayer.DataObjects;
-using KarveCar.Commands.MaestrosCommand;
+﻿using DataAccessLayer;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using PaymentTypeModule;
-using PaymentTypeModule.ChargeClients.ViewModel;
 using Prism.Commands;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
-    class PaymentResolverViewModel
+    public class PaymentResolverViewModel
     {
-
-
         #region Variables
         private DelegateCommand<object> _showPaymentCommand;
         #endregion
@@ -45,13 +35,13 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
         }
         #endregion
+        
         #region Métodos
         /// <summary>
         /// Crea el TabItem para CRUD los Grupos de Vehículos
         /// </summary>
         /// <param name="parameter"></param>
-        /// 
-        
+        ///         
         public void showPaymentCommand(object parameter)
         {
             /*
@@ -59,7 +49,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
             var opcion = RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes;
-            KarveCar.View.MainWindow mainWindow = Application.Current.MainWindow as KarveCar.View.MainWindow;
+            View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IPaymentView paymentView = container.Resolve<IPaymentView>();
             IDalLocator dalLocator = container.Resolve<IDalLocator>();
@@ -69,8 +59,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             //= new ClientChargeViewModel(careKeeperService, dalLocator, configurationService);   
             UserControl view = paymentView as UserControl;
             view.DataContext = paymentViewModule;
-
-            //
 
             if (!ribbonbuttondictionary.ContainsKey(RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes))
             {

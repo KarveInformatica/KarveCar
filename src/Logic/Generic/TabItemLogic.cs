@@ -78,7 +78,7 @@ namespace KarveCar.Logic.Generic
                 if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
                 {
                     //Se crea el Tabitem
-                    TabItem tabitem = TabItemLogic.CreateTabItemDataGrid(opcion);
+                    TabItem tabitem = CreateTabItem(opcion);
 
                     //Se añade un nuevo UserControl al TabItem
                     tabitem.Content = userControlView;

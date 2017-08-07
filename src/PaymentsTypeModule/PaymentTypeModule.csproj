@@ -44,9 +44,6 @@
     <Reference Include="Apache.Ibatis.DataMapper">
       <HintPath>..\DALModule\lib\Apache.Ibatis.DataMapper\bin\Release\Apache.Ibatis.DataMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Dragablz">
-      <HintPath>..\..\..\..\KarveSnapshots\Dragablz\bin\Debug_net45\Dragablz.dll</HintPath>
-    </Reference>
     <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
@@ -138,10 +135,6 @@
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KarveCar.csproj">
-      <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
-      <Name>KarveCar</Name>
     </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
