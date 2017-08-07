@@ -55,7 +55,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
+    <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExtendedGrid">
@@ -375,9 +375,6 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="rentCarIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
@@ -397,6 +394,32 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\rentCarIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clients.png" />
+    <Resource Include="Images\rentCarIcon.png" />
+    <Resource Include="Images\supplier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contract.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\booking.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\incident.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\other.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="rentcaricon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
