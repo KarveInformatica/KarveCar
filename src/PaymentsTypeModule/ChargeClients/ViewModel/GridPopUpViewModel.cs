@@ -1,5 +1,14 @@
 ﻿using Prism.Mvvm;
 using System.Data;
+using System.Linq;
+using System.Security.Policy;
+using System.Security.RightsManagement;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using Prism.Commands;
+using Prism.Mvvm;
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {
@@ -9,7 +18,31 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private string _title;
         private string _firstColumnQuery;
         private string _secondColumnQuery;
+        private DataTable _sourceDataTable;
+        private bool _isVisible = true;
+       
+        public GridPopUpViewModel()
+        {
+        //    this.DataGridChangedSelection = new DelegateCommand<object>(OnSelectedRow);
+        }
 
+        public ICommand DataGridChangedSelection { get; set; }
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                _isVisible = value;
+                RaisePropertyChanged("IsVisible");
+            }
+
+        }
+
+        private void OnSelectedRow(object param)
+        {
+            MessageBox.Show("SelectedRow Command");
+        }
         public string QueryType
         {
             get { return _queryType; }
@@ -50,6 +83,14 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             }
 
         }
-        public DataTable SourceTable { get; set; }
+
+        public DataTable QueryTable
+        {
+            get { return _sourceDataTable; }
+            set {
+                _sourceDataTable = value;
+                RaisePropertyChanged("QueryTable");
+            }
+        }
     }
 }

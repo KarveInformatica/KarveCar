@@ -28,6 +28,7 @@ namespace KarveCar.Logic.Maestros
                 string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;
                 string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
                 GenericObservableCollection genericobscollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
+                    //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
 
                 /*  else
                   {
@@ -37,10 +38,14 @@ namespace KarveCar.Logic.Maestros
                   }
                   */
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
+                CreateTabItemDataGrid(option, genericobscollection);                
+                CreateTabItemDataGrid(option, genericobscollection);                
                 CreateTabItemDataGrid(opcion, genericobscollection);                
             }
             else
             {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
+                tabitemdictionary.Where(z => z.Key == option).FirstOrDefault().Value.TabItem.Focus();
+                tabitemdictionary.Where(z => z.Key == option).FirstOrDefault().Value.TabItem.Focus();
                 tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
             }
         }
@@ -97,6 +102,8 @@ namespace KarveCar.Logic.Maestros
                 datagrid.ItemsSource = genericobscollection.GenericObsCollection;
 
                 //Se crea el Tabitem
+                TabItem tabitem = TabItemLogic.CreateTabItemDataGrid(opcion);
+                TabItem tabitem = TabItemLogic.CreateTabItemDataGrid(opcion);
                 TabItem tabitem = TabItemLogic.CreateTabItem(opcion);
 
                 //Se añade el EOpcion, el GenericObservableCollection recibido por params (como origin y copy) y el nuevo TabItem,  

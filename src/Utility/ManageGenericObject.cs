@@ -21,7 +21,7 @@ namespace KarveCar.Utility
         /// <param name="templateinfodb"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static GenericObservableCollection GetObservableCollectionFromSADataReader(SADataReader dr, List<TemplateInfoDB> templateinfodb, object obj)
+        public static GenericObservableCollection  GetObservableCollectionFromSADataReader(SADataReader dr, List<TemplateInfoDB> templateinfodb, object obj)
         {   
             //Se crea el GenericObservableCollection auxiliar que se devolverá, donde se irá añadiendo la info recuperada de la BBDD (SADataReader dr)
             GenericObservableCollection auxobscollection = new GenericObservableCollection();

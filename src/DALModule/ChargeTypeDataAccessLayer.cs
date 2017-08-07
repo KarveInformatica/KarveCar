@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
-using System.Data;
+using KarveDataServices;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.
     /// </summary>
-    /// <remarks>Depends on BankDataAccessLayer</remarks>
-
-    public class ChargeTypeDataAccessLayer : BaseDataMapper
+    
+    public class ChargeTypeDataAccessLayer : BaseDataMapper, IPaymentDataServices
     {
         private readonly string _id = "ChargeTypeDAL";
         private Type _dalType = typeof(ChargeTypeObject);
-        // logical a component shall not depende on other one the same level.
-        private BanksDataAccessLayer banksDataAccessLayer = new BanksDataAccessLayer();
+
+        private ICollection<BaseAuxDataObject> _accountDataTable;
+
+        
         /// <summary>
         ///  This dal object is useful for accessing to the different types of charging
         /// </summary>
@@ -61,16 +59,51 @@ namespace DataAccessLayer
             ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
             DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("Codigo", typeof(long)));
-            table.Columns.Add(new DataColumn("Nombre", typeof(string)));
+            table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (var item in invoiceTypes)
             {
                 var row = table.NewRow();
                 row["Codigo"] = item.Codigo;
-                row["Nombre"] = item.Nombre;
+                row["Definicion"] = item.Nombre;
                 table.Rows.Add(row);
             }
             return table;
         }
+
+        public string GetAccountDefinitionByCode(string inCode)
+        {
+            if (_accountDataTable == null)
+            {
+                _accountDataTable = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
+            }
+            foreach (var item in _accountDataTable)
+            {
+                string code = CheckNullToEmptyString(item.Codigo);
+                string definicion = CheckNullToEmptyString(item.Nombre);
+                if (String.Compare(code, inCode, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    return definicion;
+                }
+            }
+            return "";
+        }
+
+        public DataTable GetAllAccountsDataTable()
+        {
+            _accountDataTable = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("Codigo", typeof(string)));
+            table.Columns.Add(new DataColumn("Definicion", typeof(string)));
+            foreach (var item in _accountDataTable)
+            {
+                var row = table.NewRow();
+                row["Codigo"] = CheckNullToEmptyString(item.Codigo);
+                row["Definicion"] = CheckNullToEmptyString(item.Nombre);
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
         /// <summary>
         /// This returns the charge options for the charging
         /// </summary>
@@ -95,46 +128,76 @@ namespace DataAccessLayer
 
         public DataTable GetAllInvoiceOfficesDataTable()
         {
+            // it might be desirable a query for table
             ICollection<OfficePerInvoiceTypeObject> invoiceTypes =
                 DataMapper.QueryForList<OfficePerInvoiceTypeObject>("Auxiliares.GetAllInvoiceOffices", null);
             ICollection<BaseAuxDataObject> officies =
                 DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllOfficeZonesPerInvoice", null);
             IDictionary<object, string> codeZone = new Dictionary<object, string>();
             DataTable officeDataTable = new DataTable();
-            officeDataTable.Columns.Add(new DataColumn("Codigo", typeof(long)));
+            officeDataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("Oficina", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("Telefono", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("Empresa", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("Zona", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("NombreZona", typeof(string)));
+            officeDataTable.Columns.Add(new DataColumn("Direccion", typeof(string)));
+            officeDataTable.Columns.Add(new DataColumn("CP", typeof(string)));
+            officeDataTable.Columns.Add(new DataColumn("Poblacion", typeof(string)));
+
             // i fetch alla the offices
             foreach (BaseAuxDataObject element in officies)
             {
-                codeZone.Add(element.Codigo, element.Nombre);
+                if ((element.Codigo != null) && (!codeZone.ContainsKey(element.Codigo)))
+                {
+                    codeZone.Add(element.Codigo, element.Nombre);
+                }
             }
             // in codeZone, I have the code of the zone.
             foreach (OfficePerInvoiceTypeObject officeObj in invoiceTypes)
             {
-                var row = officeDataTable.NewRow();
-                row["Codigo"] = officeObj.Codigo;
-                row["Oficina"] = officeObj.Codigo;
-                row["Telefono"] = officeObj.Codigo;
-                row["Empresa"] = officeObj.Codigo;
-                row["Zona"] = officeObj.Codigo;
-                if (codeZone.ContainsKey(officeObj.Zona))
+                if ((officeObj!=null) && (officeObj.Codigo != null))
                 {
-                    row["NombreZona"] = officeObj.Zona;
+                    var row = officeDataTable.NewRow();
+                    row["Codigo"] = CheckNullToEmptyString(officeObj.Codigo);
+                    row["Oficina"] = CheckNullToEmptyString(officeObj.Oficina);
+                    row["Telefono"] = CheckNullToEmptyString(officeObj.Telefono);
+                    row["Empresa"] = CheckNullToEmptyString(officeObj.Empresa);
+                    row["Zona"] = CheckNullToDefaultString(officeObj.Zona);
+                    if (codeZone.ContainsKey(row["Zona"]))
+                    {
+                        row["NombreZona"] = codeZone[row["Zona"]];
+                    }
+                    else
+                    {
+                        row["NombreZona"] = "";
+                    }
+                    row["Direccion"] = CheckNullToEmptyString(officeObj.Direccion);
+                    row["CP"] = CheckNullToEmptyString(officeObj.CodigoPostal);
+                    row["Poblacion"] = CheckNullToEmptyString(officeObj.Poblacion);
+                    officeDataTable.Rows.Add(row);
                 }
-                else
-                {
-                    row["NombreZona"] = "";
-                }
-                row["Direccion"] = officeObj.Direccion;
-                row["CP"] = officeObj.CodigoPostal;
-                row["Poblacion"] = officeObj.Poblacion;
-                officeDataTable.Rows.Add(row);
             }
             return officeDataTable;
+        }
+        protected string CheckNullToDefaultString(object ob)
+        {
+            if (ob == null)
+            {
+                return "0F";
+            }
+            string v = ob as string;
+            return v;
+        }
+        // move to an helper class.
+        protected string CheckNullToEmptyString(object ob)
+        {
+            if (ob == null)
+            {
+                return "";
+            }
+            string v = ob as string;
+            return v;
         }
         public DataTable GetChargeObjects()
         {
@@ -142,11 +205,14 @@ namespace DataAccessLayer
             ICollection<ChargeTypeObject> charges = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
             table.Columns.Add(new DataColumn("Numero", typeof(long)));
             table.Columns.Add(new DataColumn("Nombre", typeof(string)));
+            table.Columns.Add(new DataColumn("Cuenta", typeof(string)));
+
             foreach (ChargeTypeObject item in charges)
             {
                 var row = table.NewRow();
                 row["Numero"] = item.Numero;
                 row["Nombre"] = item.Nombre;
+                row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
             }
             return table;

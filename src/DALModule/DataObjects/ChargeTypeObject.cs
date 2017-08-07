@@ -9,8 +9,10 @@ namespace DataAccessLayer.DataObjects
 {
     public class ChargeTypeObject: BaseAuxDataObject
     {
-        private object nombre;
+       
         private object numero;
+        private object _cuenta;
+
         public object Numero
         {
             get { return numero; }
@@ -20,13 +22,13 @@ namespace DataAccessLayer.DataObjects
                 OnPropertyChanged("Numero");
             }
         }
-        public object Nombre
+        public object Cuenta
         {
-            get { return nombre; }
+            get { return _cuenta; }
             set
             {
-                nombre = value;
-                OnPropertyChanged("Nombre");
+                _cuenta = value;
+                OnPropertyChanged("Cuenta");
             }
         }
     }

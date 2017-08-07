@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KarveCar.ViewModel
+namespace PaymentTypeModule
 {
-    class DataGridUserControlViewModel
+    public interface IPaymentViewModule
     {
     }
 }

@@ -25,6 +25,7 @@
 
 using System;
 using System.Data;
+using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Scope;
 
 namespace Apache.Ibatis.DataMapper.Data
@@ -148,7 +149,16 @@ namespace Apache.Ibatis.DataMapper.Data
         {
             request.Session.OpenConnection();
             request.MoveNextResultMap();
-            return new DataReaderDecorator(innerDbCommand.ExecuteReader(), request);
+            IDataReader checkInnerCommand;
+            try
+            {
+                checkInnerCommand = innerDbCommand.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                throw new DataMapperException(e.Message, e);
+            }
+            return new DataReaderDecorator(checkInnerCommand, request);
             
         }
 

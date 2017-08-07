@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.Configuration;
@@ -37,6 +38,7 @@ namespace DataAccessLayer
         public Type DalType { set; get; }
         // Field of the data object that shall be not duplicated.
         public const string DuplicateFieldCheck = "Codigo";
+        
         /// <summary>
         /// Default constructor
         /// </summary>

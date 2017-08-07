@@ -15,48 +15,60 @@
       <result property="Telefono"     column="TELEFONO"/>
       <result property="Empresa"      column="SUBLICEN"/>
       <result property="FechaBaja"    column="FEC_BAJA"/>
-      <result property="Zona"         column="ZONA_OF"/>
+      <result property="Zona"         column="ZONAOFI"/>
       <result property="Direccion"    column="DIRECCION"/>
       <result property="CodigoPostal" column="CP"/>
       <result property="Poblacion"    column="POBLACION"/>
     </resultMap>
     <resultMap id="ZoneOfficePerInvoiceTypeResultMap" class="ZoneOfficeDataObject">
-      <result property="Codigo"       column="ZONA_OF"/>
-      <result property="Nombre "   column="NOM_ZONA"/>
+      <result property="Codigo"       column="ZONAOFI"/>
+      <result property="Nombre"   column="NOM_ZONA"/>
+    </resultMap>
+    <resultMap id="AccountTypeResultMap" class="AccountTypeDataObject">
+      <result property="Codigo"       column="CODIGO"/>
+      <result property="Nombre"   column="DESCRIP"/>
     </resultMap>
     <resultMap id="ChargeOptionResultMap"  class="ChargeOptionDataObject">
       <result property="IsShowerChecked"           column="MOSTRADOR"/>
       <result property="IsClientAccountChecked"    column="CTACLIENTE"/>
       <result property="IsCashFlowChecked"         column="AF_CAJA"/>
       <result property="IsTeleChequeChecked"       column="TELECHEQUE"/>
-      <result property="IsPortfolioEffectsChecked" column="EFECTOS"/>
+      <result property="IsPorfolioEffectsChecked" column="EFECTOS"/>
       <result property="IsSeatingFeeChecked"       column="COMI_2ASIENTO"/>
       <result property="IsNoRemittableChecked"     column="NO_REMESABLE"/>    
     </resultMap>
   </resultMaps>
   <statements>
     <select id="GetAllChargeType"  resultMap="ChargeTypeResultMap">
-      select
-      CODIGO, NOMBRE
+      select DISTINCT
+       CODIGO, NOMBRE
       from
       FORMAS
       order by CODIGO
     </select>
+    <select id="GetAllBanksAccount"  resultMap="AccountTypeResultMap">
+      select DISTINCT
+       CODIGO, DESCRIP
+      from
+      CU1
+      order by CODIGO
+    </select>
     <select id="GetAllInvoiceType" resultMap="InvoiceTypeResultMap">
-      select CODIGO_FE, NOMBRE_FE
+      select CODIDO_FE, NOMBRE_FE
       from FORMAS_FACE
-      order by CODIGO_FE
+      order by CODIDO_FE
     </select>
     <select id="GetAllInvoiceOffices" resultMap="OfficePerInvoiceTypeResultMap">
-      SELECT CuentaCobro.OFICINA, Office.NOMBRE, Office.TELEFONO, Office.SUBLICEN, Office.FEC_BAJA, Office.ZONAOFI,
+      SELECT DISTINCT CuentaCobro.OFICINA, Office.NOMBRE, Office.TELEFONO, Office.SUBLICEN, Office.FEC_BAJA, Office.ZONAOFI,
       Office.DIRECCION, Office.CP, Office.POBLACION   
-      FROM CTA_FCOBRO_OFI CuentaCobro
-      INNER JOIN OFICINA Office on CuentaCobro.OFICINA = Office.CODIGO
+      FROM CTA_CONCEP_OFI CuentaCobro, OFICINAS Office
+      WHERE CuentaCobro.OFICINA = Office.CODIGO
     </select>
+    
      <select id="GetAllOfficeZonesPerInvoice" resultMap="ZoneOfficePerInvoiceTypeResultMap">
-      SELECT  Office.ZONA_OF, OfficeZone.NOM_ZONA 
-      FROM ZONAOFI OfficeZone
-      INNER JOIN OFICINA Office on OfficeZone.COD_ZONAOFI = Office.ZONA_OF
+      SELECT  DISTINCT Office.ZONAOFI, OfficeZone.NOM_ZONA 
+      FROM ZONAOFI OfficeZone, OFICINAS Office
+      WHERE OfficeZone.COD_ZONAOFI = Office.ZONAOFI
     </select>
     <select id="GetChargeOptions" parameterClass="Integer" resultMap="ChargeOptionResultMap">
       select 

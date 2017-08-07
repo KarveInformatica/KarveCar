@@ -16,6 +16,11 @@ namespace DataAccessLayer
     {
         private readonly string _id = RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString();
         private Type _dalType = typeof(BancoDataObject);
+
+        public BanksDataAccessLayer()
+        {
+            base.Id = _id;
+        }
         /// <summary>
         ///  This method queries the data mapper and return an observable collection.
         /// </summary>
@@ -39,14 +44,17 @@ namespace DataAccessLayer
         {
             DataTable table = new DataTable();
             ICollection<BancoDataObject> charges = DataMapper.QueryForList<BancoDataObject>("Auxiliares.GetAllBanks", null);
-            table.Columns.Add(new DataColumn("Codigo", typeof(long)));
-            table.Columns.Add(new DataColumn("Banco", typeof(string)));
+            table.Columns.Add(new DataColumn("Codigo", typeof(string)));
+            table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (BancoDataObject item in charges)
             {
-                var row = table.NewRow();
-                row["Codigo"] = item.Codigo;
-                row["Banco"] = item.Definicion;
-                table.Rows.Add(row);
+                if ((item.Codigo != null) && (item.Definicion != null))
+                {
+                    var row = table.NewRow();
+                    row["Codigo"] = item.Codigo;
+                    row["Definicion"] = item.Definicion;
+                    table.Rows.Add(row);
+                }
             }
             return table;
         }

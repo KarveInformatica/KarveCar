@@ -6,29 +6,56 @@
              xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients.View"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:interactionRequest="http://prismlibrary.com/"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300" >
-    <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+             d:DesignHeight="500" d:DesignWidth="300">
+    <i:Interaction.Triggers>
+        <interactionRequest:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">
+            <interactionRequest:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True" />
+        </interactionRequest:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <Grid Grid.IsSharedSizeScope="True" VerticalAlignment="Top" ShowGridLines="false">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"></RowDefinition>
-            <RowDefinition Height="75*"></RowDefinition>
-            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="80*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
-        
-            <Label Grid.Row="0" Width="300" HorizontalAlignment="Left" Content="{Binding QueryType}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
-      
-        <Border Grid.Row="2" Width="150" BorderBrush="LightBlue" BorderThickness="2">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition>
-                </ColumnDefinition>
-                <ColumnDefinition>
-                </ColumnDefinition>
-            </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0"  Content="Aceptar"  FontWeight="Bold" />
-                <Button Grid.Row="0" Grid.Column="1"  Content="Cancelar" FontWeight="Bold" />
-        </Grid>
-            </Border>
+
+        <Label Grid.Row="0" Width="300" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding QueryType}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="1">
+
+            <extendedGridControl:ExtendedDataGrid VerticalAlignment="Top" 
+                                                   x:Name="QueryType" 
+                                                   ItemsSource="{Binding QueryTable}" 
+                                                   RowHeaderWidth="17" 
+                                                   IsReadOnly="True"
+                                                   MaxHeight="670"
+                                                   AutoGenerateColumns="False" 
+                                                   HideColumnChooser="True" 
+                                                   AllowUserToCopy="True"
+                                                   OnlyTwoWaySorting="True"
+                                                   SearchAutoFilterVisibility="Visible" 
+                                                   AutoFilterFontSize="12"
+                                                   GroupByControlVisibility="Collapsed" 
+                                                   IsSynchronizedWithCurrentItem="True"                                           
+                                                   SelectionUnit="FullRow" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=PaymentSystem, Path=SelectedValue}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <DataGrid.Columns>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Codigo" AllowAutoFilter="True" Width="30*" Binding="{Binding Codigo}"
+                    />
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="70*" Binding="{Binding Definicion}"
+                    />
+                </DataGrid.Columns>
+            </extendedGridControl:ExtendedDataGrid>
+        </StackPanel>
     </Grid>
 </UserControl>
+
+
 

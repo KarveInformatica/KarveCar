@@ -10,11 +10,14 @@
                 xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"                
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
+
                 mc:Ignorable="d"
-                Title="MainWindow" x:Name="mainwindow" WindowState="Maximized" Closing="mainwindow_Closing" >
-    <r:RibbonWindow.DataContext>
-        <vm:SetLanguagesViewModel/>
-    </r:RibbonWindow.DataContext>
+                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -223,8 +226,8 @@
                         </r:RibbonButton.InputBindings>
                     </r:RibbonButton>
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosClientes" Header="{Binding lrgrMaestrosClientes, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosClientes" Label="{Binding lrmnbtnMaestrosClientes, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="C" >
+                    <r:RibbonGroup x:Name="rgrMaestrosClientes" Header="{Binding lrgrMaestrosClientes, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosClientes" Label="{Binding lrmnbtnMaestrosClientes, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/clients.png" KeyTip="C" >
                         <r:RibbonButton x:Name="rbtnBancosClientes" 
                                         Label="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
@@ -325,10 +328,19 @@
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\new.png" >
                         </r:RibbonButton>
-                        <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
+                            <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
                                         Label="{Binding lrbtnFormasCobroClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png" >
+                                        SmallImageSource="..\Images\new.png"  DataContext="{StaticResource paymentResolverViewModel}">
+                                <r:RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return"                                                
+                                                Command="{Binding ShowPaymentCommand}" 
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding ShowPaymentCommand}" 
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                  </r:RibbonButton.InputBindings>
+
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnMercados" 
                                         Label="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}" 
@@ -552,8 +564,8 @@
                         </r:RibbonButton>
                     <!--</r:RibbonMenuButton>-->
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosContratos" Header="{Binding lrgrMaestrosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosContratos" Label="{Binding lrmnbtnMaestrosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="N" >
+                <r:RibbonGroup x:Name="rgrMaestrosContratos" Header="{Binding lrgrMaestrosContratos, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosContratos" Label="{Binding lrmnbtnMaestrosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/contract.png" KeyTip="N" >
                         <r:RibbonButton x:Name="rbtnAccesorios" 
                                         Label="{Binding lrbtnAccesorios, Source={StaticResource ResourceLanguage}}" 
                                         SmallImageSource="..\Images\new.png" >
@@ -629,8 +641,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>                    
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosIncidencias" Header="{Binding lrgrMaestrosIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosIncidencias" Label="{Binding lrmnbtnMaestrosIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="I" >
+                <r:RibbonGroup x:Name="rgrMaestrosIncidencias" Header="{Binding lrgrMaestrosIncidencias, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosIncidencias" Label="{Binding lrmnbtnMaestrosIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/incident.png" KeyTip="I" >
                         <r:RibbonButton x:Name="rbtnTiposIncidenciasClientes" 
                                         Label="{Binding lrbtnTiposIncidenciasClientes, Source={StaticResource ResourceLanguage}}" 
                                         SmallImageSource="..\Images\new.png" 
@@ -685,8 +697,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>                    
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosProveedores" Header="{Binding lrgrMaestrosProveedores, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosProveedores" Label="{Binding lrmnbtnMaestrosProveedores, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="P" >
+                <r:RibbonGroup x:Name="rgrMaestrosProveedores" Header="{Binding lrgrMaestrosProveedores, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosProveedores" Label="{Binding lrmnbtnMaestrosProveedores, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/supplier.png" KeyTip="P" >
                         <r:RibbonButton x:Name="rbtnDivisas" 
                                         Label="{Binding lrbtnDivisas, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
@@ -736,8 +748,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosReservas" Header="{Binding lrgrMaestrosReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosReservas" Label="{Binding lrmnbtnMaestrosReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="R" >
+                <r:RibbonGroup x:Name="rgrMaestrosReservas" Header="{Binding lrgrMaestrosReservas, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosReservas" Label="{Binding lrmnbtnMaestrosReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/booking.png" KeyTip="R" >
                         <r:RibbonButton x:Name="rbtnClavesFee" 
                                         Label="{Binding lrbtnClavesFee, Source={StaticResource ResourceLanguage}}" 
                                         SmallImageSource="..\Images\new.png" 
@@ -792,8 +804,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>                    
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosTarifas" Header="{Binding lrgrMaestrosTarifas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosTarifas" Label="{Binding lrmnbtnMaestrosTarifas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="T" >
+                <r:RibbonGroup x:Name="rgrMaestrosTarifas" Header="{Binding lrgrMaestrosTarifas, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosTarifas" Label="{Binding lrmnbtnMaestrosTarifas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/fare.png" KeyTip="T" >
                         <r:RibbonButton x:Name="rbtnCambioCodigoTarifas" 
                                         Label="{Binding lrbtnCambioCodigoTarifas, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
@@ -855,8 +867,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosVehiculos" Header="{Binding lrgrMaestrosVehiculos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosVehiculos" Label="{Binding lrmnbtnMaestrosVehiculos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="V">
+                <r:RibbonGroup x:Name="rgrMaestrosVehiculos" Header="{Binding lrgrMaestrosVehiculos, Source={StaticResource ResourceLanguage}}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosVehiculos" Label="{Binding lrmnbtnMaestrosVehiculos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/cars.png" KeyTip="V">
                         <r:RibbonButton x:Name="rbtnAccesoriosVehiculos" 
                                         Label="{Binding lrbtnAccesoriosVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
@@ -1016,8 +1028,8 @@
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
                 </r:RibbonGroup>
-                <r:RibbonGroup x:Name="rgrMaestrosVarios" Header="{Binding lrgrMaestrosVarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
-                    <r:RibbonMenuButton x:Name="rmnbtnMaestrosVarios" Label="{Binding lrmnbtnMaestrosVarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="A" >
+                <r:RibbonGroup x:Name="rgrMaestrosVarios" Header="{Binding lrgrMaestrosVarios, Source={StaticResource ResourceLanguage}}"  GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <r:RibbonMenuButton x:Name="rmnbtnMaestrosVarios" Label="{Binding lrmnbtnMaestrosVarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/other.png" KeyTip="A" >
                         <r:RibbonButton x:Name="rbtnCategoriasPersonal" 
                                         Label="{Binding lrbtnCategoriasPersonal, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
@@ -1800,22 +1812,21 @@
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
             </r:Ribbon>
             <!--</ScrollViewer>-->
-            <ScrollViewer>
+           
+
                 <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <ContentControl Grid.Row="0" prism:RegionManager.RegionName="KarveToolBar"/>
-                    <TabControl     Grid.Row="1" x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
-
-                    </TabControl>
+                    <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
+                    <ScrollViewer Grid.Row="1">
+                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                        </TabControl>
+                    </ScrollViewer>
                 </Grid>
-            </ScrollViewer>
+
         </DockPanel>
     </Grid>
 </r:RibbonWindow>

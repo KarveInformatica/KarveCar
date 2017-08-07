@@ -74,6 +74,7 @@
     <Compile Include="DataObjects\GrupoTarifa.cs" />
     <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
+    <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="IDalLocator.cs" />
     <Compile Include="IDalObject.cs" />
     <Compile Include="DataObjects\IncidenciaCliente.cs" />
@@ -123,6 +124,10 @@
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="KarveDataServices\KarveDataServices.csproj">
+      <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
+      <Name>KarveDataServices</Name>
+    </ProjectReference>
     <ProjectReference Include="lib\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
       <Project>{bbc8da4a-ea88-41d9-8b93-929b8f3adade}</Project>
       <Name>Apache.Ibatis.Common</Name>
@@ -134,8 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Auxiliares.xml" />
-    <Content Include="Banks.xml" />
-    <Content Include="ChargeTypes.xml" />
+    <Content Include="Banks.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ChargeTypes.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

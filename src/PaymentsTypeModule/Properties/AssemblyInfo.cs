@@ -8,9 +8,9 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PaymentTypeModule")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Karve")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Karve Informatica S.L.")]
 [assembly: AssemblyProduct("KarveCar")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

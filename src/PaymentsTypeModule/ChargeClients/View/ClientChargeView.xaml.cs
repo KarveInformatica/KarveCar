@@ -19,14 +19,14 @@ namespace PaymentTypeModule.ChargeClients.View
     /// <summary>
     /// Interaction logic for ClientChargeWindow.xaml
     /// </summary>
-    public partial class ClientChargeView: UserControl
+    public partial class ClientChargeView: UserControl, IPaymentView
     {
         public ClientChargeView()
 
         {
-            this.DataContext = new ClientChargeViewModel();
             InitializeComponent();
             this.PaymentSystem.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+           
         }
     }
 }

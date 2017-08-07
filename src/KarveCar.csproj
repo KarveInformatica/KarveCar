@@ -55,7 +55,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>rentCarIcon.ico</ApplicationIcon>
+    <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExtendedGrid">
@@ -188,15 +188,12 @@
     <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
     <Compile Include="Utility\ValidationRuleDataGrid.cs" />
     <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
-    <Compile Include="ViewModel\DataGridUserControlViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
+    <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
-    <Compile Include="View\GrupoVehiculoDataGridUserControl.xaml.cs">
-      <DependentUpon>GrupoVehiculoDataGridUserControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
     <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
     </Compile>
@@ -382,9 +379,6 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="rentCarIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
@@ -393,10 +387,43 @@
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="PaymentsTypeModule\PaymentTypeModule.csproj">
+      <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
+      <Name>PaymentTypeModule</Name>
+    </ProjectReference>
     <ProjectReference Include="ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
       <Name>ToolBarModule</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\rentCarIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clients.png" />
+    <Resource Include="Images\rentCarIcon.png" />
+    <Resource Include="Images\supplier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contract.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\booking.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\incident.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\other.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="rentcaricon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

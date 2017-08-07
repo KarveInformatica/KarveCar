@@ -10,23 +10,26 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     public class BaseAuxDataObject : GenericPropertyChanged, IDataGridRowChange
     {
-        private string _codigo;
-        private string _definicion;
-        private string _ultimamodificacion;
-        private string _usuario;
-        private string _nombre;
+        private string _codigo = "";
+        private string _definicion = "";
+        private string _ultimamodificacion = "";
+        private string _usuario = "";
+        private string _nombre = "";
         private EControlCambioDataGrid _controlcambiodatagrid;
 
         public BaseAuxDataObject()
         {
             this.ControlCambioDataGrid = EControlCambioDataGrid.Null;
         }
+
+      
         public BaseAuxDataObject(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this._codigo = codigo;
             this._definicion = definicion;
             this._ultimamodificacion = ultimamodificacion;
             this._usuario = usuario;
+          
         }
         public string Codigo
         {
@@ -46,6 +49,7 @@ namespace DataAccessLayer.DataObjects
             set
             {
                 _nombre = value;
+                
                 OnPropertyChanged("Nombre");
             }
         }
