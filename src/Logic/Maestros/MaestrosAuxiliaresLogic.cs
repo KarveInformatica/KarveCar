@@ -1,6 +1,7 @@
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
-using KarveCar.Model.Sybase;
+using KarveCar.Model.SQL;
+using KarveCar.Utility;
 using KarveCar.View;
 using KarveCommon.Generic;
 using System.Data;
@@ -24,7 +25,9 @@ namespace KarveCar.Logic.Maestros
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params                
                 // TODO: remove all this make in a way that it is using all the aux.
-                GenericObservableCollection genericobscollection = MaestrosAuxiliaresModel.GetMaestrosAuxiliares(opcion);
+                string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;
+                string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
+                GenericObservableCollection genericobscollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
 
                 /*  else
                   {
@@ -94,7 +97,7 @@ namespace KarveCar.Logic.Maestros
                 datagrid.ItemsSource = genericobscollection.GenericObsCollection;
 
                 //Se crea el Tabitem
-                TabItem tabitem = TabItemLogic.CreateTabItemDataGrid(opcion);
+                TabItem tabitem = TabItemLogic.CreateTabItem(opcion);
 
                 //Se añade el EOpcion, el GenericObservableCollection recibido por params (como origin y copy) y el nuevo TabItem,  
                 //al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos

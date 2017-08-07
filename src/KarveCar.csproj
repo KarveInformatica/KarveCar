@@ -150,7 +150,7 @@
     <Compile Include="Model\SQL\ScriptsSQLOthers.cs" />
     <Compile Include="Model\SQL\ScriptsSQLDelete.cs" />
     <Compile Include="Model\SQL\ScriptsSQLSelect.cs" />
-    <Compile Include="Model\Sybase\MaestrosAuxiliaresModel.cs" />
+    <Compile Include="Utility\GetValuesFromDBGeneric.cs" />
     <Compile Include="Model\Sybase\DBConnect.cs" />
     <Compile Include="Model\Sybase\ErrorsDB.cs" />
     <Compile Include="Model\Sybase\ErrorsGeneric.cs" />
@@ -194,6 +194,9 @@
     <Compile Include="ViewModel\GenericViewModel\SetLanguagesViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
+    <Compile Include="View\GrupoVehiculoDataGridUserControl.xaml.cs">
+      <DependentUpon>GrupoVehiculoDataGridUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\GrupoVehiculoDataGridUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GrupoVehiculoUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows.Controls;
-using System.Windows.Markup;
 
 namespace PaymentTypeModule.ChargeClients.ValidationRules
 {
@@ -17,8 +11,7 @@ namespace PaymentTypeModule.ChargeClients.ValidationRules
             StatusData result = Iban.CheckIban(ibanInputString, true);
             if (!result.IsValid)
             {
-                return new ValidationResult(false,
-                    result.Message);
+                return new ValidationResult(false, result.Message);
             }
             return new ValidationResult(true, null);
         }

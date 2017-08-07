@@ -1,31 +1,28 @@
-﻿using System;
+﻿using DataAccessLayer;
+using PaymentTypeModule.ChargeClients.View;
+using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Prism.Commands;
-using Prism.Mvvm;
-using DataAccessLayer;
-using PaymentTypeModule.ChargeClients.View;
-using Prism.Interactivity.InteractionRequest;
 
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {
     public class ClientChargeViewModel : BindableBase
     {
+        private bool _askedCreditCard;
+        
         private string _chargeStateProperties;
         private string _lastUser;
+        private string _chargeNumber;
         private string _lastModificationTime;
         private bool _dependencyOnCash;
-        private bool _askedCreditCard;
         private string _chargeName;
         private string _chargeAccount1;
         private string _chargeAccount2;
-        private IDictionary<string, DelegateCommand> _currentClickCommand = new Dictionary<string, DelegateCommand>();
         private string _chargeCommissionAccount;
         private string _chargeCommissionAccount2;
         private string _commissionPercentage;
@@ -47,6 +44,8 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private bool _isNoAutoListChecked;
         private string _dataGridColName1;
         private string _dataGridColName2;
+
+        private IDictionary<string, DelegateCommand> _currentClickCommand = new Dictionary<string, DelegateCommand>();
         private GridPopUpViewModel viewModel = new GridPopUpViewModel();
         private GridPopUpView popUpView = new GridPopUpView();
         private IDalLocator locator;
@@ -95,7 +94,6 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                         {
 
                         });
-
                 });
             }
         }
@@ -166,6 +164,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         ///  Generic command from the UI. It is a delegate command.
         /// </summary>
         public ICommand ClickCommand { get; set; }
+
         /// <summary>
         ///  Change of the state of the form.
         /// </summary>
@@ -177,8 +176,8 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                 _chargeStateProperties = value;
                 RaisePropertyChanged("ChargeStateProperties");
             }
-
         }
+
         /// <summary>
         ///  Last user that has done the modification in this table
         /// </summary>
@@ -191,15 +190,16 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                 RaisePropertyChanged("LastUser");
             }
         }
+
         /// <summary>
         /// The number of the charge from the customer
         /// </summary>
         public string ChargeNumber
         {
-            get { return _lastUser; }
+            get { return _chargeNumber; }
             set
             {
-                _lastUser = value;
+                _chargeNumber = value;
                 RaisePropertyChanged("ChargeNumber");
             }
         }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Prism.Mvvm;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using Prism.Mvvm;
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {

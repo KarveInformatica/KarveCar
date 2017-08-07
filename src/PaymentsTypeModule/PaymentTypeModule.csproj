@@ -39,17 +39,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Apache.Ibatis.Common">
-      <HintPath>..\..\..\..\KarveSnapshots\KarveCar\src\DALModule\lib\Apache.Ibatis.Common\bin\Debug\Apache.Ibatis.Common.dll</HintPath>
+      <HintPath>..\DALModule\lib\Apache.Ibatis.Common\bin\Release\Apache.Ibatis.Common.dll</HintPath>
     </Reference>
     <Reference Include="Apache.Ibatis.DataMapper">
-      <HintPath>..\..\..\..\KarveSnapshots\KarveCar\src\DALModule\lib\Apache.Ibatis.DataMapper\bin\Debug\Apache.Ibatis.DataMapper.dll</HintPath>
+      <HintPath>..\DALModule\lib\Apache.Ibatis.DataMapper\bin\Release\Apache.Ibatis.DataMapper.dll</HintPath>
     </Reference>
     <Reference Include="Dragablz">
       <HintPath>..\..\..\..\KarveSnapshots\Dragablz\bin\Debug_net45\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\KarveSnapshots\KarveCar\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+      <HintPath>..\..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -133,6 +133,10 @@
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KarveCar.csproj">
+      <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
+      <Name>KarveCar</Name>
     </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>

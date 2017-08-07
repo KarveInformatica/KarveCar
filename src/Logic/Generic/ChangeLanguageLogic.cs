@@ -40,7 +40,7 @@ namespace KarveCar.Logic.Generic
         /// <param name="culture"></param>
         public static void ChangeCulture(CultureInfo culture)
         {
-            Properties.Resources.Culture = culture;
+            Resources.Culture = culture;
             objectdataprovider.Refresh();
         }
     }

@@ -262,5 +262,39 @@ namespace KarveCar.Utility
             }
         }
         #endregion
+
+        #region double
+        public static void SetDate(string value, out bool tryparse, out object datagridvalue)
+        {
+            DateTime doubleValue;
+            tryparse = DateTime.TryParse(value, out doubleValue);
+            datagridvalue = tryparse ? DateTime.Parse(value) : datagridvalue = null;
+        }
+
+        public static DateTime GetDate(DateTime value)
+        {
+            //try
+            //{
+            //    return value;
+            //}
+            //catch (Exception)
+            //{
+            //    return 0;
+            //}
+            return value;
+        }
+
+        public static object GetDate(DateTime? value)
+        {
+            try
+            {
+                return value.HasValue ? value : null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
     }
 }
