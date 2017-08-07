@@ -68,13 +68,29 @@ namespace Apache.Ibatis.DataMapper.Data
             request.IDbCommand = new DbCommandDecorator(CreateCommandAndEnlistTransaction(dbProvider, statement.CommandType, session), request);
 			
 			request.IDbCommand.CommandText = request.PreparedStatement.PreparedSql;
+            
+            // There is no need to go deeper on the stuff in case of simple types.
+		    if (parameterObject is int)
+		    {
+                // we simply treat here the parameters replacing in the query.
+		        request.PreparedStatement.DbParametersName = new StringCollection();
+		        request.PreparedStatement.DbParameters = null;
 
+                int tmpParam = (int)parameterObject;
+		        parameterObject = null;
+		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", Convert.ToString(tmpParam));
+
+
+            }
+		   
 			if (log.IsDebugEnabled)
 			{
                 log.Debug("Preparing to apply parameter information to Statement Id: [" + statement.Id + "] based off of PreparedStatement: [" + request.IDbCommand.CommandText + "]");
 			}
 
+
 			ApplyParameterMap( session.SessionFactory.DataSource.DbProvider , request.IDbCommand, request, statement, parameterObject  );
+
 		}
 
         #endregion

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PaymentTypeModule.ChargeClients.ViewModel;
+using Prism.Commands;
 
 namespace PaymentTypeModule.ChargeClients.View
 {
@@ -21,6 +22,7 @@ namespace PaymentTypeModule.ChargeClients.View
     /// </summary>
     public partial class GridQueryOffices : UserControl
     {
+        
         public GridQueryOffices()
         {
             InitializeComponent();

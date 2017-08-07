@@ -58,7 +58,7 @@ namespace DataAccessLayer
         {
             ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
             DataTable table = new DataTable();
-            table.Columns.Add(new DataColumn("Codigo", typeof(long)));
+            table.Columns.Add(new DataColumn("Codigo", typeof(string)));
             table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (var item in invoiceTypes)
             {
@@ -114,10 +114,11 @@ namespace DataAccessLayer
         public IDictionary<string, bool> GetChargeOptions(int selectedItemCode)
         {
             IDictionary<string, bool> options = new Dictionary<string, bool>();
+
             ICollection<ChargeOptionDataObject> invoiceTypes = DataMapper.QueryForList<ChargeOptionDataObject>("Auxiliares.GetChargeOptions", selectedItemCode);
             foreach (ChargeOptionDataObject chargeOptionData in invoiceTypes)
             {
-                options["IsCacheFlowChecked"] = chargeOptionData.IsCashFlowChecked;
+                options["IsCashFlowChecked"] = chargeOptionData.IsCashFlowChecked;
                 options["IsClientAccountChecked"] = chargeOptionData.IsClientAccountChecked;
                 options["IsNoRemittableChecked"] = chargeOptionData.IsNoRemittableChecked;
                 options["IsPorfolioEffectsChecked"] = chargeOptionData.IsPorfolioEffectsChecked;

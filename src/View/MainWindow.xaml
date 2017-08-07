@@ -331,7 +331,7 @@
                             <r:RibbonButton x:Name="rbtnFormasCobroClientes" 
                                         Label="{Binding lrbtnFormasCobroClientes, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\new.png"  DataContext="{StaticResource paymentResolverViewModel}">
+                                        SmallImageSource="/KarveCar;component/Images/paymentTypes.png"  DataContext="{StaticResource paymentResolverViewModel}">
                                 <r:RibbonButton.InputBindings>
                                     <KeyBinding Key="Return"                                                
                                                 Command="{Binding ShowPaymentCommand}" 

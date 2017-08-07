@@ -132,7 +132,7 @@
                         </Button>
                         <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
                         <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}" Height="Auto" Margin="0,5"/>
-                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office1}" Background="LightBlue" Height="Auto" Margin="0,5"/>
+                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office2}" Background="LightBlue" Height="Auto" Margin="0,5"/>
                         <Button  Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" Name="FindOffice2" Width="100" Command="{Binding ClickCommand}" 
                                  CommandParameter="FindOffice" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
