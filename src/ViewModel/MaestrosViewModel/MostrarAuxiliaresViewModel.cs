@@ -2,13 +2,13 @@
 using DataAccessLayer;
 using KarveCar.Commands.Generic;
 using KarveCar.Logic.Maestros;
-using KarveCommon.Generic;
 using Prism.Mvvm;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Practices.Unity;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
@@ -39,7 +39,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// <param name="parameter"></param>
         public void MostrarAuxiliares(object parameter)
         {
-            RecopilatorioEnumerations.EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;
+            EOpcion opcion = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())

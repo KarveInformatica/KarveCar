@@ -22,7 +22,7 @@ namespace KarveCar.Logic.Generic
         /// </summary>
         /// <param name="opcion"></param>
         /// <returns></returns>
-        public static TabItem CreateTabItemDataGrid(EOpcion opcion)
+        public static TabItem CreateTabItem(EOpcion opcion)
         {
             TabItemUserControl tbitem = new TabItemUserControl();
             var binding = new Binding();
@@ -45,22 +45,20 @@ namespace KarveCar.Logic.Generic
         /// Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void CreateTabItemUserControl(EOpcion opcion)
+        public static void CreateTabItemUserControl(EOpcion opcion, object obj)
         {
             try
             {
                 if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
                 {
-                    //Se recupera el Usercontrol (obj) según el EOpcion pasado por params                    
-                    object obj = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.obj;
                     //Se crea el Tabitem
-                    TabItem tabitem = TabItemLogic.CreateTabItemDataGrid(opcion);
-
-                    //Se añade un nuevo UserControl al TabItem
-                    tabitem.Content = obj;
+                    TabItem tabitem = CreateTabItem(opcion);
 
                     //Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
                     tabitemdictionary.Add(opcion, new TemplateInfoTabItem(tabitem));
+
+                    //Se añade un nuevo UserControl al TabItem
+                    tabitem.Content = obj;
 
                 }
                 else

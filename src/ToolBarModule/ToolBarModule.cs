@@ -25,7 +25,7 @@ namespace ToolBarModule
             _container.RegisterType<IToolBarViewModel, KarveToolBarViewModel>();
             _container.RegisterType<IToolBarView, KarveToolBarView>();
             _undoService = _container.Resolve<ICareKeeperService>();
-            _dalLocator = _container.Resolve<IDalLocator>();
+            _dalLocator  = _container.Resolve<IDalLocator>();
             _configurationService = _container.Resolve<IConfigurationService>();
         }
         public void Initialize()

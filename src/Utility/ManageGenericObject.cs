@@ -4,6 +4,7 @@ using KarveCar.Model.Sybase;
 using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -69,6 +70,7 @@ namespace KarveCar.Utility
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDouble(dr[item.nombrecolumnadb] as double?));
                                         break;
                                     case ETiposDatoColumnaDB.DBdate:
+                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDate(dr[item.nombrecolumnadb] as DateTime?));
                                         break;
                                     case ETiposDatoColumnaDB.DBdatetime:
                                         break;
@@ -215,6 +217,51 @@ namespace KarveCar.Utility
                 ErrorsDB.MessageError(e);
             }
             return value;        
+        }
+
+        /// <summary>
+        /// Convierte una GenericObservableCollection en un DataTable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable<T>(GenericObservableCollection collection)
+        {
+            DataTable datatable = new DataTable();
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties();
+            object temp;
+            DataRow datarow;
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                datatable.Columns.Add(properties[i].Name, Nullable.GetUnderlyingType(properties[i].PropertyType) ?? properties[i].PropertyType);
+                datatable.Columns[i].AllowDBNull = true;
+            }
+
+            //Populate the table
+            foreach (var item in collection.GenericObsCollection)
+            {
+                datarow = datatable.NewRow();
+                datarow.BeginEdit();
+
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    temp = properties[i].GetValue(item, null);
+                    if (temp == null || (temp.GetType().Name == "Char" && ((char)temp).Equals('\0')))
+                    {
+                        datarow[properties[i].Name] = (object)DBNull.Value;
+                    }
+                    else
+                    {
+                        datarow[properties[i].Name] = temp;
+                    }
+                }
+
+                datarow.EndEdit();
+                datatable.Rows.Add(datarow);
+            }
+            return datatable;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using KarveCar.Commands.ConfiguracionCommand;
 using KarveCar.Logic.Generic;
+using KarveCar.View;
 using KarveCommon.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -43,8 +44,9 @@ namespace KarveCar.ViewModel.ConfiguracionViewModel
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
-            {
-                TabItemLogic.CreateTabItemUserControl(opcion);
+            {                
+                CintaOpcionesUserControl obj = new CintaOpcionesUserControl();
+                TabItemLogic.CreateTabItemUserControl(opcion, obj);
             }
         }
         #endregion

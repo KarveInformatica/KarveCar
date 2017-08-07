@@ -63,7 +63,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private DateTime fechabaja;
-        internal DateTime FechaBaja
+        public DateTime FechaBaja
         {
             get { return fechabaja; }
             set
@@ -74,7 +74,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte horasfrigo;
-        internal byte HorasFrigo
+        public byte HorasFrigo
         {
             get { return horasfrigo; }
             set
@@ -118,7 +118,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private string notas;
-        internal string Notas
+        public string Notas
         {
             get { return notas; }
             set
@@ -129,7 +129,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal cdw;
-        internal decimal CDW
+        public decimal CDW
         {
             get { return cdw; }
             set
@@ -140,7 +140,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal plus;
-        internal decimal Plus
+        public decimal Plus
         {
             get { return plus; }
             set
@@ -151,7 +151,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal fianza;
-        internal decimal Fianza
+        public decimal Fianza
         {
             get { return fianza; }
             set
@@ -162,7 +162,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal tp;
-        internal decimal TP
+        public decimal TP
         {
             get { return tp; }
             set
@@ -173,7 +173,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal franquicia;
-        internal decimal Franquicia
+        public decimal Franquicia
         {
             get { return franquicia; }
             set
@@ -184,7 +184,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal pai;
-        internal decimal PAI
+        public decimal PAI
         {
             get { return pai; }
             set
@@ -195,7 +195,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private decimal cesion;
-        internal decimal Cesion
+        public decimal Cesion
         {
             get { return cesion; }
             set
@@ -206,7 +206,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private int mesesitv;
-        internal int MesesITV
+        public int MesesITV
         {
             get { return mesesitv; }
             set
@@ -217,7 +217,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte fsordowntown;
-        internal byte FSORDowntown
+        public byte FSORDowntown
         {
             get { return fsordowntown; }
             set
@@ -228,7 +228,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte fsoraeropuerto;
-        internal byte FSORAeropuerto
+        public byte FSORAeropuerto
         {
             get { return fsoraeropuerto; }
             set
@@ -239,7 +239,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte edadminimapermitidaaviso;
-        internal byte EdadMinimaPermitidaAviso
+        public byte EdadMinimaPermitidaAviso
         {
             get { return edadminimapermitidaaviso; }
             set
@@ -250,7 +250,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte edadminimapermitidabloqueo;
-        internal byte EdadMinimaPermitidaBloqueo
+        public byte EdadMinimaPermitidaBloqueo
         {
             get { return edadminimapermitidabloqueo; }
             set
@@ -261,7 +261,7 @@ namespace DataAccessLayer.DataObjects
         }
 
         private byte antiguedadminimacarnet;
-        internal byte AntiguedadMinimaCarnet
+        public byte AntiguedadMinimaCarnet
         {
             get { return antiguedadminimacarnet; }
             set

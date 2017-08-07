@@ -150,7 +150,7 @@
     <Compile Include="Model\SQL\ScriptsSQLOthers.cs" />
     <Compile Include="Model\SQL\ScriptsSQLDelete.cs" />
     <Compile Include="Model\SQL\ScriptsSQLSelect.cs" />
-    <Compile Include="Model\Sybase\MaestrosAuxiliaresModel.cs" />
+    <Compile Include="Utility\GetValuesFromDBGeneric.cs" />
     <Compile Include="Model\Sybase\DBConnect.cs" />
     <Compile Include="Model\Sybase\ErrorsDB.cs" />
     <Compile Include="Model\Sybase\ErrorsGeneric.cs" />
@@ -210,6 +210,10 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\GrupoVehiculoDataGridUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GrupoVehiculoUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

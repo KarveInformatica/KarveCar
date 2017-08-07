@@ -13,7 +13,7 @@ namespace ToolBarModule.Command
         public override void Execute(object parameter)
         {
             CommandWrapper wrapper = new CommandWrapper(this, parameter);
-       //     ViewModel.DeleteItem(wrapper);
+       //    ViewModel.DeleteItem(wrapper);
         }
         public override bool UnExecute()
         {
