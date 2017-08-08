@@ -10,6 +10,7 @@ namespace KarveCar.View
         public GrupoVehiculoDataGridUserControl()
         {
             InitializeComponent();
+            
         }
     }
 }

@@ -9,7 +9,8 @@
              mc:Ignorable="d"              
              HorizontalAlignment="Left" VerticalAlignment="Top">
 
-        <Grid ScrollViewer.CanContentScroll="True" DataContext="{Binding Source={StaticResource grupoVehiculoViewModel}}">
+        <!--<Grid ScrollViewer.CanContentScroll="True" DataContext="{Binding Source={StaticResource grupoVehiculoViewModel}}">-->
+        <Grid ScrollViewer.CanContentScroll="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500" />
                 <ColumnDefinition Width="5" />
@@ -24,22 +25,22 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>-->
                             <Label   x:Name="lblCodigo" Content="Código" Margin="25,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtCodigo" Text="{Binding GrupoVehiculoSelectedItem.Codigo}" Margin="100,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtCodigo" Text="Codigo" Margin="100,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <Button Command="{Binding CloseWindowCommand}" DataContext="{StaticResource closeWindowViewModel}" Margin="150,25,300,75" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/search.png" HorizontalAlignment="Right" />
                             </Button>
                             <Label   x:Name="lblAcriss"  Content="Acriss" Margin="175,25,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtAcriss"  Text="{Binding GrupoVehiculoSelectedItem.Acriss}"  Margin="225,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtUser"    Text="{Binding GrupoVehiculoSelectedItem.Usuario}" Margin="300,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
-                            <TextBox x:Name="txtUltModi" Text="{Binding GrupoVehiculoSelectedItem.UltimaModificacion}" Margin="350,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
+                            <TextBox x:Name="txtAcriss"  Text="Acriss"  Margin="225,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtUser"    Text="Usuario" Margin="300,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
+                            <TextBox x:Name="txtUltModi" Text="UltimaModificacion" Margin="350,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
 
 
                             <Label   x:Name="lblNombre"  Content="Nombre" Margin="25,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtNombre"  Text="{Binding GrupoVehiculoSelectedItem.Definicion}" Margin="100,50,0,0" Width="350" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtNombre"  Text="Definicion" Margin="100,50,0,0" Width="350" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Label      x:Name="lblFechaBaja"  Content="Fecha Baja" Margin="25,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <DatePicker x:Name="dpkFechaBaja"  Text="{Binding GrupoVehiculoSelectedItem.FechaBaja}" Margin="100,75,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <CheckBox   x:Name="ckbHorasFrigo" IsChecked="{Binding GrupoVehiculoSelectedItem.HorasFrigo}" Content="Gestión Horas Frigo" Margin="325,75,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"/>
+                            <DatePicker x:Name="dpkFechaBaja"  Text="FechaBaja" Margin="100,75,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <CheckBox   x:Name="ckbHorasFrigo" IsChecked="True" Content="Gestión Horas Frigo" Margin="325,75,0,0" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft"/>
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -51,20 +52,20 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>-->
                             <Label   x:Name="lblModelos" Content="Modelos:"      Margin="25,25,0,0"  Width="75"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtModelos" Text="{Binding GrupoVehiculoSelectedItem.Modelo}" Margin="100,25,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtModelos" Text="Modelo" Margin="100,25,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <Button Command="{Binding CloseWindowCommand}" DataContext="{StaticResource closeWindowViewModel}" Margin="425,25,25,75" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/edit.png" HorizontalAlignment="Right" />
                             </Button>
 
                             <Label   x:Name="lblTipo"       Content="Tipo:" Margin="25,50,0,0"  Width="75"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtTipoCodigo" Text="{Binding GrupoVehiculoSelectedItem.TipoVehiculoCodigo}"      Margin="100,50,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtTipoNombre" Text="{Binding GrupoVehiculoSelectedItem.TipoVehiculoDescripcion}" Margin="150,50,0,0" Width="275" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
+                            <TextBox x:Name="txtTipoCodigo" Text="TipoVehiculoCodigo"      Margin="100,50,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtTipoNombre" Text="TipoVehiculoDescripcion" Margin="150,50,0,0" Width="275" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
                             <Button Command="{Binding CloseWindowCommand}" DataContext="{StaticResource closeWindowViewModel}" Margin="425,50,25,50" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/search.png" HorizontalAlignment="Right" />
                             </Button>
 
                             <Label   x:Name="lblNotas" Content="Notas:"       Margin="25,75,0,0"  Width="75"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtNotas" Text="{Binding GrupoVehiculoSelectedItem.Notas}" Margin="100,75,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtNotas" Text="Notas" Margin="100,75,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <Button Command="{Binding CloseWindowCommand}" DataContext="{StaticResource closeWindowViewModel}" Margin="425,75,25,25" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/edit.png" HorizontalAlignment="Right" />
                             </Button>
@@ -78,40 +79,40 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>-->
                         <Label   x:Name="lblCdw"    Content="Cdw:" Margin="25,25,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtCdw"    Text="{Binding GrupoVehiculoSelectedItem.CDW}"    Margin="75,25,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtCdw"    Text="CDW"    Margin="75,25,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                         <Label   x:Name="lblPlus"   Content="Plus:" Margin="150,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtPlus"   Text="{Binding GrupoVehiculoSelectedItem.Plus}"   Margin="225,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtPlus"   Text="Plus"   Margin="225,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                         <Label   x:Name="lblFianza" Content="Fianza:" Margin="300,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtFianza" Text="{Binding GrupoVehiculoSelectedItem.Fianza}" Margin="375,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtFianza" Text="Fianza" Margin="375,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
 
                         <Label   x:Name="lblTp"         Content="Tp:" Margin="25,50,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtTp"         Text="{Binding GrupoVehiculoSelectedItem.TP}"   Margin="75,50,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtTp"         Text="TP"   Margin="75,50,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                         <Label   x:Name="lblFranquicia" Content="Franquicia:" Margin="150,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtFranquicia" Text="{Binding GrupoVehiculoSelectedItem.Franquicia}" Margin="225,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtFranquicia" Text="Franquicia" Margin="225,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
 
                         <Label   x:Name="lblPai"      Content="Pai:" Margin="25,75,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtPai"      Text="{Binding GrupoVehiculoSelectedItem.PAI}"      Margin="75,75,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtPai"      Text="PAI"      Margin="75,75,0,0"  Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                         <Label   x:Name="lblPrCesion" Content="Pr.Cesión:" Margin="150,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtPrCesion" Text="{Binding GrupoVehiculoSelectedItem.Cesion}"   Margin="225,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtPrCesion" Text="Cesion"   Margin="225,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                         <Label   x:Name="lblMesesITV" Content="Meses ITV:" Margin="300,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtMesesITV" Text="{Binding GrupoVehiculoSelectedItem.MesesITV}" Margin="375,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtMesesITV" Text="MesesITV" Margin="375,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
 
 
                         <Label       x:Name="lblDowntown"     Content="Downtown:"   Margin="25,125,0,0"  Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton x:Name="rdbDTVentaLibre" Content="Venta Libre" Margin="100,125,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrDowntown" IsChecked="{Binding GrupoVehiculoSelectedItem.FSORDowntown}"/>
+                        <RadioButton x:Name="rdbDTVentaLibre" Content="Venta Libre" Margin="100,125,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrDowntown" IsChecked="True"/>
                         <RadioButton x:Name="rdbDTOnRequest"  Content="On Request"  Margin="200,125,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrDowntown"/>
                         <Label       x:Name="lblAeropuerto"   Content="Aeropuerto:" Margin="25,150,0,0"  Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <RadioButton x:Name="rdbAPVentaLibre" Content="Venta Libre" Margin="100,150,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrAirport" IsChecked="{Binding GrupoVehiculoSelectedItem.FSORAeropuerto}"/>
+                        <RadioButton x:Name="rdbAPVentaLibre" Content="Venta Libre" Margin="100,150,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrAirport" IsChecked="True"/>
                         <RadioButton x:Name="rdbAPOnRequest"  Content="On Request"  Margin="200,150,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" FlowDirection="RightToLeft" GroupName="rdbgrAirport"/>
 
                         <GroupBox x:Name="grbRequitosMinimos" Header="Requisitos Mínimos" BorderBrush="Black" BorderThickness="1,1,1,1" Margin="25,200,0,0" Height="100" Width="275" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Grid>
                                 <Label   x:Name="lblEdadMinimaAviso"   Content="Edad Minima Permitida (Aviso):"   Margin="0,0,0,0"  Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtEdadMinimaAviso"   Text="{Binding GrupoVehiculoSelectedItem.EdadMinimaPermitidaAviso}"     Margin="200,0,0,0"  Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                                <TextBox x:Name="txtEdadMinimaAviso"   Text="EdadMinimaPermitidaAviso"     Margin="200,0,0,0"  Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                                 <Label   x:Name="lblEdadMinimaBloqueo" Content="Edad Minima Permitida (Bloqueo):" Margin="0,25,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtEdadMinimaBloqueo" Text="{Binding GrupoVehiculoSelectedItem.EdadMinimaPermitidaBloqueo}"   Margin="200,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                                <TextBox x:Name="txtEdadMinimaBloqueo" Text="EdadMinimaPermitidaBloqueo"   Margin="200,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                                 <Label   x:Name="lblAntiguiedadMinimaCarnet" Content="Antiguiedad Mínima Carnet:" Margin="0,50,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtAntiguiedadMinimaCarnet" Text="{Binding GrupoVehiculoSelectedItem.AntiguedadMinimaCarnet}" Margin="200,50,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                                <TextBox x:Name="txtAntiguiedadMinimaCarnet" Text="AntiguedadMinimaCarnet" Margin="200,50,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
                             </Grid>
                         </GroupBox>
                     </Grid>
@@ -134,19 +135,6 @@
                             </DataTemplate>
                         </ExtendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                     </ExtendedGridControl:ExtendedDataGrid>-->
-                <DataGrid x:Name="dtgrGruposVehiculos" 
-                          DataContext="{StaticResource grupoVehiculoViewModel}"
-                          ItemsSource="{Binding GrupoVehiculoDataTable}" 
-                          IsReadOnly="True"
-                          AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Código"      Binding="{Binding Codigo}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                        <DataGridTextColumn Header="Descripción" Binding="{Binding Definicion}"         /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                        <DataGridTextColumn Header="Acriss"      Binding="{Binding Acriss}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                        <DataGridTextColumn Header="Modelo"      Binding="{Binding Modelo}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                        <DataGridTextColumn Header="Tipo"        Binding="{Binding TipoVehiculoCodigo}" /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                    </DataGrid.Columns>
-                </DataGrid>
             </GroupBox>
             </Grid>
             <GridSplitter x:Name="gridsplitter" Grid.Column="1" Visibility="Visible" HorizontalAlignment="Stretch" Width="5" />
