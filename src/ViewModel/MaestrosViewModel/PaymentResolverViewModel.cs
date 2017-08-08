@@ -64,7 +64,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (opcion.ToString() == parameter.ToString())
             {
                 TabItemLogic.CreateTabItemUserControlFromContainer(EOpcion.rbtnFormasCobroClientes, paymentView);
-            //    var obscollection = tabitemdictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Value.GenericObsCollection;
+            
             }
         }
         #endregion

@@ -1,5 +1,7 @@
 ﻿using KarveDataServices;
 using System.Data;
+using System;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -32,5 +34,12 @@ namespace DataAccessLayer
         {
             return _paymentDataService;
         }
+
+        public IVehicleDataServices GetVehicleDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }

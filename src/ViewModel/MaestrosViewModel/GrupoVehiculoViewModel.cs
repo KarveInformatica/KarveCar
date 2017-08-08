@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Threading.Tasks;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -23,16 +24,27 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         private DataTable srcdataTable;
         private DataTable dataTable;
+        private Task<DataTable> loadDataTableTask;
+
         public DataTable SourceDataTable
         {
             get { return dataTable; }
             set
             {
                 dataTable = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("SourceDataTable");
             }
         }
         public ICommand DataGridSelectionChanged { get; set; }
+
+        private delegate void NotifyOnLoad(DataTable newTable);
+
+        private event NotifyOnLoad notifyOnLoad;
+
+        private void SetTable(DataTable newTable)
+        {
+            this.SourceDataTable = newTable;
+        }
 
         #endregion
         private void OnSelectionChanged(object dataRowView)
@@ -44,8 +56,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         public GrupoVehiculoViewModel()
         {
             this.grupovehiculocommand = new DelegateCommand<object>(GrupoVehiculo);
-            this.dataTable = InitDataLayer();
-         
+            this.dataTable = InitDataLayerSync();
+            //  this.loadDataTableTask = InitDataLayer();
+
         }
         #endregion
 
@@ -61,12 +74,10 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         #endregion
 
+       
 
-        private DataTable InitDataLayer()
+        private DataTable CopyToTable(GenericObservableCollection obs)
         {
-            // FIXME: move all this to DataMapper.
-            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
             dataTable.Columns.Add(new DataColumn("Definicion", typeof(string)));
@@ -89,6 +100,25 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 }
             }
             return dataTable;
+        }
+
+        private DataTable InitDataLayerSync()
+        {
+            DataTable table = new DataTable();
+            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
+            GenericObservableCollection obs =  GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql);
+            table = CopyToTable(obs);
+            return table;
+        }
+
+        private async Task<DataTable> InitDataLayer()
+        {
+            // FIXME: move all this to DataMapper.
+            DataTable table = new DataTable();
+            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
+            GenericObservableCollection obs = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql));
+            table = CopyToTable(obs);
+            return table;
         }
         #region Métodos
         /// <summary>

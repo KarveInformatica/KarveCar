@@ -373,6 +373,7 @@
     <Resource Include="Images\redirect.png" />
     <Resource Include="Images\redo.png" />
     <Resource Include="Images\save.png" />
+    <Resource Include="Images\search.png" />
     <Resource Include="Images\settings.png" />
     <Resource Include="Images\time.png" />
     <Resource Include="Images\tools.png" />
@@ -430,9 +431,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\paymentTypes.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

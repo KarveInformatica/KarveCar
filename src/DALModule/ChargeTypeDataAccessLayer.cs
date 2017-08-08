@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -54,7 +55,7 @@ namespace DataAccessLayer
             }
         }
 
-        public DataTable GetAllInvoiceTypeDataTable()
+        public  DataTable GetAllInvoiceTypeDataTable()
         {
             ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
             DataTable table = new DataTable();
@@ -66,7 +67,7 @@ namespace DataAccessLayer
                 row["Codigo"] = item.Codigo;
                 row["Definicion"] = item.Nombre;
                 table.Rows.Add(row);
-                table.AcceptChanges();
+               // table.AcceptChanges();
             }
             return table;
         }
@@ -101,7 +102,7 @@ namespace DataAccessLayer
                 row["Codigo"] = CheckNullToEmptyString(item.Codigo);
                 row["Definicion"] = CheckNullToEmptyString(item.Nombre);
                 table.Rows.Add(row);
-                table.AcceptChanges();
+               // table.AcceptChanges();
             }
             return table;
         }
@@ -221,7 +222,7 @@ namespace DataAccessLayer
                 row["Nombre"] = item.Nombre;
                 row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
-                table.AcceptChanges();
+               // table.AcceptChanges();
             }
             return table;
         }

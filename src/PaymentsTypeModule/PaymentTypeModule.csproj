@@ -38,6 +38,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apache.Ibatis.Common">
+      <HintPath>..\DALModule\lib\Apache.Ibatis.Common\bin\Release\Apache.Ibatis.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Apache.Ibatis.DataMapper">
+      <HintPath>..\DALModule\lib\Apache.Ibatis.DataMapper\bin\Release\Apache.Ibatis.DataMapper.dll</HintPath>
+    </Reference>
     <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
@@ -133,14 +139,6 @@
     <ProjectReference Include="..\DALModule\KarveDataServices\KarveDataServices.csproj">
       <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
       <Name>KarveDataServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DALModule\lib\Apache.Ibatis.Common\Apache.Ibatis.Common.csproj">
-      <Project>{bbc8da4a-ea88-41d9-8b93-929b8f3adade}</Project>
-      <Name>Apache.Ibatis.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DALModule\lib\Apache.Ibatis.DataMapper\Apache.Ibatis.DataMapper.csproj">
-      <Project>{f3e45f39-3224-4ead-b138-eb5cc0e32824}</Project>
-      <Name>Apache.Ibatis.DataMapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
