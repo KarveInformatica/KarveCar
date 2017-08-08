@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Prism.Commands;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -19,6 +20,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         #region Variables
         private GrupoVehiculoCommand grupovehiculocommand;
 
+        
         private DataTable grupovehiculodatatable;
         public DataTable GrupoVehiculoDataTable
         {
@@ -29,6 +31,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 OnPropertyChanged("GrupoVehiculoDataTable");
             }
         }
+        public ICommand DataGridSelectionChanged { get; set; }
+
+
 
         //private GrupoVehiculoDataObject grupovehiculoselecteditem;
         //public GrupoVehiculoDataObject GrupoVehiculoSelectedItem
@@ -41,6 +46,10 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         //    }
         //}
         #endregion
+        private void OnSelectionChanged(object dataRowView)
+        {
+            DataRowView rowView = dataRowView as DataRowView;
+        }
 
         #region Constructor
         public GrupoVehiculoViewModel()
@@ -67,7 +76,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         public void GrupoVehiculo(object parameter)
         {
             EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
-
+            this.DataGridSelectionChanged = new DelegateCommand<object>(OnSelectionChanged);
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
@@ -75,8 +84,33 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 GrupoVehiculoUserControl obj = new GrupoVehiculoUserControl();
                 TabItemLogic.CreateTabItemUserControl(opcion, obj);
                 string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-                tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.GenericObsCollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
-                this.GrupoVehiculoDataTable = ManageGenericObject.ToDataTable<GrupoVehiculoDataObject>(GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql));
+                GenericObservableCollection obs = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
+                //tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.GenericObsCollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
+                dataTable.Columns.Add(new DataColumn("Definicion", typeof(string)));
+                dataTable.Columns.Add(new DataColumn("Acriss", typeof(string)));
+                dataTable.Columns.Add(new DataColumn("Modelo", typeof(string)));
+                dataTable.Columns.Add(new DataColumn("TipoVehiculoCodigo", typeof(string)));
+
+                foreach (var item in obs.GenericObsCollection)
+                {
+                    GrupoVehiculoDataObject dataObject = item as GrupoVehiculoDataObject;
+                    if (dataObject != null)
+                    {
+                        var row = dataTable.NewRow();
+                        row["Codigo"] = dataObject.Codigo;
+                        row["Definicion"] = dataObject.Definicion;
+                        row["Acriss"] = dataObject.Acriss;
+                        row["Modelo"] = dataObject.Modelo;
+                        row["TipoVehiculoCodigo"] = dataObject.TipoVehiculoCodigo;
+                        dataTable.Rows.Add(row);
+                        dataTable.AcceptChanges();
+                    }
+                }
+
+                this.GrupoVehiculoDataTable = dataTable;
+                    //ManageGenericObject.ToDataTable<GrupoVehiculoDataObject>(GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql));
             }
         }
         #endregion

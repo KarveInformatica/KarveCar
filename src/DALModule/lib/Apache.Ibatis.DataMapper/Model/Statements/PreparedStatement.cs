@@ -59,7 +59,8 @@ namespace Apache.Ibatis.DataMapper.Model.Statements
 		/// </summary>
 		public StringCollection DbParametersName
 		{
-			get { return _dbParametersName; }
+		    set { _dbParametersName = value; }
+            get { return _dbParametersName; }
 		}
 
 		/// <summary>

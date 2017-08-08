@@ -1,7 +1,5 @@
-﻿using DataAccessLayer;
-using KarveCar.Logic.Generic;
+﻿using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
-using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using PaymentTypeModule;
 using Prism.Commands;
@@ -52,14 +50,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IPaymentView paymentView = container.Resolve<IPaymentView>();
-            IDalLocator dalLocator = container.Resolve<IDalLocator>();
-            IConfigurationService configurationService = container.Resolve<IConfigurationService>();
-            ICareKeeperService careKeeperService = container.Resolve<ICareKeeperService>();
             IPaymentViewModule paymentViewModule = container.Resolve<IPaymentViewModule>();
-            //= new ClientChargeViewModel(careKeeperService, dalLocator, configurationService);   
             UserControl view = paymentView as UserControl;
             view.DataContext = paymentViewModule;
-
             if (!ribbonbuttondictionary.ContainsKey(EOpcion.rbtnFormasCobroClientes))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();

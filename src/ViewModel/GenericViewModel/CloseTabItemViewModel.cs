@@ -1,10 +1,9 @@
 ﻿using KarveCar.Commands.Generic;
 using KarveCar.Logic.Generic;
+using KarveCommon.Generic;
 using System.Linq;
 using System.Windows.Input;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {
@@ -31,7 +30,7 @@ namespace KarveCar.ViewModel.GenericViewModel
         /// <param name="parameter"></param>
         public void CloseTabItem(object parameter)
         {
-            RecopilatorioEnumerations.EOpcion tipoaux = ribbonbuttondictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Key;
+            RecopilatorioEnumerations.EOpcion tipoaux = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
             TabItemLogic.RemoveTabItem(tipoaux);
         }
     }

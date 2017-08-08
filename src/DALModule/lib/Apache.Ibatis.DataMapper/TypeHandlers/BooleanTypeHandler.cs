@@ -26,6 +26,7 @@
 
 using System;
 using System.Data;
+using System.Windows.Markup;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 
 
@@ -51,7 +52,16 @@ namespace Apache.Ibatis.DataMapper.TypeHandlers
 			{
 				return DBNull.Value;
 			}
-		    return Convert.ToBoolean(dataReader.GetValue(index));
+		    var value = dataReader.GetValue(index);
+            if (value is string)
+            {
+                var tmp = value as string;
+                int tmpValue = Int32.Parse(tmp);
+                bool outValue = (tmpValue == 0) ? false : true;
+                return outValue;
+            }
+
+            return Convert.ToBoolean(value);
 		}
 
         /// <summary>

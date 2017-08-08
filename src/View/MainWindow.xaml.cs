@@ -18,6 +18,9 @@ namespace KarveCar.View
     public partial class MainWindow : RibbonWindow
     {
 
+        /// <summary>
+        ///  The main waindow will contain a reference to the UnityContainer.
+        /// </summary>
         private IUnityContainer _container;
       
         public MainWindow()
@@ -25,18 +28,12 @@ namespace KarveCar.View
             InitializeComponent();         
             
         }
-
+        /// <summary>
+        ///  Overrides the base window show to inject unity in the main view model.
+        /// </summary>
         public new void Show()
         {
 
-           /* DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-            {
-                this.stInicio.Text = "Aquí ponemos algún texto, p.e.: " + DateTime.Now.ToString("dd/MMMM/yyyy HH:mm:ss");
-                this.Title = "KarveWin  v0.1";
-            }, this.Dispatcher);
-            */
-            //Carga la configuración personalizada del usuario (idioma y RibbonTabs/RibbonGroups). En caso que no exista configuración personalizada,
-            //se cargará la configuración por defecto según app.exe.config y VariablesGlobales.ribbontabdictionary
             this.DataContext = new MainWindowViewModel(this._container);
             UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
 

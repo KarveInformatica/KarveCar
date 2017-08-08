@@ -22,13 +22,14 @@
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Width="300" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding QueryType}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
+        <Label Grid.Row="0" Width="300" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding Title}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="1">
 
             <extendedGridControl:ExtendedDataGrid VerticalAlignment="Top" 
                                                    x:Name="QueryType" 
                                                    ItemsSource="{Binding QueryTable}" 
+                                                  SelectedIndex="{Binding SelectedIndex}"
                                                    RowHeaderWidth="17" 
                                                    IsReadOnly="True"
                                                    MaxHeight="670"
@@ -42,8 +43,8 @@
                                                    IsSynchronizedWithCurrentItem="True"                                           
                                                    SelectionUnit="FullRow" >
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=PaymentSystem, Path=SelectedValue}"/>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=QueryType, Path=SelectedValue}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>

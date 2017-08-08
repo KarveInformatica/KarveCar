@@ -71,13 +71,21 @@
 
 
                         <TextBox Name="ChargeNumber"  Grid.Row="0" Grid.Column="1" Height="Auto" Margin="0,3">
-                            <TextBox.Text>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding NumberTextChanged}" CommandParameter="{Binding ElementName=ChargeNumber, Path=Text}"/>
+                                </i:EventTrigger>
+
+                                </i:Interaction.Triggers>
+                                        <TextBox.Text>
+                                    
                                 <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
+                                   
+                                                <Binding.ValidationRules>
                                         <validationRules:NumberValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
-                            </TextBox.Text>
+                              </TextBox.Text>
                         </TextBox>
                         <GroupBox Grid.Row="0" Grid.Column="2">
                             <CheckBox Name="DependencyOnCash" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsDependencyOnCash, Mode=TwoWay}">Afecta a caja</CheckBox>
@@ -124,7 +132,7 @@
                         </Button>
                         <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
                         <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}" Height="Auto" Margin="0,5"/>
-                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office1}" Background="LightBlue" Height="Auto" Margin="0,5"/>
+                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office2}" Background="LightBlue" Height="Auto" Margin="0,5"/>
                         <Button  Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" Name="FindOffice2" Width="100" Command="{Binding ClickCommand}" 
                                  CommandParameter="FindOffice" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
@@ -159,7 +167,7 @@
                                  CommandParameter="FindBillingAccount" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
                             <StackPanel Orientation="Horizontal">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                                          </StackPanel>
+                            </StackPanel>
                         </Button>
                         <Label Grid.Row="10" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
                         <WrapPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5">
@@ -173,9 +181,10 @@
                         </WrapPanel>
                     </Grid>
                     <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <ExtendedGridControl:ExtendedDataGrid Height="350" VerticalAlignment="Top" 
+                        <ExtendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
                                                               x:Name="PaymentSystem" 
-                                                              ItemsSource="{Binding SourceTable, Mode=TwoWay}" 
+                                                               SelectedIndex="{Binding SelectedIndex}"
+                                                              ItemsSource="{Binding SourceTable}" 
                                                               RowHeaderWidth="17" 
                                                               IsReadOnly="True"
                                                               AutoGenerateColumns="False" 
@@ -188,14 +197,15 @@
                                                               IsSynchronizedWithCurrentItem="True"  
                                                               SelectionMode="Extended" 
                                                               SelectionUnit="FullRow" >
-                            <i:Interaction.Triggers>
+                                <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=PaymentSystem, Path=SelectedValue}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <DataGrid.Columns>
-                                <ExtendedColumn:ExtendedDataGridTextColumn Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"/>
-                                <ExtendedColumn:ExtendedDataGridTextColumn Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"/>
+                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"/>
+                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"/>
+                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Cuenta" AllowAutoFilter="False" Width="90*" Binding="{Binding Cuenta}"/>
                             </DataGrid.Columns>
                         </ExtendedGridControl:ExtendedDataGrid>
                     </StackPanel>

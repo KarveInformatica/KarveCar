@@ -1,32 +1,49 @@
 ﻿using Prism.Mvvm;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Prism.Commands;
-using Prism.Mvvm;
 
 namespace PaymentTypeModule.ChargeClients.ViewModel
 {
-    public class GridPopUpViewModel: BindableBase
+    public class GridPopUpViewModel : BindableBase
     {
-        private string _queryType;
+        private QueryTypeEnum _queryType;
         private string _title;
         private string _firstColumnQuery;
         private string _secondColumnQuery;
         private DataTable _sourceDataTable;
         private bool _isVisible = true;
-       
+        private DelegateCommand<object> _currentCommand;
+        private int _selectedIndex;
+        public ICommand DataGridChangedSelection { get; set; }
+        public enum QueryTypeEnum {
+            BillingAccount = 0,
+            Banks = 1,
+            OfficeAccount,
+            Account,
+            CommissionAccount,
+            CommissionBank
+        }
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; }
+        }
         public GridPopUpViewModel()
         {
-        //    this.DataGridChangedSelection = new DelegateCommand<object>(OnSelectedRow);
+            this.DataGridChangedSelection = new DelegateCommand<object>(OnSelection);
+            _selectedIndex = -1;
         }
 
-        public ICommand DataGridChangedSelection { get; set; }
+
+        private void OnSelection(object p)
+        {
+            if (_selectedIndex >= 0)
+            {
+                _currentCommand.Execute(p);
+            }
+        }
 
         public bool IsVisible
         {
@@ -39,11 +56,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
 
         }
 
-        private void OnSelectedRow(object param)
-        {
-            MessageBox.Show("SelectedRow Command");
-        }
-        public string QueryType
+        public QueryTypeEnum QueryType
         {
             get { return _queryType; }
             set
@@ -52,7 +65,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                 RaisePropertyChanged("QueryType");
             }
 
-       }
+        }
         public string Title
         {
             get { return _title; }
@@ -87,9 +100,19 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         public DataTable QueryTable
         {
             get { return _sourceDataTable; }
-            set {
+            set
+            {
                 _sourceDataTable = value;
                 RaisePropertyChanged("QueryTable");
+            }
+        }
+
+        public DelegateCommand<object> RegionSelectionAction
+        {
+            get { return _currentCommand; }
+            set
+            {
+                _currentCommand = value;
             }
         }
     }

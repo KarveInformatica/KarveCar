@@ -58,7 +58,7 @@ namespace DataAccessLayer
         {
             ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
             DataTable table = new DataTable();
-            table.Columns.Add(new DataColumn("Codigo", typeof(long)));
+            table.Columns.Add(new DataColumn("Codigo", typeof(string)));
             table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (var item in invoiceTypes)
             {
@@ -66,6 +66,7 @@ namespace DataAccessLayer
                 row["Codigo"] = item.Codigo;
                 row["Definicion"] = item.Nombre;
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }
@@ -100,6 +101,7 @@ namespace DataAccessLayer
                 row["Codigo"] = CheckNullToEmptyString(item.Codigo);
                 row["Definicion"] = CheckNullToEmptyString(item.Nombre);
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }
@@ -112,10 +114,11 @@ namespace DataAccessLayer
         public IDictionary<string, bool> GetChargeOptions(int selectedItemCode)
         {
             IDictionary<string, bool> options = new Dictionary<string, bool>();
+
             ICollection<ChargeOptionDataObject> invoiceTypes = DataMapper.QueryForList<ChargeOptionDataObject>("Auxiliares.GetChargeOptions", selectedItemCode);
             foreach (ChargeOptionDataObject chargeOptionData in invoiceTypes)
             {
-                options["IsCacheFlowChecked"] = chargeOptionData.IsCashFlowChecked;
+                options["IsCashFlowChecked"] = chargeOptionData.IsCashFlowChecked;
                 options["IsClientAccountChecked"] = chargeOptionData.IsClientAccountChecked;
                 options["IsNoRemittableChecked"] = chargeOptionData.IsNoRemittableChecked;
                 options["IsPorfolioEffectsChecked"] = chargeOptionData.IsPorfolioEffectsChecked;
@@ -176,6 +179,7 @@ namespace DataAccessLayer
                     row["CP"] = CheckNullToEmptyString(officeObj.CodigoPostal);
                     row["Poblacion"] = CheckNullToEmptyString(officeObj.Poblacion);
                     officeDataTable.Rows.Add(row);
+                    officeDataTable.AcceptChanges();
                 }
             }
             return officeDataTable;
@@ -206,7 +210,7 @@ namespace DataAccessLayer
         {
             DataTable table = new DataTable();
             ICollection<ChargeTypeObject> charges = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
-            table.Columns.Add(new DataColumn("Numero", typeof(long)));
+            table.Columns.Add(new DataColumn("Numero", typeof(string)));
             table.Columns.Add(new DataColumn("Nombre", typeof(string)));
             table.Columns.Add(new DataColumn("Cuenta", typeof(string)));
 
@@ -217,6 +221,7 @@ namespace DataAccessLayer
                 row["Nombre"] = item.Nombre;
                 row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
+                table.AcceptChanges();
             }
             return table;
         }

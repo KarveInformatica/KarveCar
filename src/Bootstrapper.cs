@@ -5,6 +5,7 @@ using DataAccessLayer;
 using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
+using KarveDataServices;
 
 namespace KarveCar
 {
@@ -35,7 +36,7 @@ namespace KarveCar
         protected override void ConfigureContainer()
         {
             // The dal service is used to access to the database
-            Container.RegisterType<IDalLocator, DalLocator>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager());
             // The carekeeper or undo service is used to store the last action and do/redo an action
             Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
             // the configuraion service is used to do all the global actions: saving the app config, exiting, etc.
