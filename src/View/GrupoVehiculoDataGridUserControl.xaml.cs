@@ -10,7 +10,7 @@ namespace KarveCar.View
         public GrupoVehiculoDataGridUserControl()
         {
             InitializeComponent();
-            this.PaymentSystem.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+            this.dtgrGruposVehiculos.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
         }
     }
 }
