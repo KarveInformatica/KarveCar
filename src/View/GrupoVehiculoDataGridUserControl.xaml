@@ -8,6 +8,7 @@
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d">
+ 
     <Grid>
         <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">-->
             <!--<DataGrid x:Name="dtgrGruposVehiculos" 
@@ -25,8 +26,7 @@
                 </DataGrid.Columns>
             </DataGrid>-->
             <ExtendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos" 
-                                                  DataContext="{StaticResource grupoVehiculoViewModel}"
-                                                  ItemsSource="{Binding GrupoVehiculoDataTable}" 
+                                                  ItemsSource="{Binding SourceDataTable}" 
                                                   RowHeaderWidth="12"  
                                                   SearchAutoFilterVisibility="Visible"
                                                   AutoFilterFontSize="12"
@@ -37,7 +37,7 @@
                                                   SelectionMode="Extended" 
                                                   SelectionUnit="CellOrRowHeader" 
                                                   IsReadOnly="True"
-                                                  Theme="Office2007Silver">
+                                                  >
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=dtgrGruposVehiculos, Path=SelectedValue}"/>

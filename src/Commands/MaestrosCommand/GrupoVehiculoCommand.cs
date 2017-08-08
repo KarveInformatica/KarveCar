@@ -16,7 +16,7 @@ namespace KarveCar.Commands.MaestrosCommand
 
         public override void Execute(object parameter)
         {
-            grupovehiculovm.GrupoVehiculo(parameter);
+            //grupovehiculovm.GrupoVehiculo(parameter);
         }
 
         public override bool UnExecute()

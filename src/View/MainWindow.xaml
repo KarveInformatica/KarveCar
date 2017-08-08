@@ -1040,19 +1040,17 @@
                             <r:RibbonButton x:Name="rbtnMarcas" 
                                         Label="{Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnModelos" 
                                         Label="{Binding lrbtnModelos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
+                                        
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnModificacionMasivaAux" 
                                         Label="{Binding lrbtnModificacionMasivaAux, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnMotivosRepostaje" 
@@ -1073,13 +1071,13 @@
                             <r:RibbonButton x:Name="rbtnPropietarios" 
                                         Label="{Binding lrbtnPropietarios, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
+                                        
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnRecalculoMantenimiento" 
                                         Label="{Binding lrbtnRecalculoMantenimiento, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
+                                        
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnTiposVehiculos" 
@@ -1100,7 +1098,6 @@
                         <r:RibbonButton x:Name="rbtnVehiculos" 
                                         Label="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                         </r:RibbonButton>
                     </r:RibbonMenuButton>
@@ -1110,13 +1107,11 @@
                         <r:RibbonButton x:Name="rbtnCategoriasPersonal" 
                                         Label="{Binding lrbtnCategoriasPersonal, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnConceptosSalidaCaja" 
                                         Label="{Binding lrbtnConceptosSalidaCaja, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        
                                         SmallImageSource="/KarveCar;component/Images/new.png" 
                                         DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
                                 <r:RibbonButton.InputBindings>
@@ -1131,13 +1126,11 @@
                             <r:RibbonButton x:Name="rbtnTextosEstandars" 
                                         Label="{Binding lrbtnTextosEstandars, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnTipoContactoPotencial" 
                                         Label="{Binding lrbtnTipoContactoPotencial, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        
                                         SmallImageSource="/KarveCar;component/Images/new.png" 
                                         DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
                                 <r:RibbonButton.InputBindings>
@@ -1152,7 +1145,6 @@
                             <r:RibbonButton x:Name="rbtnTiposDocumentos" 
                                         Label="{Binding lrbtnTiposDocumentos, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left"                                         
-                                        >
                                         SmallImageSource="/KarveCar;component/Images/new.png" >
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnTipoImpresoFactura" 

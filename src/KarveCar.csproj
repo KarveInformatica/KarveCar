@@ -58,9 +58,8 @@
     <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\ExtendedDataGridVS2015\ExtendedGrid.dll</HintPath>
+    <Reference Include="ExtendedGrid">
+      <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
