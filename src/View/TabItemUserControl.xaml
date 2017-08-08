@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:KarveCar.View"
              xmlns:main="clr-namespace:KarveCar"
              mc:Ignorable="d" Background="{StaticResource WindowBackgroundBrush}">
+    
     <TabItem.Resources>
         <DataTemplate x:Key="TabHeader" DataType="TabItem">
             <DockPanel>
@@ -15,7 +16,7 @@
                         Command="{Binding CloseTabItemCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}"
                         Background="Transparent" BorderBrush="Transparent">
-                    <Image Source="..\Images\cancel.png" Height="11" Width="11"></Image>
+                    <Image Source="/KarveCar;component/Images/cancel.png" Height="11" Width="11"></Image>
                 </Button>
             </DockPanel>
         </DataTemplate>

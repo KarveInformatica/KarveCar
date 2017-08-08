@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using PaymentTypeModule;
@@ -10,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
@@ -48,7 +48,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
-            var opcion = RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes;
+            var opcion = EOpcion.rbtnFormasCobroClientes;
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IPaymentView paymentView = container.Resolve<IPaymentView>();
@@ -60,17 +60,17 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             UserControl view = paymentView as UserControl;
             view.DataContext = paymentViewModule;
 
-            if (!ribbonbuttondictionary.ContainsKey(RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes))
+            if (!ribbonbuttondictionary.ContainsKey(EOpcion.rbtnFormasCobroClientes))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();
                 ribbonTemplate.propertiesresources = "lrbtnFormasCobroClientes"; 
-                ribbonbuttondictionary.Add(RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes, ribbonTemplate);   
+                ribbonbuttondictionary.Add(EOpcion.rbtnFormasCobroClientes, ribbonTemplate);   
             }          
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                TabItemLogic.CreateTabItemUserControlFromContainer(RecopilatorioEnumerations.EOpcion.rbtnFormasCobroClientes, paymentView);
+                TabItemLogic.CreateTabItemUserControlFromContainer(EOpcion.rbtnFormasCobroClientes, paymentView);
             //    var obscollection = tabitemdictionary.Where(z => z.Key.ToString() == parameter.ToString()).FirstOrDefault().Value.GenericObsCollection;
             }
         }

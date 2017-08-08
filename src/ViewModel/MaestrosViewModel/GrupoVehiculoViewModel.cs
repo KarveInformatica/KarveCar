@@ -7,6 +7,7 @@ using KarveCar.View;
 using KarveCommon.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
@@ -29,16 +30,16 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
         }
 
-        private GrupoVehiculoDataObject grupovehiculoselecteditem;
-        public GrupoVehiculoDataObject GrupoVehiculoSelectedItem
-        {
-            get { return grupovehiculoselecteditem; }
-            set
-            {
-                grupovehiculoselecteditem = value;
-                OnPropertyChanged("GrupoVehiculoSelectedItem");
-            }
-        }        
+        //private GrupoVehiculoDataObject grupovehiculoselecteditem;
+        //public GrupoVehiculoDataObject GrupoVehiculoSelectedItem
+        //{
+        //    get { return grupovehiculoselecteditem; }
+        //    set
+        //    {
+        //        grupovehiculoselecteditem = value;
+        //        OnPropertyChanged("GrupoVehiculoSelectedItem");
+        //    }
+        //}
         #endregion
 
         #region Constructor

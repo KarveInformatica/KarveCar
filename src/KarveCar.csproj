@@ -194,6 +194,9 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
+      <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
     </Compile>
@@ -210,7 +213,7 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\GrupoVehiculoDataGridUserControl.xaml">
+    <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -395,9 +398,6 @@
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
       <Name>ToolBarModule</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\rentCarIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\clients.png" />

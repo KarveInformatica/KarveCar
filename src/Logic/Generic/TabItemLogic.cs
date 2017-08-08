@@ -3,7 +3,6 @@ using KarveCar.Model.Sybase;
 using KarveCar.View;
 using System;
 using System.Data;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;

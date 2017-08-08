@@ -173,7 +173,7 @@
                         </WrapPanel>
                     </Grid>
                     <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <ExtendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
+                        <ExtendedGridControl:ExtendedDataGrid Height="350" VerticalAlignment="Top" 
                                                               x:Name="PaymentSystem" 
                                                               ItemsSource="{Binding SourceTable, Mode=TwoWay}" 
                                                               RowHeaderWidth="17" 
@@ -194,10 +194,8 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <DataGrid.Columns>
-                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"
-                            />
-                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"
-                            />
+                                <ExtendedColumn:ExtendedDataGridTextColumn Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"/>
+                                <ExtendedColumn:ExtendedDataGridTextColumn Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"/>
                             </DataGrid.Columns>
                         </ExtendedGridControl:ExtendedDataGrid>
                     </StackPanel>
@@ -206,10 +204,7 @@
         </TabControl>
 
     </Grid>
-    <GridSplitter Grid.Column="1"
-                  HorizontalAlignment="Stretch"
-                  Width="5"
-    />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5"/>
 
         <Grid Grid.Column="2" VerticalAlignment="Top" Grid.IsSharedSizeScope="True" ShowGridLines="True">
             <ContentControl   mvvm1:RegionManager.RegionName="SearchRegion"/>

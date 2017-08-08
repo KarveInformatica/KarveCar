@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using Apache.Ibatis.DataMapper;
+﻿using Apache.Ibatis.DataMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveDataServices;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.
-    /// </summary>
-    
+    /// </summary>    
     public class ChargeTypeDataAccessLayer : BaseDataMapper, IPaymentDataServices
     {
         private readonly string _id = "ChargeTypeDAL";
         private Type _dalType = typeof(ChargeTypeObject);
-
         private ICollection<BaseAuxDataObject> _accountDataTable;
-
         
         /// <summary>
         ///  This dal object is useful for accessing to the different types of charging
@@ -28,6 +25,7 @@ namespace DataAccessLayer
         {
             base.Id = _id;
         }
+
         /// <summary>
         ///  This returns the types of charging
         /// </summary>
@@ -45,6 +43,7 @@ namespace DataAccessLayer
             obs.GenericObsCollection = newCollection;
             return obs;
         }
+
         private void QueryCopy(IDataMapper mapper, out ObservableCollection<ChargeTypeObject> collection)
         {
             ICollection<ChargeTypeObject> banks = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
@@ -54,6 +53,7 @@ namespace DataAccessLayer
                 collection.Add(bank);
             }
         }
+
         public DataTable GetAllInvoiceTypeDataTable()
         {
             ICollection<BaseAuxDataObject> invoiceTypes = DataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
@@ -180,6 +180,7 @@ namespace DataAccessLayer
             }
             return officeDataTable;
         }
+
         protected string CheckNullToDefaultString(object ob)
         {
             if (ob == null)
@@ -189,6 +190,7 @@ namespace DataAccessLayer
             string v = ob as string;
             return v;
         }
+
         // move to an helper class.
         protected string CheckNullToEmptyString(object ob)
         {
@@ -199,6 +201,7 @@ namespace DataAccessLayer
             string v = ob as string;
             return v;
         }
+
         public DataTable GetChargeObjects()
         {
             DataTable table = new DataTable();
