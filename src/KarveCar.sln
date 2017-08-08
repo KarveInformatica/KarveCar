@@ -86,7 +86,7 @@ Global
 		{83407587-1785-481B-A4FB-23E035173190} = {31310D87-8201-43E3-A023-DC5B6999B02C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_DuplicateKeyHandling = Fail
 		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
 	EndGlobalSection
 EndGlobal

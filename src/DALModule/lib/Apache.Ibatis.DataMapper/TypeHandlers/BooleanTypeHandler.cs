@@ -57,7 +57,7 @@ namespace Apache.Ibatis.DataMapper.TypeHandlers
             {
                 var tmp = value as string;
                 int tmpValue = Int32.Parse(tmp);
-                bool outValue = (tmpValue == 0) ? false : true;
+                bool outValue = (tmpValue != 0);
                 return outValue;
             }
 
