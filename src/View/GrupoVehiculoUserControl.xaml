@@ -9,8 +9,7 @@
              mc:Ignorable="d"              
              HorizontalAlignment="Left" VerticalAlignment="Top">
 
-        <!--<Grid ScrollViewer.CanContentScroll="True" DataContext="{Binding Source={StaticResource grupoVehiculoViewModel}}">-->
-        <Grid ScrollViewer.CanContentScroll="True">
+        <Grid ScrollViewer.CanContentScroll="True" DataContext="{Binding Source={StaticResource grupoVehiculoViewModel}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500" />
                 <ColumnDefinition Width="5" />
@@ -33,7 +32,6 @@
                             <TextBox x:Name="txtAcriss"  Text="Acriss"  Margin="225,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtUser"    Text="Usuario" Margin="300,25,0,0" Width="50"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
                             <TextBox x:Name="txtUltModi" Text="UltimaModificacion" Margin="350,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
-
 
                             <Label   x:Name="lblNombre"  Content="Nombre" Margin="25,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtNombre"  Text="Definicion" Margin="100,50,0,0" Width="350" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -118,7 +116,7 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="grbPreciosPorDefecto" Header="Precios por defecto" BorderBrush="Black" BorderThickness="1,1,1,1" Margin="25,625,0,0" Height="200" Visibility="Visible" VerticalAlignment="Top">
-                    <!--<ExtendedGridControl:ExtendedDataGrid x:Name="gridPreciosPorDefecto" ItemsSource="{Binding PreciosPorDefecto}" RowHeaderWidth="17"  AutoGenerateColumns="False" HideColumnChooser="False" 
+                    <ExtendedGridControl:ExtendedDataGrid x:Name="gridPreciosPorDefecto" ItemsSource="{Binding PreciosPorDefecto}" RowHeaderWidth="17"  AutoGenerateColumns="False" HideColumnChooser="False" 
                                                                   IsSynchronizedWithCurrentItem="True" SelectionMode="Extended" SelectionUnit="CellOrRowHeader" IsReadOnly="True" Height="178">
                         <DataGrid.Columns>
                             <extendedColumn:ExtendedDataGridTextColumn Header="Código"      AllowAutoFilter="False" CanUserSort="True" Binding="{Binding Codigo}" />
@@ -134,7 +132,7 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ExtendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-                    </ExtendedGridControl:ExtendedDataGrid>-->
+                    </ExtendedGridControl:ExtendedDataGrid>
             </GroupBox>
             </Grid>
             <GridSplitter x:Name="gridsplitter" Grid.Column="1" Visibility="Visible" HorizontalAlignment="Stretch" Width="5" />

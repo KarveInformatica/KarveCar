@@ -215,7 +215,6 @@
 
     </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5"/>
-
         <Grid Grid.Column="2" VerticalAlignment="Top" Grid.IsSharedSizeScope="True" ShowGridLines="True">
             <ContentControl   mvvm1:RegionManager.RegionName="SearchRegion"/>
         </Grid>
