@@ -58,8 +58,9 @@
     <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtendedGrid">
-      <HintPath>..\lib\ExtendedDataGrid\ExtendedGrid\bin\Debug\ExtendedGrid.dll</HintPath>
+    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ExtendedDataGridVS2015\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
@@ -194,6 +195,9 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
+      <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
     </Compile>
@@ -210,7 +214,7 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\GrupoVehiculoDataGridUserControl.xaml">
+    <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -370,7 +374,6 @@
     <Resource Include="Images\redirect.png" />
     <Resource Include="Images\redo.png" />
     <Resource Include="Images\save.png" />
-    <Resource Include="Images\search.png" />
     <Resource Include="Images\settings.png" />
     <Resource Include="Images\time.png" />
     <Resource Include="Images\tools.png" />
@@ -401,9 +404,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\rentCarIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\clients.png" />
     <Resource Include="Images\rentCarIcon.png" />
     <Resource Include="Images\supplier.png" />
@@ -431,6 +431,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\paymentTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

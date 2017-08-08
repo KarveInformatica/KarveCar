@@ -6,28 +6,27 @@
              xmlns:ExtendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:local="clr-namespace:KarveCar.View"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d">
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
-            <DataGrid x:Name="dtgrGruposVehiculos" 
+        <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">-->
+            <!--<DataGrid x:Name="dtgrGruposVehiculos" 
                       DataContext="{StaticResource grupoVehiculoViewModel}"
                       ItemsSource="{Binding GrupoVehiculoDataTable}" 
                       SelectedItem="{Binding GrupoVehiculoSelectedItem}"
                       IsReadOnly="True"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Código"      Binding="{Binding Codigo}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                    <DataGridTextColumn Header="Descripción" Binding="{Binding Definicion}"         /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                    <DataGridTextColumn Header="Acriss"      Binding="{Binding Acriss}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                    <DataGridTextColumn Header="Modelo"      Binding="{Binding Modelo}"             /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
-                    <DataGridTextColumn Header="Tipo"        Binding="{Binding TipoVehiculoCodigo}" /><!--AllowAutoFilter="False" CanUserSort="True"  />-->
+                    <DataGridTextColumn Header="Código"      Binding="{Binding Codigo}"             />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--
+                    <DataGridTextColumn Header="Descripción" Binding="{Binding Definicion}"         />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--
+                    <DataGridTextColumn Header="Acriss"      Binding="{Binding Acriss}"             />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--
+                    <DataGridTextColumn Header="Modelo"      Binding="{Binding Modelo}"             />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--
+                    <DataGridTextColumn Header="Tipo"        Binding="{Binding TipoVehiculoCodigo}" />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--            
                 </DataGrid.Columns>
-            </DataGrid>
-            <!--<ExtendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos" 
+            </DataGrid>-->
+            <ExtendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos" 
                                                   DataContext="{StaticResource grupoVehiculoViewModel}"
                                                   ItemsSource="{Binding GrupoVehiculoDataTable}" 
-                                                  SelectedItem="{Binding GrupoVehiculoSelectedItem}"
                                                   RowHeaderWidth="12"  
                                                   SearchAutoFilterVisibility="Visible"
                                                   AutoFilterFontSize="12"
@@ -39,6 +38,12 @@
                                                   SelectionUnit="CellOrRowHeader" 
                                                   IsReadOnly="True"
                                                   Theme="Office2007Silver">
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=dtgrGruposVehiculos, Path=SelectedValue}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <!--SelectedItem="{Binding GrupoVehiculoSelectedItem}-->"
                 <DataGrid.Columns>
                     <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"             AllowAutoFilter="False" CanUserSort="True"  />
                     <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}"         AllowAutoFilter="False" CanUserSort="True"  />
@@ -54,7 +59,8 @@
                         </StackPanel>
                     </DataTemplate>
                 </ExtendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-            </ExtendedGridControl:ExtendedDataGrid>-->
-        </ScrollViewer>
+            </ExtendedGridControl:ExtendedDataGrid>
+        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>
+

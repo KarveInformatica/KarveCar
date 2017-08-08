@@ -1,5 +1,4 @@
-﻿using KarveCar.ViewModel.MaestrosViewModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace KarveCar.View
 {

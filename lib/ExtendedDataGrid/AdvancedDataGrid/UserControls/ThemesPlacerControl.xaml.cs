@@ -43,7 +43,7 @@ namespace TestClient.UserControls
             row["Publisher"] = "Microsoft";
             row["Owner"] = "Steve";
             row["Count"] = 3;
-            for(var i=0;i<200;i++)
+            for (var i = 0; i < 200; i++)
             {
                 row = SourceTable.NewRow();
                 SourceTable.Rows.Add(row);
@@ -51,10 +51,10 @@ namespace TestClient.UserControls
                 row["Creator"] = "Epic";
                 row["Publisher"] = "Microsoft";
                 row["Owner"] = "Steve";
-                row["Count"] = i+4;
+                row["Count"] = i + 4;
             }
 
-            var source = Enum.GetValues(typeof (ExtendedDataGrid.Themes));
+            var source = Enum.GetValues(typeof(ExtendedDataGrid.Themes));
             cmbTheme.ItemsSource = source;
             cmbTheme.SelectedIndex = 0;
             cmbTheme.IsEditable = false;

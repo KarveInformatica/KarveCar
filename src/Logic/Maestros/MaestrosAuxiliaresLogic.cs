@@ -28,15 +28,7 @@ namespace KarveCar.Logic.Maestros
                 string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;
                 string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
                 GenericObservableCollection genericobscollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
-                    //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection
 
-                /*  else
-                  {
-                      DalLocator loc = DalLocator.GetInstance();
-                      IDalObject dalObject =  loc.FindDalObject(option.ToString());
-                      genericobscollection = dalObject.GetItems();
-                  }
-                  */
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection           
                 CreateTabItemDataGrid(opcion, genericobscollection);                
             }

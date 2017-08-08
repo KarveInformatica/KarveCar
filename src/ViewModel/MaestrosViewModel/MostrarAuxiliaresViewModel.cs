@@ -1,12 +1,10 @@
-﻿using System.ComponentModel;
-using DataAccessLayer;
-using KarveCar.Commands.Generic;
+﻿using KarveCar.Commands.Generic;
 using KarveCar.Logic.Maestros;
+using Microsoft.Practices.Unity;
 using Prism.Mvvm;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Practices.Unity;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 

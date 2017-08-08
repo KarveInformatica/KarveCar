@@ -1,9 +1,4 @@
 ﻿using KarveDataServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 
 namespace DataAccessLayer
@@ -17,7 +12,9 @@ namespace DataAccessLayer
         /// TODO: See if we can use dependency inject and elimitate the depenendency on base data mapper
        
         private BanksDataAccessLayer _bankLayer = new BanksDataAccessLayer();
+
         private IPaymentDataServices _paymentDataService = new ChargeTypeDataAccessLayer();
+
         /// <summary>
         ///  Returns a the complete list of banks in the system.
         /// </summary>
@@ -26,6 +23,7 @@ namespace DataAccessLayer
         {
              return _bankLayer.GetAllBanksTable();
         }
+
         /// <summary>
         /// Get the payement data services.
         /// </summary>
