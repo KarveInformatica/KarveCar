@@ -22,7 +22,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         #region Variables
         private ICommand grupovehiculocommand;
 
-        private DataTable srcdataTable;
         private DataTable dataTable;
         private Task<DataTable> loadDataTableTask;
 
@@ -35,8 +34,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 RaisePropertyChanged("SourceDataTable");
             }
         }
-        public ICommand DataGridSelectionChanged { get; set; }
-
         private delegate void NotifyOnLoad(DataTable newTable);
 
         private event NotifyOnLoad notifyOnLoad;
@@ -47,22 +44,17 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         }
 
         #endregion
-        private void OnSelectionChanged(object dataRowView)
-        {
-            DataRowView rowView = dataRowView as DataRowView;
-        }
 
         #region Constructor
         public GrupoVehiculoViewModel()
         {
             this.grupovehiculocommand = new DelegateCommand<object>(GrupoVehiculo);
-            this.dataTable = InitDataLayerSync();
-            //  this.loadDataTableTask = InitDataLayer();
-
+            this.dataTable = InitDataLayer();
         }
         #endregion
 
         #region Commands
+        public ICommand DataGridSelectionChanged { get; set; }
         public ICommand GrupoVehiculoCommand
         {
             get
@@ -71,19 +63,19 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
             set { grupovehiculocommand = value; }
         }
-
         #endregion
 
-       
-
+        #region Métodos
         private DataTable CopyToTable(GenericObservableCollection obs)
         {
+
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
             dataTable.Columns.Add(new DataColumn("Definicion", typeof(string)));
             dataTable.Columns.Add(new DataColumn("Acriss", typeof(string)));
             dataTable.Columns.Add(new DataColumn("Modelo", typeof(string)));
-            dataTable.Columns.Add(new DataColumn("TipoVehiculoCodigo", typeof(string)));
+            dataTable.Columns.Add(new DataColumn("TipoVehiculoCodigo", typeof(char)));
+
             foreach (var item in obs.GenericObsCollection)
             {
                 GrupoVehiculoDataObject dataObject = item as GrupoVehiculoDataObject;
@@ -129,6 +121,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         {
             EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
             this.DataGridSelectionChanged = new DelegateCommand<object>(OnSelectionChanged);
+
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())

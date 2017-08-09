@@ -22,7 +22,7 @@
                     HorizontalAlignment="Left"
                     IsEnabled="False" >
                 <StackPanel>
-                    <Image Source="..\..\Images\new.png" Stretch="Fill" Height="35"  Style="{StaticResource ImageEnabled}" />
+                    <Image Source="/KarveCar;component/Images/new.png" Stretch="Fill" Height="35"  Style="{StaticResource ImageEnabled}" />
                     <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -51,7 +51,7 @@
                     >
 
                 <StackPanel>
-                    <Image Source="..\..\Images\edit.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/edit.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -79,7 +79,7 @@
                     IsEnabled="{Binding ButtonEnabled}"
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\delete.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/delete.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnEliminar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -106,7 +106,7 @@
                     IsEnabled="{Binding ButtonEnabled}"
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\save.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/save.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -132,7 +132,7 @@
                     HorizontalAlignment="Left"
                     IsEnabled="False">
                 <StackPanel>
-                    <Image Source="..\..\Images\cancel.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/cancel.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnCancelar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -159,7 +159,7 @@
                     IsEnabled="False"
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\print.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/print.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnImprimir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -186,7 +186,7 @@
                     IsEnabled="False"
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\previous.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/previous.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnAnterior, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -213,7 +213,7 @@
                     IsEnabled="False"
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\next.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/next.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnSiguiente, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -242,7 +242,7 @@
                    
                     >
                 <StackPanel>
-                    <Image Source="..\..\Images\exit.png" Stretch="Fill" Height="35" />
+                    <Image Source="/KarveCar;component/Images/exit.png" Stretch="Fill" Height="35" />
                     <TextBlock Text="{Binding ltbbtnSalir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Button.ToolTip>
@@ -289,7 +289,7 @@
                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     </Button.InputBindings>
                     <StackPanel>
-                        <Image Source="..\..\Images\search.png" Stretch="Fill" Height="35" />
+                        <Image Source="/KarveCar;component/Images/search.png" Stretch="Fill" Height="35" />
                         <TextBlock Text="{Binding ltbbtnBuscar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button>

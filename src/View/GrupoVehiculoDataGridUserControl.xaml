@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ExtendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
+             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:local="clr-namespace:KarveCar.View"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -25,7 +25,7 @@
                     <DataGridTextColumn Header="Tipo"        Binding="{Binding TipoVehiculoCodigo}" />--><!--AllowAutoFilter="False" CanUserSort="True"  />--><!--            
                 </DataGrid.Columns>
             </DataGrid>-->
-            <ExtendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos" 
+            <extendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos" 
                                                   ItemsSource="{Binding SourceDataTable}" 
                                                   RowHeaderWidth="12"  
                                                   SearchAutoFilterVisibility="Visible"
@@ -36,8 +36,7 @@
                                                   IsSynchronizedWithCurrentItem="True" 
                                                   SelectionMode="Extended" 
                                                   SelectionUnit="CellOrRowHeader" 
-                                                  IsReadOnly="True"
-                                                  >
+                                                  IsReadOnly="True">
             <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=dtgrGruposVehiculos, Path=SelectedValue}"/>
@@ -51,16 +50,18 @@
                     <extendedColumn:ExtendedDataGridTextColumn Header="Modelo"      Binding="{Binding Modelo}"             AllowAutoFilter="False" CanUserSort="True"  />
                     <extendedColumn:ExtendedDataGridTextColumn Header="Tipo"        Binding="{Binding TipoVehiculoCodigo}" AllowAutoFilter="False" CanUserSort="True"  />
                 </DataGrid.Columns>
-                <ExtendedGridControl:ExtendedDataGrid.FooterDataTemplate>
+                <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Cantidad: " FontWeight="Bold"/>
                             <TextBlock Margin="3,0,0,0" Text="{Binding ElementName=dtgrGruposVehiculos, Path=Items.Count}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
-                </ExtendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-            </ExtendedGridControl:ExtendedDataGrid>
+                </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
+            </extendedGridControl:ExtendedDataGrid>
         <!--</ScrollViewer>-->
     </Grid>
 </UserControl>
+
+
 
