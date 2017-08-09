@@ -49,7 +49,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         public GrupoVehiculoViewModel()
         {
             this.grupovehiculocommand = new DelegateCommand<object>(GrupoVehiculo);
-            this.dataTable = InitDataLayer();
+            this.dataTable = InitDataLayerSync();
         }
         #endregion
 
@@ -65,7 +65,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         }
         #endregion
 
-        #region Métodos
         private DataTable CopyToTable(GenericObservableCollection obs)
         {
 
@@ -120,7 +119,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private void GrupoVehiculo(object parameter)
         {
             EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
-            this.DataGridSelectionChanged = new DelegateCommand<object>(OnSelectionChanged);
+         //   this.DataGridSelectionChanged = new DelegateCommand<object>(OnSelectionChanged);
 
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
