@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Threading.Tasks;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -22,15 +23,26 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private ICommand grupovehiculocommand;
 
         private DataTable dataTable;
+        private Task<DataTable> loadDataTableTask;
+
         public DataTable SourceDataTable
         {
             get { return dataTable; }
             set
             {
                 dataTable = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("SourceDataTable");
             }
         }
+        private delegate void NotifyOnLoad(DataTable newTable);
+
+        private event NotifyOnLoad notifyOnLoad;
+
+        private void SetTable(DataTable newTable)
+        {
+            this.SourceDataTable = newTable;
+        }
+
         #endregion
 
         #region Constructor
@@ -54,11 +66,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         #endregion
 
         #region Métodos
-        private DataTable InitDataLayer()
+        private DataTable CopyToTable(GenericObservableCollection obs)
         {
-            // FIXME: move all this to DataMapper.
-            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql);
 
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
@@ -85,12 +94,25 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             return dataTable;
         }
 
-        private void OnSelectionChanged(object dataRowView)
+        private DataTable InitDataLayerSync()
         {
-            DataRowView rowView = dataRowView as DataRowView;
-            
+            DataTable table = new DataTable();
+            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
+            GenericObservableCollection obs =  GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql);
+            table = CopyToTable(obs);
+            return table;
         }
 
+        private async Task<DataTable> InitDataLayer()
+        {
+            // FIXME: move all this to DataMapper.
+            DataTable table = new DataTable();
+            string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
+            GenericObservableCollection obs = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDB(EOpcion.rbtnGruposVehiculos, sql));
+            table = CopyToTable(obs);
+            return table;
+        }
+        #region Métodos
         /// <summary>
         /// Crea el TabItem para CRUD los Grupos de Vehículos. Se cargan los datos de la BBDD en el GenericObsCollection del tabitemdictionary
         /// </summary>

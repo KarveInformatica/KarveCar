@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
@@ -15,5 +16,12 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IPaymentDataServices GetPaymentDataService();
+
+        /// <summary>
+        /// Returns the vehicle data services.
+        /// </summary>
+        IVehicleDataServices GetVehicleDataServices();
+
     }
+
 }

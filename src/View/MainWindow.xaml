@@ -11,13 +11,12 @@
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
                 mc:Ignorable="d"
-                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png" WindowState="Maximized">
+                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -47,23 +46,23 @@
                     <!--<r:RibbonContextMenu x:Key="AnadirAFavoritos" x:Name="rctmnAnadir">
                         <r:RibbonMenuItem Header="Añadir a Favoritos" x:Name="rctmnitSalir" >
                             <r:RibbonMenuItem.Icon>
-                                <Image Source="/KarveCar;component/Images/new.png" />
-                           </r:RibbonMenuItem.Icon>
+                                <Image Source="..\Images\new.png" />
+                            </r:RibbonMenuItem.Icon>
                         </r:RibbonMenuItem>
                         <Separator/>
                         <r:RibbonMenuItem Header="Item1" >
                             <r:RibbonMenuItem.Icon>
-                                <Image Source="/KarveCar;component/Images/cut.png" />
+                                <Image Source="..\Images\cut.png" />
                             </r:RibbonMenuItem.Icon>
                         </r:RibbonMenuItem>
                         <r:RibbonMenuItem Header="Item2" Command="Copy">
                             <r:RibbonMenuItem.Icon>
-                                <Image Source="/KarveCar;component/Images/copy.png" />
+                                <Image Source="..\Images\copy.png" />
                             </r:RibbonMenuItem.Icon>
                         </r:RibbonMenuItem>
                         <r:RibbonMenuItem Header="Item3" Command="Paste">
                             <r:RibbonMenuItem.Icon>
-                                <Image Source="/KarveCar;component/Images/paste.png" />
+                                <Image Source="..\Images\paste.png" />
                             </r:RibbonMenuItem.Icon>
                         </r:RibbonMenuItem>
                     </r:RibbonContextMenu>-->
@@ -105,31 +104,31 @@
                 <!--<r:Ribbon.QuickAccessToolBar>
                     <r:RibbonQuickAccessToolBar Visibility="Visible" >
                         <r:RibbonButton x:Name="rbtntCortar" 
-                                    Label="Cortar"
-                                    SmallImageSource="/KarveCar;component/Images/copy.png" 
+                                    Label="Cortar" 
+                                    SmallImageSource="..\Images\copy.png" 
                                     Command="Cut" />
                         <r:RibbonButton x:Name="rbtntCopiar" 
                                     Label="Copiar" 
-                                    SmallImageSource="/KarveCar;component/Images/copy.png" 
+                                    SmallImageSource="..\Images\copy.png" 
                                     Command="Copy" />
                         <r:RibbonButton x:Name="rbtntPegar" 
                                     Label="Pegar" 
-                                    SmallImageSource="/KarveCar;component/Images/paste.png" 
+                                    SmallImageSource="..\Images\paste.png" 
                                     Command="Paste" />
                         <r:RibbonButton x:Name="rbtnEliminar" 
                                     Label="Eliminar" 
-                                    SmallImageSource="/KarveCar;component/Images/delete.png" 
+                                    SmallImageSource="..\Images\delete.png" 
                                     Command="Delete" />
                         <r:RibbonSplitButton x:Name="rbtnRehacer" 
                                          Label="Rehacer" 
-                                         SmallImageSource="/KarveCar;component/Images/redo.png" 
+                                         SmallImageSource="..\Images\redo.png" 
                                          Command="Redo" >
                             <r:RibbonSplitMenuItem Header="Redo 1" />
                             <r:RibbonSplitMenuItem Header="Redo 2" />
                         </r:RibbonSplitButton>
                         <r:RibbonSplitButton x:Name="rbtntDeshacer" 
                                          Label="Deshacer" 
-										 SmallImageSource="/KarveCar;component/Images/undo.png" 
+                                         SmallImageSource="..\Images\undo.png" 
                                          Command="Undo" >
                             <r:RibbonSplitMenuItem Header="Undo 1" />
                             <r:RibbonSplitMenuItem Header="Undo 2" />
@@ -137,7 +136,7 @@
                         </r:RibbonSplitButton>
                         <r:RibbonButton x:Name="rbtntOpciones" 
                                     Label="Opciones" 
-                                    SmallImageSource="/KarveCar;component/Images/tools.png" />
+                                    SmallImageSource="..\Images\tools.png" />
                     </r:RibbonQuickAccessToolBar>
                 </r:Ribbon.QuickAccessToolBar>-->
 
@@ -1217,29 +1216,29 @@
 
                 <!--Tab Comercial-->
                 <r:RibbonTab x:Name="rbtbComercial" 
-                             Header="{Binding lrbtbComercial, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="O" >
-                    <r:RibbonGroup x:Name="rgrComercial" Header="{Binding lrgrComercial, Source={StaticResource ResourceLanguage}}" KeyTip="P" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                         Header="{Binding lrbtbComercial, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="O" >
+                    <r:RibbonGroup x:Name="rgrComercial" Header="{Binding lrgrComercial, Source={StaticResource ResourceLanguage}}" KeyTip="P" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnCustomerService" 
-                                        Label="{Binding lrbtnCustomerService, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnCustomerService, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEntregaBonos" 
-                                        Label="{Binding lrbtnEntregaBonos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEntregaBonos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEMailingClientes" 
-                                        Label="{Binding lrbtnEMailingClientes, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEMailingClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtneEMailingPotenciales" 
-                                        Label="{Binding lrbtneEMailingPotenciales, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtneEMailingPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnPotenciales" 
-                                        Label="{Binding lrbtnPotenciales, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
@@ -1253,9 +1252,9 @@
 
                 <!--Tab Facturación-->
                 <r:RibbonTab x:Name="rbtbFacturacion" 
-                             Header="{Binding lrbtbFacturacion, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="F" 
-                             GroupSizeReductionOrder="rgrExportacion, rgrImpresion" >
+                         Header="{Binding lrbtbFacturacion, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="F" 
+                         GroupSizeReductionOrder="rgrExportacion, rgrImpresion" >
                     <r:RibbonGroup x:Name="rgrFacturacion" Header="{Binding lrgrFacturacion, Source={StaticResource ResourceLanguage}}" >
                         <r:RibbonMenuButton x:Name="rmnbtnFacturas" Label="{Binding rmnbtnFacturas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="C" >
                             <r:RibbonButton x:Name="rbtnAbonarFactura" 
@@ -1291,161 +1290,161 @@
                                             HorizontalAlignment="Left" 
                                             SmallImageSource="/KarveCar;component/Images/new.png" />
                             <r:RibbonButton x:Name="rbtnProcesoFacturacion" 
-                                            Label="{Binding lrbtnProcesoFacturacion, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding lrbtnProcesoFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
                     <r:RibbonGroup x:Name="rgrRecibosCartera" Header="{Binding lrgrRecibosCartera, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
                         <r:RibbonMenuButton x:Name="rmnbtnRecibosCartera" Label="{Binding lrmnbtnRecibosCartera, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="R" >
                             <r:RibbonButton x:Name="rbtnRecibos" 
-                                            Label="{Binding lrbtnRecibos, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnRecibos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnCobrosIndividuales" 
-                                            Label="{Binding lrbtnCobrosIndividuales, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnCobrosIndividuales, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnGestionImpagados" 
-                                            Label="{Binding lrbtnGestionImpagados, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnGestionImpagados, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnRefundirRecibosNoCobrados" 
-                                            Label="{Binding lrbtnRefundirRecibosNoCobrados, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnRefundirRecibosNoCobrados, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrRemesas" Header="{Binding lrgrRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
-                        <r:RibbonMenuButton x:Name="rmnbtnRemesas" Label="{Binding lrmnbtnRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="M" >
+                    <r:RibbonGroup x:Name="rgrRemesas" Header="{Binding lrgrRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <r:RibbonMenuButton x:Name="rmnbtnRemesas" Label="{Binding lrmnbtnRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="M" >
                             <r:RibbonButton x:Name="rbtnRemesas" 
-                                            Label="{Binding lrbtnRemesas, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding lrbtnRemesas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                             <r:RibbonButton x:Name="rbtnAnulacionPaseRemesaContabilidad" 
-                                            Label="{Binding lrbtnAnulacionPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding lrbtnAnulacionPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                             <r:RibbonButton x:Name="rbtnBancosRemesas" 
-                                            Label="{Binding lrbtnBancosRemesas, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding lrbtnBancosRemesas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                             <r:RibbonButton x:Name="rbtnPaseSoporteMagnetico" 
-                                            Label="{Binding lrbtnPaseSoporteMagnetico, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding lrbtnPaseSoporteMagnetico, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                             <r:RibbonButton x:Name="rbtnPaseRemesaContabilidad" 
-                                            Label="{Binding rbtnPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" />
+                                        Label="{Binding rbtnPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png" />
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrEnlacesContables" Header="{Binding lrgrEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
-                        <r:RibbonMenuButton x:Name="rmnbtnEnlacesContables" Label="{Binding lrmnbtnEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="E" >
+                    <r:RibbonGroup x:Name="rgrEnlacesContables" Header="{Binding lrgrEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <r:RibbonMenuButton x:Name="rmnbtnEnlacesContables" Label="{Binding lrmnbtnEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="E" >
                             <r:RibbonButton x:Name="rbtnAnulacionPase" 
-                                            Label="{Binding lrbtnAnulacionPase, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnAnulacionPase, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnPaseCobrosRecibos"
-                                            Label="{Binding lrbtnPaseCobrosRecibos, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnPaseCobrosRecibos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnPaseFacturas" 
-                                            Label="{Binding lrbtnPaseFacturas, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnPaseFacturas, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnPaseFacturasAtipicas" 
-                                            Label="{Binding lrbtnPaseFacturasAtipicas, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnPaseFacturasAtipicas, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnPaseTesoreriaCaja" 
-                                            Label="{Binding lrbtnPaseTesoreriaCaja, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnPaseTesoreriaCaja, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrExportacion" Header="{Binding lrgrExportacion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                    <r:RibbonGroup x:Name="rgrExportacion" Header="{Binding lrgrExportacion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
                         <r:RibbonButton x:Name="rbtnExportacionFichero340" 
-                                        Label="{Binding lrbtnExportacionFichero340, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnExportacionFichero340, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnExportacionFichero347" 
-                                        Label="{Binding lrbtnExportacionFichero347, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnExportacionFichero347, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrImpresion" Header="{Binding lrgrImpresion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                    <r:RibbonGroup x:Name="rgrImpresion" Header="{Binding lrgrImpresion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
                         <r:RibbonButton x:Name="rbtnImpresionBloqueFacturas" 
-                                        Label="{Binding lrbtnImpresionBloqueFacturas, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnImpresionBloqueFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnImpresionBloqueRecibos" 
-                                        Label="{Binding lrbtnImpresionBloqueRecibos, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnImpresionBloqueRecibos, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrEstadisticasFacturas" Header="{Binding lrgrEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
+                    <r:RibbonGroup x:Name="rgrEstadisticasFacturas" Header="{Binding lrgrEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
                         <r:RibbonButton x:Name="rbtnGeneradorEstadisticasFacturas" 
-                                        Label="{Binding lrbtnGeneradorEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnGeneradorEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
                 <!--Tab Flota-->
                 <r:RibbonTab x:Name="rbtbFlota" 
-                             Header="{Binding lrbtbFlota, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="T" 
-                             GroupSizeReductionOrder="rgrInmovilizaciones, rgrUtilidades, rgrVarios">
-                    <r:RibbonGroup x:Name="rgrInmovilizaciones" Header="{Binding lrgrInmovilizaciones, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                         Header="{Binding lrbtbFlota, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="T" 
+                         GroupSizeReductionOrder="rgrInmovilizaciones, rgrUtilidades, rgrVarios">
+                    <r:RibbonGroup x:Name="rgrInmovilizaciones" Header="{Binding lrgrInmovilizaciones, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
                         <r:RibbonButton x:Name="rbtnInmovilizaciones" 
-                                        Label="{Binding lrbtnInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEntradaGastosVehiculo" 
-                                        Label="{Binding lrbtnEntradaGastosVehiculo, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEntradaGastosVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnGeneradorEstadisticasInmovilizaciones" 
-                                        Label="{Binding lrbtnGeneradorEstadisticasInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnGeneradorEstadisticasInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrUtilidades" Header="{Binding lrgrUtilidades, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                    <r:RibbonGroup x:Name="rgrUtilidades" Header="{Binding lrgrUtilidades, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
                         <r:RibbonButton x:Name="rbtnActualizarVtoITV" 
-                                        Label="{Binding lrbtnActualizarVtoITV, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnActualizarVtoITV, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnBastidorRadioLlave" 
-                                        Label="{Binding lrbtnBastidorRadioLlave, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnBastidorRadioLlave, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnCambioFechaBajaVehiculo" 
-                                        Label="{Binding lrbtnCambioFechaBajaVehiculo, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnCambioFechaBajaVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnCambioUbicacionKMSituacion" 
-                                        Label="{Binding lrbtnCambioUbicacionKMSituacion, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnCambioUbicacionKMSituacion, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnDatosSeguros" 
-                                        Label="{Binding lrbtnDatosSeguros, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnDatosSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnFlotaVtoRecibosSeguros" 
-                                        Label="{Binding lrbtnFlotaVtoRecibosSeguros, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnFlotaVtoRecibosSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnModificacionMasivaFlota" 
-                                        Label="{Binding lrbtnModificacionMasivaFlota, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnModificacionMasivaFlota, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnTraslados" 
-                                        Label="{Binding lrbtnTraslados, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnTraslados, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrVariosFlota" Header="{Binding lrgrVariosFlota, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                    <r:RibbonGroup x:Name="rgrVariosFlota" Header="{Binding lrgrVariosFlota, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
                         <r:RibbonButton x:Name="rbtnCambioEmpresa" 
-                                        Label="{Binding lrbtnCambioEmpresa, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnCambioEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnCambioUbicacion" 
-                                        Label="{Binding lrbtnCambioUbicacion, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnCambioUbicacion, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnHistoricoSeguros" 
-                                        Label="{Binding lrbtnHistoricoSeguros, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnHistoricoSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnImpresionLlaveros" 
-                                        Label="{Binding lrbtnImpresionLlaveros, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnImpresionLlaveros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnPrevisionEntradas" 
-                                        Label="{Binding lrbtnPrevisionEntradas, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnPrevisionEntradas, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnRecalculoSituación" 
-                                        Label="{Binding lrbtnRecalculoSituación, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnRecalculoSituación, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnRepostaje" 
-                                        Label="{Binding lrbtnRepostaje, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnRepostaje, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnSiniestros" 
-                                        Label="{Binding lrbtnSiniestros, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnSiniestros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
@@ -1459,122 +1458,122 @@
 
                 <!--Tab Incidencias-->
                 <r:RibbonTab x:Name="rbtbIncidencias" 
-                             Header="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="I"
-                             GroupSizeReductionOrder="rgrIncidencias, rgrtiposIncidencias">
-                    <r:RibbonGroup x:Name="rgrIncidencias" Header="{Binding lrgrIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                         Header="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="I"
+                         GroupSizeReductionOrder="rgrIncidencias, rgrtiposIncidencias">
+                    <r:RibbonGroup x:Name="rgrIncidencias" Header="{Binding lrgrIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnIncidenciasClientes" 
-                                        Label="{Binding lrbtnIncidenciasClientes, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnIncidenciasClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnIncidenciasContratos" 
-                                        Label="{Binding lrbtnIncidenciasContratos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnIncidenciasContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnIncidenciasProveedores" 
-                                        Label="{Binding lrbtnIncidenciasProveedores, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnIncidenciasProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnIncidenciasReservas" 
-                                        Label="{Binding lrbtnIncidenciasReservas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnIncidenciasReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnIncidenciasVehiculos" 
-                                        Label="{Binding lrbtnIncidenciasVehiculos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnIncidenciasVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
                 <!--Tab Estadísticas-->
                 <r:RibbonTab x:Name="rbtbEstadisticas" 
-                             Header="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="E">
-                    <r:RibbonGroup x:Name="rgrEstadisticas" Header="{Binding lrgrEstadisticas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                         Header="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="E">
+                    <r:RibbonGroup x:Name="rgrEstadisticas" Header="{Binding lrgrEstadisticas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnEstadisticasAnaliticas" 
-                                        Label="{Binding lrbtnEstadisticasAnaliticas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasAnaliticas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasClientes" 
                                         Label="{Binding lrbtnEstadisticasClientes, Source={StaticResource ResourceLanguage}}" 
                                         LargeImageSource="/KarveCar;component/Images/new.png"
                                         SmallImageSource="/KarveCar;component/Images/new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasContratos" 
-                                        Label="{Binding lrbtnEstadisticasContratos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasFacturas"
-                                        Label="{Binding lrbtnEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasPeticiones" 
-                                        Label="{Binding lrbtnEstadisticasPeticiones, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasPeticiones, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasProveedores" 
-                                        Label="{Binding lrbtnEstadisticasProveedores, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasReservas" 
-                                        Label="{Binding lrbtnEstadisticasReservas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasUtilitarios"
-                                        Label="{Binding lrbtnEstadisticasUtilitarios, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasUtilitarios, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnEstadisticasVehiculos" 
-                                        Label="{Binding lrbtnEstadisticasVehiculos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnEstadisticasVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
                 <!--Tab Listados-->
                 <r:RibbonTab x:Name="rbtbListados" 
-                             Header="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}" 
-                             KeyTip="L">
-                    <r:RibbonGroup x:Name="rgrListados" Header="{Binding lrgrListados, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                         Header="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="L">
+                    <r:RibbonGroup x:Name="rgrListados" Header="{Binding lrgrListados, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnListadosClientes" 
-                                        Label="{Binding lrbtnListadosClientes, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosComisionistas" 
-                                        Label="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosContratos" 
-                                        Label="{Binding lrbtnListadosContratos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosFicherosAuxiliares" 
-                                        Label="{Binding lrbtnListadosFicherosAuxiliares, Source={StaticResource ResourceLanguage}}"                                    
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosFicherosAuxiliares, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosFacturas"
-                                        Label="{Binding lrbtnListadosFacturas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosPeticiones" 
-                                        Label="{Binding lrbtnListadosPeticiones, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosPeticiones, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosPotenciales"
-                                        Label="{Binding lrbtnListadosPotenciales, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosProveedores" 
-                                        Label="{Binding lrbtnListadosProveedores, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosReservas" 
-                                        Label="{Binding lrbtnListadosReservas, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                         <r:RibbonButton x:Name="rbtnListadosVehiculos" 
-                                        Label="{Binding lrbtnListadosVehiculos, Source={StaticResource ResourceLanguage}}" 
-                                        LargeImageSource="/KarveCar;component/Images/new.png"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                    Label="{Binding lrbtnListadosVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
                     </r:RibbonGroup>
                 </r:RibbonTab>
 
@@ -1619,67 +1618,67 @@
                     <r:RibbonGroup x:Name="rgrConfiguracion" Header="{Binding lrgrConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonMenuButton x:Name="rmnbtnConfiguracion" Label="{Binding lrmnbtnConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="C" >
                             <r:RibbonButton x:Name="rbtnCinta" 
-                                            Label="{Binding lrbtnCinta, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"
-                                            DataContext="{StaticResource cintaOpcionesViewModel}" >
+                                        Label="{Binding lrbtnCinta, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"
+                                        DataContext="{StaticResource cintaOpcionesViewModel}" >
                                 <r:RibbonButton.InputBindings>
                                     <KeyBinding Key="Return"                                                
-                                                Command="{Binding CintaOpcionesCommand}" 
-                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                        Command="{Binding CintaOpcionesCommand}" 
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
                                     <MouseBinding MouseAction="LeftClick"
                                                     Command="{Binding CintaOpcionesCommand}" 
                                                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
                                 </r:RibbonButton.InputBindings>
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnCodigosIniciales" 
-                                            Label="{Binding lrbtnCodigosIniciales, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnCodigosIniciales, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnEmpresa" 
-                                            Label="{Binding lrbtnEmpresa, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnEnlaceContabilidad" 
-                                            Label="{Binding lrbtnEnlaceContabilidad, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnEnlaceContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnEquipo" 
-                                            Label="{Binding lrbtnEquipo, Source={StaticResource ResourceLanguage}}"                                         
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnEquipo, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnFacturacion" 
-                                            Label="{Binding lrbtnFacturacion, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnbiImpresion" 
-                                            Label="{Binding lrbtnbiImpresion, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnbiImpresion, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnKarve" 
-                                            Label="{Binding lrbtnKarve, Source={StaticResource ResourceLanguage}}"                                         
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnKarve, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnMaestros" 
-                                            Label="{Binding lrbtnMaestros, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnMaestros, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnOficina" 
-                                            Label="{Binding lrbtnOficina, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnOficina, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnOperaciones" 
-                                            Label="{Binding lrbtnOperaciones, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnOperaciones, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnOtros" 
-                                            Label="{Binding lrbtnOtros, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnOtros, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                         </r:RibbonMenuButton>
-                        <r:RibbonMenuButton x:Name="rmnbtnPermisos" Label="{Binding lrmnbtnPermisos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="P" >
+                        <r:RibbonMenuButton x:Name="rmnbtnPermisos" Label="{Binding lrmnbtnPermisos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="P" >
                             <r:RibbonButton x:Name="rbtnInformes" 
-                                            Label="{Binding lrbtnInformes, Source={StaticResource ResourceLanguage}}"                                         
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnInformes, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                             <r:RibbonButton x:Name="rbtnPrograma" 
-                                            Label="{Binding lrbtnPrograma, Source={StaticResource ResourceLanguage}}" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        Label="{Binding lrbtnPrograma, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrIdiomas" Header="{Binding lrgrIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
-                        <r:RibbonMenuButton x:Name="rmnbtnIdiomas" Label="{Binding lrmnbtnIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="I" >
+                    <r:RibbonGroup x:Name="rgrIdiomas" Header="{Binding lrgrIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <r:RibbonMenuButton x:Name="rmnbtnIdiomas" Label="{Binding lrmnbtnIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="I" >
                             <r:RibbonButton x:Name="rbtnIdiomaESES"
                                         Label="{Binding lrbtnIdiomaESES, Source={StaticResource ResourceLanguage}}"                                             
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="/KarveCar;component/Images/es-es.png" >
+                                        SmallImageSource="..\Images\es-es.png" >
                                 <r:RibbonButton.InputBindings>
                                     <MouseBinding MouseAction="LeftClick"
                                                 Command="{Binding SetLanguagesCommand}" 
@@ -1689,7 +1688,7 @@
                             <r:RibbonButton x:Name="rbtnIdiomaCAES"
                                         Label="{Binding lrbtnIdiomaCAES, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="/KarveCar;component/Images/ca-es.png" >
+                                        SmallImageSource="..\Images\ca-es.png" >
                                 <r:RibbonButton.InputBindings>
                                     <MouseBinding MouseAction="LeftClick"
                                                 Command="{Binding SetLanguagesCommand}" 
@@ -1699,7 +1698,7 @@
                             <r:RibbonButton x:Name="rbtnIdiomaENGB"
                                         Label="{Binding lrbtnIdiomaENGB, Source={StaticResource ResourceLanguage}}"  
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="/KarveCar;component/Images/en-gb.png" >
+                                        SmallImageSource="..\Images\en-gb.png" >
                                 <r:RibbonButton.InputBindings>
                                     <MouseBinding MouseAction="LeftClick"
                                                 Command="{Binding SetLanguagesCommand}" 
@@ -1708,7 +1707,7 @@
                             </r:RibbonButton>
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrPersonal" Header="{Binding lrgrPersonal, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                    <r:RibbonGroup x:Name="rgrPersonal" Header="{Binding lrgrPersonal, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnMailingPersonal" 
                                     Label="{Binding lrbtnMailingPersonal, Source={StaticResource ResourceLanguage}}" 
                                     LargeImageSource="/KarveCar;component/Images/new.png"
@@ -1719,7 +1718,7 @@
                                     SmallImageSource="/KarveCar;component/Images/new.png"/>
                     </r:RibbonGroup>
                     <r:RibbonGroup x:Name="rgrUtilitarios" Header="{Binding lrgrUtilitarios, Source={StaticResource ResourceLanguage}}" >
-                        <r:RibbonMenuButton x:Name="rmnbtnUtilitarios" Label="{Binding lrmnbtnUtilitarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="U" >
+                        <r:RibbonMenuButton x:Name="rmnbtnUtilitarios" Label="{Binding lrmnbtnUtilitarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="U" >
                             <r:RibbonButton x:Name="rbtnBorrarFicherosEnvioEmail" 
                                             Label="{Binding lrbtnBorrarFicherosEnvioEmail, Source={StaticResource ResourceLanguage}}" 
                                             SmallImageSource="/KarveCar;component/Images/new.png"/>
@@ -1770,7 +1769,7 @@
                                             SmallImageSource="/KarveCar;component/Images/new.png"/>
                         </r:RibbonMenuButton>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrVariosConfiguracion" Header="{Binding lrgrVariosConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                    <r:RibbonGroup x:Name="rgrVariosConfiguracion" Header="{Binding lrgrVariosConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                         <r:RibbonButton x:Name="rbtnCambiarContrasenyas" 
                                     Label="{Binding lrbtnCambiarContrasenyas, Source={StaticResource ResourceLanguage}}" 
                                     LargeImageSource="/KarveCar;component/Images/new.png"
@@ -1784,8 +1783,8 @@
                                     LargeImageSource="/KarveCar;component/Images/new.png"
                                     SmallImageSource="/KarveCar;component/Images/new.png"/>
                     </r:RibbonGroup>
-                    <r:RibbonGroup x:Name="rgrKarve" Header="{Binding lrgrKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" >
-                        <r:RibbonMenuButton x:Name="rmnbtnKarve" Label="{Binding lrmnbtnKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="K" >
+                    <r:RibbonGroup x:Name="rgrKarve" Header="{Binding lrgrKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" >
+                        <r:RibbonMenuButton x:Name="rmnbtnKarve" Label="{Binding lrmnbtnKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="K" >
                             <r:RibbonButton x:Name="rbtnAcercaDe" 
                                             Label="{Binding lrbtnAcercaDe, Source={StaticResource ResourceLanguage}}" 
                                             SmallImageSource="/KarveCar;component/Images/new.png"/>
@@ -1808,7 +1807,7 @@
                 <!--Buttons ReservasWeb - Validar-->
                 <r:RibbonButton x:Name="rbtnReservasWeb"
                             Label="{Binding lrbtnReservasWeb, Source={StaticResource ResourceLanguage}}" 
-                            SmallImageSource="/KarveCar;component/Images/tools.png"/>
+                            SmallImageSource="..\Images\tools.png"/>
 
                 <r:RibbonButton x:Name="rbtnValidar" 
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
@@ -1817,14 +1816,12 @@
             
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-	                <Grid.RowDefinitions>
-	                    <RowDefinition Height="auto"></RowDefinition>
-	                    <RowDefinition Height="auto"></RowDefinition>
-	                </Grid.RowDefinitions>
-                <ContentControl Grid.Row="0" prism:RegionManager.RegionName="KarveToolBar"/>
-                <TabControl     Grid.Row="1" x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged"/>
-            </Grid>
-            </ScrollViewer>
+                    <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
+                    <ScrollViewer Grid.Row="1">
+                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                        </TabControl>
+                    </ScrollViewer>
+                </Grid>
         </DockPanel>
     </Grid>
 </r:RibbonWindow>

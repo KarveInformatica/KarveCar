@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
@@ -25,7 +26,7 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="inCode">bank account code </param>
         /// <returns></returns>
-        string GetAccountDefinitionByCode(string inCode);
+       string GetAccountDefinitionByCode(string inCode);
 
         /// <summary>
         /// Get all accounts
@@ -39,7 +40,6 @@ namespace KarveDataServices
         /// <param name="selectedItemCode"></param>
         /// <returns></returns>
         IDictionary<string, bool> GetChargeOptions(int selectedItemCode);
-
         /// <summary>
         /// Get all offices per invoice data table.
         /// </summary>

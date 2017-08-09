@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
+
 namespace ExtendedGrid.Classes
 {
     internal sealed class FindControls
@@ -62,8 +63,8 @@ namespace ExtendedGrid.Classes
             return foundChild;
         }
 
-
-        public static DataGridColumnHeader GetColumnHeaderFromColumn(DataGridColumn column, DataGrid grid)
+       
+        public static DataGridColumnHeader GetColumnHeaderFromColumn(DataGridColumn column,DataGrid grid)
         {
             // dataGrid is the name of your DataGrid. In this case Name="dataGrid"
             var columnHeaders = GetVisualChildCollection<DataGridColumnHeader>(grid);
