@@ -7,12 +7,12 @@ namespace KarveTest.DAL
     [TestFixture]
     public class BankAccessLayerTest
     {
-        private DalLocator _locator = DalLocator.GetInstance();
         
         [Test]
         public void Should_Return_Banks_FromDB()
         {
-          IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
+
+            /*IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
             try
             {
                 GenericObservableCollection obsCollection =  dalObject.GetItems();
@@ -21,28 +21,8 @@ namespace KarveTest.DAL
             {
                 Assert.Fail(ex.Message);
             }
+            */
         }
-        /*
-       
-        public void SetBanks()
-        {
-            IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
-            BankDataObject newBank = new BankDataObject();
-            newBank.Code = "0001";
-            newBank.Name = "INTESA_SANPAOLO";
-            newBank.Swift = "BCITITMMFSS";
-            try
-            {
-                GenericObservableCollection obsCollection = dalObject.GetItems();
-                obsCollection.GenericObsCollection.Add(((object) newBank));
-                Assert.Greater(obsCollection.GenericObsCollection.Count, 0);
-                dalObject.SetUniqueItems(obsCollection);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
-        }
-        */
+        
     }
 }

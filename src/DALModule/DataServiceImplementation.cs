@@ -16,6 +16,7 @@ namespace DataAccessLayer
         private BanksDataAccessLayer _bankLayer = new BanksDataAccessLayer();
 
         private IPaymentDataServices _paymentDataService = new ChargeTypeDataAccessLayer();
+        private ISupplierDataServices _supplierDataServices = new SupplierDataAccessLayer();
 
         /// <summary>
         ///  Returns a the complete list of banks in the system.
@@ -40,6 +41,9 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
-        
+        public ISupplierDataServices GetSupplierDataServices()
+        {
+           return _supplierDataServices;
+        }
     }
 }

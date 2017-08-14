@@ -23,7 +23,9 @@
  ********************************************************************************/
 #endregion
 
+using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
 
@@ -31,6 +33,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 {
     public partial class MappedStatement
     {
+        object singleDataTableReadWrite = new object();
         #region ExecuteQueryForDataTable
         /// <summary>
         /// Executes an SQL statement that returns DataTable.
@@ -45,6 +48,19 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 
             // return RaisePostEvent<DataTable, PostSelectEventArgs>(PostSelectEventKey, param, dataTable);
         }
+        /// <summary>
+        /// Execute asynchronously a query returning a data table.
+        /// </summary>
+        /// <param name="session">The session uses toe execute the statement</param>
+        /// <param name="parameterObject">The object used to set the parameters in the sql</param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<DataTable> ExecuteAsyncQueryForDataTable(ISession session, object parameterObject)
+        {
+            DataTable dt = await ExecuteAsync(PreSelectEventKey, PostSelectEventKey, session, parameterObject,
+                (r, p) => RunQueryForDataTable(r, session, parameterObject));
+            return dt;
+        }
 
         /// <summary>
         /// Runs the query for for data table.
@@ -56,34 +72,36 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         internal DataTable RunQueryForDataTable(RequestScope request, ISession session, object parameterObject)
         {
             DataTable dataTable = new DataTable("DataTable");
-
-            using (IDbCommand command = request.IDbCommand)
+            // this allows thread safety.
+            lock (singleDataTableReadWrite)
             {
-                IDataReader reader = command.ExecuteReader();
-
-                try
+                using (IDbCommand command = request.IDbCommand)
                 {
-                    // Get Results
-                    while (reader.Read())
+                    IDataReader reader = command.ExecuteReader();
+
+                    try
                     {
-                        DataRow dataRow = dataTable.NewRow();
-                        dataTable.Rows.Add(dataRow);
-                        //resultStrategy.Process(request, ref reader, dataRow);
+                        // Get Results
+                        while (reader.Read())
+                        {
+                            DataRow dataRow = dataTable.NewRow();
+                            dataTable.Rows.Add(dataRow);
+                            //resultStrategy.Process(request, ref reader, dataRow);
+                        }
                     }
-                }
-                finally
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
+                    finally
+                    {
+                        reader.Close();
+                        reader.Dispose();
+                    }
 
-                // do we need ??
-                //ExecuteDelayedLoad(request);
+                    // do we need ??
+                    //ExecuteDelayedLoad(request);
 
-                // do we need ??
-                //RetrieveOutputParameters(request, session, command, parameterObject);
+                    // do we need ??
+                    //RetrieveOutputParameters(request, session, command, parameterObject);
+                }
             }
-
             return dataTable;
         }
         #endregion

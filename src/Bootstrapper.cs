@@ -6,7 +6,6 @@ using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
 using KarveDataServices;
-
 namespace KarveCar
 {
     class Bootstrapper : UnityBootstrapper
@@ -28,6 +27,7 @@ namespace KarveCar
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
+            catalog.AddModule(typeof(ProvidersModule.ProviderModule));
         }
 
         /// <summary>

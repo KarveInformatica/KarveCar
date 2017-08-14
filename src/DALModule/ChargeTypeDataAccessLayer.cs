@@ -27,24 +27,6 @@ namespace DataAccessLayer
             base.Id = _id;
         }
 
-        /// <summary>
-        ///  This returns the types of charging
-        /// </summary>
-        /// <returns>A list of observable</returns>
-        public override GenericObservableCollection GetItems()
-        {
-            ObservableCollection<ChargeTypeObject> dataCollection = new ObservableCollection<ChargeTypeObject>();
-            QueryCopy(DataMapper, out dataCollection);
-            GenericObservableCollection obs = new GenericObservableCollection();
-            ObservableCollection<object> newCollection = new ObservableCollection<object>();
-            foreach (var item in dataCollection)
-            {
-                newCollection.Add(item);
-            }
-            obs.GenericObsCollection = newCollection;
-            return obs;
-        }
-
         private void QueryCopy(IDataMapper mapper, out ObservableCollection<ChargeTypeObject> collection)
         {
             ICollection<ChargeTypeObject> banks = DataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
@@ -225,21 +207,6 @@ namespace DataAccessLayer
                // table.AcceptChanges();
             }
             return table;
-        }
-
-        public override void SetItems(GenericObservableCollection collection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void StoreCollection<T>(ObservableCollection<T> collection)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveCollection<T>(ObservableCollection<T> collection)
-        {
-            throw new NotImplementedException();
         }
     }
 }

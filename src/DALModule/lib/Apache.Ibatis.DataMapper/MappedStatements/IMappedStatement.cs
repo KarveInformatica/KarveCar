@@ -30,6 +30,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper.Data;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model;
@@ -186,6 +187,18 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         void ExecuteQueryForList<T>(ISession session, object parameterObject, IList<T> resultObject);
 
         /// <summary>
+        /// Executes asynchrously the SQL and retuns all rows selected. 
+        /// </summary>
+        /// <param name="session">The session used to execute the statement.</param>
+        /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+        /// <returns>A List of result objects.</returns>
+        #region ExecuteAsyncQueryForList
+
+        Task<IList<T>> ExecuteAsyncQueryForList<T>(ISession session, object parameterObject);
+	    
+        #endregion ExecuteAsyncQueryForList
+
+        /// <summary>
         /// Executes the SQL and retuns all rows selected. 
         /// </summary>
         /// <param name="session">The session used to execute the statement.</param>
@@ -270,7 +283,16 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <param name="session">The session used to execute the statement.</param>
         /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
         /// <returns>The object</returns>
-        DataTable ExecuteQueryForDataTable(ISession session, object parameterObject); 
+        DataTable ExecuteQueryForDataTable(ISession session, object parameterObject);
         #endregion
+	    #region ExecuteAsyncQueryForDataTable
+	    /// <summary>
+	    /// Executes an SQL statement that returns DataTable.
+	    /// </summary>
+	    /// <param name="session">The session used to execute the statement.</param>
+	    /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+	    /// <returns>The object</returns>
+	    Task<DataTable> ExecuteAsyncQueryForDataTable(ISession session, object parameterObject);
+	    #endregion
     }
 }

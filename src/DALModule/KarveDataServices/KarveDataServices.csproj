@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\ICountryDataObject.cs" />
+    <Compile Include="DataObjects\IProvinceDataObject.cs" />
+    <Compile Include="DataObjects\ISupplierDataObject.cs" />
+    <Compile Include="DataObjects\ISupplierDataObjectInfo.cs" />
+    <Compile Include="DataObjects\ISupplierDataServices.cs" />
     <Compile Include="IDataServices.cs" />
     <Compile Include="IPaymentDataService.cs" />
     <Compile Include="IVehicleDataServices.cs" />

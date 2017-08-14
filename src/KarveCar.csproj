@@ -398,6 +398,10 @@
       <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
       <Name>PaymentTypeModule</Name>
     </ProjectReference>
+    <ProjectReference Include="ProvidersModule\ProvidersModule.csproj">
+      <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
+      <Name>ProvidersModule</Name>
+    </ProjectReference>
     <ProjectReference Include="ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
       <Name>ToolBarModule</Name>

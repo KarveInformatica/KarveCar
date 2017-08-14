@@ -41,7 +41,9 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         protected static readonly object PostInsertEventKey = new object();
         protected static readonly object PostSelectEventKey = new object();
         protected static readonly object PostUpdateOrDeleteEventKey = new object();
-
+        private object newRaiseEvent = new object();
+        private object newPostRaiseEvent = new object();
+        private static object newPostRaiseEventRun = new object();
         private readonly EventHandlerList events = new EventHandlerList();
 
         #region IMappedStatementEvents Members
@@ -110,14 +112,17 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <returns>Returns is used as the parameter object</returns>
         protected object RaisePreEvent(object key,  object parameterObject)
         {
-            var handlers = (EventHandler<PreStatementEventArgs>)events[key];
-
-            if (handlers != null)
+            lock (newRaiseEvent)
             {
-                var eventArgs = new PreStatementEventArgs();
-                eventArgs.ParameterObject = parameterObject;
-                handlers(this, eventArgs);            
-                return eventArgs.ParameterObject;
+                var handlers = (EventHandler<PreStatementEventArgs>) events[key];
+
+                if (handlers != null)
+                {
+                    var eventArgs = new PreStatementEventArgs();
+                    eventArgs.ParameterObject = parameterObject;
+                    handlers(this, eventArgs);
+                    return eventArgs.ParameterObject;
+                }
             }
             return parameterObject;
         }
@@ -132,16 +137,48 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <returns>Returns is used as the result object</returns>
         protected TType RaisePostEvent<TType>(object key, object parameterObject, TType resultObject, bool cacheHit)
         {
-            var handlers = (EventHandler<PostStatementEventArgs>)events[key];
-
-            if (handlers != null)
+            lock (newPostRaiseEvent)
             {
-                var eventArgs = new PostStatementEventArgs();
-                eventArgs.ParameterObject = parameterObject;
-                eventArgs.ResultObject = resultObject;
-                eventArgs.CacheHit = cacheHit;
-                handlers(this, eventArgs);
-                return (TType)eventArgs.ResultObject;
+                var handlers = (EventHandler<PostStatementEventArgs>) events[key];
+
+                if (handlers != null)
+                {
+                    var eventArgs = new PostStatementEventArgs();
+                    eventArgs.ParameterObject = parameterObject;
+                    eventArgs.ResultObject = resultObject;
+                    eventArgs.CacheHit = cacheHit;
+                    handlers(this, eventArgs);
+                    return (TType) eventArgs.ResultObject;
+                }
+            }
+            return resultObject;
+        }
+        /// <summary>
+        ///  Raises a post event.
+        /// </summary>
+        /// <typeparam name="TType"></typeparam>
+        /// <param name="currentObject"></param>
+        /// <param name="key"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="resultObject"></param>
+        /// <param name="cacheHit"></param>
+        /// <returns></returns>
+        protected static TType RaisePostEventRun<TType>(MappedStatementEventSupport currentObject, object key, object parameterObject,
+            TType resultObject, bool cacheHit)
+        {
+            lock (newPostRaiseEventRun)
+            {
+                var handlers = (EventHandler<PostStatementEventArgs>)currentObject.events[key];
+
+                if (handlers != null)
+                {
+                    var eventArgs = new PostStatementEventArgs();
+                    eventArgs.ParameterObject = parameterObject;
+                    eventArgs.ResultObject = resultObject;
+                    eventArgs.CacheHit = cacheHit;
+                    handlers(currentObject, eventArgs);
+                    return (TType)eventArgs.ResultObject;
+                }
             }
             return resultObject;
         }

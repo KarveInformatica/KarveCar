@@ -65,7 +65,6 @@
     <Compile Include="DataObjects\ComunidadAutonoma.cs" />
     <Compile Include="DataObjects\ConceptoSalidaCaja.cs" />
     <Compile Include="DataObjects\Constants.cs" />
-    <Compile Include="DalLocator.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
     <Compile Include="DataLayerExecutionException.cs" />
     <Compile Include="DataObjects\Divisa.cs" />
@@ -74,9 +73,8 @@
     <Compile Include="DataObjects\GrupoTarifa.cs" />
     <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
+    <Compile Include="DataObjects\SupplierSummaryDataObject.cs" />
     <Compile Include="DataServiceImplementation.cs" />
-    <Compile Include="IDalLocator.cs" />
-    <Compile Include="IDalObject.cs" />
     <Compile Include="DataObjects\IncidenciaCliente.cs" />
     <Compile Include="DataObjects\IncidenciaContrato.cs" />
     <Compile Include="DataObjects\IncidenciaProveedor.cs" />
@@ -110,6 +108,7 @@
     <Compile Include="DataObjects\UsoAlquiler.cs" />
     <Compile Include="DataObjects\ZonaCliente.cs" />
     <Compile Include="DataObjects\ZonaOficina.cs" />
+    <Compile Include="SupplierDataAccessLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="providers.config">

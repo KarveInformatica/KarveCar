@@ -8,8 +8,13 @@ using iAnywhere.Data.SQLAnywhere;
 
 namespace Apache.Ibatis.Common.Data
 {
+    
+    /// <summary>
+    /// This is the sysbase data provider for the mapper. Currently is supported sysbase 16. 
+    /// </summary>
     public class SysbaseDataProvider: DbProvider
     {
+        /// constructor
         public SysbaseDataProvider()
         {
             Id = "SysBase";
@@ -32,6 +37,9 @@ namespace Apache.Ibatis.Common.Data
             UsePositionalParameters = false;
             AllowMARS = false;
        }
+        /// <summary>
+        ///  Currently no special initialization is needed.
+        /// </summary>
         public void Initialize()
         {
             // empty

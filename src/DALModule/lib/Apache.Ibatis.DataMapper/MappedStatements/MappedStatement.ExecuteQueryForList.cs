@@ -27,6 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
@@ -35,6 +36,8 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 {
     public partial class MappedStatement
     {
+        object singleRunQueryForList = new object();
+
         /// <summary>
         /// Runs a query with a custom object that gets a chance 
         /// to deal with each row as it is processed.
@@ -77,7 +80,6 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             return Execute(PreSelectEventKey,PostSelectEventKey,session,parameterObject,
                 (r, p) => RunQueryForList(r, session, p, null, null));
         }
-
         /// <summary>
         /// Executes the SQL and and fill a strongly typed collection.
         /// </summary>
@@ -101,7 +103,18 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             return Execute(PreSelectEventKey, PostSelectEventKey, session, parameterObject,
                 (r, p) => RunQueryForList<T>(r, session, p, null, null));
         }
-
+        /// <summary>
+        /// Executes the SQL and retuns all rows selected. 
+        /// </summary>
+        /// <param name="session">The session used to execute the statement.</param>
+        /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+        /// <returns>A List of result objects.</returns>
+        public virtual async Task<IList<T>> ExecuteAsyncQueryForList<T>(ISession session, object parameterObject)
+        {
+            IList<T> list = await ExecuteAsync(PreSelectEventKey, PostSelectEventKey, session, parameterObject,
+                (r, p) => RunQueryForList<T>(r, session, p, null, null));
+            return list;
+        }
         /// <summary>
         /// Executes the SQL and and fill a strongly typed collection.
         /// </summary>
@@ -123,84 +136,86 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <param name="resultObject">A strongly typed collection of result objects.</param>
         /// <param name="rowDelegate"></param>
         /// <returns>A List of result objects.</returns>
-        internal IList RunQueryForList(RequestScope request, ISession session, object parameterObject, IList resultObject, RowDelegate rowDelegate)
+        internal IList RunQueryForList(RequestScope request, ISession session, object parameterObject,
+            IList resultObject, RowDelegate rowDelegate)
         {
             IList list = resultObject;
-
-            using (IDbCommand command = request.IDbCommand)
+            lock (singleRunQueryForList)
             {
-                if (resultObject == null)
+                using (IDbCommand command = request.IDbCommand)
                 {
-                    if (statement.ListClass == null)
+                    if (resultObject == null)
                     {
-                        list = new ArrayList();
-                    }
-                    else
-                    {
-                        list = statement.CreateInstanceOfListClass();
-                    }
-                }
-
-                IDataReader reader = command.ExecuteReader();
-
-                try
-                {
-                    do
-                    {
-                        if (rowDelegate == null)
+                        if (statement.ListClass == null)
                         {
-                            //***
-                            IList currentList = null;
-                            if (request.Statement.ResultsMap.Count == 1)
-                            {
-                                currentList = list;
-                            }
-                            else
-                            {
-                                if (request.CurrentResultMap != null)
-                                {
-                                    Type genericListType = typeof(List<>).MakeGenericType(new Type[] { request.CurrentResultMap.Class });
-                                    currentList = (IList)Activator.CreateInstance(genericListType);
-                                }
-                                else
-                                {
-                                    currentList = new ArrayList();
-                                }
-                                list.Add(currentList);
-
-                            }
-                            //***
-                            while (reader.Read())
-                            {
-                                object obj = resultStrategy.Process(request, ref reader, null);
-                                if (obj != BaseStrategy.SKIP)
-                                {
-                                    //list.Add(obj);
-                                    currentList.Add(obj);
-                                }
-                            }
+                            list = new ArrayList();
                         }
                         else
                         {
-                            while (reader.Read())
-                            {
-                                object obj = resultStrategy.Process(request, ref reader, null);
-                                rowDelegate(obj, parameterObject, list);
-                            }
+                            list = statement.CreateInstanceOfListClass();
                         }
                     }
-                    while (reader.NextResult());
-                }
-                finally
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
 
-                ExecuteDelayedLoad(request);
-                RetrieveOutputParameters(request, session, command, parameterObject);
+                    IDataReader reader = command.ExecuteReader();
+
+                    try
+                    {
+                        do
+                        {
+                            if (rowDelegate == null)
+                            {
+                                //***
+                                IList currentList = null;
+                                if (request.Statement.ResultsMap.Count == 1)
+                                {
+                                    currentList = list;
+                                }
+                                else
+                                {
+                                    if (request.CurrentResultMap != null)
+                                    {
+                                        Type genericListType = typeof(List<>).MakeGenericType(new Type[]
+                                            {request.CurrentResultMap.Class});
+                                        currentList = (IList) Activator.CreateInstance(genericListType);
+                                    }
+                                    else
+                                    {
+                                        currentList = new ArrayList();
+                                    }
+                                    list.Add(currentList);
+
+                                }
+                                //***
+                                while (reader.Read())
+                                {
+                                    object obj = resultStrategy.Process(request, ref reader, null);
+                                    if (obj != BaseStrategy.SKIP)
+                                    {
+                                        //list.Add(obj);
+                                        currentList.Add(obj);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                while (reader.Read())
+                                {
+                                    object obj = resultStrategy.Process(request, ref reader, null);
+                                    rowDelegate(obj, parameterObject, list);
+                                }
+                            }
+                        } while (reader.NextResult());
+                    }
+                    finally
+                    {
+                        reader.Close();
+                        reader.Dispose();
+                    }
+
+                    ExecuteDelayedLoad(request);
+                    RetrieveOutputParameters(request, session, command, parameterObject);
+                }
             }
-
             return list;
         }
 

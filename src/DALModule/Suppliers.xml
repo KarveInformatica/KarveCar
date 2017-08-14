@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="Suppliers" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <resultMaps>
+    <resultMap id="SupplierSummaryResultMap"  class="SupplierSummaryDataObject" >
+      <result property="Numero"     		column="CODIGO"/>
+      <result property="Nombre"    		column="NOMBRE"/>
+      <result property="Nif"    			column="NIF"/>
+    </resultMap>
+    </resultMaps>
+    <statements>
+    <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
+	SELECT NUM_PROVEE, NOMBRE, NIF FROM PROVEE1 ORDERBY NUM_PROVEE
+    </select>
+</statements>
+</sqlMap>

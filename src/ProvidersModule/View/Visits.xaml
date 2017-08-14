@@ -1,0 +1,231 @@
+﻿<UserControl x:Class="ProvidersModule.View.Visits"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProvidersModule.View"
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="HeaderTemplate" TargetType="{x:Type xcdg:ColumnManagerCell}">
+            <TextBlock Text="{TemplateBinding Content}">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Foreground" Value="Black" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </ControlTemplate>
+        <Style TargetType="{x:Type xcdg:HierarchicalGroupByControl}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma" />
+        </Style>
+
+        <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
+            <Setter Property="Template" Value="{StaticResource HeaderTemplate}"/>
+        </Style>
+        <!-- DataTemplate to display an Employee object -->
+
+        <DataTemplate x:Key="PersonDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="HourTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/watch.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <extToolkit:DateTimeUpDown Format="Custom" FormatString="hh:mm tt" Value="13:30" />
+                  
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="DateDataTemplate">
+            <Grid
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 2, 0" Source="/ProvidersModule;component/Images/watch.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <extToolkit:DateTimePicker Format="Custom"  FormatString="dd/MM/yyyy hh:mm" Value="01/01/2017"></extToolkit:DateTimePicker>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="AddressDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SellerDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/reseller.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <ComboBox ItemsSource="{Binding ResellerPositionTypes}">
+                        <ComboBoxItem IsSelected="True">Vendedor</ComboBoxItem>
+                    </ComboBox>
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PhoneDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PermanentDataTemplate">
+            <StackPanel 
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center" Width="100">
+                <CheckBox Name="PermanentCheckedVisitSupplier"></CheckBox>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="EmailDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+
+
+    <Grid>
+        <Grid.Resources>
+
+            <xcdg:DataGridCollectionViewSource x:Key="cvsOrders" 
+                                               Source="{Binding}">
+                <xcdg:DataGridCollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="ShipCountry" />
+                    <PropertyGroupDescription PropertyName="ShipCity" />
+                </xcdg:DataGridCollectionViewSource.GroupDescriptions>
+            </xcdg:DataGridCollectionViewSource>
+        </Grid.Resources>
+
+        <xcdg:DataGridControl x:Name="_dataGrid"
+                            ItemsSource="{Binding Source={StaticResource cvsOrders}}" 
+                              HorizontalAlignment="Stretch"
+                              MinWidth="500"
+                              VerticalAlignment="Top"
+                              AllowDrag="False">
+            <xcdg:ColumnManagerCell Style="{StaticResource CustomHeader }">
+
+            </xcdg:ColumnManagerCell>
+            <xcdg:DataGridControl.View>
+                <xcdg:TableflowView FixedColumnCount="2" />
+            </xcdg:DataGridControl.View>
+
+            <xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="Date"
+                             Title="Fecha y Ora"
+                             Width="180"
+                             CellContentTemplate="{StaticResource DateDataTemplate}">
+                </xcdg:Column>
+               
+                <xcdg:Column FieldName="Seller"
+                             Title="Vendedor"
+                             Width="150"
+                             CellContentTemplate="{StaticResource SellerDataTemplate}" 
+                             />
+                <xcdg:Column FieldName="TypeVisit"
+                             Title="Tipo"
+                             Width="80"/>
+                <xcdg:Column FieldName="Motivation"
+                             Title="Asunto"
+                             Width="110"/>
+               
+                <xcdg:Column FieldName="Text"
+                             Title="Texto"
+                             Width="110"
+                            />
+                <xcdg:Column FieldName="Permanent"
+                             Title="Permanent"
+                             Width="80"
+                             CellContentTemplate="{StaticResource PermanentDataTemplate}"
+                            />
+
+                <xcdg:Column FieldName="Name"
+                             Title="Nombre"
+                             Width="100" 
+                                   CellContentTemplate="{StaticResource PersonDataTemplate}"/>
+            </xcdg:DataGridControl.Columns>
+        </xcdg:DataGridControl>
+    </Grid>
+</UserControl>

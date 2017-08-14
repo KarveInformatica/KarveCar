@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTypeModule", "Paymen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataServices", "DALModule\KarveDataServices\KarveDataServices.csproj", "{83407587-1785-481B-A4FB-23E035173190}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersModule", "ProvidersModule\ProvidersModule.csproj", "{59B99363-3561-4B1F-94FB-136BECBAA675}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{83407587-1785-481B-A4FB-23E035173190}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83407587-1785-481B-A4FB-23E035173190}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83407587-1785-481B-A4FB-23E035173190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B99363-3561-4B1F-94FB-136BECBAA675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B99363-3561-4B1F-94FB-136BECBAA675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B99363-3561-4B1F-94FB-136BECBAA675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B99363-3561-4B1F-94FB-136BECBAA675}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,9 +90,10 @@ Global
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{3F0503DE-3DDE-40A4-AF70-F698BFA9F844} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{83407587-1785-481B-A4FB-23E035173190} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{59B99363-3561-4B1F-94FB-136BECBAA675} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = es-ES
 		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
 	EndGlobalSection
 EndGlobal

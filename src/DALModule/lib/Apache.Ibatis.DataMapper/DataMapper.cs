@@ -24,9 +24,11 @@
  ********************************************************************************/
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.Common.Contracts;
 using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.Exceptions;
@@ -142,6 +144,7 @@ namespace Apache.Ibatis.DataMapper
                 statement.ExecuteQueryForList(sessionScope.Session, parameterObject, resultObject);
             }
         }
+        
 
         /// <summary>
         /// Executes a Sql SELECT statement that returns data to populate
@@ -162,7 +165,24 @@ namespace Apache.Ibatis.DataMapper
             }
         }
 
-
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <returns></returns>
+        public async Task<IList<T>> QueryAsyncForList<T>(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock(this)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement =  GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
+            // now we are sure that data is correct.
+            return list;
+        }
         /// <summary>
         /// Executes the SQL and retuns all rows selected in a map that is keyed on the property named
         /// in the keyProperty parameter.  The value at each key will be the entire result object.
@@ -523,5 +543,20 @@ namespace Apache.Ibatis.DataMapper
             return modelStore.GetMappedStatement(statementId);
         }
 
+        public async Task<DataTable> QueryAsyncForDataTable(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+           
+            lock (this)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject);
+                
+            // now we are sure that data is correct.
+            return dataTable;
+        }
     }
 }

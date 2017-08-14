@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="ProvidersModule.View.OrderCommunication"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProvidersModule.View"
+               xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="HeaderTemplate" TargetType="{x:Type xcdg:ColumnManagerCell}">
+            <TextBlock Text="{TemplateBinding Content}">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="FontFamily" Value="Times New Roman" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </ControlTemplate>
+        <Style TargetType="{x:Type xcdg:HierarchicalGroupByControl}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+        <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma" />
+        </Style>
+
+        <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
+            <Setter Property="Template" Value="{StaticResource HeaderTemplate}"/>
+        </Style>
+        <!-- DataTemplate to display an Employee object -->
+
+        <DataTemplate x:Key="DeliveringDateDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top">
+                    <DatePicker></DatePicker>
+                    <Button  Grid.Row="1" Name="DeliveringWaySearchButton" HorizontalAlignment="Left"  Command="{Binding DeliveringDateSearchCommand}" 
+                                 CommandParameter="Supplier" >
+                        <Image Source="/ProvidersModule;component/Images/search.png" Height="20"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ViaDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox Name="OrderWay" Width="100" Grid.Column="0" />
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top">
+                    <Button  Grid.Row="1" Name="CountrySearchButton" HorizontalAlignment="Left"  Command="{Binding ViaSearchCommand}" 
+                                 CommandParameter="Supplier" >
+                        <Image Source="/ProvidersModule;component/Images/search.png" Height="20"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SellConditionDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox Name="SellConditionWay" Width="100" Grid.Column="0" />
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top">
+                    <Button  Grid.Row="1" Name="CountrySearchButton" HorizontalAlignment="Left"  Command="{Binding SellConditionCommand}" 
+                                 CommandParameter="Supplier" >
+                        <Image Source="/ProvidersModule;component/Images/search.png" Height="20"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="EmailDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button  Name="SendMailButton" HorizontalAlignment="Left"  Command="{Binding SendMailButton}" 
+                                 CommandParameter="SendMail">
+                    <Image Source="/ProvidersModule;component/Images/email.png"/>
+                </Button>
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+
+
+
+    <Grid>
+        <Grid.Resources>
+
+            <xcdg:DataGridCollectionViewSource x:Key="deliveringOrders" 
+                                               Source="{Binding}">
+                <xcdg:DataGridCollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="ShipCountry" />
+                    <PropertyGroupDescription PropertyName="ShipCity" />
+                </xcdg:DataGridCollectionViewSource.GroupDescriptions>
+            </xcdg:DataGridCollectionViewSource>
+        </Grid.Resources>
+
+        <xcdg:DataGridControl x:Name="_dataGrid"
+                            ItemsSource="{Binding Source={StaticResource deliveringOrders}}" 
+                              AllowDrag="False">
+            <xcdg:ColumnManagerCell Style="{StaticResource CustomHeader }">
+
+            </xcdg:ColumnManagerCell>
+
+            <xcdg:DataGridControl.Columns>
+
+
+                <xcdg:Column FieldName="DeliveringWay"
+                             Title="Via"
+                             Width="140"
+                             CellContentTemplate="{StaticResource ViaDataTemplate}" 
+                             />
+                <xcdg:Column FieldName="Email"
+                                 CellContentTemplate="{StaticResource EmailDataTemplate}" 
+                             Title="Email"
+                             Width="80"
+                             />
+                <xcdg:Column FieldName="DeliveringDate"
+                             Title="Fecha de Entrega"
+                             Width="150" 
+                             CellContentTemplate="{StaticResource DeliveringDateDataTemplate}" 
+                             />
+                <xcdg:Column FieldName="SellCondition"
+                             Title="Condición de Venta"
+                             Width="170" 
+                             CellContentTemplate="{StaticResource SellConditionDataTemplate}" 
+                             />
+                
+            </xcdg:DataGridControl.Columns>
+        </xcdg:DataGridControl>
+    </Grid>
+
+</UserControl>
+
+

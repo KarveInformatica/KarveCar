@@ -21,7 +21,11 @@ namespace KarveDataServices
         /// Returns the vehicle data services.
         /// </summary>
         IVehicleDataServices GetVehicleDataServices();
-
+        /// <summary>
+        ///  This returns all subsystem that is needed for the suppliers.
+        /// </summary>
+        /// <returns></returns>
+        ISupplierDataServices GetSupplierDataServices();
     }
 
 }
