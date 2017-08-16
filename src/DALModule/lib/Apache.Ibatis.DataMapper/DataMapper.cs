@@ -46,6 +46,7 @@ namespace Apache.Ibatis.DataMapper
         private readonly IModelStore modelStore = null;
         private readonly ISessionStore sessionStore = null;
         private readonly ISessionFactory sessionFactory = null;
+        private object dataMapperLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataMapper"/> class.
@@ -105,7 +106,6 @@ namespace Apache.Ibatis.DataMapper
         {
             return QueryForMap(statementName, parameterObject, keyProperty, valueProperty);
         }
-
         /// <summary>
         /// Alias to QueryForMap, .NET spirit.
         /// Feature idea by Ted Husted.
@@ -542,7 +542,12 @@ namespace Apache.Ibatis.DataMapper
         {
             return modelStore.GetMappedStatement(statementId);
         }
-
+        /// <summary>
+        /// This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+        /// </summary>
+        /// <param name="statementId">The statement id.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <returns></returns>
         public async Task<DataTable> QueryAsyncForDataTable(string statementId, object parameterObject)
         {
             DataMapperLocalSessionScope sessionScope = null;
@@ -558,5 +563,45 @@ namespace Apache.Ibatis.DataMapper
             // now we are sure that data is correct.
             return dataTable;
         }
+        /// <summary>
+        /// This is 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <returns></returns>
+        public async Task<T> QueryAsyncForObject<T>(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
+            return list[0];
+        }
+        /// <summary>
+        /// Query async for dictionary.
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <returns></returns>
+        public async Task<IDictionary> QueryAsyncForDictionary(string statementId, object parameterObject, string keyProperty)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty);
+            return dict;
+        }
+
+
     }
 }

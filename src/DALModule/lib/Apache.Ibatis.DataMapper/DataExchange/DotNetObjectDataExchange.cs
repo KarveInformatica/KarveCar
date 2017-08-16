@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using System.Data;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Model.ParameterMapping;
@@ -77,6 +78,19 @@ namespace Apache.Ibatis.DataMapper.DataExchange
 		public override void SetData(ref object target, ResultProperty mapping, object dataBaseValue)
 		{
 		    Type targetType = target.GetType();
+            // null values will always treated as an empty string
+		    if (dataBaseValue == null)
+		    {
+		        dataBaseValue = String.Empty;
+		    }
+		    if (targetType.FullName.Equals("System.Data.DataRow"))
+		    {
+		        // here we got the datarow.
+		        DataRow row = target as DataRow;
+		        row[mapping.PropertyName] = dataBaseValue;
+		        target = row;
+		        return;
+		    }
             if ((targetType != parameterClass)
                 && !targetType.IsSubclassOf(parameterClass)
                 && !parameterClass.IsAssignableFrom(targetType))

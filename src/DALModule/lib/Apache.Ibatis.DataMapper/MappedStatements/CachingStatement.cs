@@ -186,6 +186,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             return CachingStatementExecute(PreSelectEventKey, PostSelectEventKey, session, parameterObject, "ExecuteQueryForDataTable", requestRunner);
         }
 
+
 		/// <summary>
 		/// Executes the SQL and retuns all rows selected in a map that is keyed on the property named
 		/// in the keyProperty parameter.  The value at each key will be the value of the property specified
@@ -622,6 +623,17 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             }
             IList<T> returnValue = await CachingAsyncStatementExecute(PreSelectEventKey, PostSelectEventKey, session, parameterObject, "ExecuteQueryForList", requestRunner);
             return returnValue;
+        }
+        /// <summary>
+        /// TODO: Needs to find a way to implment good this.
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <returns></returns>
+        public Task<IDictionary> ExecuteAsyncQueryForMap(ISession session, object parameterObject, string keyProperty)
+        {
+            throw new NotImplementedException();
         }
     }
 }

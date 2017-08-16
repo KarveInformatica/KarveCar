@@ -293,6 +293,10 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 	    /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
 	    /// <returns>The object</returns>
 	    Task<DataTable> ExecuteAsyncQueryForDataTable(ISession session, object parameterObject);
-	    #endregion
+
+	    Task<IDictionary> ExecuteAsyncQueryForMap(ISession session, object parameterObject,
+	        string keyProperty);
+
+     #endregion
     }
 }

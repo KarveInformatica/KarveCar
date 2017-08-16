@@ -18,6 +18,11 @@ namespace KarveDataServices
         #region Asynchronous methods
 
         /// <summary>
+        ///  Returns the dataset in asynchronous way for all suppliers.
+        /// </summary>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncAllSupplierSummary();
+        /// <summary>
         /// This method returns a data set containing a datatable with all the suppliers.
         /// </summary>
         /// <returns></returns>

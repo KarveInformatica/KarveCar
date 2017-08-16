@@ -23,9 +23,13 @@
  ********************************************************************************/
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Threading.Tasks;
+using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
 
@@ -77,22 +81,54 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             {
                 using (IDbCommand command = request.IDbCommand)
                 {
-                    IDataReader reader = command.ExecuteReader();
+                    IDataReader reader = null;
 
                     try
                     {
+                        reader = command.ExecuteReader();
+                        IResultMap resultMap = request.CurrentResultMap.ResolveSubMap(reader);
+                        
+                        foreach (ResultProperty info in resultMap.Properties)
+                        {
+                           DataColumn dc = new DataColumn(info.PropertyName);
+                           dataTable.Columns.Add(dc);
+                        }
                         // Get Results
+
                         while (reader.Read())
                         {
                             DataRow dataRow = dataTable.NewRow();
                             dataTable.Rows.Add(dataRow);
-                            //resultStrategy.Process(request, ref reader, dataRow);
+
+                            /*for (int index = 0; index < resultMap.Properties.Count; index++)
+                                {
+                                    ResultProperty property = resultMap.Properties[index];
+                                    string propertyName = property.ColumnName;
+                                  //  object value = property.GetValue(request, ref reader, propertyName);
+                                    // property.PropertyStrategy.Set(request, resultMap, property, ref dataRow, reader, null);
+                                }
+                                */
+                            resultStrategy.Process(request, ref reader, dataRow);
                         }
+                    }
+                    catch (Exception e)
+               
+                    {
+                        if (reader != null)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                        }
+                        throw new DataMapperException(e.Message);
                     }
                     finally
                     {
-                        reader.Close();
-                        reader.Dispose();
+                        if (reader != null)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                        }
+                       
                     }
 
                     // do we need ??

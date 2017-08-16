@@ -27,10 +27,5 @@ namespace KarveCar.Commands.Generic
         {
             setlanguagesvm.SetLanguages(parameter);
         }
-
-        public override bool UnExecute()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

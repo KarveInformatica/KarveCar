@@ -3233,6 +3233,14 @@
              <returns>A hashtable of object containing the rows keyed by keyProperty.</returns>
             <exception cref="T:Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteAsyncQueryForMap(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String)">
+            <summary>
+            Execute asynchronously a query returning a data table.
+            </summary>
+            <param name="session">The session uses toe execute the statement</param>
+            <param name="parameterObject">The object used to set the parameters in the sql</param>
+            <returns></returns>
+        </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForMapWithRowDelegate(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String,System.String,Apache.Ibatis.DataMapper.DictionaryRowDelegate)">
              <summary>
              Runs a query with a custom object that gets a chance 
@@ -4184,6 +4192,15 @@
             <typeparam name="T"></typeparam>
             <param name="session"></param>
             <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.CachingStatement.ExecuteAsyncQueryForMap(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String)">
+            <summary>
+            TODO: Needs to find a way to implment good this.
+            </summary>
+            <param name="session"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
             <returns></returns>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.DeleteMappedStatement">
@@ -9955,6 +9972,32 @@
             </summary>
             <value>The model store.</value>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDataTable(System.String,System.Object)">
+            <summary>
+            This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+            </summary>
+            <param name="statementId">The statement id.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForObject``1(System.String,System.Object)">
+            <summary>
+            This is 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDictionary(System.String,System.Object,System.String)">
+            <summary>
+            Query async for dictionary.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <returns></returns>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.Data.DBHelperParameterCache">
             <summary>
             DBHelperParameterCache provides functions to leverage a 
@@ -11169,6 +11212,24 @@
             <param name="statementId">The statement id.</param>
             <param name="parameterObject">The parameter object.</param>
             <returns>A DataTable</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForObject``1(System.String,System.Object)">
+            <summary>
+            Execute a SQL SELECT asynchronously returing a data object where needed.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForDictionary(System.String,System.Object,System.String)">
+            <summary>
+            Execute a query returing a dictionary indexed for keyproperty in asynchronous way.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <returns></returns>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.IDataMapperAccessor">
             <summary>

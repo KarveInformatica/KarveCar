@@ -23,14 +23,14 @@ namespace ProvidersModule
 
         protected void RegisterViewsAndServices()
         {
-            //_container.RegisterType<I, ProvidersModule.ProviderControl>();
-            _container.RegisterType<IProvidersView, ProvidersModule.View.ProvidersControl>();
-        }
+            _container.RegisterType<IProvidersViewModel, ProvidersModule.ViewModel.ProvidersViewModel>();
+        
+
+        _container.RegisterType<IProvidersView, ProvidersModule.View.ProvidersControl>();
+                    }
         public void Initialize()
         {
             RegisterViewsAndServices();
-        //    _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
-
         }
     }
  

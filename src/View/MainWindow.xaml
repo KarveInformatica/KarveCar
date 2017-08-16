@@ -729,7 +729,16 @@
                             <r:RibbonButton x:Name="rbtnProveedores"
                                             Label="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}"
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" >
+                                            SmallImageSource="/KarveCar;component/Images/supplier.png" 
+                                            DataContext="{StaticResource providersResolverViewModel}">
+                                <r:RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return"                                                
+                                                Command="{Binding ShowProvidersCommand}" 
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding ShowProvidersCommand}" 
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                </r:RibbonButton.InputBindings>
                             </r:RibbonButton>
                             <r:RibbonButton x:Name="rbtnTiposProveedores" 
                                             Label="{Binding lrbtnTiposProveedores, Source={StaticResource ResourceLanguage}}" 

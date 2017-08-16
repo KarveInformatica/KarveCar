@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 
@@ -12,11 +14,13 @@ namespace DataAccessLayer
 {
     class SupplierDataAccessLayer: BaseDataMapper, ISupplierDataServices
     {
+
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             DataSet dataSet = new DataSet("SupplierDataSet");
-            DataTable supplierTable = dataSet.Tables.Add("SupplierDataSummary");
+            DataTable supplierTable = new DataTable("SuppliersSummary");
             supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null);
+            dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
 
@@ -30,9 +34,18 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
-        public Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id)
+        public async Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id)
         {
-            throw new NotImplementedException();
+            ISupplierDataObjectInfo dataObject = null;
+            if (id != String.Empty)
+            {
+                
+                dataObject =
+                    await DataMapper.QueryAsyncForObject<ISupplierDataObjectInfo>("Suppliers.GetSupplierInfos", id);
+                IDictionary provinceList =
+                    await DataMapper.QueryAsyncForDictionary("Suppliers.GetProvinceForEachSupplier", null, "SupplierName");
+            }
+            return dataObject;
         }
 
         public Task<DataSet> GetAsyncAllProvinces()

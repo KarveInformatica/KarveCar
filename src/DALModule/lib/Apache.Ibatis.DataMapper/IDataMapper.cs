@@ -317,5 +317,22 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="parameterObject">The parameter object.</param>
         /// <returns>A DataTable</returns>
         Task<DataTable> QueryAsyncForDataTable(string statementId, object parameterObject);
+        /// <summary>
+        /// Execute a SQL SELECT asynchronously returing a data object where needed.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <returns></returns>
+        Task<T> QueryAsyncForObject<T>(string statementId, object parameterObject);
+        /// <summary>
+        /// Execute a query returing a dictionary indexed for keyproperty in asynchronous way.
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <returns></returns>
+        Task<IDictionary> QueryAsyncForDictionary(string statementId, object parameterObject,
+            string keyProperty);
     }
 }

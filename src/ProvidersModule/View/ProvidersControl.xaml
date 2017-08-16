@@ -1341,8 +1341,7 @@
             <TabItem Header="Proveedores">
                 <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
                                                                            x:Name="Suppliers" 
-                                                                           SelectedIndex="{Binding SelectedIndex}"
-                                                                           ItemsSource="{Binding SourceTable}" 
+                                                                           ItemsSource="{Binding SummaryDataTable}" 
                                                                            RowHeaderWidth="17" 
                                                                            IsReadOnly="True"
                                                                            AutoGenerateColumns="False" 
@@ -1356,11 +1355,11 @@
                                                                            SelectionMode="Extended" 
                                                                            SelectionUnit="FullRow" >
                     <DataGrid.Columns>
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="15*" Binding="{Binding Numero}"
+                        <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
                                             />
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="75*" Binding="{Binding Provvedor}"
+                        <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="60*" Binding="{Binding Nombre}"
                                             />
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="10*" Binding="{Binding Nif}"
+                        <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="20*" Binding="{Binding Nif}"
                                             />
                     </DataGrid.Columns>
                 </extendedGridControl:ExtendedDataGrid>

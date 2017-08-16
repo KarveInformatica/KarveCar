@@ -129,7 +129,6 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\ConfiguracionCommand\CintaOpcionesCommand.cs" />
-    <Compile Include="Commands\Generic\BanksUpdateCommand.cs" />
     <Compile Include="Commands\Generic\RelayCommand.cs" />
     <Compile Include="Commands\Generic\CloseTabItemCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
@@ -194,6 +193,7 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
     <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>

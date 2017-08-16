@@ -67,6 +67,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements.PropertyStrategy
         /// <param name="target">The target object</param>
         public object Get(RequestScope request, IResultMap resultMap, ResultProperty mapping, ref object target, IDataReader reader)
         {
+            // FIXME: get the exception and pull up.
             if (mapping.TypeHandler == null ||mapping.TypeHandler is UnknownTypeHandler) // Find the TypeHandler
             {
                 lock (mapping)

@@ -39,7 +39,7 @@
             <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
             <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
             <ms:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
-            
+            <ms:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
             <!-- Configuracion-->
             <cfg:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>

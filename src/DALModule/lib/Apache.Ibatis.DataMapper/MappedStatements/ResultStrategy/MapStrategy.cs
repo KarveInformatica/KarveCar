@@ -24,6 +24,7 @@
 #endregion
 
 using System.Data;
+using System.Reflection;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 
