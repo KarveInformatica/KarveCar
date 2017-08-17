@@ -90,7 +90,7 @@ namespace Apache.Ibatis.DataMapper.Data
 		        request.PreparedStatement.DbParameters = null;
 		        string tmpParam = (string) parameterObject;
 		        parameterObject = null;
-		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", tmpParam);
+		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", "\'"+tmpParam+ "\'");
             }
 		    if (parameterObject is IList<string>)
 		    {

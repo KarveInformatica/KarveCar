@@ -67,6 +67,7 @@
     <Compile Include="DataObjects\Constants.cs" />
     <Compile Include="BanksDataAccessLayer.cs" />
     <Compile Include="DataLayerExecutionException.cs" />
+    <Compile Include="DataObjects\CountryDataObject.cs" />
     <Compile Include="DataObjects\Divisa.cs" />
     <Compile Include="DataObjects\FormaPagoProveedor.cs" />
     <Compile Include="DataObjects\FormaTraslado.cs" />

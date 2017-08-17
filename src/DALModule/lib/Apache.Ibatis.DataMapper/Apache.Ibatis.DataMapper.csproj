@@ -146,12 +146,16 @@
     <Compile Include="Configuration\Module\ResultMapModuleBuilder.cs" />
     <Compile Include="Configuration\Module\TypeAliasModuleBuilder.cs" />
     <Compile Include="Configuration\Module\TypeHandlerModuleBuilder.cs" />
+    <Compile Include="IMapperCommand.cs" />
+    <Compile Include="MappedStatements\BaseQueryAsyncCommand.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteInsert.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteQueryForDataTable.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteQueryForList.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteQueryForMap.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteQueryForObject.cs" />
     <Compile Include="MappedStatements\MappedStatement.ExecuteUpdate.cs" />
+    <Compile Include="MappedStatements\QueryAsyncForDataTableCommand.cs" />
+    <Compile Include="MappedStatements\QueryAsyncForObjectCommand.cs" />
     <Compile Include="MappedStatements\ResultStrategy\DataRowStrategy.cs" />
     <Compile Include="Model\Cache\BaseCache.cs" />
     <Compile Include="Model\Cache\Decorators\LoggingCache.cs" />
@@ -239,6 +243,7 @@
     <Compile Include="Session\DefaultSessionFactory.cs" />
     <Compile Include="Session\ISession.cs" />
     <Compile Include="Session\ISessionFactory.cs" />
+    <Compile Include="Session\ISessionScope.cs" />
     <Compile Include="Session\Transaction\Ado\AdoTransaction.cs" />
     <Compile Include="Session\Transaction\Ado\AdoTransactionFactory.cs" />
     <Compile Include="Session\Transaction\DefaultTransactionManager.cs" />

@@ -75,7 +75,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <returns></returns>
         internal DataTable RunQueryForDataTable(RequestScope request, ISession session, object parameterObject)
         {
-            DataTable dataTable = new DataTable("DataTable");
+            DataTable dataTable = null;
             // this allows thread safety.
             lock (singleDataTableReadWrite)
             {
@@ -86,8 +86,19 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
                     try
                     {
                         reader = command.ExecuteReader();
+                        Random r = new Random();
                         IResultMap resultMap = request.CurrentResultMap.ResolveSubMap(reader);
-                        
+                        string tableName="DataTable";
+                        if (resultMap.Id!=null)
+                        {
+                          tableName= tableName + resultMap.Id + r.Next().ToString()+ DateTime.Now.Millisecond.ToString();
+                        }
+                        else
+                        {
+                           tableName = tableName + r.Next().ToString() + DateTime.Now.Millisecond.ToString();
+                        }
+                        dataTable = new DataTable(tableName);
+
                         foreach (ResultProperty info in resultMap.Properties)
                         {
                            DataColumn dc = new DataColumn(info.PropertyName);

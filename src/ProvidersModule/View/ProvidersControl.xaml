@@ -1354,6 +1354,11 @@
                                                                            IsSynchronizedWithCurrentItem="True"  
                                                                            SelectionMode="Extended" 
                                                                            SelectionUnit="FullRow" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedIndexCommand}" CommandParameter="{Binding ElementName=Suppliers, Path=SelectedValue}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
                                             />

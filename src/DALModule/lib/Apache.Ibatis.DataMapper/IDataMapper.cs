@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper.Exceptions;
-
+using Apache.Ibatis.DataMapper.Session;
 namespace Apache.Ibatis.DataMapper
 {
     ///<summary>
@@ -45,6 +45,11 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="parameterObject">The parameter object.</param>
         /// <returns>The number of rows effected.</returns>
         int Delete(string statementName, object parameterObject);
+        /// <summary>
+        /// Open a session / connectin and execute all batched command
+        /// </summary>
+        /// <returns></returns>
+        Task<DataSet> ExecuteAsyncBatch();
 
         /// <summary>
         /// Executes a Sql INSERT statement.
@@ -318,6 +323,14 @@ namespace Apache.Ibatis.DataMapper
         /// <returns>A DataTable</returns>
         Task<DataTable> QueryAsyncForDataTable(string statementId, object parameterObject);
         /// <summary>
+        ///  Execute in batch a SQL SELECT without reopening the connection.
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="sessionScope"></param>
+        /// <returns></returns>
+        Task<DataTable> QueryAsyncForDataTableSession(string statementId, object parameterObject, ISessionScope sessionScope);
+        /// <summary>
         /// Execute a SQL SELECT asynchronously returing a data object where needed.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -334,5 +347,21 @@ namespace Apache.Ibatis.DataMapper
         /// <returns></returns>
         Task<IDictionary> QueryAsyncForDictionary(string statementId, object parameterObject,
             string keyProperty);
+        /// <summary>
+        ///  adding a batch of commands.
+        /// </summary>
+        /// <param name="mapper1">This is the mapper of commands.</param>
+        void AddBatch(IMapperCommand mapper1);
+        /// <summary>
+        ///  This enables the mapper to fetch an object withing
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="sessionScope"></param>
+        /// <returns></returns>
+        Task<T> QueryAsyncForObjectSession<T>(string statementId, object parameterObject, ISessionScope sessionScope);
+
+
     }
 }

@@ -10,6 +10,8 @@ using KarveDataServices;
 using KarveCommon;
 using KarveCommon.Services;
 using Prism.Regions;
+using Prism.Commands;
+using KarveDataServices.DataObjects;
 
 namespace ProvidersModule.ViewModel
 {
@@ -28,11 +30,13 @@ namespace ProvidersModule.ViewModel
         private ISupplierDataServices _supplierDataServices;
         private DataTable _supplierDataTable;
         private IRegionManager _regionManager;
+        private ISupplierDataObjectInfo _dataObjectInfo;
        
         public ICommand ClickSearchCommnd { set; get; }
         public ICommand ClickSearchCountryCodeCommand { set; get; }
         public ICommand ClickSearchCountryCommand { set; get; }
         public ICommand ClickSearchMainAddressCommand { set; get; }
+        public ICommand SelectedIndexCommand { set; get; }
 
         public DataTable SummaryDataTable {
             set { _supplierDataTable = value; RaisePropertyChanged(); }
@@ -46,9 +50,20 @@ namespace ProvidersModule.ViewModel
             _dataServices = dataServices;
             _careKeeperService = careKeeperService;
             _configurationService = configurationService;
+            this.SelectedIndexCommand = new DelegateCommand<object>(OnSelectedIndex);
+
             StartDataLayer();
         }
-  
+        private async void OnSelectedIndex(object param)
+        {
+            DataRowView local = param as DataRowView;
+            if (local != null)
+            {
+                string supplierId = local.Row.ItemArray[0] as string;
+                _dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+            }
+            
+        }
         private async void StartDataLayer()
         {
             try
@@ -60,6 +75,7 @@ namespace ProvidersModule.ViewModel
                     DataSet dataSet = await _supplierDataServices.GetAsyncAllSupplierSummary();
                     this.SummaryDataTable = dataSet.Tables[0];
                 }
+                _dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo("0");
             }
             catch (Exception e)
             {

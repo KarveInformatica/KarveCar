@@ -65,7 +65,7 @@ namespace KarveTest.DAL
                     Assert.NotNull(row["Numero"]);
                     string supplierId = row["Numero"] as string;
                     ISupplierDataObjectInfo dataObjectInfo =  await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
-
+                    Assert.NotNull(dataObjectInfo);
                 }
             }
            
