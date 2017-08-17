@@ -255,33 +255,37 @@
                                                     <ColumnDefinition Width="40*"></ColumnDefinition>
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" Name="SupplierCountryCode" Width="50" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">Codigo es.34</TextBox>
+                                                <TextBox Grid.Column="0" Name="SupplierCountryCode" Width="50" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique"  
+                                                         Text="{Binding Path=SupplierDataObjectInfo.CountryCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                                 <Button  Grid.Column="1" Name="SuppliersCountryCodeButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
                                                     <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                 </Button>
-                                                <TextBox Grid.Column="2" Name="SupplierCountry" Width="200" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Foreground="LightGray">Espana</TextBox>
+                                                <TextBox Grid.Column="2" Name="SupplierCountry" Width="200" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Country, RelativeSource={RelativeSource AncestorType={x:Type local:ProvidersControl}} }"></TextBox>
                                                 <Button  Grid.Column="3" Name="SuppliersCountrySearchButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCommand}" CommandParameter="SupplierCountrySearch" >
                                                     <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                 </Button>
                                             </Grid>
-                                            <TextBox Name="SupplierCity" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Poblacion</TextBox>
+                                                
+                                            <TextBox Name="SupplierCity" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray" Text="{Binding Path=SupplierDataObjectInfo.City}" ></TextBox>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                     <ColumnDefinition Width="80*"></ColumnDefinition>
                                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" Name="SupplierProvinceCode" Width="60" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Foreground="LightGray">Codigo provincia</TextBox>
-                                                <TextBox Grid.Column="1" Name="SupplierProvice" Width="230" HorizontalAlignment="Left" Height="20" FontStyle="Oblique" Foreground="LightGray">Provincia</TextBox>
+                                                </Grid.ColumnDefinitions> 
+                                                
+                                                
+                                                <TextBox Grid.Column="0" Name="SupplierProvinceCode" Width="60" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.ProvinceCode,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                <TextBox Grid.Column="1" Name="SupplierProvice" Width="230" HorizontalAlignment="Left" Height="20" FontStyle="Oblique"  Text="{Binding Path=SupplierDataObjectInfo.Province,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                                 <Button Grid.Column="2" Name="SuppliersProvinceCodeButton" HorizontalAlignment="Left"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
                                                     <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                 </Button>
                                             </Grid>
                                         </StackPanel>
-                                        <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Telefono</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Telefono...</TextBox>
+                                        <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12" ></Label>
+                                        <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Phone}"></TextBox>
                                         <Label Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Movil</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="2" Name="SupplierCellPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Movil...</TextBox>
+                                        <TextBox Grid.Column="1" Grid.Row="2" Name="SupplierCellPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray"></TextBox>
                                         <Label Grid.Column="0" Grid.Row="3" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Fax</Label>
                                         <TextBox Grid.Column="1" Grid.Row="3" Name="SupplierFax" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Fax..</TextBox>
                                         <Label Grid.Column="0" Grid.Row="4" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Email</Label>

@@ -8,11 +8,34 @@ using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer.DataObjects
 {
-    class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataObjectInfo
+   public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataObjectInfo
     {
 
-        public string Direction { get; set; }
-        public string CountryCode { get; set; }
+
+        private string _countryCode;
+        private string _direction;
+        public string Direction {
+            get
+            {
+                return _direction;
+            }
+            set
+            {
+                _direction = value;
+                OnPropertyChanged("Direction");
+            }
+        }
+        public string CountryCode {
+            get
+            {
+                return _countryCode;
+            }
+            set
+            {
+                _countryCode = value;
+                OnPropertyChanged("CountryCode");
+            }
+        }
         public string City { get; set; }
         public string ProvinceCode { get; set; }
         public string Phone { get; set; }

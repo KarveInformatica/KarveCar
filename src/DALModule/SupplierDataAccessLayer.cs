@@ -71,11 +71,11 @@ namespace DataAccessLayer
                 for (int i = 0; i < resultBatch.Tables.Count; ++i)
                 {
                     string tableName = resultBatch.Tables[i].TableName;
-                    if (tableName.Contains("SupplierInfoResultMap"))
+                    if (tableName.Contains("SupplierInfo"))
                     {
                         SetDataObjectFields(resultBatch.Tables[i].Rows[0], ref dataObject);
                     }
-                    if (tableName.Contains("ProvinceData"))
+                    if (tableName.Contains("Province"))
                     {
                         provinceDataCode = resultBatch.Tables[i];
                     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Prism.Mvvm;
 using KarveDataServices;
+using DataAccessLayer.DataObjects;
 using KarveCommon;
 using KarveCommon.Services;
 using Prism.Regions;
@@ -29,21 +30,35 @@ namespace ProvidersModule.ViewModel
         private ICareKeeperService _careKeeperService;
         private ISupplierDataServices _supplierDataServices;
         private DataTable _supplierDataTable;
-        private IRegionManager _regionManager;
-        private ISupplierDataObjectInfo _dataObjectInfo;
-       
+        private SupplierInfoDataObject _dataObjectInfo = new SupplierInfoDataObject();
+
         public ICommand ClickSearchCommnd { set; get; }
         public ICommand ClickSearchCountryCodeCommand { set; get; }
         public ICommand ClickSearchCountryCommand { set; get; }
         public ICommand ClickSearchMainAddressCommand { set; get; }
         public ICommand SelectedIndexCommand { set; get; }
 
-        public DataTable SummaryDataTable {
+        public DataTable SummaryDataTable
+        {
             set { _supplierDataTable = value; RaisePropertyChanged(); }
             get { return _supplierDataTable; }
         }
 
-        public ProvidersViewModel(ICareKeeperService careKeeperService, 
+       SupplierInfoDataObject SupplierDataObjectInfo
+        {
+            get
+            {
+                return _dataObjectInfo;
+            }
+            set
+            {
+                _dataObjectInfo = value;
+                RaisePropertyChanged("SupplierInfoDataObject");
+            }
+        }
+
+      
+        public ProvidersViewModel(ICareKeeperService careKeeperService,
                                   IDataServices dataServices,
                                   IConfigurationService configurationService)
         {
@@ -60,9 +75,10 @@ namespace ProvidersModule.ViewModel
             if (local != null)
             {
                 string supplierId = local.Row.ItemArray[0] as string;
-                _dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+                this.SupplierDataObjectInfo = (SupplierInfoDataObject) await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+
             }
-            
+
         }
         private async void StartDataLayer()
         {
@@ -75,15 +91,16 @@ namespace ProvidersModule.ViewModel
                     DataSet dataSet = await _supplierDataServices.GetAsyncAllSupplierSummary();
                     this.SummaryDataTable = dataSet.Tables[0];
                 }
-                _dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo("0");
+
             }
             catch (Exception e)
             {
 
+
                 //        ShowError(e, "Error during data loading");
             }
         }
-        
+
 
     }
 }
