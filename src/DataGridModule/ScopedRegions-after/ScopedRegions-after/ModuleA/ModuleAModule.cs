@@ -15,7 +15,7 @@ namespace ModuleA
 
         public void Initialize()
         {
-            _container.RegisterType<object, ViewA>("ViewA");
+            _container.RegisterType<object, ViewA>("ViewC");
             _container.RegisterType<object, ViewB>("ViewB");
         }
     }

@@ -5,8 +5,10 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  Interface for giving information about suppliers.
     /// </summary>
+    /// 
     public interface ISupplierDataObjectInfo
     { 
+        string Name { set; get; }
         string Direction { set; get; }
         string CountryCode { set; get; }
         string City { set; get; }
@@ -23,5 +25,16 @@ namespace KarveDataServices.DataObjects
         string Province { set; get; }
         string Email { set; get; }
         string Observation { set; get; }
+        string Nif { set; get; }
+        string Code { set; get; }
+        string Number { set; get; }
+        string MapDirection { set;  get; }
+        string MobilePhone { set; get; }
+        string CommercialName { set; get; }
+        object Zip { set; get; }
+        object Type { set; get; }
+        string LastChange { set; get; }
+        string ChangedByUser { set; get; }
+
     }
 }

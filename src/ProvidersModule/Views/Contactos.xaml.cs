@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProvidersModule.View
+namespace ProvidersModule.Views
 {
     /// <summary>
-    /// Lógica de interacción para DelegationGridControl.xaml
+    /// Lógica de interacción para Contactos.xaml
     /// </summary>
-    public partial class DelegationGridControl : UserControl
+    public partial class Contactos : UserControl
     {
-        public DelegationGridControl()
+        public Contactos()
         {
             InitializeComponent();
         }

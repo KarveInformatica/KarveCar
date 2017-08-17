@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProvidersModule.View;
+using ProvidersModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -23,15 +23,16 @@ namespace ProvidersModule
 
         protected void RegisterViewsAndServices()
         {
-            _container.RegisterType<IProvidersViewModel, ProvidersModule.ViewModel.ProvidersViewModel>();
-        
-
-        _container.RegisterType<IProvidersView, ProvidersModule.View.ProvidersControl>();
-                    }
+            _container.RegisterType<IEventManager, ProvidersModule.EventManager>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<IProvidersViewModel, ProvidersModule.ViewModels.ProvidersControlViewModel>();
+            _container.RegisterType<IProvidersView, ProvidersModule.Views.ProvidersControl>();
+            _container.RegisterType<object, SupplierView>("SupplierView");
+                       
+        }
         public void Initialize()
         {
             RegisterViewsAndServices();
         }
     }
- 
+
 }

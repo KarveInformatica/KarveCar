@@ -74,6 +74,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -99,63 +100,86 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\EmailCommand.cs" />
+    <Compile Include="EventManager.cs" />
+    <Compile Include="IEventManager.cs" />
+    <Compile Include="IEventObserver.cs" />
     <Compile Include="IProvidersView.cs" />
     <Compile Include="IProvidersViewModel.cs" />
+    <Compile Include="ISupplierPayload.cs" />
     <Compile Include="ProvidersModule.cs" />
-    <Compile Include="ViewModel\ProvidersViewModel.cs" />
-    <Compile Include="View\Contactos.xaml.cs">
+    <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
+    <Compile Include="ViewModels\SupplierDataPayload.cs" />
+    <Compile Include="ViewModels\TabViewModelBase.cs" />
+    <Compile Include="ViewModels\SupplierViewModel.cs" />
+    <Compile Include="Views\CloseTabAction.cs" />
+    <Compile Include="Views\Contactos.xaml.cs">
       <DependentUpon>Contactos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DelegationGridControl.xaml.cs">
+    <Compile Include="Views\DelegationGridControl.xaml.cs">
       <DependentUpon>DelegationGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ExtendedContact.xaml.cs">
+    <Compile Include="Views\ExtendedContact.xaml.cs">
       <DependentUpon>ExtendedContact.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\OrderCommunication.xaml.cs">
+    <Compile Include="Views\GenericGridView.xaml.cs">
+      <DependentUpon>GenericGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderCommunication.xaml.cs">
       <DependentUpon>OrderCommunication.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProvidersControl.xaml.cs">
+    <Compile Include="Views\ProvidersControl.xaml.cs">
       <DependentUpon>ProvidersControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RatingsControl.xaml.cs">
+    <Compile Include="Views\RatingsControl.xaml.cs">
       <DependentUpon>RatingsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StarsControl.xaml.cs">
+    <Compile Include="Views\StarsControl.xaml.cs">
       <DependentUpon>StarsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Visits.xaml.cs">
+    <Compile Include="Views\SupplierView.xaml.cs">
+      <DependentUpon>SupplierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visits.xaml.cs">
       <DependentUpon>Visits.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Contactos.xaml">
+    <Page Include="Views\Contactos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DelegationGridControl.xaml">
+    <Page Include="Views\DelegationGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ExtendedContact.xaml">
+    <Page Include="Views\ExtendedContact.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\OrderCommunication.xaml">
+    <Page Include="Views\GenericGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ProvidersControl.xaml">
+    <Page Include="Views\OrderCommunication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RatingsControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\StarsControl.xaml">
+    <Page Include="Views\ProvidersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Visits.xaml">
+    <Page Include="Views\RatingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StarsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visits.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,9 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\supplier.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\yahoo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\maps.png" />
@@ -259,6 +280,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\evaluation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\summary.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

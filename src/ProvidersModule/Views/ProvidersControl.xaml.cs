@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ExtendedGrid.ExtendedGridControl;
 using System.Windows.Media.Animation;
-namespace ProvidersModule.View
+namespace ProvidersModule.Views
 {
     /// <summary>
     /// Lógica de interacción para ProvidersControl.xaml
@@ -24,7 +24,7 @@ namespace ProvidersModule.View
         public ProvidersControl()
         {
             InitializeComponent();
-            this.Suppliers.Theme = ExtendedDataGrid.Themes.Office2007Silver;
+           // this.Suppliers.Theme = ExtendedDataGrid.Themes.Office2007Silver;
 
         }
         /// <summary>

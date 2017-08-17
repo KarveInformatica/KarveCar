@@ -58,7 +58,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generic\ICreateRegionManagerScope.cs" />
     <Compile Include="Generic\IDataGridRowChange.cs" />
+    <Compile Include="Generic\ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="KarveCommonException.cs" />
     <Compile Include="Services\CareKeeper.cs" />
     <Compile Include="Command\AbstractCommand.cs" />

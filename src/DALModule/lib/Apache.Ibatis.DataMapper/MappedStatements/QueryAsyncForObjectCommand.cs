@@ -16,6 +16,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
     public class QueryAsyncForObjectCommand<T> : BaseQueryAsyncCommand
     {
         private string _param;
+        private object _transformLock = new object();
         
         /// <summary>
         /// 
@@ -40,29 +41,45 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             {
                 throw new DataMapperException("Scope and mapper shall be set before executing");
             }
-            T x = await _mapper.QueryAsyncForObjectSession<T>(this._statement, this._param, _scope);
-            Type t = x.GetType();
-            DataTable table = new DataTable(t.Name);
-            PropertyInfo[] prop = t.GetProperties();
-            IList<object> list = new List<object>();
-            // we build the data table.
-            foreach (PropertyInfo p in prop)
+            
+            DataTable table = new DataTable();
+            
+            T x = await _mapper.QueryAsyncForObjectSession<T>(this._statement, this._param, _scope).ConfigureAwait(false);
+            // re
+            if (x != null)
             {
-                table.Columns.Add(p.Name);
+                table = TransformToTable(x);
             }
-            foreach (PropertyInfo p in prop)
-            {
-                object o = t.GetProperty(p.Name).GetValue(x, null);
-                if (o!=null)
-                 list.Add(o);
-            }
-            object[] arrayObj=new object[list.Count];
-            for (int i = 0; i < list.Count; ++i)
-            {
-                arrayObj[i] = list[i];
-            }
-            table.Rows.Add(arrayObj);
             return table;
         }
+        private DataTable TransformToTable<V>(V x)
+        {
+            DataTable table;
+            lock (_transformLock)
+            {
+                Type t = x.GetType();
+                table = new DataTable(t.Name);
+                PropertyInfo[] prop = t.GetProperties();
+                IList<object> list = new List<object>();
+                // we build the data table.
+                foreach (PropertyInfo p in prop)
+                {
+                    table.Columns.Add(p.Name);
+                }
+                DataRow row = table.NewRow();
+                table.Rows.Add(row);
+                foreach (DataColumn cols in table.Columns)
+                {
+                    string colName = cols.ColumnName;
+                    object o = t.GetProperty(colName).GetValue(x, null);
+                    if (row.Table.Columns.Contains(colName))
+                    {
+                        row[colName] = o;
+                    }
+                }
+            }
+            return table;
+        }
+
     }
 }

@@ -14,7 +14,7 @@ namespace DataAccessLayer
 {
     class SupplierDataAccessLayer : BaseDataMapper, ISupplierDataServices
     {
-
+        #region ISupplierDataService Interface
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             DataSet dataSet = new DataSet("SupplierDataSet");
@@ -22,36 +22,6 @@ namespace DataAccessLayer
             supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null);
             dataSet.Tables.Add(supplierTable);
             return dataSet;
-        }
-
-        public Task<DataSet> GetAsyncAllSuppliers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ObservableCollection<ISupplierDataObject>> GetAsyncAllSupplierDataObjects()
-        {
-            throw new NotImplementedException();
-        }
-        private void SetDataObjectFields(DataRow row, ref ISupplierDataObjectInfo dataObject)
-        {
-            Type t = dataObject.GetType();
-            PropertyInfo[] props = t.GetProperties();
-            foreach (PropertyInfo p in props)
-            {
-                string tmpValue = row[p.Name] as string;
-                if ((tmpValue != null) && (p != null) && (dataObject != null))
-                {
-
-
-                    t.GetProperty(p.Name).SetValue(dataObject, tmpValue);
-                }
-                else
-                {
-                    t.GetProperty(p.Name).SetValue(dataObject, "");
-                }
-            }
-
         }
         public async Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id)
         {
@@ -71,11 +41,11 @@ namespace DataAccessLayer
                 for (int i = 0; i < resultBatch.Tables.Count; ++i)
                 {
                     string tableName = resultBatch.Tables[i].TableName;
-                    if (tableName.Contains("SupplierInfoResultMap"))
+                    if (tableName.Contains("SupplierInfo"))
                     {
                         SetDataObjectFields(resultBatch.Tables[i].Rows[0], ref dataObject);
                     }
-                    if (tableName.Contains("ProvinceData"))
+                    if (tableName.Contains("Province"))
                     {
                         provinceDataCode = resultBatch.Tables[i];
                     }
@@ -96,7 +66,7 @@ namespace DataAccessLayer
 
                         IMapperCommand mapper3 = new QueryAsyncForDataTableCommand("Suppliers.GetCountryForSingleSupplier", code);
                         DataMapper.AddBatch(mapper3);
-                        resultBatch = await DataMapper.ExecuteAsyncBatch();
+                        resultBatch = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
                         DataTable countryDataCode = resultBatch.Tables[0];
                         dataRows = countryDataCode.AsEnumerable().Where(r => r.Field<string>("CountryCode") == dataObject.CountryCode);
                         foreach (DataRow dr in dataRows)
@@ -112,60 +82,41 @@ namespace DataAccessLayer
             }
             return dataObject;
         }
-
-        public Task<DataSet> GetAsyncAllProvinces()
+        public async Task<ISupplierTypeDataObject> GetAsyncSupplierTypesDataObject(string id)
         {
-            throw new NotImplementedException();
-        }
+            IMapperCommand mapperSupplierTypes = new QueryAsyncForObjectCommand<ISupplierTypeDataObject>("Suppliers.GetSupplierTypeById", id);
+            DataMapper.AddBatch(mapperSupplierTypes);
+            DataSet supplierTypesDataSet = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
+            ISupplierTypeDataObject dataObjectType = new SupplierTypeDataObject();
+            // we need at least a result
+           if (supplierTypesDataSet.Tables.Count == 1)
+            {
+                DataTable table = supplierTypesDataSet.Tables[0];
+                SetDataObjectFields(table.Rows[0], ref dataObjectType);
 
-        public ObservableCollection<object> GetAsyncAllProvinceDataObjects()
-        {
-            throw new NotImplementedException();
+            }
+            return dataObjectType;
         }
+#endregion
+        #region Private Methods
+        private void SetDataObjectFields<T>(DataRow row, ref  T dataObject)
+        {
+  
+            Type t = dataObject.GetType();
+            PropertyInfo[] props = t.GetProperties();
+            foreach (PropertyInfo p in props)
+            {
+                string tmpValue = row.Table.Columns.Contains(p.Name) ? row[p.Name] as string : null;
+                if ((tmpValue != null) && (p != null) && (dataObject != null))
+                {
 
-        public DataSet GetAllSuppliers()
-        {
-            throw new NotImplementedException();
-        }
 
-        public ObservableCollection<object> GetAllSupplierDataObject()
-        {
-            throw new NotImplementedException();
-        }
+                    t.GetProperty(p.Name).SetValue(dataObject, Convert.ChangeType(tmpValue, p.PropertyType), null);
+                }
+            }
 
-        public ISupplierDataObjectInfo GetSupplierDataObjectInfo(string id)
-        {
-            throw new NotImplementedException();
         }
+        #endregion
 
-        public DataTable GetSupplierTypes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICountryDataObject GetSupplierCountry(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataSet GetAllCountries()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ObservableCollection<ICountryDataObject> GetAllCountriesCountryDataObjects()
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataSet GetAllProvinces()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ObservableCollection<IProvinceDataObject> GetAllProvinceDataObjects()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

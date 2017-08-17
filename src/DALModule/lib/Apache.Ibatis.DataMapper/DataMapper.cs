@@ -542,7 +542,7 @@ namespace Apache.Ibatis.DataMapper
                 sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
                 statement = GetMappedStatement(statementId);
             }
-            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject);
+            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject).ConfigureAwait(false);
 
             // now we are sure that data is correct.
             return dataTable;
@@ -560,7 +560,7 @@ namespace Apache.Ibatis.DataMapper
             {
                 statement = GetMappedStatement(statementId);
             }
-            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject);
+            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject).ConfigureAwait(false);
             // now we are sure that data is correct.
             return dataTable;
         }
@@ -581,8 +581,17 @@ namespace Apache.Ibatis.DataMapper
             {
                 statement = GetMappedStatement(statementId);
             }
-            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
-            return list[0];
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            T value = default(T);
+            if (list != null)
+            {
+                if (list.Count > 0)
+                {
+                    value = list[0];
+                }
+             
+            }
+            return value;
         }
 
 
@@ -601,7 +610,7 @@ namespace Apache.Ibatis.DataMapper
             {
                 statement = GetMappedStatement(statementId);
             }
-            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty);
+            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty).ConfigureAwait(false);
             return dict;
         }
         /// <summary>
@@ -620,7 +629,7 @@ namespace Apache.Ibatis.DataMapper
                 sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
                 statement = GetMappedStatement(statementId);
             }
-            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
             return list[0];
         }
         /// <summary>
@@ -639,7 +648,7 @@ namespace Apache.Ibatis.DataMapper
                 sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
                 statement = GetMappedStatement(statementId);
             }
-            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty);
+            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty).ConfigureAwait(false);
             return dict;
         }
 
@@ -657,7 +666,7 @@ namespace Apache.Ibatis.DataMapper
                 sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
                 statement = GetMappedStatement(statementId);
             }
-            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
             // now we are sure that data is correct.
             return list;
         }
@@ -673,7 +682,7 @@ namespace Apache.Ibatis.DataMapper
             {
                 statement = GetMappedStatement(statementId);
             }
-            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject);
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
             // now we are sure that data is correct.
             return list;
         }
@@ -708,12 +717,16 @@ namespace Apache.Ibatis.DataMapper
                 {
                     command.Scope = sessionScope;
                 }
-                DataTable table = await command.ExecuteAsync();
+                DataTable table = await command.ExecuteAsync().ConfigureAwait(false);
                 // dataSetLock protects directly the dataset
                 lock (dataSetLock)
                 {
-                    if (!set.Tables.Contains(table.TableName))
-                         set.Tables.Add(table);
+                    if (table != null)
+                    {
+                        if (!set.Tables.Contains(table.TableName))
+                            set.Tables.Add(table);
+                    }
+                
                 }
             }
             // sessionLock protects the sessionScope.

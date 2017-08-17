@@ -1,20 +1,20 @@
-﻿<UserControl x:Class="ProvidersModule.View.DelegationGridControl"
+﻿<UserControl x:Class="ProvidersModule.Views.Contactos"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProvidersModule.View"
-             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:local="clr-namespace:ProvidersModule.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-        <UserControl.Resources>
+    <UserControl.Resources>
         <ControlTemplate x:Key="HeaderTemplate" TargetType="{x:Type xcdg:ColumnManagerCell}">
             <TextBlock Text="{TemplateBinding Content}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Background" Value="White" />
                         <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="FontFamily" Value="Times New Roman" />
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
@@ -32,24 +32,43 @@
             <Setter Property="Template" Value="{StaticResource HeaderTemplate}"/>
         </Style>
         <!-- DataTemplate to display an Employee object -->
-            
-            <DataTemplate x:Key="PersonDataTemplate">
-                <Grid MaxHeight="30"
+
+        <DataTemplate x:Key="PersonDataTemplate">
+            <Grid MaxHeight="30"
                VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png" />
 
-                    <StackPanel Grid.Column="1"
+                <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
 
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="JobPositionDataTemplate">
+            <Grid MaxHeight="30"
+               VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/job.png" />
+
+                <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                    <ComboBox ItemsSource="{Binding JobPositionTypes}">
+                        <ComboBoxItem IsSelected="True">Director</ComboBoxItem>
+                    </ComboBox>
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="CityDataTemplate">
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
@@ -67,7 +86,7 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-            
+
         <DataTemplate x:Key="AddressDataTemplate">
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
@@ -75,7 +94,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png" />
+                <Image Margin="0, 0, 5, 0" Source="address.png" />
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -109,7 +128,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png" />
+                <Image Margin="0, 0, 5, 0" Source="email.png" />
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -124,17 +143,17 @@
 
 
 
-        <Grid>
-            <Grid.Resources>
-          
-                <xcdg:DataGridCollectionViewSource x:Key="cvsOrders" 
+    <Grid>
+        <Grid.Resources>
+
+            <xcdg:DataGridCollectionViewSource x:Key="cvsOrders" 
                                                Source="{Binding}">
-                    <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                        <PropertyGroupDescription PropertyName="ShipCountry" />
-                        <PropertyGroupDescription PropertyName="ShipCity" />
-                    </xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                </xcdg:DataGridCollectionViewSource>
-            </Grid.Resources>
+                <xcdg:DataGridCollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="ShipCountry" />
+                    <PropertyGroupDescription PropertyName="ShipCity" />
+                </xcdg:DataGridCollectionViewSource.GroupDescriptions>
+            </xcdg:DataGridCollectionViewSource>
+        </Grid.Resources>
 
         <xcdg:DataGridControl x:Name="_dataGrid"
                             ItemsSource="{Binding Source={StaticResource cvsOrders}}" 
@@ -142,46 +161,33 @@
             <xcdg:ColumnManagerCell Style="{StaticResource CustomHeader }">
 
             </xcdg:ColumnManagerCell>
-            <xcdg:DataGridControl.View>
-                <xcdg:TableflowView FixedColumnCount="2" />
-            </xcdg:DataGridControl.View>
-        
-        <xcdg:DataGridControl.Columns>
-                    <xcdg:Column FieldName="Code"
-                             Title="Codigo"
-                             Width="50"
-                             IsMainColumn="True">
-                    </xcdg:Column>
+            
+            <xcdg:DataGridControl.Columns>
+               
 
-                    <xcdg:Column FieldName="Name"
+                <xcdg:Column FieldName="Name"
                              Title="Nombre"
                              Width="150"
                              CellContentTemplate="{StaticResource PersonDataTemplate}" 
                              />
-                    <xcdg:Column FieldName="Direction"
-                             Title="Dirección"
-                             Width="140"/>
-                    <xcdg:Column FieldName="City"
-                             Title="Población"
+                <xcdg:Column FieldName="JobPosition"
+                             Title="Cargo"
+                             Width="120"
+                             CellContentTemplate="{StaticResource JobPositionDataTemplate}" />
+                <xcdg:Column FieldName="Department"
+                             Title="Departamento"
                              Width="100" 
-                                 CellContentTemplate="{StaticResource CityDataTemplate}" />
-                    <xcdg:Column FieldName="Zip"
-                             Title="Codigo Postal"
-                             Width="110"/>
-                    <xcdg:Column FieldName="Province"
-                             Title="Provincia"
-                             Width="90"
                              />
-                    <xcdg:Column FieldName="Phone"
+                <xcdg:Column FieldName="Phone"
                              Title="Telefono"
                                  CellContentTemplate="{StaticResource PhoneDataTemplate}"
                             />
 
-                    <xcdg:Column FieldName="Email"
+                <xcdg:Column FieldName="Email"
                              Title="Email"
                              Width="100" 
                                    CellContentTemplate="{StaticResource EmailDataTemplate}"/>
-                </xcdg:DataGridControl.Columns>
-            </xcdg:DataGridControl>
-        </Grid>
+            </xcdg:DataGridControl.Columns>
+        </xcdg:DataGridControl>
+    </Grid>
 </UserControl>

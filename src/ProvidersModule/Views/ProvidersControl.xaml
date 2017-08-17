@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="ProvidersModule.View.ProvidersControl"
+﻿<UserControl x:Class="ProvidersModule.Views.ProvidersControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProvidersModule.View"
+             xmlns:local="clr-namespace:ProvidersModule.Views"
+             xmlns:localvm="clr-namespace:ProvidersModule.ViewModels"
              xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
-             xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000"  AutomationProperties.AutomationId="SupplierControl">
@@ -33,7 +34,32 @@
                     </TextBlock.Style>
                 </TextBlock>
             </ControlTemplate>
+            <Style TargetType="TabItem">
+                <Setter Property="Header" Value="Provveedores"/>
+                <!--
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            Margin="0,0,7,0" Content="{Binding}"/>
+                                <Button Grid.Column="1" Content="x">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
 
+                            </Grid>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                -->
+            </Style>
             <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
                 <Setter Property="ShowDefaultCloseButton" Value="True" />
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
@@ -100,7 +126,7 @@
                 <ColumnDefinition Width="85*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                    <Image Source="supplier.png" VerticalAlignment="Top" MaxHeight="35"/>
+                <Image Source="/ProvidersModule;component/Images/supplier.png" VerticalAlignment="Top" MaxHeight="35"/>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50*"></RowDefinition>
@@ -132,14 +158,13 @@
                     <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="0">
                         Ultimo cambio
                     </Label>
-                    <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="1">
-                        09/08/2018
+                    <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="1" Content="{Binding Path=SupplierDataObjectInfo.LastChange,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
                     </Label>
-                    <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="2">
-                        Usuario
+                    <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="2" Content="{Binding Path=SupplierDataObjectInfo.ChangedByUser,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+                      
                     </Label>
                     <Label Height="25" FontSize="10" FontFamily="Arial" FontWeight="ExtraBold" Grid.Row="3">
-                        Carlos Velasco
+                        
                     </Label>
                 </Grid>
                 <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1">
@@ -175,200 +200,208 @@
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" FontFamily="Arial">Numero</Label>
-                            <TextBox Grid.Column="0" Grid.Row="1" Name="SupplierNumber" Width="100" VerticalAlignment="Top" Height="20" Margin="10,0,10,0"></TextBox>
+                            <TextBox Grid.Column="0" Grid.Row="1" Name="SupplierNumber" Width="100" VerticalAlignment="Top" Height="20" Margin="10,0,10,0" Text="{Binding Path=SupplierDataObjectInfo.Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Label Grid.Column="1" Grid.Row="0" FontFamily="Arial" >Nombre</Label>
-                            <TextBox Grid.Column="1" Grid.Row="1" Width="100" Name="SupplierCurrentName" VerticalAlignment="Top" Height="20" Margin="0,0,10,0"></TextBox>
-                            <Label Grid.Column="2" Grid.Row="0" FontFamily="Arial">Nombre Comune</Label>
-                            <TextBox Grid.Column="2" Grid.Row="1" Name="SupplierCommonName" Width="100" VerticalAlignment="Top" Height="20" Margin="0,0,10,0"></TextBox>
+                            <TextBox Grid.Column="1" Grid.Row="1" Width="250" Name="SupplierCurrentName" VerticalAlignment="Top" Height="20" Margin="0,0,10,0" Text="{Binding Path=SupplierDataObjectInfo.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <Label Grid.Column="2" Grid.Row="0" FontFamily="Arial">Nombre Commercial</Label>
+                            <TextBox Grid.Column="2" Grid.Row="1" Name="SupplierCommonName" Width="250" VerticalAlignment="Top" Height="20" Margin="0,0,10,0" Text="{Binding Path=SupplierDataObjectInfo.CommercialName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Label Grid.Column="3" Grid.Row="0" FontFamily="Arial">NIF</Label>
-                            <TextBox Grid.Column="3" Name="SupplierNif" Grid.Row="1" Width="45" VerticalAlignment="Top" Height="20" Margin="10,0,10,0"></TextBox>
+                            <TextBox Grid.Column="3" Name="SupplierNif" Grid.Row="1" Width="100" VerticalAlignment="Top" Height="20" Margin="10,0,10,0" Text="{Binding Path=SupplierDataObjectInfo.Nif,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Label Grid.Column="4" Grid.Row="0" FontFamily="Arial">Codigo</Label>
-                            <TextBox Grid.Column="4" Grid.Row="1" Name="SupplierCode" Width="45" VerticalAlignment="Top" Height="20" Margin="10,0,10,0"></TextBox>
+                            <TextBox Grid.Column="4" Grid.Row="1" Name="SupplierCode" Width="45" VerticalAlignment="Top" Height="20" Margin="10,0,10,0" Text="{Binding Path=SupplierDataObjectType.Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Label Grid.Column="5" Grid.Row="0" FontFamily="Arial">Tipo</Label>
-                            <TextBox Grid.Column="5" Grid.Row="1" VerticalAlignment="Top" Width="100" Height="20" Margin="10,0,10,0"></TextBox>
+                            <TextBox Grid.Column="5" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="20" Margin="10,0,10,0" Text="{Binding Path=SupplierDataObjectType.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></TextBox>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
                 <dragablz:TabablzControl Grid.Row="1" Style="{StaticResource TabablzControlStyle}">
+                   
                     <TabItem Name="General" Header="General">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30*"></RowDefinition>
-                                <RowDefinition Height="70*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
+                        <ScrollViewer>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20*"></ColumnDefinition>
-                                    <ColumnDefinition Width="30*"></ColumnDefinition>
-                                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal"  Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30*"></RowDefinition>
+                                    <RowDefinition Height="70*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
 
-                                    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Source="/ProvidersModule;component/Images/yahoo.png"></Image>
-                                    <Label FontFamily="Georgia Bold" FontSize="24" VerticalAlignment="Top">Michelin S.A.</Label>
-                                </StackPanel>
-                                <Grid Grid.Column="2">
-                                    <StackPanel>
-                                        <Label FontWeight="Bold">Fecha de Alta</Label>
-                                        <DatePicker HorizontalAlignment="Left"
-                                                  Name="FechaDeAlta" VerticalAlignment="Top" Height="40" />
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Column="3">
-                                    <StackPanel>
-                                        <Label FontWeight="Bold">Fecha de Baja</Label>
-                                        <DatePicker HorizontalAlignment="Left" 
-                                                      Name="FechaDeBaja" VerticalAlignment="Top" Height="40" />
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
-
-                            <!-- second row shall be divided in two columns, each columns contains a small grid -->
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <Grid>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20*"></ColumnDefinition>
+                                        <ColumnDefinition Width="30*"></ColumnDefinition>
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*"></ColumnDefinition>
-                                            <ColumnDefinition Width="90*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Dirección</Label>
-                                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
-                                            <TextBox Name="SupplierStreet" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Calle...</TextBox>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="40*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" Name="SupplierCountryCode" Width="50" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">Codigo es.34</TextBox>
-                                                <Button  Grid.Column="1" Name="SuppliersCountryCodeButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
-                                                    <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                                </Button>
-                                                <TextBox Grid.Column="2" Name="SupplierCountry" Width="200" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Foreground="LightGray">Espana</TextBox>
-                                                <Button  Grid.Column="3" Name="SuppliersCountrySearchButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCommand}" CommandParameter="SupplierCountrySearch" >
-                                                    <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                                </Button>
-                                            </Grid>
-                                            <TextBox Name="SupplierCity" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Poblacion</TextBox>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    <ColumnDefinition Width="80*"></ColumnDefinition>
-                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" Name="SupplierProvinceCode" Width="60" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Foreground="LightGray">Codigo provincia</TextBox>
-                                                <TextBox Grid.Column="1" Name="SupplierProvice" Width="230" HorizontalAlignment="Left" Height="20" FontStyle="Oblique" Foreground="LightGray">Provincia</TextBox>
-                                                <Button Grid.Column="2" Name="SuppliersProvinceCodeButton" HorizontalAlignment="Left"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
-                                                    <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                                </Button>
-                                            </Grid>
+                                    <StackPanel Orientation="Horizontal"  Grid.Column="0" Grid.ColumnSpan="2">
+
+                                        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Height="80" Source="/ProvidersModule;component/Images/summary.png"></Image>
+                                        <Label FontFamily="Georgia Bold" FontSize="24" VerticalAlignment="Top" Content="{Binding Path=SupplierDataObjectInfo.Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
+                                    </StackPanel>
+                                    <Grid Grid.Column="2">
+                                        <StackPanel>
+                                            <Label FontWeight="Bold">Fecha de Alta</Label>
+                                            <DatePicker HorizontalAlignment="Left"
+                                                  Name="FechaDeAlta" VerticalAlignment="Top" Height="40" SelectedDate="{Binding Path=SupplierDataObjectInfo.DischargeDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
-                                        <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Telefono</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Telefono...</TextBox>
-                                        <Label Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Movil</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="2" Name="SupplierCellPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Movil...</TextBox>
-                                        <Label Grid.Column="0" Grid.Row="3" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Fax</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="3" Name="SupplierFax" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">Fax..</TextBox>
-                                        <Label Grid.Column="0" Grid.Row="4" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Email</Label>
-                                        <Grid Grid.Column="1" Grid.Row="4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Name="SupplierMailAddress"  Width="180"  HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">Correo electronico..</TextBox>
-                                            <Button Grid.Column="1" Name="SuppliersMailAddressButton" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchMainAddressCommand}" CommandParameter="SupplierCountryCodeSearch" >
-                                                <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                            </Button>
-                                            <Label Grid.Column="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Mapa</Label>
-
-                                            <Button Grid.Column="3" Name="MapSearch" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="SupplierNotesSearch" >
-                                                <Image Source="/ProvidersModule;component/Images/maps.png" Height="18"/>
-                                            </Button>
-
-                                        </Grid>
-
-                                        <Label Grid.Column="0" Grid.Row="5" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Web</Label>
-                                        <Grid Grid.Column="1" Grid.Row="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20*"></ColumnDefinition>
-                                                <ColumnDefinition Width="80*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Name="SupplierWebAddress" Width="290" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">http://www.youraddress.com</TextBox>
-                                            <Button Grid.Column="1" Name="SuppliersWebAddressButton" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="SupplierCountryCodeSearch" >
-                                                <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                            </Button>
-                                        </Grid>
-
                                     </Grid>
-
-                                    <Grid Grid.Column="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*"></ColumnDefinition>
-                                            <ColumnDefinition Width="90*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Notes</Label>
-                                        <Grid Grid.Column="1" Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20*"></ColumnDefinition>
-                                                <ColumnDefinition Width="80*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Name="SupplierNotes"  Width="280" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">Notes</TextBox>
-                                            <Button Grid.Column="1" Name="SuppliersNotesSearch"  Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="SupplierNotesSearch" >
-                                                <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                            </Button>
-                                        </Grid>
-
-                                        <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Persona</Label>
-                                        <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPersona"  Width="320" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Foreground="LightGray">Nombre</TextBox>
-                                        <Label Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Plazo entrega</Label>
-
-                                        <Grid  Grid.Column="1" Grid.Row="2">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Name="DeliveringTime" Width="40" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Foreground="LightGray">Dias</TextBox>
-                                            <ComboBox Grid.Column="1" Width="80" Height="20" HorizontalAlignment="Left">
-                                                <ComboBoxItem IsSelected="True">Dias</ComboBoxItem>
-                                                <ComboBoxItem>Semanas</ComboBoxItem>
-                                                <ComboBoxItem>Meses</ComboBoxItem>
-                                                <ComboBoxItem>Años</ComboBoxItem>
-                                            </ComboBox>
-                                        </Grid>
-                                        <Label Grid.Column="0" Grid.Row="3" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Fecha IVA</Label>
-                                        <DatePicker Grid.Column="1" Grid.Row="3"></DatePicker>
+                                    <Grid Grid.Column="3">
+                                        <StackPanel>
+                                            <Label FontWeight="Bold">Fecha de Baja</Label>
+                                            <DatePicker HorizontalAlignment="Left" 
+                                                      Name="FechaDeBaja" VerticalAlignment="Top" Height="40" SelectedDate="{Binding Path=SupplierDataObjectInfo.LeavingDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
                                     </Grid>
-
                                 </Grid>
-                            </StackPanel>
-                        </Grid>
 
+                                <!-- second row shall be divided in two columns, each columns contains a small grid -->
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10*"></ColumnDefinition>
+                                                <ColumnDefinition Width="90*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Dirección</Label>
+                                            <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical">
+                                                <TextBox Name="SupplierStreet" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Direction,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="40*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox Grid.Column="0" Name="SupplierCountryCode" Width="50" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique"  
+                                                         Text="{Binding Path=SupplierDataObjectInfo.CountryCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                    <Button  Grid.Column="1" Name="SuppliersCountryCodeButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
+                                                        <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                                    </Button>
+                                                    <TextBox Grid.Column="2" Name="SupplierCountry" Width="200" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                    <Button  Grid.Column="3" Name="SuppliersCountrySearchButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCommand}" CommandParameter="SupplierCountrySearch" >
+                                                        <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                                    </Button>
+                                                </Grid>
+
+                                                <TextBox Name="SupplierCity" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.City,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                                <TextBox Name="SupplierZip" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Zip,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="80*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+
+
+                                                    <TextBox Grid.Column="0" Name="SupplierProvinceCode" Width="60" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.ProvinceCode,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                                    <TextBox Grid.Column="1" Name="SupplierProvice" Width="230" HorizontalAlignment="Left" Height="20" FontStyle="Oblique"  Text="{Binding Path=SupplierDataObjectInfo.Province,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                                    <Button Grid.Column="2" Name="SuppliersProvinceCodeButton" HorizontalAlignment="Left"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
+                                                        <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                                    </Button>
+                                                </Grid>
+                                            </StackPanel>
+                                            <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12" >Telefono</Label>
+                                            <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Phone, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                            <Label Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Movil</Label>
+                                            <TextBox Grid.Column="1" Grid.Row="2" Name="SupplierCellPhone" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.MobilePhone, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                            <Label Grid.Column="0" Grid.Row="3" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Fax</Label>
+                                            <TextBox Grid.Column="1" Grid.Row="3" Name="SupplierFax" Width="330" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Fax, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                            <Label Grid.Column="0" Grid.Row="4" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Email</Label>
+                                            <Grid Grid.Column="1" Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Name="SupplierMailAddress"  Width="180"  HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                <Button Grid.Column="1" Name="SuppliersMailAddressButton" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchMainAddressCommand}" CommandParameter="SupplierCountryCodeSearch" >
+                                                    <Image Source="/ProvidersModule;component/Images/email.png" Height="18"/>
+                                                </Button>
+                                                <Label Grid.Column="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Mapa</Label>
+
+                                                <Button Grid.Column="3" Name="MapSearch" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchMapAddressCommand}" CommandParameter="{Binding Path=SupplierDataObjectInfo.MapDirection}" >
+                                                    <Image Source="/ProvidersModule;component/Images/maps.png" Height="18"/>
+                                                </Button>
+
+                                            </Grid>
+
+                                            <Label Grid.Column="0" Grid.Row="5" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Web</Label>
+                                            <Grid Grid.Column="1" Grid.Row="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="80*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Name="SupplierWebAddress" Width="290" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.WebSite,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                <Button Grid.Column="1" Name="SuppliersWebAddressButton" Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="{Binding Path=SupplierDataObjectInfo.WebSite,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" >
+                                                    <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                                </Button>
+                                            </Grid>
+
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10*"></ColumnDefinition>
+                                                <ColumnDefinition Width="90*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Notes</Label>
+                                            <Grid Grid.Column="1" Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="80*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Name="SupplierNotes"  Width="280" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Notes, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                                <Button Grid.Column="1" Name="SuppliersNotesSearch"  Height="20" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="SupplierNotesSearch" >
+                                                    <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                                </Button>
+                                            </Grid>
+
+                                            <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Persona</Label>
+                                            <TextBox Grid.Column="1" Grid.Row="1" Name="SupplierPersona"  Width="320" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Persona, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                            <Label Grid.Column="0" Grid.Row="2" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Plazo entrega</Label>
+
+                                            <Grid  Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Name="DeliveringTime" Width="40" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.DeliveringPeriod, PresentationTraceSources.TraceLevel=High}"></TextBox>
+                                                <ComboBox Grid.Column="1" Width="80" Height="20" HorizontalAlignment="Left">
+                                                    <ComboBoxItem IsSelected="True">Dias</ComboBoxItem>
+                                                    <ComboBoxItem>Semanas</ComboBoxItem>
+                                                    <ComboBoxItem>Meses</ComboBoxItem>
+                                                    <ComboBoxItem>Años</ComboBoxItem>
+                                                </ComboBox>
+                                            </Grid>
+                                            <Label Grid.Column="0" Grid.Row="3" Margin="10,0,0,0" FontFamily="Arial" FontStyle="Oblique" Foreground="Black" FontSize="12">Fecha IVA</Label>
+                                            <DatePicker Grid.Column="1" Grid.Row="3"></DatePicker>
+                                        </Grid>
+
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
                     </TabItem>
                     <TabItem Name="Contables" Header="Contables">
                         <Grid>
@@ -1334,6 +1367,13 @@
         </Grid>
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" ></GridSplitter>
 
+       
+        <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" mvvm1:RegionManager.RegionName="TabRegion">
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController />
+            </dragablz:TabablzControl.InterTabController>
+        </dragablz:TabablzControl>
+        <!--
         <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}">
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController />
@@ -1372,5 +1412,6 @@
             </TabItem>
 
         </dragablz:TabablzControl>
+        -->
     </Grid>
 </UserControl>

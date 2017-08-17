@@ -60,6 +60,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
             UserControl view = providerView as UserControl;
             view.DataContext = providerViewModule;
+            
             if (!ribbonbuttondictionary.ContainsKey(RecopilatorioEnumerations.EOpcion.rbtnProveedores))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();
@@ -71,7 +72,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (opcion.ToString() == parameter.ToString())
             {
                 TabItemLogic.CreateTabItemUserControlFromContainer(RecopilatorioEnumerations.EOpcion.rbtnProveedores, providerView);
-
+                providerViewModule.Navigate("SupplierView");
             }
         }
         #endregion

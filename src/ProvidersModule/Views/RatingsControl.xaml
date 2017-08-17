@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="ProvidersModule.View.RatingsControl"
+﻿<UserControl x:Class="ProvidersModule.Views.RatingsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:ProvidersModule.View"
+    xmlns:local="clr-namespace:ProvidersModule.Views"
     Height="Auto" Width="Auto">
     <StackPanel x:Name="spStars" Orientation="Horizontal">
     </StackPanel>

@@ -67,6 +67,7 @@ namespace KarveCommon.Services
                 this.eventAggregator.GetEvent<DataChangeEvent>().Subscribe(action);
             }
         }
+
     }
     /// <summary>
     ///  Customization of the service.

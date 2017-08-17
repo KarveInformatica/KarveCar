@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProvidersModule.View
+namespace ProvidersModule.Views
 {
     /// <summary>
-    /// Lógica de interacción para Contactos.xaml
+    /// Lógica de interacción para OrderCommunication.xaml
     /// </summary>
-    public partial class Contactos : UserControl
+    public partial class OrderCommunication : UserControl
     {
-        public Contactos()
+        public OrderCommunication()
         {
             InitializeComponent();
         }

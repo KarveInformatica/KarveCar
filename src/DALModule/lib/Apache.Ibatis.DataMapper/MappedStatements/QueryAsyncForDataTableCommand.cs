@@ -28,7 +28,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             {
                 throw new DataMapperException("Scope and mapper shall be set before executing");
             }
-            DataTable x = await _mapper.QueryAsyncForDataTableSession(this._statement, this._param, _scope);
+            DataTable x = await _mapper.QueryAsyncForDataTableSession(this._statement, this._param, _scope).ConfigureAwait(false);
             return x;
         }
     }

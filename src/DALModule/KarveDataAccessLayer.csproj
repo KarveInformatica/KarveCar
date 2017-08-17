@@ -77,6 +77,7 @@
     <Compile Include="DataObjects\SupplierInfoDataObject.cs" />
     <Compile Include="DataObjects\SupplierProvinceDataObject.cs" />
     <Compile Include="DataObjects\SupplierSummaryDataObject.cs" />
+    <Compile Include="DataObjects\SupplierTypeDataObject.cs" />
     <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="DataObjects\IncidenciaCliente.cs" />
     <Compile Include="DataObjects\IncidenciaContrato.cs" />

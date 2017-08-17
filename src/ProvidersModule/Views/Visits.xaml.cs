@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProvidersModule.View
+namespace ProvidersModule.Views
 {
     /// <summary>
-    /// Lógica de interacción para ExtendedContact.xaml
+    /// Lógica de interacción para Visits.xaml
     /// </summary>
-    public partial class ExtendedContact : UserControl
+    public partial class Visits : UserControl
     {
-        public ExtendedContact()
+        public Visits()
         {
             InitializeComponent();
         }
