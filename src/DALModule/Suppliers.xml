@@ -9,21 +9,17 @@
     <resultMap id="SupplierInfoResultMap" class="SupplierInfoDataObject" >
 	<result property="Direction"       		column="DIRECCION"/>
 	<result property="CountryCode" 		column="NACIOPER"/>
-	<result property="City" 			column="POBLACION"/>
+	<result property="City" 				column="POBLACION"/>
 	<result property="ProvinceCode" 		column="PROV"/>
-	<result property="Phone" 			column="TELEFONO"/>
+	<result property="Phone" 				column="TELEFONO"/>
 	<result property="Fax" 				column="FAX"/>
 	<result property="WebSite" 			column="INTERNET"/>
-	<result property="Email" 			column="EMAIL"/>
-	<result property="Notes" 			column="NOTAS"/>
+	<result property="Email" 				column="EMAIL"/>
+	<result property="Notes" 				column="NOTAS"/>
 	<result property="DeliveringPeriod" 		column="PLAZOENT"/>
 	<result property="DischargeDate" 		column="FALTA"/>
 	<result property="LeavingDate" 			column="FBAJA"/>
 	<result property="Observation" 			column="OBSERVA"/>
-	<result property="MobilePhone" 			column="MOVIL"/>
-	<result property="CommercialName" 		column="COMERCIAL"/>
-	<result property="Zip" 				column="CP"/>
-	<result property="Type" 			column="TIPO"/>	
 	</resultMap>
     <resultMap id="SupplierProvinceDataResultMap" class="SupplierProvinceDataObject">
 	<result property="SupplierName"  column="NUM_PROVEE" />
@@ -33,7 +29,14 @@
  <resultMap id="SupplierCountryDataResultMap" class="SupplierCountryDataObject">
 	<result property="Name"  		column="PAIS" />
 	<result property="CountryCode" 		column="SIGLAS" />
-   </resultMap>        
+   </resultMap>
+<resultMap id="SuppliersTypes" class = "SuppliersTypesDataObject">
+	\<result property="User" column = "USUARIO" />
+	\<result property="FailureAccount" column = "CTAGUASTO" />
+	\<result property="Number" column = "NUM_TIPOPROVE" />
+	\<result property="LastModification" column = "ULTIMODI" />
+	<result property="Name" column = "NOMBRE" />
+</resultMap>
 </resultMaps>
     <statements>
     <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
@@ -57,13 +60,9 @@
 	PLAZOENT, 
 	FALTA, 
 	FBAJA,
-	OBSERVA,
-	MOVIL,
-	PROVEE2.COMERCIAL,
-	CP,
-	TIPO
-	FROM PROVEE1, PROVEE2
-      where (PROVEE1.NUM_PROVEE = #value#) and (PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE)
+	OBSERVA
+	FROM PROVEE1
+      where NUM_PROVEE = #value#
     </select>
     <select id="GetProvinceForEachSupplier" resultMap="SupplierProvinceDataResultMap">
     SELECT NUM_PROVEE, PROVINCIA.PROV, PROVINCIA.CP
