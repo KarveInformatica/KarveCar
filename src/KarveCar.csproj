@@ -58,6 +58,10 @@
     <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Dragablz.dll</HintPath>
+    </Reference>
     <Reference Include="ExtendedGrid">
       <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
     </Reference>
@@ -129,7 +133,6 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\ConfiguracionCommand\CintaOpcionesCommand.cs" />
-    <Compile Include="Commands\Generic\BanksUpdateCommand.cs" />
     <Compile Include="Commands\Generic\RelayCommand.cs" />
     <Compile Include="Commands\Generic\CloseTabItemCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
     <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -406,6 +410,10 @@
     <ProjectReference Include="PaymentsTypeModule\PaymentTypeModule.csproj">
       <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
       <Name>PaymentTypeModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProvidersModule\ProvidersModule.csproj">
+      <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
+      <Name>ProvidersModule</Name>
     </ProjectReference>
     <ProjectReference Include="ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>

@@ -23,7 +23,13 @@
  ********************************************************************************/
 #endregion
 
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
+using System.Threading.Tasks;
+using Apache.Ibatis.DataMapper.Exceptions;
+using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
 
@@ -31,6 +37,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 {
     public partial class MappedStatement
     {
+        object singleDataTableReadWrite = new object();
         #region ExecuteQueryForDataTable
         /// <summary>
         /// Executes an SQL statement that returns DataTable.
@@ -45,6 +52,19 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 
             // return RaisePostEvent<DataTable, PostSelectEventArgs>(PostSelectEventKey, param, dataTable);
         }
+        /// <summary>
+        /// Execute asynchronously a query returning a data table.
+        /// </summary>
+        /// <param name="session">The session uses toe execute the statement</param>
+        /// <param name="parameterObject">The object used to set the parameters in the sql</param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<DataTable> ExecuteAsyncQueryForDataTable(ISession session, object parameterObject)
+        {
+            DataTable dt = await ExecuteAsync(PreSelectEventKey, PostSelectEventKey, session, parameterObject,
+                (r, p) => RunQueryForDataTable(r, session, parameterObject));
+            return dt;
+        }
 
         /// <summary>
         /// Runs the query for for data table.
@@ -55,35 +75,80 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <returns></returns>
         internal DataTable RunQueryForDataTable(RequestScope request, ISession session, object parameterObject)
         {
-            DataTable dataTable = new DataTable("DataTable");
-
-            using (IDbCommand command = request.IDbCommand)
+            DataTable dataTable = null;
+            // this allows thread safety.
+            lock (singleDataTableReadWrite)
             {
-                IDataReader reader = command.ExecuteReader();
-
-                try
+                using (IDbCommand command = request.IDbCommand)
                 {
-                    // Get Results
-                    while (reader.Read())
+                    IDataReader reader = null;
+
+                    try
                     {
-                        DataRow dataRow = dataTable.NewRow();
-                        dataTable.Rows.Add(dataRow);
-                        //resultStrategy.Process(request, ref reader, dataRow);
+                        reader = command.ExecuteReader();
+                        Random r = new Random();
+                        IResultMap resultMap = request.CurrentResultMap.ResolveSubMap(reader);
+                        string tableName="DataTable";
+                        if (resultMap.Id!=null)
+                        {
+                          tableName= tableName + resultMap.Id + r.Next().ToString()+ DateTime.Now.Millisecond.ToString();
+                        }
+                        else
+                        {
+                           tableName = tableName + r.Next().ToString() + DateTime.Now.Millisecond.ToString();
+                        }
+                        dataTable = new DataTable(tableName);
+
+                        foreach (ResultProperty info in resultMap.Properties)
+                        {
+                           DataColumn dc = new DataColumn(info.PropertyName);
+                           dataTable.Columns.Add(dc);
+                        }
+                        // Get Results
+
+                        while (reader.Read())
+                        {
+                            DataRow dataRow = dataTable.NewRow();
+                            dataTable.Rows.Add(dataRow);
+
+                            /*for (int index = 0; index < resultMap.Properties.Count; index++)
+                                {
+                                    ResultProperty property = resultMap.Properties[index];
+                                    string propertyName = property.ColumnName;
+                                  //  object value = property.GetValue(request, ref reader, propertyName);
+                                    // property.PropertyStrategy.Set(request, resultMap, property, ref dataRow, reader, null);
+                                }
+                                */
+                            resultStrategy.Process(request, ref reader, dataRow);
+                        }
                     }
-                }
-                finally
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
+                    catch (Exception e)
+               
+                    {
+                        if (reader != null)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                        }
+                        throw new DataMapperException(e.Message);
+                    }
+                    finally
+                    {
+                        if (reader != null)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                        }
+                       
+                    }
 
-                // do we need ??
-                //ExecuteDelayedLoad(request);
+                    // do we need ??
+                    //ExecuteDelayedLoad(request);
 
-                // do we need ??
-                //RetrieveOutputParameters(request, session, command, parameterObject);
+                    // do we need ??
+                    //RetrieveOutputParameters(request, session, command, parameterObject);
+                }
             }
-
             return dataTable;
         }
         #endregion

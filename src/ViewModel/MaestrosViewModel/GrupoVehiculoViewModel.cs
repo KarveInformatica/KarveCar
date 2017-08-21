@@ -130,7 +130,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         }
         #endregion
 
-        #region Métodos
         private DataTable CopyToTable(GenericObservableCollection obs)
         { // FIXME: possibly this method can be deleted, it is used generic method instead
             DataTable dataTable = new DataTable();

@@ -24,10 +24,13 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Reflection;
 using System.Text;
+using System.Web;
 using Apache.Ibatis.Common.Data;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities.Objects;
@@ -79,11 +82,27 @@ namespace Apache.Ibatis.DataMapper.Data
                 int tmpParam = (int)parameterObject;
 		        parameterObject = null;
 		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", Convert.ToString(tmpParam));
-
-
             }
-		   
-			if (log.IsDebugEnabled)
+		    if (parameterObject is string)
+		    {
+		        // we simply treat here the parameters replacing in the query.
+		        request.PreparedStatement.DbParametersName = new StringCollection();
+		        request.PreparedStatement.DbParameters = null;
+		        string tmpParam = (string) parameterObject;
+		        parameterObject = null;
+		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", "\'"+tmpParam+ "\'");
+            }
+		    if (parameterObject is IList<string>)
+		    {
+		        IList<string> tmpList = parameterObject as IList<string>;
+		        string tmp = tmpList[0];
+                for (int i = 1; i < tmpList.Count; ++i)
+                {
+                    tmp +=" AND " + tmpList[i];
+                }
+		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", tmp);
+            }
+		    if (log.IsDebugEnabled)
 			{
                 log.Debug("Preparing to apply parameter information to Statement Id: [" + statement.Id + "] based off of PreparedStatement: [" + request.IDbCommand.CommandText + "]");
 			}

@@ -38,6 +38,7 @@ using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.Statements;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -59,6 +60,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         private readonly IModelStore modelStore = null;
         private readonly IPreparedCommand preparedCommand = null;
         private readonly IResultStrategy resultStrategy = null;
+        private object newRaiseExecuteLock = new object();
         #endregion
 
         /// <summary>
@@ -206,9 +208,12 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// </summary>
         private void RaiseExecuteEvent()
         {
-            ExecuteEventArgs e = new ExecuteEventArgs();
-            e.StatementName = statement.Id;
-            Executed(this, e);
+            lock(newRaiseExecuteLock)
+            { 
+                ExecuteEventArgs e = new ExecuteEventArgs();
+                e.StatementName = statement.Id;
+                Executed(this, e);
+            }
         }
 
         /// <summary>
@@ -227,5 +232,27 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 
             return RaisePostEvent(postEvent, paramPreEvent, result, false);
         }
+
+        /// <summary>
+        /// Ensures all the related Execute methods are run in a consistent manner with pre and post events.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual async Task<T> ExecuteAsync<T>(object preEvent, object postEvent, ISession session, object parameterObject, Func<RequestScope, object, T> requestRunner)
+        {
+            RequestScope request = null;
+            object paramPreEvent = RaisePreEvent(preEvent, parameterObject);
+            lock (this)
+            {
+                request = statement.Sql.GetRequestScope(this, paramPreEvent, session);
+                preparedCommand.Create(request, session, Statement, paramPreEvent);
+            }
+            T result = await Task.Run(()=>requestRunner(request, paramPreEvent));
+            RaiseExecuteEvent();
+            T retValue = await Task.Run(() => RaisePostEventRun(this, postEvent, paramPreEvent, result, false));
+            return retValue;
+        }
+
+
+
     }
 }

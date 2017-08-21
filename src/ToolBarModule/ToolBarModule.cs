@@ -1,4 +1,7 @@
-﻿using Microsoft.Practices.Unity;
+﻿using DataAccessLayer;
+using KarveCommon.Services;
+using KarveCommon.Generic;
+using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
 
@@ -24,6 +27,8 @@ namespace ToolBarModule
         {
             RegisterViewsAndServices();
             _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
+          
+
 
         }
     }

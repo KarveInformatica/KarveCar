@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{59B99363-3561-4B1F-94FB-136BECBAA675}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ProvidersModule</RootNamespace>
+    <AssemblyName>ProvidersModule</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dragablz.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtendedGrid">
+      <HintPath>..\..\..\..\KarveSnapshots\KarveCar\lib\ExtendedGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="presentationframework.aero2" />
+    <Reference Include="presentationframework.aerolite" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="PresentationFramework.Luna" />
+    <Reference Include="PresentationFramework.Royale" />
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>lib\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>lib\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\EmailCommand.cs" />
+    <Compile Include="EventManager.cs" />
+    <Compile Include="IEventManager.cs" />
+    <Compile Include="IEventObserver.cs" />
+    <Compile Include="IProvidersView.cs" />
+    <Compile Include="IProvidersViewModel.cs" />
+    <Compile Include="ISupplierPayload.cs" />
+    <Compile Include="ProvidersModule.cs" />
+    <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
+    <Compile Include="ViewModels\SupplierDataPayload.cs" />
+    <Compile Include="ViewModels\TabViewModelBase.cs" />
+    <Compile Include="ViewModels\SupplierViewModel.cs" />
+    <Compile Include="Views\CloseTabAction.cs" />
+    <Compile Include="Views\Contactos.xaml.cs">
+      <DependentUpon>Contactos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelegationGridControl.xaml.cs">
+      <DependentUpon>DelegationGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExtendedContact.xaml.cs">
+      <DependentUpon>ExtendedContact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GenericGridView.xaml.cs">
+      <DependentUpon>GenericGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderCommunication.xaml.cs">
+      <DependentUpon>OrderCommunication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProvidersControl.xaml.cs">
+      <DependentUpon>ProvidersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RatingsControl.xaml.cs">
+      <DependentUpon>RatingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StarsControl.xaml.cs">
+      <DependentUpon>StarsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SupplierView.xaml.cs">
+      <DependentUpon>SupplierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Visits.xaml.cs">
+      <DependentUpon>Visits.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Contactos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DelegationGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExtendedContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GenericGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderCommunication.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProvidersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RatingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StarsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Visits.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\supplier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\maps.png" />
+    <Resource Include="Images\skype.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contablesicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\accomulated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\email.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pdficon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DALModule\KarveDataServices\KarveDataServices.csproj">
+      <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
+      <Name>KarveDataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KarveCommon\KarveCommon.csproj">
+      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
+      <Name>KarveCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\avatarNotKnown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\address.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\city.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\job.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\deputation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contacts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\visits.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\watch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\reseller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\catalunya.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\evaluation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\summary.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

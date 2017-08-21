@@ -24,15 +24,19 @@
  ********************************************************************************/
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.Common.Contracts;
 using Apache.Ibatis.Common.Contracts.Constraints;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.MappedStatements;
 using Apache.Ibatis.DataMapper.Model;
 using Apache.Ibatis.DataMapper.Session;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Apache.Ibatis.DataMapper
 {
@@ -44,7 +48,10 @@ namespace Apache.Ibatis.DataMapper
         private readonly IModelStore modelStore = null;
         private readonly ISessionStore sessionStore = null;
         private readonly ISessionFactory sessionFactory = null;
-
+        private object dataMapperLock = new object();
+        private object sessionLock = new object();
+        private object dataSetLock = new object();
+        private ConcurrentQueue<IMapperCommand> _batchCommands = new ConcurrentQueue<IMapperCommand>();
         /// <summary>
         /// Initializes a new instance of the <see cref="DataMapper"/> class.
         /// </summary>
@@ -103,7 +110,6 @@ namespace Apache.Ibatis.DataMapper
         {
             return QueryForMap(statementName, parameterObject, keyProperty, valueProperty);
         }
-
         /// <summary>
         /// Alias to QueryForMap, .NET spirit.
         /// Feature idea by Ted Husted.
@@ -143,6 +149,7 @@ namespace Apache.Ibatis.DataMapper
             }
         }
 
+
         /// <summary>
         /// Executes a Sql SELECT statement that returns data to populate
         /// a number of result objects.
@@ -161,8 +168,6 @@ namespace Apache.Ibatis.DataMapper
                 return statement.ExecuteQueryForList(sessionScope.Session, parameterObject);
             }
         }
-
-
         /// <summary>
         /// Executes the SQL and retuns all rows selected in a map that is keyed on the property named
         /// in the keyProperty parameter.  The value at each key will be the entire result object.
@@ -518,10 +523,236 @@ namespace Apache.Ibatis.DataMapper
 
         #endregion
 
+
+
+        #region Asynchonous Methods
+        /// <summary>
+        /// This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+        /// </summary>
+        /// <param name="statementId">The statement id.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <returns></returns>
+        public async Task<DataTable> QueryAsyncForDataTable(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+
+            lock (this)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject).ConfigureAwait(false);
+
+            // now we are sure that data is correct.
+            return dataTable;
+        }
+        /// <summary>
+        /// This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+        /// </summary>
+        /// <param name="statementId">The statement id.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <returns></returns>
+        public async Task<DataTable> QueryAsyncForDataTableSession(string statementId, object parameterObject, ISessionScope sessionScope)
+        {
+            IMappedStatement statement = null;
+            lock (this)
+            {
+                statement = GetMappedStatement(statementId);
+            }
+            DataTable dataTable = await statement.ExecuteAsyncQueryForDataTable(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            // now we are sure that data is correct.
+            return dataTable;
+        }
+
+
+        /// <summary>
+        /// This is 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="sessionScope"></param>
+        /// <returns></returns>
+        public async Task<T> QueryAsyncForObjectSession<T>(string statementId, object parameterObject, ISessionScope sessionScope)
+        {
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                statement = GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            T value = default(T);
+            if (list != null)
+            {
+                if (list.Count > 0)
+                {
+                    value = list[0];
+                }
+             
+            }
+            return value;
+        }
+
+
+        /// <summary>
+        /// Query async for dictionary.
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <param name="sessionScope"></param>
+        /// <returns></returns>
+        public async Task<IDictionary> QueryAsyncForDictionarySession(string statementId, object parameterObject, string keyProperty, ISessionScope sessionScope)
+        {
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                statement = GetMappedStatement(statementId);
+            }
+            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty).ConfigureAwait(false);
+            return dict;
+        }
+        /// <summary>
+        /// This is 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <returns></returns>
+        public async Task<T> QueryAsyncForObject<T>(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            return list[0];
+        }
+        /// <summary>
+        /// Query async for dictionary.
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <returns></returns>
+        public async Task<IDictionary> QueryAsyncForDictionary(string statementId, object parameterObject, string keyProperty)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock (this.dataMapperLock)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            IDictionary dict = await statement.ExecuteAsyncQueryForMap(sessionScope.Session, parameterObject, keyProperty).ConfigureAwait(false);
+            return dict;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <returns></returns>
+        public async Task<IList<T>> QueryAsyncForList<T>(string statementId, object parameterObject)
+        {
+            DataMapperLocalSessionScope sessionScope = null;
+            IMappedStatement statement = null;
+            lock (this)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+                statement = GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            // now we are sure that data is correct.
+            return list;
+        }
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="statementId"></param>
+        /// <returns></returns>
+        public async Task<IList<T>> QueryAsyncForListSession<T>(string statementId, object parameterObject, ISessionScope sessionScope)
+        {
+            IMappedStatement statement = null;
+            lock (this)
+            {
+                statement = GetMappedStatement(statementId);
+            }
+            IList<T> list = await statement.ExecuteAsyncQueryForList<T>(sessionScope.Session, parameterObject).ConfigureAwait(false);
+            // now we are sure that data is correct.
+            return list;
+        }
+        /// <summary>
+        /// Execute a batch of commands.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DataSet> ExecuteAsyncBatch()
+        {
+            DataSet set = null;
+            ISessionScope sessionScope = null;
+            // dataSetLock protects directly the dataset
+            lock (dataSetLock)
+            {
+                set = new DataSet();
+            }
+            // sessionLock protects the sessionScope.
+            lock (sessionLock)
+            {
+                sessionScope = new DataMapperLocalSessionScope(sessionStore, sessionFactory);
+            }
+            while (!this._batchCommands.IsEmpty)
+            {
+                IMapperCommand command = null;
+                /// if there is conflict
+                while (!this._batchCommands.TryDequeue(out command))
+                {
+                    Thread.Sleep(5000);
+                }
+                // sessionLock protects the sessionScope.
+                lock (sessionLock)
+                {
+                    command.Scope = sessionScope;
+                }
+                DataTable table = await command.ExecuteAsync().ConfigureAwait(false);
+                // dataSetLock protects directly the dataset
+                lock (dataSetLock)
+                {
+                    if (table != null)
+                    {
+                        if (!set.Tables.Contains(table.TableName))
+                            set.Tables.Add(table);
+                    }
+                
+                }
+            }
+            // sessionLock protects the sessionScope.
+            lock (sessionLock)
+            {
+                sessionScope.Dispose();
+            }
+            return set;
+        }
+
+        public void AddBatch(IMapperCommand mapper)
+        {
+            mapper.Mapper = this;
+            this._batchCommands.Enqueue(mapper);
+        }
+        #endregion
+        /// <summary>
+        /// This method gets the mapped statement from the model store given the statementId
+        /// </summary>
+        /// <param name="statementId">The statementId which is mapped the query</param>
+        /// <returns>The mapped statement</returns>
         private IMappedStatement GetMappedStatement(string statementId)
         {
             return modelStore.GetMappedStatement(statementId);
         }
+
 
     }
 }

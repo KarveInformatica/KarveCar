@@ -3074,6 +3074,22 @@
             <param name="configurationSetting"></param>
             <returns></returns>
         </member>
+        <member name="T:Apache.Ibatis.DataMapper.IMapperCommand">
+            <summary>
+             This simple interface is for batching multiple commands to a single connection.
+            </summary>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IMapperCommand.ExecuteAsync">
+            <summary>
+            Executing the command asynchrounsly
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Apache.Ibatis.DataMapper.MappedStatements.BaseQueryAsyncCommand">
+            <summary>
+             base class for each async command to be sent in the batch execution engine.
+            </summary>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement">
             <summary>
             Base implementation of <see cref="T:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement"/>.
@@ -3095,6 +3111,15 @@
             <param name="session">The session used to execute the statement.</param>
             <param name="parameterObject">The object used to set the parameters in the SQL.</param>
             <returns>The object</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteAsyncQueryForDataTable(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            Execute asynchronously a query returning a data table.
+            </summary>
+            <param name="session">The session uses toe execute the statement</param>
+            <param name="parameterObject">The object used to set the parameters in the sql</param>
+            <param name="fields"></param>
+            <returns></returns>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.RunQueryForDataTable(Apache.Ibatis.DataMapper.Scope.RequestScope,Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
             <summary>
@@ -3140,6 +3165,14 @@
             <param name="resultObject">A strongly typed collection of result objects.</param>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForList``1(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            Executes the SQL and retuns all rows selected. 
+            </summary>
+            <param name="session">The session used to execute the statement.</param>
+            <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+            <returns>A List of result objects.</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteAsyncQueryForList``1(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
             <summary>
             Executes the SQL and retuns all rows selected. 
             </summary>
@@ -3215,6 +3248,14 @@
              <param name="rowDelegate">A delegate called once per row in the QueryForDictionary method</param>
              <returns>A hashtable of object containing the rows keyed by keyProperty.</returns>
             <exception cref="T:Apache.Ibatis.DataMapper.Exceptions.DataMapperException">If a transaction is not in progress, or the database throws an exception.</exception>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteAsyncQueryForMap(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String)">
+            <summary>
+            Execute asynchronously a query returning a data table.
+            </summary>
+            <param name="session">The session uses toe execute the statement</param>
+            <param name="parameterObject">The object used to set the parameters in the sql</param>
+            <returns></returns>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForMapWithRowDelegate(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String,System.String,Apache.Ibatis.DataMapper.DictionaryRowDelegate)">
              <summary>
@@ -3360,6 +3401,38 @@
             <summary>
             Ensures all the related Execute methods are run in a consistent manner with pre and post events.
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement.ExecuteAsync``1(System.Object,System.Object,Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.Func{Apache.Ibatis.DataMapper.Scope.RequestScope,System.Object,``0})">
+            <summary>
+            Ensures all the related Execute methods are run in a consistent manner with pre and post events.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForDataTableCommand.#ctor(System.String,System.Object)">
+            <summary>
+            Constructor for query async data table command
+            </summary>
+            <param name="id">Statement id</param>
+            <param name="param">Parameters</param>
+        </member>
+        <member name="T:Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForObjectCommand`1">
+            <summary>
+            this implements an async command to be used within a single connection
+            </summary>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForObjectCommand`1.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="src">statement id</param>
+            <param name="param">statement parameter </param>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForObjectCommand`1.ExecuteAsync">
+            <summary>
+            Data table 
+            </summary>
+            <param name="mapper">Data mapper execute asynchronously a thing</param>
             <returns></returns>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.ResultStrategy.DataRowStrategy">
@@ -3725,6 +3798,18 @@
             <param name="cacheHit">Did the ResultObject come from cache?</param>
             <returns>Returns is used as the result object</returns>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.MappedStatementEventSupport.RaisePostEventRun``1(Apache.Ibatis.DataMapper.MappedStatements.MappedStatementEventSupport,System.Object,System.Object,``0,System.Boolean)">
+            <summary>
+             Raises a post event.
+            </summary>
+            <typeparam name="TType"></typeparam>
+            <param name="currentObject"></param>
+            <param name="key"></param>
+            <param name="parameterObject"></param>
+            <param name="resultObject"></param>
+            <param name="cacheHit"></param>
+            <returns></returns>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.ArgumentStrategy.ArgumentStrategyFactory">
             <summary>
             Factory to get <see cref="T:Apache.Ibatis.DataMapper.MappedStatements.ArgumentStrategy.IArgumentStrategy"/> implementation.
@@ -3947,6 +4032,14 @@
             </summary>
             <value>The model store.</value>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.CachingStatement.ExecuteAsyncQueryForDataTable(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            Executes an SQL statement that returns DataTable.
+            </summary>
+            <param name="session">The session used to execute the statement.</param>
+            <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+            <returns>The object</returns>
+        </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.CachingStatement.ExecuteQueryForDataTable(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
             <summary>
             Executes an SQL statement that returns DataTable.
@@ -4134,6 +4227,24 @@
             Based off of MappedStatement.Execute
             </remarks>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.CachingStatement.ExecuteAsyncQueryForList``1(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            This execute a query for list in a asynchronous way. 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="session"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.CachingStatement.ExecuteAsyncQueryForMap(Apache.Ibatis.DataMapper.Session.ISession,System.Object,System.String)">
+            <summary>
+            TODO: Needs to find a way to implment good this.
+            </summary>
+            <param name="session"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <returns></returns>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.DeleteMappedStatement">
             <summary>
             Summary description for DeleteMappedStatement.
@@ -4311,6 +4422,14 @@
             <param name="parameterObject">The object used to set the parameters in the SQL.</param>
             <param name="resultObject">A strongly typed collection of result objects.</param>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement.ExecuteAsyncQueryForList``1(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            Executes asynchrously the SQL and retuns all rows selected. 
+            </summary>
+            <param name="session">The session used to execute the statement.</param>
+            <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+            <returns>A List of result objects.</returns>
+        </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement.ExecuteQueryForList``1(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
             <summary>
             Executes the SQL and retuns all rows selected. 
@@ -4373,6 +4492,14 @@
             <returns></returns>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement.ExecuteQueryForDataTable(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
+            <summary>
+            Executes an SQL statement that returns DataTable.
+            </summary>
+            <param name="session">The session used to execute the statement.</param>
+            <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+            <returns>The object</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement.ExecuteAsyncQueryForDataTable(Apache.Ibatis.DataMapper.Session.ISession,System.Object)">
             <summary>
             Executes an SQL statement that returns DataTable.
             </summary>
@@ -9880,6 +10007,87 @@
             </summary>
             <value>The model store.</value>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDataTable(System.String,System.Object)">
+            <summary>
+            This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+            </summary>
+            <param name="statementId">The statement id.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDataTableSession(System.String,System.Object,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+            This method asynchrounsly queries for a data table. The columns of the datatable are the names of the mapped object.
+            </summary>
+            <param name="statementId">The statement id.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForObjectSession``1(System.String,System.Object,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+            This is 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="sessionScope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDictionarySession(System.String,System.Object,System.String,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+            Query async for dictionary.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <param name="sessionScope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForObject``1(System.String,System.Object)">
+            <summary>
+            This is 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForDictionary(System.String,System.Object,System.String)">
+            <summary>
+            Query async for dictionary.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForList``1(System.String,System.Object)">
+            <summary>
+             
+            </summary>
+            <param name="statementId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.QueryAsyncForListSession``1(System.String,System.Object,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+             
+            </summary>
+            <param name="statementId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.ExecuteAsyncBatch">
+            <summary>
+            Execute a batch of commands.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.DataMapper.GetMappedStatement(System.String)">
+            <summary>
+            This method gets the mapped statement from the model store given the statementId
+            </summary>
+            <param name="statementId">The statementId which is mapped the query</param>
+            <returns>The mapped statement</returns>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.Data.DBHelperParameterCache">
             <summary>
             DBHelperParameterCache provides functions to leverage a 
@@ -10824,6 +11032,12 @@
             <param name="parameterObject">The parameter object.</param>
             <returns>The number of rows effected.</returns>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.ExecuteAsyncBatch">
+            <summary>
+            Open a session / connectin and execute all batched command
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Apache.Ibatis.DataMapper.IDataMapper.Insert(System.String,System.Object)">
             <summary>
             Executes a Sql INSERT statement.
@@ -11084,6 +11298,59 @@
             <param name="statementId">The statement id.</param>
             <param name="parameterObject">The parameter object.</param>
             <returns>A DataTable</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForDataTable(System.String,System.Object)">
+            <summary>
+            Executes a SQL SELECT statement that returns  data 
+            to populate a DataTable.
+            If a resultMap is specified, the column name will be the result property name.
+            </summary>
+            <param name="statementId">The statement id.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <returns>A DataTable</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForDataTableSession(System.String,System.Object,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+             Execute in batch a SQL SELECT without reopening the connection.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="sessionScope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForObject``1(System.String,System.Object)">
+            <summary>
+            Execute a SQL SELECT asynchronously returing a data object where needed.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForDictionary(System.String,System.Object,System.String)">
+            <summary>
+            Execute a query returing a dictionary indexed for keyproperty in asynchronous way.
+            </summary>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="keyProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.AddBatch(Apache.Ibatis.DataMapper.IMapperCommand)">
+            <summary>
+             adding a batch of commands.
+            </summary>
+            <param name="mapper1">This is the mapper of commands.</param>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryAsyncForObjectSession``1(System.String,System.Object,Apache.Ibatis.DataMapper.Session.ISessionScope)">
+            <summary>
+             This enables the mapper to fetch an object withing
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="statementId"></param>
+            <param name="parameterObject"></param>
+            <param name="sessionScope"></param>
+            <returns></returns>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.IDataMapperAccessor">
             <summary>

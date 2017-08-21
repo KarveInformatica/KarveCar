@@ -72,6 +72,23 @@ namespace Apache.Ibatis.Common.Utilities.Objects.Members
 
         #endregion
 
+
+
+
+        private bool IsCompatibleType(Type sourceType, Type targetType)
+        {
+            // case of super object
+            if (targetType.FullName == "System.Object")
+            {
+                return true;
+            }
+            if (targetType.FullName == sourceType.FullName)
+            {
+                return true;
+            }
+            return false;
+
+        }
         #region ISet Members
         
         /// <summary>
@@ -81,16 +98,31 @@ namespace Apache.Ibatis.Common.Utilities.Objects.Members
 		/// <param name="value">Property value.</param>
 		public void Set(object target, object value)
 		{
-			if (_propertyInfo.CanWrite)
-			{
-				_propertyInfo.SetValue(target, value, null);
-			}
-			else
-			{
-				throw new NotSupportedException(
-					string.Format("Property \"{0}\" on type "
-					+ "{1} doesn't have a set method.", _propertyName, _targetType));
-			}
+            Type propertyType = _propertyInfo.PropertyType;
+            object targetValue = value;
+            if (value == null)
+            {
+                return;
+            }
+            if (value is string)
+            {
+                if (string.Empty == (string)value)
+                {
+                    return;
+                }
+                targetValue = value as string;
+            }
+            Type valueType = targetValue.GetType();
+            propertyType = _propertyInfo.PropertyType;
+            if ((_propertyInfo.CanWrite) && (IsCompatibleType( valueType, propertyType)))                {
+                    _propertyInfo.SetValue(target, targetValue, null);
+                }
+                else
+                {
+                    throw new NotSupportedException(
+                        string.Format("Property \"{0}\" on type "
+                        + "{1} doesn't have a set method.", _propertyName, _targetType));
+                }
 		}
 
         #endregion

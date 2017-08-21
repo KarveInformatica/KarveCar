@@ -30,6 +30,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper.Data;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Model;
@@ -51,6 +52,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         delegate T RequestRunner<T>(RequestScope requestScope, ISession session, object parameter, CacheKey cacheKey, out bool cacheHit);
 
         private readonly MappedStatement mappedStatement;
+	    private object delegateMappingObject = new object();
 
 		/// <summary>
         /// Event launch on Execute query
@@ -102,6 +104,60 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             get { return mappedStatement.ModelStore; }
 		}
 
+
+
+	    /// <summary>
+	    /// Executes an SQL statement that returns DataTable.
+	    /// </summary>
+	    /// <param name="session">The session used to execute the statement.</param>
+	    /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
+	    /// <returns>The object</returns>
+	    public async Task<DataTable> ExecuteAsyncQueryForDataTable(ISession session, object parameterObject)
+	    {
+	        RequestRunner<DataTable> requestRunner = null;
+            lock (delegateMappingObject)
+	        {
+                object dataTableLock = new object();
+	            requestRunner =
+	                delegate(RequestScope requestscope, ISession session2, object parameter, CacheKey cachekey,
+	                    out bool cachehit)
+	                {
+	                    cachehit = true;
+	                    DataTable dataTable = null;
+                        lock (dataTableLock)
+	                    {
+	                        dataTable = Statement.CacheModel[cachekey] as DataTable;
+                            if (dataTable == null)
+	                        {
+	                            cachehit = false;
+	                            dataTable = mappedStatement.RunQueryForDataTable(requestscope, session, parameter);
+	                            Statement.CacheModel[cachekey] = dataTable;
+	                        }
+	                    }
+	                    return dataTable;
+	                };
+	        }
+            DataTable table = await CachingAsyncStatementExecute<DataTable>(PreSelectEventKey, PostSelectEventKey, session, parameterObject, "ExecuteQueryForDataTable", requestRunner);
+            return table;
+        }
+
+        private async Task<T> CachingAsyncStatementExecute<T>(object preEvent, object postEvent, ISession session, object parameterObject, string baseCacheKey, RequestRunner<T> requestRunner)
+        {
+            T returnValue;
+            object paramPreEvent = RaisePreEvent(preEvent, parameterObject);
+
+            RequestScope requestScope = Statement.Sql.GetRequestScope(this, paramPreEvent, session);
+            mappedStatement.PreparedCommand.Create(requestScope, session, Statement, paramPreEvent);
+
+            CacheKey cacheKey = GetCacheKey(requestScope);
+            cacheKey.Update(baseCacheKey);
+            bool cacheHit = false;
+            T result = await  Task.Run(()=>requestRunner(requestScope, session, paramPreEvent, cacheKey, out cacheHit));
+            returnValue = await Task.Run(()=>RaisePostEventRun(this, postEvent, paramPreEvent, result, cacheHit));
+            return returnValue;
+        }
+
+
         /// <summary>
         /// Executes an SQL statement that returns DataTable.
         /// </summary>
@@ -110,6 +166,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// <returns>The object</returns>
         public DataTable ExecuteQueryForDataTable(ISession session, object parameterObject)
         {
+            
             RequestRunner<DataTable> requestRunner = delegate(RequestScope requestscope, ISession session2, object parameter, CacheKey cachekey, out bool cachehit)
             {
                 cachehit = true;
@@ -126,6 +183,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 
             return CachingStatementExecute(PreSelectEventKey, PostSelectEventKey, session, parameterObject, "ExecuteQueryForDataTable", requestRunner);
         }
+
 
 		/// <summary>
 		/// Executes the SQL and retuns all rows selected in a map that is keyed on the property named
@@ -520,6 +578,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         /// </remarks>
         private T CachingStatementExecute<T>(object preEvent, object postEvent, ISession session, object parameterObject, string baseCacheKey, RequestRunner<T> requestRunner)
         {
+            
             object paramPreEvent = RaisePreEvent(preEvent, parameterObject);
 
             RequestScope requestScope = Statement.Sql.GetRequestScope(this, paramPreEvent, session);
@@ -532,6 +591,47 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             T result = requestRunner(requestScope, session, paramPreEvent, cacheKey, out cacheHit);
 
             return RaisePostEvent(postEvent, paramPreEvent, result, cacheHit);
+        }
+        /// <summary>
+        /// This execute a query for list in a asynchronous way. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="session"></param>
+        /// <param name="parameterObject"></param>
+        /// <returns></returns>
+        public async Task<IList<T>> ExecuteAsyncQueryForList<T>(ISession session, object parameterObject)
+        {
+            RequestRunner<IList<T>> requestRunner = null;
+            object requestRunnerLock = new object();
+            lock (requestRunnerLock)
+            {
+                requestRunner = delegate(RequestScope requestScope, ISession session2, object parameter,
+                    CacheKey cacheKey, out bool cacheHit)
+                {
+                    cacheHit = true;
+                    IList<T> list = Statement.CacheModel[cacheKey] as IList<T>;
+                    if (list == null)
+                    {
+                        cacheHit = false;
+                        list = mappedStatement.RunQueryForList<T>(requestScope, session, parameter, null, null);
+                        Statement.CacheModel[cacheKey] = list;
+                    }
+                    return list;
+                };
+            }
+            IList<T> returnValue = await CachingAsyncStatementExecute(PreSelectEventKey, PostSelectEventKey, session, parameterObject, "ExecuteQueryForList", requestRunner);
+            return returnValue;
+        }
+        /// <summary>
+        /// TODO: Needs to find a way to implment good this.
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="parameterObject"></param>
+        /// <param name="keyProperty"></param>
+        /// <returns></returns>
+        public Task<IDictionary> ExecuteAsyncQueryForMap(ISession session, object parameterObject, string keyProperty)
+        {
+            throw new NotImplementedException();
         }
     }
 }

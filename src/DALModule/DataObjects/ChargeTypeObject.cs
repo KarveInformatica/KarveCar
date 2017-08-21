@@ -3,15 +3,15 @@
     public class ChargeTypeObject: BaseAuxDataObject
     {
        
-        private object numero;
+        private object _numero;
         private object _cuenta;
 
         public object Numero
         {
-            get { return numero; }
+            get { return _numero; }
             set
             {
-                numero =  value;
+                _numero =  value;
                 OnPropertyChanged("Numero");
             }
         }

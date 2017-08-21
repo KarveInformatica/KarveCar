@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using KarveCommon.Command;
 using KarveCommon.Services;
+using KarveDataServices;
 
 namespace ToolBarModule.Command
 {
@@ -9,19 +10,19 @@ namespace ToolBarModule.Command
     /// </summary>
     public class SaveDataLayerCommand : AbstractCommand
     {
-        private IDalLocator dalLocator;
-        private ICareKeeperService careKeeperService;
-        private DataPayLoad dataPayLoad;
+        private IDataServices _dataServices;
+        private ICareKeeperService _careKeeperService;
+        private DataPayLoad _dataPayLoad;
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
         /// allows the do undo of the saving.
         /// </summary>
         /// <param name="dalLocator">Database AccessLayer Inteface API</param>
         /// <param name="careKeeperService">Carekeeper Do/Undo mechanism</param>
-        public SaveDataLayerCommand(IDalLocator dalLocator, ICareKeeperService careKeeperService)
+        public SaveDataLayerCommand(IDataServices dataServices, ICareKeeperService careKeeperService)
         {
-            this.dalLocator = dalLocator;
-            this.careKeeperService = careKeeperService;
+            this._dataServices = dataServices;
+            this._careKeeperService = careKeeperService;
         }
         /// <summary>
         /// Execute the command and save to the careKeeper.
@@ -30,7 +31,7 @@ namespace ToolBarModule.Command
         public void Do(object parameter)
         {
             CommandWrapper cw = new CommandWrapper(this, parameter);
-            this.careKeeperService.Do(cw);
+            this._careKeeperService.Do(cw);
         }
         /// <summary>
         ///  Execute the save command.
@@ -40,15 +41,7 @@ namespace ToolBarModule.Command
         {
             if (parameter != null)
             {
-                dataPayLoad = parameter as DataPayLoad;
-                if ((dataPayLoad == null) || (dataPayLoad.DataObjectName == null))
-                    throw new DataLayerExecutionException();
-
-                IDalObject dalObject = dalLocator.FindDalObject(dataPayLoad.DataObjectName);
-                if (dalObject != null)
-                {
-                    dalObject.StoreCollection(dataPayLoad.CollectionData);
-                }
+            
             }
         }
         /// <summary>
@@ -57,17 +50,6 @@ namespace ToolBarModule.Command
         /// <returns>true if the execution has been correct</returns>
         public override bool UnExecute()
         {
-            IDalObject dalObject = dalLocator.FindDalObject(dataPayLoad.DataObjectName);
-            try
-            {
-                dalObject.RemoveCollection(dataPayLoad.CollectionData);
-            }
-            catch (DataLayerExecutionException e)
-            {
-                // just for now we change the exception path
-                // an exception is something special
-                return false;
-            }
             return true;
         }
     }

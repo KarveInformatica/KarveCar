@@ -16,9 +16,13 @@ namespace TabControlRegion.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
+        public void ProcessResult(NavigationResult res)
+        {
+
+        }
         void Navigate(string navigationPath)
         {
-            _regionManager.RequestNavigate("TabRegion", navigationPath);
+            _regionManager.RequestNavigate("TabRegion", navigationPath, ProcessResult);
         }
     }
 }

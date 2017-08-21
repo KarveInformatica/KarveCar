@@ -1830,6 +1830,19 @@
             Sets default values for connecting to SQL Server.
             </summary>
         </member>
+        <member name="T:Apache.Ibatis.Common.Data.SysbaseDataProvider">
+            <summary>
+            This is the sysbase data provider for the mapper. Currently is supported sysbase 16. 
+            </summary>
+        </member>
+        <member name="M:Apache.Ibatis.Common.Data.SysbaseDataProvider.#ctor">
+            constructor
+        </member>
+        <member name="M:Apache.Ibatis.Common.Data.SysbaseDataProvider.Initialize">
+            <summary>
+             Currently no special initialization is needed.
+            </summary>
+        </member>
         <member name="T:Apache.Ibatis.Common.Exceptions.ConfigurationException">
             <summary>
             A ConfigurationException is thrown when an error has occured in the configuration process.

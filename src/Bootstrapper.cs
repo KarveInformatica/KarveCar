@@ -6,6 +6,12 @@ using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
 using KarveDataServices;
+using Prism.Mvvm;
+using Prism.Regions;
+using KarveCommon.Generic;
+using System.Reflection;
+using System.Globalization;
+using System;
 
 namespace KarveCar
 {
@@ -26,8 +32,10 @@ namespace KarveCar
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
+            catalog.AddModule(typeof(ProvidersModule.ProviderModule));
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
+           
         }
 
         /// <summary>
@@ -35,14 +43,30 @@ namespace KarveCar
         /// </summary>
         protected override void ConfigureContainer()
         {
+            base.ConfigureContainer();
             // The dal service is used to access to the database
             Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager());
             // The carekeeper or undo service is used to store the last action and do/redo an action
             Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
-            // the configuraion service is used to do all the global actions: saving the app config, exiting, etc.
-            base.ConfigureContainer();
-        }
+            Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
+            Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
 
+        }
+        protected override void ConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(x =>
+            {
+                var viewName = x.FullName;
+                viewName = viewName.Replace(".Views.", ".ViewModels.");
+                var viewAssemblyName = x.GetTypeInfo().Assembly.FullName;
+                var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";
+                var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}{1}, {2}", viewName, suffix, viewAssemblyName);
+                return Type.GetType(viewModelName);
+            });
+            ViewModelLocationProvider.SetDefaultViewModelFactory(type => Container.Resolve(type));
+
+        }
         protected override void InitializeShell()
         {
             // The main window and configuration services shall be injected just here 

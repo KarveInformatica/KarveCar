@@ -26,6 +26,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.DataMapper.Exceptions;
 using Apache.Ibatis.DataMapper.Scope;
@@ -35,6 +36,7 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
 {
     public partial class MappedStatement
     {
+        private object queryForMapLock = new object();
         /// <summary>
         /// Executes the SQL and retuns all rows selected in a map that is keyed on the property named
         /// in the keyProperty parameter.  The value at each key will be the value of the property specified
@@ -92,6 +94,18 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         }
 
         /// <summary>
+        /// Execute asynchronously a query returning a data table.
+        /// </summary>
+        /// <param name="session">The session uses toe execute the statement</param>
+        /// <param name="parameterObject">The object used to set the parameters in the sql</param>
+        /// <returns></returns>
+        public virtual async Task<IDictionary> ExecuteAsyncQueryForMap(ISession session, object parameterObject, string keyProperty)
+        {
+             IDictionary dict = await ExecuteAsync(PreSelectEventKey, PostSelectEventKey, session, parameterObject, 
+                                      (r, p) => RunQueryForMap(r, session, p, keyProperty, null, null));
+            return dict;
+        }
+        /// <summary>
         /// Runs a query with a custom object that gets a chance 
         /// to deal with each row as it is processed.
         /// </summary>
@@ -133,50 +147,61 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             string valueProperty,
             DictionaryRowDelegate rowDelegate)
         {
-            IDictionary map = new Hashtable();
-
-            using (IDbCommand command = request.IDbCommand)
+            IDictionary map = null;
+            lock (this.queryForMapLock)
             {
-                IDataReader reader = command.ExecuteReader();
-                try
+
+
+                map = new Hashtable();
+
+                using (IDbCommand command = request.IDbCommand)
                 {
 
-                    if (rowDelegate == null)
+                    IDataReader reader = command.ExecuteReader();
+                    try
                     {
-                        while (reader.Read())
-                        {
-                            object obj = resultStrategy.Process(request, ref reader, null);
-                            object key = ObjectProbe.GetMemberValue(obj, keyProperty, request.DataExchangeFactory.AccessorFactory);
-                            object value = obj;
-                            if (valueProperty != null)
-                            {
-                                value = ObjectProbe.GetMemberValue(obj, valueProperty, request.DataExchangeFactory.AccessorFactory);
-                            }
-                            map.Add(key, value);
-                        }
-                    }
-                    else
-                    {
-                        while (reader.Read())
-                        {
-                            object obj = resultStrategy.Process(request, ref reader, null);
-                            object key = ObjectProbe.GetMemberValue(obj, keyProperty, request.DataExchangeFactory.AccessorFactory);
-                            object value = obj;
-                            if (valueProperty != null)
-                            {
-                                value = ObjectProbe.GetMemberValue(obj, valueProperty, request.DataExchangeFactory.AccessorFactory);
-                            }
-                            rowDelegate(key, value, parameterObject, map);
 
+                        if (rowDelegate == null)
+                        {
+                            while (reader.Read())
+                            {
+                                object obj = resultStrategy.Process(request, ref reader, null);
+                                object key = ObjectProbe.GetMemberValue(obj, keyProperty,
+                                    request.DataExchangeFactory.AccessorFactory);
+                                object value = obj;
+                                if (valueProperty != null)
+                                {
+                                    value = ObjectProbe.GetMemberValue(obj, valueProperty,
+                                        request.DataExchangeFactory.AccessorFactory);
+                                }
+                                map.Add(key, value);
+                            }
+                        }
+                        else
+                        {
+                            while (reader.Read())
+                            {
+                                object obj = resultStrategy.Process(request, ref reader, null);
+                                object key = ObjectProbe.GetMemberValue(obj, keyProperty,
+                                    request.DataExchangeFactory.AccessorFactory);
+                                object value = obj;
+                                if (valueProperty != null)
+                                {
+                                    value = ObjectProbe.GetMemberValue(obj, valueProperty,
+                                        request.DataExchangeFactory.AccessorFactory);
+                                }
+                                rowDelegate(key, value, parameterObject, map);
+
+                            }
                         }
                     }
+                    finally
+                    {
+                        reader.Close();
+                        reader.Dispose();
+                    }
+                    ExecuteDelayedLoad(request);
                 }
-                finally
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
-                ExecuteDelayedLoad(request);
             }
             return map;
 

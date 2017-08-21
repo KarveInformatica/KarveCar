@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="Suppliers" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <resultMaps>
+    <resultMap id="SupplierSummaryResultMap"  class="SupplierSummaryDataObject" >
+      <result property="Numero"     		column="NUM_PROVEE"/>
+      <result property="Nombre"    		column="NOMBRE"/>
+      <result property="Nif"    			column="NIF"/>
+    </resultMap>
+    <resultMap id="SupplierInfoResultMap" class="SupplierInfoDataObject" >
+	<result property="Direction"       		column="DIRECCION"/>
+	<result property="CountryCode" 		column="NACIOPER"/>
+	<result property="City" 				column="POBLACION"/>
+	<result property="ProvinceCode" 		column="PROV"/>
+	<result property="Phone" 				column="TELEFONO"/>
+	<result property="Fax" 				column="FAX"/>
+	<result property="WebSite" 			column="INTERNET"/>
+	<result property="Email" 				column="EMAIL"/>
+	<result property="Notes" 				column="NOTAS"/>
+	<result property="DeliveringPeriod" 		column="PLAZOENT"/>
+	<result property="DischargeDate" 		column="FALTA"/>
+	<result property="LeavingDate" 			column="FBAJA"/>
+	<result property="Observation" 			column="OBSERVA"/>
+	</resultMap>
+    <resultMap id="SupplierProvinceDataResultMap" class="SupplierProvinceDataObject">
+	<result property="SupplierName"  column="NUM_PROVEE" />
+	<result property="Province"  		column="PROV" />
+	<result property="ProvinceCode"  		column="CP" />
+   </resultMap>
+ <resultMap id="SupplierCountryDataResultMap" class="SupplierCountryDataObject">
+	<result property="Name"  		column="PAIS" />
+	<result property="CountryCode" 		column="SIGLAS" />
+   </resultMap>
+<resultMap id="SuppliersTypes" class = "SuppliersTypesDataObject">
+	\<result property="User" column = "USUARIO" />
+	\<result property="FailureAccount" column = "CTAGUASTO" />
+	\<result property="Number" column = "NUM_TIPOPROVE" />
+	\<result property="LastModification" column = "ULTIMODI" />
+	<result property="Name" column = "NOMBRE" />
+</resultMap>
+</resultMaps>
+    <statements>
+    <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
+	SELECT NUM_PROVEE, 
+		    NOMBRE, 
+		    NIF 
+		    FROM PROVEE1
+    </select>
+    <select id="GetSupplierInfos" parameterClass="String" resultMap="SupplierInfoResultMap">
+      SELECT
+	DIRECCION, 
+	NACIOPER, 
+	POBLACION,
+	PROV,
+	TELEFONO,
+	FAX,
+	EMAIL,
+	INTERNET,
+	NOTAS,
+	PERSONA,
+	PLAZOENT, 
+	FALTA, 
+	FBAJA,
+	OBSERVA
+	FROM PROVEE1
+      where NUM_PROVEE = #value#
+    </select>
+    <select id="GetProvinceForEachSupplier" resultMap="SupplierProvinceDataResultMap">
+    SELECT NUM_PROVEE, PROVINCIA.PROV, PROVINCIA.CP
+	FROM PROVEE1, PROVINCIA
+	WHERE PROVEE1.PROV = PROVINCIA.CP
+    </select>
+<select id="GetCountryForSingleSupplier" parameterClass="String" resultMap="SupplierCountryDataResultMap">
+    SELECT SIGLAS, PAIS
+	FROM PAIS
+	WHERE SIGLAS = #value#
+    </select>
+</statements>
+</sqlMap>

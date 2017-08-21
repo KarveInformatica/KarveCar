@@ -81,52 +81,6 @@ namespace DataAccessLayer
             }
             int ret = DataMapper.Update("Auxiliares.UpdateBanks", current);
         }
-        /// <summary>
-        ///  This returns the number of items of an observable collection.
-        /// </summary>
-        /// <returns></returns>
-        public override GenericObservableCollection GetItems()
-        {
-            ObservableCollection<BancoDataObject> dataCollection = new ObservableCollection<BancoDataObject>();
-            QueryCopy(DataMapper, out dataCollection);
-            // filter repeated data
-            ObservableCollection<object> abstractCollection = new ObservableCollection<object>();
-            GenericObservableCollection generic = new GenericObservableCollection();
-            generic.GenericObsCollection = abstractCollection;
-            return generic;
-        }
-        /// <summary>
-        ///  This updates an observable collection to database.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection"></param>
-        public override void StoreCollection<T>(ObservableCollection<T> collection)
-        {
-            IList<BancoDataObject> current = new List<BancoDataObject>();
-            foreach (var bank in collection)
-            {
-                // ok in this case. the type safety is wrong
-                BancoDataObject tmpObject = bank as BancoDataObject;
-                current.Add(tmpObject);
-            }
-            base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
-           
-        }
-        public override void RemoveCollection<T>(ObservableCollection<T> collection)
-        {
-            IList<BancoDataObject> current = new List<BancoDataObject>();
-            foreach (var bank in collection)
-            {
-                BancoDataObject tmpObject = bank as BancoDataObject;
-                current.Add(tmpObject);
-            }
-            base.StoreCollection<BancoDataObject>("Auxiliares.UpdateBanks", current);
-        }
-        public override void SetItems(GenericObservableCollection collection)
-        {
-            ObservableCollection<object> abstractCollection = collection.GenericObsCollection;
-            StoreCollection(abstractCollection);
-        }
-    }
+       }
 
 }
