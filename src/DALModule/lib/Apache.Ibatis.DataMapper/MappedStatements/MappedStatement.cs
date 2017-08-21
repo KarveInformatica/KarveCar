@@ -27,12 +27,7 @@
 #region Using
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
-using Apache.Ibatis.DataMapper.Model.Events;
-using Apache.Ibatis.DataMapper.Exceptions;
-using Apache.Ibatis.DataMapper.TypeHandlers;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.DataMapper.Data;

@@ -63,7 +63,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                TabItemLogic.CreateTabItemUserControlFromContainer(EOpcion.rbtnFormasCobroClientes, paymentView);
+                TabItemLogic.CreateTabItemUserControl(EOpcion.rbtnFormasCobroClientes, paymentView);
             
             }
         }

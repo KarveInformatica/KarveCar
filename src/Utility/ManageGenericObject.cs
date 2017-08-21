@@ -21,7 +21,7 @@ namespace KarveCar.Utility
         /// <param name="templateinfodb"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static GenericObservableCollection  GetObservableCollectionFromSADataReader(SADataReader dr, List<TemplateInfoDB> templateinfodb, object obj)
+        public static GenericObservableCollection GetObservableCollectionFromSADataReader(SADataReader dr, List<TemplateInfoDB> templateinfodb, object obj)
         {   
             //Se crea el GenericObservableCollection auxiliar que se devolverá, donde se irá añadiendo la info recuperada de la BBDD (SADataReader dr)
             GenericObservableCollection auxobscollection = new GenericObservableCollection();
@@ -46,9 +46,9 @@ namespace KarveCar.Utility
                                     case ETiposDatoColumnaDB.DBstring:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetString(dr[item.nombrecolumnadb] as string));
                                         break;
-                                    //case ETiposDatoColumnaDB.DBchar:
-                                    //    PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetChar(dr[item.nombrecolumnadb] as char));
-                                    //    break;
+                                    case ETiposDatoColumnaDB.DBchar:
+                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetChar(dr[item.nombrecolumnadb] as char?));
+                                        break;
                                     case ETiposDatoColumnaDB.DBbool:
                                         break;
                                     case ETiposDatoColumnaDB.DBbyte: //byte en C# = tinyint en la DB
@@ -225,7 +225,7 @@ namespace KarveCar.Utility
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static DataTable ToDataTable<T>(GenericObservableCollection collection)
+        public static DataTable ObsCollectionToDataTable<T>(GenericObservableCollection collection)
         {
             DataTable datatable = new DataTable();
             Type type = typeof(T);
@@ -260,8 +260,36 @@ namespace KarveCar.Utility
 
                 datarow.EndEdit();
                 datatable.Rows.Add(datarow);
+                datatable.AcceptChanges();
             }
             return datatable;
+        }
+
+        /// <summary>
+        /// Convierte un DataRowView en un object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        public static T DataRowViewToObject<T>(DataRowView datarowview) where T : new()
+        {
+            T obj = new T();
+            if (datarowview != null)
+            {
+                // go through each datacolumn
+                foreach (DataColumn datacolumn in datarowview.DataView.Table.Columns)
+                {
+                    // find the property for the column
+                    PropertyInfo property = obj.GetType().GetProperty(datacolumn.ColumnName);
+
+                    // if exists, set the value
+                    if (property != null && datarowview.Row[datacolumn] != DBNull.Value)
+                    {
+                        property.SetValue(obj, datarowview.Row[datacolumn], null);
+                    }
+                }
+            }
+            return obj;                
         }
     }
 }

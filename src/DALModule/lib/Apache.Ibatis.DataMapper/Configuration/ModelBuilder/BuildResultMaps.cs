@@ -25,7 +25,6 @@
 
 using Apache.Ibatis.DataMapper.Configuration.Serializers;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using Apache.Ibatis.Common.Configuration;
 
 namespace Apache.Ibatis.DataMapper.Configuration
 {

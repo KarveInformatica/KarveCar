@@ -1,6 +1,4 @@
-﻿using DataAccessLayer;
-using KarveCommon.Services;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
 

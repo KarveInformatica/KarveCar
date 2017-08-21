@@ -20,13 +20,14 @@ namespace KarveCar.Utility
             try
             {
                 TabItem tabitem = ((MainWindow)Application.Current.MainWindow).tbControl.SelectedItem as TabItem;
-                opcion = tabitemdictionary.Where(t => t.Key.ToString() == tabitem.Name.ToString()).FirstOrDefault().Key;
+                opcion = tabitemdictionary.FirstOrDefault(t => t.Key.ToString() == tabitem.Name.ToString()).Key;
                 return opcion;
             }
             catch (Exception) { }
 
             return opcion;
         }
+
         public static TabControl GetCurrentTabControl()
         {
             TabControl ctrl = null;

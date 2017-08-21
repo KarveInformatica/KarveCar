@@ -14,15 +14,15 @@ namespace KarveCar.Model.Sybase
             switch (e.NativeError)
             {
                 case -83: //Specified DataBase not found
-                    //Comprobrar que el DataBaseName en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobrar que el DataBaseName en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError83);
                     break;
                 case -100: //DataBase Server not found
-                    //Comprobar que EngineName o Host en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobar que EngineName o Host en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError100);
                     break;
                 case -103: //Invalid User Id or Password
-                    //Comprobar que el user/pass en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobar que el user/pass en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError103);
                     break;
                 case -131: //Syntax Error in SQL sentence

@@ -1,5 +1,4 @@
-﻿using System;
-using KarveCar.Model.Generic;
+﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 

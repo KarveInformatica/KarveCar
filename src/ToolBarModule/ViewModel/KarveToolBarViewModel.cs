@@ -1,10 +1,8 @@
-﻿using DataAccessLayer;
-using KarveCommon.Services;
+﻿using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
-using ToolBarModule.Command;
 
 namespace ToolBarModule
 {

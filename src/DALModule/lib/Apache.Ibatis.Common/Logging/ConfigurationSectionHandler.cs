@@ -30,7 +30,6 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Xml;
 using Apache.Ibatis.Common.Logging.Impl;
-using ConfigurationException = Apache.Ibatis.Common.Exceptions.ConfigurationException;
 
 namespace Apache.Ibatis.Common.Logging
 {

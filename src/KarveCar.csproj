@@ -136,6 +136,8 @@
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\ShowTipoVehiculoUserControlCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\ShowGrupoVehiculoUserControlCommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
@@ -213,6 +215,9 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TipoVehiculoDataGridUserControl.xaml.cs">
+      <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,6 +247,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TabItemUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TipoVehiculoDataGridUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

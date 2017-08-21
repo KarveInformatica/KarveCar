@@ -24,16 +24,9 @@
 #endregion
 
 #region Using
-
-using System.Collections.Specialized;
-using System.Xml;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
-using Apache.Ibatis.Common.Xml;
-using Apache.Ibatis.DataMapper.Scope;
-using Apache.Ibatis.DataMapper.DataExchange;
-
 #endregion 
 
 

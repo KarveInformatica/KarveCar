@@ -29,8 +29,6 @@ using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config;
 using Apache.Ibatis.DataMapper.Model;
 using Apache.Ibatis.DataMapper.Model.Statements;
-using Apache.Ibatis.DataMapper.Scope;
-
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

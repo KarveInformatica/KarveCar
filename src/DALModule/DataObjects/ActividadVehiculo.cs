@@ -1,8 +1,4 @@
-﻿using KarveCar.Model.Generic;
-using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
-
-namespace DataAccessLayer.DataObjects
+﻿namespace DataAccessLayer.DataObjects
 {
     public class ActividadVehiculo : BaseAuxDataObject
     {

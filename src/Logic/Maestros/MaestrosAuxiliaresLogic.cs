@@ -4,8 +4,8 @@ using KarveCar.Model.SQL;
 using KarveCar.Utility;
 using KarveCar.View;
 using KarveCommon.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
@@ -19,22 +19,22 @@ namespace KarveCar.Logic.Maestros
         /// no se carga de nuevo, simplemente se establece el foco en ese TabItem.
         /// </summary>
         /// <param name="opcion"></param>
-        public static void PrepareTabItemDataGrid(EOpcion opcion)
+        public static async Task PrepareTabItemDataGrid(EOpcion opcion)
         {
-            if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
+            if (tabitemdictionary.Count(p => p.Key == opcion) == 0)
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params                
                 // TODO: remove all this make in a way that it is using all the aux.
-                string nombretabladb = ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.nombretabladb;
+                string nombretabladb = ribbonbuttondictionary.FirstOrDefault(z => z.Key == opcion).Value.nombretabladb;
                 string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
-                GenericObservableCollection genericobscollection = GetValuesFromDBGeneric.GetValuesFromDB(opcion, sql);
+                GenericObservableCollection genericobscollection = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDBObsCollection(opcion, sql));
 
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection           
                 CreateTabItemDataGrid(opcion, genericobscollection);                
             }
             else
             {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
+                tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.TabItem.Focus();
             }
         }
 

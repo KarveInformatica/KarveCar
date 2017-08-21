@@ -11,7 +11,7 @@
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
                 mc:Ignorable="d"
-                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
+                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png" WindowState="Maximized">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
@@ -1814,14 +1814,14 @@
             </r:Ribbon>
             <!--</ScrollViewer>-->
             
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-                    <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
-                    <ScrollViewer Grid.Row="1">
-                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
-                        </TabControl>
-                    </ScrollViewer>
-                </Grid>
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
+                <ScrollViewer Grid.Row="1">
+                    <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+                        <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
+                            <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                            </TabControl>
+                    </Grid>
+                </ScrollViewer>
         </DockPanel>
     </Grid>
 </r:RibbonWindow>

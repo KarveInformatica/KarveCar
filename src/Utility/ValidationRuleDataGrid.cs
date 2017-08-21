@@ -1,13 +1,12 @@
 ﻿using KarveCar.Properties;
+using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-
 
 namespace KarveCar.Utility
 {

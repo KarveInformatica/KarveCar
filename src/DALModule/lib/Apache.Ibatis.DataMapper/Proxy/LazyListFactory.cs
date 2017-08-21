@@ -23,9 +23,7 @@
  ********************************************************************************/
 #endregion
 
-using System;
 using System.Collections;
-using System.Text;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.MappedStatements;
 

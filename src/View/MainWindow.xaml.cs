@@ -1,13 +1,9 @@
 ﻿using KarveCar.Utility;
 using Microsoft.Windows.Controls.Ribbon;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
-using KarveCar.ViewModel;
 using KarveCar.ViewModel.GenericViewModel;
-using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 
 namespace KarveCar.View

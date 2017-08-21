@@ -5,7 +5,6 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KarveCommon.Services;

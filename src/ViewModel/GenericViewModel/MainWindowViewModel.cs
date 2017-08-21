@@ -1,10 +1,8 @@
-﻿using KarveCar.Commands.Generic;
-using KarveCar.Logic.Generic;
+﻿using KarveCar.Logic.Generic;
 using KarveCar.Utility;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Input;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;

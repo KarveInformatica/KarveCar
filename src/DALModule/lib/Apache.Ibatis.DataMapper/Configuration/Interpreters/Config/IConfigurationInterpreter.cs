@@ -23,7 +23,6 @@
  ********************************************************************************/
 #endregion
 
-using System;
 using Apache.Ibatis.Common.Resources;
 
 namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config

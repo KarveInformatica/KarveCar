@@ -56,7 +56,7 @@ namespace KarveCar
              * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
              * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
              */
-            KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
+            MainWindow window = Application.Current.MainWindow as MainWindow;
             window.UnityContainer = Container;
 
             Application.Current.MainWindow.Show();

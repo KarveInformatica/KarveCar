@@ -24,10 +24,6 @@
  ********************************************************************************/
 #endregion
 
-using System;
-
-using Apache.Ibatis.DataMapper.Model.Sql;
-
 namespace Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements
 {
 	/// <summary>

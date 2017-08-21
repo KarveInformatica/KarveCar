@@ -26,7 +26,6 @@
 
 using System;
 using System.Data;
-using System.Windows.Markup;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 
 

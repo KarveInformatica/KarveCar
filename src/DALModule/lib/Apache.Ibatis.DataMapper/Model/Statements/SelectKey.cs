@@ -29,8 +29,6 @@
 using System;
 using System.Diagnostics;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
-using Apache.Ibatis.DataMapper.Model.Sql.External;
-
 #endregion
 
 namespace Apache.Ibatis.DataMapper.Model.Statements

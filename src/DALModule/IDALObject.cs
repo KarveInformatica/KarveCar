@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Data;
 using KarveCommon.Generic;
 
 namespace DataAccessLayer

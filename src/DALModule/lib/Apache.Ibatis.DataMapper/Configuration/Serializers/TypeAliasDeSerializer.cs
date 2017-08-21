@@ -24,15 +24,8 @@
 #endregion
 
 #region Using
-
-using System.Collections.Specialized;
-using System.Xml;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.DataMapper.Model.Alias;
-using Apache.Ibatis.Common.Xml;
-using Apache.Ibatis.DataMapper.Scope;
-using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
-
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

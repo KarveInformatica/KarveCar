@@ -19,6 +19,9 @@
                                                     "       GRU.EDADMINI, GRU.EDADMINAVISO, GRU.ANTIGUIMINI " +
                                                     "FROM GRUPOS AS GRU " +
                                                     "ORDER BY GRU.CODIGO";
+
+        public const string SELECT_TIPO_VEHICULO = "SELECT CODIGO, NOMBRE, ULTMODI, USUARIO FROM CATEGO";
+
         #endregion
     }
 }
