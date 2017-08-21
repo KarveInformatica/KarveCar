@@ -5,13 +5,41 @@
                 xmlns:prism="http://prismlibrary.com/"
                 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                 xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
                 xmlns:local="clr-namespace:KarveCar"
                 xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"                
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
                 mc:Ignorable="d"
                 Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
+
+    <r:RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+            <Setter Property="ShowDefaultCloseButton" Value="True" />
+            <Setter Property="HeaderMemberPath" Value="Header" />
+            <Setter Property="Margin" Value="0 5 0 0" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+            </Style>
+        <Style x:Key="StylelessButtonStyle" TargetType="{x:Type ButtonBase}">
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+      </ResourceDictionary>
+    </r:RibbonWindow.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
@@ -1831,8 +1859,16 @@
 
                     <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
                     <ScrollViewer Grid.Row="1">
-                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
-                        </TabControl>
+
+
+                    <dragablz:TabablzControl x:Name="tbControl"  Style="{StaticResource TabablzControlStyle}" SelectionChanged="tbControl_SelectionChanged">
+                        <dragablz:TabablzControl.InterTabController>
+                            <dragablz:InterTabController />
+                        </dragablz:TabablzControl.InterTabController>
+                    </dragablz:TabablzControl>
+                        
+                   <!-- TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
+                        -->
                     </ScrollViewer>
                 </Grid>
         </DockPanel>

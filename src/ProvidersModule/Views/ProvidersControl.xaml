@@ -133,6 +133,11 @@
                         <RowDefinition Height="50*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <ComboBox Name="SupplierName" Grid.Row="0" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SupplierSearchSelection}" CommandParameter="{Binding ElementName=SupplierName, Path=SelectedValue}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <ComboBoxItem IsSelected="True">
                             Numero
                         </ComboBoxItem>
@@ -140,12 +145,10 @@
                             Tipo
                         </ComboBoxItem>
                     </ComboBox>
-                    <Button  Grid.Row="1" Name="SuppliersSeachButton" HorizontalAlignment="Stretch"  Command="{Binding ClickSearchCommand}" 
-                                 CommandParameter="Supplier" >
+                    <Button  Grid.Row="1" Name="SuppliersSeachButton" HorizontalAlignment="Stretch"  Command="{Binding SupplierSearchCommand}" 
+                                 CommandParameter="{Binding SupplierSearchSelection}" >
                         <Image Source="/ProvidersModule;component/Images/search.png" Height="20"/>
                     </Button>
-
-
                 </Grid>
 
                 <Grid Background="GhostWhite">
@@ -285,11 +288,11 @@
                                                     </Grid.ColumnDefinitions>
                                                     <TextBox Grid.Column="0" Name="SupplierCountryCode" Width="50" HorizontalAlignment="Stretch" Height="20"  FontStyle="Oblique"  
                                                          Text="{Binding Path=SupplierDataObjectInfo.CountryCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                                                    <Button  Grid.Column="1" Name="SuppliersCountryCodeButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
+                                                    <Button  Grid.Column="1" Name="SuppliersCountryCodeButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="{Binding Path=SupplierDataObjectInfo.CountryCode}" >
                                                         <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                     </Button>
                                                     <TextBox Grid.Column="2" Name="SupplierCountry" Width="200" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                                                    <Button  Grid.Column="3" Name="SuppliersCountrySearchButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding ClickSearchCountryCommand}" CommandParameter="SupplierCountrySearch" >
+                                                    <Button  Grid.Column="3" Name="SuppliersCountrySearchButton" HorizontalAlignment="Stretch"  Width="40" Command="{Binding SupplierSearchCountryCommand}" CommandParameter="{Binding Path=SupplierDataObjectInfo.Country}" >
                                                         <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                     </Button>
                                                 </Grid>

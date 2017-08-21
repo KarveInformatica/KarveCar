@@ -58,6 +58,10 @@
     <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Dragablz.dll</HintPath>
+    </Reference>
     <Reference Include="ExtendedGrid">
       <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
     </Reference>

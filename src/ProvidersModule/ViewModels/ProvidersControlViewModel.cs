@@ -15,6 +15,7 @@ using Prism.Commands;
 using KarveDataServices.DataObjects;
 using System.Net;
 using ProvidersModule.Views;
+using System.Windows.Controls;
 
 namespace ProvidersModule.ViewModels
 {
@@ -30,13 +31,61 @@ namespace ProvidersModule.ViewModels
         private DataTable _supplierDataTable;
         private ISupplierDataObjectInfo _dataObjectInfo = new SupplierInfoDataObject();
         private ISupplierTypeDataObject _dataObjectType = new SupplierTypeDataObject();
-        public ICommand ClickSearchCommnd { set; get; }
-        public ICommand ClickSearchCountryCodeCommand { set; get; }
-        public ICommand ClickSearchCountryCommand { set; get; }
-        public ICommand ClickSearchMainAddressCommand { set; get; }
+        public ICommand SupplierSearchSelection { set; get; }
+        public ICommand SupplierSearchCommand { set; get; }
+        public ICommand SupplierSearchCountryCommand { set; get; }
+        public ICommand ClickSearchCountryCode { set; get; }
         public ICommand SelectedIndexCommand { set; get; }
         public DelegateCommand<string> NavigateCommand { get; set; }
+        private string _supplierSearchType;
 
+
+
+        public ProvidersControlViewModel(ICareKeeperService careKeeperService,
+                                  IRegionManager regionManager,
+                                  IEventManager eventManager)
+        {
+            _careKeeperService = careKeeperService;
+            _eventManager = eventManager;
+            _regionManager = regionManager;
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+            SupplierSearchSelection = new DelegateCommand<object>(SupplierSearch);
+            SupplierSearchCommand = new DelegateCommand<object>(SupplierSearchExecute);
+            SupplierSearchCountryCommand = new DelegateCommand<object>(SupplierSearchByCountry);
+            _eventManager.registerObserver(this);
+
+        }
+        /// <summary>
+        /// This method provide a method to select to  search by code or by type
+        /// </summary>
+        /// <param name="param"></param>
+        private void SupplierSearch(object param)
+        {
+            ComboBoxItem item = param as ComboBoxItem;
+            _supplierSearchType = item.Content as string;
+
+        }
+        /// <summary>
+        ///  This method provide a way to execute the search using the code or the type.
+        /// </summary>
+        /// <param name="param"></param>
+        private void SupplierSearchExecute(object param)
+        {
+            if (_supplierSearchType == "Tipo")
+            {
+              //  var parms = new NavigationParameters
+               // _regionManager.RequestNavigate("TabRegion", navigationPath, );
+            }
+        }
+        /// <summary>
+        /// This method provide a way to search by country
+        /// </summary>
+        /// <param name="param"></param>
+        private void SupplierSearchByCountry(object param)
+        {
+
+        }
+        
         public DataTable SummaryDataTable
         {
             set { _supplierDataTable = value; RaisePropertyChanged(); }
@@ -69,17 +118,6 @@ namespace ProvidersModule.ViewModels
         }
 
 
-        public ProvidersControlViewModel(ICareKeeperService careKeeperService,
-                                  IRegionManager regionManager,
-                                  IEventManager eventManager)
-        {
-            _careKeeperService = careKeeperService;
-            _eventManager = eventManager;
-            _regionManager = regionManager;
-            NavigateCommand = new DelegateCommand<string>(Navigate);
-            _eventManager.registerObserver(this);
-         
-        }
         
         public void Navigate(string navigationPath)
         {
