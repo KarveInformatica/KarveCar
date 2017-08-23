@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using DataAccessLayer.DataObjects;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.MappedStatements;
 using System.Reflection;
@@ -15,14 +14,48 @@ namespace DataAccessLayer
     class SupplierDataAccessLayer : BaseDataMapper, ISupplierDataServices
     {
         #region ISupplierDataService Interface
-        public async Task<DataSet> GetAsyncAllSupplierSummary()
+
+        /// <summary>
+        /// This method returns a table of the join between PROVEE1 and PROVEE2 
+        /// </summary>
+        /// <returns>It returns a dataset containing the complete summary.</returns>
+        public async Task<DataSet> GetAsyncCompleteSummary()
         {
-            DataSet dataSet = new DataSet("SupplierDataSet");
-            DataTable supplierTable = new DataTable("SuppliersSummary");
-            supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null);
+            DataSet dataSet = new DataSet("FullSupplierDataSet");
+            DataTable supplierTable;
+            supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetFullSuppliersSummary", null).ConfigureAwait(false);
             dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
+        /// <summary>
+        /// This method look for the Number, Nif, and brief summary of the supplier.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncAllSupplierSummary()
+        {
+            DataSet dataSet = new DataSet("SupplierDataSet");
+            DataTable supplierTable ;
+            supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null).ConfigureAwait(false);
+            dataSet.Tables.Add(supplierTable);
+            return dataSet;
+        }
+        /// <summary>
+        ///  This method resutins all providers types 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncAllProviderTypes()
+        {
+            DataSet dataSet = new DataSet("SuppliersTypesDataSet");
+            DataTable supplierTable;
+            supplierTable = await DataMapper.QueryAsyncForDataTable("Suppliers.GetSupplierTypes", null).ConfigureAwait(false);
+            dataSet.Tables.Add(supplierTable);
+            return dataSet;
+        }
+        /// <summary>
+        /// Retrieve the supplier data object info for the general summary.
+        /// </summary>
+        /// <param name="id">Identifier of the provider</param>
+        /// <returns>A supplier data object info for the the UI, which contains all the info for the general</returns>
         public async Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id)
         {
             ISupplierDataObjectInfo dataObject = new SupplierInfoDataObject();
@@ -36,11 +69,12 @@ namespace DataAccessLayer
                 DataMapper.AddBatch(mapper2);
 
                 DataTable provinceDataCode = null;
-                DataSet resultBatch = await DataMapper.ExecuteAsyncBatch();
+                DataSet resultBatch = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
                 // nombre tabla.
                 for (int i = 0; i < resultBatch.Tables.Count; ++i)
                 {
                     string tableName = resultBatch.Tables[i].TableName;
+                  
                     if (tableName.Contains("SupplierInfo"))
                     {
                         SetDataObjectFields(resultBatch.Tables[i].Rows[0], ref dataObject);

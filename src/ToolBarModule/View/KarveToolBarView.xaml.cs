@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace ToolBarModule
 {
@@ -9,7 +11,13 @@ namespace ToolBarModule
     {
         public KarveToolBarView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "KarveError", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

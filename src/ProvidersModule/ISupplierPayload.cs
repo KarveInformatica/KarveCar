@@ -6,5 +6,7 @@ namespace ProvidersModule
     {
         ISupplierDataObjectInfo SupplierDataObjectInfo { get; set; }
         ISupplierTypeDataObject SupplierDataObjectType { get; set; }
+        IProvinceDataObject     SupplierProvinceDataObject { get; set; }
+        ICountryDataObject      SupplierCountryDataObject { get; set; }
     }
 }

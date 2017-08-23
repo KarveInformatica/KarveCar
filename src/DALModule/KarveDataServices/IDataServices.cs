@@ -30,6 +30,12 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Supplier data service subsystem</returns>
         ISupplierDataServices GetSupplierDataServices();
+        /// <summary>
+        /// This returns the Helper data services. Helper data services all other services that might be used as helper 
+        /// </summary>
+        /// <returns></returns>
+        IHelperDataServices GetHelperDataServices();
+
 
     }
 

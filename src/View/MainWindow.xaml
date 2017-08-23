@@ -1860,16 +1860,16 @@
                     <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
                     <ScrollViewer Grid.Row="1">
 
-
+<!--
                     <dragablz:TabablzControl x:Name="tbControl"  Style="{StaticResource TabablzControlStyle}" SelectionChanged="tbControl_SelectionChanged">
                         <dragablz:TabablzControl.InterTabController>
                             <dragablz:InterTabController />
                         </dragablz:TabablzControl.InterTabController>
                     </dragablz:TabablzControl>
-                        
-                   <!-- TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged">
                         -->
-                    </ScrollViewer>
+
+                    <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged"/>
+                </ScrollViewer>
                 </Grid>
         </DockPanel>
     </Grid>

@@ -4,9 +4,11 @@ using KarveDataServices.DataObjects;
 
 namespace ProvidersModule.ViewModels
 {
-    internal class SupplierDataPayload : ISupplierPayload
+    public class SupplierDataPayload : ISupplierPayload
     {
         public ISupplierDataObjectInfo SupplierDataObjectInfo { get; set ; }
         public ISupplierTypeDataObject SupplierDataObjectType { get; set; }
+        public IProvinceDataObject SupplierProvinceDataObject { get; set; }
+        public ICountryDataObject SupplierCountryDataObject { get; set; }
     }
 }

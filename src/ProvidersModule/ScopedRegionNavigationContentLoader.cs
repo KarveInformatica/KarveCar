@@ -1,6 +1,8 @@
-﻿using Microsoft.Practices.Prism;
-using Microsoft.Practices.Prism.Regions;
+﻿using KarveCommon.Generic;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Common;
+using Prism.Regions;
+using ProvidersModule.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,12 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace TabControlRegion.Core.Prism
+namespace ProvidersModule
 {
     public class ScopedRegionNavigationContentLoader: IRegionNavigationContentLoader
     {
         private readonly IServiceLocator serviceLocator;
+        private HashSet<string> tabNames = new HashSet<string>(); 
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegionNavigationContentLoader"/> class with a service locator.
@@ -63,6 +69,7 @@ namespace TabControlRegion.Core.Prism
                         }
 
                         navigationAware = frameworkElement.DataContext as INavigationAware;
+
                         return navigationAware == null || navigationAware.IsNavigationTarget(navigationContext);
                     });
 
@@ -74,10 +81,28 @@ namespace TabControlRegion.Core.Prism
                 return view;
             }
 
+            string viewName = navigationContext.Parameters["SearchType"] as string;
             view = this.CreateNewRegionItem(candidateTargetContract);
+            if (view != null)
+            {
+                UserControl control = view as UserControl;
+                TabViewModelBase tbvm = control.DataContext as TabViewModelBase;
+                tbvm.Header = navigationContext.Parameters["SearchType"] as string;
 
-            region.Add(view, null, CreateRegionManagerScope(view));
+            }
+            bool isAlreadyATab = region.Views.Any(v =>
+            {
+                Type viewType = v.GetType();
+                string header = viewType.GetProperty("Header").GetValue(v) as string;
+                return  (header == viewName);
 
+            });
+            if (!isAlreadyATab)
+            {
+                region.Add(view);
+            }
+
+           
             return view;
         }
 

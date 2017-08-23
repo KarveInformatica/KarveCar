@@ -108,10 +108,16 @@
     <Compile Include="IProvidersViewModel.cs" />
     <Compile Include="ISupplierPayload.cs" />
     <Compile Include="ProvidersModule.cs" />
+    <Compile Include="ScopedRegionNavigationContentLoader.cs" />
+    <Compile Include="ViewModels\BasicEditorViewModel.cs" />
+    <Compile Include="ViewModels\GenericGridViewModel.cs" />
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
     <Compile Include="ViewModels\SupplierDataPayload.cs" />
     <Compile Include="ViewModels\TabViewModelBase.cs" />
     <Compile Include="ViewModels\SupplierViewModel.cs" />
+    <Compile Include="Views\BasicEditorView.xaml.cs">
+      <DependentUpon>BasicEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CloseTabAction.cs" />
     <Compile Include="Views\Contactos.xaml.cs">
       <DependentUpon>Contactos.xaml</DependentUpon>
@@ -143,6 +149,10 @@
     <Compile Include="Views\Visits.xaml.cs">
       <DependentUpon>Visits.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\BasicEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Contactos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

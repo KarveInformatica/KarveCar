@@ -33,6 +33,18 @@ namespace KarveDataServices
         /// <param name="id"> data object id.</param>
         /// <returns></returns>
         Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id);
+        /// <summary>
+        /// This retrives all complete summary from proveedores from provve1 and provve2.
+        /// </summary>
+        /// <returns>Returns a dataset from complete summary.</returns>
+        Task<DataSet> GetAsyncCompleteSummary();
+        /// <summary>
+        /// This returns all async provider types.
+        /// </summary>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncAllProviderTypes();
+
+
         #endregion
     }
 }

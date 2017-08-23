@@ -11,12 +11,10 @@ namespace DataAccessLayer
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
-        /// TODO: See if we can use dependency inject and elimitate the depenendency on base data mapper
-       
         private BanksDataAccessLayer _bankLayer = new BanksDataAccessLayer();
-
         private IPaymentDataServices _paymentDataService = new ChargeTypeDataAccessLayer();
         private ISupplierDataServices _supplierDataServices = new SupplierDataAccessLayer();
+        private IHelperDataServices _helperDataServices = new HelperDataAccessLayer();
 
         /// <summary>
         ///  Returns a the complete list of banks in the system.
@@ -44,6 +42,11 @@ namespace DataAccessLayer
         public ISupplierDataServices GetSupplierDataServices()
         {
            return _supplierDataServices;
+        }
+
+        public IHelperDataServices GetHelperDataServices()
+        {
+            return _helperDataServices;
         }
     }
 }

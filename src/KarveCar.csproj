@@ -441,6 +441,14 @@
     <Resource Include="Images\paymentTypes.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)DALModule\Auxiliares.xml" "$(TargetDir)Auxiliares.xml" 
+copy "$(SolutionDir)DALModule\Suppliers.xml" "$(TargetDir)Suppliers.xml" 
+copy "$(SolutionDir)DALModule\Banks.xml" "$(TargetDir)Banks.xml" 
+copy "$(SolutionDir)DALModule\SqlMap.config" "$(TargetDir)SqlMap.config" 
+copy "$(SolutionDir)DALModule\providers.config" "$(TargetDir)providers.config" 
+copy "$(SolutionDir)DALModule\SupplierSummaryTypes.xml" "$(TargetDir)SupplierSummaryTypes.xml"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

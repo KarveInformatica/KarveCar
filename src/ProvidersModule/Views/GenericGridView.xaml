@@ -6,16 +6,17 @@
              xmlns:local="clr-namespace:ProvidersModule.Views"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
+             xmlns:mvvm1="http://prismlibrary.com/"
+              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-               <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
-                                                                           x:Name="Suppliers" 
+               <extendedGridControl:ExtendedDataGrid Height="400" VerticalAlignment="Top" 
+                                                                           x:Name="SuppliersGeneric" 
                                                                            ItemsSource="{Binding GenericDataTable}" 
                                                                            RowHeaderWidth="17" 
                                                                            IsReadOnly="True"
-                                                                           AutoGenerateColumns="False" 
                                                                            HideColumnChooser="True" 
                                                                            AllowUserToCopy="True"
                                                                            SearchAutoFilterVisibility="Visible" 
@@ -26,19 +27,11 @@
                                                                            SelectionMode="Extended" 
                                                                            SelectionUnit="FullRow" >
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedIndexCommand}" CommandParameter="{Binding ElementName=Suppliers, Path=SelectedValue}"/>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedIndexCommand}" CommandParameter="{Binding ElementName=SuppliersGeneric, Path=SelectedValue}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <DataGrid.Columns>
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
-                                            />
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="60*" Binding="{Binding Nombre}"
-                                            />
-                        <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="20*" Binding="{Binding Nif}"
-                                            />
-                    </DataGrid.Columns>
-                </extendedGridControl:ExtendedDataGrid>
+              </extendedGridControl:ExtendedDataGrid>
             </Grid>
         
 </UserControl>

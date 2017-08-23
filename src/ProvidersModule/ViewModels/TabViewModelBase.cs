@@ -12,10 +12,16 @@ namespace ProvidersModule.ViewModels
     public class TabViewModelBase : BindableBase, INavigationAware
     {
         private string _title = "";
-        public string Title
+        public const string PROVINCES = "Provincias";
+        public const string COUNTRIES = "Paises";
+        public const string NUMBER = "Numero";
+        public const string TYPE = "Tipo";
+        public const string SUPPLIERS = "Proveedores";
+
+        public string Header
         {
             get { return _title; }
-            set { _title = value;  RaisePropertyChanged("Title"); }
+            set { _title = value;  RaisePropertyChanged("Header"); }
         }
 
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
@@ -28,7 +34,7 @@ namespace ProvidersModule.ViewModels
 
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
 
         }

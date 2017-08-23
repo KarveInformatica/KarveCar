@@ -35,6 +35,7 @@ namespace KarveDataServices.DataObjects
         object Type { set; get; }
         string LastChange { set; get; }
         string ChangedByUser { set; get; }
+       
 
     }
 }

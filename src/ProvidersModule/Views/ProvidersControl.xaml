@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProvidersModule.Views"
              xmlns:localvm="clr-namespace:ProvidersModule.ViewModels"
+             xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
@@ -21,8 +23,10 @@
         
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
-
+             
             </ResourceDictionary.MergedDictionaries>
+            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+            </karvecm:KarveInterTabClient>
             <ControlTemplate x:Key="HeaderTemplateStandard" TargetType="{x:Type xcdg:ColumnManagerCell}">
                 <TextBlock Text="{TemplateBinding Content}">
                     <TextBlock.Style>
@@ -34,9 +38,13 @@
                     </TextBlock.Style>
                 </TextBlock>
             </ControlTemplate>
-            <Style TargetType="TabItem">
-                <Setter Property="Header" Value="Provveedores"/>
-                <!--
+
+
+            <Style x:Key="KarveTabItemStyle"  TargetType="TabItem">
+                    <Setter Property="Width" Value="40" />
+                
+                <Setter Property="Header" Value="{Binding DataContext.Header,diag:PresentationTraceSources.TraceLevel=High}" />
+                
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
                         <DataTemplate>
@@ -47,9 +55,10 @@
                                 </Grid.ColumnDefinitions>
                                 <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Margin="0,0,7,0" Content="{Binding}"/>
-                                <Button Grid.Column="1" Content="x">
+                                <Button Grid.Column="1" Content="Press">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
+                                            <local:CloseTabAction/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -58,12 +67,19 @@
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>
-                -->
+               
+            </Style>
+            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+                <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
+                    
+                </Setter>
             </Style>
             <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
                 <Setter Property="ShowDefaultCloseButton" Value="True" />
+                
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
                 <Setter Property="HeaderMemberPath" Value="Header" />
+                
                 <Setter Property="Margin" Value="0 5 0 0" />
             </Style>
             <Style x:Key="StylelessButtonStyle" TargetType="{x:Type ButtonBase}">
@@ -106,6 +122,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
             <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
                 <Setter Property="Template" Value="{StaticResource HeaderTemplateStandard}"/>
             </Style>
@@ -218,7 +235,7 @@
                     </StackPanel>
                 </ScrollViewer>
                 <dragablz:TabablzControl Grid.Row="1" Style="{StaticResource TabablzControlStyle}">
-                   
+
                     <TabItem Name="General" Header="General">
                         <ScrollViewer>
 
@@ -309,7 +326,7 @@
 
                                                     <TextBox Grid.Column="0" Name="SupplierProvinceCode" Width="60" HorizontalAlignment="Left" Height="20"  FontStyle="Oblique" Text="{Binding Path=SupplierDataObjectInfo.ProvinceCode,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"></TextBox>
                                                     <TextBox Grid.Column="1" Name="SupplierProvice" Width="230" HorizontalAlignment="Left" Height="20" FontStyle="Oblique"  Text="{Binding Path=SupplierDataObjectInfo.Province,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"></TextBox>
-                                                    <Button Grid.Column="2" Name="SuppliersProvinceCodeButton" HorizontalAlignment="Left"  Width="40" Command="{Binding ClickSearchCountryCodeCommand}" CommandParameter="SupplierCountryCodeSearch" >
+                                                    <Button Grid.Column="2" Name="SuppliersProvinceCodeButton" HorizontalAlignment="Left"  Width="40" Command="{Binding SupplierSearchProvinceCommand}" CommandParameter="{Binding Path=SupplierDataObjectInfo.Province}" >
                                                         <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
                                                     </Button>
                                                 </Grid>
@@ -1370,11 +1387,12 @@
         </Grid>
         <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" ></GridSplitter>
 
-       
-        <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" mvvm1:RegionManager.RegionName="TabRegion">
+        <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" ClosingItemCallback="{Binding ClosingTabItemHandler}" mvvm1:RegionManager.RegionName="TabRegion">
             <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
+                <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
             </dragablz:TabablzControl.InterTabController>
+
+            
         </dragablz:TabablzControl>
         <!--
         <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}">
