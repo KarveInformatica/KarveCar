@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C328C6A1-1000-477A-9FB7-027159539F67}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CustomControls</RootNamespace>
+    <AssemblyName>CustomControls</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\build\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <WarningLevel>1</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <WarningLevel>1</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ASADB, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\ASADB.dll</HintPath>
+    </Reference>
+    <Reference Include="Karve.ConfiguracionApp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\Karve.ConfiguracionApp.dll</HintPath>
+    </Reference>
+    <Reference Include="Karve.Theme, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\Karve.Theme.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="Telerik.WinControls.GridView, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.RichTextBox, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.Themes.Windows7, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.UI, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="TelerikCommon, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="VariablesGlobales, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\VariablesGlobales.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ButtonRibbon\ButtonRibbon.Designer.vb">
+      <DependentUpon>ButtonRibbon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ButtonRibbon\ButtonRibbon.vb" />
+    <Compile Include="ControlesEspeciales\EmpresaOficina.Designer.vb">
+      <DependentUpon>EmpresaOficina.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ControlesEspeciales\EmpresaOficina.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrBase.Designer.vb">
+      <DependentUpon>ctrBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ctrBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataArea\DataArea.Designer.vb">
+      <DependentUpon>DataArea.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataArea\DataArea.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataDate\DataDate.Designer.vb">
+      <DependentUpon>DataDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataDate\DataDate.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataDir\DataDir.Designer.vb">
+      <DependentUpon>DataDir.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataDir\DataDir.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataField\DataFieldLabelColor.Designer.vb">
+      <DependentUpon>DataFieldLabelColor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataField\DataFieldLabelColor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataGrid\Clases\DataGridColumn\Custom Editor\BrowerGridEditorKarve\BrowerGridEditorKarve.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Custom Editor\BrowerGridEditorKarve\BrowseEditorElement.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\DataGridColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumnVirtual\DataGridColumnVirtual.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumnVirtual\DataGridColumnVirtuales.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumnGroup\DataGridColumnGroup.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumnGroup\DataGridColumnGroups.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\DataGridColumns.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridBrowseBoxColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridCheckBoxColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridComboBoxColumn\DataGridComboBoxColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDateColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDecimalColumn Subtypes\DataGridPercentageColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDecimalColumn Subtypes\DataGridQuanityColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDecimalColumn Subtypes\DataGridTotalColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDecimalColumn Subtypes\DataGridPriceColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridDecimalColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridColumn\Types\DataGridTextBoxColumn.vb" />
+    <Compile Include="DataGrid\Clases\DataGridDefinicion\DataGridDefinicion.vb" />
+    <Compile Include="DataGrid\Clases\DataGridOrder\DataGridOrdenColumna.vb" />
+    <Compile Include="DataGrid\Clases\DataGridOrder\DataGridOrdenColumnas.vb" />
+    <Compile Include="DataGrid\Clases\DataGridRules\DataGridRule.vb" />
+    <Compile Include="DataGrid\Clases\DataGridRules\DataGridRules.vb" />
+    <Compile Include="DataGrid\Clases\DataGridTable\DataGridTable.vb" />
+    <Compile Include="DataGrid\Clases\DataGridTable\DataGridTables.vb" />
+    <Compile Include="DataGrid\Clases\DataGridTraduccion\MyTraducRadGrid.vb" />
+    <Compile Include="DataRichText\RibbonRichField.Designer.vb">
+      <DependentUpon>RibbonRichField.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataRichText\RibbonRichField.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataTime\DataTime.Designer.vb">
+      <DependentUpon>DataTime.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataTime\DataTime.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataTime\DataTimeLabel.Designer.vb">
+      <DependentUpon>DataTimeLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataTime\DataTimeLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlesEspeciales\TrackBar.Designer.vb">
+      <DependentUpon>TrackBar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ControlesEspeciales\TrackBar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Display\GroupBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Display\PageView\PageView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Display\PageView\PageViewPage.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Display\Panel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Display\Ribbon\RibbonBar.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DualDataFieldEditable\DualDataFieldEditable.Designer.vb">
+      <DependentUpon>DualDataFieldEditable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DualDataFieldEditable\DualDataFieldEditable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DualDataFieldEditable\DualDataFieldEditableLabel.Designer.vb">
+      <DependentUpon>DualDataFieldEditableLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DualDataFieldEditable\DualDataFieldEditableLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilesSelector\FilesSelector.Designer.vb">
+      <DependentUpon>FilesSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FilesSelector\FilesSelector.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="General_Use\Button.Designer.vb">
+      <DependentUpon>Button.vb</DependentUpon>
+    </Compile>
+    <Compile Include="General_Use\Button.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataRichText\DataRichField.Designer.vb">
+      <DependentUpon>DataRichField.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataRichText\DataRichField.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataArea\DataAreaLabel.Designer.vb">
+      <DependentUpon>DataAreaLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataArea\DataAreaLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="General_Use\DataCheck.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataDate\DataDateLabel.Designer.vb">
+      <DependentUpon>DataDateLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataDate\DataDateLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataGrid\DataGrid.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataRadio\DataRadio.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DualDataField\DualDatafield.Designer.vb">
+      <DependentUpon>DualDatafield.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DualDataField\DualDatafield.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DualDataField\DualDatafieldLabel.Designer.vb">
+      <DependentUpon>DualDatafieldLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DualDataField\DualDatafieldLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DualDataField\Lupa.Designer.vb">
+      <DependentUpon>Lupa.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DualDataField\Lupa.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General_Use\DataLabel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="General_Use\kMsgBox.Designer.vb">
+      <DependentUpon>kMsgBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="General_Use\kMsgBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="General_Use\Label.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MaskedDataField\MaskedDataField.Designer.vb">
+      <DependentUpon>MaskedDataField.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MaskedDataField\MaskedDataField.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="DataField\Datafield.Designer.vb">
+      <DependentUpon>Datafield.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataField\Datafield.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataField\DatafieldLabel.Designer.vb">
+      <DependentUpon>DatafieldLabel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataField\DatafieldLabel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataRadio\RadioGroup.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TreeView\TreeNode.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ControlesEspeciales\EmpresaOficina.resx">
+      <DependentUpon>EmpresaOficina.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctrBase.resx">
+      <DependentUpon>ctrBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataArea\DataArea.resx">
+      <DependentUpon>DataArea.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataDate\DataDate.resx">
+      <DependentUpon>DataDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataDir\DataDir.resx">
+      <DependentUpon>DataDir.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataField\DataFieldLabelColor.resx">
+      <DependentUpon>DataFieldLabelColor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGrid\DataGrid.resx">
+      <DependentUpon>DataGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRichText\RibbonRichField.resx">
+      <DependentUpon>RibbonRichField.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataTime\DataTime.resx">
+      <DependentUpon>DataTime.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataTime\DataTimeLabel.resx">
+      <DependentUpon>DataTimeLabel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlesEspeciales\TrackBar.resx">
+      <DependentUpon>TrackBar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\Panel.resx">
+      <DependentUpon>Panel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DualDataFieldEditable\DualDataFieldEditable.resx">
+      <DependentUpon>DualDataFieldEditable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilesSelector\FilesSelector.resx">
+      <DependentUpon>FilesSelector.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General_Use\Button.resx">
+      <DependentUpon>Button.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRichText\DataRichField.resx">
+      <DependentUpon>DataRichField.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataArea\DataAreaLabel.resx">
+      <DependentUpon>DataAreaLabel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataDate\DataDateLabel.resx">
+      <DependentUpon>DataDateLabel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataField\Datafield.resx">
+      <DependentUpon>Datafield.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DualDataField\DualDatafield.resx">
+      <DependentUpon>DualDatafield.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DualDataField\DualDatafieldLabel.resx">
+      <DependentUpon>DualDatafieldLabel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DualDataField\Lupa.resx">
+      <DependentUpon>Lupa.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="General_Use\kMsgBox.resx">
+      <DependentUpon>kMsgBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaskedDataField\MaskedDataField.resx">
+      <DependentUpon>MaskedDataField.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataField\DatafieldLabel.resx">
+      <DependentUpon>DatafieldLabel.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\critical48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exclamation48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BrowseData\" />
+    <Folder Include="DataGrid\Clases\DataGridRelation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lupa-18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bold_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Italic_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Underline_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChiselMarker_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextColor_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IncreaseFont_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DecreaseFont_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignLeft_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignCenter_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignRight_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSWord_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HTML_File_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TXT_File_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertImage_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertLink_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertTable_Def.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

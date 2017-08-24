@@ -4,6 +4,8 @@ using KarveCommon.Generic;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
+using System;
+using System.Windows;
 
 namespace ToolBarModule
 {
@@ -25,9 +27,14 @@ namespace ToolBarModule
         }
         public void Initialize()
         {
-            RegisterViewsAndServices();
-            _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
-          
+            try
+            {
+                RegisterViewsAndServices();
+                _regionManager.RegisterViewWithRegion("KarveToolBar", typeof(KarveToolBarView));
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
 
         }

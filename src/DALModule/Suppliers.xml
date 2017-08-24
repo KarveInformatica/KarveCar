@@ -7,145 +7,255 @@
       <result property="Nif"    			column="NIF"/>
     </resultMap>
     <resultMap id="SupplierInfoResultMap" class="SupplierInfoDataObject" >
-	<result property="Direction"       		column="DIRECCION"/>
-	<result property="CountryCode" 		column="NACIOPER"/>
-	<result property="City" 			column="POBLACION"/>
-	<result property="ProvinceCode" 		column="PROV"/>
-	<result property="Phone" 			column="TELEFONO"/>
-	<result property="Fax" 				column="FAX"/>
-	<result property="WebSite" 			column="INTERNET"/>
-	<result property="Email" 			column="EMAIL"/>
-	<result property="Notes" 			column="NOTAS"/>
-	<result property="DeliveringPeriod" 		column="PLAZOENT"/>
-	<result property="DischargeDate" 		column="FALTA"/>
-	<result property="LeavingDate" 			column="FBAJA"/>
-	<result property="Observation" 			column="OBSERVA"/>
-	<result property="MobilePhone" 			column="MOVIL"/>
-	<result property="CommercialName" 		column="COMERCIAL"/>
-	<result property="Zip" 				column="CP"/>
-	<result property="Type" 				column="TIPO"/>
-	<result property="LastChange" 			column="ULTMODI" />
-	<result property="ChangedByUser" 		column="USUARIO" />
-	</resultMap>
+      <result property="Direction"       		column="DIRECCION"/>
+      <result property="CountryCode" 		column="NACIOPER"/>
+      <result property="City" 			column="POBLACION"/>
+      <result property="ProvinceCode" 		column="PROV"/>
+      <result property="Phone" 			column="TELEFONO"/>
+      <result property="Fax" 				column="FAX"/>
+      <result property="WebSite" 			column="INTERNET"/>
+      <result property="Email" 			column="EMAIL"/>
+      <result property="Notes" 			column="NOTAS"/>
+      <result property="DeliveringPeriod" 		column="PLAZOENT"/>
+      <result property="DischargeDate" 		column="FALTA"/>
+      <result property="LeavingDate" 			column="FBAJA"/>
+      <result property="Observation" 			column="OBSERVA"/>
+      <result property="MobilePhone" 			column="MOVIL"/>
+      <result property="CommercialName" 		column="COMERCIAL"/>
+      <result property="Zip" 				column="CP"/>
+      <result property="Type" 				column="TIPO"/>
+      <result property="LastChange" 			column="ULTMODI" />
+      <result property="ChangedByUser" 		column="USUARIO" />
+    </resultMap>
     <resultMap id="SupplierProvinceDataResultMap" class="SupplierProvinceDataObject">
-	<result property="SupplierName"  column="NUM_PROVEE" />
-	<result property="Province"  		column="PROV" />
-	<result property="ProvinceCode"  		column="CP" />
-   </resultMap>
+      <result property="SupplierName"  column="NUM_PROVEE" />
+      <result property="Province"  		column="PROV" />
+      <result property="ProvinceCode"  		column="CP" />
+    </resultMap>
     <resultMap id="ProvinceDataResultMap" class="SupplierProvinceDataObject">
-	<result property="Province"  		column="PROV" />
-	<result property="ProvinceCode"  		column="CP" />
-   </resultMap>
- <resultMap id="SupplierCountryDataResultMap" class="SupplierCountryDataObject">
-	<result property="Name"  		column="PAIS" />
-	<result property="CountryCode" 		column="SIGLAS" />
-   </resultMap>  
- <resultMap id="SupplierTypeResultMap" class="SupplierTypeDataObject">
-	<result property="User"  				column="USUARIO" />
-	<result property="EmergencyAccount" 	column="CTAGASTO" />
-	<result property="Number" 			column="NUM_TIPROVE" />
-	<result property="LastModification" 		column="ULTMODI" />
-	<result property="Name" 				column="NOMBRE" />
-   </resultMap> 
-<resultMap id="ExtendedSummaryResultMap" class="ExtendedSummaryDataObject">
-	<result property="Numero"  			column="NUM_PROVEE" />
-	<result property="Nombre" 			column="NOMBRE" />
-	<result property="Nif" 				column="NIF" />
-	<result property="Commercial" 			column="COMERCIAL" />
-	<result property="Phone" 				column="TELEFONO" />
-	<result property="Direction" 			column="DIRECCION" />
-	<result property="Zip" 				column="CP" />
-	<result property="City" 			column="POBLACION" />
-	<result property="Type" 				column="TIPO" />
-	<result property="Email" 				column="EMAIL" />
-	<result property="Aeat" 				column="F_AEAT" />
-	<result property="PaymentType" 		column="FORMA" />
-	<result property="Account" 		        column="CONTABLE" />
-	<result property="ExpenseAccount" 	        column="CUGASTO" />
-	<result property="SupplierPeriod1" 	        column="PLAZO" />
-	<result property="SupplierPeriod2" 	        column="PLAZO2" />
-	<result property="SupplierPeriod3" 	        column="PLAZO3" />
-	<result property="SupplierDay1" 	        column="DIA" />
-	<result property="SupplierDay2" 	        column="DIA2" />
-	<result property="SupplierDay3" 	        column="DIA3" />
-	<result property="VacationMonth1" 	        column="MESVACA" />
-	<result property="VacationMonth2" 	        column="MESVACA2" />
-	<result property="LastChange" 			column="ULTMODI" />
-	<result property="ChangedByUser" 		column="USUARIO" />
-   </resultMap>      
-</resultMaps>
-    <statements>
+      <result property="Province"  		column="PROV" />
+      <result property="ProvinceCode"  		column="CP" />
+    </resultMap>
+    <resultMap id="SupplierCountryDataResultMap" class="SupplierCountryDataObject">
+      <result property="Name"  		column="PAIS" />
+      <result property="CountryCode" 		column="SIGLAS" />
+    </resultMap>
+    <resultMap id="SupplierTypeResultMap" class="SupplierTypeDataObject">
+      <result property="User"  				column="USUARIO" />
+      <result property="EmergencyAccount" 	column="CTAGASTO" />
+      <result property="Number" 			column="NUM_TIPROVE" />
+      <result property="LastModification" 		column="ULTMODI" />
+      <result property="Name" 				column="NOMBRE" />
+    </resultMap>
+    <resultMap id="ExtendedSummaryResultMap" class="ExtendedSummaryDataObject">
+      <result property="Numero"  			column="NUM_PROVEE" />
+      <result property="Nombre" 			column="NOMBRE" />
+      <result property="Nif" 				column="NIF" />
+      <result property="Commercial" 			column="COMERCIAL" />
+      <result property="Phone" 				column="TELEFONO" />
+      <result property="Direction" 			column="DIRECCION" />
+      <result property="Zip" 				column="CP" />
+      <result property="City" 			column="POBLACION" />
+      <result property="Type" 				column="TIPO" />
+      <result property="Email" 				column="EMAIL" />
+      <result property="Aeat" 				column="F_AEAT" />
+      <result property="PaymentType" 		column="FORMA" />
+      <result property="Account" 		        column="CONTABLE" />
+      <result property="ExpenseAccount" 	        column="CUGASTO" />
+      <result property="SupplierPeriod1" 	        column="PLAZO" />
+      <result property="SupplierPeriod2" 	        column="PLAZO2" />
+      <result property="SupplierPeriod3" 	        column="PLAZO3" />
+      <result property="SupplierDay1" 	        column="DIA" />
+      <result property="SupplierDay2" 	        column="DIA2" />
+      <result property="SupplierDay3" 	        column="DIA3" />
+      <result property="VacationMonth1" 	        column="MESVACA" />
+      <result property="VacationMonth2" 	        column="MESVACA2" />
+      <result property="LastChange" 			column="ULTMODI" />
+      <result property="ChangedByUser" 		column="USUARIO" />
+    </resultMap>
+    <resultMap id="SuppliersBranchesResultMap"    class ="SuppliersBranchesDataObject">
+      <result property="Codigo"           column="CODIGO" />
+      <result property="Nombre"         column="DELEGACION" />
+      <result property="Direccion"       column="DIRECCION" />
+      <result property="Poblacion"       column="POBLACION" />
+      <result property="CP"          	 column="CP" />
+      <result property="Provincia"       column="PROVINCIA" />
+      <result property="Telefono"        column="TELEFONO" />
+      <result property="Email"        	column="EMAIL" />
+    </resultMap>
+      <resultMap id="SuppliersVisitResultMap"    class ="SuppliersVisitDataObject">
+      <result property="Fecha"           column="vsFecha" />
+      <result property="Hora"         column="DELEGACION" />
+      <result property="Vendedor"       column="DIRECCION" />
+      <result property="Poblacion"       column="POBLACION" />
+      <result property="CP"          	 	column="CP" />
+      <result property="Provincia"       column="PROVINCIA" />
+      <result property="Telefono"        column="TELEFONO" />
+      <result property="Email"        	column="EMAIL" />
+    </resultMap>
+</select>
+    <resultMap id="SupplierContactsResultMap" class="SupplierContactsDataObject">
+       <result property="Nombre"               column="NOMBRE" />
+      <result property="Cargo"         	    column="CARGO" />
+      <result property="Departemento"      column="DEPARTEMENTO" />
+      <result property="Telefono"       	    column="TELEFONO" />
+      <result property="EMail"          	    column="EMAIL" />
+    </resultMap>
+    <!-- this returns the evaluation result map -->
     
+    <resultMap id="SupplierEvaluationResultMap" class="SupplierEvaluationDataObject">
+    <result property="Nombre"                    column="PROVEE" />
+      <result property="Precio"         	       column="PRECIO" />
+      <result property="CumplePrevision"    column="PREV" />
+      <result property="RespondePedido"    column="RESP" />
+      <result property="SuministraInfo"    column="INFOR" />
+      <result property="Trato"   		column="TRATO" />
+      <result property="AttRecibida"     column="ATENCION" />
+      <result property="Presentacion"    column="PRESENTA" />
+      <result property="Suma"    		column="SUMA" />
+      <result property="Media"    column="MEDIA" />
+    </resultMap>
+    <!-- this result the supplierMonitoring ResultMap -->
+    <resultMap id="SupplierMonitoringResultMap" class="SupplierMonitoringDataObject" >
+	<result property="Nombre" column="PROVEEDOR" />
+	<result property="Linia" column="LINEA" />
+	<result property="Fecha" column="FECHA" />
+	<result property="Observaciones" column="OBSERVACIONES" />
+	<result property="Responsable" column="RESPONSABLE" />
+	<result property="NumInc" column="NUMINC" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+<!-- Thi return the supplier types -->
     <select id="GetSupplierTypes"  resultMap="SupplierTypeResultMap">
-	SELECT  USUARIO,
-	CTAGASTO,
-	NUM_TIPROVE,
-	ULTMODI,
-	NOMBRE FROM TIPROVE
+      SELECT  USUARIO,
+      CTAGASTO,NUM_TIPROVE,
+      ULTMODI, NOMBRE FROM TIPOPROVE
     </select>
+    <!-- This return ths supplier type by id --> 
     <select id="GetSupplierTypeById"  parameterClass="String" resultMap="SupplierTypeResultMap">
-	SELECT  
-	USUARIO,
-	CTAGASTO,
-	NUM_TIPROVE,
-	ULTMODI,
-	NOMBRE
-	FROM TIPOPROVE
-	WHERE NUM_TIPROVE =  #value#
-    </select> 
-    <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
-	SELECT NUM_PROVEE, 
-		    NOMBRE, 
-		    NIF 
-		    FROM PROVEE1
+      SELECT
+      USUARIO, CTAGASTO, NUM_TIPROVE, ULTMODI, NOMBRE
+      FROM TIPOPROVE
+      WHERE NUM_TIPROVE =  #value#
     </select>
+    <!--  This query return the supplier evaluation by Id --->
+    <select id="LoadEvaluationNote" paramterClass="String" resultMap="SupplieTypeEvaluationResultMap">
+    SELECT PROVEE, LIN, FECHA, PRECIO ,PREV,RESP,INFOR,TRATO,ATENCION,PRESENTA,SUMA,MEDIA FORM PROVEE_EVALUANOTA 
+    WHERE PROVEE =#value# ORDERBY FECHA
+    </select>
+    <!--  This query returns the supplier evaluation by supplier id  -->
+    <select id="MonitoringSuppliersById" parameterClass="String" resultMap="SupplierMonitoringResultMap">
+    SELECT PROVEE AS PROVEEDOR,LINIA AS LINEA,FECHA,OBS as OBSERVACIONES,PERSONA AS RESPONSABLE,NUMINC
+    FROM SEGUI_PROVEE WHERE PROVEE=#value#
+    </select>
+    <!-- This query return a partial summary map -->
+    <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
+      SELECT NUM_PROVEE,
+      NOMBRE,
+      NIF
+      FROM PROVEE1
+    </select>
+    <!-- this query returns the suppler full summary -->
     <select id="GetFullSuppliersSummary"  resultMap="ExtendedSummaryResultMap">
-    SELECT PROVEE1.NUM_PROVEE, PROVEE1.NOMBRE, NIF, COMERCIAL, TELEFONO, DIRECCION, CP, POBLACION, TIPO,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE, 
-   CUGASTO, PROVEE2.PLAZO, PROVEE2.PLAZO2, PROVEE2.PLAZO3, PROVEE2.DIA, PROVEE2.DIA2, PROVEE2.DIA3, PROVEE1.MESVACA, PROVEE1.MESVACA2, PROVEE1.ULTMODI, PROVEE1.USUARIO   
-   FROM PROVEE1, PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE;
+      SELECT PROVEE1.NUM_PROVEE, PROVEE1.NOMBRE, NIF, COMERCIAL, TELEFONO, DIRECCION, CP, POBLACION, TIPO,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE,
+      CUGASTO, PROVEE2.PLAZO, PROVEE2.PLAZO2, PROVEE2.PLAZO3, PROVEE2.DIA, PROVEE2.DIA2, PROVEE2.DIA3, PROVEE1.MESVACA, PROVEE1.MESVACA2, PROVEE1.ULTMODI, PROVEE1.USUARIO
+      FROM PROVEE1, PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE;
+    </select>
+    <!-- this query returns the suppler with K top 200 summary  from #PageParameter.startPos#  -->
+    <select id="GetFullSuppliersSummaryPaged"  parameterMap="PageParameter" resultMap="ExtendedSummaryResultMap">
+     SELECT  TOP 200 START AT #PageParameter.startPos# PROVEE1.NUM_PROVEE, PROVEE1.NOMBRE, NIF, COMERCIAL, TELEFONO, DIRECCION, CP, POBLACION, TIPO,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE,
+      CUGASTO, PROVEE2.PLAZO, PROVEE2.PLAZO2, PROVEE2.PLAZO3, PROVEE2.DIA, PROVEE2.DIA2, PROVEE2.DIA3, PROVEE1.MESVACA, PROVEE1.MESVACA2, PROVEE1.ULTMODI, PROVEE1.USUARIO
+        FROM PROVEE1, PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE;
+    </select>
+    <!--- This query returns the supplier branches with K top 200 summary -->
+    <select id="GetSupplierDelegationsPaged"  parameterMap="PageParameter" resultMap="SuppliersBranchesResultMap" >
+      SELECT  TOP 200 START AT  #PageParameter.startPos# CLD.CLDIDDELEGA AS CODIGO,CLD.CLDDELEGACION AS DELEGACION,  CLD.CLDDIRECCION1 AS DIRECCION,CLD.CLDPOBLACION AS POBLACION,
+      cldCP AS CP, PROVINCIA.PROV AS PROVINCIA,
+      cldTelefono1 as TELEFONO, cldEMail AS EMAIL FROM PROVEE1 AS PRO INNER JOIN ProDelega CLD
+      ON PRO.NUM_PROVEE=CLD.CLDIDCLIENTE LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS=cldIdProvincia
+    </select>
+      <!--- This query returns the supplier branches-->
+    <select id="GetSupplierDelegations"  parameterMap="PageParameter" resultMap="SuppliersBranchesResultMap" >
+      SELECT  CLD.CLDIDDELEGA AS CODIGO,CLD.CLDDELEGACION AS DELEGACION,  CLD.CLDDIRECCION1 AS DIRECCION,CLD.CLDPOBLACION AS POBLACION,
+      cldCP AS CP, PROVINCIA.PROV AS PROVINCIA,
+      cldTelefono1 as TELEFONO, cldEMail AS EMAIL FROM PROVEE1 AS PRO INNER JOIN ProDelega CLD
+      ON PRO.NUM_PROVEE=CLD.CLDIDCLIENTE LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS=cldIdProvincia
+    </select>
+    <!-- This returns all delegation by client -->
+    <select id="GetSupplierDelegationByClient" parameterClass="String" resultMap="SuppliersBranchesResultMap">
+    SELECT *, NULL ENVIAR FROM ProDelega WHERE cldIdCliente=#codigo ORDERBY cldIdDelega
+    </select>
+    <!-- This returns all contacts by the supplier -->
+    <select id="GetSupplierContacts" parameterClass="string" resultMap="SupplierContactosResultMap">
+	SELECT ccoContacto as Nombre, 
+	ccoCargo as Cargo, ccoDepto as Departemento, 
+	ccoTelefono as Telefono, 
+	ccoMail as Email 
+	FROM ProContactos 
+	CC FULL OUTER JOIN ProDelega CD ON 
+	(CC. ccoIdCliente = CD.cldIdCliente AND CC.ccoIdDelega=CD.cldIdDelega) WHERE ccoIdCliente=#value# ORDER BY ccoIdDelega, ccoContacto
+</select>
+   <!-- This returns all contacts by the supplier -->
+    <select id="GetSupplierContactsPaged"   parameterMap="PageParameter" parameterClass="string" resultMap="SupplierContactosResultMap">
+	SELECT  TOP 200 START AT  #PageParameter.startPos#  ccoContacto as Nombre, 
+	ccoCargo as Cargo, ccoDepto as Departemento, 
+	ccoTelefono as Telefono, 
+	ccoMail as Email 
+	FROM ProContactos 
+	CC FULL OUTER JOIN ProDelega CD ON 
+	(CC. ccoIdCliente = CD.cldIdCliente AND CC.ccoIdDelega=CD.cldIdDelega) WHERE ccoIdCliente=#value# ORDER BY ccoIdDelega, ccoContacto
 </select>
     <select id="GetSupplierInfos" parameterClass="String" resultMap="SupplierInfoResultMap">
       SELECT
-	DIRECCION, 
-	NACIOPER, 
-	POBLACION,
-	PROV,
-	TELEFONO,
-	FAX,
-	EMAIL,
-	INTERNET,
-	NOTAS,
-	PERSONA,
-	PLAZOENT, 
-	FALTA, 
-	FBAJA,
-	OBSERVA,
-	MOVIL,
-	PROVEE2.COMERCIAL,
-	CP,
-	TIPO,
-	ULTMODI,
-	USUARIO
-	FROM PROVEE1, PROVEE2
+      DIRECCION,
+      NACIOPER,
+      POBLACION,
+      PROV,
+      TELEFONO,
+      FAX,
+      EMAIL,
+      INTERNET,
+      NOTAS,
+      PERSONA,
+      PLAZOENT,
+      FALTA,
+      FBAJA,
+      OBSERVA,
+      MOVIL,
+      PROVEE2.COMERCIAL,
+      CP,
+      TIPO,
+      ULTMODI,
+      USUARIO
+      FROM PROVEE1, PROVEE2
       where (PROVEE1.NUM_PROVEE = #value#) and (PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE)
     </select>
     <select id="GetProvinceForEachSupplier" resultMap="SupplierProvinceDataResultMap">
-    SELECT NUM_PROVEE, PROVINCIA.PROV, PROVINCIA.CP
-	FROM PROVEE1, PROVINCIA
-	WHERE PROVEE1.PROV = PROVINCIA.CP
+      SELECT NUM_PROVEE, PROVINCIA.PROV, PROVINCIA.CP
+      FROM PROVEE1, PROVINCIA
+      WHERE PROVEE1.PROV = PROVINCIA.CP
     </select>
-<select id="GetCountryForSingleSupplier" parameterClass="String" resultMap="SupplierCountryDataResultMap">
-    SELECT SIGLAS, PAIS
-	FROM PAIS
-	WHERE SIGLAS = #value#
+    <select id="GetCountryForSingleSupplier" parameterClass="String" resultMap="SupplierCountryDataResultMap">
+      SELECT SIGLAS, PAIS
+      FROM PAIS
+      WHERE SIGLAS = #value#
     </select>
-<select id="GetAllCountries"  resultMap="SupplierCountryDataResultMap">
-	SELECT SIGLAS, PAIS
-	FROM PAIS
+    <select id="GetSupplierVisits" parameterClass="String" resultMap="SupplierVisitsDataResultMap">
+SELECT V.*, CC.ccoContacto AS NomContacto, VE.NOMBRE FROM 
+VISITAS_PROV V OUT OUTER JOIN ProContactos CC ON V.ID_CONTACTO = CC.ccoIdContacto 
+OUTER JOIN VISITAS_PROV V 
+OUTER JOIN ProContactos CC ON V.ID_CONTACTO = CC.ccoIdContacto 
+OUTER JOIN VENDEDOR VE ON V.ID_VENDEDOR = VE.NUM_VENDE WHERE
+ID_CLIENTE =#value ORDER BY FECHA, CC.ccoContacto ASC
+    </select>
+    <select id="GetAllCountries"  resultMap="SupplierCountryDataResultMap">
+      SELECT SIGLAS, PAIS
+      FROM PAIS
     </select>
     <select id="GetAllProvinces" resultMap="ProvinceDataResultMap">
-	SELECT  PROVINCIA.PROV, PROVINCIA.CP
-	FROM  PROVINCIA
+      SELECT  PROVINCIA.PROV, PROVINCIA.CP
+      FROM  PROVINCIA
     </select>
-</statements>
+  </statements>
 </sqlMap>

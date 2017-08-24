@@ -49,6 +49,7 @@
     <Compile Include="ISupplierDataServices.cs" />
     <Compile Include="IDataServices.cs" />
     <Compile Include="IPaymentDataService.cs" />
+    <Compile Include="DataObjects\ISupplierEvaluationNote.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

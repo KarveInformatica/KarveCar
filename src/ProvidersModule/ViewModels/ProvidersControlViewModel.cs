@@ -17,6 +17,8 @@ using System.Net;
 using ProvidersModule.Views;
 using System.Windows.Controls;
 using Dragablz;
+using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace ProvidersModule.ViewModels
 {
@@ -37,9 +39,12 @@ namespace ProvidersModule.ViewModels
         public ICommand SupplierSearchCountryCommand { set; get; }
         public ICommand SupplierSearchProvinceCommand { set; get; }
         public ICommand ClickSearchCountryCode { set; get; }
+        public ICommand ClickSearchMainAddressCommand { set; get; }
         public ICommand SelectedIndexCommand { set; get; }
+        public ICommand ClickSearchWebAddressCommand { set; get; }
+        public ICommand CommandUpdateNotes { set; get; }
         public DelegateCommand<string> NavigateCommand { get; set; }
-        private string _supplierSearchType = TabViewModelBase.SUPPLIERS;
+        private string _supplierSearchType = TabViewModelBase.NUMBER;
         private ISupplierPayload _supplierPayload;
         private string _title = ""; 
 
@@ -57,9 +62,35 @@ namespace ProvidersModule.ViewModels
             SupplierSearchCommand = new DelegateCommand<object>(SupplierSearchExecute);
             SupplierSearchCountryCommand = new DelegateCommand<object>(SupplierSearchByCountry);
             SupplierSearchProvinceCommand = new DelegateCommand<object>(SupplierSearchByProvince);
-
+            ClickSearchMainAddressCommand = new DelegateCommand<object>(LaunchMailClient);
+            ClickSearchWebAddressCommand = new DelegateCommand<object>(LaunchWebBrowser);
+            CommandUpdateNotes = new DelegateCommand<object>(UpdateNotes);
             _eventManager.registerObserver(this);
             _supplierSearchType = TabViewModelBase.NUMBER;
+        }
+
+        private void UpdateNotes(object value)
+        {
+
+            SupplierNotesEdit(value);
+        }
+        /// <summary>
+        ///  This launches the google map.
+        /// </summary>
+        /// <param name="value"></param>
+        private void LaunchMailClient(object value)
+        {
+            if (value != null)
+            {
+                string email = value as string;
+                string emailUrl = "mailto:" + email + "?subject=KarveCar";
+
+                System.Diagnostics.Process.Start(emailUrl);
+            }
+        }
+        private void LaunchGoogleMap(object value)
+        {
+
         }
         /// <summary>
         /// This method provide a method to select to  search by code or by type
@@ -71,6 +102,19 @@ namespace ProvidersModule.ViewModels
             _supplierSearchType = item.Content as string;
 
         }
+        private void LaunchWebBrowser(object value)
+        {
+            if (value != null)
+            {
+                string webBrowser = value as string;
+                if (webBrowser.Length > 0)
+                {
+
+                    System.Diagnostics.Process.Start(webBrowser);
+                }
+            }
+        }
+
         public string Title
         {
             set
@@ -109,9 +153,27 @@ namespace ProvidersModule.ViewModels
         {
             NavigationParameters navigationParameters = new NavigationParameters();
             navigationParameters.Add("Command", "Search");
+            if ((_supplierSearchType != TabViewModelBase.NUMBER) && (_supplierSearchType != TabViewModelBase.TYPE))
+            {
+                _supplierSearchType = TabViewModelBase.NUMBER;
+            }
             navigationParameters.Add("SearchType", _supplierSearchType);
             navigationParameters.Add("Payload", _supplierPayload);
             _regionManager.RequestNavigate("TabRegion", "GenericGridView", navigationParameters);
+
+        }
+        /// <summary>
+        /// This method provide a way to search by country
+        /// </summary>
+        /// <param name="param"></param>
+        private void SupplierNotesEdit(object param)
+        {
+            _supplierSearchType = TabViewModelBase.NOTES;
+            NavigationParameters navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Command", "Search");
+            navigationParameters.Add("SearchType", _supplierSearchType);
+            navigationParameters.Add("Notes", _supplierPayload);
+            _regionManager.RequestNavigate("TabRegion", "BasicEditorView", navigationParameters);
 
         }
         /// <summary>

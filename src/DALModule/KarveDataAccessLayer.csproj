@@ -75,8 +75,10 @@
     <Compile Include="DataObjects\GrupoTarifa.cs" />
     <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
+    <Compile Include="DataObjects\SupplierEvaluationNoteDataObject.cs" />
     <Compile Include="DataObjects\SupplierInfoDataObject.cs" />
     <Compile Include="DataObjects\SupplierProvinceDataObject.cs" />
+    <Compile Include="DataObjects\SuppliersBranchesDataObject.cs" />
     <Compile Include="DataObjects\SupplierSummaryDataObject.cs" />
     <Compile Include="DataObjects\SupplierTypeDataObject.cs" />
     <Compile Include="DataServiceImplementation.cs" />
@@ -151,6 +153,7 @@
     <Content Include="ChargeTypes.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Suppliers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

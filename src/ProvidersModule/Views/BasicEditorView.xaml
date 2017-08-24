@@ -5,17 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:ProvidersModule.Views"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <DockPanel>
-            <RichTextBox Name="rtbEditor">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TextChanged">
-                        <i:InvokeCommandAction Command="{Binding TextChanaged}" CommandParameter="{Binding ElementName=FontFamily, Path=TextValue}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </RichTextBox>
+            <ToolBar DockPanel.Dock="Top">
+
+                <Button Command="{Binding SaveCommand}">
+                    <Image Source="/ProvidersModule;component/Images/disk.png" Width="16" Height="16" />
+                </Button>
+              </ToolBar>
+            <RichTextBox Name="rtbEditor" IsReadOnly="False" MinHeight="400">
+             </RichTextBox>
         </DockPanel>
     </Grid>
 </UserControl>

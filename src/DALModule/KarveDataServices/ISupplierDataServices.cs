@@ -43,6 +43,7 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncAllProviderTypes();
+        Task<ISupplierEvaluationNote> GetAsyncSupplierEvaluationNoteDataObject(string supplierId);
 
 
         #endregion

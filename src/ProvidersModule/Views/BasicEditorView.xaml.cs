@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProvidersModule.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,18 @@ namespace ProvidersModule.Views
         public BasicEditorView()
         {
             InitializeComponent();
+        }
+        public string Header
+        {
+            get
+
+            {
+                TabViewModelBase tvm = this.DataContext as TabViewModelBase;
+                return tvm.Header;
+
+            }
+
+            
         }
     }
 }

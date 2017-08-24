@@ -17,6 +17,8 @@ namespace ProvidersModule.ViewModels
         public const string NUMBER = "Numero";
         public const string TYPE = "Tipo";
         public const string SUPPLIERS = "Proveedores";
+        public const string NOTES = "Notes";
+
 
         public string Header
         {

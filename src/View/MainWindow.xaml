@@ -13,8 +13,8 @@
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                 xmlns:uc="clr-namespace:KarveCar.View"
                 mc:Ignorable="d"
-                Title="{Binding Title}" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
-
+                Title="{Binding Title}" Width="1366" Height="768" x:Name="mainwindow" Icon="/KarveCar;component/Images/rentCarIcon.png">
+    
     <r:RibbonWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -1857,8 +1857,9 @@
                         <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
-                    <ScrollViewer Grid.Row="1">
+                <!-- ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"-->
+                <ScrollViewer Grid.Row="1">
+                        
 
 <!--
                     <dragablz:TabablzControl x:Name="tbControl"  Style="{StaticResource TabablzControlStyle}" SelectionChanged="tbControl_SelectionChanged">

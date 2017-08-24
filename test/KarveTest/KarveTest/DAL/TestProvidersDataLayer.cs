@@ -64,11 +64,11 @@ namespace KarveTest.DAL
                     DataRow row = table.Rows[i];
                     Assert.NotNull(row["Numero"]);
                     string supplierId = row["Numero"] as string;
-                    ISupplierDataObjectInfo dataObjectInfo =  await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+                    ISupplierDataObjectInfo dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
                     Assert.NotNull(dataObjectInfo);
                 }
             }
-           
+
         }
 
         /// <summary>
@@ -91,10 +91,83 @@ namespace KarveTest.DAL
             }
             Assert.Null(dataObjectInfo);
         }
-         /// <summary>
-         /// All providers shall be a table in a DataSet with all fields not null.
-         /// </summary>
-         /// <returns></returns>
+        /// <summary>
+        /// Given a provider it shall return the type information for that supplier.
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        
+        public async Task Should_Give_SuppliersTypes()
+        {
+            ISupplierTypeDataObject supplierTypes = null;
+            DataSet set = null;
+            try
+            {
+                set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Assert.Fail("Failed");
+            }
+            Assert.NotNull(set);
+            try
+            {
+                Assert.Equals(set.Tables.Count, 1);
+                DataTable table = set.Tables[0];
+                Assert.Greater(table.Rows.Count, 0);
+                DataRow row = table.Rows[0];
+                Assert.NotNull(row["Numero"]);
+                string supplierId = row["Numero"] as string;
+                supplierTypes = await _supplierDataServices.GetAsyncSupplierTypesDataObject(supplierId);
+                Assert.NotNull(supplierTypes);
+            }
+            catch (Exception e)
+            {
+                Assert.NotNull(e.Message);
+            }
+            Assert.NotNull(supplierTypes);
+        }
+        /// <summary>
+        ///  It should load the evalution note from the supplier.
+        /// </summary>
+        /// <returns></returns>
+
+        [Test]
+        public async Task Should_LoadEvaluationNote_By_SupplierId()
+        {
+            DataSet set = null;
+            
+            try
+            {
+                set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Assert.Fail("Failed");
+            }
+            Assert.NotNull(set);
+            try
+            {
+                Assert.Equals(set.Tables.Count, 1);
+                DataTable table = set.Tables[0];
+                Assert.Greater(table.Rows.Count, 0);
+                DataRow row = table.Rows[0];
+                Assert.NotNull(row["Numero"]);
+                string supplierId = row["Numero"] as string;
+                //ISupplierEvaluationNote note = await _supplierDataServices.GetAsyncSupplierEvaluationNoteDataObject(supplierId);
+                Assert.NotNull(note);
+            } catch (Exception e)
+            {
+
+            }
+
+        }
+        /// <summary>
+        /// All providers shall be a table in a DataSet with all fields not null.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task Should_Be_All_Not_Null_Fields_Suppliers()
         {
@@ -127,5 +200,6 @@ namespace KarveTest.DAL
             }
             return;
         }
+        
     }
 }

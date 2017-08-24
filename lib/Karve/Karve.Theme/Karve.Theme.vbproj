@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Karve.Theme</RootNamespace>
+    <AssemblyName>Karve.Theme</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\build\</OutputPath>
+    <DocumentationFile>Karve.Theme.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Karve.Theme.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ThemeBotonCinta.vb" />
+    <Compile Include="ThemeKarve.vb" />
+    <Compile Include="Theme_Definicion.vb" />
+    <Compile Include="ThemeDefault.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clientes_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Proveedor_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Config_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturas_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clientes_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Config_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Proveedor_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturas_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\End_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\End_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Next_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Next_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Previus_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Previus_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveAs_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveAs_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Start_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\User16_Kw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\User16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check16_kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Enter 2-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\U_Check_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\U_Check_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\U_Check16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\U_Check16_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print_KV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Export_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Export_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Buscar_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Buscar_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lupa_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lupa_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actualizar_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actualizar_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mail_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mail_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mail_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mail_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bold_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bold_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Italic_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Italic_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Underline_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Underline_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignJustify_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignJustify_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignLeft_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignLeft_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignRight_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignRight_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChiselMarker_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChiselMarker_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DecreaseFont_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DecreaseFont_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IncreaseFont_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IncreaseFont_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextColor_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TextColor_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignCenter_mini_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignCenter_mini_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HTML_File_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HTML_File_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSWord_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSWord_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TXT_File_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TXT_File_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertImage_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertImage_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertLink_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertLink_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertTable_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertTable_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car16_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Color16_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search16_kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Del16_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Del16_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddCtr_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddCtr_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Prolongar_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CerrarCtr_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VerCtr_Def1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VerCtr_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Prolongar_Def1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProlongarCtr_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReabrirCtr_Def1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReabrirCtr_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cobros_Def1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cobros_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturar_Def1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturar_Kv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cobros_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cobros_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturar_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Facturar_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CerrarCtr_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CerrarCtr_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProlongarCtr_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProlongarCtr_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReabrirCtr_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReabrirCtr_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VerCtr_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VerCtr_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Contratos_IC_Def.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Contratos_IC_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reserva_Kv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reserva_Def.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

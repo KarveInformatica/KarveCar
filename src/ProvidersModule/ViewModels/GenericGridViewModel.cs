@@ -3,11 +3,7 @@ using KarveDataServices.DataObjects;
 using Prism.Commands;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -35,12 +31,12 @@ namespace ProvidersModule.ViewModels
             _manager = eventManager;
             _dataServices = dataServices;
             _supplierDataServices = _dataServices.GetSupplierDataServices();
-           
+
             _stateChange = false;
             _lastSupplierId = "1";
             SelectedIndexCommand = new DelegateCommand<object>(OnSelectedIndex);
-          
-            
+
+
         }
         public DataTable GenericDataTable
         {
@@ -55,21 +51,24 @@ namespace ProvidersModule.ViewModels
             }
 
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
-        private void OnSelectedIndex(object data)
+        private async void OnSelectedIndex(object data)
         {
             DataRowView local = data as DataRowView;
             // case base someone form a complex grid asks ok.
             // SupplierSummary
             ISupplierPayload supplierDataPayLoad = new SupplierDataPayload();
+      
             if ((_supplierPayload != null) && (_supplierPayload.SupplierDataObjectInfo != null) && (_supplierPayload.SupplierDataObjectInfo.Number != null))
             {
 
                 _lastDataObject = _supplierPayload.SupplierDataObjectInfo;
+
+                /// TODO: replace conditional with polymorphism and go on with this.
                 if ((local != null) && (local.Row.Table.TableName.Contains("SupplierInfoDataObject")))
                 {
                     _lastSupplierId = local.Row.ItemArray[0] as string;
@@ -89,7 +88,7 @@ namespace ProvidersModule.ViewModels
                         {
                             _lastDataObject.Country = country;
                             _lastDataObject.CountryCode = countryCode;
-                            
+
 
                         }
 
@@ -110,13 +109,42 @@ namespace ProvidersModule.ViewModels
                         _stateChange = true;
                     }
                 }
+                else if ((local != null) && (local.Row.Table.TableName.Contains("SupplierType")))
+
+                {
+                    string s=local.Row.ItemArray[2] as string;
+                    supplierDataPayLoad.SupplierDataObjectType = await _supplierDataServices.GetAsyncSupplierTypesDataObject(s);
+                }
+                else if ((local != null) && (local.Row.Table.TableName.Contains("ExtendedSummary")))
+                {
+                    _lastSupplierId = local.Row.ItemArray[0] as string;
+                    string name = local.Row.ItemArray[1] as string;
+                    string nif = local.Row.ItemArray[2] as string;
+                    _lastDataObject = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(_lastSupplierId);
+                    _lastDataObject.Name = name;
+                    _lastDataObject.Nif = nif;
+                    _lastDataObject.Number = _lastSupplierId;
+                    supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
+
+                    if (_lastDataObject.Type != null)
+                    {
+                        supplierDataPayLoad.SupplierDataObjectType = await _supplierDataServices.GetAsyncSupplierTypesDataObject((string)_lastDataObject.Type);
+
+                    }
+                    else
+                    {
+                        supplierDataPayLoad.SupplierDataObjectType = null;
+                    }
+                   
+
+                }
 
                 supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
                 _manager.notifyObserver(supplierDataPayLoad);
             }
         }
 
-        
+
         private async void ListByCountryOrProvince(string param)
         {
             try
@@ -191,15 +219,16 @@ namespace ProvidersModule.ViewModels
             // here comes the navigation parameters from the other view. 
             NavigationParameters par = navigationContext.Parameters;
             string commandName = par["Command"] as string;
+         
             if (commandName == "Search")
             {
                 string searchNumber = par["SearchType"] as string;
                 switch (searchNumber)
                 {
-                    case TabViewModelBase.NUMBER: ListByNumber();  break;
-                    case TabViewModelBase.TYPE: ListByType();  break;
-                    case TabViewModelBase.COUNTRIES: ListByCountryOrProvince("Country");  break;
-                    case  TabViewModelBase.PROVINCES: ListByCountryOrProvince("Prov");  break;
+                    case TabViewModelBase.NUMBER: ListByNumber(); break;
+                    case TabViewModelBase.TYPE: ListByType(); break;
+                    case TabViewModelBase.COUNTRIES: ListByCountryOrProvince("Country"); break;
+                    case TabViewModelBase.PROVINCES: ListByCountryOrProvince("Prov"); break;
                 }
 
 
@@ -207,7 +236,7 @@ namespace ProvidersModule.ViewModels
             _stateChange = false;
             _supplierPayload = par["Payload"] as ISupplierPayload;
 
-           // navigationParameters.Add("Payload", _supplierPayload);
+            // navigationParameters.Add("Payload", _supplierPayload);
         }
         /// <summary>
         ///  This method create asynchronously the list of the type of providers.
@@ -223,7 +252,7 @@ namespace ProvidersModule.ViewModels
                     DataSet dataSet = await _supplierDataServices.GetAsyncAllProviderTypes();
                     if ((dataSet != null) && (dataSet.Tables.Count > 0))
                     {
-                        
+
                         this.GenericDataTable = dataSet.Tables[0];
                     }
                 }
