@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using KarveDataServices.DataObjects;
 using KarveCommon.Services;
+using System.Windows;
 
 namespace ProvidersModule.ViewModels
 {
@@ -50,7 +51,7 @@ namespace ProvidersModule.ViewModels
                 string name = local.Row.ItemArray[1] as string;
                 string nif = local.Row.ItemArray[2] as string;
 
-                ISupplierDataObjectInfo dataObject = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+                ISupplierDataInfo dataObject = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
                 dataObject.Name = name;
                 dataObject.Nif = nif;
                 dataObject.Number = supplierId;
@@ -86,9 +87,7 @@ namespace ProvidersModule.ViewModels
             }
             catch (Exception e)
             {
-
-
-                //        ShowError(e, "Error during data loading");
+                 MessageBox.Show(e.Message);
             }
         }
     }

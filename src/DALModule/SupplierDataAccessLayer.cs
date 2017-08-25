@@ -56,13 +56,13 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="id">Identifier of the provider</param>
         /// <returns>A supplier data object info for the the UI, which contains all the info for the general</returns>
-        public async Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id)
+        public async Task<ISupplierDataInfo> GetAsyncSupplierDataObjectInfo(string id)
         {
-            ISupplierDataObjectInfo dataObject = new SupplierInfoDataObject();
+            ISupplierDataInfo dataObject = new SupplierInfoDataObject();
             if (id != String.Empty)
             {
 
-                IMapperCommand mapper1 = new QueryAsyncForObjectCommand<ISupplierDataObjectInfo>("Suppliers.GetSupplierInfos", id);
+                IMapperCommand mapper1 = new QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
                 IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
 
                 DataMapper.AddBatch(mapper1);
@@ -105,7 +105,7 @@ namespace DataAccessLayer
                         dataRows = countryDataCode.AsEnumerable().Where(r => r.Field<string>("CountryCode") == dataObject.CountryCode);
                         foreach (DataRow dr in dataRows)
                         {
-                            string countryValue = (string)dr["Name"];
+                            string countryValue = dr["Name"] as string;
                             if (countryValue.Length > 0)
                                 dataObject.Country = countryValue;
                             break;
@@ -116,12 +116,17 @@ namespace DataAccessLayer
             }
             return dataObject;
         }
-        public async Task<ISupplierTypeDataObject> GetAsyncSupplierTypesDataObject(string id)
+        /// <summary>
+        /// This return the types of supplier given its id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ISupplierTypeData> GetAsyncSupplierTypesDataObject(string id)
         {
-            IMapperCommand mapperSupplierTypes = new QueryAsyncForObjectCommand<ISupplierTypeDataObject>("Suppliers.GetSupplierTypeById", id);
+            IMapperCommand mapperSupplierTypes = new QueryAsyncForObjectCommand<ISupplierTypeData>("Suppliers.GetSupplierTypeById", id);
             DataMapper.AddBatch(mapperSupplierTypes);
             DataSet supplierTypesDataSet = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
-            ISupplierTypeDataObject dataObjectType = new SupplierTypeDataObject();
+            ISupplierTypeData dataObjectType = new SupplierTypeDataObject();
             // we need at least a result
            if (supplierTypesDataSet.Tables.Count == 1)
             {
@@ -131,7 +136,43 @@ namespace DataAccessLayer
             }
             return dataObjectType;
         }
-#endregion
+        /// <summary>
+        ///  Each supplier has an evaluation note. We retrieve the data object of the evaluation note.
+        /// </summary>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
+        public Task<ISupplierEvaluationNoteData> GetAsyncSupplierEvaluationNoteDataObject(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        ///  This methods is useful for retriving monitoring informations from the database,
+        ///  give the id of the supplier.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<ISupplierMonitoringData> GetAsyncMonitoringSupplierById(string id)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        ///  This returns the asynchronous supplier type given hisid.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ISupplierTypeData GetAsyncSupplierTypeById(string id)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        ///  Return a paged dataset that it is the merge between the first dataset fetched and the new request.
+        /// </summary>
+        /// <returns></returns>
+        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         #region Private Methods
         private void SetDataObjectFields<T>(DataRow row, ref  T dataObject)
         {
@@ -150,6 +191,10 @@ namespace DataAccessLayer
             }
 
         }
+
+        
+
+
         #endregion
 
     }

@@ -16,11 +16,41 @@ using Prism.Unity;
 namespace KarveTest.DAL
 {
     [TestFixture]
-    public class TestProvidersDataLayer
+    public class TestSupplierDataServicesLayer
     {
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
 
+        /// <summary>
+        ///  Returns a supplierId
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> SelectFirstId()
+        {
+            DataSet set = null;
+            string supplierId="";
+            try
+            {
+                set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Assert.Fail("Failed");
+            }
+            // ok we have the data.
+            if (set != null)
+            {
+                DataTable table = set.Tables[0];
+                // we shall see the fields.
+                int count = table.Rows.Count;
+                Assert.GreaterOrEqual(count, 1);
+                DataRow row = table.Rows[0];
+                Assert.NotNull(row["Numero"]);
+                supplierId = row["Numero"] as string;
+            }
+            return supplierId;
+        }
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -64,7 +94,7 @@ namespace KarveTest.DAL
                     DataRow row = table.Rows[i];
                     Assert.NotNull(row["Numero"]);
                     string supplierId = row["Numero"] as string;
-                    ISupplierDataObjectInfo dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
+                    ISupplierDataInfo dataObjectInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
                     Assert.NotNull(dataObjectInfo);
                 }
             }
@@ -79,7 +109,7 @@ namespace KarveTest.DAL
         public async Task Should_Not_Give_A_Valid_Supplier()
         {
             string supplierId = "-1";
-            ISupplierDataObjectInfo dataObjectInfo = null;
+            ISupplierDataInfo dataObjectInfo = null;
             try
             {
                 dataObjectInfo =
@@ -99,7 +129,7 @@ namespace KarveTest.DAL
         
         public async Task Should_Give_SuppliersTypes()
         {
-            ISupplierTypeDataObject supplierTypes = null;
+            ISupplierTypeData supplierTypes = null;
             DataSet set = null;
             try
             {
@@ -144,7 +174,6 @@ namespace KarveTest.DAL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
                 Assert.Fail("Failed");
             }
             Assert.NotNull(set);
@@ -156,14 +185,72 @@ namespace KarveTest.DAL
                 DataRow row = table.Rows[0];
                 Assert.NotNull(row["Numero"]);
                 string supplierId = row["Numero"] as string;
-                //ISupplierEvaluationNote note = await _supplierDataServices.GetAsyncSupplierEvaluationNoteDataObject(supplierId);
+                ISupplierEvaluationNoteData note = await _supplierDataServices.GetAsyncSupplierEvaluationNoteDataObject(supplierId);
                 Assert.NotNull(note);
             } catch (Exception e)
             {
-
+                Assert.Fail(e.Message);
             }
 
         }
+
+        /// <summary>
+        /// It shall return a valid supplier by its if. 
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task Should_Return_A_Valid_Supplier_ById()
+        {
+            string id = await SelectFirstId().ConfigureAwait(false);
+            Assert.IsEmpty(id);
+            try
+            {
+                ISupplierTypeData typeData = _supplierDataServices.GetAsyncSupplierTypeById(id);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
+
+        [Test]
+        public async Task Should_Return_Full_Supplier_Paged()
+        {
+            DataSet set = null;
+            try
+            {
+                set = await _supplierDataServices.GetAsyncSuppliersSummaryPaged();
+            } catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// It shall return the evaluation by a supplier from its id.
+        /// </summary>
+        [Test]
+        public async Task Should_Return_A_Valid_Monitoring()
+        {
+
+            string id = await SelectFirstId().ConfigureAwait(false);
+            Assert.IsEmpty(id);
+            // ok now it is ready we should have a valid monitoring.
+            try
+            {
+                ISupplierMonitoringData data = await _supplierDataServices.GetAsyncMonitoringSupplierById(id);
+                Assert.NotNull(data);
+            }
+            catch (Exception e)
+            {
+                Assert.NotNull(e);
+            }
+
+
+        }
+       
+
         /// <summary>
         /// All providers shall be a table in a DataSet with all fields not null.
         /// </summary>

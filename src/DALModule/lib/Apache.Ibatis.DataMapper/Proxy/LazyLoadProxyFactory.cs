@@ -28,15 +28,14 @@ using System.Reflection;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.MappedStatements;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 
 namespace Apache.Ibatis.DataMapper.Proxy
 {
-	/// <summary>
+    /// <summary>
     /// This class is responsible of create lazy load proxies for a concrete class with virtual method.
-	/// </summary>
-	public class LazyLoadProxyFactory : ILazyFactory
+    /// </summary>
+    public class LazyLoadProxyFactory : ILazyFactory
 	{
 		#region Fields
 		private static readonly ILog logger = LogManager.GetLogger( MethodBase.GetCurrentMethod().DeclaringType );

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataObjects
 {
-    public interface ISupplierTypeDataObject
+    public interface ISupplierTypeData
     {
         string User { get; set; }
         string EmergencyAccount { get; set; }

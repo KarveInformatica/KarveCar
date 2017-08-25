@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using KarveDataServices.DataObjects;
+
 namespace DataAccessLayer.DataObjects
 {
-    public class SuppliersBranchesDataObject
+    public class SuppliersBranchesDataObject : ISupplierBranchesData
     {
-        public string Codigo { set; get; }
-        public string Nombre { set; get; }
-        public string Direccion { set; get; }
-        public string CP { set; get; }
-        public string Poblacion { set; get; }
-        public string Provincia { set; get; }
-        public string Telefono { set; get; }
-        public string Email { set; get; }
+        public object Codigo { get ; set ; }
+        public object Nombre { get ; set; }
+        public object Direccion { get; set ; }
+        public object Poblacion { get ; set ; }
+        public object CP { get ; set ; }
+        public object Provincia { get ; set ; }
+        public object Telefono { get ; set ; }
+        public object Email { get; set ; }
     }
 }

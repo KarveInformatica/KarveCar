@@ -18,7 +18,7 @@ namespace ProvidersModule.ViewModels
         private ISupplierDataServices _supplierDataServices;
         public ICommand SelectedIndexCommand { set; get; }
         private string _lastSupplierId;
-        ISupplierDataObjectInfo _lastDataObject = null;
+        ISupplierDataInfo _lastDataObject = null;
         ISupplierPayload _supplierPayload;
         private bool _stateChange;
         /// <summary>

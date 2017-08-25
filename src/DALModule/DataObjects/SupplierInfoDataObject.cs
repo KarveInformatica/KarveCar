@@ -4,7 +4,7 @@ using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer.DataObjects
 {
-    public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataObjectInfo
+    public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataInfo
     {
         private string _countryCode = "";
         private string _direction = "";

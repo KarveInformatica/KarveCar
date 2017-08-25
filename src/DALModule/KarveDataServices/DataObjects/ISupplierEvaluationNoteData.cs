@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataObjects
 {
-    public interface ISupplierEvaluationNote
+    public interface ISupplierEvaluationNoteData
     {
-        string Codigo { set; get; }
+        string Nombre { set; get; }
         decimal Precio { set; get; }
         decimal CumplePrevision { set; get; }
         decimal RespondePedido { set; get; }
         decimal SuministraInfo { set; get; }
         DateTime Fecha { set; get; }
         decimal Trato { set; get; }
-        decimal AttReciboda { set; get; }
+        decimal AttRecibida { set; get; }
         decimal Presentacion { set; get; }
         decimal Suma { get; set; }
         decimal Media { get; set; }

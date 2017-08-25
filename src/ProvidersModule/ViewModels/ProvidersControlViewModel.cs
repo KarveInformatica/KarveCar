@@ -32,8 +32,8 @@ namespace ProvidersModule.ViewModels
         private ICareKeeperService _careKeeperService;
         private IRegionManager _regionManager;
         private DataTable _supplierDataTable;
-        private ISupplierDataObjectInfo _dataObjectInfo = new SupplierInfoDataObject();
-        private ISupplierTypeDataObject _dataObjectType = new SupplierTypeDataObject();
+        private ISupplierDataInfo _dataObjectInfo = new SupplierInfoDataObject();
+        private ISupplierTypeData _dataObjectType = new SupplierTypeDataObject();
         public ICommand SupplierSearchSelection { set; get; }
         public ICommand SupplierSearchCommand { set; get; }
         public ICommand SupplierSearchCountryCommand { set; get; }
@@ -208,7 +208,7 @@ namespace ProvidersModule.ViewModels
             get { return _supplierDataTable; }
         }
 
-        public ISupplierTypeDataObject SupplierDataObjectType
+        public ISupplierTypeData SupplierDataObjectType
         {
             get
             {
@@ -220,7 +220,7 @@ namespace ProvidersModule.ViewModels
                 RaisePropertyChanged("SupplierDataObjectType");
             }
         }
-        public ISupplierDataObjectInfo SupplierDataObjectInfo
+        public ISupplierDataInfo SupplierDataObjectInfo
         {
             get
             {

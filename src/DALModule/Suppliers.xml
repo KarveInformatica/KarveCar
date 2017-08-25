@@ -83,9 +83,9 @@
       <result property="Telefono"        column="TELEFONO" />
       <result property="Email"        	column="EMAIL" />
     </resultMap>
-      <resultMap id="SuppliersVisitResultMap"    class ="SuppliersVisitDataObject">
+      <resultMap id="SuppliersVisitDataResultMap"    class ="SuppliersVisitDataObject">
       <result property="Fecha"           column="vsFecha" />
-      <result property="Hora"         column="DELEGACION" />
+      <result property="Delegacion"         column="DELEGACION" />
       <result property="Vendedor"       column="DIRECCION" />
       <result property="Poblacion"       column="POBLACION" />
       <result property="CP"          	 	column="CP" />
@@ -93,7 +93,6 @@
       <result property="Telefono"        column="TELEFONO" />
       <result property="Email"        	column="EMAIL" />
     </resultMap>
-</select>
     <resultMap id="SupplierContactsResultMap" class="SupplierContactsDataObject">
        <result property="Nombre"               column="NOMBRE" />
       <result property="Cargo"         	    column="CARGO" />
@@ -101,7 +100,6 @@
       <result property="Telefono"       	    column="TELEFONO" />
       <result property="EMail"          	    column="EMAIL" />
     </resultMap>
-    <!-- this returns the evaluation result map -->
     
     <resultMap id="SupplierEvaluationResultMap" class="SupplierEvaluationDataObject">
     <result property="Nombre"                    column="PROVEE" />
@@ -115,79 +113,70 @@
       <result property="Suma"    		column="SUMA" />
       <result property="Media"    column="MEDIA" />
     </resultMap>
-    <!-- this result the supplierMonitoring ResultMap -->
     <resultMap id="SupplierMonitoringResultMap" class="SupplierMonitoringDataObject" >
 	<result property="Nombre" column="PROVEEDOR" />
-	<result property="Linia" column="LINEA" />
 	<result property="Fecha" column="FECHA" />
 	<result property="Observaciones" column="OBSERVACIONES" />
 	<result property="Responsable" column="RESPONSABLE" />
 	<result property="NumInc" column="NUMINC" />
     </resultMap>
   </resultMaps>
+<parameterMaps>
+<parameterMap id="PageParameter" class="PageParameter"> 
+</parameterMap>
+</parameterMaps>
   <statements>
-<!-- Thi return the supplier types -->
     <select id="GetSupplierTypes"  resultMap="SupplierTypeResultMap">
       SELECT  USUARIO,
       CTAGASTO,NUM_TIPROVE,
       ULTMODI, NOMBRE FROM TIPOPROVE
     </select>
-    <!-- This return ths supplier type by id --> 
     <select id="GetSupplierTypeById"  parameterClass="String" resultMap="SupplierTypeResultMap">
       SELECT
       USUARIO, CTAGASTO, NUM_TIPROVE, ULTMODI, NOMBRE
       FROM TIPOPROVE
       WHERE NUM_TIPROVE =  #value#
     </select>
-    <!--  This query return the supplier evaluation by Id --->
-    <select id="LoadEvaluationNote" paramterClass="String" resultMap="SupplieTypeEvaluationResultMap">
-    SELECT PROVEE, LIN, FECHA, PRECIO ,PREV,RESP,INFOR,TRATO,ATENCION,PRESENTA,SUMA,MEDIA FORM PROVEE_EVALUANOTA 
+    <select id="LoadEvaluationNote" paramterClass="String" resultMap="SupplierEvaluationResultMap">
+    SELECT PROVEE, FECHA, PRECIO ,PREV,RESP,INFOR,TRATO,ATENCION,PRESENTA,SUMA,MEDIA FORM PROVEE_EVALUANOTA 
     WHERE PROVEE =#value# ORDERBY FECHA
     </select>
-    <!--  This query returns the supplier evaluation by supplier id  -->
     <select id="MonitoringSuppliersById" parameterClass="String" resultMap="SupplierMonitoringResultMap">
     SELECT PROVEE AS PROVEEDOR,LINIA AS LINEA,FECHA,OBS as OBSERVACIONES,PERSONA AS RESPONSABLE,NUMINC
     FROM SEGUI_PROVEE WHERE PROVEE=#value#
     </select>
-    <!-- This query return a partial summary map -->
     <select id="GetAllSuppliersSummary"  resultMap="SupplierSummaryResultMap">
       SELECT NUM_PROVEE,
       NOMBRE,
       NIF
       FROM PROVEE1
     </select>
-    <!-- this query returns the suppler full summary -->
     <select id="GetFullSuppliersSummary"  resultMap="ExtendedSummaryResultMap">
       SELECT PROVEE1.NUM_PROVEE, PROVEE1.NOMBRE, NIF, COMERCIAL, TELEFONO, DIRECCION, CP, POBLACION, TIPO,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE,
       CUGASTO, PROVEE2.PLAZO, PROVEE2.PLAZO2, PROVEE2.PLAZO3, PROVEE2.DIA, PROVEE2.DIA2, PROVEE2.DIA3, PROVEE1.MESVACA, PROVEE1.MESVACA2, PROVEE1.ULTMODI, PROVEE1.USUARIO
       FROM PROVEE1, PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE;
     </select>
-    <!-- this query returns the suppler with K top 200 summary  from #PageParameter.startPos#  -->
     <select id="GetFullSuppliersSummaryPaged"  parameterMap="PageParameter" resultMap="ExtendedSummaryResultMap">
      SELECT  TOP 200 START AT #PageParameter.startPos# PROVEE1.NUM_PROVEE, PROVEE1.NOMBRE, NIF, COMERCIAL, TELEFONO, DIRECCION, CP, POBLACION, TIPO,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE,
       CUGASTO, PROVEE2.PLAZO, PROVEE2.PLAZO2, PROVEE2.PLAZO3, PROVEE2.DIA, PROVEE2.DIA2, PROVEE2.DIA3, PROVEE1.MESVACA, PROVEE1.MESVACA2, PROVEE1.ULTMODI, PROVEE1.USUARIO
         FROM PROVEE1, PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE;
     </select>
-    <!--- This query returns the supplier branches with K top 200 summary -->
     <select id="GetSupplierDelegationsPaged"  parameterMap="PageParameter" resultMap="SuppliersBranchesResultMap" >
       SELECT  TOP 200 START AT  #PageParameter.startPos# CLD.CLDIDDELEGA AS CODIGO,CLD.CLDDELEGACION AS DELEGACION,  CLD.CLDDIRECCION1 AS DIRECCION,CLD.CLDPOBLACION AS POBLACION,
       cldCP AS CP, PROVINCIA.PROV AS PROVINCIA,
       cldTelefono1 as TELEFONO, cldEMail AS EMAIL FROM PROVEE1 AS PRO INNER JOIN ProDelega CLD
       ON PRO.NUM_PROVEE=CLD.CLDIDCLIENTE LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS=cldIdProvincia
     </select>
-      <!--- This query returns the supplier branches-->
     <select id="GetSupplierDelegations"  parameterMap="PageParameter" resultMap="SuppliersBranchesResultMap" >
       SELECT  CLD.CLDIDDELEGA AS CODIGO,CLD.CLDDELEGACION AS DELEGACION,  CLD.CLDDIRECCION1 AS DIRECCION,CLD.CLDPOBLACION AS POBLACION,
       cldCP AS CP, PROVINCIA.PROV AS PROVINCIA,
       cldTelefono1 as TELEFONO, cldEMail AS EMAIL FROM PROVEE1 AS PRO INNER JOIN ProDelega CLD
       ON PRO.NUM_PROVEE=CLD.CLDIDCLIENTE LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS=cldIdProvincia
     </select>
-    <!-- This returns all delegation by client -->
     <select id="GetSupplierDelegationByClient" parameterClass="String" resultMap="SuppliersBranchesResultMap">
-    SELECT *, NULL ENVIAR FROM ProDelega WHERE cldIdCliente=#codigo ORDERBY cldIdDelega
+    SELECT *, NULL ENVIAR FROM ProDelega WHERE cldIdCliente=#value# ORDERBY cldIdDelega
     </select>
-    <!-- This returns all contacts by the supplier -->
-    <select id="GetSupplierContacts" parameterClass="string" resultMap="SupplierContactosResultMap">
+    <select id="GetSupplierContacts" parameterClass="string" resultMap="SupplierContactsResultMap">
 	SELECT ccoContacto as Nombre, 
 	ccoCargo as Cargo, ccoDepto as Departemento, 
 	ccoTelefono as Telefono, 
@@ -196,8 +185,7 @@
 	CC FULL OUTER JOIN ProDelega CD ON 
 	(CC. ccoIdCliente = CD.cldIdCliente AND CC.ccoIdDelega=CD.cldIdDelega) WHERE ccoIdCliente=#value# ORDER BY ccoIdDelega, ccoContacto
 </select>
-   <!-- This returns all contacts by the supplier -->
-    <select id="GetSupplierContactsPaged"   parameterMap="PageParameter" parameterClass="string" resultMap="SupplierContactosResultMap">
+    <select id="GetSupplierContactsPaged" parameterMap="PageParameter" resultMap="SupplierContactsResultMap">
 	SELECT  TOP 200 START AT  #PageParameter.startPos#  ccoContacto as Nombre, 
 	ccoCargo as Cargo, ccoDepto as Departemento, 
 	ccoTelefono as Telefono, 
@@ -241,13 +229,13 @@
       FROM PAIS
       WHERE SIGLAS = #value#
     </select>
-    <select id="GetSupplierVisits" parameterClass="String" resultMap="SupplierVisitsDataResultMap">
+    <select id="GetSupplierVisits" parameterClass="String" resultMap="SuppliersVisitDataResultMap">
 SELECT V.*, CC.ccoContacto AS NomContacto, VE.NOMBRE FROM 
 VISITAS_PROV V OUT OUTER JOIN ProContactos CC ON V.ID_CONTACTO = CC.ccoIdContacto 
 OUTER JOIN VISITAS_PROV V 
 OUTER JOIN ProContactos CC ON V.ID_CONTACTO = CC.ccoIdContacto 
 OUTER JOIN VENDEDOR VE ON V.ID_VENDEDOR = VE.NUM_VENDE WHERE
-ID_CLIENTE =#value ORDER BY FECHA, CC.ccoContacto ASC
+ID_CLIENTE =#value# ORDER BY FECHA, CC.ccoContacto ASC
     </select>
     <select id="GetAllCountries"  resultMap="SupplierCountryDataResultMap">
       SELECT SIGLAS, PAIS

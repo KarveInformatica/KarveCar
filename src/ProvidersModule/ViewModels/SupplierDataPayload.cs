@@ -6,9 +6,9 @@ namespace ProvidersModule.ViewModels
 {
     public class SupplierDataPayload : ISupplierPayload
     {
-        public ISupplierDataObjectInfo SupplierDataObjectInfo { get; set ; }
-        public ISupplierTypeDataObject SupplierDataObjectType { get; set; }
-        public IProvinceDataObject SupplierProvinceDataObject { get; set; }
-        public ICountryDataObject SupplierCountryDataObject { get; set; }
+        public ISupplierDataInfo SupplierDataObjectInfo { get; set ; }
+        public ISupplierTypeData SupplierDataObjectType { get; set; }
+        public IProvinceData SupplierProvinceDataObject { get; set; }
+        public ICountryData SupplierCountryDataObject { get; set; }
     }
 }

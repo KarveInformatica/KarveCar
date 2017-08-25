@@ -6,7 +6,7 @@ namespace KarveDataServices.DataObjects
     ///  Interface for giving information about suppliers.
     /// </summary>
     /// 
-    public interface ISupplierDataObjectInfo
+    public interface ISupplierDataInfo
     { 
         string Name { set; get; }
         string Direction { set; get; }

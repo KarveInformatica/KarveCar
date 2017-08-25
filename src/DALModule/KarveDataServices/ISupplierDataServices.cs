@@ -26,13 +26,13 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="id"> data object id.</param>
         /// <returns></returns>
-        Task<ISupplierTypeDataObject> GetAsyncSupplierTypesDataObject(string id);
+        Task<ISupplierTypeData> GetAsyncSupplierTypesDataObject(string id);
         /// <summary>
         /// This retrives the data object info for a given data object
         /// </summary>
         /// <param name="id"> data object id.</param>
         /// <returns></returns>
-        Task<ISupplierDataObjectInfo> GetAsyncSupplierDataObjectInfo(string id);
+        Task<ISupplierDataInfo> GetAsyncSupplierDataObjectInfo(string id);
         /// <summary>
         /// This retrives all complete summary from proveedores from provve1 and provve2.
         /// </summary>
@@ -43,7 +43,10 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncAllProviderTypes();
-        Task<ISupplierEvaluationNote> GetAsyncSupplierEvaluationNoteDataObject(string supplierId);
+        Task<ISupplierEvaluationNoteData> GetAsyncSupplierEvaluationNoteDataObject(string supplierId);
+        Task<ISupplierMonitoringData> GetAsyncMonitoringSupplierById(string id);
+        ISupplierTypeData GetAsyncSupplierTypeById(string id);
+        Task<DataSet> GetAsyncSuppliersSummaryPaged();
 
 
         #endregion

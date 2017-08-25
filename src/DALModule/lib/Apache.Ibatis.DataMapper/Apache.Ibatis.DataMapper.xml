@@ -3090,6 +3090,11 @@
              base class for each async command to be sent in the batch execution engine.
             </summary>
         </member>
+        <member name="P:Apache.Ibatis.DataMapper.MappedStatements.BaseQueryAsyncCommand.Statement">
+            <summary>
+             This is the query that we want to execute
+            </summary>
+        </member>
         <member name="T:Apache.Ibatis.DataMapper.MappedStatements.MappedStatement">
             <summary>
             Base implementation of <see cref="T:Apache.Ibatis.DataMapper.MappedStatements.IMappedStatement"/>.
@@ -12296,7 +12301,7 @@
             <param name="target">The target object which contains the property proxydied.</param>
             <param name="setAccessor">The proxified member accessor.</param>
         </member>
-        <member name="M:Apache.Ibatis.DataMapper.Proxy.LazyLoadInterceptor.Intercept(Castle.Core.Interceptor.IInvocation)">
+        <member name="M:Apache.Ibatis.DataMapper.Proxy.LazyLoadInterceptor.Intercept(Castle.DynamicProxy.IInvocation)">
             <summary>
             Intercepts the specified invocation., params object[] arguments
             </summary>

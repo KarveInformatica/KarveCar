@@ -55,7 +55,7 @@ namespace DataAccessLayer
             }
             catch (Exception e)
             {
-                string reason = e.Message + " BaseDataMapper failed initialization";
+                string reason = e.StackTrace + " BaseDataMapper failed initialization";
                 DataLayerExecutionException ex = new DataLayerExecutionException(reason);
                 throw ex;
             }

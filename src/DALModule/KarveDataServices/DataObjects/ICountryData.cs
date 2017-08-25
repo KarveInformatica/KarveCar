@@ -1,6 +1,6 @@
 ﻿namespace KarveDataServices.DataObjects
 {
-    public interface ICountryDataObject
+    public interface ICountryData
     {
         object CountryCode { set; get; }
         object Name { set; get; }

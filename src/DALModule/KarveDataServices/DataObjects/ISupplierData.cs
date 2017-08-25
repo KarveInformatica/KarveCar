@@ -1,6 +1,6 @@
 ﻿namespace KarveDataServices.DataObjects
 {
-    public interface ISupplierDataObject
+    public interface ISupplierData
     {
     }
 }

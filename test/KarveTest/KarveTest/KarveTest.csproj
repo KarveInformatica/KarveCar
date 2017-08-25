@@ -83,8 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\BankAccessLayerTest.cs" />
-    <Compile Include="DAL\TestProvidersDataLayer.cs" />
-    <Compile Include="KarveDataServices\ISupplierEvaluationNote.cs" />
+    <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
     <Compile Include="UI\GUITests.cs" />
