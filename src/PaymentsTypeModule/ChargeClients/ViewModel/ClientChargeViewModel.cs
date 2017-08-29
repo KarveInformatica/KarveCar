@@ -185,12 +185,19 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                 this.ChargeName = local.Row.ItemArray[1] as string;
                 this.ChargeAccount1 = local.Row.ItemArray[2] as string;
                 this.ChargeAccount2 = _paymentDataServices.GetAccountDefinitionByCode(this.ChargeAccount1);
-                GetChargeAccountPropertiesByCode(Int32.Parse(this.ChargeNumber));;
+                try
+                {
+                    GetChargeAccountPropertiesByCode(Int32.Parse(this.ChargeNumber));
+                } catch (Exception e)
+                {
+                    MessageBox.Show(e.StackTrace);
+                }
             }
         }
 
         private void GetChargeAccountPropertiesByCode(int pos)
         {
+
             IDictionary<string, bool> paymentProperties = _paymentDataServices.GetChargeOptions(pos);
             this.IsClientAccountChecked = paymentProperties["IsClientAccountChecked"];
             this.IsRemittableChecked = paymentProperties["IsNoRemittableChecked"];

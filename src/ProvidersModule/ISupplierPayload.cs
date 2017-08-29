@@ -1,4 +1,5 @@
 ﻿using KarveDataServices.DataObjects;
+using System.Data;
 
 namespace ProvidersModule
 {
@@ -8,5 +9,6 @@ namespace ProvidersModule
         ISupplierTypeData SupplierDataObjectType { get; set; }
         IProvinceData     SupplierProvinceDataObject { get; set; }
         ICountryData      SupplierCountryDataObject { get; set; }
+        DataTable SupplierSummaryDataTable { get; set; }
     }
 }

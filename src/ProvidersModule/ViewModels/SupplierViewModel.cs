@@ -68,7 +68,7 @@ namespace ProvidersModule.ViewModels
                 {
                     supplierDataPayLoad.SupplierDataObjectType = null;
                 }
-                _eventManager.notifyObserver(supplierDataPayLoad);
+  //              _eventManager.notifyObserver(supplierDataPayLoad);
             }
 
         }

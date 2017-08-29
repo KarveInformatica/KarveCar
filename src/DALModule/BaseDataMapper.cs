@@ -8,50 +8,51 @@ using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
 using Apache.Ibatis.DataMapper.Session;
 using KarveCommon.Generic;
+using KarveDataServices;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  Abstract calls that provide the base configuration for all data acess layer classes.
     /// </summary>
-    public abstract class BaseDataMapper
+    public class BaseDataMapper: IKarveDataMapper
     {
         // Data mapper 
-        protected IDataMapper DataMapper;
+        private IDataMapper _mapper;
         // Data session 
-        protected ISessionFactory SessionFactory;
+        private ISessionFactory _sessionFactory;
         // mapper factory
-        protected IMapperFactory MapperFactory;
+        private IMapperFactory _mapperFactory;
         // mapper configuration engine.
-        protected IConfigurationEngine ConfigurationEngine;
-        // Object identifieer of the data object
-        public string Id { get; protected set; }
+        private IConfigurationEngine _configurationEngine;
         // Type of the data object
-        public Type DalType { set; get; }
+        private string _resource;
+    
+        public string ConfigFile { get { return _resource; } set { _resource = value; } }
+        public IDataMapper DataMapper { get { return _mapper; } }
+        public ISessionFactory SessionFactory { get { return _sessionFactory; }  }
+
         // Field of the data object that shall be not duplicated.
         public const string DuplicateFieldCheck = "Codigo";
         
         /// <summary>
         /// Default constructor
         /// </summary>
-        protected BaseDataMapper()
+        public BaseDataMapper()
         {
-            string resource = "SqlMap.config";
-            InitMapper(resource);
+            _resource = "SqlMap.config";
+            InitMapper(_resource);
         }
-        protected BaseDataMapper(string resource)
-        {
-            InitMapper(resource);
-        }
+       
         private void InitMapper(string resource)
         {
             try
             {
-                ConfigurationEngine = new DefaultConfigurationEngine();
-                ConfigurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
-                MapperFactory = ConfigurationEngine.BuildMapperFactory();
-                SessionFactory = ConfigurationEngine.ModelStore.SessionFactory;
-                DataMapper = ((IDataMapperAccessor)MapperFactory).DataMapper;
+                _configurationEngine = new DefaultConfigurationEngine();
+                _configurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
+                _mapperFactory = _configurationEngine.BuildMapperFactory();
+                _sessionFactory = _configurationEngine.ModelStore.SessionFactory;
+                _mapper = ((IDataMapperAccessor)_mapperFactory).DataMapper;
             }
             catch (Exception e)
             {

@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows.Controls;
 
-namespace KarveCommon
+namespace KarveCommon.Validation
 {
-    public class NumberValidationRule: ValidationRule
+    public class PhoneValueValidationRule: ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Xceed.Wpf.DataGrid;
-using Xceed.Wpf.DataGrid.ValidationRules;
 using System.Windows.Controls;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace KarveCommon
+namespace KarveCommon.Validation
 {
 
-    public class EmailValidationRule : IValidationRule
+    public class WebAddressValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

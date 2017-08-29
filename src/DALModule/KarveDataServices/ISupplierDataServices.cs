@@ -14,7 +14,7 @@ namespace KarveDataServices
     /// </summary>
     public interface ISupplierDataServices
     {
-
+      
         #region Asynchronous methods
         /// <summary>
         ///  Returns the dataset in asynchronous way for all suppliers.

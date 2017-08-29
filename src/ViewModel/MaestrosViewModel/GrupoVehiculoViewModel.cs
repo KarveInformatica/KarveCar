@@ -14,6 +14,7 @@ using Prism.Mvvm;
 using System.Threading.Tasks;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
+using KarveCommon.Logic.Generic;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {

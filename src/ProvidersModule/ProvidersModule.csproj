@@ -43,7 +43,7 @@
       <HintPath>..\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid">
-      <HintPath>..\..\..\..\KarveSnapshots\KarveCar\lib\ExtendedGrid.dll</HintPath>
+      <HintPath>..\..\..\..\..\Visual Studio 2017\Projects\ClientesFormaDeCobros\ClientesFormaDeCobros\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -101,16 +101,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\EmailCommand.cs" />
-    <Compile Include="EventManager.cs" />
-    <Compile Include="IEventManager.cs" />
-    <Compile Include="IEventObserver.cs" />
     <Compile Include="IProvidersView.cs" />
     <Compile Include="IProvidersViewModel.cs" />
+    <Compile Include="ISupplierInfoView.cs" />
     <Compile Include="ISupplierPayload.cs" />
     <Compile Include="ProvidersModule.cs" />
     <Compile Include="ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="ViewModels\BasicEditorViewModel.cs" />
     <Compile Include="ViewModels\GenericGridViewModel.cs" />
+    <Compile Include="ViewModels\ProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
     <Compile Include="ViewModels\SupplierDataPayload.cs" />
     <Compile Include="ViewModels\TabViewModelBase.cs" />
@@ -134,17 +133,20 @@
     <Compile Include="Views\OrderCommunication.xaml.cs">
       <DependentUpon>OrderCommunication.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProviderInfoView.xaml.cs">
+      <DependentUpon>ProviderInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProvidersControl.xaml.cs">
       <DependentUpon>ProvidersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SupplierView.xaml.cs">
+      <DependentUpon>SupplierView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RatingsControl.xaml.cs">
       <DependentUpon>RatingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StarsControl.xaml.cs">
       <DependentUpon>StarsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SupplierView.xaml.cs">
-      <DependentUpon>SupplierView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Visits.xaml.cs">
       <DependentUpon>Visits.xaml</DependentUpon>
@@ -173,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ProviderInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProvidersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,8 +192,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SupplierView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Visits.xaml">
       <SubType>Designer</SubType>
@@ -295,7 +301,6 @@
     <Resource Include="Images\summary.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\text_bold.png" />
     <Resource Include="Images\text_italic.png" />
   </ItemGroup>
   <ItemGroup>

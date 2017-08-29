@@ -33,6 +33,7 @@ namespace DataAccessLayer.DataObjects
         private object _zip;
         private string _lastChange = "";
         private string _changedByUser = "";
+        private string _vatDate = "";
         public string Nif
         {
             get
@@ -390,6 +391,18 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
+        public string VATDate
+        {
+            set
+            {
+                _vatDate = value;
+                OnPropertyChanged("VATDate");
+            }
+            get
+            {
+                return _vatDate;
+            }
+        }
         public string LastChange {
 
             set

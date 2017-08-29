@@ -24,7 +24,7 @@
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="FontFamily" Value="Arial" />
                     </Style>
-                    
+                    <SolidColorBrush x:Key="WindowBrush" Color="LightGray"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 

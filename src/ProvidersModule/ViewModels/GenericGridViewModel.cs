@@ -6,6 +6,7 @@ using System;
 using System.Data;
 using System.Windows;
 using System.Windows.Input;
+using KarveCommon.Services;
 
 namespace ProvidersModule.ViewModels
 {
@@ -140,7 +141,8 @@ namespace ProvidersModule.ViewModels
                 }
 
                 supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
-                _manager.notifyObserver(supplierDataPayLoad);
+                //_manager.notifyObserverSubsystem("ProviderModule", supplierDataPayLoad);
+                 //   notifyObserver(supplierDataPayLoad);
             }
         }
 

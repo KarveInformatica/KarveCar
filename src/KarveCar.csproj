@@ -65,6 +65,9 @@
     <Reference Include="ExtendedGrid">
       <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
     </Reference>
+    <Reference Include="Hardcodet.Wpf.GenericTreeView">
+      <HintPath>..\..\..\KarveCar\lib\Hardcodet.Wpf.GenericTreeView.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
@@ -141,8 +144,9 @@
     <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
-    <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
+    <Compile Include="Logic\Generic\ConfigurationService.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
+    <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
@@ -198,6 +202,10 @@
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
+    <Compile Include="View\CategoryTree.cs" />
+    <Compile Include="View\CustomTabControl.xaml.cs">
+      <DependentUpon>CustomTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -210,6 +218,7 @@
     <Compile Include="View\DataGridUserControl.xaml.cs">
       <DependentUpon>DataGridUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\KarveCategory.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -217,6 +226,10 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\CustomTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -439,6 +452,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\paymentTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\undo_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save_modified.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

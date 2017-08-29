@@ -1,6 +1,8 @@
 using System;
 using System.Collections.ObjectModel;
 using Prism.Commands;
+using System.Windows.Controls;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCommon.Services
 {
@@ -12,5 +14,6 @@ namespace KarveCommon.Services
         void NotifyDataChange(DataPayLoad changedData);
         void SubscribeDataChange(Action<DataPayLoad> dataChanged);
         bool CloseApplication();
+        void AddMainTab(object view, string tabName);
     }
 }

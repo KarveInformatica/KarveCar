@@ -181,7 +181,7 @@
                         </WrapPanel>
                     </Grid>
                     <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <ExtendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
+                        <ExtendedGridControl:ExtendedDataGrid Height="350" VerticalAlignment="Top" 
                                                               x:Name="PaymentSystem" 
                                                                SelectedIndex="{Binding SelectedIndex}"
                                                               ItemsSource="{Binding SourceTable}" 

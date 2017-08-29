@@ -15,6 +15,13 @@ namespace DataAccessLayer
     /// </summary>
     class HelperDataAccessLayer : BaseDataMapper, IHelperDataServices
     {
+        private IDataMapper dataMapper;
+
+        public HelperDataAccessLayer(IDataMapper dataMapper)
+        {
+            this.dataMapper = dataMapper;
+        }
+
         /// <summary>
         ///  This method returns two table in the data set: The province table and the countries.
         ///  It works in batch mode.

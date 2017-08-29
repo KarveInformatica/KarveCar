@@ -24,14 +24,9 @@ namespace ProvidersModule.Views
         public ProvidersControl()
         {
             InitializeComponent();
-           // this.Suppliers.Theme = ExtendedDataGrid.Themes.Office2007Silver;
-
+            this.ProviderSupplierSummary.Theme = ExtendedDataGrid.Themes.Office2007Silver;
         }
-        /// <summary>
-        ///  Scale up the botton in the accumulado
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /*
         private void ScaleUp(object sender, System.Windows.Input.MouseEventArgs e)
         {
             UIElement cellContents = (UIElement)sender;
@@ -167,6 +162,6 @@ namespace ProvidersModule.Views
         }
 
         private Viewbox _currentDashboardViewbox;
-
+        */
     }
 }

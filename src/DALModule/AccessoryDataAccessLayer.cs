@@ -9,15 +9,10 @@ using KarveCommon.Generic;
 namespace DataAccessLayer
 {
    /// <summary>
-   /// 
+   /// deprecated
    /// </summary>
     public class AccessoryDataAccessLayer : BaseDataMapper
     {
-
-        public AccessoryDataAccessLayer(string name)
-        {
-            base.Id = name;
-        }
         
     }
 }

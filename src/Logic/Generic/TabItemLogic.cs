@@ -1,4 +1,5 @@
-﻿using KarveCar.Model.Generic;
+﻿using KarveCar;
+using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
 using System;
@@ -10,7 +11,7 @@ using System.Windows.Data;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveCar.Logic.Generic
+namespace KarveCommon.Logic.Generic
 {
     public class TabItemLogic
     {
@@ -103,10 +104,13 @@ namespace KarveCar.Logic.Generic
         /// <param name="opcion"></param>
         public static void RemoveTabItem(EOpcion opcion)
         {
-                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem);
-                //Se elimina el TabItem del Dictionary tabitemdictionary
+            if (tabitemdictionary.ContainsKey(opcion))
+            {
+                TemplateInfoTabItem item = tabitemdictionary[opcion] as TemplateInfoTabItem;
                 tabitemdictionary.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Key);
-           
+                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(item.TabItem);
+
+            }           
         }
     }
 }

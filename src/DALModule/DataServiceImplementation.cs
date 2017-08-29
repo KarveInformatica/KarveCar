@@ -11,11 +11,18 @@ namespace DataAccessLayer
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
-        private BanksDataAccessLayer _bankLayer = new BanksDataAccessLayer();
-        private IPaymentDataServices _paymentDataService = new ChargeTypeDataAccessLayer();
-        private ISupplierDataServices _supplierDataServices = new SupplierDataAccessLayer();
-        private IHelperDataServices _helperDataServices = new HelperDataAccessLayer();
+        private BanksDataAccessLayer _bankLayer;
+        private IPaymentDataServices _paymentDataService;
+        private ISupplierDataServices _supplierDataServices;
+        private IHelperDataServices _helperDataServices;
 
+        public DataServiceImplementation(IKarveDataMapper mapper)
+        {
+            _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
+            _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
+            _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper);
+            _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
+        }
         /// <summary>
         ///  Returns a the complete list of banks in the system.
         /// </summary>

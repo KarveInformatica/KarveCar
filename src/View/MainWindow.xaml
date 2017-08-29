@@ -7,7 +7,9 @@
                 xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                xmlns:mvvm1="http://prismlibrary.com/"
                 xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+                xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
                 xmlns:local="clr-namespace:KarveCar"
                 xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"                
                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -17,10 +19,29 @@
     
     <r:RibbonWindow.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
+            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+            </karvecm:KarveInterTabClient>
+            <TreeViewItem x:Key="CustomRootNode">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal"
+                    Margin="0,2,0,2">
+                        <Image x:Name="imgStatus"
+                 Source="/KarveCar;component/Images/Home.png"
+                 Width="16"
+                 Height="16" />
+                        <TextBlock Margin="2,0,0,0"
+                     VerticalAlignment="Center"
+                     FontWeight="Bold"
+                     Text="Home" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+            
             <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
             <Setter Property="ShowDefaultCloseButton" Value="True" />
             <Setter Property="HeaderMemberPath" Value="Header" />
@@ -38,8 +59,163 @@
                 </Setter.Value>
             </Setter>
         </Style>
-      </ResourceDictionary>
+            <DataTemplate x:Key="CategoryTemplate"
+                >
+                <StackPanel x:Name="GroupPanel"
+                Orientation="Horizontal"
+                Margin="0,2,0,2">
+                    <Image x:Name="Folder"
+             Source="/Images/FolderClosed.png" />
+                    <TextBlock x:Name="CategoryName"
+                 Margin="2,0,0,0"
+                 Text="{Binding Path=CategoryName}" />
+                </StackPanel>
+
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                   Value="True">
+                        <Setter Property="Source"
+                TargetName="Folder"
+                Value="/Images/FolderOpen.png" />
+                    </DataTrigger>
+
+                    <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}}"
+                   Value="True">
+                        <Setter Property="Foreground"
+                TargetName="CategoryName"
+                Value="White" />
+                        <Setter Property="Source"
+                TargetName="Folder"
+                Value="/Images/FolderSelected.png" />
+                        <Setter Property="BitmapEffect">
+                            <Setter.Value>
+                                <OuterGlowBitmapEffect GlowColor="Black" />
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+
+                    <!-- custom icons for the root nodes -->
+                    <DataTrigger Binding="{Binding Path=Header.CategoryName, RelativeSource={RelativeSource TemplatedParent}}"
+                   Value="Music">
+                        <Setter Property="Source"
+                TargetName="Folder"
+                Value="/Images/Music.png" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Header.CategoryName, RelativeSource={RelativeSource TemplatedParent}}"
+                   Value="Movies">
+                        <Setter Property="Source"
+                TargetName="Folder"
+                Value="/Images/Movie.png" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Header.CategoryName, RelativeSource={RelativeSource TemplatedParent}}"
+                   Value="Books">
+                        <Setter Property="Source"
+                TargetName="Folder"
+                Value="/Images/Book.png" />
+                    </DataTrigger>
+
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+
+            <!-- this is the style that is applied to the tree -->
+            <Style x:Key="SimpleFolders"
+         TargetType="{x:Type TreeViewItem}">
+                <Style.Resources>
+                    <!-- override default brushes that show bad background colors -->
+                    <Brush x:Key="{x:Static SystemColors.HighlightBrushKey}">Transparent</Brush>
+                    <Brush x:Key="{x:Static SystemColors.ControlBrushKey}">Transparent</Brush>
+                </Style.Resources>
+                <Setter Property="HeaderTemplate"
+            Value="{StaticResource CategoryTemplate}" />
+                <Style.Triggers>
+                </Style.Triggers>
+            </Style>
+
+            <!-- 
+    A default style for treeview controls. This one will automatically
+    be applied as the custom tree's 'TreeStyle' property is not set.
+  -->
+            <Style x:Key="SimpleTreeStyle" TargetType="{x:Type TreeView}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0,1"
+                             StartPoint="0,0">
+                            <GradientStop Color="#FFF"
+                        Offset="0.0" />
+                            <GradientStop Color="#AAA"
+                        Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness"
+            Value="4" />
+                <Setter Property="BorderBrush"
+            Value="#FFA6AAAB" />
+            </Style>
+
+
+            <!-- the context menu for the tree -->
+            <ContextMenu x:Key="CategoryMenu">
+                <MenuItem Header="Add Subcategory"
+              Command="New">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Add.png"
+               Width="16"
+               Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Remove Category"
+              Command="Delete">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Remove.png"
+               Width="16"
+               Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </ContextMenu>
+
+
+            <!-- default text style -->
+            <Style TargetType="TextBlock">
+                <Setter Property="TextWrapping"
+            Value="Wrap" />
+            </Style>
+
+
+            <!-- the background of the main window -->
+            <LinearGradientBrush x:Key="WindowBrush"
+                       EndPoint="0.5,1"
+                       StartPoint="0.5,0">
+                <GradientStop Color="#FFFAFAFA"
+                  Offset="0.382" />
+                <GradientStop Color="#FF405159"
+                  Offset="0" />
+                <GradientStop Color="#FF2D3539"
+                  Offset="1" />
+                <GradientStop Color="#FFDBDDDD"
+                  Offset="0.592" />
+                <GradientStop Color="#FFA6AAAB"
+                  Offset="0.803" />
+            </LinearGradientBrush>
+
+
+            <!-- default style for hyperlinks -->
+            <Style TargetType="{x:Type Hyperlink}">
+                <Setter Property="Foreground"
+            Value="#FFA72222" />
+                <Setter Property="TextDecorations"
+            Value="None" />
+                <Setter Property="ToolTip"
+            Value="Visit website" />
+            </Style>
+
+        </ResourceDictionary>
     </r:RibbonWindow.Resources>
+   
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" />
@@ -1850,28 +2026,29 @@
                             Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
             </r:Ribbon>
             <!--</ScrollViewer>-->
-            
-                <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="95*"/>
 
-                <!-- ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"-->
+                </Grid.RowDefinitions>
+
+                <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
                 <ScrollViewer Grid.Row="1">
-                        
-
-<!--
-                    <dragablz:TabablzControl x:Name="tbControl"  Style="{StaticResource TabablzControlStyle}" SelectionChanged="tbControl_SelectionChanged">
+                <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
+                   
+                    <!--<dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" ClosingItemCallback="{Binding ClosingTabItemHandler}" mvvm1:RegionManager.RegionName="TabRegion">
                         <dragablz:TabablzControl.InterTabController>
-                            <dragablz:InterTabController />
+                            <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
                         </dragablz:TabablzControl.InterTabController>
                     </dragablz:TabablzControl>
-                        -->
-
+                    -->
+                   
                     <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged"/>
-                </ScrollViewer>
+                   
                 </Grid>
-        </DockPanel>
+            </ScrollViewer>
+    </Grid>
+    </DockPanel>
     </Grid>
 </r:RibbonWindow>

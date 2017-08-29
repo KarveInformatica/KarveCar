@@ -1,5 +1,6 @@
 ﻿using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
+using KarveCommon.Logic.Generic;
 using Microsoft.Practices.Unity;
 using PaymentTypeModule;
 using Prism.Commands;

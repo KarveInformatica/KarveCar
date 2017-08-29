@@ -4,6 +4,7 @@ using KarveCar.Model.SQL;
 using KarveCar.Utility;
 using KarveCar.View;
 using KarveCommon.Generic;
+using KarveCommon.Logic.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Controls;

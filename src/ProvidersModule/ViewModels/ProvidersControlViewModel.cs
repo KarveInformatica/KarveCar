@@ -19,21 +19,24 @@ using System.Windows.Controls;
 using Dragablz;
 using System.Windows;
 using System.Text.RegularExpressions;
+using Microsoft.Practices.Unity;
 
 namespace ProvidersModule.ViewModels
 {
-    public class ProvidersControlViewModel : BindableBase, IProvidersViewModel, IEventObserver
+    public class ProvidersControlViewModel : BindableBase, IProvidersViewModel
     {
 
         /// <summary>
         ///  Type of payment data services.
         /// </summary>
         private IEventManager _eventManager;
-        private ICareKeeperService _careKeeperService;
+        private IConfigurationService _configurationService;
         private IRegionManager _regionManager;
         private DataTable _supplierDataTable;
+        private ISupplierDataInfo _lastDataObject = null;
         private ISupplierDataInfo _dataObjectInfo = new SupplierInfoDataObject();
         private ISupplierTypeData _dataObjectType = new SupplierTypeDataObject();
+        
         public ICommand SupplierSearchSelection { set; get; }
         public ICommand SupplierSearchCommand { set; get; }
         public ICommand SupplierSearchCountryCommand { set; get; }
@@ -47,28 +50,45 @@ namespace ProvidersModule.ViewModels
         private string _supplierSearchType = TabViewModelBase.NUMBER;
         private ISupplierPayload _supplierPayload;
         private string _title = ""; 
+        private DataTable _extendedSupplierDataTable;
+        private IDataServices _dataServices;
+        private ICommand _openItemCommand;
+        private IUnityContainer _container;
 
-
-
-        public ProvidersControlViewModel(ICareKeeperService careKeeperService,
+        public ProvidersControlViewModel(IConfigurationService configurationService,
+                                  IUnityContainer container,
                                   IRegionManager regionManager,
+                                  IDataServices services,
                                   IEventManager eventManager)
         {
-            _careKeeperService = careKeeperService;
+            _configurationService = configurationService;
             _eventManager = eventManager;
             _regionManager = regionManager;
+            _dataServices = services;
+            _container = container;
+            _extendedSupplierDataTable = new DataTable();
+            _openItemCommand = new DelegateCommand<object>(openCurrentItem);
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            SupplierSearchSelection = new DelegateCommand<object>(SupplierSearch);
-            SupplierSearchCommand = new DelegateCommand<object>(SupplierSearchExecute);
-            SupplierSearchCountryCommand = new DelegateCommand<object>(SupplierSearchByCountry);
-            SupplierSearchProvinceCommand = new DelegateCommand<object>(SupplierSearchByProvince);
-            ClickSearchMainAddressCommand = new DelegateCommand<object>(LaunchMailClient);
-            ClickSearchWebAddressCommand = new DelegateCommand<object>(LaunchWebBrowser);
-            CommandUpdateNotes = new DelegateCommand<object>(UpdateNotes);
-            _eventManager.registerObserver(this);
             _supplierSearchType = TabViewModelBase.NUMBER;
+            StartDataLayer();
         }
-
+        
+        public DataTable SummaryView
+        {
+            get { return _extendedSupplierDataTable;  }
+           
+        }
+        
+        private async void StartDataLayer()
+        {
+            ISupplierDataServices supplier = _dataServices.GetSupplierDataServices();
+            DataSet set = await supplier.GetAsyncCompleteSummary();
+            if (set.Tables.Count > 0)
+            {
+                _extendedSupplierDataTable = set.Tables[0];
+                RaisePropertyChanged("SummaryView");
+            }
+        }
         private void UpdateNotes(object value)
         {
 
@@ -126,6 +146,37 @@ namespace ProvidersModule.ViewModels
             {
                 return _title;
             }
+        }
+
+        public async void  openCurrentItem(object currentItem)
+        {
+            ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
+            DataRowView local = currentItem as DataRowView;
+            string lastSupplierId = local.Row.ItemArray[0] as string;
+            string name = local.Row.ItemArray[1] as string;
+            string nif = local.Row.ItemArray[2] as string;
+            ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
+             _lastDataObject = await supplierDataServices.GetAsyncSupplierDataObjectInfo(lastSupplierId);
+            _lastDataObject.Name = name;
+            _lastDataObject.Nif = nif;
+            _lastDataObject.Number = lastSupplierId;
+            ISupplierPayload supplierDataPayLoad = new SupplierDataPayload();
+            supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
+            if (_lastDataObject.Type != null)
+            {
+                supplierDataPayLoad.SupplierDataObjectType = await supplierDataServices.GetAsyncSupplierTypesDataObject((string)_lastDataObject.Type);
+
+            }
+            else
+            {
+                supplierDataPayLoad.SupplierDataObjectType = null;
+            }
+            supplierDataPayLoad.SupplierSummaryDataTable = _extendedSupplierDataTable;
+            // notify the view model and add the view
+            DataPayLoad payload = new DataPayLoad();
+            payload.DataObject = supplierDataPayLoad;
+            _eventManager.notifyObserverSubsystem("ProviderModule", payload);
+            _configurationService.AddMainTab(view,"Proveedor "+ _lastDataObject.Name);
         }
         public ItemActionCallback ClosingTabItemHandler
         {
@@ -202,6 +253,11 @@ namespace ProvidersModule.ViewModels
             navigationParameters.Add("Payload", _supplierPayload);
             _regionManager.RequestNavigate("TabRegion", "GenericGridView", navigationParameters);
         }
+        public ICommand OpenItem
+        {
+            get { return _openItemCommand; }
+            set { _openItemCommand = value; }
+        }
         public DataTable SummaryDataTable
         {
             set { _supplierDataTable = value; RaisePropertyChanged(); }
@@ -245,15 +301,6 @@ namespace ProvidersModule.ViewModels
             _regionManager.RequestNavigate("TabRegion", navigationPath, navigationParameters);
         }
 
-        public void incomingPayload(ISupplierPayload payload)
-        {
-            if (payload != null)
-            {
-                
-                this.SupplierDataObjectInfo = payload.SupplierDataObjectInfo;
-                this.SupplierDataObjectType = payload.SupplierDataObjectType;
-                _supplierPayload = payload;
-            }
-        }
+        
     }
 }

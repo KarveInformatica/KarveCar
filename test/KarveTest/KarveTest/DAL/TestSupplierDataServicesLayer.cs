@@ -57,8 +57,9 @@ namespace KarveTest.DAL
             _dataServices = null;
             try
             {
-                _dataServices = new DataServiceImplementation();
-                _supplierDataServices = _dataServices.GetSupplierDataServices();
+                //IKarveDataMapper mapper = new BaseDataMapper();
+                //_dataServices = new DataServiceImplementation(mapper);
+                //_supplierDataServices = _dataServices.GetSupplierDataServices();
             }
             catch (Exception e)
             {

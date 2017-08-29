@@ -1,6 +1,7 @@
 ﻿using System;
 using KarveCommon.Services;
 using KarveDataServices.DataObjects;
+using System.Data;
 
 namespace ProvidersModule.ViewModels
 {
@@ -10,5 +11,6 @@ namespace ProvidersModule.ViewModels
         public ISupplierTypeData SupplierDataObjectType { get; set; }
         public IProvinceData SupplierProvinceDataObject { get; set; }
         public ICountryData SupplierCountryDataObject { get; set; }
+        public DataTable SupplierSummaryDataTable { get; set; }
     }
 }

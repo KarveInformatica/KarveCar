@@ -45,11 +45,16 @@ namespace KarveCar
         {
             base.ConfigureContainer();
             // The dal service is used to access to the database
-            Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager());
-            // The carekeeper or undo service is used to store the last action and do/redo an action
+            Container.RegisterType<IKarveDataMapper, DataAccessLayer.BaseDataMapper>(new ContainerControlledLifetimeManager());
+            object[] values = new object[1];
+            values[0] = Container.Resolve<IKarveDataMapper>();
+            InjectionConstructor injectionConstructor = new InjectionConstructor(values);
+            Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
             Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
-        
+            Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
+
+
 
         }
         protected override void ConfigureViewModelLocator()
@@ -78,7 +83,7 @@ namespace KarveCar
                 object[] values = new object[1];
                 values[0] = Application.Current.MainWindow;
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
-                Container.RegisterType<IConfigurationService, ConfigurationService>(injectionConstructor);
+                Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager(),injectionConstructor);
 
                 /*
                  * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.

@@ -13,6 +13,12 @@ namespace DataAccessLayer
 {
     class SupplierDataAccessLayer : BaseDataMapper, ISupplierDataServices
     {
+        private IDataMapper dataMapper;
+
+        public SupplierDataAccessLayer(IDataMapper dataMapper)
+        {
+            this.dataMapper = dataMapper;
+        }
         #region ISupplierDataService Interface
 
         /// <summary>

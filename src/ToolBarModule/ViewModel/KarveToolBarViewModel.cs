@@ -4,24 +4,33 @@ using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
+using System.Windows;
 using ToolBarModule.Command;
+using System;
+using System.Windows.Media.Imaging;
+using System.Net.Cache;
 
 namespace ToolBarModule
 {
     /// <summary>
     /// View model that is able to manage the tool bar.
     /// </summary>
-    public class KarveToolBarViewModel : BindableBase, IToolBarViewModel
+    public class KarveToolBarViewModel : BindableBase, IToolBarViewModel, IEventObserver
     {
         private ICareKeeperService _careKeeper;
         private IDataServices _dataServices;
         private bool _buttonEnabled = false;
         private IConfigurationService _configurationService;
         private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
-
+        private IEventManager _eventManager;
+        private const string currentSaveImage = @"/KarveCar;component/Images/save1.png";
+        private const string currentSaveImageModified = @"/KarveCar;component/Images/save.png";
+        private string _currentSaveImage = null;
+        private object _image = null;
         public KarveToolBarViewModel(ICareKeeperService careKeeperService,
-                                     IDataServices dataServices,
-                                     IConfigurationService configurationService)
+                                 IDataServices dataServices,
+                                 IEventManager eventManager,
+                                 IConfigurationService configurationService)
         {
             this._careKeeper = careKeeperService;
             this.UndoCommand = new DelegateCommand(DoUndoCommand, CanExecute);
@@ -30,7 +39,22 @@ namespace ToolBarModule
             this.ExitCommand = new DelegateCommand(DoExitCommand, CanExecute);
             this._dataServices = dataServices;
             this._configurationService = configurationService;
-            this._configurationService.SubscribeDataChange(NewData);
+            this._eventManager = eventManager;
+            this._eventManager.registerObserverToolBar(this);
+            _currentSaveImage = currentSaveImage;
+            
+        }
+        private object GetImage(string imageUri)
+        {
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.CacheOption = BitmapCacheOption.None;
+            image.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            image.CacheOption = BitmapCacheOption.OnLoad;
+            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            image.UriSource = new Uri(imageUri, UriKind.RelativeOrAbsolute);
+            image.EndInit();
+            return image;
         }
         public bool ButtonEnabled
         {
@@ -41,21 +65,35 @@ namespace ToolBarModule
                 RaisePropertyChanged();
             }
         }
+        public string CurrentSaveImagePath
+        {
+            get
+            {
+                return _currentSaveImage;
+            }
+            set
+            {
+                _currentSaveImage = value;
+                RaisePropertyChanged("CurrentSaveImagePath");
+            }
+
+        }
 
         private void NewData(DataPayLoad dataCollection)
         {
             // ok in this case we can 
-            ButtonEnabled = true;
             // new data has been arrived.
-            _dataPayLoadLifo.Push(dataCollection);
+            //_dataPayLoadLifo.Push(dataCollection);
         }
         private void DoSaveCommand()
         {
+
+
             //SaveDataLayerCommand command = new SaveDataLayerCommand(_locator, _careKeeper);
             //foreach (var item in _dataPayLoadLifo)
-           // {
-             //   command.Do(item);
-           // }
+            // {
+            //   command.Do(item);
+            // }
 
         }
 
@@ -83,6 +121,15 @@ namespace ToolBarModule
         {
 
         }
+
+
+        public void incomingPayload(DataPayLoad payload)
+        {
+            // ok in this case we can 
+            this.CurrentSaveImagePath = currentSaveImageModified;
+
+        }
+
         public DelegateCommand EnableSaveCommand { set; get; }
         public DelegateCommand DisableSaveCommand { set; get; }
         public DelegateCommand DisableDeleteCommand { set; get; }
@@ -98,7 +145,7 @@ namespace ToolBarModule
         public DelegateCommand PrintCommand { set; get; }
         public DelegateCommand SearchCommand { set; get; }
 
-   
+
     }
 
 }

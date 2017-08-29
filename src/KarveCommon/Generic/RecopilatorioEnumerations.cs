@@ -300,7 +300,7 @@
             rbtnNovedades,
             #endregion
 
-            Default,
+            Default
         }
 
 

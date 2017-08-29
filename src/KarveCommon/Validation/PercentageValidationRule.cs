@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows.Controls;
 
-namespace KarveCommon
+namespace KarveCommon.Validation
 {
-    class PercentageValidationRule : ValidationRule
+    public class PercentageValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

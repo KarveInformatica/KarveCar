@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace KarveCommon
+namespace KarveCommon.Validation
 {
     public class IbanValidationRule: ValidationRule
     {

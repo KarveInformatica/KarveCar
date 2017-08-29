@@ -9,6 +9,7 @@ namespace KarveDataServices
     /// </summary>
     public interface IPaymentDataServices
     {
+        
         /// <summary>
         ///  Get all kind of charging a payment 
         /// </summary>
