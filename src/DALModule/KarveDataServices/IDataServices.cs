@@ -8,8 +8,11 @@ namespace KarveDataServices
     ///  It is an interface for abstracting all dataservices.
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
+    public  enum DataSubSystem { PaymentSubsystem = 0, VehicleSubsystem = 1, HelperSubsytsem = 2, SupplierSubsystem = 3 };
+
     public interface IDataServices
     {
+        
         /// <summary>
         ///  Get all banks in the system
         /// </summary>
@@ -35,6 +38,8 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IHelperDataServices GetHelperDataServices();
+        //
+
 
 
     }

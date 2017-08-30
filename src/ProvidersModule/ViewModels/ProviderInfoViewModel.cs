@@ -25,14 +25,13 @@ namespace ProvidersModule.ViewModels
         public ICommand SelectedIndexCommand { set; get; }
         public ICommand CommandUpdateNotes { set; get; }
         /// List of the commands needed
-        
         public ICommand SupplierNameChangedCommand { set; get; }
         public ICommand SupplierCommonNameChangedCommand { set; get; }
         public ICommand SupplierNifChangedCommand { set; get; }
         // DO SupplierType
         public ICommand SupplierTypeCodeChangedCommand { set; get; }
         public ICommand SupplierTypeChangedCommand { set; get; }
-        // SupplierInfoDataObject
+        // Object useful for the binding. Check if there is a smarter way to manage this. 
         public ICommand SupplierStreetChangedCommand { set; get; }
         public ICommand SupplierCountryChangedCommand { set; get; }
         public ICommand SupplierCountryNameChangedCommand { set; get; }
@@ -40,7 +39,6 @@ namespace ProvidersModule.ViewModels
         public ICommand SupplierZipChangedCommand { set; get; }
         public ICommand SupplierProvinceCodeChangedCommand { set; get; }
         public ICommand SupplierProvinceChangedCommand { set; get; }
-
         public ICommand SupplierPhoneChangedCommand { set; get; }
         public ICommand SupplierCellPhoneChangedCommand { set; get; }
         public ICommand SupplierFaxChangedCommand { set; get; }
@@ -53,10 +51,8 @@ namespace ProvidersModule.ViewModels
         public ICommand SelectedDateChangedIVACommand { set; get; }
         public ICommand SelectedDischargedDateCommand { set; get; }
         public ICommand SelectedLeavingDateCommand { set; get; }
-       
-
-
-    private IEventManager _eventManager;
+        // This is the event manager for communicating with the toolbar and other view modules inside the provider Module.
+        private IEventManager _eventManager;
         private ISupplierDataInfo _dataObjectInfo;
         private DataTable _dataTable;
         private IConfigurationService _configurationService;
@@ -64,6 +60,8 @@ namespace ProvidersModule.ViewModels
         private IUnityContainer _unityContainer;
         private ISupplierDataInfo _lastDataObject;
         private ISupplierTypeData _supplierDataObjectType;
+        private ISupplierAccountObjectInfo _accountSupplier;
+
 
         public ProviderInfoViewModel(
             IUnityContainer container,
@@ -85,6 +83,7 @@ namespace ProvidersModule.ViewModels
             SelectedIndexCommand = new DelegateCommand<object>(SelectProvider);
             CommandUpdateNotes = new DelegateCommand<object>(UpdateNotes);
             _eventManager = eventManager;
+            
             _eventManager.registerObserverSubsystem("ProviderModule", this);
            
            
@@ -114,12 +113,17 @@ namespace ProvidersModule.ViewModels
                 RaisePropertyChanged("SummaryDataTable");
             }
         }
-
-        private void UpdateWorld()
+        ISupplierAccountObjectInfo SupplierAccountObjectInfo
         {
-            DataPayLoad payload = new DataPayLoad();
-            payload.ObjectPath = "Proveedores";
-            _configurationService.NotifyDataChange(payload);
+            get
+            {
+                return _accountSupplier;
+            }
+            set
+            {
+                _accountSupplier = value;
+                RaisePropertyChanged("SupplierAccountObjectInfo");
+            }
         }
         private async void SelectProvider(object row)
         {
@@ -146,10 +150,18 @@ namespace ProvidersModule.ViewModels
             }
             supplierDataPayLoad.SupplierSummaryDataTable = _dataTable;
             // notify the view model and add the view
-            KarveCommon.Services.DataPayLoad dataPayload = new KarveCommon.Services.DataPayLoad();
-            dataPayload.DataObject = supplierDataPayLoad;
-            _eventManager.registerObserverSubsystem("ProvidersModule", this);
-            _configurationService.AddMainTab(view, "Proveedor " + _lastDataObject.Name);
+            // fire up the view
+            if (_configurationService.AddMainTab(view, supplierDataPayLoad.SupplierDataObjectInfo.Name))
+            {
+                DataPayLoad registrationPayload = new DataPayLoad();
+                string routedName = "ProviderModule:" + supplierDataPayLoad.SupplierDataObjectInfo.Name;
+                registrationPayload.PayloadType = DataPayLoad.Type.RegistrationPayload;
+                registrationPayload.Registration = routedName;
+                _eventManager.notifyObserverSubsystem("ProviderModule", registrationPayload);
+                DataPayLoad payload = new DataPayLoad();
+                payload.DataObject = supplierDataPayLoad;
+                _eventManager.notifyObserverSubsystem(routedName, payload);
+            }
         }
         public ISupplierTypeData SupplierDataObjectType
         {
@@ -210,16 +222,30 @@ namespace ProvidersModule.ViewModels
 
         public void incomingPayload(DataPayLoad dataPayLoad)
         {
-            var dataObject = dataPayLoad.DataObject;
-            ISupplierPayload payload = null;
-            if (dataObject is ISupplierPayload)
+
+            lock (_eventManager)
             {
-                payload = dataObject as ISupplierPayload;
-                this.SupplierDataObjectInfo = payload.SupplierDataObjectInfo;
-                this.SummaryDataTable = payload.SupplierSummaryDataTable;
-                this.SupplierDataObjectType = payload.SupplierDataObjectType;
+                if (dataPayLoad.PayloadType == DataPayLoad.Type.RegistrationPayload)
+                {
+                    _eventManager.registerObserverSubsystem(dataPayLoad.Registration, this);
+                    _eventManager.disableNotify("ProviderModule", this);
+                    // _eventManager.deleteObserverSubSystem("ProviderModule", this);
+
+                }
+                else
+                {
+                    var dataObject = dataPayLoad.DataObject;
+                    ISupplierPayload payload = null;
+                    if (dataObject is ISupplierPayload)
+                    {
+                        payload = dataObject as ISupplierPayload;
+                        this.SupplierDataObjectInfo = payload.SupplierDataObjectInfo;
+                        this.SummaryDataTable = payload.SupplierSummaryDataTable;
+                        this.SupplierDataObjectType = payload.SupplierDataObjectType;
+                    }
+                }
+
             }
-            
         }
     }
 }

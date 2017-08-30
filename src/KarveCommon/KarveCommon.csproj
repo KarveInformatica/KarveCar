@@ -62,8 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\EventManager.cs" />
+    <Compile Include="Services\IEnviromentVariables.cs" />
     <Compile Include="Services\IEventManager.cs" />
     <Compile Include="Services\IEventObserver.cs" />
+    <Compile Include="Services\IUserAccessControlList.cs" />
     <Compile Include="Validation\CountryCodeValidationRule.cs" />
     <Compile Include="Validation\EmailValidationRule.cs" />
     <Compile Include="Generic\ICreateRegionManagerScope.cs" />

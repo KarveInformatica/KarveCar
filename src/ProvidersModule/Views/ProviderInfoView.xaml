@@ -797,7 +797,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <TextBox.Text>
-                                            <Binding Path="SupplierAccountObjectInfo.ExpensesAccountChanged" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
+                                            <Binding Path="SupplierAccountObjectInfo.ExpensesAccount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
                                                 <Binding.ValidationRules>
                                                     <karvevalidators:NumberValidationRule />
                                                 </Binding.ValidationRules>
@@ -938,7 +938,7 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <TextBox.Text>
-                                            <Binding Path="SupplierAccountObjectInfo.IntraAccountRepCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
+                                            <Binding Path="SupplierAccountObjectInfo.IntraAccountRep" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
                                             </Binding>
                                         </TextBox.Text>
                                     </TextBox>

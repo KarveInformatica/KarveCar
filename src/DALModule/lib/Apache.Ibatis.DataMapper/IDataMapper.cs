@@ -203,6 +203,7 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="parameterObject">The parameter object.</param>
         /// <returns>The number of rows effected.</returns>
         int Update(string statementName, object parameterObject);
+        void ExecuteUpdateAsyncBatch();
 
         /// <summary>
         /// Executes the SQL and retuns all rows selected in a map that is keyed on the property named

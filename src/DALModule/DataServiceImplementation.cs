@@ -1,7 +1,7 @@
 ﻿using KarveDataServices;
 using System.Data;
 using System;
-using System.Threading.Tasks;
+using KarveCommon.Services;
 
 namespace DataAccessLayer
 {
@@ -16,11 +16,12 @@ namespace DataAccessLayer
         private ISupplierDataServices _supplierDataServices;
         private IHelperDataServices _helperDataServices;
 
-        public DataServiceImplementation(IKarveDataMapper mapper)
+        public DataServiceImplementation(IKarveDataMapper mapper, 
+            IConfigurationService configurationService)
         {
             _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
             _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
-            _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper);
+            _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper, configurationService);
             _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
         }
         /// <summary>

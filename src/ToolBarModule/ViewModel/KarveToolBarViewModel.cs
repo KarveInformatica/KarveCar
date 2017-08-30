@@ -9,6 +9,7 @@ using ToolBarModule.Command;
 using System;
 using System.Windows.Media.Imaging;
 using System.Net.Cache;
+using KarveCommon.Command;
 
 namespace ToolBarModule
 {
@@ -23,25 +24,28 @@ namespace ToolBarModule
         private IConfigurationService _configurationService;
         private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
         private IEventManager _eventManager;
-        private const string currentSaveImage = @"/KarveCar;component/Images/save1.png";
-        private const string currentSaveImageModified = @"/KarveCar;component/Images/save.png";
+        private const string currentSaveImage = @"/KarveCar;component/Images/save_toolbar.png";
+        private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
         private string _currentSaveImage = null;
-        private object _image = null;
-        public KarveToolBarViewModel(ICareKeeperService careKeeperService,
-                                 IDataServices dataServices,
+        private bool _buttonSaveEnabled = false;
+        
+        public KarveToolBarViewModel(IDataServices dataServices,
                                  IEventManager eventManager,
+                                 ICareKeeperService careKeeper,
                                  IConfigurationService configurationService)
         {
-            this._careKeeper = careKeeperService;
-            this.UndoCommand = new DelegateCommand(DoUndoCommand, CanExecute);
+            this._dataServices = dataServices;
+            this._configurationService = configurationService;
+            this._eventManager = eventManager;
+            this._eventManager.registerObserverToolBar(this);
+            this._careKeeper = careKeeper;
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
-            this.RedoCommand = new DelegateCommand(DoRedoCommand);
-            this.ExitCommand = new DelegateCommand(DoExitCommand, CanExecute);
             this._dataServices = dataServices;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
             this._eventManager.registerObserverToolBar(this);
             _currentSaveImage = currentSaveImage;
+           
             
         }
         private object GetImage(string imageUri)
@@ -55,6 +59,15 @@ namespace ToolBarModule
             image.UriSource = new Uri(imageUri, UriKind.RelativeOrAbsolute);
             image.EndInit();
             return image;
+        }
+        public bool IsSaveEnabled
+        {
+            get { return _buttonSaveEnabled; }
+            set
+            {
+                _buttonSaveEnabled = value;
+                RaisePropertyChanged();
+            }
         }
         public bool ButtonEnabled
         {
@@ -79,23 +92,8 @@ namespace ToolBarModule
 
         }
 
-        private void NewData(DataPayLoad dataCollection)
-        {
-            // ok in this case we can 
-            // new data has been arrived.
-            //_dataPayLoadLifo.Push(dataCollection);
-        }
-        private void DoSaveCommand()
-        {
-
-
-            //SaveDataLayerCommand command = new SaveDataLayerCommand(_locator, _careKeeper);
-            //foreach (var item in _dataPayLoadLifo)
-            // {
-            //   command.Do(item);
-            // }
-
-        }
+        
+        
 
         private void DoExitCommand()
         {
@@ -117,17 +115,20 @@ namespace ToolBarModule
             return true;
         }
 
-        private void DoSave()
+        private void DoSaveCommand()
         {
-
+            this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+            this.IsSaveEnabled = false;
+            SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper);
+            _careKeeper.Do(new CommandWrapper(dataCommand));
+            
         }
-
-
         public void incomingPayload(DataPayLoad payload)
         {
             // ok in this case we can 
             this.CurrentSaveImagePath = currentSaveImageModified;
-
+            this.IsSaveEnabled = true;
+            _careKeeper.Schedule(payload);
         }
 
         public DelegateCommand EnableSaveCommand { set; get; }

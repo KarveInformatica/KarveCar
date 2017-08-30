@@ -46,28 +46,28 @@
                 </Button.InputBindings>
                 
             </Button>
-            <Button x:Name="tbbtnSave" 
+            <Button x:Name="tbbtnGuardar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False" >
+                    IsEnabled="{Binding IsSaveEnabled}" >
                 <StackPanel>
                     <Image Source="{Binding CurrentSaveImagePath}" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
-                        <TextBlock Text=" (Ctrl+N)" />
+                        <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+S)" />
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
-                    <KeyBinding Key="N" 
+                    <KeyBinding Key="S" 
                                 Modifiers="Ctrl" 
-                                Command="{Binding NewCommand}" 
+                                Command="{Binding SaveCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     <KeyBinding Key="Return"                                                
-                                Command="{Binding NewCommand}" 
+                                Command="{Binding SaveCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding NewCommand}" 
+                                  Command="{Binding SaveCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
 
                 </Button.InputBindings>

@@ -14,6 +14,7 @@ namespace ProvidersModule
     {
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
+        public const string NAME = "ProviderModule";
 
         public ProviderModule(IUnityContainer container, IRegionManager regionManager)
         {

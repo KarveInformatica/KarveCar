@@ -31,7 +31,7 @@ namespace KarveTest.Services
         [Test]
         public void Should_Send_And_Receive_EventData()
         {
-            _service.SubscribeDataChange(CheckData);
+            //_service.SubscribeDataChange(CheckData);
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
@@ -41,7 +41,7 @@ namespace KarveTest.Services
                 DataPayLoad payLoad = new DataPayLoad();
                 payLoad.PayloadType = DataPayLoad.Type.Insert;
                // payLoad.CollectionData = obs;
-                _service.NotifyDataChange(payLoad);
+              //  _service.NotifyDataChange(payLoad);
             }).Start();
 
 

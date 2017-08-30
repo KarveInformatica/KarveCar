@@ -137,7 +137,7 @@
       FROM TIPOPROVE
       WHERE NUM_TIPROVE =  #value#
     </select>
-    <select id="LoadEvaluationNote" paramterClass="String" resultMap="SupplierEvaluationResultMap">
+    <select id="LoadEvaluationNote" parameterClass="String" resultMap="SupplierEvaluationResultMap">
     SELECT PROVEE, FECHA, PRECIO ,PREV,RESP,INFOR,TRATO,ATENCION,PRESENTA,SUMA,MEDIA FORM PROVEE_EVALUANOTA 
     WHERE PROVEE =#value# ORDERBY FECHA
     </select>

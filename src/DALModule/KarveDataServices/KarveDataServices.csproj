@@ -41,10 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\ICountryData.cs" />
+    <Compile Include="DataObjects\ISupplierAccountData.cs" />
+    <Compile Include="DataObjects\ISupplierAccountObjectInfo.cs" />
     <Compile Include="DataObjects\ISupplierBranchesData.cs" />
     <Compile Include="DataObjects\ISupplierContactsData.cs" />
     <Compile Include="DataObjects\IProvinceData.cs" />
-    <Compile Include="DataObjects\ISupplierData.cs" />
     <Compile Include="DataObjects\ISupplierDataInfo.cs" />
     <Compile Include="DataObjects\ISupplierMonitoringData.cs" />
     <Compile Include="DataObjects\ISupplierTypeData.cs" />

@@ -752,7 +752,12 @@ namespace Apache.Ibatis.DataMapper
         {
             return modelStore.GetMappedStatement(statementId);
         }
-
-
+        /// <summary>
+        /// This 
+        /// </summary>
+        public void ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -45,17 +45,17 @@ namespace KarveCar
         {
             base.ConfigureContainer();
             // The dal service is used to access to the database
+            Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IKarveDataMapper, DataAccessLayer.BaseDataMapper>(new ContainerControlledLifetimeManager());
-            object[] values = new object[1];
+            object[] values = new object[2];
             values[0] = Container.Resolve<IKarveDataMapper>();
+            values[1] = Container.Resolve<IConfigurationService>();
+
             InjectionConstructor injectionConstructor = new InjectionConstructor(values);
             Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
             Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
             Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
-
-
-
         }
         protected override void ConfigureViewModelLocator()
         {
@@ -78,20 +78,10 @@ namespace KarveCar
             // because in the configure container are not yet available.
             try
             {
-
-
-                object[] values = new object[1];
-                values[0] = Application.Current.MainWindow;
-                InjectionConstructor injectionConstructor = new InjectionConstructor(values);
-                Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager(),injectionConstructor);
-
-                /*
-                 * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
-                 * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
-                 */
+                IConfigurationService shell = Container.Resolve<IConfigurationService>();
+                shell.Shell = Application.Current.MainWindow;
                 KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
                 window.UnityContainer = Container;
-
                 Application.Current.MainWindow.Show();
             } catch (Exception e)
             {

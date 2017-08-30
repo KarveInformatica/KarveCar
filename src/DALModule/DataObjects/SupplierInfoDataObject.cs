@@ -431,6 +431,7 @@ namespace DataAccessLayer.DataObjects
 
         }
 
-        
+        public string Surname1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Surname2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

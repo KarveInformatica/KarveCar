@@ -12,6 +12,7 @@ using KarveCar.View;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Prism.Commands;
+using KarveCar.Logic.Generic;
 
 namespace KarveCar.Logic
 {
@@ -21,30 +22,30 @@ namespace KarveCar.Logic
     /// </summary>
     public class ConfigurationService : IConfigurationService
     {
-
         private Window mainWindow;
-        private readonly IEventAggregator eventAggregator = new EventAggregator();
-
+        private IDictionary<string, TabItem> dictionaryTab = new Dictionary<string, TabItem>();
+        public static IEnviromentVariables env = new EnviromentVariableContainer();
         /// <summary>
         ///  This is the constructor of the configuration service
         /// </summary>
         /// <param name="mainWindow">The main shell of the application will be injected to the ConfigurationService.</param>
-        public ConfigurationService(Window mainWindow)
+        public ConfigurationService()
         {
-            this.mainWindow = mainWindow;
+            this.mainWindow = null;
         }
         /// <summary>
-        /// This method notify the change of the DataPayLoad the receiver.
+        ///  This returns the Shell.
         /// </summary>
-        /// <param name="changedData">Payload changed. In case of DataPayload it has inside the data.</param>
-        public void NotifyDataChange(DataPayLoad changedData)
+        public Window Shell
         {
-            
-                lock (this)
-                {
-                    eventAggregator.GetEvent<DataChangeEvent>().Publish(changedData);
-                }
-                
+            set
+            {
+                this.mainWindow = value;
+            }
+            get
+            {
+                return this.mainWindow;
+            }
         }
         /// <summary>
         ///  This close the application.
@@ -67,15 +68,9 @@ namespace KarveCar.Logic
             }
             return true;
         }
-        /// <summary>
-        /// TODO. This method subscribe waiting for the change of the data. It shall be an asynchronous subscribtion.
-        /// </summary>
-        /// <param name="action"></param>
-        public void SubscribeDataChange(Action<DataPayLoad> action)
-        {
-        }
+        
 
-        public void AddMainTab(object view, string tabName)
+        public bool AddMainTab(object view, string tabName)
         {
             HeaderData data = new HeaderData();
             CustomTabControl tbitem = new CustomTabControl();
@@ -89,23 +84,36 @@ namespace KarveCar.Logic
             binding.Path = new PropertyPath("Header");
             binding.Source = data;
             tbitem.SetBinding(TabItem.HeaderProperty, binding);
-            // tbitem.
-             //   TabItemCloseButton.DataContext = tabItemVm;
-
-            tabItemVm.addItem(tabName, tbitem);
-            //tbitem.Header = tabName;
-            tbitem.Content = view;
-            //tabitemdictionary.Add(tabName, new TemplateInfoTabItem(tbitem));
-            tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
-            
-            // tabitemdictionary.Add(RecopilatorioEnumerations.EOpcion.Default, new TemplateInfoTabItem(tbitem));
-            // TODO.
-            //Se añade el nuevo TabItem al TabControl, le ponemos el focus y devolvemos el nuevo TabItem
-            ((MainWindow)Application.Current.MainWindow).tbControl.Items.Add(tbitem);
-
+            CustomTabControl tb = null;
+            if (!tabItemVm.hasItem(tabName, out tb))
+            {
+                tabItemVm.addItem(tabName, tbitem);
+                tbitem.Content = view;
+                tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
+                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Add(tbitem);
+                tbitem.Focus();
+                return true;
+            }
             tbitem.Focus();
+            return false;
+        }
+        /// <summary>
+        /// This returns the enviroments variables.
+        /// </summary>
+        /// <returns></returns>
+        public IEnviromentVariables GetEnviromentVariables()
+        {
+            return env;
+        }
+
+        public IUserAccessControlList GetAccountManagement()
+        {
+            throw new NotImplementedException();
         }
     }
+    /// <summary>
+    ///  This is the custom view model for the main custom tabs.
+    /// </summary>
     public class CustomTabItemViewModel
     {
         IDictionary<string, CustomTabControl> control = new Dictionary<string, CustomTabControl>();
@@ -115,6 +123,16 @@ namespace KarveCar.Logic
         public CustomTabItemViewModel()
         {
             this.CloseTabItemCommand = new DelegateCommand<object>(onCloseButton);
+        }
+        public bool hasItem(string name, out CustomTabControl tabOut)
+        {
+            tabOut = null;
+            if (control.ContainsKey(name))
+            {
+               tabOut = control[name];
+               return true;
+            }
+            return false ;
         }
         public void addItem(string name, CustomTabControl tab)
         {

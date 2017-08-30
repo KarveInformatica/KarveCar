@@ -90,8 +90,10 @@
     <Compile Include="Command\NextCommand.cs" />
     <Compile Include="Command\PreviousCommand.cs" />
     <Compile Include="Command\PrintCommand.cs" />
+    <Compile Include="Command\SaveDataException.cs" />
     <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />
+    <Compile Include="IMessageHandler.cs" />
     <Compile Include="IToolBarView.cs" />
     <Compile Include="IToolBarViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

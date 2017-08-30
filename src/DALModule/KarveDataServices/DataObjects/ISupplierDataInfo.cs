@@ -9,6 +9,8 @@ namespace KarveDataServices.DataObjects
     public interface ISupplierDataInfo
     { 
         string Name { set; get; }
+        string Surname1 { set; get; }
+        string Surname2 { set; get; }
         string Direction { set; get; }
         string CountryCode { set; get; }
         string City { set; get; }

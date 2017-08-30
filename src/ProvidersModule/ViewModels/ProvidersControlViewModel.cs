@@ -148,7 +148,7 @@ namespace ProvidersModule.ViewModels
             }
         }
 
-        public async void  openCurrentItem(object currentItem)
+        public async void openCurrentItem(object currentItem)
         {
             ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
             DataRowView local = currentItem as DataRowView;
@@ -156,7 +156,7 @@ namespace ProvidersModule.ViewModels
             string name = local.Row.ItemArray[1] as string;
             string nif = local.Row.ItemArray[2] as string;
             ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-             _lastDataObject = await supplierDataServices.GetAsyncSupplierDataObjectInfo(lastSupplierId);
+            _lastDataObject = await supplierDataServices.GetAsyncSupplierDataObjectInfo(lastSupplierId);
             _lastDataObject.Name = name;
             _lastDataObject.Nif = nif;
             _lastDataObject.Number = lastSupplierId;
@@ -172,11 +172,17 @@ namespace ProvidersModule.ViewModels
                 supplierDataPayLoad.SupplierDataObjectType = null;
             }
             supplierDataPayLoad.SupplierSummaryDataTable = _extendedSupplierDataTable;
-            // notify the view model and add the view
+            // fire up the view
+            _configurationService.AddMainTab(view, supplierDataPayLoad.SupplierDataObjectInfo.Name);
+            DataPayLoad registrationPayload = new DataPayLoad();
+            string routedName = "ProviderModule:" + supplierDataPayLoad.SupplierDataObjectInfo.Name;
+            registrationPayload.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            registrationPayload.Registration = routedName;
+            _eventManager.notifyObserverSubsystem("ProviderModule", registrationPayload);
             DataPayLoad payload = new DataPayLoad();
             payload.DataObject = supplierDataPayLoad;
-            _eventManager.notifyObserverSubsystem("ProviderModule", payload);
-            _configurationService.AddMainTab(view,"Proveedor "+ _lastDataObject.Name);
+            _eventManager.notifyObserverSubsystem(routedName, payload);
+            
         }
         public ItemActionCallback ClosingTabItemHandler
         {

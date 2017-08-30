@@ -145,7 +145,9 @@
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
+    <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
+    <Compile Include="Logic\Generic\UserAccessControlList.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
@@ -454,9 +456,6 @@
     <Resource Include="Images\paymentTypes.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\save1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\reload.png" />
   </ItemGroup>
   <ItemGroup>
@@ -466,7 +465,10 @@
     <Resource Include="Images\filter.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\save_modified.png" />
+    <Resource Include="Images\save_toolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\modified.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

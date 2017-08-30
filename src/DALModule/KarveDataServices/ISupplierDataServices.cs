@@ -47,6 +47,10 @@ namespace KarveDataServices
         Task<ISupplierMonitoringData> GetAsyncMonitoringSupplierById(string id);
         ISupplierTypeData GetAsyncSupplierTypeById(string id);
         Task<DataSet> GetAsyncSuppliersSummaryPaged();
+        void UpdateDataObject(object dataObject);
+        void UpdateDataSet(DataSet set);
+        void InsertDataObject(object dataObject);
+        void InsertDataSet(DataSet set);
 
 
         #endregion
