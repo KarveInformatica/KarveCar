@@ -703,7 +703,7 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <TextBox.Text>
-                                                <Binding Path="SupplierAccountObjectInfo.PrefixAccount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
+                                                <Binding Path="SupplierAccountObjectInfo.AccountableAccount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" PresentationTraceSources.TraceLevel="High">
                                                     <Binding.ValidationRules>
                                                         <karvevalidators:NumberValidationRule />
                                                     </Binding.ValidationRules>

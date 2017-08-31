@@ -107,6 +107,7 @@
     <Compile Include="ISupplierPayload.cs" />
     <Compile Include="ProvidersModule.cs" />
     <Compile Include="ScopedRegionNavigationContentLoader.cs" />
+    <Compile Include="txtdata.cs" />
     <Compile Include="ViewModels\BasicEditorViewModel.cs" />
     <Compile Include="ViewModels\GenericGridViewModel.cs" />
     <Compile Include="ViewModels\ProviderInfoViewModel.cs" />

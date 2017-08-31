@@ -1,59 +1,98 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KarveCommon.Services;
+using KarveCommon.Generic;
+using System;
+using System.Xml.Serialization;
 
 namespace KarveCar.Logic.Generic
 {
-    class EnviromentVariableContainer : IEnviromentVariables
+    [XmlRoot("EnviromentConfiguration")]
+    public class EnviromentVariableContainer: IEnviromentVariables
     {
-
-        IDictionary<string, object> _officeConfiguration = new Dictionary<string, object>();
-        IDictionary<string, object> _companyConfiguration = new Dictionary<string, object>();
-        IDictionary<string, object> _karveConfiguration = new Dictionary<string, object>();
-        public enum EnvirommentConfig { OFFICE_CONFIGURATION, COMPANY_CONFIGURATION, KARVE_CONFIGURATION };
-        public void EmptyKey(string key, object value)
+        [XmlAttribute("OfficeConfiguration")]
+        private IDictionary<string, object> _officeConfiguration = new Dictionary<string, object>();
+        [XmlAttribute("CompanyConfiguration")]
+        private IDictionary<string, object> _companyConfiguration = new Dictionary<string, object>();
+        [XmlAttribute("KarveConfiguration")]
+        private IDictionary<string, object> _karveConfiguration = new Dictionary<string, object>();
+        [XmlIgnore]
+        private IDictionary<EnvironmentConfig, IDictionary<string, object>> enviromentMap;
+        public EnviromentVariableContainer()
         {
-        //    _variables.Remove(key);
+            enviromentMap = new Dictionary<EnvironmentConfig, IDictionary<string, object>>();
+            enviromentMap.Add(EnvironmentConfig.OfficeConfiguration, _officeConfiguration);
+            enviromentMap.Add(EnvironmentConfig.CompanyConfiguration, _companyConfiguration);
+            enviromentMap.Add(EnvironmentConfig.KarveConfiguration, _karveConfiguration);
         }
-
-        public object GetKey(string key)
+        public void EmptyKey(EnvironmentConfig config, string key)
         {
-            return null;
-        }
-
-        public bool HasKey(string key)
-        {
-            return true;
-        }
-
-        public bool IsSet(string key)
-        {
-            bool variable = false;
-
-            /*
-            bool variable = false;
-            if (_variables.ContainsKey(key))
+            IDictionary<string, object> map;
+            if (enviromentMap.TryGetValue(config, out map))
             {
-                if (_variables[key] != null)
-                {
-                    variable = true;
-                }
-            }*/
-            return variable;
+                map.Remove(key);
+            }
         }
 
-        public bool isSetCompanyConfig(string v)
+        public object GetKey(EnvironmentConfig config, string key)
+        {
+            IDictionary<string, object> map;
+            object value = null;
+            if (enviromentMap.TryGetValue(config, out map))
+            {
+                map.TryGetValue(key, out value);
+            }
+            return value;
+        }
+
+        public bool HasKey(EnvironmentConfig config, string key)
+        {
+            IDictionary<string, object> map;
+            if (enviromentMap.TryGetValue(config, out map))
+            {
+                return map.ContainsKey(key);
+
+            }
+            return false;
+        }
+
+        public void UnSet(EnvirommentConfig config, string key)
+        {
+            IDictionary<string, object> map;
+            object value = null;
+            if (enviromentMap.TryGetValue(config, out map))
+            {
+                map.TryGetValue(key, out value);
+            }
+            value = null;
+        }
+        public bool IsSet(EnvirommentConfig config, string key)
+        {
+            IDictionary<string, object> map;
+            object value = null;
+            if (enviromentMap.TryGetValue(config, out map))
+            {
+                map.TryGetValue(key, out value);
+            }
+            if (value != null)
+                return true;
+
+            return false;
+        }
+
+        public void SetKey(EnvirommentConfig config, string key, object value)
+        {
+            IDictionary<string, object> map;
+            value = null;
+            if (enviromentMap.TryGetValue(config, out map))
+            {
+                map.TryGetValue(key, out value);
+            }
+
+        }
+
+        public bool IsSetNotEmpty(EnvirommentConfig karveConfiguration, string v)
         {
             throw new NotImplementedException();
         }
-
-        public void SetKey(string key, object value)
-        {
-            //_variables[key] = value;
-        }
-
     }
-}

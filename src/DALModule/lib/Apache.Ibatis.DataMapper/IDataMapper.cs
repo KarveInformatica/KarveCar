@@ -254,6 +254,15 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="instanceObject">An object of the type to be returned.</param>
         /// <returns>The single result object populated with the result set data.</returns>
         T QueryForObject<T>(string statementName, object parameterObject, T instanceObject);
+        /// <summary>
+        ///  Execute a update asynchronous usin
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        Task<bool> ExecuteUpdateAsync(string v, IList<object> param);
+
+        Task<bool> ExecuteInsertAsync(string v, IList<object> param);
+        Task<T> ExecuteInsertAsync<T>(string v, IList<object> param);
 
         /// <summary>
         /// Executes a Sql SELECT statement that returns that returns data 
@@ -278,6 +287,7 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
         /// <returns>A List of result objects.</returns>
         IList<T> QueryForList<T>(string statementName, object parameterObject);
+        Task<T> ExecuteInsertAsyncDictionary<T>(string v, IDictionary<string, object> param);
 
         /// <summary>
         /// Executes a Sql SELECT statement that returns data to populate
@@ -290,6 +300,7 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="parameterObject">The object used to set the parameters in the SQL.</param>
         /// <param name="resultObject">An Ilist object used to hold the objects.</param>
         void QueryForList<T>(string statementName, object parameterObject, IList<T> resultObject);
+        Task<IList<T>> QueryAsyncForList<T>(string v, string companyName);
 
         /// <summary>
         /// Runs a query for list with a custom object that gets a chance to deal 
@@ -362,7 +373,5 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="sessionScope"></param>
         /// <returns></returns>
         Task<T> QueryAsyncForObjectSession<T>(string statementId, object parameterObject, ISessionScope sessionScope);
-
-
     }
 }

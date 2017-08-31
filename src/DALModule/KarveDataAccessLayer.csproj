@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChargeTypeDataAccessLayer.cs" />
+    <Compile Include="CreateSupplierAccountCommandObject.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
     <Compile Include="DataObjects\BancoDataObject.cs" />
@@ -102,6 +103,9 @@
     <Compile Include="DataObjects\Negocio.cs" />
     <Compile Include="DataObjects\OrigenCliente.cs" />
     <Compile Include="DataObjects\Poblacion.cs" />
+    <Compile Include="DBFieldAttribute.cs" />
+    <Compile Include="DBFieldType.cs" />
+    <Compile Include="DBTableAttribute.cs" />
     <Compile Include="DeleteCommandObject.cs" />
     <Compile Include="HelperDataAccessLayer.cs" />
     <Compile Include="HelperDataServicesImplementation.cs" />
@@ -124,9 +128,11 @@
     <Compile Include="DataObjects\UsoAlquiler.cs" />
     <Compile Include="DataObjects\ZonaCliente.cs" />
     <Compile Include="DataObjects\ZonaOficina.cs" />
+    <Compile Include="QueryAsyncForObjectCommandRetValue.cs" />
     <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="SupplierDataServiceAccessDeniedException.cs" />
     <Compile Include="SupplierDataServicesAccessModifiedException.cs" />
+    <Compile Include="SupplierSublicenDataObject.cs" />
     <Compile Include="UpdateCommandObject.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,10 +8,15 @@ namespace KarveDataServices.DataObjects
 {
     public interface ISupplierAccountObjectInfo
     {
-        object AccountDescription { set; get; }
-        object ExpensesAccountCode { set; get; }
-        object ExpensesAccount {set; get;}
-        object DeductionAccountCode { set; get; }
+        string PrefixAccount { set; get; }
+        string AccountableAccount { set; get; }
+        string AccountName { set; get; }
+        double AccountBalance { set; get; }
+        string AccountDescription { set; get; }
+        string AccountDescription2 { set; get; }
+        string ExpensesAccountCode { set; get; }
+        string ExpensesAccount {set; get;}
+        string DeductionAccountCode { set; get; }
         object DeductionAccount { set; get; }
         object DeductionPercentage { set; get; }
         object PaymentAccountCode { set; get; }
@@ -21,5 +26,11 @@ namespace KarveDataServices.DataObjects
         string IBAN { set; get; }
         object SWIFT { set; get; }
         string TransferAccount { set; get; }
+        // ULTMODI
+        string LastChange { set; get; }
+        // USUARIO
+        string ChangedByUser { set; get; }
+        string Sublicen { get; set; }
+        object Active { get; set; }
     }
 }

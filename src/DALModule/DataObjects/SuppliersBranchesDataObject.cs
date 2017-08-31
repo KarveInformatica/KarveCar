@@ -8,6 +8,7 @@ using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer.DataObjects
 {
+    // branches, delegaciones.
     public class SuppliersBranchesDataObject : ISupplierBranchesData
     {
         public object Codigo { get ; set ; }
