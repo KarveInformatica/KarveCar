@@ -3,18 +3,19 @@ using System.Data;
 using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.Session;
+using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer
 {
-    internal class QueryAsyncForObjectCommandRetValue<T> : IMapperCommand
+    internal class UpdateSupplierAccountCommandObject : IMapperCommand
     {
-        private string v1;
-        private string v2;
+        private ISupplierAccountObjectInfo account;
+        private string v;
 
-        public QueryAsyncForObjectCommandRetValue(string v1, string v2)
+        public UpdateSupplierAccountCommandObject(ISupplierAccountObjectInfo account, string v)
         {
-            this.v1 = v1;
-            this.v2 = v2;
+            this.account = account;
+            this.v = v;
         }
 
         public DataMapper Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

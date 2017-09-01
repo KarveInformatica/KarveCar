@@ -61,7 +61,8 @@ namespace ProvidersModule.ViewModels
         private ISupplierDataInfo _lastDataObject;
         private ISupplierTypeData _supplierDataObjectType;
         private ISupplierAccountObjectInfo _accountSupplier;
-
+        private const string updateAll = @"karve://suppliers//all?action=update";
+        private const string updateAccount = @"karve://suppliers//account?action=update";
 
         public ProviderInfoViewModel(
             IUnityContainer container,
@@ -96,7 +97,7 @@ namespace ProvidersModule.ViewModels
             DataPayLoad dataPayload = new DataPayLoad();
             dataPayload.DataObjectName = info.GetType().Name;
             string name  = info.GetType().Name;
-            dataPayload.ObjectPath = "ProviderInfo;General;" + name;
+            dataPayload.ObjectPath = new Uri(updateAll);
             dataPayload.PayloadType = DataPayLoad.Type.Update;
             // notifico la toolbar.
             _eventManager.notifyObserverToolBar(dataPayload);

@@ -48,11 +48,34 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
             // re
             if (x != null)
             {
-                table = TransformToTable(x);
+                // table = await TransformToTable(x).ConfigureAwait(false);
+                lock (_transformLock)
+                {
+                    Type t = x.GetType();
+                    table = new DataTable(t.Name);
+                    PropertyInfo[] prop = t.GetProperties();
+                    IList<object> list = new List<object>();
+                    // we build the data table.
+                    foreach (PropertyInfo p in prop)
+                    {
+                        table.Columns.Add(p.Name);
+                    }
+                    DataRow row = table.NewRow();
+                    table.Rows.Add(row);
+                    foreach (DataColumn cols in table.Columns)
+                    {
+                        string colName = cols.ColumnName;
+                        object o = t.GetProperty(colName).GetValue(x, null);
+                        if (row.Table.Columns.Contains(colName))
+                        {
+                            row[colName] = o;
+                        }
+                    }
+                }
             }
             return table;
         }
-        private DataTable TransformToTable<V>(V x)
+        private async Task<DataTable> TransformToTable(object x)
         {
             DataTable table;
             lock (_transformLock)

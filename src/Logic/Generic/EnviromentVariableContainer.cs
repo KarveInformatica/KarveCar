@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace KarveCar.Logic.Generic
 {
     [XmlRoot("EnviromentConfiguration")]
-    public class EnviromentVariableContainer: IEnviromentVariables
+    public class EnviromentVariableContainer : IEnviromentVariables
     {
         [XmlAttribute("OfficeConfiguration")]
         private IDictionary<string, object> _officeConfiguration = new Dictionary<string, object>();
@@ -56,7 +56,7 @@ namespace KarveCar.Logic.Generic
             return false;
         }
 
-        public void UnSet(EnvirommentConfig config, string key)
+        public void UnSet(EnvironmentConfig config, string key)
         {
             IDictionary<string, object> map;
             object value = null;
@@ -66,7 +66,7 @@ namespace KarveCar.Logic.Generic
             }
             value = null;
         }
-        public bool IsSet(EnvirommentConfig config, string key)
+        public bool IsSet(EnvironmentConfig config, string key)
         {
             IDictionary<string, object> map;
             object value = null;
@@ -80,7 +80,7 @@ namespace KarveCar.Logic.Generic
             return false;
         }
 
-        public void SetKey(EnvirommentConfig config, string key, object value)
+        public void SetKey(EnvironmentConfig config, string key, object value)
         {
             IDictionary<string, object> map;
             value = null;
@@ -91,8 +91,9 @@ namespace KarveCar.Logic.Generic
 
         }
 
-        public bool IsSetNotEmpty(EnvirommentConfig karveConfiguration, string v)
+        public bool IsSetNotEmpty(EnvironmentConfig config, string key)
         {
-            throw new NotImplementedException();
+           return false;
         }
     }
+}

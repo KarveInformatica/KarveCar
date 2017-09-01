@@ -30,8 +30,12 @@ namespace KarveCommon.Services
         ///  It has an observable collection associated.
         /// </summary>
         public bool HasObservableCollection { set; get; }
-        ///  string
-        public string ObjectPath { get; set; }
+        ///
+        /// We map each command inside the system with a Uri
+        ///  karve://suppliers/all?action=save  - this means the save the object
+        ///  karve://vehicles/group?action=save - this means save the vehicles group
+        ///  karve://contracts/all?action=new - this means a new contract has to be crafted 
+        public Uri ObjectPath { get; set; }
         /// <summary>
         ///  type of the payload
         /// </summary>
@@ -42,10 +46,11 @@ namespace KarveCommon.Services
         public string DataObjectName { get; set; }
 
         public object DataObject { get; set; }
+        
+        public IDictionary<string, object> DataMap { get; set; }
         /// <summary>
         ///  colleaction of object to be delivered.
         /// </summary>
-
         public ObservableCollection<object> Data { get; set; }
 
         public DataSet Set { get; set; }

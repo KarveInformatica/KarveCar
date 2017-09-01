@@ -6,15 +6,25 @@ using Apache.Ibatis.DataMapper.Session;
 
 namespace DataAccessLayer
 {
-    internal class QueryAsyncForObjectCommandRetValue<T> : IMapperCommand
+    internal class UpdateCommandTable : IMapperCommand
     {
+        private DataTable monitoringData;
+        private string v;
         private string v1;
-        private string v2;
 
-        public QueryAsyncForObjectCommandRetValue(string v1, string v2)
+        public UpdateCommandTable(DataTable monitoringData)
+        {
+            this.monitoringData = monitoringData;
+        }
+
+        public UpdateCommandTable(DataTable monitoringData, string v) : this(monitoringData)
+        {
+            this.v = v;
+        }
+
+        public UpdateCommandTable(DataTable monitoringData, string v, string v1) : this(monitoringData, v)
         {
             this.v1 = v1;
-            this.v2 = v2;
         }
 
         public DataMapper Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

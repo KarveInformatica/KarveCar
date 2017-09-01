@@ -34,7 +34,7 @@ namespace KarveDataServices.DataObjects
         string MobilePhone { set; get; }
         string CommercialName { set; get; }
         object Zip { set; get; }
-        object Type { set; get; }
+        string Type { set; get; }
         string LastChange { set; get; }
         string ChangedByUser { set; get; }
        

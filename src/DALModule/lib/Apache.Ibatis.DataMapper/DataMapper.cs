@@ -521,6 +521,8 @@ namespace Apache.Ibatis.DataMapper
             get { return modelStore; }
         }
 
+        public ISessionScope Session { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         #endregion
 
 
@@ -756,6 +758,41 @@ namespace Apache.Ibatis.DataMapper
         /// This 
         /// </summary>
         public void ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IDataMapper.ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteUpdateAsync(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteInsertAsync(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsync<T>(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> QueryAsyncForObjectByDictionary<T>(T v, IDictionary<T, object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsyncDictionary<T>(string v, IDictionary<string, object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<T>> QueryAsyncForList<T>(string v, string companyName)
         {
             throw new NotImplementedException();
         }

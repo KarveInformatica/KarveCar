@@ -3,18 +3,19 @@ using System.Data;
 using System.Threading.Tasks;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.Session;
+using System.Collections.Generic;
 
 namespace DataAccessLayer
 {
-    internal class QueryAsyncForObjectCommandRetValue<T> : IMapperCommand
+    internal class UpdateCommandDictionary : IMapperCommand
     {
-        private string v1;
-        private string v2;
+        private string _statementId;
+        private IDictionary<string, object> _dictionaryParm;
 
-        public QueryAsyncForObjectCommandRetValue(string v1, string v2)
+        public UpdateCommandDictionary(string v, IDictionary<string, object> p)
         {
-            this.v1 = v1;
-            this.v2 = v2;
+            this._statementId = v;
+            this._dictionaryParm = p;
         }
 
         public DataMapper Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

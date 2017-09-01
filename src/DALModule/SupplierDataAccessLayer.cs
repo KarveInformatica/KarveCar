@@ -10,9 +10,10 @@ using DataAccessLayer.DataObjects;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.MappedStatements;
 using System.Reflection;
-using System.Collections.ObjectModel;
 using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
 using System.Collections.Generic;
+// this is needed for the random commissinist.
+using System.Security.Cryptography;
 
 namespace DataAccessLayer
 {
@@ -20,6 +21,7 @@ namespace DataAccessLayer
     {
         private IDataMapper _dataMapper;
         private IConfigurationService _service;
+        
 
         public SupplierDataAccessLayer(IDataMapper dataMapper, IConfigurationService service)
         {
@@ -64,6 +66,90 @@ namespace DataAccessLayer
             dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
+        public async Task<DataSet> GetAsyncProviderType()
+        {
+            /* 
+             * SELECT TIPOCOMP_P1 FROM PROVEE1 WHERE NUM_PROVEE="";
+             */ 
+            DataSet dataSet = new DataSet("ProviderType");
+           
+            return dataSet;
+        }
+        public async Task<DataSet> GetAsyncDelegations()
+        {
+            /* SELECT *, NULL ENVIAR
+            vArray = getColsArraySQL_EXEC(cSELECT & "*, NULL ENVIAR" & sCrearMandato & cFROM & Taula & cWHERE & "cldIdCliente = " & setApostrofar(codi) & sOrden, EMAIL_SEPARA) */
+            DataSet set = new DataSet("AsyncDelegations");
+            return set;
+        }
+
+        /*
+          Dim OK As Boolean
+ Dim miWhere As String
+ Dim sCod As String
+  PasandoDatos = True
+  Screen.MousePointer = 11
+  sCod = Text1.Text
+  Limpiar
+  Text1.Text = sCod
+  miWhere = cWHERE & "NUM_PROVEE = '" & Trim(Text1.Text) & "'"
+  PasandoDatos = True
+  OK = dbFrmSet("PROVEE1", Me, miWhere)
+  If OK Then OK = dbFrmSet("PROVEE2", Me, miWhere)
+  If OK Then
+     textObserva.Text = Replace(textObserva_.Text, "#", "@")
+     Carga_Tipo
+     If txtDistri.Text = "" Then txtDistri.Text = getColValueRet("PROVEE1", "CODIEDI_PR1", edDistribuidor.Text, "NUM_PROVEE")
+     '*------------------------------------------------------------------------
+     Cargar_Delega Me, Text1.Text, vDelega, vDelegaCont, "ProDelega"
+     Cargar_Contacto Me, Text1.Text, vContacto, vContactoCont, "ProContactos", "ProDelega"
+     Cargar_Visitas_PROV Me, Text1.Text, vVisitas, vVisitasCont
+     CargarLiPe
+     CalcularEstadoHomologacion
+     Cargar_EvaluaNota
+     CargarTrans
+     CargarArray
+     '*------------------------------------------------------------------------
+     TxtModo.Text = CStr(edModos.Actualizar)
+     If Not (Icono_Formularios_ID = 201 And Img_Splash = 308) Then
+        txtSaldo.Text = getSaldo
+     End If
+     misCambios = False
+    
+    If (getColValueSQL(cSELECT & "FBAJA" & cFROM & "PROVEE1" & miWhere, _
+                      separator, "FBAJA")) <> "" Then
+      jMsgBox getIdiomaMensa("Proveedor Dado de Baja", , "PROVEE_BAJA"), vbInformation
+    End If
+  Else
+   jMsgBox getIdiomaMensa("Error al Pasar Datos", , "ERROR_DATOS")
+  End If
+  If GetIntNotNull(DatosConfig(Docs, "MAPFRE")) <> 0 Then
+    If txtNomSolo.Text = "" And TxtNom.Text <> "" Then
+      txtNomSolo.Text = TxtNom.Text
+    End If
+  End If
+  edContacto.BtnVisible = GetIntNotNull(nContactos(Text1.Text)) > 0
+  optPendPago(0).Value = True
+  PasandoDatos = False
+  OjoContactos = False
+  If TxtIvaI(0).Text <> "" Then TxtIvaI(0).Description = Nom_Cu1(TxtIvaI(0).Text, txtSublicen.Text)
+  txtGasAbono.Description = Nom_Cu1(txtGasAbono.Text, txtSublicen.Text)
+  If txtCtaPago.Text <> "" Then txtCtaPago.Description = Nom_Cu1(txtCtaPago.Text, txtSublicen.Text)
+  If CK("GESTION_DIVISAS") And edDivisa.Text <> "" Then
+    cmdExtract(1).Visible = True
+    cmdExtract(1).Caption = "Extracto " & edDivisa.Description
+  Else
+    cmdExtract(1).Visible = False
+  End If
+  If CK("MBF") Then
+    If edBPS.Text <> "" And txtContable.Text = "" Then txtContable.Text = edBPS.Text
+  End If
+  sCtaGastoVieja = TxtCu.Text
+  Screen.MousePointer = 0
+  PasandoDatos = False
+End Sub
+
+             */
         /// <summary>
         /// Retrieve the supplier data object info for the general summary.
         /// </summary>
@@ -75,11 +161,11 @@ namespace DataAccessLayer
             if (id != String.Empty)
             {
 
-                IMapperCommand mapper1 = new QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
-                IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
+                IMapperCommand mapper1 = new Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
+               // IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
 
-                _dataMapper.AddBatch(mapper1);
-                _dataMapper.AddBatch(mapper2);
+                 _dataMapper.AddBatch(mapper1);
+               // _dataMapper.AddBatch(mapper2);
 
                 DataTable provinceDataCode = null;
                 DataSet resultBatch = await _dataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
@@ -206,23 +292,32 @@ namespace DataAccessLayer
 
 
         /** see the datas from provee2 */
-        public async void Update(ISupplierDataInfo dataInfo,
+        public async Task<bool> Update(ISupplierDataInfo dataInfo,
                            ISupplierTypeData dataType,
                            ISupplierAccountObjectInfo account,
-                           ObservableCollection<ISupplierMonitoringData> monitoring,
-                           bool dataContactsChanged,
-                           ObservableCollection<ISupplierContactsData> dataContacts)
+                           DataTable monitoringData,
+                           DataTable evaluationData,
+                           DataTable transportProviderData,
+                           DataTable segurProviderData,
+                           DataTable delegationDataTable,
+                           DataTable contactsDataTable,
+                           DataTable visitsDataTable,
+                           bool dataContactsChanged)
         {
-
             IEnviromentVariables environ = _service.GetEnviromentVariables();
             IUserAccessControlList accessControlList = _service.GetAccountManagement();
-
+            bool returnValue = true;
             if (environ.IsSet(EnvConfig.OfficeConfiguration, EnvironmentVariables.Mapfre))
             {
                 dataInfo.Name = dataInfo.Name + " " + dataInfo.Surname1 + " " + dataInfo.Surname2;
             }
             dataInfo.Email.Replace("@", "#");
             string name = environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.CurrentUser) as string;
+            // maybe this can be done at upper level.
+            dataInfo.ChangedByUser = name;
+            account.ChangedByUser = name;
+            account.LastChange = DateTime.Now.ToString();
+
             if (environ.IsSet(EnvConfig.OfficeConfiguration, EnvironmentVariables.MRent))
             {
                 if (!accessControlList.hasDeletePermission(name, "ProviderModule"))
@@ -259,60 +354,221 @@ namespace DataAccessLayer
             {
                 account.IBAN = await ComputeIBAN(_dataMapper, account);
                 account.SWIFT = await ComputeSWIFT(_dataMapper, account.IBAN);
-
             }
             if (environ.IsSet(EnvConfig.CompanyConfiguration, EnvironmentVariables.EfectosProvee))
             {
                 // create a supplier account
                 _dataMapper.AddBatch(new CreateSupplierAccountCommandObject(account));
             }
-            /* Understand this.
-             * If OK And txtNacioPer.Text <> "" Then OK = dbUpdateTo("Provee1", "NACIODOMI", txtNacioPer.Text, cWHERE & "NUM_PROVEE = '" & Text1.Text & "'")
-             */
             // Save the table proveee1  and provee2
-            _dataMapper.AddBatch(new UpdateCommandObject(dataInfo, dataType, "Suppliers.UpdateSupplierInfoAndType"));
-            // Save monitoring (seguimento)
-            // we pass here the data table changed.
-            /*// data table
-             *   If OK Then OK = GuardarSeguimiento
-  If OK Then OK = Guardar_Otros
-  If OK Then OK = Guardar_EvaluaNota
-  If OK Then OK = GuardarTrans
-  If OK Then OK = GuardaTipo
+            _dataMapper.AddBatch(new UpdateCommandObject(dataInfo, dataType, "Suppliers.UpdateSupplierInfo"));
+            // update monitoring data.
+            _dataMapper.AddBatch(new UpdateCommandTable(monitoringData, "Suppliers.UpdateMonitoringTable"));
+            // save evaluation note.
+            _dataMapper.AddBatch(new UpdateCommandTable(evaluationData, "Suppliers.UpdateEvaluationTable"));
+            // transport provider table.
+            _dataMapper.AddBatch(new UpdateCommandTable(transportProviderData, "Suppliers.UpdateTransportProviderTable"));
+            // add supplier type.
+            _dataMapper.AddBatch(new UpdateCommandObject(dataType, "Suppliers.UpdateSupplierType"));
+            // add assurance data
+            _dataMapper.AddBatch(new UpdateCommandTable(segurProviderData, "Suppliers.UpdateAssuranceData"));
 
-             */
-            _dataMapper.AddBatch(new DeleteCommandObject(dataInfo, "Suppliers.DeleteMonitoring"));
-            foreach (ISupplierMonitoringData monitorData in monitoring)
+            try
             {
-                _dataMapper.AddBatch(new InsertCommandObject(monitorData, "Suppliers.InsertMonitoring"));
-            }
+                // we execute a first batch
+                returnValue = returnValue && await _dataMapper.ExecuteUpdateAsyncBatch();
 
+            }
+            catch (Exception e)
+            {
+                throw new DataUpdateException(e.Message);
+            }
+            if (!returnValue)
+            {
+                return returnValue;
+            }
             // save other things
-            await SaveOtherData(environ, _dataMapper, account).ConfigureAwait(false);
-            /*
-             * data table
-              If OK Then OK = Guardar_EvaluaNota
-            // DATA TABLE  
-            If OK Then OK = GuardarTrans
- 
-             */
-             /* GUARDAR TIPO 
-              
-             
-             */
+            await SaveOtherData(environ, _dataMapper, account, name).ConfigureAwait(false);
+            if (!environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.NoCtaContaProvee))
+            {
+
+                // if contalbprov (invoice account suppliers) and Isinvoice management enabled. albanares = invoice  
+                if (environ.IsSetNotEmpty(EnvConfig.CompanyConfiguration, EnvironmentVariables.ContaAlbProve) && (account.IsInvoiceManagementEnabled))
+                {
+                    int accountLevel = 3;
+                    if (environ.IsSet(EnvConfig.KarveConfiguration, EnvironmentVariables.NivelCta))
+                    {
+                        accountLevel = Convert.ToInt32(account.CustomerAccount);
+                    }
+                    // FIXME: from visual basic shall be  ctapendfac = "409" & FDer(Right(Text1.Text, NivelCta - 3), "0", NivelCta - 3)
+                    string pendingBillingAccount = "409" + CommonString.FDer(CommonString.Right(dataInfo.Code, accountLevel - 3), '0', accountLevel - 3);
+                    bool existInTable = await ExistsInAccountTable(_dataMapper, pendingBillingAccount, environ).ConfigureAwait(false);
+                    if (!existInTable)
+                    {
+                        IDictionary<string, object> param = new Dictionary<string, object>();
+
+                        param.Add("codigo", pendingBillingAccount);
+                        param.Add("descrip", account.AccountDescription + " FAC.PENDIENTES");
+                        param.Add("ultmodi", account.LastChange);
+                        param.Add("usuario", account.ChangedByUser);
+                        param.Add("activo", account.Active);
+                        param.Add("descrip2", account.AccountDescription2);
+                        param.Add("sublicen", account.Sublicen);
+                        bool ret = await _dataMapper.ExecuteInsertAsyncDictionary<bool>("Supplier.InsertNewAccount", param);
+                    }
+                    else
+                    {
+                        IDictionary<string, object> param = new Dictionary<string, object>();
+                        param.Add("codigo", account.AccountableAccount);
+                        param.Add("sublicen", account.Sublicen);
+                        /* select descrip from cu1 where codigo = account.AccountableAccount and sublicen = sublicen descrip
+                         */
+                        string accountDescription = await _dataMapper.QueryAsyncForObjectByDictionary<string>("Supplier.SelectDescription", param);
+
+                        if ((!environ.IsSet(EnvConfig.KarveConfiguration, EnvironmentVariables.RentMultiMedia)) && (!accountDescription.Equals(account.AccountableAccount)))
+                        {
+                            // here defer the update
+                            _dataMapper.AddBatch(new UpdateSupplierAccountCommandObject(account, "Supplier.AccountObject"));
+                        }
+
+                    }
+
+                }
+                // if the efectos provee is not null and the "cuenta efectos" is not empty
+                if (!environ.IsSetNotEmpty(EnvConfig.CompanyConfiguration, EnvironmentVariables.EfectosProvee)
+                     && (account.CustomerAccount == string.Empty))
+
+                {
+                    IDictionary<string, object> param = new Dictionary<string, object>();
+                    param.Add("codigo", account.CustomerAccount);
+                    param.Add("descrip", account.AccountDescription + " EFECTOS");
+                    param.Add("ultmodi", account.LastChange);
+                    param.Add("usuario", account.ChangedByUser);
+                    param.Add("activo", account.Active);
+                    param.Add("sublicen", account.Sublicen);
+                    bool ret = await _dataMapper.ExecuteInsertAsyncDictionary<bool>("Supplier.InsertNewAccount", param);
+                }
+                /* FIXME: At this point i want todelete the old account if is required
+                 *       If OK And bCambioCta Then OK = BorraCtaVieja(CuentaA)               
+                 */
+                if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.ExisteProveeDest))
+                {
+                    IDictionary<string, object> param = new Dictionary<string, object>();
+                    param.Add("codigo", account.AccountableAccount);
+                    param.Add("NUMERO_cli", account.edKCli);
+                    // update clientes1 set provee_dest = account.AccountableAccount and NUMERO_Cli = edKCli.Text
+                    _dataMapper.AddBatch(new UpdateCommandDictionary("Clientes.UpdateClients1", param));
+                }
+
+            }
+            _dataMapper.AddBatch(new UpdateCommandTable(delegationDataTable, "Suppliers.UpdateSupplierDelegations"));
+            _dataMapper.AddBatch(new UpdateCommandTable(contactsDataTable, "Suppliers.UpdateSupplierContacts"));
+            _dataMapper.AddBatch(new UpdateCommandTable(visitsDataTable, "Supplier.UpdateSupplierVisits"));
+
+
             dataInfo.ChangedByUser = name;
             account.ChangedByUser = name;
             account.LastChange = DateTime.Now.ToString();
             // review this as adaptable with the db.
             dataInfo.LastChange = DateTime.Now.ToString();
-            _dataMapper.ExecuteUpdateAsyncBatch();
+            bool retValue = await _dataMapper.ExecuteUpdateAsyncBatch();
 
+            #region FixMeAutoCodigo
+            /**
+			 * FIXME: AutoCodigoEliminar. ask why we need an autocodigo. 
+			 * <summary>
+			 *   Private Sub AutoCodigoEliminar()
+			 *    Dim pTr As Long
+			 *   Dim codigo As String
+			 *   If TxtModo.Text = CStr(edModos.Agregar) And AutoCodigo <> "" Then
+			 *			  finTransacCodis "PROVEE1", AutoCodigo
+	         *			AutoCodigo = ""
+	         *		End If
+             *         For pTr = 1 To vDelegaCont
+	         *       codigo = getColsArrayValue(vDelega(0), vDelega(pTr), "cldIdDelega", EMAIL_SEPARA)
+	         *     If codigo <> "" Then finTransacCodis "ProDelega", codigo
+             *    Next pTr
+             *    For pTr = 1 To vContactoCont
+	         *   codigo = getColsArrayValue(vContacto(0), vContacto(pTr), "ccoIdContacto", EMAIL_SEPARA)
+	         *  If codigo <> "" Then finTransacCodis "ProContactos", codigo
+             *   Next pTr
+             *  End Sub
+			 * </summary>
+			 */
+            #endregion
+            returnValue = returnValue & await ManageComi(environ, _dataMapper, dataInfo.Type, account, dataInfo);
+            return returnValue;
 
 
         }
+        private async Task<bool> ManageComi(IEnviromentVariables environ,
+            IDataMapper mapper,
+            string type,
+            ISupplierAccountObjectInfo account,
+            ISupplierDataInfo info)
+        {
+            bool retValue = false;
+            int value = (int)environ.GetKey(EnvConfig.CompanyConfiguration, EnvironmentVariables.Tipproconce);
+            if (environ.IsSetNotEmpty(EnvConfig.CompanyConfiguration, EnvironmentVariables.Mercedes) && (type == value.ToString()))
+            {
+                /*
+                    SELECT NOMBRE, PERSONA, NIF, DIRECTION, POBLACION, PROV, CP, NACIOPER, NACIODOMI, TELEFONO, FAX,
+                    OBSERVA,sublicen , FALTA, fbaja, eMail, INTERNET, Movil, COORDGPS, Oficina
+                    FROM PROVEE1 where NUM_PROVEE=info.Codigo*/
+                DataTable tmpSupplier = await mapper.QueryAsyncForDataTableSession("Supplier.SelectProveedor", info.Code, mapper.Session);
+                /* from the select we need to fetch the values 
+                  "NOMBRE", "PERSONA", "NIF", "DIRECCION", "POBLACION", "PROV", "CP", "NACIOPER", "NACIODOMI", "TELEFONO", "FAX", 
+                 "OBSERVA", "sublicen", "FALTA", "fbaja", "eMail", "INTERNET", "Movil", "COORDGPS", "Oficina"
+                */
+                /* SELECT NUM_COMI from comisio where NIF = account.Nif */
+                DataTable comi = null;
+                if (string.IsNullOrEmpty(account.CommissionNumber))
+                {
+                    comi = await mapper.QueryAsyncForDataTableSession("Supplier.SelectCommisionByNif", account.Nif, mapper.Session);
+                    if ((comi != null) && (comi.Rows.Count > 0) && (comi.Columns.Contains("NUM_COMI")))
+                    {
+                        DataRowCollection rows = comi.Rows;
+                        account.CommissionNumber = rows[0]["NUM_COMI"] as string;
+                    }
+                }
+                if (string.IsNullOrEmpty(account.CommissionNumber))
+                {
+                    /** in vb6 we use a function for generating the comissionist numner
+                     * places in JaBAutoCodigoTrans("COMISIO", "NUM_COMI")
+                     * I would prefer generate a true random value with a fixed prefix.
+                     */
+                    short tmpComisioNumber = 0;
+                    short commisionNumber = 0;
+                    // i repeat the generation until there is a unique commision number
+                    do
+                    {
+                        byte[] data = new byte[1];
+                        using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+                        {
+                            rngCsp.GetBytes(data);
+                        }
+                        tmpComisioNumber = BitConverter.ToInt16(data, 0);
+                        account.CommissionNumber = tmpComisioNumber.ToString();
+                        commisionNumber = await mapper.QueryAsyncForObjectSession<short>("Commission.GetNumberOfCommission", tmpComisioNumber, mapper.Session).ConfigureAwait(false);
+                    } while (commisionNumber == tmpComisioNumber);
+                    mapper.AddBatch(new InsertCommissionNumberCommand(account.CommissionNumber, tmpSupplier, "Commission.InsertCommission"));
+                    IDictionary<string, object> commissionParam = new Dictionary<string, object>();
+                    commissionParam["NUMCOMI_PR"] = account.CommissionNumber;
+                    commissionParam["NUM_PROVEE"] = info.Code;
+                    mapper.AddBatch(new UpdateCommandDictionary("Supplier.UpdateSupplierCommission", commissionParam));
+                    retValue = retValue & await mapper.ExecuteUpdateAsyncBatch();
+                }
+                else
+                {
+                    mapper.AddBatch(new UpdateCommandTable(tmpSupplier, account.CommissionNumber, "Commission.UpdateCommission"));
+                    retValue = retValue & await mapper.ExecuteUpdateAsyncBatch();
+                }
 
+            }
+            return retValue;
+        }
         private async Task<bool> SaveOtherData(IEnviromentVariables environ, IDataMapper dataMapper,
-                                         ISupplierAccountObjectInfo account, string connectedUser)
+                                             ISupplierAccountObjectInfo account, string connectedUser)
         {
             // in case there is no supplier account.
             if (environ.IsSet(EnvConfig.CompanyConfiguration, EnvironmentVariables.NoCtaContaProvee))
@@ -321,8 +577,10 @@ namespace DataAccessLayer
             }
             if (!environ.IsSet(EnvConfig.CompanyConfiguration, EnvironmentVariables.NoCrearCuentaProvee))
             {
-                // no creare cuenta provee.
-                CreateSupplierAccount(_dataMapper, account);
+                // ref . CtaCuenta.
+                /*
+                GetSupplierAccount(_dataMapper, out account);
+                */
             }
             // cuenta contable 
             string accountName = account.AccountableAccount;
@@ -359,7 +617,7 @@ namespace DataAccessLayer
                     else
                     {
                         IDictionary<string, object> param = new Dictionary<string, object>();
-                        param.Add("codigo", accountName.Trim());
+                        param.Add("codigo", account.AccountName);
                         param.Add("descrip", account.AccountDescription);
                         param.Add("ultmodi", account.LastChange);
                         param.Add("usuario", account.ChangedByUser);
@@ -370,192 +628,190 @@ namespace DataAccessLayer
                         if (ret)
                         {
                             string sublicen = GetSublicen(environ);
-                            /*
-                             * 
-                             *    If OK Then OK = CreaCtaE mpsProv(Cols, Trim(Cuenta), sNomCta, 
-                             *    Text2.Text, IIf(EmpresaPlanCta <> "", EmpresaPlanCta, EmpresaConectada), "P")
-                             */
-                            ret = await CreateAccountCompanySupplier(param, sublicen);
+                            ret = await CreateAccountCompanySupplier(dataMapper, environ, account, param, sublicen);
                         }
                     }
-
                 }
             }
-        }
-        private async Task<bool> CreateAccountCompanySupplier(IDataMapper mapper,
-                                                  IEnviromentVariables environ,
-                                                  ISupplierAccountObjectInfo account,
-                                                  IDictionary<string, object> param,
-                                                  string company)
-        {
+                    return true;
 
-            string companyName = company;
-            bool returnValue = true;
-            /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
-            IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetDifferentSublicen", companyName);
-            foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
-            {
-                string companyCode = da.;
-                /*
-                 *  SELECT TOP 1 CODIGO FROM CU1 WHERE SUBLICEN='00' AND CODIGO=companyCode;
-                 */
-                IDictionary<string, object> p = new Dictionary<string, object>();
-                p.Add("table", "cu1");
-                p.Add("codigo", account.AccountableAccount);
-                p.Add("sublicen", companyCode);
-                /*
-                *  SELECT (TOP 1 FROM CU WHERE codigo=account.AccountableAccount and sublicen = companyCode
-                * Check if Exist columns in code
-                 */
-                Tuple<string, object> cuTuple = await mapper.QueryAsyncForObject<Tuple<string, object>>("Generic.CheckExistColumnInTable", param).ConfigureAwait(true);
-                if (cuTuple.Item2 != null)
+                }
+
+                private async Task<bool> CreateAccountCompanySupplier(IDataMapper mapper,
+                                                              IEnviromentVariables environ,
+                                                              ISupplierAccountObjectInfo account,
+                                                              IDictionary<string, object> param,
+                                                              string company)
                 {
-                    IDictionary<string, object> updateParam = new Dictionary<string, object>();
-                    updateParam.Add("account", account.AccountableAccount);
-                    updateParam.Add("accountdescription", account.AccountDescription);
-                    updateParam.Add("accountlastmodification", account.LastChange);
-                    updateParam.Add("accountlastuser", account.ChangedByUser);
-                    updateParam.Add("systemtype", EnvironmentVariables.SupplierModuleType);
-                    updateParam.Add("accountdescription2", account.AccountDescription2);
-                    updateParam.Add("sublicen", companyName);
-                    bool ret = await mapper.ExecuteInsertAsyncDictionary<bool>("Supplier.InsertNewAccountCompanySupplier", updateParam);
-                    returnValue = ret && returnValue;
+
+                    string companyName = company;
+                    bool returnValue = true;
+                    /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
+                    IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetDifferentSublicen", companyName);
+                    foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
+                    {
+                        string companyCode = da.code;
+                        /*
+                         *  SELECT TOP 1 CODIGO FROM CU1 WHERE SUBLICEN='00' AND CODIGO=companyCode;
+                         */
+                        IDictionary<string, object> p = new Dictionary<string, object>();
+                        p.Add("table", "cu1");
+                        p.Add("codigo", account.AccountableAccount);
+                        p.Add("sublicen", companyCode);
+                        /*
+                        *  SELECT (TOP 1 FROM CU WHERE codigo=account.AccountableAccount and sublicen = companyCode
+                        * Check if Exist columns in code
+                         */
+                        Tuple<string, object> cuTuple = await mapper.QueryAsyncForObject<Tuple<string, object>>("Generic.CheckExistColumnInTable", param).ConfigureAwait(true);
+                        if (cuTuple.Item2 != null)
+                        {
+                            IDictionary<string, object> updateParam = new Dictionary<string, object>();
+                            updateParam.Add("account", account.AccountableAccount);
+                            updateParam.Add("accountdescription", account.AccountDescription);
+                            updateParam.Add("accountlastmodification", account.LastChange);
+                            updateParam.Add("accountlastuser", account.ChangedByUser);
+                            updateParam.Add("systemtype", EnvironmentVariables.SupplierModuleType);
+                            updateParam.Add("accountdescription2", account.AccountDescription2);
+                            updateParam.Add("sublicen", companyName);
+                            bool ret = await mapper.ExecuteInsertAsyncDictionary<bool>("Supplier.InsertNewAccountCompanySupplier", updateParam);
+                            returnValue = ret && returnValue;
+                        }
+                    }
+                    return returnValue;
                 }
-            }
-            return returnValue;
-        }
-        /// <summary>
-        ///  Get the "sublicen" value following the enviroment configuration variables.
-        /// </summary>
-        /// <param name="environ">Enviroment variables.</param>
-        /// <returns></returns>
-        private string GetSublicen(IEnviromentVariables environ)
-        {
-            string sublicen = "";
-            if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta))
-            {
-                sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
-            }
-            else
-            {
-                sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaConectada);
-            }
-            return sublicen;
-        }
-        private async Task<bool> ExistsInAccountTable(IDataMapper dataMapper, string accountName, IEnviromentVariables environ)
-        {
-            int rowsAffected = 0;
-            /*
-             SELECT TOP 1 codigo FROM CU1 where codigo=accountName;
-             SELECT TOP 1 codigo FROM CU1 where codigo=accountName and SUBLICEN=sublicen;
-             */
-            string sublicen = "";
-            if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta))
-            {
-                sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
-            }
-            else
-            {
-                sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaConectada);
-            }
-            if (String.IsNullOrEmpty(sublicen))
-            {
-                rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCode", accountName);
-            }
-            else 
-            {
-                IList<string> param = new List<string>();
-                param.Add(accountName);
-                param.Add(sublicen);
-                rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCodeAndSublicen", param);
-            }
-            return (rowsAffected > 0);
-        }
-        private async Task<string> GetAccountName(IDataMapper dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
-        {
-            string accountName = "";
-            int number = await NumberOfModification(dataMapper, environ, accountInfo).ConfigureAwait(false);
-            if (number == 0)
-            {
-                accountName = accountInfo.AccountName;
-            }
-            string companyPlanAccount = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
-            string sublicenValue;
-            if (!String.IsNullOrEmpty(companyPlanAccount))
-            {
-                sublicenValue = companyPlanAccount;
-            }
-            else
-            {
-                sublicenValue = accountInfo.Sublicen;
-            }
-            string queryName = firstAccount ? "Supplier.AccountableAccountDescription" : "Supplier.AccountableAccountDescription2";
-            /***********************
-             * select descrip from cu1 where codigo = accountInfo.AccountableAccount and sublicenValue = sublicen DESCRIP
-             ************************/
-            /***********************
-             * select descrip2 from cu1 where codigo = accountInfo.AccountableAccount and sublicenValue = sublicen DESCRIP2
-             ************************/
-            IList<string> param = new List<string>();
-            param.Add(accountInfo.AccountableAccount);
-            param.Add(sublicenValue);
-            accountName = await dataMapper.QueryAsyncForObject<string>(queryName, param).ConfigureAwait(false);    
-            return accountName;
-        }
-        private void CreateSupplierAccount(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
-        {
-            throw new NotImplementedException();
-        }
+                /// <summary>
+                ///  Get the "sublicen" value following the enviroment configuration variables.
+                /// </summary>
+                /// <param name="environ">Enviroment variables.</param>
+                /// <returns></returns>
+                private string GetSublicen(IEnviromentVariables environ)
+                {
+                    string sublicen = "";
+                    if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta))
+                    {
+                        sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
+                    }
+                    else
+                    {
+                        sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaConectada);
+                    }
+                    return sublicen;
+                }
+                private async Task<bool> ExistsInAccountTable(IDataMapper dataMapper, string accountName, IEnviromentVariables environ)
+                {
+                    int rowsAffected = 0;
+                    /*
+                     SELECT TOP 1 codigo FROM CU1 where codigo=accountName;
+                     SELECT TOP 1 codigo FROM CU1 where codigo=accountName and SUBLICEN=sublicen;
+                     */
+                    string sublicen = "";
+                    if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta))
+                    {
+                        sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
+                    }
+                    else
+                    {
+                        sublicen = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaConectada);
+                    }
+                    if (String.IsNullOrEmpty(sublicen))
+                    {
+                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCode", accountName);
+                    }
+                    else
+                    {
+                        IList<string> param = new List<string>();
+                        param.Add(accountName);
+                        param.Add(sublicen);
+                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCodeAndSublicen", param);
+                    }
+                    return (rowsAffected > 0);
+                }
+                private async Task<string> GetAccountName(IDataMapper dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
+                {
+                    string accountName = "";
+                    int number = await NumberOfModification(dataMapper, environ, accountInfo).ConfigureAwait(false);
+                    if (number == 0)
+                    {
+                        accountName = accountInfo.AccountName;
+                    }
+                    string companyPlanAccount = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
+                    string sublicenValue;
+                    if (!String.IsNullOrEmpty(companyPlanAccount))
+                    {
+                        sublicenValue = companyPlanAccount;
+                    }
+                    else
+                    {
+                        sublicenValue = accountInfo.Sublicen;
+                    }
+                    string queryName = firstAccount ? "Supplier.AccountableAccountDescription" : "Supplier.AccountableAccountDescription2";
+                    /***********************
+                     * select descrip from cu1 where codigo = accountInfo.AccountableAccount and sublicenValue = sublicen DESCRIP
+                     ************************/
+                    /***********************
+                     * select descrip2 from cu1 where codigo = accountInfo.AccountableAccount and sublicenValue = sublicen DESCRIP2
+                     ************************/
+                    IList<string> param = new List<string>();
+                    param.Add(accountInfo.AccountableAccount);
+                    param.Add(sublicenValue);
+                    accountName = await dataMapper.QueryAsyncForObject<string>(queryName, param).ConfigureAwait(false);
+                    return accountName;
+                }
+                private void GetSupplierAccount(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
+                {
 
-        private bool isAccountableAccountChanged(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
-        {
-            throw new NotImplementedException();
-        }
+                }
 
-        private async Task<string> ComputeSWIFT(IDataMapper dataMapper, string Iban)
-        {
-            string bankCode = Iban.Substring(5, 4);
-            /* SELECT SWIFT FROM BANCO WHERE CODBAN = banco*/
-            string swift = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeSwift", bankCode);
-            return swift;
-        }
+                private bool isAccountableAccountChanged(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
+                {
+                    return true;
 
-        private async Task<string> ComputeIBAN(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
-        {
-            /* SELECT CREAR_IBAN account.Transfer as IBAN IBAN*/
-            string iban = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeIban", account.TransferAccount).ConfigureAwait(false);
-            return iban;
-        }
+                }
 
-        private bool isChangePresentExpenseAccount(ISupplierAccountObjectInfo account)
-        {
-            throw new NotImplementedException();
-        }
+                private async Task<string> ComputeSWIFT(IDataMapper dataMapper, string Iban)
+                {
+                    string bankCode = Iban.Substring(5, 4);
+                    /* SELECT SWIFT FROM BANCO WHERE CODBAN = banco*/
+                    string swift = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeSwift", bankCode);
+                    return swift;
+                }
 
-        private async Task<int> NumberOfModification(IDataMapper mapper, IEnviromentVariables environ,
-                                    ISupplierAccountObjectInfo accountInfo)
-        {
-            /*
-             * SELECT NOMODIFICA_DESC FROM CU1 WHERE codigo = 'accountInfo.AccountableAccount' AND sublicen = 'sublicenValue' NOMODIFICA_DESC  
-             */
-            string companyPlanAccount = (string) environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
-            string sublicenValue;
-            if (!String.IsNullOrEmpty(companyPlanAccount))
-            {
-                sublicenValue = companyPlanAccount;
+                private async Task<string> ComputeIBAN(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
+                {
+                    /* SELECT CREAR_IBAN account.Transfer as IBAN IBAN*/
+                    string iban = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeIban", account.TransferAccount).ConfigureAwait(false);
+                    return iban;
+                }
+
+                private bool isChangePresentExpenseAccount(ISupplierAccountObjectInfo account)
+                {
+                    throw new NotImplementedException();
+                }
+
+                private async Task<int> NumberOfModification(IDataMapper mapper, IEnviromentVariables environ,
+                                            ISupplierAccountObjectInfo accountInfo)
+                {
+                    /*
+                     * SELECT NOMODIFICA_DESC FROM CU1 WHERE codigo = 'accountInfo.AccountableAccount' AND sublicen = 'sublicenValue' NOMODIFICA_DESC  
+                     */
+                    string companyPlanAccount = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.EmpresaPlanCuenta);
+                    string sublicenValue;
+                    if (!String.IsNullOrEmpty(companyPlanAccount))
+                    {
+                        sublicenValue = companyPlanAccount;
+                    }
+                    else
+                    {
+                        sublicenValue = accountInfo.Sublicen;
+                    }
+                    IList<string> param = new List<string>();
+                    param.Add(accountInfo.AccountableAccount);
+                    param.Add(sublicenValue);
+                    int numberOfModification = await mapper.QueryAsyncForObject<int>("Suppliers.NoModifica", param);
+                    return numberOfModification;
+                }
+
+                #endregion
+
             }
-            else
-            {
-                sublicenValue = accountInfo.Sublicen;
-            }
-            IList<string> param = new List<string>();
-            param.Add(accountInfo.AccountableAccount);
-            param.Add(sublicenValue);
-            int numberOfModification = await mapper.QueryAsyncForObject<int>("Suppliers.NoModifica", param);
-            return numberOfModification;
-        }
-
-        #endregion
-
-    }
 }

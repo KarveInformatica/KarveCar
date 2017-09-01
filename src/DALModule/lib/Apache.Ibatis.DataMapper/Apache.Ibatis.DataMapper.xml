@@ -11201,6 +11201,12 @@
             <param name="parameterObject">The parameter object.</param>
             <returns>The number of rows effected.</returns>
         </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.ExecuteUpdateAsyncBatch">
+            <summary>
+             Exeute a batch of update all together.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryForDictionary``2(System.String,System.Object,System.String,System.String)">
              <summary>
              Executes the SQL and retuns all rows selected in a map that is keyed on the property named
@@ -11249,6 +11255,13 @@
             <param name="parameterObject">The object used to set the parameters in the SQL.</param>
             <param name="instanceObject">An object of the type to be returned.</param>
             <returns>The single result object populated with the result set data.</returns>
+        </member>
+        <member name="M:Apache.Ibatis.DataMapper.IDataMapper.ExecuteUpdateAsync(System.String,System.Collections.Generic.IList{System.Object})">
+            <summary>
+             Execute a update asynchronous usin
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.IDataMapper.QueryForObject``1(System.String,System.Object)">
             <summary>

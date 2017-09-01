@@ -17,5 +17,11 @@
         public const string ProveComun = "PROVE_COMUN";
         public const string CreaCuentaCliProEmployee = "CREA_CTAS_CLIPRO_EMPS";
         public const string SupplierModuleType = "P";
+        public const string ContaAlbProve = "CONTAALBPROV";
+        public const string NivelCta = "NivelCta";
+        public const string RentMultiMedia = "RENTMULTIMEDIA";
+        public const string ExisteProveeDest = "ExisteProveeDest";
+        public const string Tipproconce = "TIPPRO_CONCE";
+        public const string Mercedes = "MERCEDES";
     }
 }

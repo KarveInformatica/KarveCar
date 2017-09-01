@@ -16,6 +16,8 @@ namespace KarveDataServices.DataObjects
         string AccountDescription2 { set; get; }
         string ExpensesAccountCode { set; get; }
         string ExpensesAccount {set; get;}
+        // cuenta efectos
+        string CustomerAccount { set; get; }
         string DeductionAccountCode { set; get; }
         object DeductionAccount { set; get; }
         object DeductionPercentage { set; get; }
@@ -32,5 +34,9 @@ namespace KarveDataServices.DataObjects
         string ChangedByUser { set; get; }
         string Sublicen { get; set; }
         object Active { get; set; }
+        bool IsInvoiceManagementEnabled { get; set; }
+        object edKCli { get; set; }
+        object Nif { get; set; }
+        string CommissionNumber { get; set; }
     }
 }

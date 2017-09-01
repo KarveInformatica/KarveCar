@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects.Attributes
 {
     internal class DBFieldAttribute : Attribute
     {

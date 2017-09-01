@@ -1,4 +1,6 @@
-﻿namespace DataAccessLayer.DataObjects
+﻿using DataAccessLayer.DataObjects.Attributes;
+
+namespace DataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Supplier sublicen data object
@@ -6,8 +8,8 @@
     [DBTable("SUBLICEN", "DbProvider=Sysbase")]
     public class SupplierSublicenDataObject
     {
-        [DBField("Name=CODIGO",DataAccessLayer.DBFieldType.Integer)]
-        public int code { set; get; }
+        [DBField("Name=CODIGO",DBFieldType.String)]
+        public string code { set; get; }
 
     }
 }

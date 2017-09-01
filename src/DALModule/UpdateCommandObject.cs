@@ -13,6 +13,12 @@ namespace DataAccessLayer
         private ISupplierTypeData dataType;
         private string v;
 
+        public UpdateCommandObject(ISupplierTypeData dataType, string v)
+        {
+            this.dataType = dataType;
+            this.v = v;
+        }
+
         public UpdateCommandObject(ISupplierDataInfo dataInfo, ISupplierTypeData dataType, string v)
         {
             this.dataInfo = dataInfo;

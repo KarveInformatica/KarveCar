@@ -51,6 +51,18 @@ namespace ToolBarModule.Command
             return filterPayload;
         }
         /// <summary>
+        ///  This method save the supplier data layer
+        /// </summary>
+        /// <param name="payload"></param>
+        private void SaveSupplierDataLayer(DataPayLoad payload)
+        {
+
+        }
+        private void SaveVehicleGroupDataLayer(DataPayLoad payload)
+        {
+
+        }
+        /// <summary>
         ///  Execute the save command.
         /// </summary>
         /// <param name="parameter">Data Payload that is composed of the table name and a observable collection</param>
@@ -63,6 +75,11 @@ namespace ToolBarModule.Command
                 IDictionary<string, DataPayLoad> param = FilterParameters(parameter);
                 foreach (DataPayLoad payload in param.Values)
                 {
+                    // the host is the subsystem
+                    Uri uri = payload.ObjectPath;
+
+                //    uri.Host == Envit
+
                     if (payload.PayloadType == DataPayLoad.Type.Update)
                     {
                         try
@@ -70,8 +87,8 @@ namespace ToolBarModule.Command
                             if (payload.Subsystem == (int)KarveDataServices.DataSubSystem.SupplierSubsystem)
                             {
                                 ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-                                supplierDataServices.UpdateDataObject(payload.DataObject);
-                                supplierDataServices.UpdateDataSet(payload.Set);
+                                
+                                
                             }
                         }
                         catch (Exception e)
@@ -86,8 +103,8 @@ namespace ToolBarModule.Command
                             if (payload.Subsystem == (int)KarveDataServices.DataSubSystem.SupplierSubsystem)
                             {
                                 ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-                                supplierDataServices.InsertDataObject(payload.DataObject);
-                                supplierDataServices.InsertDataSet(payload.Set);
+                            //    supplierDataServices.InsertDataObject(payload.DataObject);
+                            //    supplierDataServices.InsertDataSet(payload.Set);
                             }
                         }
                         catch (Exception e)
