@@ -166,22 +166,24 @@
                     <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
                 </StackPanel>
             </StackPanel>
+            
             <extendedGridControl:ExtendedDataGrid VerticalAlignment="Top" 
                                                    x:Name="ProviderSupplierSummary" 
                                                    ItemsSource="{Binding SummaryView}" 
                                                    SelectedIndex="{Binding SelectedIndex}"
-                                                   RowHeaderWidth="17" 
-                                                   IsReadOnly="True"
+                                                  HideColumnChooser="True"
+                                                  CanUserAddRows="False" 
+                                                  OnlyTwoWaySorting="True" 
+                                                  
+                                                  AutoFilterFontSize="12" 
+                                                  GroupByControlVisibility="Collapsed" 
+                                                  IsReadOnly="True"
                                                    MaxHeight="670"
                                                    AutoGenerateColumns="False" 
-                                                   HideColumnChooser="True" 
                                                    AllowUserToCopy="True"
-                                                   OnlyTwoWaySorting="True"
                                                    SearchAutoFilterVisibility="Visible" 
-                                                   AutoFilterFontSize="12"
-                                                   GroupByControlVisibility="Collapsed" 
                                                    IsSynchronizedWithCurrentItem="True"                                           
-                                                   SelectionUnit="FullRow" >
+                                                   SelectionUnit="FullRow" SelectionChanged="ProviderSupplierSummary_SelectionChanged" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedValue}"/>
@@ -213,14 +215,9 @@
 
                 </DataGrid.Columns>
             </extendedGridControl:ExtendedDataGrid>
+           
         </StackPanel>
-        <Grid.Resources>
-            <xcdg:DataGridCollectionViewSource 
-            x:Key="supplierList" 
-            Source="{Binding SummaryView}" 
-            />
-        </Grid.Resources>
-    </Grid>
+     </Grid>
 
 </UserControl>
 

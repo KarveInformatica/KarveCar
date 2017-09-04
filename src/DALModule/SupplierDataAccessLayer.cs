@@ -43,9 +43,9 @@ namespace DataAccessLayer
             return dataSet;
         }
         /// <summary>
-        /// This method look for the Number, Nif, and brief summary of the supplier.
+        /// Returns look for the Number, Nif, and brief summary of the supplier.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A data set containing a Number, Nif, and summary</returns>
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             DataSet dataSet = new DataSet("SupplierDataSet");
@@ -66,90 +66,55 @@ namespace DataAccessLayer
             dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
-        public async Task<DataSet> GetAsyncProviderType()
+        /// <summary>
+        /// Get the type of the supplier (TIPOCOMP) given the code
+        /// </summary>
+        /// <param name="supplierCode">code of the supplier</param>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncProviderType(string supplierCode)
         {
-            /* 
-             * SELECT TIPOCOMP_P1 FROM PROVEE1 WHERE NUM_PROVEE="";
-             */ 
-            DataSet dataSet = new DataSet("ProviderType");
-           
+            DataSet dataSet = new DataSet("SupplierType");
+            DataTable supplierTable = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierType", supplierCode);
+            dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
-        public async Task<DataSet> GetAsyncDelegations()
+        /// <summary>
+        /// Return the dataset of the delegations given a supplier.
+        /// </summary>
+        /// <param name="supplierCode">code of the supplier</param>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncDelegations(string supplierCode)
         {
-            /* SELECT *, NULL ENVIAR
-            vArray = getColsArraySQL_EXEC(cSELECT & "*, NULL ENVIAR" & sCrearMandato & cFROM & Taula & cWHERE & "cldIdCliente = " & setApostrofar(codi) & sOrden, EMAIL_SEPARA) */
-            DataSet set = new DataSet("AsyncDelegations");
+            DataSet set = new DataSet("SupplierDelegations");
+            DataTable delegation = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierDelegationByClient", supplierCode);
+            set.Tables.Add(delegation);
             return set;
         }
+        /// <summary>
+        /// Get the visits from the supplier.
+        /// </summary>
+        /// <param name="clientCode">code of the supplier</param>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncVisits(string clientCode)
+        {
+            DataSet set = new DataSet("SupplierVisit");
+            DataTable visits = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierVisits", clientCode);
+            set.Tables.Add(visits);
+            return set;
+        }
+        /// <summary>
+        ///  Get the evaluation note.
+        /// </summary>
+        /// <param name="evCode"> Get the evalutaion node foreach supplier</param>
+        /// <returns></returns>
+        public async Task<DataSet> GetAsyncEvaluationNote(string evCode)
+        {
+            DataSet set = new DataSet("EvaluationNote");
+            DataTable note = await _dataMapper.QueryAsyncForDataTable("Supplier.LoadEvaluationNote", evCode);
+            set.Tables.Add(note);
+            return set;
 
-        /*
-          Dim OK As Boolean
- Dim miWhere As String
- Dim sCod As String
-  PasandoDatos = True
-  Screen.MousePointer = 11
-  sCod = Text1.Text
-  Limpiar
-  Text1.Text = sCod
-  miWhere = cWHERE & "NUM_PROVEE = '" & Trim(Text1.Text) & "'"
-  PasandoDatos = True
-  OK = dbFrmSet("PROVEE1", Me, miWhere)
-  If OK Then OK = dbFrmSet("PROVEE2", Me, miWhere)
-  If OK Then
-     textObserva.Text = Replace(textObserva_.Text, "#", "@")
-     Carga_Tipo
-     If txtDistri.Text = "" Then txtDistri.Text = getColValueRet("PROVEE1", "CODIEDI_PR1", edDistribuidor.Text, "NUM_PROVEE")
-     '*------------------------------------------------------------------------
-     Cargar_Delega Me, Text1.Text, vDelega, vDelegaCont, "ProDelega"
-     Cargar_Contacto Me, Text1.Text, vContacto, vContactoCont, "ProContactos", "ProDelega"
-     Cargar_Visitas_PROV Me, Text1.Text, vVisitas, vVisitasCont
-     CargarLiPe
-     CalcularEstadoHomologacion
-     Cargar_EvaluaNota
-     CargarTrans
-     CargarArray
-     '*------------------------------------------------------------------------
-     TxtModo.Text = CStr(edModos.Actualizar)
-     If Not (Icono_Formularios_ID = 201 And Img_Splash = 308) Then
-        txtSaldo.Text = getSaldo
-     End If
-     misCambios = False
-    
-    If (getColValueSQL(cSELECT & "FBAJA" & cFROM & "PROVEE1" & miWhere, _
-                      separator, "FBAJA")) <> "" Then
-      jMsgBox getIdiomaMensa("Proveedor Dado de Baja", , "PROVEE_BAJA"), vbInformation
-    End If
-  Else
-   jMsgBox getIdiomaMensa("Error al Pasar Datos", , "ERROR_DATOS")
-  End If
-  If GetIntNotNull(DatosConfig(Docs, "MAPFRE")) <> 0 Then
-    If txtNomSolo.Text = "" And TxtNom.Text <> "" Then
-      txtNomSolo.Text = TxtNom.Text
-    End If
-  End If
-  edContacto.BtnVisible = GetIntNotNull(nContactos(Text1.Text)) > 0
-  optPendPago(0).Value = True
-  PasandoDatos = False
-  OjoContactos = False
-  If TxtIvaI(0).Text <> "" Then TxtIvaI(0).Description = Nom_Cu1(TxtIvaI(0).Text, txtSublicen.Text)
-  txtGasAbono.Description = Nom_Cu1(txtGasAbono.Text, txtSublicen.Text)
-  If txtCtaPago.Text <> "" Then txtCtaPago.Description = Nom_Cu1(txtCtaPago.Text, txtSublicen.Text)
-  If CK("GESTION_DIVISAS") And edDivisa.Text <> "" Then
-    cmdExtract(1).Visible = True
-    cmdExtract(1).Caption = "Extracto " & edDivisa.Description
-  Else
-    cmdExtract(1).Visible = False
-  End If
-  If CK("MBF") Then
-    If edBPS.Text <> "" And txtContable.Text = "" Then txtContable.Text = edBPS.Text
-  End If
-  sCtaGastoVieja = TxtCu.Text
-  Screen.MousePointer = 0
-  PasandoDatos = False
-End Sub
-
-             */
+        }
         /// <summary>
         /// Retrieve the supplier data object info for the general summary.
         /// </summary>
@@ -162,10 +127,10 @@ End Sub
             {
 
                 IMapperCommand mapper1 = new Apache.Ibatis.DataMapper.MappedStatements.QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
-               // IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
+                IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
 
                  _dataMapper.AddBatch(mapper1);
-               // _dataMapper.AddBatch(mapper2);
+                 _dataMapper.AddBatch(mapper2);
 
                 DataTable provinceDataCode = null;
                 DataSet resultBatch = await _dataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
@@ -234,42 +199,7 @@ End Sub
             }
             return dataObjectType;
         }
-        /// <summary>
-        ///  Each supplier has an evaluation note. We retrieve the data object of the evaluation note.
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        public Task<ISupplierEvaluationNoteData> GetAsyncSupplierEvaluationNoteDataObject(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        ///  This methods is useful for retriving monitoring informations from the database,
-        ///  give the id of the supplier.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public Task<ISupplierMonitoringData> GetAsyncMonitoringSupplierById(string id)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        ///  This returns the asynchronous supplier type given hisid.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ISupplierTypeData GetAsyncSupplierTypeById(string id)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        ///  Return a paged dataset that it is the merge between the first dataset fetched and the new request.
-        /// </summary>
-        /// <returns></returns>
-        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
-        {
-            throw new NotImplementedException();
-        }
+      
         #endregion
         #region Private Methods
         private void SetDataObjectFields<T>(DataRow row, ref T dataObject)
@@ -290,9 +220,22 @@ End Sub
 
         }
 
-
-        /** see the datas from provee2 */
-        public async Task<bool> Update(ISupplierDataInfo dataInfo,
+        /// <summary>
+        ///  Update the supplier tables.
+        /// </summary>
+        /// <param name="dataInfo"></param>
+        /// <param name="dataType"></param>
+        /// <param name="account"></param>
+        /// <param name="monitoringData"></param>
+        /// <param name="evaluationData"></param>
+        /// <param name="transportProviderData"></param>
+        /// <param name="segurProviderData"></param>
+        /// <param name="delegationDataTable"></param>
+        /// <param name="contactsDataTable"></param>
+        /// <param name="visitsDataTable"></param>
+        /// <param name="dataContactsChanged"></param>
+        /// <returns></returns>
+        private async Task<bool> Update(ISupplierDataInfo dataInfo,
                            ISupplierTypeData dataType,
                            ISupplierAccountObjectInfo account,
                            DataTable monitoringData,
@@ -515,7 +458,7 @@ End Sub
                     SELECT NOMBRE, PERSONA, NIF, DIRECTION, POBLACION, PROV, CP, NACIOPER, NACIODOMI, TELEFONO, FAX,
                     OBSERVA,sublicen , FALTA, fbaja, eMail, INTERNET, Movil, COORDGPS, Oficina
                     FROM PROVEE1 where NUM_PROVEE=info.Codigo*/
-                DataTable tmpSupplier = await mapper.QueryAsyncForDataTableSession("Supplier.SelectProveedor", info.Code, mapper.Session);
+                DataTable tmpSupplier = await mapper.QueryAsyncForDataTableSession("Supplier.GetSupplier", info.Code, mapper.Session);
                 /* from the select we need to fetch the values 
                   "NOMBRE", "PERSONA", "NIF", "DIRECCION", "POBLACION", "PROV", "CP", "NACIOPER", "NACIODOMI", "TELEFONO", "FAX", 
                  "OBSERVA", "sublicen", "FALTA", "fbaja", "eMail", "INTERNET", "Movil", "COORDGPS", "Oficina"
@@ -524,7 +467,7 @@ End Sub
                 DataTable comi = null;
                 if (string.IsNullOrEmpty(account.CommissionNumber))
                 {
-                    comi = await mapper.QueryAsyncForDataTableSession("Supplier.SelectCommisionByNif", account.Nif, mapper.Session);
+                    comi = await mapper.QueryAsyncForDataTableSession("Supplier.GetCommissionByNif", account.Nif, mapper.Session);
                     if ((comi != null) && (comi.Rows.Count > 0) && (comi.Columns.Contains("NUM_COMI")))
                     {
                         DataRowCollection rows = comi.Rows;
@@ -575,13 +518,6 @@ End Sub
             {
                 return true;
             }
-            if (!environ.IsSet(EnvConfig.CompanyConfiguration, EnvironmentVariables.NoCrearCuentaProvee))
-            {
-                // ref . CtaCuenta.
-                /*
-                GetSupplierAccount(_dataMapper, out account);
-                */
-            }
             // cuenta contable 
             string accountName = account.AccountableAccount;
             account.AccountDescription = await GetAccountName(dataMapper, environ, account).ConfigureAwait(false);
@@ -599,7 +535,7 @@ End Sub
                         string[] words = value.Split(',');
                         foreach (string code in words)
                         {
-                            int rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCode", code);
+                            int rowsAffected = await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCode", code);
                             if (rowsAffected > 0)
                             {
                                 IList<object> param = new List<object>();
@@ -647,7 +583,7 @@ End Sub
                     string companyName = company;
                     bool returnValue = true;
                     /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
-                    IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetDifferentSublicen", companyName);
+                    IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
                     foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
                     {
                         string companyCode = da.code;
@@ -662,7 +598,7 @@ End Sub
                         *  SELECT (TOP 1 FROM CU WHERE codigo=account.AccountableAccount and sublicen = companyCode
                         * Check if Exist columns in code
                          */
-                        Tuple<string, object> cuTuple = await mapper.QueryAsyncForObject<Tuple<string, object>>("Generic.CheckExistColumnInTable", param).ConfigureAwait(true);
+                        Tuple<string, object> cuTuple = await mapper.QueryAsyncForObject<Tuple<string, object>>("Suppliers.CheckExistColumnInTable", param).ConfigureAwait(true);
                         if (cuTuple.Item2 != null)
                         {
                             IDictionary<string, object> updateParam = new Dictionary<string, object>();
@@ -715,14 +651,14 @@ End Sub
                     }
                     if (String.IsNullOrEmpty(sublicen))
                     {
-                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCode", accountName);
+                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCode", accountName);
                     }
                     else
                     {
                         IList<string> param = new List<string>();
                         param.Add(accountName);
                         param.Add(sublicen);
-                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("ExistAccountByCodeAndSublicen", param);
+                        rowsAffected = await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCodeAndSublicen", param);
                     }
                     return (rowsAffected > 0);
                 }
@@ -757,15 +693,10 @@ End Sub
                     accountName = await dataMapper.QueryAsyncForObject<string>(queryName, param).ConfigureAwait(false);
                     return accountName;
                 }
-                private void GetSupplierAccount(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
-                {
-
-                }
-
+            
                 private bool isAccountableAccountChanged(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
                 {
                     return true;
-
                 }
 
                 private async Task<string> ComputeSWIFT(IDataMapper dataMapper, string Iban)
@@ -783,10 +714,7 @@ End Sub
                     return iban;
                 }
 
-                private bool isChangePresentExpenseAccount(ISupplierAccountObjectInfo account)
-                {
-                    throw new NotImplementedException();
-                }
+               
 
                 private async Task<int> NumberOfModification(IDataMapper mapper, IEnviromentVariables environ,
                                             ISupplierAccountObjectInfo accountInfo)
@@ -811,7 +739,86 @@ End Sub
                     return numberOfModification;
                 }
 
-                #endregion
+        public DataSet GetSuppliersSummaryPaged(long pos)
+        {
+            PageParameterObject paged = new PageParameterObject();
+            paged.startPos = pos;
+            DataTable setSummary = _dataMapper.QueryForDataTable("Suppliers.GetFullSuppliersSummaryPaged", pos);
+            DataSet setName = new DataSet("PagedSupplierSummary");
+            setName.Tables.Add(setSummary);
+            return setName;
+        }
+        Task<ISupplierTypeData> GetAsyncSupplierTypeById(string supplierId)
+        {
+            _dataMapper.QueryAsyncForObject<ISupplierTypeData>("SupplierGetSupplierTypeByCode", supplierId);
 
-            }
+            throw new NotImplementedException();
+        }
+
+        public Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string baseSupplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ISupplierTypeData> ISupplierDataServices.GetAsyncSupplierTypeById(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataSet> GetEvaluationNote(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataSet> GetAsyncTransportProviderData(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataSet> GetAsyncSupplierContacts(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DataSet> GetAsyncMonitoring(string supplierId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Update(ISupplierDataInfo dataInfo, 
+            ISupplierTypeData dataType, 
+            ISupplierAccountObjectInfo ao, 
+            DataSet monitoringData, 
+            DataSet evaluationData, 
+            DataSet transportProviderData, 
+            DataSet assuranceProviderData, 
+            DataSet contactsProviderData, 
+            DataSet visitsProviderData, 
+            bool contactsChanged)
+        {
+            DataTable monitoringDataTable = monitoringData.Tables[0].GetChanges();
+            DataTable evaluationDataTable = evaluationData.Tables[0].GetChanges();
+            DataTable transportProviderDataTables = transportProviderData.Tables[0].GetChanges();
+            DataTable contactsProviderDataTables = contactsProviderData.Tables[0].GetChanges();
+            DataTable visitsProviderDataTables = visitsProviderData.Tables[0].GetChanges();
+            bool updateResult = await Update(dataInfo, dataType, ao, 
+                         monitoringData, evaluationData,
+                         transportProviderData, assuranceProviderData, 
+                         contactsProviderData, visitsProviderData, contactsChanged);
+            return updateResult;
+        }
+
+        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+    }
 }

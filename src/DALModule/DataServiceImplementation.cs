@@ -56,5 +56,17 @@ namespace DataAccessLayer
         {
             return _helperDataServices;
         }
+
+        public IDataServicesSession OpenSession()
+        {
+            return null;
+           // throw new NotImplementedException();
+        }
+
+        public void CloseSession(IDataServicesSession session)
+        {
+           
+           /// throw new NotImplementedException();
+        }
     }
 }
