@@ -21,7 +21,7 @@ namespace DataAccessLayer
         {
             _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
             _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
-            _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper, configurationService);
+            _supplierDataServices = new SupplierDataAccessLayer(mapper, configurationService);
             _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
         }
         /// <summary>
@@ -55,6 +55,18 @@ namespace DataAccessLayer
         public IHelperDataServices GetHelperDataServices()
         {
             return _helperDataServices;
+        }
+
+        public IDataServicesSession OpenSession()
+        {
+            return null;
+           // throw new NotImplementedException();
+        }
+
+        public void CloseSession(IDataServicesSession session)
+        {
+           
+           /// throw new NotImplementedException();
         }
     }
 }

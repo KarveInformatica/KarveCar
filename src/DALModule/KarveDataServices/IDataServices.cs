@@ -8,11 +8,28 @@ namespace KarveDataServices
     ///  It is an interface for abstracting all dataservices.
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
-    public  enum DataSubSystem { PaymentSubsystem = 0, VehicleSubsystem = 1, HelperSubsytsem = 2, SupplierSubsystem = 3 };
-
+    struct SystemUri
+    {
+        const string suppliers = "karve://suppliers";
+        const string vehicles =  "karve://vehicles"; 
+    }
+    public interface IDataServicesSession
+    {
+        object mapper {set; get;}
+        object session { set; get; }
+    }
     public interface IDataServices
     {
-        
+        /// <summary>
+        ///  This opens a session to the mapper.
+        /// </summary>
+        /// <returns></returns>
+        IDataServicesSession OpenSession();
+        /// <summary>
+        ///  This close a session to the mapper.
+        /// </summary>
+        /// <param name="session"></param>
+        void CloseSession(IDataServicesSession session);
         /// <summary>
         ///  Get all banks in the system
         /// </summary>

@@ -159,6 +159,7 @@
     <Compile Include="Model\Cache\Decorators\SharedCache.cs" />
     <Compile Include="Model\Cache\Decorators\SynchronizedCache.cs" />
     <Compile Include="Model\Cache\Implementation\WeakCache.cs" />
+    <Compile Include="ScopedSession.cs" />
     <Compile Include="Session\DataMapperLocalSessionScope.cs" />
     <Compile Include="IMapperFactory.cs" />
     <Compile Include="Configuration\Interpreters\Config\AbstractInterpreter.cs" />

@@ -9,12 +9,42 @@ using KarveDataServices.DataObjects;
 
 namespace KarveDataServices
 {
+
+
+    /// <param name="dataInfo">Data object for the supplier</param>
+    /// <param name="dataType">Data object for the supplier type</param>
+    /// <param name="ao">Data set for the accounting information for the supplier</param>
+    /// <param name="monitoringData">Data set for the monitoring information for the supplier</param>
+    /// <param name="evaluationData">Data set for the evaluation data for the supplier</param>
+    /// <param name="transportProviderData">Data set for the transport for the supplirt</param>
+    /// <param name="assuranceProviderData">Data set for the assurance data provider </param>
+    /// <param name="contactsProviderData">Data set for the contacts</param>
+    /// <param name="visitsProviderData">Data set for the visits</param>
+    /// <param name="contactsChanged">Check if the contact are changed.</param>
+    /// <returns>true if the update is correct. It may launch an exception.</returns>
     /// <summary>
     ///  common interface for the 
     /// </summary>
+    /// 
+    public static class SupplierPayLoad
+    {
+        public const string SupplierDOName = "SupplierDataObjectInfo";
+        public const string SupplierDOType = "SupplierDataObjectType";
+        public const string SupplierAccountingDO = "SupplierAccountDataObject";
+        public const string SupplierMonitoringDS = "SupplierMonitoringDataSet";
+        public const string SupplierEvaluationDS = "SupplierEvaluationDataSet";
+        public const string SupplierTransportDS = "SupplierTransportDataSet";
+        public const string SupplierAssuranceDS = "SupplierAssuranceDataSet";
+        public const string SupplierContactsDS = "SupplierContactsDataSet";
+        public const string SupplierVisitsDS = "SupplierVisitsDataSet";
+        public const string SupplierBranchesDS = "SupplierBranchesDataSet";
+        public const string SupplierContactsChangedField = "SupplierContactsChanged";
+    }
     public interface ISupplierDataServices
     {
-      
+
+        
+
         #region Asynchronous methods
         /// <summary>
         ///  Returns the dataset in asynchronous way for all suppliers.
@@ -43,10 +73,111 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncAllProviderTypes();
-        Task<ISupplierEvaluationNoteData> GetAsyncSupplierEvaluationNoteDataObject(string supplierId);
-        Task<ISupplierMonitoringData> GetAsyncMonitoringSupplierById(string id);
-        ISupplierTypeData GetAsyncSupplierTypeById(string id);
+        /// <summary>
+        /// Return synchnously the suppliers paged at 200 page size.
+        /// </summary>
+        /// <param name="startPos">Start position where compute the page</param>
+        /// <returns></returns>
+        DataSet GetSuppliersSummaryPaged(long startPos);
+        /// <summary>
+        /// Returns the supplier type information from the supplier id.
+        /// </summary>
+        /// <param name="id">supplier code</param>
+        /// <returns></returns>
+        Task<ISupplierTypeData> GetAsyncSupplierTypeById(string supplierId);
+        /// <summary>
+        /// Returns the complete suppliers information paged for 200 items.
+        /// </summary>
+        /// <returns></returns>
         Task<DataSet> GetAsyncSuppliersSummaryPaged();
+        /// <summary>
+        ///  Returns TIPOCOMP. 
+        /// </summary>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncProviderType(string supplierId);
+        Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData);
+
+        /// <summary>
+        ///  Returns the delegations foreach supplier.
+        /// </summary>
+        /// <param name="supplierId">supplier code.</param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncDelegations(string supplierId);
+        /// <summary>
+        ///  Returns the visits for a given supplier.
+        /// </summary>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncVisits(string clientId);
+        /// <summary>
+        ///  Returns an evaluation note for a supplier.
+        /// </summary>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
+        Task<DataSet> GetEvaluationNote(string supplierId);
+        /// <summary>
+        ///  Return the supplier data object in asynchnouns way
+        /// </summary>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
+        Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId);
+        /// <summary>
+        ///  Returns the async evaluation note
+        /// </summary>
+        /// <param name="supplierId">supplier identifier</param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncEvaluationNote(string supplierId);
+        /// <summary>
+        /// Return the supplier transport information.
+        /// </summary>
+        /// <param name="supplierId">supplier identifier</param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncTransportProviderData(string supplierId);
+        /// <summary>
+        /// Returns the async supplier assurance data given a supplerId
+        /// </summary>
+        /// <param name="supplierId">supplier identifier</param>
+        /// <returns></returns>       
+        Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId);
+        /// <summary>
+        /// Return the supplier contacts asynchronously
+        /// </summary>
+        /// <param name="supplierId">supplier identifier</param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncSupplierContacts(string supplierId);
+        /// <summary>
+        /// Returns the asynchrnous monitoring
+        /// </summary>
+        /// <param name="supplierId">supplier identifier</param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncMonitoring(string supplierId);
+        /// <summary>
+        /// Update the asynchronous supplier identifier.
+        /// </summary>
+        /// <param name="dataInfo">Data object for the supplier</param>
+        /// <param name="dataType">Data object for the supplier type</param>
+        /// <param name="ao">Data set for the accounting information for the supplier</param>
+        /// <param name="monitoringData">Data set for the monitoring information for the supplier</param>
+        /// <param name="evaluationData">Data set for the evaluation data for the supplier</param>
+        /// <param name="transportProviderData">Data set for the transport for the supplirt</param>
+        /// <param name="assuranceProviderData">Data set for the assurance data provider </param>
+        /// <param name="contactsProviderData">Data set for the contacts</param>
+        /// <param name="visitsProviderData">Data set for the visits</param>
+        /// <param name="contactsChanged">Check if the contact are changed.</param>
+        /// <returns>true if the update is correct. It may launch an exception.</returns>
+        Task<bool> Update(ISupplierDataInfo dataInfo, ISupplierTypeData dataType, 
+                        ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, 
+                        DataSet transportProviderData, DataSet assuranceProviderData, 
+                        DataSet contactsProviderData, DataSet visitsProviderData, bool contactsChanged);
+        /// <summary>
+        /// Open a session to the database provider
+        /// </summary>
+        void OpenDataSession();
+        /// <summary>
+        /// Close a session to the database provider.
+        /// </summary>
+        void CloseDataSession();
         #endregion
     }
 }

@@ -754,15 +754,9 @@ namespace Apache.Ibatis.DataMapper
         {
             return modelStore.GetMappedStatement(statementId);
         }
-        /// <summary>
-        /// This 
-        /// </summary>
-        public void ExecuteUpdateAsyncBatch()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        Task<bool> IDataMapper.ExecuteUpdateAsyncBatch()
+        public Task<bool> ExecuteUpdateAsyncBatch()
         {
             throw new NotImplementedException();
         }
@@ -793,6 +787,11 @@ namespace Apache.Ibatis.DataMapper
         }
 
         public Task<IList<T>> QueryAsyncForList<T>(string v, string companyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsync<T>(string v, IList<object> param, ISessionScope session)
         {
             throw new NotImplementedException();
         }

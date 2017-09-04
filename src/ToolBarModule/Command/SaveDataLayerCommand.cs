@@ -2,8 +2,10 @@
 using KarveCommon.Command;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveDataServices.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace ToolBarModule.Command
 {
@@ -12,10 +14,15 @@ namespace ToolBarModule.Command
     /// </summary>
     public class SaveDataCommand : AbstractCommand
     {
+        /// <summary>
+        /// The data service will be used for storing the data
+        /// </summary>
         private IDataServices _dataServices;
+        /// <summary>
+        ///  The care keeper service will be used for doing do/undo
+        /// </summary>
         private ICareKeeperService _careKeeperService;
-        private DataPayLoad _dataPayLoad;
-        private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
+
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
         /// allows the do undo of the saving.
@@ -54,14 +61,42 @@ namespace ToolBarModule.Command
         ///  This method save the supplier data layer
         /// </summary>
         /// <param name="payload"></param>
-        private void SaveSupplierDataLayer(DataPayLoad payload)
+        private async void InsertOrUpdateSupplierDataLayer(DataPayLoad payload, bool insert)
         {
+            ISupplierDataServices services = _dataServices.GetSupplierDataServices();
+            ISupplierDataInfo info = (ISupplierDataInfo)payload.DataMap[SupplierPayLoad.SupplierDOName];
+            ISupplierTypeData td = (ISupplierTypeData)payload.DataMap[SupplierPayLoad.SupplierDOType];
+            ISupplierAccountObjectInfo ao = (ISupplierAccountObjectInfo)payload.DataMap[SupplierPayLoad.SupplierAccountingDO];
+            DataSet monitoringData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierMonitoringDS];
+            DataSet evaluationData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierEvaluationDS];
+            DataSet transportData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierTransportDS];
+            DataSet contactsData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierContactsDS];
+            DataSet visitsData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierVisitsDS];
+            DataSet assuranceProviderData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierAssuranceDS];
+            bool contactsChanged = (bool)payload.DataMap[SupplierPayLoad.SupplierContactsChangedField];
+            bool result = false;
+            if (!insert)
+            {
+                result = await services.Update(info, 
+                                               td, 
+                                               ao, 
+                                               monitoringData,
+                                               evaluationData, 
+                                               transportData,
+                                               assuranceProviderData,
+                                               contactsData, 
+                                               visitsData, 
+                                               contactsChanged);
+            }
+            else
+            {
+                result = await services.Insert(info, td, ao, monitoringData, evaluationData,
+                                               transportData, assuranceProviderData, contactsChanged, visitsData);
 
+            }
+            
         }
-        private void SaveVehicleGroupDataLayer(DataPayLoad payload)
-        {
-
-        }
+        
         /// <summary>
         ///  Execute the save command.
         /// </summary>
@@ -75,20 +110,16 @@ namespace ToolBarModule.Command
                 IDictionary<string, DataPayLoad> param = FilterParameters(parameter);
                 foreach (DataPayLoad payload in param.Values)
                 {
-                    // the host is the subsystem
-                    Uri uri = payload.ObjectPath;
-
-                //    uri.Host == Envit
+                   
+                   
 
                     if (payload.PayloadType == DataPayLoad.Type.Update)
                     {
                         try
                         {
-                            if (payload.Subsystem == (int)KarveDataServices.DataSubSystem.SupplierSubsystem)
+                            if (payload.Subsystem == DataSubSystem.SupplierSubsystem)
                             {
-                                ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-                                
-                                
+                                InsertOrUpdateSupplierDataLayer(payload, false);
                             }
                         }
                         catch (Exception e)
@@ -100,11 +131,9 @@ namespace ToolBarModule.Command
                     {
                         try
                         {
-                            if (payload.Subsystem == (int)KarveDataServices.DataSubSystem.SupplierSubsystem)
+                            if (payload.Subsystem == DataSubSystem.SupplierSubsystem)
                             {
-                                ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-                            //    supplierDataServices.InsertDataObject(payload.DataObject);
-                            //    supplierDataServices.InsertDataSet(payload.Set);
+                                InsertOrUpdateSupplierDataLayer(payload, true);
                             }
                         }
                         catch (Exception e)
@@ -117,7 +146,7 @@ namespace ToolBarModule.Command
             }
         }
         /// <summary>
-        /// Unexecute the save command
+        /// Unexecute the save command. In this case we no rollback.
         /// </summary>
         /// <returns>true if the execution has been correct</returns>
         public override bool UnExecute()

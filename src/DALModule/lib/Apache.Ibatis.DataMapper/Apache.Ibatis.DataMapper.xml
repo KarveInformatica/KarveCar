@@ -10093,11 +10093,6 @@
             <param name="statementId">The statementId which is mapped the query</param>
             <returns>The mapped statement</returns>
         </member>
-        <member name="M:Apache.Ibatis.DataMapper.DataMapper.ExecuteUpdateAsyncBatch">
-            <summary>
-            This 
-            </summary>
-        </member>
         <member name="T:Apache.Ibatis.DataMapper.Data.DBHelperParameterCache">
             <summary>
             DBHelperParameterCache provides functions to leverage a 

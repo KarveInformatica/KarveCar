@@ -1,10 +1,54 @@
-﻿using KarveCommon.Generic;
+﻿using System.Collections;
+using KarveCommon.Generic;
+using System.Collections.Generic;
+
 namespace KarveCommon.Services
 {
+   
+    // Enviroment variable.
+    public class EnviromentVariable
+    {
+        private EnvironmentConfig _config;
+        private string _key;
+        private object _value;
+        public EnvironmentConfig Config
+        {
+            set
+            {
+                _config = value;
+            }
+            get
+            {
+                return _config;
+            }
+        }
+        public string Key
+        {
+            set
+            {
+                _key = value;
+            }
+            get
+            {
+                return _key;
+            }
+        }
+        public object Value
+        {
+            set
+            {
+                _value = value;
+            }
+            get
+            {
+                return _value;
+            }
+        }
+    };
     /// <summary>
     ///  This interface is for the global enviroment of the program.
     /// </summary>
-    public interface IEnviromentVariables
+    public interface IEnviromentVariables: IEnumerable<EnviromentVariable>
     {
         /// <summary>
         ///  This gives us if the variable is present.
@@ -46,6 +90,21 @@ namespace KarveCommon.Services
         /// <param name="config">Enviroment config</param>
         /// <param name="key">Key Name</param>
         void UnSet(EnvironmentConfig config, string key);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="karveConfiguration"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
         bool IsSetNotEmpty(EnvironmentConfig karveConfiguration, string v);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="officeConfiguration"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        bool IsSetNotZero(EnvironmentConfig officeConfiguration, string v);
+
+       
     }
 }

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace KarveCommon.Services
 {
+    public enum DataSubSystem { PaymentSubsystem = 0, VehicleSubsystem = 1, HelperSubsytsem = 2, SupplierSubsystem = 3 };
+
     /// <summary>
     ///  TODO: add support for generics.
     /// </summary>
@@ -61,6 +63,6 @@ namespace KarveCommon.Services
         /// <summary>
         ///  This is useful for the subsystem.
         /// </summary>
-        public int Subsystem { get; set; }
+        public DataSubSystem Subsystem { get; set; }
     }
 }

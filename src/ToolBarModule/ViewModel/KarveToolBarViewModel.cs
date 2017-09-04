@@ -115,7 +115,7 @@ namespace ToolBarModule
             return true;
         }
 
-        private async void DoSaveCommand()
+        private void DoSaveCommand()
         {
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;

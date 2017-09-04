@@ -85,7 +85,7 @@ namespace KarveCar
                 Application.Current.MainWindow.Show();
             } catch (Exception e)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error during bootstrap" + e.Message);
             }
         }
     }

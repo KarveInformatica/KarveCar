@@ -6,8 +6,6 @@ namespace DataAccessLayer.DataObjects.Attributes
     {
         private string _databaseTable;
         private string _databaseProvider;
-        private string v;
-
         public DBTableAttribute(string databaseTable)
         {
             this._databaseTable = databaseTable;

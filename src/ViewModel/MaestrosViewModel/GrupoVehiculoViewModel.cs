@@ -24,8 +24,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private ICommand grupovehiculocommand;
 
         private DataTable dataTable;
-        private Task<DataTable> loadDataTableTask;
-
+      
         public DataTable SourceDataTable
         {
             get { return dataTable; }
@@ -35,10 +34,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 RaisePropertyChanged("SourceDataTable");
             }
         }
-        private delegate void NotifyOnLoad(DataTable newTable);
-
-        private event NotifyOnLoad notifyOnLoad;
-
+       
         private void SetTable(DataTable newTable)
         {
             this.SourceDataTable = newTable;
