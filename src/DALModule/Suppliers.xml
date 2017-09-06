@@ -265,8 +265,5 @@ ID_CLIENTE =#value# ORDER BY FECHA, CC.ccoContacto ASC
     <select id="GetAccountableAccount" parameterClass="Dictionary" resultMap="AccountDataResultMap">
       SELECT PROVEE2.NUM_PROVEE AS SUPPLIERCODE, CODIGO,DESCRIP, DESCRIP2, SUBLICEN FROM CU1 INNER JOIN PROVEE2 ON CU1.CODIGO = PROVEE2.CONTABLE WHERE PROVEE2.NUM_PROVEE=#supplierId# AND SUBLICEN=#sublicen#
     </select>
-    <select id="ComputeIBAN" parameterClass="Dictionary" resultMap="IbanResultMap">
-      SELECT CREAR_IBAN
-    </select>
   </statements>
 </sqlMap>
