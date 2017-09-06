@@ -7,25 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 
+
 namespace KarveDataServices
 {
 
 
-    /// <param name="dataInfo">Data object for the supplier</param>
-    /// <param name="dataType">Data object for the supplier type</param>
-    /// <param name="ao">Data set for the accounting information for the supplier</param>
-    /// <param name="monitoringData">Data set for the monitoring information for the supplier</param>
-    /// <param name="evaluationData">Data set for the evaluation data for the supplier</param>
-    /// <param name="transportProviderData">Data set for the transport for the supplirt</param>
-    /// <param name="assuranceProviderData">Data set for the assurance data provider </param>
-    /// <param name="contactsProviderData">Data set for the contacts</param>
-    /// <param name="visitsProviderData">Data set for the visits</param>
-    /// <param name="contactsChanged">Check if the contact are changed.</param>
-    /// <returns>true if the update is correct. It may launch an exception.</returns>
-    /// <summary>
-    ///  common interface for the 
-    /// </summary>
-    /// 
     public static class SupplierPayLoad
     {
         public const string SupplierDOName = "SupplierDataObjectInfo";
@@ -96,8 +82,28 @@ namespace KarveDataServices
         /// <param name="supplierId"></param>
         /// <returns></returns>
         Task<DataSet> GetAsyncProviderType(string supplierId);
-        Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData);
-
+        /// <summary>
+        /// This insert a new supplier in the database.
+        /// </summary>
+        /// <param name="info"> General information about the supplier</param>
+        /// <param name="td">Type of the supplier</param>
+        /// <param name="ao">Account object information</param>
+        /// <param name="monitoringData">DataSet for monitoring the data</param>
+        /// <param name="evaluationData">DataSet of the evaluation</param>
+        /// <param name="transportData">DataSet of the transport</param>
+        /// <param name="assuranceProviderData">DataSet for the assurance</param>
+        /// <param name="contactsChanged">Value to check if the contacts are changed</param>
+        /// <param name="visitsData">Data of the visit</param>
+        /// <returns></returns>
+        Task<bool> Insert(ISupplierDataInfo info, 
+                    ISupplierTypeData td, 
+                    ISupplierAccountObjectInfo ao, 
+                    DataSet monitoringData, 
+                    DataSet evaluationData, 
+                    DataSet transportData, 
+                    DataSet assuranceProviderData, 
+                    bool contactsChanged, 
+                    DataSet visitsData);
         /// <summary>
         ///  Returns the delegations foreach supplier.
         /// </summary>
@@ -119,9 +125,10 @@ namespace KarveDataServices
         /// <summary>
         ///  Return the supplier data object in asynchnouns way
         /// </summary>
-        /// <param name="supplierId"></param>
+        /// <param name="supplierId">Supplier Id</param>
+        /// <param name="env">Enviroment variables</param>
         /// <returns></returns>
-        Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId);
+        Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId, object env);
         /// <summary>
         ///  Returns the async evaluation note
         /// </summary>

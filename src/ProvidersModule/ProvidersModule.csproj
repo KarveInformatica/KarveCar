@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\EmailCommand.cs" />
-    <Compile Include="Common\SupplierLoader.cs" />
     <Compile Include="IProvidersView.cs" />
     <Compile Include="IProvidersViewModel.cs" />
     <Compile Include="ISupplierInfoView.cs" />
@@ -314,6 +313,8 @@
   <ItemGroup>
     <Content Include="ExtendedGrid.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,6 +13,7 @@ namespace KarveDataServices
         const string suppliers = "karve://suppliers";
         const string vehicles =  "karve://vehicles"; 
     }
+    
     public interface IDataServicesSession
     {
         object mapper {set; get;}
@@ -20,16 +21,6 @@ namespace KarveDataServices
     }
     public interface IDataServices
     {
-        /// <summary>
-        ///  This opens a session to the mapper.
-        /// </summary>
-        /// <returns></returns>
-        IDataServicesSession OpenSession();
-        /// <summary>
-        ///  This close a session to the mapper.
-        /// </summary>
-        /// <param name="session"></param>
-        void CloseSession(IDataServicesSession session);
         /// <summary>
         ///  Get all banks in the system
         /// </summary>
@@ -55,10 +46,7 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IHelperDataServices GetHelperDataServices();
-        //
-
-
-
+        
     }
 
 }

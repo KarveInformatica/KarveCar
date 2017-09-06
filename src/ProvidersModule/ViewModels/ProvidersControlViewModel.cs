@@ -102,11 +102,13 @@ namespace ProvidersModule.ViewModels
         {
             DataPayLoad payload = new DataPayLoad();
             string supplierId = (string)data["supplierId"];
+            IEnviromentVariables env = _configurationService.GetEnviromentVariables();
+
             ISupplierDataServices supplierServices = services.GetSupplierDataServices();
             supplierServices.OpenDataSession();
             payload.DataMap[SupplierPayLoad.SupplierDOName] = await supplierServices.GetAsyncSupplierDataObjectInfo(supplierId).ConfigureAwait(false);
             payload.DataMap[SupplierPayLoad.SupplierDOType] = await supplierServices.GetAsyncSupplierTypeById(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await supplierServices.GetAsyncSupplierAccountInfo(supplierId).ConfigureAwait(false);
+            payload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await supplierServices.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
             payload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await supplierServices.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
             payload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await supplierServices.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
             payload.DataMap[SupplierPayLoad.SupplierTransportDS] = await supplierServices.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);

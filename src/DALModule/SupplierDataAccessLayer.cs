@@ -105,7 +105,6 @@ namespace DataAccessLayer
             set.Tables.Add(visits);
             return set;
         }
-        /// <summary>
         ///  Get the evaluation note.
         /// </summary>
         /// <param name="evCode"> Get the evalutaion node foreach supplier</param>
@@ -113,7 +112,7 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncEvaluationNote(string evCode)
         {
             DataSet set = new DataSet("EvaluationNote");
-            DataTable note = await _dataMapper.QueryAsyncForDataTableSession("Supplier.LoadEvaluationNote", evCode, _dataMapper.Session);
+            DataTable note = await _dataMapper.QueryAsyncForDataTable("Supplier.LoadEvaluationNote", evCode);
             set.Tables.Add(note);
             return set;
 
@@ -202,7 +201,6 @@ namespace DataAccessLayer
             }
             return dataObjectType;
         }
-
         #endregion
         #region Private Methods
         private void SetDataObjectFields<T>(DataRow row, ref T dataObject)
@@ -426,9 +424,8 @@ namespace DataAccessLayer
             #endregion
             returnValue = returnValue & await ManageComi(environ, _dataMapper, dataInfo.Type, account, dataInfo);
             return returnValue;
-
-
         }
+
         private async Task<bool> ManageComi(IEnviromentVariables environ,
             IDataMapper mapper,
             string type,
@@ -571,6 +568,8 @@ namespace DataAccessLayer
             bool returnValue = true;
             /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
             IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
+            /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
+            supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
             foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
             {
                 string companyCode = da.code;
@@ -601,6 +600,7 @@ namespace DataAccessLayer
                 }
             }
             return returnValue;
+
         }
         /// <summary>
         ///  Get the "sublicen" value following the enviroment configuration variables.
@@ -649,6 +649,10 @@ namespace DataAccessLayer
             }
             return (rowsAffected > 0);
         }
+
+
+
+        
         private async Task<string> GetAccountName(IDataMapper dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
         {
             string accountName = "";
@@ -700,9 +704,6 @@ namespace DataAccessLayer
             string iban = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeIban", account.TransferAccount).ConfigureAwait(false);
             return iban;
         }
-
-
-
         private async Task<int> NumberOfModification(IDataMapper mapper, IEnviromentVariables environ,
                                     ISupplierAccountObjectInfo accountInfo)
         {
@@ -740,8 +741,11 @@ namespace DataAccessLayer
             ISupplierTypeData data = await _dataMapper.QueryAsyncForObjectSession<ISupplierTypeData>("Suppliers.SupplierGetSupplierTypeByCode", supplierId, _dataMapper.Session).ConfigureAwait(false);
             return data;
         }
-        public async Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId, string sublicen)
+        public async Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId, object environ)
+
         {
+            IEnviromentVariables env = environ as IEnviromentVariables;
+            string sublicen = GetSublicen(env);
             IList<string> list = new List<string>();
             list.Add(supplierId);
             list.Add(sublicen);
@@ -764,7 +768,7 @@ namespace DataAccessLayer
             table = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierAccountableAccount", supplierId);
             return table;
         }
-        public async Task<IDictionary<string,string>> GetAsyncSupplierDescription(string supplierId, string sublicen)
+        public async Task<IDictionary<string, string>> GetAsyncSupplierDescription(string supplierId, string sublicen)
         {
             IList<string> list = new List<string>();
             list.Add(supplierId);
@@ -781,7 +785,7 @@ namespace DataAccessLayer
             double data = await _dataMapper.QueryAsyncForObject<double>("Suppliers.GetBalance", supplierId);
             return data;
         }
-       
+
         public async Task<DataSet> GetEvaluationNote(string supplierId)
         {
             DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.LoadEvaluationNote", supplierId, _dataMapper.Session).ConfigureAwait(false);
@@ -789,8 +793,7 @@ namespace DataAccessLayer
             set.Tables.Add(table);
             return set;
         }
-        /*"Suppliers.GetSupplierTransportInfo*/
-            public async Task<DataSet> GetAsyncTransportProviderData(string supplierId)
+        public async Task<DataSet> GetAsyncTransportProviderData(string supplierId)
         {
             DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierTransportInfo", supplierId, _dataMapper.Session).ConfigureAwait(false);
             DataSet set = new DataSet("SupplierEvaluationNote");
@@ -805,7 +808,6 @@ namespace DataAccessLayer
             set.Tables.Add(table);
             return set;
         }
-
         public async Task<DataSet> GetAsyncSupplierContacts(string supplierId)
         {
             DataSet set = new DataSet("SupplierContacts");
@@ -813,7 +815,7 @@ namespace DataAccessLayer
             set.Tables.Add(table);
             return set;
         }
-      
+
         public async Task<DataSet> GetAsyncMonitoring(string supplierId)
         {
             DataSet set = new DataSet("MonitoringSupplier");
@@ -845,15 +847,6 @@ namespace DataAccessLayer
             return updateResult;
         }
 
-        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData)
-        {
-            throw new NotImplementedException();
-        }
 
         public void OpenDataSession()
         {
@@ -870,12 +863,23 @@ namespace DataAccessLayer
             this._dataMapper.Session.Session.Dispose();
         }
 
-        public Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId)
+
+
+        public Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string baseSupplierId)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
+        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
+#endregion
+
