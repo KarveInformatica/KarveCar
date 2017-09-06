@@ -46,7 +46,7 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml.Process
             AddAttribute(config, ConfigConstants.ELEMENT_PARAMETERMAP, true);
             AddAttribute(config, ConfigConstants.ELEMENT_RESULTMAP, true);
             AddAttribute(config, ConfigConstants.ELEMENT_PRESERVEWHITESPACE, false);
-
+            AddAttribute(config, ConfigConstants.ELEMENT_RESULT_CLASS, true);
             configurationStore.AddStatementConfiguration(config);
             element.Configuration = config;
         }

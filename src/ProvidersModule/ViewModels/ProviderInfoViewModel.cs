@@ -8,6 +8,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace ProvidersModule.ViewModels
         private ISupplierAccountObjectInfo _accountSupplier;
         private const string updateAll = @"karve://suppliers//all?action=update";
         private const string updateAccount = @"karve://suppliers//account?action=update";
+        private const string SUPPLIER_ID = "supplierId";
         private DataPayLoad _currentPayload = new DataPayLoad();
         private DataTable _supplierMonitoringData;
         private ISupplierAccountObjectInfo _supplierDataAccountingInfo;
@@ -148,8 +150,8 @@ namespace ProvidersModule.ViewModels
                 registrationPayload.Registration = routedName;
                 _eventManager.notifyObserverSubsystem("ProviderModule", registrationPayload);
                 IDictionary<string, object> param = new Dictionary<string, object>();
-                param["supplierId"] = lastSupplierId;
-                 _currentPayload = await LoadData(_dataServices, param);
+                param[SUPPLIER_ID] = lastSupplierId;
+                 _currentPayload = await LoadData(_dataServices, _configurationService, param);
                 _eventManager.notifyObserverSubsystem(routedName, _currentPayload);
             }
         }
@@ -312,16 +314,34 @@ namespace ProvidersModule.ViewModels
                     SupplierAssuranceData = assurance.Tables[0];
                     DataSet branches = (DataSet)payloadData[SupplierPayLoad.SupplierBranchesDS];
                     SupplierBranchesData = branches.Tables[0];
-                    _eventManager.deleteObserverSubSystem("ProviderModule", this);
+                   // _eventManager.deleteObserverSubSystem("ProviderModule", this);
                 }
             }
 
             }
        
 
-        public override Task<DataPayLoad> LoadData(IDataServices services, IDictionary<string, object> data)
+        public override async Task<DataPayLoad> LoadData(IDataServices services, IConfigurationService conf, IDictionary<string, object> data)
         {
-            throw new NotImplementedException();
+            Stopwatch watch = new Stopwatch();
+
+            DataPayLoad dataPayload = new DataPayLoad();
+            IEnviromentVariables env = conf.GetEnviromentVariables();
+            string supplierId = data[SUPPLIER_ID] as string;
+            ISupplierDataServices sda = services.GetSupplierDataServices();
+            watch.Start();
+            dataPayload.DataMap = new Dictionary<string, object>();
+            dataPayload.DataMap[SupplierPayLoad.SupplierDOName] = await sda.GetAsyncSupplierDataObjectInfo(supplierId).ConfigureAwait(false); 
+            dataPayload.DataMap[SupplierPayLoad.SupplierDOType] = await sda.GetAsyncSupplierTypeById(supplierId).ConfigureAwait(false); ;
+            dataPayload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await sda.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await sda.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await sda.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierTransportDS] = await sda.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await sda.GetAsyncSupplierAssuranceData(supplierId).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await sda.GetAsyncDelegations(supplierId).ConfigureAwait(false);
+            watch.Stop();
+            TimeSpan ts = watch.Elapsed;
+            return dataPayload;
         }
     }
 }

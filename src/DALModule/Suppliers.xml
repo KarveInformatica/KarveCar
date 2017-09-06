@@ -100,7 +100,9 @@
       <result property="Telefono"       	    column="TELEFONO" />
       <result property="EMail"          	    column="EMAIL" />
     </resultMap>
-    
+    <resultMap id="BalanceResult" class="string">
+      <result property="value" column="TOTAL"/>
+    </resultMap>
     <resultMap id="SupplierEvaluationResultMap" class="SupplierEvaluationDataObject">
     <result property="Nombre"                    column="PROVEE" />
       <result property="Precio"         	       column="PRECIO" />
@@ -119,6 +121,13 @@
 	<result property="Observaciones" column="OBSERVACIONES" />
 	<result property="Responsable" column="RESPONSABLE" />
 	<result property="NumInc" column="NUMINC" />
+    </resultMap>
+    <resultMap id="AccountDataResultMap" class="AccountDataObject">
+      <result property="SupplierNumber" column="SUPPLIERCODE" />
+      <result property="AccountNumber" column="CODIGO" />
+      <result property="AccountDescription" column="DESCRIP" />
+      <result property="AccountDescription2" column="DESCRIP2" />
+      <result property="Sublicen" column="SUBLICEN" />
     </resultMap>
   </resultMaps>
 <parameterMaps>
@@ -244,6 +253,20 @@ ID_CLIENTE =#value# ORDER BY FECHA, CC.ccoContacto ASC
     <select id="GetAllProvinces" resultMap="ProvinceDataResultMap">
       SELECT  PROVINCIA.PROV, PROVINCIA.CP
       FROM  PROVINCIA
+    </select>
+    <select id="GetBalance" parameterClass="Dictionary" resultMap="BalanceResult">
+      SELECT TOTAL = SUM(case UPPER(DEBE_AS) when 'D' then IMPORTE_AS else 0 end) - SUM(case UPPER(DEBE_AS) when 'H' then IMPORTE_AS else 0 end)
+      FROM ASIENTOS WHERE cuenta_as=#cuenta#
+      AND SUBLICEN_AS=#sublicen#
+      AND ASIENTOS.FECHA_AS >
+      ISNULL((SELECT MAX(ASIENTOS.FECHA_AS) From ASIENTOS
+      WHERE ISNULL(CIERRE_AS,0) !=0 AND SUBLICEN_AS=#sublicen#),'2007-12-31')
+      </select>
+    <select id="GetAccountableAccount" parameterClass="Dictionary" resultMap="AccountDataResultMap">
+      SELECT PROVEE2.NUM_PROVEE AS SUPPLIERCODE, CODIGO,DESCRIP, DESCRIP2, SUBLICEN FROM CU1 INNER JOIN PROVEE2 ON CU1.CODIGO = PROVEE2.CONTABLE WHERE PROVEE2.NUM_PROVEE=#supplierId# AND SUBLICEN=#sublicen#
+    </select>
+    <select id="ComputeIBAN" parameterClass="Dictionary" resultMap="IbanResultMap">
+      SELECT CREAR_IBAN
     </select>
   </statements>
 </sqlMap>

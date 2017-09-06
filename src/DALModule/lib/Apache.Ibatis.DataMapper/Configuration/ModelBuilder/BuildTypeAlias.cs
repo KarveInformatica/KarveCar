@@ -26,6 +26,7 @@
 using Apache.Ibatis.DataMapper.Configuration.Serializers;
 using Apache.Ibatis.DataMapper.Model.Alias;
 using Apache.Ibatis.Common.Configuration;
+using System;
 
 namespace Apache.Ibatis.DataMapper.Configuration
 {
@@ -40,11 +41,19 @@ namespace Apache.Ibatis.DataMapper.Configuration
             //_configScope.ErrorContext.Resource = nodeDataSource.OuterXml.ToString();
             //_configScope.ErrorContext.MoreInfo = "parse DataSource";
 
-            for (int i = 0; i < store.Alias.Length; i++)
-            {
-                TypeAlias typeAlias = TypeAliasDeSerializer.Deserialize(store.Alias[i]);
-                modelStore.DataExchangeFactory.TypeHandlerFactory.AddTypeAlias(typeAlias.Id, typeAlias);
-            }
+                for (int i = 0; i < store.Alias.Length; i++)
+                {
+                    
+                    try
+                    {
+                        TypeAlias typeAlias = TypeAliasDeSerializer.Deserialize(store.Alias[i]);
+                        modelStore.DataExchangeFactory.TypeHandlerFactory.AddTypeAlias(typeAlias.Id, typeAlias);
+                    } catch (Exception e)
+                    {
+                    string message = "Exception during deserialized: " + store.Alias[i].Value +" StackTrace: "+e.Message;
+                    throw new TypeAliasDeserializeException(message);
+                    }
+                }
         }
     }
 }

@@ -48,7 +48,7 @@ namespace DataAccessLayer
         {
             try
             {
-                _configurationEngine = new DefaultConfigurationEngine();
+                 _configurationEngine = new DefaultConfigurationEngine();
                 _configurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
                 _mapperFactory = _configurationEngine.BuildMapperFactory();
                 _sessionFactory = _configurationEngine.ModelStore.SessionFactory;

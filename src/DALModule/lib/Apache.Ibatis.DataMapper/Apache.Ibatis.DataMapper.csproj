@@ -127,6 +127,7 @@
     <Compile Include="Configuration\Interpreters\Config\Xml\Processor\Handlers\ProcessIncludeElement.cs" />
     <Compile Include="Configuration\IConfigurationStore.cs" />
     <Compile Include="Configuration\Interpreters\Config\Xml\SchemaValidator.cs" />
+    <Compile Include="Configuration\ModelBuilder\TypeAliasDeserializeException.cs" />
     <Compile Include="Configuration\Module\ArgumentExpression.cs" />
     <Compile Include="Configuration\Module\ConstructorExpression.cs" />
     <Compile Include="Configuration\Module\DiscriminatorExpression.cs" />
@@ -569,6 +570,7 @@
     <Compile Include="TypeHandlers\DecimalTypeHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeHandlers\DictionaryTypeHandler.cs" />
     <Compile Include="TypeHandlers\DoubleTypeHandler.cs">
       <SubType>Code</SubType>
     </Compile>

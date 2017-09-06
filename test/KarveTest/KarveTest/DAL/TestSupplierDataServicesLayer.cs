@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using DataAccessLayer;
-using KarveCar.View;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using Microsoft.Practices.Unity;
 using NUnit.Framework;
-using Prism.Unity;
 using KarveCommon.Services;
 using System.Diagnostics;
 
@@ -22,6 +15,7 @@ namespace KarveTest.DAL
     {
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
+        private IConfigurationService _serviceConf;
         private Stopwatch _currentStopWatch;
         private string _baseSupplierId = "";
         /// <summary>
@@ -41,6 +35,7 @@ namespace KarveTest.DAL
                 _dataServices = new DataServiceImplementation(mapper, configService);
                 _supplierDataServices = _dataServices.GetSupplierDataServices();
                 _baseSupplierId = GetSingleSupplierId(_supplierDataServices);
+                _serviceConf = new KarveCar.Logic.ConfigurationService();
             }
             catch (Exception e)
             {
@@ -53,7 +48,7 @@ namespace KarveTest.DAL
             string supplierId = "";
             long paged = 2;
             DataSet ds = dataService.GetSuppliersSummaryPaged(paged);
-            DataTable table =  ds.Tables[0];
+            DataTable table = ds.Tables[0];
             supplierId = GetSupplierIdFromRows(table.Rows);
             return supplierId;
         }
@@ -76,7 +71,8 @@ namespace KarveTest.DAL
                 DataSet set = await _supplierDataServices.GetAsyncCompleteSummary();
 
                 CheckSingleSupplier(set.Tables);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Assert.Fail(e.Message);
             }
@@ -96,7 +92,7 @@ namespace KarveTest.DAL
             CheckSingleSupplier(set.Tables);
             TestContext.Out.WriteLine("Elapsed={0}", _currentStopWatch.Elapsed);
         }
-      
+
         /// <summary>
         /// Given a provider it shall return the type information for that supplier.
         /// </summary>
@@ -156,7 +152,8 @@ namespace KarveTest.DAL
             try
             {
                 set = await _supplierDataServices.GetAsyncDelegations(_baseSupplierId);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 TestContext.Out.WriteLine(e.StackTrace);
                 Assert.Fail("Failed");
@@ -177,12 +174,13 @@ namespace KarveTest.DAL
             {
                 set = await _supplierDataServices.GetAsyncDelegations("X");
                 Assert.Greater(set.Tables.Count, 0);
-            } catch (Exception e )
+            }
+            catch (Exception e)
             {
                 TestContext.Out.WriteLine(e.StackTrace);
             }
             _currentStopWatch.Stop();
-            if (set!=null)
+            if (set != null)
             {
                 Assert.Fail();
             }
@@ -201,7 +199,8 @@ namespace KarveTest.DAL
             {
                 set = await _supplierDataServices.GetAsyncVisits(_baseSupplierId);
                 Assert.Greater(set.Tables.Count, 0);
-            } catch(Exception e )
+            }
+            catch (Exception e)
             {
                 TestContext.Out.WriteLine(e.StackTrace);
             }
@@ -220,7 +219,8 @@ namespace KarveTest.DAL
             {
                 note = await _supplierDataServices.GetEvaluationNote(_baseSupplierId);
                 Assert.Greater(note.Tables.Count, 0);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 TestContext.Out.WriteLine(e.StackTrace);
             }
@@ -284,8 +284,8 @@ namespace KarveTest.DAL
             }
             Assert.Null(dataObjectInfo);
         }
-      
-        
+
+
         /// <summary>
         /// It shall return a valid supplier by its if. 
         /// </summary>
@@ -308,9 +308,10 @@ namespace KarveTest.DAL
         public async Task Should_Retrieve_And_Update_Simple()
         {
             // retreived dataInfo from base_id;
+            IEnviromentVariables env = _serviceConf.GetEnviromentVariables();
             ISupplierDataInfo dataInfo = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(_baseSupplierId).ConfigureAwait(false);
             ISupplierTypeData dataType = await _supplierDataServices.GetAsyncSupplierTypeById(_baseSupplierId).ConfigureAwait(false);
-            ISupplierAccountObjectInfo ao = await _supplierDataServices.GetAsyncSupplierAccountInfo(_baseSupplierId).ConfigureAwait(false);
+            ISupplierAccountObjectInfo ao = await _supplierDataServices.GetAsyncSupplierAccountInfo(_baseSupplierId, env).ConfigureAwait(false);
             DataSet monitoringData = await _supplierDataServices.GetAsyncMonitoring(_baseSupplierId).ConfigureAwait(false);
             DataSet delegationData = await _supplierDataServices.GetAsyncDelegations(_baseSupplierId).ConfigureAwait(false);
             DataSet evaluationData = await _supplierDataServices.GetAsyncEvaluationNote(_baseSupplierId).ConfigureAwait(false);
@@ -331,7 +332,8 @@ namespace KarveTest.DAL
                                 contactsProviderData,
                                 visitsProviderData,
                                 true);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Assert.Fail(e.Message);
             }
@@ -343,7 +345,8 @@ namespace KarveTest.DAL
             try
             {
                 set = await _supplierDataServices.GetAsyncSuppliersSummaryPaged();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Assert.Fail(e.Message);
             }
@@ -388,17 +391,17 @@ namespace KarveTest.DAL
         public async Task Should_Be_All_Not_Null_Fields_Suppliers()
         {
             DataSet set = null;
-            
+
             try
             {
                 set = await _supplierDataServices.GetAsyncAllSupplierSummary();
             }
             catch (Exception e)
             {
-               Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.StackTrace);
                 Assert.Fail("Failed");
             }
-           // ok we have the data.
+            // ok we have the data.
             if (set != null)
             {
                 DataTable table = set.Tables[0];

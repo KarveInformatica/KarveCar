@@ -9,6 +9,6 @@ namespace KarveCommon.Generic
     public abstract class KarveViewModelBase : BindableBase, IEventObserver
     {
         public abstract void incomingPayload(DataPayLoad payload);
-        public abstract Task<DataPayLoad> LoadData(IDataServices services, IDictionary<string, object> data);
+        public abstract Task<DataPayLoad> LoadData(IDataServices services, IConfigurationService conf, IDictionary<string, object> data);
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="ChargeTypeDataAccessLayer.cs" />
     <Compile Include="CreateSupplierAccountCommandObject.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
+    <Compile Include="DataObjects\AccountDataObject.cs" />
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
     <Compile Include="DataObjects\BancoDataObject.cs" />
     <Compile Include="BaseDataMapper.cs" />
