@@ -37,6 +37,9 @@ namespace DataAccessLayer.DataObjects
         private object _edKCli;
         private string _nif;
         private string _commissionNumber;
+        private string _cpAccount;
+        private string _lpAccount;
+
 		public string PrefixAccount
         {
 		  get
@@ -119,5 +122,9 @@ namespace DataAccessLayer.DataObjects
 		public object edKCli { get { return _edKCli; }  set { _edKCli = value; }  }
 		public string Nif { get { return _nif; }  set { _nif = value; }  }
 		public string CommissionNumber { get { return _commissionNumber; } set { _commissionNumber = value; } }
-	}
+
+        public string CPAccount { get { return _cpAccount; } set { _cpAccount = value; } }
+
+        public string LPAccount { get { return _lpAccount; } set { _lpAccount = value; } }
+    }
 }

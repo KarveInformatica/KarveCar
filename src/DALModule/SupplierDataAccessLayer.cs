@@ -78,8 +78,11 @@ namespace DataAccessLayer
         {
             DataSet dataSet = new DataSet("SupplierType");
             DataTable supplierTable = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierType", supplierCode);
-            dataSet.Tables.Add(supplierTable);
-            return dataSet;
+            if (supplierTable != null)
+            {
+                dataSet.Tables.Add(supplierTable);
+            }
+           return dataSet;
         }
         /// <summary>
         /// Return the dataset of the delegations given a supplier.
@@ -89,8 +92,12 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncDelegations(string supplierCode)
         {
             DataSet set = new DataSet("SupplierDelegations");
-            DataTable delegation = await _dataMapper.QueryAsyncForDataTableSession("Supplier.GetSupplierDelegationByClient", supplierCode, _dataMapper.Session);
-            set.Tables.Add(delegation);
+            DataTable delegation = new DataTable();
+            delegation = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierDelegationByClient", supplierCode, _dataMapper.Session);
+            if (delegation != null)
+            {
+                set.Tables.Add(delegation);
+            }
             return set;
         }
         /// <summary>
@@ -101,8 +108,11 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncVisits(string clientCode)
         {
             DataSet set = new DataSet("SupplierVisit");
-            DataTable visits = await _dataMapper.QueryAsyncForDataTableSession("Supplier.GetSupplierVisits", clientCode, _dataMapper.Session);
-            set.Tables.Add(visits);
+            DataTable visits = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierVisits", clientCode, _dataMapper.Session);
+            if (visits != null)
+            {
+                set.Tables.Add(visits);
+            }
             return set;
         }
         ///  Get the evaluation note.
@@ -112,8 +122,11 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncEvaluationNote(string evCode)
         {
             DataSet set = new DataSet("EvaluationNote");
-            DataTable note = await _dataMapper.QueryAsyncForDataTable("Supplier.LoadEvaluationNote", evCode);
-            set.Tables.Add(note);
+            DataTable note = await _dataMapper.QueryAsyncForDataTable("Suppliers.LoadEvaluationNote", evCode);
+            if (note != null)
+            {
+                set.Tables.Add(note);
+            }
             return set;
 
         }
@@ -127,11 +140,11 @@ namespace DataAccessLayer
             ISupplierDataInfo dataObject = new SupplierInfoDataObject();
             if (id != String.Empty)
             {
-                
+
                 IMapperCommand mapper1 = new QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
                 IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
-               
-               
+
+
                 _dataMapper.AddBatch(mapper1);
                 _dataMapper.AddBatch(mapper2);
 
@@ -180,7 +193,7 @@ namespace DataAccessLayer
                         }
                     }
                 }
-                
+
 
             }
             return dataObject;
@@ -605,6 +618,15 @@ namespace DataAccessLayer
             return returnValue;
 
         }
+        private string GetAccountPrefix(IEnviromentVariables environ)
+        {
+            string text = "400";
+            if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.PrefijoProve))
+            {
+                text = (string)environ.GetKey(EnvConfig.KarveConfiguration, EnvironmentVariables.PrefijoProve);
+            }
+            return text;
+        }
         /// <summary>
         ///  Get the "sublicen" value following the enviroment configuration variables.
         /// </summary>
@@ -659,7 +681,7 @@ namespace DataAccessLayer
 
 
 
-        
+
         private async Task<string> GetAccountName(IDataMapper dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
         {
             string accountName = "";
@@ -753,23 +775,70 @@ namespace DataAccessLayer
         {
             IEnviromentVariables env = environ as IEnviromentVariables;
             string sublicen = GetSublicen(env);
-            
+            string accountPrefix = GetAccountPrefix(env);
+
             IDictionary<string, object> param = new Dictionary<string, object>();
             ISupplierAccountObjectInfo account = new SupplierAccountObjectInfo();
-            AccountDataObject accountDataObject = await GetAsyncSupplierAccountableAccount(supplierId, sublicen).ConfigureAwait(false);
+            AccountDataObject accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetAccountableAccount", supplierId, sublicen).ConfigureAwait(false);
+            account.AccountableAccount = accountDataObject.AccountNumber;
+            account.Sublicen = accountDataObject.Sublicen;
             param["cuenta"] = accountDataObject.AccountNumber;
             param["sublicen"] = sublicen;
+            account.AccountName = accountDataObject.AccountDescription2;
             string value = await _dataMapper.QueryAsyncForObjectSession<string>("Suppliers.GetBalance", param, _dataMapper.Session).ConfigureAwait(false);
-
+            account.PrefixAccount = accountPrefix;
             account.AccountBalance = String.IsNullOrEmpty(value) ? 0 : Convert.ToDouble(value);
             //account.AccountName =
             account.AccountDescription = accountDataObject.AccountDescription;
-            account.AccountDescription2 =accountDataObject.AccountDescription2;
-            account.IBAN = await ComputeIBAN(_dataMapper, account).ConfigureAwait(false);
-            account.SWIFT = await ComputeSWIFT(_dataMapper, account.IBAN).ConfigureAwait(false);
+            account.AccountDescription2 = accountDataObject.AccountDescription2;
+
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetExpensesAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.ExpensesAccountCode = accountPrefix;
+                account.ExpensesAccount = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetDeductionAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.ExpensesAccountCode = accountPrefix;
+                account.ExpensesAccount = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetPaymentAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.PaymentAccountCode = accountPrefix;
+                account.PaymentAccount = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetIntracopAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.IntraAccountSop = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetCPAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.CPAccount = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetLPAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.LPAccount = accountDataObject.AccountNumber;
+            }
+            accountDataObject = await GetAsyncSupplierAccountableAccount("Suppliers.GetTransferAccount", supplierId, sublicen).ConfigureAwait(false);
+            if (accountDataObject != null)
+            {
+                account.TransferAccount = accountDataObject.AccountNumber;
+            }
+            if (!String.IsNullOrEmpty(account.TransferAccount))
+            {
+                account.IBAN = await ComputeIBAN(_dataMapper, account).ConfigureAwait(false);
+                account.SWIFT = await ComputeSWIFT(_dataMapper, account.IBAN).ConfigureAwait(false);
+            }
             return account;
         }
-        private async Task<AccountDataObject> GetAsyncSupplierAccountableAccount(string supplierId, string sublicen)
+        // "Suppliers.GetAccountableAccount"
+        private async Task<AccountDataObject> GetAsyncSupplierAccountableAccount(string statementId, string supplierId, string sublicen)
         {
             AccountDataObject accountDataObject;
             IDictionary<string, object> param = new Dictionary<string, object>();
@@ -780,7 +849,8 @@ namespace DataAccessLayer
             }
             param["supplierId"] = supplierId;
             param["sublicen"] = sublicen;
-            accountDataObject = await _dataMapper.QueryAsyncForObjectSession<AccountDataObject>("Suppliers.GetAccountableAccount", param, _dataMapper.Session);
+            accountDataObject = await _dataMapper.QueryAsyncForObjectSession<AccountDataObject>(statementId, param, _dataMapper.Session);
+
             return accountDataObject;
         }
         public async Task<IDictionary<string, string>> GetAsyncSupplierDescription(string supplierId, string sublicen)
@@ -797,11 +867,16 @@ namespace DataAccessLayer
         }
         public async Task<double> GetAsyncBalance(string supplierId, string sublicen)
         {
+            string data = "";
             IDictionary<string, object> param = new Dictionary<string, object>();
             param["cuenta"] = supplierId;
             param["sublicen"] = sublicen;
-            string data = await _dataMapper.QueryAsyncForObject<string>("Suppliers.GetBalance", param);
-            return Convert.ToDouble(data);
+            data = await _dataMapper.QueryAsyncForObject<string>("Suppliers.GetBalance", param);
+            if (!String.IsNullOrEmpty(data))
+            {
+                return Convert.ToDouble(data);
+            }
+            return 0;
         }
         public async Task<DataSet> GetEvaluationNote(string supplierId)
         {
@@ -821,7 +896,7 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId)
         {
             DataSet set = new DataSet("SupplierAssurance");
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Supplier.GetSupplierAssuranceInfo", supplierId, _dataMapper.Session);
+            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierAssuranceInfo", supplierId, _dataMapper.Session);
             set.Tables.Add(table);
             return set;
         }

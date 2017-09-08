@@ -15,7 +15,7 @@ namespace KarveDataServices.DataObjects
         string AccountDescription { set; get; }
         string AccountDescription2 { set; get; }
         string ExpensesAccountCode { set; get; }
-        string ExpensesAccount {set; get;}
+        string ExpensesAccount { set; get; }
         // cuenta efectos
         string CustomerAccount { set; get; }
         string DeductionAccountCode { set; get; }
@@ -38,5 +38,7 @@ namespace KarveDataServices.DataObjects
         object edKCli { get; set; }
         string Nif { get; set; }
         string CommissionNumber { get; set; }
+        string CPAccount { get; set; }
+        string LPAccount { get; set; }
     }
 }

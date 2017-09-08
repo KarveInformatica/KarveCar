@@ -62,7 +62,6 @@ namespace ProvidersModule.ViewModels
         private IDataServices _dataServices;
         private IUnityContainer _unityContainer;
         private ISupplierTypeData _supplierDataObjectType;
-        private ISupplierAccountObjectInfo _accountSupplier;
         private const string updateAll = @"karve://suppliers//all?action=update";
         private const string updateAccount = @"karve://suppliers//account?action=update";
         private const string SUPPLIER_ID = "supplierId";
@@ -73,6 +72,7 @@ namespace ProvidersModule.ViewModels
         private DataTable _supplierTransportData;
         private DataTable _supplierAssuranceData;
         private DataTable _supplierBranchesData;
+        private string SUMMARY_TABLE = "summaryTable";
 
         public ProviderInfoViewModel(
             IUnityContainer container,
@@ -100,6 +100,7 @@ namespace ProvidersModule.ViewModels
         }
         public void OnSupplierNameChanged(object text)
         {
+            /*
             ISupplierDataInfo info = this.SupplierDataObjectInfo;
             _currentPayload.DataMap[SupplierPayLoad.SupplierDOName] = info;
             DataPayLoad payload = new DataPayLoad();
@@ -108,6 +109,7 @@ namespace ProvidersModule.ViewModels
             payload.ObjectPath = new Uri(updateAll);
             payload.PayloadType = DataPayLoad.Type.Update;
             _eventManager.notifyObserverToolBar(_currentPayload);
+            */
         }
         public DataTable SummaryDataTable
         {
@@ -121,18 +123,7 @@ namespace ProvidersModule.ViewModels
                 RaisePropertyChanged("SummaryDataTable");
             }
         }
-        ISupplierAccountObjectInfo SupplierAccountObjectInfo
-        {
-            get
-            {
-                return _accountSupplier;
-            }
-            set
-            {
-                _accountSupplier = value;
-                RaisePropertyChanged("SupplierAccountObjectInfo");
-            }
-        }
+       
         private async void SelectProvider(object row)
         {
             ISupplierInfoView view = _unityContainer.Resolve<ISupplierInfoView>();
@@ -151,8 +142,21 @@ namespace ProvidersModule.ViewModels
                 _eventManager.notifyObserverSubsystem("ProviderModule", registrationPayload);
                 IDictionary<string, object> param = new Dictionary<string, object>();
                 param[SUPPLIER_ID] = lastSupplierId;
+                param[SUMMARY_TABLE] = _dataTable;
                  _currentPayload = await LoadData(_dataServices, _configurationService, param);
                 _eventManager.notifyObserverSubsystem(routedName, _currentPayload);
+            }
+        }
+        public ISupplierAccountObjectInfo SupplierAccountObjectInfo
+        {
+            get
+            {
+                return _supplierDataAccountingInfo;
+            }
+            set
+            {
+                _supplierDataAccountingInfo = value;
+                RaisePropertyChanged();
             }
         }
         public ISupplierTypeData SupplierDataObjectType
@@ -164,6 +168,7 @@ namespace ProvidersModule.ViewModels
             set
             {
                 _supplierDataObjectType = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -176,7 +181,7 @@ namespace ProvidersModule.ViewModels
             set
             {
                 _dataObjectInfo = value;
-                RaisePropertyChanged("SupplierDataObjectInfo");
+               RaisePropertyChanged();
             }
         }
         private void SupplierSearch(object param)
@@ -286,6 +291,8 @@ namespace ProvidersModule.ViewModels
             }
         }
 
+        public DataTable SupplierSummaryTable { get; private set; }
+
         public override void incomingPayload(DataPayLoad dataPayLoad)
         {
           
@@ -300,21 +307,52 @@ namespace ProvidersModule.ViewModels
                 }
                 else
                 {
-                    IDictionary<string, object> payloadData = dataPayLoad.DataMap; 
-                    SupplierDataObjectInfo = (ISupplierDataInfo)payloadData[SupplierPayLoad.SupplierDOName];
-                    SupplierDataObjectType = (ISupplierTypeData)payloadData[SupplierPayLoad.SupplierDOType];
-                    SupplierDataAccountingInfo = (ISupplierAccountObjectInfo)payloadData[SupplierPayLoad.SupplierAccountingDO];
-                    DataSet monitoringTable = (DataSet)payloadData[SupplierPayLoad.SupplierMonitoringDS];
-                    SupplierMonitoringData = monitoringTable.Tables[0];
-                    DataSet evaluation = (DataSet)payloadData[SupplierPayLoad.SupplierEvaluationDS];
-                    SupplierEvaluationData = evaluation.Tables[0];
-                    DataSet transport = (DataSet)payloadData[SupplierPayLoad.SupplierTransportDS];
-                    SupplierTransportData = transport.Tables[0];
-                    DataSet assurance = (DataSet)payloadData[SupplierPayLoad.SupplierAssuranceDS];
-                    SupplierAssuranceData = assurance.Tables[0];
-                    DataSet branches = (DataSet)payloadData[SupplierPayLoad.SupplierBranchesDS];
-                    SupplierBranchesData = branches.Tables[0];
-                   // _eventManager.deleteObserverSubSystem("ProviderModule", this);
+                    IDictionary<string, object> payloadData = dataPayLoad.DataMap;
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierDOName))
+                    {
+                        SupplierDataObjectInfo = (ISupplierDataInfo)payloadData[SupplierPayLoad.SupplierDOName];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierDOType))
+                    {
+                        SupplierDataObjectType = (ISupplierTypeData)payloadData[SupplierPayLoad.SupplierDOType];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierAccountingDO))
+                    {
+                        SupplierAccountObjectInfo = (ISupplierAccountObjectInfo)payloadData[SupplierPayLoad.SupplierAccountingDO];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierMonitoringDS))
+                    {
+                        DataSet monitoringTable = (DataSet)payloadData[SupplierPayLoad.SupplierMonitoringDS];
+
+                        SupplierMonitoringData = monitoringTable.Tables[0];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierEvaluationDS))
+                    {
+
+                        DataSet evaluation = (DataSet)payloadData[SupplierPayLoad.SupplierEvaluationDS];
+                        SupplierEvaluationData = evaluation.Tables[0];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierTransportDS))
+                    {
+                        DataSet transport = (DataSet)payloadData[SupplierPayLoad.SupplierTransportDS];
+                        SupplierTransportData = transport.Tables[0];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierAssuranceDS))
+                    {
+                        DataSet assurance = (DataSet)payloadData[SupplierPayLoad.SupplierAssuranceDS];
+                        SupplierAssuranceData = assurance.Tables[0];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierBranchesDS))
+                    {
+                        DataSet branches = (DataSet)payloadData[SupplierPayLoad.SupplierBranchesDS];
+                        SupplierBranchesData = branches.Tables[0];
+                    }
+                    if (payloadData.ContainsKey(SupplierPayLoad.SupplierSummaryTable))
+                    {
+                         DataSet summary = (DataSet) payloadData[SupplierPayLoad.SupplierSummaryTable];
+                        SummaryDataTable = summary.Tables[0];
+                    }
+                     // _eventManager.deleteObserverSubSystem("ProviderModule", this);
                 }
             }
 
@@ -329,17 +367,23 @@ namespace ProvidersModule.ViewModels
             IEnviromentVariables env = conf.GetEnviromentVariables();
             string supplierId = data[SUPPLIER_ID] as string;
             ISupplierDataServices sda = services.GetSupplierDataServices();
+            DataTable table = data[SUMMARY_TABLE] as DataTable;
             watch.Start();
+            sda.OpenDataSession();
             dataPayload.DataMap = new Dictionary<string, object>();
-            dataPayload.DataMap[SupplierPayLoad.SupplierDOName] = await sda.GetAsyncSupplierDataObjectInfo(supplierId).ConfigureAwait(false); 
-            dataPayload.DataMap[SupplierPayLoad.SupplierDOType] = await sda.GetAsyncSupplierTypeById(supplierId).ConfigureAwait(false); ;
-            dataPayload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await sda.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
-            dataPayload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await sda.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
-            dataPayload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await sda.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
-            dataPayload.DataMap[SupplierPayLoad.SupplierTransportDS] = await sda.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);
-            dataPayload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await sda.GetAsyncSupplierAssuranceData(supplierId).ConfigureAwait(false);
-            dataPayload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await sda.GetAsyncDelegations(supplierId).ConfigureAwait(false);
+            dataPayload.DataMap[SupplierPayLoad.SupplierDOName] = await sda.GetAsyncSupplierDataObjectInfo(supplierId); 
+            dataPayload.DataMap[SupplierPayLoad.SupplierDOType] = await sda.GetAsyncSupplierTypeById(supplierId); ;
+            dataPayload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await sda.GetAsyncSupplierAccountInfo(supplierId, env);
+            dataPayload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await sda.GetAsyncMonitoring(supplierId);
+            dataPayload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await sda.GetAsyncEvaluationNote(supplierId);
+      //      dataPayload.DataMap[SupplierPayLoad.SupplierTransportDS] = await sda.GetAsyncTransportProviderData(supplierId);
+            dataPayload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await sda.GetAsyncSupplierAssuranceData(supplierId);
+            dataPayload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await sda.GetAsyncDelegations(supplierId);
+            DataSet newDataSet = new DataSet("SupplierSummaryNewData");
+            newDataSet.Tables.Add(table.Copy());
+            dataPayload.DataMap[SupplierPayLoad.SupplierSummaryTable] = newDataSet; 
             watch.Stop();
+            sda.CloseDataSession();
             TimeSpan ts = watch.Elapsed;
             return dataPayload;
         }

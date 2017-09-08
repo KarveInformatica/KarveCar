@@ -2,16 +2,14 @@
 using System.Windows.Input;
 using Prism.Mvvm;
 using KarveDataServices;
-using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
-using Prism.Regions;
 using Prism.Commands;
 using KarveDataServices.DataObjects;
-using System.Windows.Controls;
-using Dragablz;
 using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Windows;
 
 namespace ProvidersModule.ViewModels
 {
@@ -28,6 +26,7 @@ namespace ProvidersModule.ViewModels
         private IDataServices _dataServices;
         private ICommand _openItemCommand;
         private IUnityContainer _container;
+        private const string SUPPLIER_ID = "supplierId";
 
         public ProvidersControlViewModel(IConfigurationService configurationService,
                                   IUnityContainer container,
@@ -93,31 +92,41 @@ namespace ProvidersModule.ViewModels
             IDictionary<string, object> param = new Dictionary<string, object>();
             param["supplierId"] = _lastDataObject.Number;
             DataPayLoad currentPayload = await LoadData(_dataServices, param);
-
-            DataPayLoad payload = new DataPayLoad();
-            payload.DataObject = supplierDataPayLoad;
-            _eventManager.notifyObserverSubsystem(routedName, payload);    
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            _eventManager.notifyObserverSubsystem(routedName, currentPayload);    
         }
         public  async Task<DataPayLoad> LoadData(IDataServices services, IDictionary<string, object> data)
         {
             DataPayLoad payload = new DataPayLoad();
             payload.DataMap = new Dictionary<string, object>();
-
-            string supplierId = (string)data["supplierId"];
+            string supplierId = "00";
+            if (data.ContainsKey(SUPPLIER_ID))
+            {
+                supplierId = data[SUPPLIER_ID] as string;
+            }
             IEnviromentVariables env = _configurationService.GetEnviromentVariables();
-
             ISupplierDataServices supplierServices = services.GetSupplierDataServices();
-           
             payload.DataMap[SupplierPayLoad.SupplierDOName] = await supplierServices.GetAsyncSupplierDataObjectInfo(supplierId).ConfigureAwait(false);
             supplierServices.OpenDataSession();
-            payload.DataMap[SupplierPayLoad.SupplierDOType] = await supplierServices.GetAsyncSupplierTypeById(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await supplierServices.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await supplierServices.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await supplierServices.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierTransportDS] = await supplierServices.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await supplierServices.GetAsyncSupplierAssuranceData(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierVisitsDS] = await supplierServices.GetAsyncVisits(supplierId).ConfigureAwait(false);
-            payload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await supplierServices.GetAsyncDelegations(supplierId).ConfigureAwait(false);
+            try
+            {
+                ISupplierDataInfo info = payload.DataMap[SupplierPayLoad.SupplierDOName] as ISupplierDataInfo;
+                string typeId = info.Type;
+                payload.DataMap[SupplierPayLoad.SupplierDOType] = await supplierServices.GetAsyncSupplierTypesDataObject(typeId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await supplierServices.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await supplierServices.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await supplierServices.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierVisitsDS] = await supplierServices.GetAsyncVisits(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await supplierServices.GetAsyncDelegations(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await supplierServices.GetAsyncSupplierAssuranceData(supplierId).ConfigureAwait(false);
+                
+                payload.DataMap[SupplierPayLoad.SupplierSummaryTable] = await supplierServices.GetAsyncAllSupplierSummary().ConfigureAwait(false);
+                //            payload.DataMap[SupplierPayLoad.SupplierTransportDS] = await supplierServices.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);
+            } catch (Exception ex)
+            {
+                // in this cases i will be not able to see any data.
+                MessageBox.Show(ex.Message);
+            }
             supplierServices.CloseDataSession();
             return payload;
         }
@@ -126,7 +135,5 @@ namespace ProvidersModule.ViewModels
             get { return _openItemCommand; }
             set { _openItemCommand = value; }
         }
-       
-        
     }
 }

@@ -696,7 +696,7 @@
                                             </TextBox.Text>
 
                                         </TextBox>
-                                        <TextBox Grid.Column="1" Name="AccountableAccount" Width="100" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Foreground="LightGray">
+                                        <TextBox Grid.Column="1" Name="AccountableAccount" Width="100" HorizontalAlignment="Stretch" Height="20">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="TextChanged">
                                                     <i:InvokeCommandAction Command="{Binding PrefixAccountChangedCommand}" CommandParameter="{Binding ElementName=PrefixAccount, Path=Text}"/>
@@ -711,7 +711,7 @@
                                                 </Binding>
                                             </TextBox.Text>
                                         </TextBox>
-                                        <TextBox Grid.Column="2" Name="AccountName" Width="110" HorizontalAlignment="Stretch" Height="20" FontStyle="Oblique" Foreground="LightGray">
+                                        <TextBox Grid.Column="2" Name="AccountName" Width="110" HorizontalAlignment="Stretch" Height="20">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="TextChanged">
                                                     <i:InvokeCommandAction Command="{Binding AccountNameChangedCommand}" CommandParameter="{Binding ElementName=AccountName, Path=Text}"/>
@@ -776,7 +776,7 @@
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                         <ColumnDefinition Width="auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" Name="ExpensesAccountCode" Width="50" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">
+                                    <TextBox Grid.Column="0" Name="ExpensesAccountCode" Width="50" VerticalAlignment="Top" Height="20">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ExpensesAccountCodeChangedCommand}" CommandParameter="{Binding ElementName=ExpensesAccountCode, Path=Text}"/>
@@ -790,7 +790,7 @@
                                             </Binding>
                                         </TextBox.Text>
                                     </TextBox>
-                                    <TextBox Grid.Column="1" Name="ExpensesAccount" Width="150" VerticalAlignment="Top" Height="20" FontStyle="Oblique" Foreground="LightGray">
+                                    <TextBox Grid.Column="1" Name="ExpensesAccount" Width="150" VerticalAlignment="Top" Height="20">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ExpensesAccountChangedCommand}" CommandParameter="{Binding ElementName=ExpensesAccountChanged, Path=Text}"/>
@@ -1819,6 +1819,8 @@
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True"  Binding="{Binding Numero}"
                                             />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Binding="{Binding Nombre}"
+                                            />
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="True" Binding="{Binding Nif}"
                                             />
                    </DataGrid.Columns>
             </extendedGridControl:ExtendedDataGrid>

@@ -4,7 +4,6 @@ using KarveDataServices.DataObjects;
 using DataAccessLayer.DataObjects.Attributes;
 namespace DataAccessLayer.DataObjects
 {
-    [DBTable("Name=PROVEE1")]
     public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataInfo
     {
         private string _countryCode = "";

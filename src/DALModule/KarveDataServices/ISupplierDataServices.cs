@@ -25,17 +25,19 @@ namespace KarveDataServices
         public const string SupplierVisitsDS = "SupplierVisitsDataSet";
         public const string SupplierBranchesDS = "SupplierBranchesDataSet";
         public const string SupplierContactsChangedField = "SupplierContactsChanged";
+        public const string SupplierSummaryTable = "SupplierSummaryTable";
     }
     public interface ISupplierDataServices
     {
 
-        
+
 
         #region Asynchronous methods
         /// <summary>
         ///  Returns the dataset in asynchronous way for all suppliers.
         /// </summary>
         /// <returns></returns>
+        /// 
         Task<DataSet> GetAsyncAllSupplierSummary();
         /// <summary>
         /// This retrives the data supplier type for a given data object

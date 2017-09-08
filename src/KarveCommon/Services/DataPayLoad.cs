@@ -17,8 +17,8 @@ namespace KarveCommon.Services
     public class DataPayLoad
     {
         public enum Type {
-            Insert = 0, Delete = 1, Update = 2,
-            RegistrationPayload = 3
+            Insert = 0, Delete = 1, Update = 2, 
+            RegistrationPayload = 3, Show = 4
         };
         /// <summary>
         ///  It endicate the data object associated
