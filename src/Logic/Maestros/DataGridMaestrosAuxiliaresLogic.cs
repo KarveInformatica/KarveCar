@@ -15,7 +15,7 @@ namespace KarveCar.Logic.Maestros
     {
 
         /// <summary>
-        ///  This delete an item from the data grid.
+        ///  Elimina un registro del DataGrid
         ///  TODO:  This has an embeeded meessage in spanish, the method is static. exception shall be handled.
         /// </summary>
         /// <param name="sender"></param>
@@ -41,14 +41,12 @@ namespace KarveCar.Logic.Maestros
                             foreach (var itemobscollection in auxobscollection.GenericObsCollection)
                             {   //Se comprueba que el SelectedItem corresponda con el object del GenericObservableCollection
                                 if (itemdatagrid == itemobscollection)
-                                {   //Se marca como delete la propiedad ControlCambioDataGrid del object del GenericObservableCollection
+                                {   //Se marca como delete la propiedad ControlCambio del object del GenericObservableCollection
                                     IDataGridRowChange idatagridrowchange = itemobscollection as IDataGridRowChange;
-                                    idatagridrowchange.ControlCambioDataGrid = RecopilatorioEnumerations.EControlCambioDataGrid.Delete;
-
-                                    DateTime time = DateTime.Now;
-                                    idatagridrowchange.UltimaModificacion = time.ToString("yyyyMMddHH:mm");
-
-                                    idatagridrowchange.Usuario = "CV";//UserAndDefaultConfig.GetSetting("User");
+                                    idatagridrowchange.ControlCambio = RecopilatorioEnumerations.EControlCambio.Delete;
+                                    
+                                    idatagridrowchange.UltimaModificacion = ManageGenericObject.GetUltModi();
+                                    idatagridrowchange.Usuario = ManageGenericObject.GetUsuario();
 
                                     break;
                                 }
@@ -65,7 +63,7 @@ namespace KarveCar.Logic.Maestros
         }
 
         /// <summary>
-        /// Se marca como insert/update la propiedad ControlCambioDataGrid del SelectedItem del DataGrid
+        /// Se marca como insert/update la propiedad ControlCambio del SelectedItem del DataGrid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -85,14 +83,13 @@ namespace KarveCar.Logic.Maestros
                     foreach (var itemobscollection in auxobscollection.GenericObsCollection)
                     {   //Se comprueba que el SelectedItem corresponda con el object del GenericObservableCollection
                         if (itemdatagrid == itemobscollection)
-                        {   //Se marca como insert/update según corresponda la propiedad ControlCambioDataGrid
+                        {   //Se marca como insert/update según corresponda la propiedad ControlCambio
                             //del object del GenericObservableCollection
                             IDataGridRowChange idatagridrowchange = itemobscollection as IDataGridRowChange;
-                            idatagridrowchange.ControlCambioDataGrid = e.Row.IsNewItem ? RecopilatorioEnumerations.EControlCambioDataGrid.Insert : RecopilatorioEnumerations.EControlCambioDataGrid.Update;
-                            DateTime time = DateTime.Now;
-                            idatagridrowchange.UltimaModificacion = time.ToString("yyyyMMddHH:mm");
+                            idatagridrowchange.ControlCambio = e.Row.IsNewItem ? RecopilatorioEnumerations.EControlCambio.Insert : RecopilatorioEnumerations.EControlCambio.Update;
 
-                            idatagridrowchange.Usuario = "CV";//UserAndDefaultConfig.GetSetting("User");
+                            idatagridrowchange.UltimaModificacion = ManageGenericObject.GetUltModi();
+                            idatagridrowchange.Usuario = ManageGenericObject.GetUsuario();
 
                             break;
                         }

@@ -12,9 +12,9 @@
             <TextBlock Text="{TemplateBinding Content}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="FontFamily" Value="Times New Roman" />
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontFamily" Value="Times New Roman"/>
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
@@ -25,7 +25,7 @@
         <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="FontFamily" Value="Tahoma"/>
         </Style>
 
         <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
@@ -37,15 +37,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -54,10 +54,10 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/job.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/job.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -73,15 +73,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/city.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/city.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -91,15 +91,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="address.png" />
+                <Image Margin="0, 0, 5, 0" Source="address.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -108,15 +108,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -125,15 +125,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="email.png" />
+                <Image Margin="0, 0, 5, 0" Source="email.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -149,8 +149,8 @@
             <xcdg:DataGridCollectionViewSource x:Key="cvsOrders" 
                                                Source="{Binding}">
                 <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="ShipCountry" />
-                    <PropertyGroupDescription PropertyName="ShipCity" />
+                    <PropertyGroupDescription PropertyName="ShipCountry"/>
+                    <PropertyGroupDescription PropertyName="ShipCity"/>
                 </xcdg:DataGridCollectionViewSource.GroupDescriptions>
             </xcdg:DataGridCollectionViewSource>
         </Grid.Resources>
@@ -169,19 +169,19 @@
                              Title="Nombre"
                              Width="150"
                              CellContentTemplate="{StaticResource PersonDataTemplate}" 
-                             />
+                            />
                 <xcdg:Column FieldName="JobPosition"
                              Title="Cargo"
                              Width="120"
-                             CellContentTemplate="{StaticResource JobPositionDataTemplate}" />
+                             CellContentTemplate="{StaticResource JobPositionDataTemplate}"/>
                 <xcdg:Column FieldName="Department"
                              Title="Departamento"
                              Width="100" 
-                             />
+                            />
                 <xcdg:Column FieldName="Phone"
                              Title="Telefono"
                                  CellContentTemplate="{StaticResource PhoneDataTemplate}"
-                            />
+                           />
 
                 <xcdg:Column FieldName="Email"
                              Title="Email"

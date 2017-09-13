@@ -5,7 +5,12 @@ using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using DataAccessLayer.DataObjects;
+using KarveCar.Properties;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Utility
@@ -36,6 +41,7 @@ namespace KarveCar.Utility
                     //Se recorre la lista de propiedades del objeto recibido por params
                     foreach (var prop in properties)
                     {   //De cada propiedad del objeto recibido por params, se recorre su List<TemplateInfoDB> templateinfodb
+                        bool salir = false;
                         foreach (var item in templateinfodb)
                         {   //Se comprueba que el tipo de la propiedad del objeto recibido por params esté incluida en el List<TemplateInfoDB> templateinfodb
                             if (item.nombrepropiedadobj == prop.Name)
@@ -45,42 +51,56 @@ namespace KarveCar.Utility
                                 {
                                     case ETiposDatoColumnaDB.DBstring:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetString(dr[item.nombrecolumnadb] as string));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBchar:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetChar(dr[item.nombrecolumnadb] as char?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBbool:
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBbyte: //byte en C# = tinyint en la DB
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetByte(dr[item.nombrecolumnadb] as byte?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBshort:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetShort(dr[item.nombrecolumnadb] as short?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBint:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetInt(dr[item.nombrecolumnadb] as int?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBlong:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetLong(dr[item.nombrecolumnadb] as long?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBdecimal:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDecimal(dr[item.nombrecolumnadb] as decimal?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBdouble:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDouble(dr[item.nombrecolumnadb] as double?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBdate:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDate(dr[item.nombrecolumnadb] as DateTime?));
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBdatetime:
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBsmalldatetime:
+                                        salir = true;
                                         break;
                                     case ETiposDatoColumnaDB.DBtime:
+                                        salir = true;
                                         break;
                                     default:
                                         break;
                                 }
+                                if (salir) break;
                             }
                         }
                     }
@@ -142,7 +162,7 @@ namespace KarveCar.Utility
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static string PropertyConvertToDictionary(object obj)
+        public static string PropertyConvertToDictionary(object obj, params string[] properties)
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();
             try
@@ -151,9 +171,9 @@ namespace KarveCar.Utility
 
                 foreach (PropertyInfo info in tipo.GetProperties())
                 {
-                    if (!info.Name.ToString().Equals("ControlCambioDataGrid") && !info.Name.ToString().Equals("UltimaModificacion") && !info.Name.ToString().Equals("Usuario"))
+                    if (!properties.Contains(info.Name))
                     {
-                        dic.Add(info.Name.ToString(), PropertyGetValue(obj, info.Name.ToString()));
+                        dic.Add(info.Name, PropertyGetValue(obj, info.Name));
                     }                    
                 }                
             }
@@ -182,6 +202,7 @@ namespace KarveCar.Utility
                     if (info.Name == property)
                     {
                         info.SetValue(obj, value, null);
+                        break;
                     }
                 }
             }
@@ -209,6 +230,7 @@ namespace KarveCar.Utility
                     if (info.Name == property)
                     {
                         value = info.GetValue(obj);
+                        break;
                     }
                 }
             }
@@ -220,76 +242,142 @@ namespace KarveCar.Utility
         }
 
         /// <summary>
-        /// Convierte una GenericObservableCollection en un DataTable
+        /// Compara dos object, excepto las propiedades pasadas por params
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="collection"></param>
+        /// <param name="obj1"></param>
+        /// <param name="obj2"></param>
+        /// <param name="property"></param>
         /// <returns></returns>
-        public static DataTable ObsCollectionToDataTable<T>(GenericObservableCollection collection)
+        public static bool CompareObjectsExceptProperty<T>(T obj1, T obj2, params string[] properties)
         {
-            DataTable datatable = new DataTable();
-            Type type = typeof(T);
-            PropertyInfo[] properties = type.GetProperties();
-            object temp;
-            DataRow datarow;
-
-            for (int i = 0; i < properties.Length; i++)
+            foreach (PropertyInfo info in typeof(T).GetProperties())
             {
-                datatable.Columns.Add(properties[i].Name, Nullable.GetUnderlyingType(properties[i].PropertyType) ?? properties[i].PropertyType);
-                datatable.Columns[i].AllowDBNull = true;
-            }
 
-            //Populate the table
-            foreach (var item in collection.GenericObsCollection)
-            {
-                datarow = datatable.NewRow();
-                datarow.BeginEdit();
-
-                for (int i = 0; i < properties.Length; i++)
+                if (properties.Contains(info.Name))
                 {
-                    temp = properties[i].GetValue(item, null);
-                    if (temp == null || (temp.GetType().Name == "Char" && ((char)temp).Equals('\0')))
+                    continue;
+                }
+                    
+                object propObj1 = info.GetGetMethod().Invoke(obj1, null);
+                object propObj2 = info.GetGetMethod().Invoke(obj2, null);
+
+                if (propObj1 == null)
+                {
+                    if (propObj2 != null)
                     {
-                        datarow[properties[i].Name] = (object)DBNull.Value;
-                    }
-                    else
-                    {
-                        datarow[properties[i].Name] = temp;
+                        return false;
                     }
                 }
-
-                datarow.EndEdit();
-                datatable.Rows.Add(datarow);
-                datatable.AcceptChanges();
+                else
+                {
+                    if (!propObj1.Equals(propObj2))
+                    {
+                        return false;
+                    }
+                }
             }
-            return datatable;
+            return true;
         }
 
         /// <summary>
-        /// Convierte un DataRowView en un object
+        /// Crea un Clone de un object
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="row"></param>
+        /// <param name="objSource"></param>
         /// <returns></returns>
-        public static T DataRowViewToObject<T>(DataRowView datarowview) where T : new()
+        public static object CloneObject(object objSource)
         {
-            T obj = new T();
-            if (datarowview != null)
-            {
-                // go through each datacolumn
-                foreach (DataColumn datacolumn in datarowview.DataView.Table.Columns)
-                {
-                    // find the property for the column
-                    PropertyInfo property = obj.GetType().GetProperty(datacolumn.ColumnName);
+            //step : 1 Get the type of source object and create a new instance of that type
+            Type typeSource = objSource.GetType();
+            object objTarget = Activator.CreateInstance(typeSource);
 
-                    // if exists, set the value
-                    if (property != null && datarowview.Row[datacolumn] != DBNull.Value)
+            //Step2 : Get all the properties of source object type
+            PropertyInfo[] propertyInfo = typeSource.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            //Step : 3 Assign all source property to taget object's properties
+            foreach (PropertyInfo property in propertyInfo)
+            {
+                //Check whether property can be written to
+                if (property.CanWrite)
+                {
+                    //Step : 4 check whether property type is value type, enum or string type
+                    if (property.PropertyType.IsValueType || property.PropertyType.IsEnum || property.PropertyType.Equals(typeof(System.String)))
                     {
-                        property.SetValue(obj, datarowview.Row[datacolumn], null);
+                        property.SetValue(objTarget, property.GetValue(objSource, null), null);
+                    }
+                    //else property type is object/complex types, so need to recursively call this method until the end of the tree is reached
+                    else
+                    {
+                        object objPropertyValue = property.GetValue(objSource, null);
+                        if (objPropertyValue == null)
+                        {
+                            property.SetValue(objTarget, null, null);
+                        }
+                        else
+                        {
+                            property.SetValue(objTarget, CloneObject(objPropertyValue), null);
+                        }
                     }
                 }
             }
-            return obj;                
+            return objTarget;
+        }
+
+        /// <summary>
+        /// Comprueba si el codigo está vacío, o si el registro (DataRowView) está repetido
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <param name="datarowview"></param>
+        /// <returns></returns>
+        public static bool CheckCodigo(string codigo, DataRowView datarowview)
+        {
+            bool exists = false;
+
+            if (codigo.Equals(string.Empty)  || codigo == null)
+            {
+                MessageBox.Show(Resources.msgInsertarRegistroCampoVacio, Resources.msgInsertarRegistroTitulo,
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                exists = true;
+            }
+            else if (datarowview != null)
+            {
+                MessageBox.Show(Resources.msgInsertarRegistroRepetido, Resources.msgInsertarRegistroTitulo,
+                                MessageBoxButton.OK, MessageBoxImage.Error);                
+                exists = true;
+            }
+
+            return exists;
+        }
+
+        /// <summary>
+        /// Se eliminan los espacios en blanco y de SqlInjection (' /* */ -- ;) del codigo
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns></returns>
+        public static string GetCodigo(string codigo)
+        {
+            return codigo.Replace(" ", string.Empty)
+                         .Replace("'", string.Empty)
+                         .Replace("--", string.Empty)
+                         .Replace("/*", string.Empty)
+                         .Replace("*/", string.Empty)
+                         .Replace(";", string.Empty);
+        }
+
+        public static string GetUsuario()
+        {
+            return "CV";//UserAndDefaultConfig.GetSetting("User");
+        }
+
+        public static string GetUltModi()
+        {
+            DateTime ultmodi = DateTime.Now;
+            return ultmodi.ToString("yyyyMMddHH:mm");
+        }
+
+        public static string GetDateTimeToString(DateTime? date)
+        {
+            return (date == null || date.Value.ToString() == string.Empty) ? "NULL" : "'" + date.Value.ToString("yyyy/MM/dd") + "'";
         }
     }
 }

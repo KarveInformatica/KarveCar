@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class MotivoAnulacionContrato : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public MotivoAnulacionContrato() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public MotivoAnulacionContrato() { this.ControlCambio = EControlCambio.Null; }
         public MotivoAnulacionContrato(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,14 +62,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

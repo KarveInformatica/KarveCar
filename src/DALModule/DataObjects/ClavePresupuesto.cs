@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class ClavePresupuesto : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public ClavePresupuesto() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public ClavePresupuesto() { this.ControlCambio = EControlCambio.Null; }
         public ClavePresupuesto(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,14 +62,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

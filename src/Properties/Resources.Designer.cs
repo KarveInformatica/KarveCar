@@ -3094,29 +3094,47 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Edición de registro.
+        ///   Busca una cadena traducida similar a El código ya existe.
         /// </summary>
-        public static string msgEdicionRegistroTitulo {
+        public static string msgEditarRegistroCodigoRepetido {
             get {
-                return ResourceManager.GetString("msgEdicionRegistroTitulo", resourceCulture);
+                return ResourceManager.GetString("msgEditarRegistroCodigoRepetido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se admiten valores vacíos en el campo código.
+        /// </summary>
+        public static string msgEditarRegistroCodigoVacio {
+            get {
+                return ResourceManager.GetString("msgEditarRegistroCodigoVacio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Editar registro.
+        /// </summary>
+        public static string msgEditarRegistroTitulo {
+            get {
+                return ResourceManager.GetString("msgEditarRegistroTitulo", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a No se admiten valores repetidos.
         /// </summary>
-        public static string msgEdicionRegistroValorRepetido {
+        public static string msgEditarRegistroValorRepetido {
             get {
-                return ResourceManager.GetString("msgEdicionRegistroValorRepetido", resourceCulture);
+                return ResourceManager.GetString("msgEditarRegistroValorRepetido", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a No se admiten valores vacíos.
         /// </summary>
-        public static string msgEdicionRegistroValorVacio {
+        public static string msgEditarRegistroValorVacio {
             get {
-                return ResourceManager.GetString("msgEdicionRegistroValorVacio", resourceCulture);
+                return ResourceManager.GetString("msgEditarRegistroValorVacio", resourceCulture);
             }
         }
         
@@ -3175,6 +3193,42 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No se puede convertir un texto a formato de fecha.
+        /// </summary>
+        public static string msgError157 {
+            get {
+                return ResourceManager.GetString("msgError157", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Valor fuera de rango.
+        /// </summary>
+        public static string msgError158 {
+            get {
+                return ResourceManager.GetString("msgError158", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Clave primaria ya existe.
+        /// </summary>
+        public static string msgError193 {
+            get {
+                return ResourceManager.GetString("msgError193", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cadena de texto excede el tamaño establecido.
+        /// </summary>
+        public static string msgError683 {
+            get {
+                return ResourceManager.GetString("msgError683", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a No se encuentra la Base de Datos.
         /// </summary>
         public static string msgError83 {
@@ -3189,6 +3243,33 @@ namespace KarveCar.Properties {
         public static string msgErrorTitulo {
             get {
                 return ResourceManager.GetString("msgErrorTitulo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se admiten valores vacíos en este campo.
+        /// </summary>
+        public static string msgInsertarRegistroCampoVacio {
+            get {
+                return ResourceManager.GetString("msgInsertarRegistroCampoVacio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a No se admiten registros repetidos.
+        /// </summary>
+        public static string msgInsertarRegistroRepetido {
+            get {
+                return ResourceManager.GetString("msgInsertarRegistroRepetido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Insertar registro.
+        /// </summary>
+        public static string msgInsertarRegistroTitulo {
+            get {
+                return ResourceManager.GetString("msgInsertarRegistroTitulo", resourceCulture);
             }
         }
         

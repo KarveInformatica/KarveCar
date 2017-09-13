@@ -43,16 +43,16 @@ namespace Apache.Ibatis.Common.Logging
 	/// <configuration>
 	///		<configSections>
 	///			<sectionGroup name="iBATIS">
-	///				<section name="logging" type="Apache.Ibatis.Common.Logging.ConfigurationSectionHandler, Apache.Ibatis.Common" />
+	///				<section name="logging" type="Apache.Ibatis.Common.Logging.ConfigurationSectionHandler, Apache.Ibatis.Common"/>
 	///			</sectionGroup>	
 	///		</configSections>
 	///		<iBATIS>
 	///			<logging>
 	///				<logFactoryAdapter type="Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA, Apache.Ibatis.Common">
-	///					<arg key="showLogName" value="true" />
-	///					<arg key="showDataTime" value="true" />
-	///					<arg key="level" value="ALL" />
-	///					<arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:SSS" />
+	///					<arg key="showLogName" value="true"/>
+	///					<arg key="showDataTime" value="true"/>
+	///					<arg key="level" value="ALL"/>
+	///					<arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:SSS"/>
 	///				</logFactoryAdapter>
 	///			</logging>
 	///		</iBATIS>
@@ -83,14 +83,14 @@ namespace Apache.Ibatis.Common.Logging
 
 
 		/// <summary>
-		/// Retrieves the <see cref="Type" /> of the logger the use by looking at the logFactoryAdapter element
+		/// Retrieves the <see cref="Type"/> of the logger the use by looking at the logFactoryAdapter element
 		/// of the logging configuration element.
 		/// </summary>
 		/// <param name="section"></param>
 		/// <returns>
-		/// A <see cref="LogSetting" /> object containing the specified type that implements 
-		/// <see cref="ILoggerFactoryAdapter" /> along with zero or more properties that will be 
-		/// passed to the logger factory adapter's constructor as an <see cref="IDictionary" />.
+		/// A <see cref="LogSetting"/> object containing the specified type that implements 
+		/// <see cref="ILoggerFactoryAdapter"/> along with zero or more properties that will be 
+		/// passed to the logger factory adapter's constructor as an <see cref="IDictionary"/>.
 		/// </returns>
 		private LogSetting ReadConfiguration( XmlNode section )
 		{
@@ -186,7 +186,7 @@ namespace Apache.Ibatis.Common.Logging
 		/// <param name="configContext">Additional information about the configuration process.</param>
 		/// <param name="section">The configuration section to apply an XPath query too.</param>
 		/// <returns>
-		/// A <see cref="LogSetting" /> object containing the specified logFactoryAdapter type
+		/// A <see cref="LogSetting"/> object containing the specified logFactoryAdapter type
 		/// along with user supplied configuration properties.
 		/// </returns>
 		public object Create(object parent, object configContext, XmlNode section)

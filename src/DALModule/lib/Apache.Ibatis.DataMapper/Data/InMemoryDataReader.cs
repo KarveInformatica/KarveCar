@@ -48,9 +48,9 @@ namespace Apache.Ibatis.DataMapper.Data
 
 	
 		/// <summary>
-		///  Creates an InMemoryDataReader from a <see cref="IDataReader" />
+		///  Creates an InMemoryDataReader from a <see cref="IDataReader"/>
 		/// </summary>
-		/// <param name="reader">The <see cref="IDataReader" /> which holds the records from the Database.</param>
+		/// <param name="reader">The <see cref="IDataReader"/> which holds the records from the Database.</param>
 		public InMemoryDataReader(IDataReader reader)
 		{
 			ArrayList resultList = new ArrayList();
@@ -502,13 +502,13 @@ namespace Apache.Ibatis.DataMapper.Data
 			private string[] _dataTypeName = null;
 
 			/// <summary>
-			///  Creates an in-memory ResultSet from a <see cref="IDataReader" />
+			///  Creates an in-memory ResultSet from a <see cref="IDataReader"/>
 			/// </summary>
 			/// <param name="isMidstream">
 			/// <c>true</c> if the <see cref="IDataReader"/> is already positioned on the record
 			/// to start reading from.
 			/// </param>
-			/// <param name="reader">The <see cref="IDataReader" /> which holds the records from the Database.</param>
+			/// <param name="reader">The <see cref="IDataReader"/> which holds the records from the Database.</param>
 			public InMemoryResultSet(IDataReader reader, bool isMidstream )
 			{
 				// [record index][ columns values=object[ ] ]

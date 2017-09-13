@@ -31,7 +31,7 @@ using Apache.Ibatis.Common.Logging.Impl;
 namespace Apache.Ibatis.Common.Logging
 {
 	/// <summary>
-	/// Uses the specified <see cref="ILoggerFactoryAdapter" /> to create <see cref="ILog" /> instances
+	/// Uses the specified <see cref="ILoggerFactoryAdapter"/> to create <see cref="ILog"/> instances
 	/// that are used to log messages. Inspired by log4net.
 	/// </summary>
 	public static class LogManager
@@ -54,12 +54,12 @@ namespace Apache.Ibatis.Common.Logging
 		/// </summary>
 		/// <remarks>
 		/// <para>
-		/// The Apache.Ibatis.Common assembly ships with the following built-in <see cref="ILoggerFactoryAdapter" /> implementations:
+		/// The Apache.Ibatis.Common assembly ships with the following built-in <see cref="ILoggerFactoryAdapter"/> implementations:
 		/// </para>
 		///	<list type="table">
-		///	<item><term><see cref="ConsoleOutLoggerFA" /></term><description>Writes output to Console.Out</description></item>
-		///	<item><term><see cref="TraceLoggerFA" /></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
-		///	<item><term><see cref="NoOpLoggerFA" /></term><description>Ignores all messages</description></item>
+		///	<item><term><see cref="ConsoleOutLoggerFA"/></term><description>Writes output to Console.Out</description></item>
+		///	<item><term><see cref="TraceLoggerFA"/></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
+		///	<item><term><see cref="NoOpLoggerFA"/></term><description>Ignores all messages</description></item>
 		///	</list>
 		/// </remarks>
 		/// <value>The adapter.</value>

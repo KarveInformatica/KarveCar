@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class ComunidadAutonoma : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public ComunidadAutonoma() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public ComunidadAutonoma() { this.ControlCambio = EControlCambio.Null; }
         public ComunidadAutonoma(string codigo, string definicion)
         {
             this.codigo = codigo;
@@ -61,14 +61,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

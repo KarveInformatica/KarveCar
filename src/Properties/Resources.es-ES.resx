@@ -1143,14 +1143,29 @@
   <data name="msgEliminarRegistroTitulo" xml:space="preserve">
     <value>Eliminar registro</value>
   </data>
-  <data name="msgEdicionRegistroValorVacio" xml:space="preserve">
+  <data name="msgEditarRegistroValorVacio" xml:space="preserve">
     <value>No se admiten valores vacíos</value>
   </data>
-  <data name="msgEdicionRegistroValorRepetido" xml:space="preserve">
+  <data name="msgEditarRegistroValorRepetido" xml:space="preserve">
     <value>No se admiten valores repetidos</value>
   </data>
-  <data name="msgEdicionRegistroTitulo" xml:space="preserve">
-    <value>Edición de registro</value>
+  <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos en el campo código</value>
+  </data>
+  <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
+    <value>El código ya existe</value>
+  </data>
+  <data name="msgEditarRegistroTitulo" xml:space="preserve">
+    <value>Editar registro</value>
+  </data>
+  <data name="msgInsertarRegistroCampoVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos en este campo</value>
+  </data>
+  <data name="msgInsertarRegistroRepetido" xml:space="preserve">
+    <value>No se admiten resgistros repetidos</value>
+  </data>
+  <data name="msgInsertarRegistroTitulo" xml:space="preserve">
+    <value>Insertar registro</value>
   </data>
   <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
     <value>Marcar Todos</value>
@@ -1175,5 +1190,17 @@
   </data>
   <data name="msgError141" xml:space="preserve">
     <value>No se encuentra la Tabla</value>
+  </data>
+  <data name="msgError157" xml:space="preserve">
+    <value>No se puede convertir un texto a formato de fecha</value>
+  </data>
+  <data name="msgError158" xml:space="preserve">
+    <value>Valor fuera de rango</value>
+  </data>
+  <data name="msgError193" xml:space="preserve">
+    <value>Clave primaria ya existe</value>
+  </data>
+  <data name="msgError683" xml:space="preserve">
+    <value>Cadena de texto excede el tamaño establecido</value>
   </data>
 </root>

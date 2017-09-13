@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Utility
 {
@@ -22,24 +23,23 @@ namespace KarveCar.Utility
         /// <returns></returns>
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {
-
-
             if (value == null)
             {
-                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
-                    "\n-No se admite un valor vacío"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
+                return new ValidationResult(false, MessageBox.Show(Resources.msgEditarRegistroValorVacio, Resources.msgEditarRegistroTitulo,
+                                                                   MessageBoxButton.OK, MessageBoxImage.Error));
             }
             object obj = (value as BindingGroup).Items[0] as object;
 
             if (ValidateNotNullOrEmpty(obj))
             {
                 // TODO: this string shall be inserted in the resx manager
-                return new ValidationResult(false, MessageBox.Show(string.Concat("Error en la edición de datos. Los motivos pueden ser los siguientes:",
-                                                                                "\n-No se admite un valor vacío"), "Error de edición", MessageBoxButton.OK, MessageBoxImage.Error));
+                return new ValidationResult(false, MessageBox.Show(Resources.msgEditarRegistroValorVacio, Resources.msgEditarRegistroTitulo, 
+                                                                   MessageBoxButton.OK, MessageBoxImage.Error));
             }
             if (ValidateDuplicateValue(obj))
             {
-                return new ValidationResult(false, MessageBox.Show(string.Concat(Resources.msgEdicionRegistroValorRepetido), Resources.msgEdicionRegistroTitulo, MessageBoxButton.OK, MessageBoxImage.Error));
+                return new ValidationResult(false, MessageBox.Show(Resources.msgEditarRegistroValorRepetido, Resources.msgEditarRegistroTitulo, 
+                                                                   MessageBoxButton.OK, MessageBoxImage.Error));
                 // TODO: this string shall be inserted in the resx manager
             }
 
@@ -56,25 +56,28 @@ namespace KarveCar.Utility
         {
             bool result = false;
             //Se recuperan las properties del object pasado por params
-            var objproperties = ManageGenericObject.GetProperties(obj);
+            try
+            {
+                var objproperties = ManageGenericObject.GetProperties(obj);
 
+                foreach (var objprop in objproperties)
+                {   //Para cada property del object, se recupera su valor
+                    object objvalue = ManageGenericObject.PropertyGetValue(obj, objprop.Name.ToString());
 
-            foreach (var objprop in objproperties)
-            {   //Para cada property del object, se recupera su valor
-                object objvalue = ManageGenericObject.PropertyGetValue(obj, objprop.Name.ToString());
-
-                //Se comprueba que no sea nulo o esté vacío
-                if (objvalue == null)
-                {
-                    result = true;
-                    break;
-                }
-                if (objvalue.ToString().Length == 0)
-                {
-                    result = true;
-                    break;
+                    //Se comprueba que no sea nulo o esté vacío
+                    if (objvalue == null)
+                    {
+                        result = true;
+                        break;
+                    }
+                    if (objvalue.ToString().Length == 0)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
+            catch (Exception) { }
             return result;
         }
 
@@ -89,10 +92,10 @@ namespace KarveCar.Utility
 
             try
             {   //Se recupera la EOpcion del TabItem activo
-                RecopilatorioEnumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
+                EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
 
                 //Se recupera la GenericObservableCollection del TabItem activo
-                GenericObservableCollection auxobscollection = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.GenericObsCollection;
+                GenericObservableCollection auxobscollection = tabitemdictionary.FirstOrDefault(g => g.Key == opcion).Value.GenericObsCollection;
 
                 //Se crea un SortedSet donde se guardarán los values para cada property de la GenericObservableCollection, 
                 //y así poderlos comparar con el value del object pasado por params para esa property
@@ -102,7 +105,7 @@ namespace KarveCar.Utility
                 foreach (var itemStringItem in auxobscollection.GenericObsCollection)
                 {   //Se recorre la GenericObservableCollection, y cada object se convierte en un string
                     //como el ejemplo: [key1, value1];[ke2, value2]...
-                    string stringItem = ManageGenericObject.PropertyConvertToDictionary(itemStringItem);
+                    string stringItem = ManageGenericObject.PropertyConvertToDictionary(itemStringItem, new []{ "ControlCambio", "UltimaModificacion", "Usuario"});
                     //Se hace un split del string con los object de la GenericObservableCollection, y se
                     //guardan los valores de una misma propiedad en una IList
                     IList<string> tempString = stringItem.Split(';').ToList();
@@ -112,7 +115,7 @@ namespace KarveCar.Utility
                     foreach (string itemTempString in tempString)
                     { 
                         // We have to check that the code is not duplicated.
-                        if (itemTempString.Contains(UniqueField))
+                        if (itemTempString.ToUpper().Contains(UniqueField))
                         {
                             if (!collectionTemp.Contains(itemTempString))
                             {

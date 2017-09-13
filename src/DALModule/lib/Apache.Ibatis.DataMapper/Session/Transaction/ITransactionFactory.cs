@@ -34,7 +34,7 @@ namespace Apache.Ibatis.DataMapper.Session.Transaction
     {
 
         /// <summary>
-        /// Creates a new <see cref="ITransaction" /> instance.
+        /// Creates a new <see cref="ITransaction"/> instance.
         /// </summary>
         /// <param name="session">The session.</param>
         /// <returns></returns>

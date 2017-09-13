@@ -20,16 +20,16 @@
         <ResourceDictionary>
         
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
             <ControlTemplate x:Key="HeaderTemplateStandard" TargetType="{x:Type xcdg:ColumnManagerCell}">
                 <TextBlock Text="{TemplateBinding Content}">
                     <TextBlock.Style>
                         <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Background" Value="White" />
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="FontFamily" Value="Times New Roman" />
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="FontFamily" Value="Times New Roman"/>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
@@ -42,8 +42,8 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Margin="0,0,7,0" Content="{Binding}"/>
@@ -61,27 +61,27 @@
                 -->
             </Style>
             <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
-                <Setter Property="ShowDefaultCloseButton" Value="True" />
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
-                <Setter Property="HeaderMemberPath" Value="Header" />
-                <Setter Property="Margin" Value="0 5 0 0" />
+                <Setter Property="ShowDefaultCloseButton" Value="True"/>
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}"/>
+                <Setter Property="HeaderMemberPath" Value="Header"/>
+                <Setter Property="Margin" Value="0 5 0 0"/>
             </Style>
             <Style x:Key="StylelessButtonStyle" TargetType="{x:Type ButtonBase}">
-                <Setter Property="Margin" Value="3" />
-                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ButtonBase}">
-                            <ContentPresenter />
+                            <ContentPresenter/>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
             <LinearGradientBrush x:Key="CellBrush" StartPoint="0,0" EndPoint="1,0">
                 <LinearGradientBrush.GradientStops>
-                    <GradientStop Color="AliceBlue" Offset="0" />
-                    <GradientStop Color="AntiqueWhite" Offset=".6" />
-                    <GradientStop Color="White" Offset="1" />
+                    <GradientStop Color="AliceBlue" Offset="0"/>
+                    <GradientStop Color="AntiqueWhite" Offset=".6"/>
+                    <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush.GradientStops>
             </LinearGradientBrush>
 
@@ -99,8 +99,8 @@
                                    Width="130">
                                 <Image DockPanel.Dock="Left"
                                    Source="/ProvidersModule;component/Images/pdficon.png"
-                                   Margin="5" />
-                                <TextBlock DockPanel.Dock="Top" Text="Adjuntar PDF" />
+                                   Margin="5"/>
+                                <TextBlock DockPanel.Dock="Top" Text="Adjuntar PDF"/>
                             </DockPanel>
                         </ControlTemplate>
                     </Setter.Value>
@@ -251,7 +251,7 @@
                                         <StackPanel>
                                             <Label FontWeight="Bold">Fecha de Baja</Label>
                                             <DatePicker HorizontalAlignment="Left" 
-                                                      Name="FechaDeBaja" VerticalAlignment="Top" Height="40" SelectedDate="{Binding Path=SupplierDataObjectInfo.LeavingDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                                      Name="FechaDeBaja" VerticalAlignment="Top" Height="40" SelectedDate="{Binding Path=SupplierDataObjectInfo.LeavingDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
@@ -671,7 +671,7 @@
                                                 </Grid.RowDefinitions>
 
                                                 <StackPanel Orientation="Horizontal" Grid.Row="0" >
-                                                    <Button  Content="Forma Pago" Name="PaymentType" Width="100" Height="20" HorizontalAlignment="Left" Command="{Binding PaymentTypeCommand}" CommandParameter="PaymementTypeCommand" />
+                                                    <Button  Content="Forma Pago" Name="PaymentType" Width="100" Height="20" HorizontalAlignment="Left" Command="{Binding PaymentTypeCommand}" CommandParameter="PaymementTypeCommand"/>
                                                     <TextBox Name="PaymentTypeCode"  Text="Codigo"  Width="45" Height="20"  FontStyle="Oblique" Foreground="LightGray"></TextBox>
                                                     <TextBox Name="PaymentTypeText"   Text="Tipo" Width="188" Height="20"  FontStyle="Oblique" Foreground="LightGray"></TextBox>
                                                     <Button Name="PaymentTypeSearch"  Height="20" Width="40" Command="{Binding PaymentSearchCommand}" CommandParameter="PaymentSearch" >
@@ -914,26 +914,26 @@
                                                         <Rectangle Grid.Row="0"
                                                          Grid.ColumnSpan="3"  
                                                          Stroke="Black"
-                                                        Fill="LightGray" />
+                                                        Fill="LightGray"/>
                                                         <Rectangle Grid.Row="3"
                                                          Grid.ColumnSpan="3"  
                                                          Stroke="Black"
-                                                        Fill="LightGray" />
+                                                        Fill="LightGray"/>
                                                         <Rectangle Grid.Row="1"
                                                                    Grid.Column="1"
                                                          Grid.ColumnSpan="2"  
                                                          Stroke="Black"
-                                                        Fill="LightBlue" />
+                                                        Fill="LightBlue"/>
                                                         <Rectangle Grid.Row="2"
                                                                    Grid.Column="1"
                                                          Grid.ColumnSpan="2"  
                                                          Stroke="Black"
-                                                        Fill="LightBlue" />
+                                                        Fill="LightBlue"/>
                                                         <Rectangle Grid.Row="5"
                                                                    Grid.Column="1"
                                                          Grid.ColumnSpan="2"  
                                                          Stroke="Black"
-                                                        Fill="LightBlue" />
+                                                        Fill="LightBlue"/>
                                                         <Label Grid.Column="1" Grid.Row="0" Content="Numero Facturas" HorizontalAlignment="Center"/>
                                                         <Label Grid.Column="2" Grid.Row="0" Content="Importes" HorizontalAlignment="Center"/>
                                                         <Label Grid.Column="0" Grid.Row="1" Content="Factura Recibidas" HorizontalAlignment="Center"/>
@@ -979,17 +979,17 @@
                                                 Margin="70,0,0,0"
                                                  >
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition />
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
 
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
                                                     </Grid.RowDefinitions>
 
                                                     <Border 
@@ -1014,7 +1014,7 @@
                                                  HorizontalAlignment="Right" 
                                                  Height="15" 
                                                  Width="15" 
-                                                Background="Transparent" />
+                                                Background="Transparent"/>
                                                         <TextBlock DockPanel.Dock="Top" FontSize="10" FontFamily="Arial" FontStyle="Oblique"  TextWrapping="Wrap" Text="Facturas Recibidas"></TextBlock>
                                                         <Viewbox Name="InvoiceRecibedProvider">
 
@@ -1034,7 +1034,7 @@
                                                 HorizontalAlignment="Right" 
                                                 Height="15" 
                                                 Width="15" 
-                                                Background="Transparent" />
+                                                Background="Transparent"/>
                                                         <TextBlock FontFamily="Arial" FontStyle="Oblique" FontSize="10"
                                                  TextWrapping="Wrap">
                                                 Imprimir Sobre
@@ -1056,7 +1056,7 @@
                                                  HorizontalAlignment="Right" 
                                                  Height="15" 
                                                  Width="15" 
-                                                 Background="Transparent" />
+                                                 Background="Transparent"/>
                                                         <TextBlock DockPanel.Dock="Top" FontSize="10" FontFamily="Arial" FontStyle="Oblique" TextWrapping="Wrap">Pago Pendientes</TextBlock>
                                                         <Viewbox>
                                                         </Viewbox>
@@ -1075,7 +1075,7 @@
                                                 HorizontalAlignment="Right" 
                                                 Height="15" 
                                                 Width="15" 
-                                                Background="Transparent" />
+                                                Background="Transparent"/>
                                                         <TextBlock DockPanel.Dock="Top" FontSize="10" FontFamily="Arial" FontStyle="Oblique" TextWrapping="Wrap">Histórico Mail</TextBlock>
                                                         <Viewbox>
                                                         </Viewbox>
@@ -1095,7 +1095,7 @@
                                                     HorizontalAlignment="Right" 
                                                     Height="15" 
                                                     Width="15" 
-                                                    Background="Transparent" />
+                                                    Background="Transparent"/>
                                                         <TextBlock DockPanel.Dock="Top" FontSize="10" FontFamily="Arial" FontStyle="Oblique" TextWrapping="Wrap">Documentos</TextBlock>
                                                         <Viewbox>
                                                         </Viewbox>
@@ -1281,19 +1281,19 @@
                                             <xcdg:Column FieldName="ObservationDate"
                              Title="Fecha"
                              Width="100"
-                             />
+                            />
                                             <xcdg:Column FieldName="ObservationResult"
                              Title="Resultado y Observaciones"
                              Width="436"
-                            />
+                           />
                                             <xcdg:Column FieldName="ObservationResponsable"
                              Title="Responsable"
                              Width="100" 
-                             />
+                            />
                                             <xcdg:Column FieldName="ObservationIncome"
                              Title="N.Inc."
                              Width="120"
-                         />
+                        />
                                         </xcdg:DataGridControl.Columns>
                                     </xcdg:DataGridControl>
                                 </Grid>
@@ -1318,44 +1318,44 @@
                                             <xcdg:Column FieldName="ObservationDate"
                              Title="Fecha"
                              Width="100"
-                             />
+                            />
                                             <xcdg:Column FieldName="ObservationPrice"
                              Title="Precio"
                              Width="60"
-                            />
+                           />
                                             <xcdg:Column FieldName="PrevisionIsOk"
                              Title="Cumple Prevision"
                              Width="100" 
-                             />
+                            />
                                             <xcdg:Column FieldName="OrderResponse"
                              Title="Resp.Pedido"
                              Width="70"
-                         />
+                        />
                                             <xcdg:Column FieldName="InfoOrder"
                              Title="Suministra Info"
                              Width="105"
-                         />
+                        />
                                             <xcdg:Column FieldName="TreatOrder"
                              Title="Trato"
                              Width="50"
-                         />
+                        />
                                             <xcdg:Column FieldName="ProviderSatisfaction"
                              Title="Att.Recibida"
                              Width="80"
                              
-                         />
+                        />
                                             <xcdg:Column FieldName="ProviderPresentation"
                              Title="Presentación"
                              Width="80"
-                         />
+                        />
                                             <xcdg:Column FieldName="ProviderSum"
                              Title="Suma"
                              Width="60"
-                         />
+                        />
                                             <xcdg:Column FieldName="ProviderAverage"
                              Title="Media"
                              Width="50"
-                         />
+                        />
 
                                         </xcdg:DataGridControl.Columns>
                                     </xcdg:DataGridControl>
@@ -1373,13 +1373,13 @@
        
         <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" mvvm1:RegionManager.RegionName="TabRegion">
             <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
+                <dragablz:InterTabController/>
             </dragablz:TabablzControl.InterTabController>
         </dragablz:TabablzControl>
         <!--
         <dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}">
             <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
+                <dragablz:InterTabController/>
             </dragablz:TabablzControl.InterTabController>
             <TabItem Header="Proveedores">
                 <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
@@ -1404,11 +1404,11 @@
                     </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
-                                            />
+                                           />
                         <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="60*" Binding="{Binding Nombre}"
-                                            />
+                                           />
                         <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="20*" Binding="{Binding Nif}"
-                                            />
+                                           />
                     </DataGrid.Columns>
                 </extendedGridControl:ExtendedDataGrid>
 

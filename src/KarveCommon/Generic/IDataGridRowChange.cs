@@ -6,6 +6,6 @@ namespace KarveCar.Model.Generic
     {
         string UltimaModificacion { get; set; }
         string Usuario { get; set; }
-        EControlCambioDataGrid ControlCambioDataGrid { get; set; }
+        EControlCambio ControlCambio { get; set; }
     }
 }

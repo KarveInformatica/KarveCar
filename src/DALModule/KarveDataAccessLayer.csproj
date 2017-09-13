@@ -72,6 +72,8 @@
     <Compile Include="DataObjects\FormaPagoProveedor.cs" />
     <Compile Include="DataObjects\FormaTraslado.cs" />
     <Compile Include="DataObjects\GrupoTarifa.cs" />
+    <Compile Include="DataObjects\GrupoVehiculoPrecioPorDefectoDataObject.cs" />
+    <Compile Include="DataObjects\MarcaDataObject.cs" />
     <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
     <Compile Include="DataObjects\SupplierInfoDataObject.cs" />

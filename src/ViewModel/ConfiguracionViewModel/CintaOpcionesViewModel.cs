@@ -25,10 +25,7 @@ namespace KarveCar.ViewModel.ConfiguracionViewModel
         #region Commands
         public ICommand CintaOpcionesCommand
         {
-            get
-            {
-                return cintaopcionescommand;
-            }
+            get { return cintaopcionescommand; }
         }
         #endregion
 

@@ -96,11 +96,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -129,11 +129,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -162,11 +162,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -195,11 +195,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -228,11 +228,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -261,11 +261,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0; //(object)DBNull.Value;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0; //(object)DBNull.Value;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion

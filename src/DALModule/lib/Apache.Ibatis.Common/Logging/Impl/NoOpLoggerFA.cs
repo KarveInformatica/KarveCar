@@ -34,8 +34,8 @@ namespace Apache.Ibatis.Common.Logging.Impl
 	/// return false.
 	/// </summary>
 	/// <remarks>
-	/// This factory creates a single instance of <see cref="NoOpLogger" /> and always returns that 
-	/// instance whenever an <see cref="ILog" /> instance is requested.
+	/// This factory creates a single instance of <see cref="NoOpLogger"/> and always returns that 
+	/// instance whenever an <see cref="ILog"/> instance is requested.
 	/// </remarks>
 	public sealed class NoOpLoggerFA : ILoggerFactoryAdapter
 	{

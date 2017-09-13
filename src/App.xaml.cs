@@ -6,7 +6,7 @@ namespace KarveCar
     /// </summary>
     public partial class App : Application
     {
-       Bootstrapper bootstrapper;
+        Bootstrapper bootstrapper;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

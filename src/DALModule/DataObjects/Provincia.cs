@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class Provincia : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Provincia() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public Provincia() { this.ControlCambio = EControlCambio.Null; }
         public Provincia(string codigo, string definicion, string prefijo, string abreviatura, 
                          string capital, string ultimamodificacion, string usuario)
         {
@@ -99,14 +99,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

@@ -21,13 +21,13 @@ namespace KarveCar.Logic.Maestros
         /// <param name="opcion"></param>
         public static async Task PrepareTabItemDataGrid(EOpcion opcion)
         {
-            if (tabitemdictionary.Count(p => p.Key == opcion) == 0)
+            if (!tabitemdictionary.ContainsKey(opcion))
             {
                 //Se recuperan los datos de la correspondiente tabla de la BBDD según la EOpcion recibida por params                
                 // TODO: remove all this make in a way that it is using all the aux.
                 string nombretabladb = ribbonbuttondictionary.FirstOrDefault(z => z.Key == opcion).Value.nombretabladb;
                 string sql = string.Format(ScriptsSQL.SELECT_ALL_BASICA, nombretabladb);
-                GenericObservableCollection genericobscollection = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDBObsCollection(opcion, sql));
+                GenericObservableCollection genericobscollection = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(opcion, sql));
 
                 //Se crea un nuevo DataGrid dentro de un nuevo TabItem con los datos del GenericObservableCollection           
                 CreateTabItemDataGrid(opcion, genericobscollection);                
@@ -90,7 +90,7 @@ namespace KarveCar.Logic.Maestros
                 datagrid.ItemsSource = genericobscollection.GenericObsCollection;
 
                 //Se crea el Tabitem
-                TabItem tabitem = TabItemLogic.CreateTabItem(opcion);
+                TabItemUserControl tabitem = TabItemLogic.CreateTabItem(opcion);
 
                 //Se añade el EOpcion, el GenericObservableCollection recibido por params (como origin y copy) y el nuevo TabItem,  
                 //al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos

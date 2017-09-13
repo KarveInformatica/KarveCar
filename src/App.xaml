@@ -1,33 +1,55 @@
 ﻿<Application x:Class="KarveCar.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:KarveCar"
-             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-             xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
-             xmlns:cfg="clr-namespace:KarveCar.ViewModel.ConfiguracionViewModel"
              xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
-             xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel">
+             xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel"
+             xmlns:cfg="clr-namespace:KarveCar.ViewModel.ConfiguracionViewModel">
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ReuxablesLegacy;component/mercury.xaml" />
-                <ResourceDictionary Source="./View/StyledWindow.xaml" />
+                <ResourceDictionary Source="/ReuxablesLegacy;component/mercury.xaml"/>
+                <ResourceDictionary Source="./View/StyledWindow.xaml"/>
 
                 <ResourceDictionary>
                     <Style x:Key="MyWindowStyle" TargetType="Window">
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="FontFamily" Value="Arial" />
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="FontFamily" Value="Arial"/>
                     </Style>
 
                     <Style x:Key="MyPageStyle" TargetType="Page">
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="FontFamily" Value="Arial" />
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="FontFamily" Value="Arial"/>
                     </Style>
                     
+                    <!--Pone el Background en LightGray los TextBox que son sólo lectura-->
+                    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="Background" Value="LightGray"/>
+                                <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
+            <!--Converters-->
+            <converter:MultiCommandParameterConverter x:Key="multiCommandParameterConverter"/>
+            <converter:NullByteConverter     x:Key="nullByteConverter"/>
+            <converter:NullDateConverter     x:Key="nullDateConverter"/>
+            <converter:NullDecimalConverter  x:Key="nullDecimalConverter"/>
+            <converter:NullDoubleConverter   x:Key="nullDoubleConverter"/>
+            <converter:NullIntegerConverter  x:Key="nullIntegerConverter"/>
+            <converter:NullLongConverter     x:Key="nullLongConverter"/>
+            <converter:NullShortConverter    x:Key="nullShortConverter"/>
+            <converter:SqlInjectionCodigoConverter    x:Key="sqlInjectionCodigoConverter"/>
+            <converter:SqlInjectionConverter x:Key="sqlInjectionConverter"/>
+            
+            
+            <!--ViewModels-->
             <!-- Generic -->
             <ObjectDataProvider x:Key="ResourceLanguage" 
                                 ObjectType="{x:Type lang:ChangeLanguageLogic}" 
@@ -39,14 +61,16 @@
 
          
             <!-- Maestros-->
-            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
             <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
+            <ms:MarcaViewModel             x:Key="marcaViewModel"/>
             <ms:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
             <ms:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
+            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            
             <!-- Configuracion-->
             <cfg:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>
         
     </Application.Resources>
-  
-</Application>
+</Application>  
+

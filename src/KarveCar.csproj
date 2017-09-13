@@ -139,8 +139,7 @@
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
-    <Compile Include="Commands\MaestrosCommand\ShowTipoVehiculoUserControlCommand.cs" />
-    <Compile Include="Commands\MaestrosCommand\ShowGrupoVehiculoUserControlCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\MarcaCommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
@@ -155,7 +154,9 @@
     <Compile Include="Model\SQL\ScriptsSQLOthers.cs" />
     <Compile Include="Model\SQL\ScriptsSQLDelete.cs" />
     <Compile Include="Model\SQL\ScriptsSQLSelect.cs" />
-    <Compile Include="Utility\GetValuesFromDBGeneric.cs" />
+    <Compile Include="Utility\AdvanceEnterKey.cs" />
+    <Compile Include="Utility\ManageDataTable.cs" />
+    <Compile Include="Utility\ManageDBGeneric.cs" />
     <Compile Include="Model\Sybase\DBConnect.cs" />
     <Compile Include="Model\Sybase\ErrorsDB.cs" />
     <Compile Include="Model\Sybase\ErrorsGeneric.cs" />
@@ -196,15 +197,31 @@
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
     <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
+    <Compile Include="View\MarcaDataGridUserControl.xaml.cs">
+      <DependentUpon>MarcaDataGridUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarcaUserControl.xaml.cs">
+      <DependentUpon>MarcaUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProveedorMarcaDataGridUserControl.xaml.cs">
+      <DependentUpon>ProveedorMarcaDataGridUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PruebasUserControl.xaml.cs">
+      <DependentUpon>PruebasUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TipoVehiculoDataGridUserControl.xaml.cs">
+      <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
@@ -219,14 +236,31 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TipoVehiculoDataGridUserControl.xaml.cs">
-      <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
-    </Compile>
     <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GrupoVehiculoUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MarcaDataGridUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GrupoVehiculoUserControl.xaml">
+    <Page Include="View\MarcaUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProveedorMarcaDataGridUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PruebasUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TipoVehiculoDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -251,10 +285,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TabItemUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\TipoVehiculoDataGridUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -448,6 +478,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\paymentTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

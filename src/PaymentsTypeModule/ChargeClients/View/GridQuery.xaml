@@ -12,7 +12,7 @@
              d:DesignHeight="500" d:DesignWidth="300">
     <i:Interaction.Triggers>
         <interactionRequest:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">
-            <interactionRequest:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True" />
+            <interactionRequest:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True"/>
         </interactionRequest:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <Grid Grid.IsSharedSizeScope="True" VerticalAlignment="Top" ShowGridLines="false">
@@ -49,9 +49,9 @@
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Codigo" AllowAutoFilter="True" Width="30*" Binding="{Binding Codigo}"
-                    />
+                   />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="70*" Binding="{Binding Definicion}"
-                    />
+                   />
                 </DataGrid.Columns>
             </extendedGridControl:ExtendedDataGrid>
         </StackPanel>

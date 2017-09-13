@@ -59,8 +59,8 @@ vs:defaultnsprefix="" >
 			</xs:sequence>
 			<xs:attribute name="id" type="xs:string" use="required"/>
 			<xs:attribute name="share" type="xs:string"  default="false"/>
-			<xs:attribute name="flushInterval" type="xs:positiveInteger"  />
-			<xs:attribute name="size" type="xs:positiveInteger"  />
+			<xs:attribute name="flushInterval" type="xs:positiveInteger" />
+			<xs:attribute name="size" type="xs:positiveInteger" />
 			<xs:attribute name="type" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -95,8 +95,8 @@ vs:defaultnsprefix="" >
 				<xs:element ref="iterate"/>
 			</xs:choice>
 			<xs:attribute name="id" type="xs:string" use="required"/>
-			<xs:attribute name="parameterMap" type="xs:string" />
-			<xs:attribute name="parameterClass" type="xs:string" />
+			<xs:attribute name="parameterMap" type="xs:string"/>
+			<xs:attribute name="parameterClass" type="xs:string"/>
 			<xs:attribute name="resultMap" type="xs:string"/>
 			<xs:attribute name="resultClass" type="xs:string"/>
 			<xs:attribute name="cacheModel" type="xs:string"/>
@@ -613,7 +613,7 @@ vs:defaultnsprefix="" >
 				<xs:element ref="parameter" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="id" type="xs:string" use="required"/>
-			<xs:attribute name="class" type="xs:string" />
+			<xs:attribute name="class" type="xs:string"/>
 			<xs:attribute name="extends" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
@@ -762,7 +762,7 @@ vs:defaultnsprefix="" >
 				<xs:element ref="alias" minOccurs="0"/>
 				<xs:element ref="cacheModels" minOccurs="0"/>
 				<xs:element ref="resultMaps" minOccurs="0"/>
-				<xs:element ref="statements" minOccurs="0" />
+				<xs:element ref="statements" minOccurs="0"/>
 				<xs:element ref="parameterMaps" minOccurs="0"/>
 			</xs:all>
 			<xs:attribute name="namespace" type="xs:string" use="required"/>

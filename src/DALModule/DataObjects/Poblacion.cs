@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class Poblacion : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Poblacion() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public Poblacion() { this.ControlCambio = EControlCambio.Null; }
         public Poblacion(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,14 +62,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

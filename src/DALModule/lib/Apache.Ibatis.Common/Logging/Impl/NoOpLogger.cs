@@ -153,7 +153,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
         }
 
 		/// <summary>
-		/// Always returns <see langword="false" />.
+		/// Always returns <see langword="false"/>.
 		/// </summary>
 		public bool IsDebugEnabled
 		{
@@ -161,7 +161,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Always returns <see langword="false" />.
+		/// Always returns <see langword="false"/>.
 		/// </summary>
 		public bool IsErrorEnabled
 		{
@@ -170,7 +170,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Always returns <see langword="false" />.
+		/// Always returns <see langword="false"/>.
 		/// </summary>
 		public bool IsFatalEnabled
 		{
@@ -178,7 +178,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Always returns <see langword="false" />.
+		/// Always returns <see langword="false"/>.
 		/// </summary>
 		public bool IsInfoEnabled
 		{
@@ -186,7 +186,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Always returns <see langword="false" />.
+		/// Always returns <see langword="false"/>.
 		/// </summary>
 		public bool IsWarnEnabled
 		{

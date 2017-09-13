@@ -31,7 +31,7 @@ using System.Collections.Specialized;
 namespace Apache.Ibatis.Common.Logging.Impl
 {
 	/// <summary>
-	/// Factory for creating <see cref="ILog" /> instances that write data to <see cref="Console.Out" />.
+	/// Factory for creating <see cref="ILog"/> instances that write data to <see cref="Console.Out"/>.
 	/// </summary>
 	public sealed class ConsoleOutLoggerFA: ILoggerFactoryAdapter 
 	{
@@ -43,7 +43,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 
 		/// <summary>
 		/// Looks for level, showDateTime, showLogName, dateTimeFormat items from 
-		/// <paramref name="properties" /> for use when the GetLogger methods are called.
+		/// <paramref name="properties"/> for use when the GetLogger methods are called.
 		/// </summary>
 		/// <param name="properties">Contains user supplied configuration information.</param>
 		public ConsoleOutLoggerFA(NameValueCollection properties)
@@ -78,10 +78,10 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		#region ILoggerFactoryAdapter Members
 
 		/// <summary>
-		/// Get a ILog instance by <see cref="Type" />.
+		/// Get a ILog instance by <see cref="Type"/>.
 		/// </summary>
-		/// <param name="type">Usually the <see cref="Type" /> of the current class.</param>
-		/// <returns>An ILog instance that will write data to <see cref="Console.Out" />.</returns>
+		/// <param name="type">Usually the <see cref="Type"/> of the current class.</param>
+		/// <returns>An ILog instance that will write data to <see cref="Console.Out"/>.</returns>
 		public ILog GetLogger(Type type)
 		{
 			return GetLogger( type.FullName );
@@ -90,8 +90,8 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		/// <summary>
 		/// Get a ILog instance by name.
 		/// </summary>
-		/// <param name="name">Usually a <see cref="Type" />'s Name or FullName property.</param>
-		/// <returns>An ILog instance that will write data to <see cref="Console.Out" />.</returns>
+		/// <param name="name">Usually a <see cref="Type"/>'s Name or FullName property.</param>
+		/// <returns>An ILog instance that will write data to <see cref="Console.Out"/>.</returns>
 		public ILog GetLogger(string name)
 		{
 			ILog log = _logs[name] as ILog;

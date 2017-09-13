@@ -6,7 +6,7 @@ namespace KarveCommon.Generic
 {
     public class GenericObjectHelper
     {      
-        static readonly string HelperColumn = "ControlCambioDataGrid"; 
+        static readonly string HelperColumn = "ControlCambio"; 
 
         /// <summary>
         /// Crea un objeto del tipo del objeto(objoriginal) pasado por params

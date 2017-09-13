@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class Divisa : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Divisa() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public Divisa() { this.ControlCambio = EControlCambio.Null; }
         public Divisa(string codigo, string definicion, decimal compra, decimal venta, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -86,14 +86,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

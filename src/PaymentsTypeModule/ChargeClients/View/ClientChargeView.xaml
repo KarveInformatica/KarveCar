@@ -16,7 +16,7 @@
 
     <i:Interaction.Triggers>
         <mvvm1:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">
-            <mvvm1:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True" />
+            <mvvm1:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True"/>
         </mvvm1:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 <Grid>
@@ -33,7 +33,7 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Name="ChargeState" Height="20" Width="100" Content="{Binding ChargeStateProperties}" />
+            <Label Name="ChargeState" Height="20" Width="100" Content="{Binding ChargeStateProperties}"/>
             <Label Name="LastUserTextBox"  Height="20" Width="100" Content="{Binding LastUser}"/>
             <Label Name="LastModificationTextBox" Height="20" Width="100" Content="{Binding LastModificationTime}"/>
         </StackPanel>
@@ -82,7 +82,7 @@
                                 <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
                                    
                                                 <Binding.ValidationRules>
-                                        <validationRules:NumberValidationRule />
+                                        <validationRules:NumberValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                               </TextBox.Text>

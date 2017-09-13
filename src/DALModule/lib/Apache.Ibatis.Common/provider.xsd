@@ -23,13 +23,13 @@ vs:defaultnsprefix="">
 		<xs:attribute name="enabled" type="xs:boolean"/>
 		<xs:attribute name="default" type="xs:boolean"/>
 		<xs:attribute name="assemblyName" type="xs:string" use="required"/>
-		<xs:attribute name="connectionClass" use="required" type="xs:string" />
-		<xs:attribute name="commandClass" use="required" type="xs:string" />
-		<xs:attribute name="parameterClass" use="required" type="xs:string" />
+		<xs:attribute name="connectionClass" use="required" type="xs:string"/>
+		<xs:attribute name="commandClass" use="required" type="xs:string"/>
+		<xs:attribute name="parameterClass" use="required" type="xs:string"/>
 		<xs:attribute name="parameterDbTypeClass" type="xs:string" use="required"/>
-		<xs:attribute name="parameterDbTypeProperty" use="required" type="xs:string" />
-		<xs:attribute name="commandBuilderClass" use="required" type="xs:string" />
-		<xs:attribute name="usePositionalParameters" use="required" type="xs:string" />
+		<xs:attribute name="parameterDbTypeProperty" use="required" type="xs:string"/>
+		<xs:attribute name="commandBuilderClass" use="required" type="xs:string"/>
+		<xs:attribute name="usePositionalParameters" use="required" type="xs:string"/>
 		<xs:attribute name="useParameterPrefixInSql" use="required" type="xs:boolean"/>
 		<xs:attribute name="useParameterPrefixInParameter" use="required" type="xs:boolean"/>
 		<xs:attribute name="parameterPrefix"  type="xs:string"/>

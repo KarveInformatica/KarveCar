@@ -4,47 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:local="clr-namespace:KarveCar.View"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
+             xmlns:local="clr-namespace:KarveCar.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
-             mc:Ignorable="d">
+             mc:Ignorable="d" >
 
     <Grid>
-        <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">-->
         <extendedGridControl:ExtendedDataGrid x:Name="dtgrTipoVehiculos"                                                   
                                               ItemsSource="{Binding TipoVehiculoDataTable}" 
                                               SelectedValue="False"
                                               RowHeaderWidth="12"  
-                                              SearchAutoFilterVisibility="Visible"
                                               AutoFilterFontSize="12"
-                                              GroupByControlVisibility="Collapsed"
+                                              GroupByControlVisibility="Visible"
+                                              SearchAutoFilterVisibility="Visible"
                                               AutoGenerateColumns="False" 
-                                              HideColumnChooser="False" 
-                                              IsSynchronizedWithCurrentItem="True" 
-                                              SelectionMode="Extended" 
+                                              HideColumnChooser="True" 
+                                              IsSynchronizedWithCurrentItem="False" 
+                                              SelectionMode="Single" 
                                               SelectionUnit="FullRow"
-                                              IsReadOnly="True">
+                                              IsReadOnly="True"
+                                              Theme="Office2007Silver">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding TipoVehiculoSelectionChanged}" 
                                            CommandParameter="{Binding ElementName=dtgrTipoVehiculos, Path=SelectedValue}">
-                        <!--<i:InvokeCommandAction.CommandParameter>
-                            <MultiBinding>
-                                <MultiBinding.Converter>
-                                    <converter:MultiCommandParameterConverter />
-                                </MultiBinding.Converter>
-                                <Binding ElementName="dtgrGruposVehiculos" Path="SelectedValue"/>
-                                <Binding ElementName="UserControl" Path="Name"/>
-                            </MultiBinding>
-                        </i:InvokeCommandAction.CommandParameter>-->
                     </i:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
             <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"     AllowAutoFilter="False" CanUserSort="True"  />
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}" AllowAutoFilter="False" CanUserSort="True"  />
+                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"     AllowAutoFilter="True" CanUserSort="True"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
             </DataGrid.Columns>
             <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                 <DataTemplate>
@@ -55,6 +45,5 @@
                 </DataTemplate>
             </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
         </extendedGridControl:ExtendedDataGrid>
-        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>

@@ -36,7 +36,7 @@ namespace Apache.Ibatis.DataMapper.Session
     public interface ISession : IDisposable
     {
         /// <summary>
-        /// Get the <see cref="ISessionFactory" /> that created this instance.
+        /// Get the <see cref="ISessionFactory"/> that created this instance.
         /// </summary>
         ISessionFactory SessionFactory { get; }
         
@@ -58,7 +58,7 @@ namespace Apache.Ibatis.DataMapper.Session
         /// <summary>
         /// End the <c>ISession</c> by disconnecting from the ADO.NET connection and cleaning up.
         /// </summary>
-        /// <returns>The connection provided by the DataMapper or <see langword="null" /></returns>
+        /// <returns>The connection provided by the DataMapper or <see langword="null"/></returns>
         IDbConnection Close();
 
         /// <summary>

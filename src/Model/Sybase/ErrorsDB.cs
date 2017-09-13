@@ -34,6 +34,22 @@ namespace KarveCar.Model.Sybase
                     //VariablesGlobales.Dictionary<EOpcion, DatosInfoRibbonButton>
                     ErrorsMessage.ShowMessage(e, Resources.msgError141);
                     break;
+                case -157: //Cannot convert a text to a date
+                    //Comprobar que se pase un valor válido como fecha
+                    ErrorsMessage.ShowMessage(e, Resources.msgError157);
+                    break;
+                case -158: //Value out of range for destination
+                    //Comprobar el tamaño del valor que se desea insertar
+                    ErrorsMessage.ShowMessage(e, Resources.msgError158);
+                    break;
+                case -193: //Primary key already exists
+                    //Comprobar que la clave primaria no exista en la tabla
+                    ErrorsMessage.ShowMessage(e, Resources.msgError193);
+                    break;
+                case -683: //Rigth truncation of string data
+                    //Comprobar la longitud del string que se desea insertar
+                    ErrorsMessage.ShowMessage(e, Resources.msgError683);
+                    break;
                 default:
                     ErrorsMessage.ShowMessage(e, "default");
                     break;

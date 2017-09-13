@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.DataObjects;
+using KarveCar.Commands.MaestrosCommand;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.SQL;
 using KarveCar.Utility;
@@ -19,6 +20,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
     public class GrupoVehiculoViewModel : BindableBase
     {
         #region Propiedades
+        private GrupoVehiculoUserControl thisusercontrol;
+
         private DataTable grupovehiculodatatable;
         public DataTable GrupoVehiculoDataTable
         {
@@ -30,7 +33,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
         }
 
-        public Task<DataTable> grupovehiculodatatabletask;
+        private Task<DataTable> grupovehiculodatatabletask;
         public Task<DataTable> GrupoVehiculoDataTableTask
         {
             get { return grupovehiculodatatabletask; }
@@ -63,7 +66,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
         }
 
-        public Task<DataTable> tipovehiculodatatabletask;
+        private Task<DataTable> tipovehiculodatatabletask;
         public Task<DataTable> TipoVehiculoDataTableTask
         {
             get { return tipovehiculodatatabletask; }
@@ -73,186 +76,237 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 RaisePropertyChanged("TipoVehiculoDataTableTask");
             }
         }
-        #endregion
 
-        #region Delegate - Event        
-        private delegate void NotifyOnLoad(DataTable newTable);
+        private DataTable preciopordefectodatatable;
+        public DataTable PrecioPorDefectoDataTable
+        {
+            get { return preciopordefectodatatable; }
+            set
+            {
+                preciopordefectodatatable = value;
+                RaisePropertyChanged("PrecioPorDefectoDataTable");
+            }
+        }
 
-        private event NotifyOnLoad notifyOnLoad;
+        private Task<DataTable> preciopordefectodatatabletask;
+        public Task<DataTable> PrecioPorDefectoDataTableTask
+        {
+            get { return preciopordefectodatatabletask; }
+            set
+            {
+                preciopordefectodatatabletask = value;
+                RaisePropertyChanged("PrecioPorDefectoDataTableTask");
+            }
+        }
         #endregion
 
         #region Constructor
         public GrupoVehiculoViewModel()
         {
-            this.grupovehiculocommand = new DelegateCommand<object>(GrupoVehiculo);
-            this.showgrupovehiculousercontrolcommand = new DelegateCommand<object>(ShowGrupoVehiculoUserControl);
-            this.showtipovehiculousercontrolcommand = new DelegateCommand<object>(ShowTipoVehiculoUserControl);
-            this.GrupoVehiculoSelectionChanged = new DelegateCommand<object>(OnSelectionChangedGrupoVehiculo);
-            this.TipoVehiculoSelectionChanged = new DelegateCommand<object>(OnSelectionChangedTipoVehiculo);
-            this.GrupoVehiculoSelectedItem = new GrupoVehiculoDataObject();
-            //this.grupovehiculodatatable = InitDataLayerGrupoVehiculoSync();
-            //this.grupovehiculodatatabletask = InitDataLayerGrupoVehiculoAsync();
+            this.grupovehiculocommand = new GrupoVehiculoCommand(this); //new DelegateCommand<object>(GrupoVehiculo);
         }
         #endregion
 
         #region Commands
-        public ICommand GrupoVehiculoSelectionChanged { get; set; }
-        public ICommand TipoVehiculoSelectionChanged { get; set; }
-
         private ICommand grupovehiculocommand;
         public ICommand GrupoVehiculoCommand
         {
-            get
-            {
-                return grupovehiculocommand;
-            }
+            get { return grupovehiculocommand; }
             set { grupovehiculocommand = value; }
         }
 
-        private ICommand showgrupovehiculousercontrolcommand;
-        public ICommand ShowGrupoVehiculoUserControlCommand
-        {
-            get
-            {
-                return showgrupovehiculousercontrolcommand;
-            }
-            set { showgrupovehiculousercontrolcommand = value; }
-        }
+        public ICommand ShowGrupoVehiculoUserControlCommand { get; set; }
+        public ICommand GrupoVehiculoSelectionChanged { get; set; }
+        public ICommand CodigoGrupoVehiculoLostFocus { get; set; }
 
-        private ICommand showtipovehiculousercontrolcommand;
-        public ICommand ShowTipoVehiculoUserControlCommand
-        {
-            get
-            {
-                return showtipovehiculousercontrolcommand;
-            }
-            set { showtipovehiculousercontrolcommand = value; }
-        }
+        public ICommand TipoVehiculoSelectionChanged { get; set; }
+        public ICommand CodigoTipoVehiculoLostFocus { get; set; }
         #endregion
 
-        private DataTable CopyToTable(GenericObservableCollection obs)
-        { // FIXME: possibly this method can be deleted, it is used generic method instead
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
-            dataTable.Columns.Add(new DataColumn("Definicion", typeof(string)));
-            dataTable.Columns.Add(new DataColumn("Acriss", typeof(string)));
-            dataTable.Columns.Add(new DataColumn("Modelo", typeof(string)));
-            dataTable.Columns.Add(new DataColumn("TipoVehiculoCodigo", typeof(char)));
-            foreach (var item in obs.GenericObsCollection)
-            {
-                GrupoVehiculoDataObject dataObject = item as GrupoVehiculoDataObject;
-                if (dataObject != null)
-                {
-                    var row = dataTable.NewRow();
-                    row["Codigo"] = dataObject.Codigo;
-                    row["Definicion"] = dataObject.Definicion;
-                    row["Acriss"] = dataObject.Acriss;
-                    row["Modelo"] = dataObject.Modelo;
-                    row["TipoVehiculoCodigo"] = dataObject.TipoVehiculoCodigo;
-                    dataTable.Rows.Add(row);
-                    dataTable.AcceptChanges();
-                }
-            }
-            return dataTable;
-        }
-
+        #region InitDataLayer
         private DataTable InitDataLayerGrupoVehiculoSync()
         {            
             string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = GetValuesFromDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql);
-            return ManageGenericObject.ObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
-            //return GetValuesFromDBGeneric.GetValuesFromDbDataTable(sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql);
+            return ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
+            //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
 
         private async Task<DataTable> InitDataLayerGrupoVehiculoAsync()
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql));
-            return ManageGenericObject.ObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
-            //return await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDbDataTable(sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql));
+            return ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
+            //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
 
         private DataTable InitDataLayerTipoVehiculoSync()
         {
             string sql = string.Format(ScriptsSQL.SELECT_TIPO_VEHICULO);
-            GenericObservableCollection obs = GetValuesFromDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnTiposVehiculos, sql);
-            return ManageGenericObject.ObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
-            //return GetValuesFromDBGeneric.GetValuesFromDbDataTable(sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnTiposVehiculos, sql);
+            return ManageDataTable.ConvertObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
+            //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
 
         private async Task<DataTable> InitDataLayerTipoVehiculoAsync()
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_TIPO_VEHICULO);
-            GenericObservableCollection obs = await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnTiposVehiculos, sql));
-            return ManageGenericObject.ObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
-            //return await Task.Run(() => GetValuesFromDBGeneric.GetValuesFromDbDataTable(sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnTiposVehiculos, sql));
+            return ManageDataTable.ConvertObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
+            //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
 
-        private void SetTable(DataTable newTable)
+        private void InitDataLayerPrecioPorDefectoSync(string codigoGrupoVehiculo)
         {
-            this.GrupoVehiculoDataTable = newTable;
+            string sql = string.Format(ScriptsSQL.SELECT_PRECIO_POR_DEFECTO, codigoGrupoVehiculo);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
+            this.PrecioPorDefectoDataTable = ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoPrecioPorDefectoDataObject>(obs);
+            ShowPrecioPorDefecto(obs.GenericObsCollection.Count);
         }
 
-        private void OnSelectionChangedGrupoVehiculo(object dataRowView)
+        private void InitDataLayerPrecioPorDefectoAsync(string codigoGrupoVehiculo)
         {
-            DataRowView rowView = dataRowView as DataRowView;
-            this.GrupoVehiculoSelectedItem = ManageGenericObject.DataRowViewToObject<GrupoVehiculoDataObject>(rowView);
+            // FIXME: move all this to DataMapper.
+            string sql = string.Format(ScriptsSQL.SELECT_PRECIO_POR_DEFECTO, codigoGrupoVehiculo);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
+            //this.preciopordefectodatatabletask = ManageGenericObject.ConvertObsCollectionToDataTable<GrupoVehiculoPrecioPorDefectoDataObject>(obs);
         }
+        #endregion
 
-        private void OnSelectionChangedTipoVehiculo(object dataRowView)
+        #region EventTriggers
+        private void OnCodigoGrupoVehiculoLostFocus(object text)
         {
-            DataRowView rowView = dataRowView as DataRowView;
-            TipoVehiculo tipo = ManageGenericObject.DataRowViewToObject<TipoVehiculo>(rowView);
-            if (tipo != null)
+            if (text != null)
             {
-                this.GrupoVehiculoSelectedItem.TipoVehiculoCodigo = tipo.Codigo[0];
-                this.GrupoVehiculoSelectedItem.TipoVehiculoDescripcion = tipo.Definicion;
+                string codigo = text as string;
+                DataRowView dataRowView = null;
+                foreach (DataRowView tempRowView in this.GrupoVehiculoDataTable.DefaultView)
+                {
+                    if (tempRowView.Row.Field<string>("Codigo").ToLower() == codigo.ToLower())
+                    {
+                        dataRowView = tempRowView;
+                        break;
+                    }
+                }                
+                OnGrupoVehiculoSelectionChanged(dataRowView);
             }
         }
+
+        private void OnGrupoVehiculoSelectionChanged(object dataRowView)
+        {
+            if (dataRowView != null)
+            {
+                DataRowView rowView = dataRowView as DataRowView;
+                this.GrupoVehiculoSelectedItem = ManageDataTable.ConvertDataRowViewToObject<GrupoVehiculoDataObject>(rowView);
+                InitDataLayerPrecioPorDefectoSync(this.GrupoVehiculoSelectedItem.Codigo);
+                this.thisusercontrol.gridsplitter.Visibility = Visibility.Visible;
+                this.thisusercontrol.wrpGruposVehiculo.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void OnCodigoTipoVehiculoLostFocus(object text)
+        {
+            if (text != null)
+            {
+                string codigo = text as string;
+                DataRowView dataRowView = null;
+                foreach (DataRowView tempRowView in this.TipoVehiculoDataTable.DefaultView)
+                {
+                    if (tempRowView.Row.Field<string>("Codigo").ToLower() == codigo.ToLower())
+                    {
+                        dataRowView = tempRowView;
+                        break;
+                    }
+                }
+                OnTipoVehiculoSelectionChanged(dataRowView);
+            }
+        }
+
+        private void OnTipoVehiculoSelectionChanged(object dataRowView)
+        {              
+            if (dataRowView != null)
+            {
+                DataRowView rowView = dataRowView as DataRowView;
+                TipoVehiculo tipovehiculo = ManageDataTable.ConvertDataRowViewToObject<TipoVehiculo>(rowView);
+                if (tipovehiculo != null)
+                {
+                    if (this.GrupoVehiculoSelectedItem == null)
+                    {
+                        this.GrupoVehiculoSelectedItem = new GrupoVehiculoDataObject();
+                    }
+                    this.GrupoVehiculoSelectedItem.TipoVehiculoCodigo = tipovehiculo.Codigo;//tipo.Codigo[0];
+                    this.GrupoVehiculoSelectedItem.TipoVehiculoDescripcion = tipovehiculo.Definicion;
+                }
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Crea el TabItem para CRUD los Grupos de Vehículos. Se cargan los datos de la BBDD en el GenericObsCollection del tabitemdictionary
         /// </summary>
         /// <param name="parameter"></param>
-        private void GrupoVehiculo(object parameter)
+        public void GrupoVehiculo(object parameter)
         {
-            EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;            
+            EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;          
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                GrupoVehiculoUserControl obj = new GrupoVehiculoUserControl();
-                // FIXME: this is a sign of a bad code organization. The use of region prevent all this.        
-                obj.grupoVehiculoDataGridUC.dtgrGruposVehiculos.Items.Clear();
-                //obj.grupoVehiculoDataGridUC.DataContext = this;
-                TabItemLogic.CreateTabItemUserControl(opcion, obj);
-                this.grupovehiculodatatable = InitDataLayerGrupoVehiculoSync();
-                this.tipovehiculodatatable = InitDataLayerTipoVehiculoSync();
+                if (!tabitemdictionary.ContainsKey(opcion))
+                {
+                    this.ShowGrupoVehiculoUserControlCommand = new DelegateCommand<object>(ShowGrupoVehiculoUserControl);
+                    this.GrupoVehiculoSelectionChanged = new DelegateCommand<object>(OnGrupoVehiculoSelectionChanged);
+                    this.CodigoGrupoVehiculoLostFocus = new DelegateCommand<object>(OnCodigoGrupoVehiculoLostFocus);
+
+                    this.TipoVehiculoSelectionChanged = new DelegateCommand<object>(OnTipoVehiculoSelectionChanged);
+                    this.CodigoTipoVehiculoLostFocus = new DelegateCommand<object>(OnCodigoTipoVehiculoLostFocus);
+
+                    thisusercontrol = new GrupoVehiculoUserControl();
+                    // FIXME: this is a sign of a bad code organization. The use of region prevent all this.        
+                    thisusercontrol.grupoVehiculoDataGridUC.dtgrGruposVehiculos.Items.Clear();
+                    //obj.grupoVehiculoDataGridUC.DataContext = this;
+                    TabItemLogic.CreateTabItemUserControl(opcion, thisusercontrol);
+                    this.GrupoVehiculoDataTable = InitDataLayerGrupoVehiculoSync(); //InitDataLayerGrupoVehiculoAsync();
+                    this.TipoVehiculoDataTable  = InitDataLayerTipoVehiculoSync();  //InitDataLayerTipoVehiculoAsync();
+                }
+                else
+                {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
+                    tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.TabItem.Focus();
+                }
             }
         }
 
+        #region Show Usercontrols and DataGrid PreciosPorDefecto        
+        /// <summary>
+        /// Hace visible/hidden el GridSplitter, GrupoVehiculoUserControl y TipoVehiculoUserControl según el param
+        /// </summary>
+        /// <param name="parameter"></param>
         public void ShowGrupoVehiculoUserControl(object parameter)
         {
-            GrupoVehiculoUserControl obj = parameter as GrupoVehiculoUserControl;
-            if (obj != null)
+            switch (parameter.ToString())
             {
-                obj.gridsplitter.Visibility = Visibility.Visible;
-                obj.grupoVehiculoDataGrid.Visibility = Visibility.Visible;
-                obj.tipoVehiculoDataGrid.Visibility = Visibility.Hidden;
+                case "grupoVehiculoUserControl":
+                    this.thisusercontrol.grupoVehiculoDataGrid.Visibility = Visibility.Visible;
+                    this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Hidden;
+                    break;
+                case "tipoVehiculoUserControl":
+                    this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Visible;
+                    this.thisusercontrol.grupoVehiculoDataGrid.Visibility = Visibility.Hidden;
+                    break;
+                default:
+                    break;
             }
         }
-        
-        public void ShowTipoVehiculoUserControl(object parameter)
+
+        /// <summary>
+        /// Dependiendo de los valores devueltos según el Codigo de TipoVehiculo, hace visible o hidden el DataGrid PreciosPorDefecto
+        /// </summary>
+        /// <param name="codigoGrupoVehiculo"></param>
+        private void ShowPrecioPorDefecto(int codigoGrupoVehiculo)
         {
-            GrupoVehiculoUserControl obj = parameter as GrupoVehiculoUserControl;
-            if (obj != null)
-            {
-                obj.gridsplitter.Visibility = Visibility.Visible;
-                obj.tipoVehiculoDataGrid.Visibility = Visibility.Visible;
-                obj.grupoVehiculoDataGrid.Visibility = Visibility.Hidden;
-            }
+            this.thisusercontrol.grbPreciosPorDefecto.Visibility = codigoGrupoVehiculo == 0 ? Visibility.Hidden : Visibility.Visible;
         }
         #endregion
     }

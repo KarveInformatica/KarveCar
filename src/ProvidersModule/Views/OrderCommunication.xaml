@@ -12,9 +12,9 @@
             <TextBlock Text="{TemplateBinding Content}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="FontFamily" Value="Times New Roman" />
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontFamily" Value="Times New Roman"/>
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
@@ -25,7 +25,7 @@
         <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="FontFamily" Value="Tahoma"/>
         </Style>
 
         <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
@@ -37,8 +37,8 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0"
                         Orientation="Horizontal"
@@ -56,10 +56,10 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox Name="OrderWay" Width="100" Grid.Column="0" />
+                <TextBox Name="OrderWay" Width="100" Grid.Column="0"/>
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Top">
@@ -74,10 +74,10 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox Name="SellConditionWay" Width="100" Grid.Column="0" />
+                <TextBox Name="SellConditionWay" Width="100" Grid.Column="0"/>
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Top">
@@ -92,8 +92,8 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
                 <Button  Name="SendMailButton" HorizontalAlignment="Left"  Command="{Binding SendMailButton}" 
@@ -103,7 +103,7 @@
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -119,8 +119,8 @@
             <xcdg:DataGridCollectionViewSource x:Key="deliveringOrders" 
                                                Source="{Binding}">
                 <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="ShipCountry" />
-                    <PropertyGroupDescription PropertyName="ShipCity" />
+                    <PropertyGroupDescription PropertyName="ShipCountry"/>
+                    <PropertyGroupDescription PropertyName="ShipCity"/>
                 </xcdg:DataGridCollectionViewSource.GroupDescriptions>
             </xcdg:DataGridCollectionViewSource>
         </Grid.Resources>
@@ -139,22 +139,22 @@
                              Title="Via"
                              Width="140"
                              CellContentTemplate="{StaticResource ViaDataTemplate}" 
-                             />
+                            />
                 <xcdg:Column FieldName="Email"
                                  CellContentTemplate="{StaticResource EmailDataTemplate}" 
                              Title="Email"
                              Width="80"
-                             />
+                            />
                 <xcdg:Column FieldName="DeliveringDate"
                              Title="Fecha de Entrega"
                              Width="150" 
                              CellContentTemplate="{StaticResource DeliveringDateDataTemplate}" 
-                             />
+                            />
                 <xcdg:Column FieldName="SellCondition"
                              Title="Condición de Venta"
                              Width="170" 
                              CellContentTemplate="{StaticResource SellConditionDataTemplate}" 
-                             />
+                            />
                 
             </xcdg:DataGridControl.Columns>
         </xcdg:DataGridControl>

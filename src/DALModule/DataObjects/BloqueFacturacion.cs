@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class BloqueFacturacion : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public BloqueFacturacion() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public BloqueFacturacion() { this.ControlCambio = EControlCambio.Null; }
         public BloqueFacturacion(string codigo, string definicion)
         {
             this.codigo = codigo;
@@ -60,14 +60,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

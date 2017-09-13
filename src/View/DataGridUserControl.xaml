@@ -8,7 +8,6 @@
           xmlns:vr="clr-namespace:KarveCar.Utility"
           mc:Ignorable="d"      
           HorizontalAlignment="Left"
-          Background="{StaticResource WindowBackgroundBrush}" 
           AlternatingRowBackground="WhiteSmoke" 
           AutoGenerateColumns="True"
           IsReadOnly="False"
@@ -22,9 +21,10 @@
           CanUserSortColumns="True"
           FrozenColumnCount="1"
           PreviewKeyDown="DataGrid_PreviewKeyDown" 
-          RowEditEnding="DataGrid_RowEditEnding">
+          RowEditEnding="DataGrid_RowEditEnding"
+          ScrollViewer.CanContentScroll="True">
 
     <DataGrid.RowValidationRules>
-        <vr:ValidationRuleDataGrid ValidationStep="UpdatedValue"></vr:ValidationRuleDataGrid>
+        <vr:ValidationRuleDataGrid ValidationStep="UpdatedValue"/>
     </DataGrid.RowValidationRules>
 </DataGrid>

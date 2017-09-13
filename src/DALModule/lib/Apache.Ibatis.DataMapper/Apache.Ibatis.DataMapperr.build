@@ -11,17 +11,17 @@
 		<csc target="library" define="${current.build.defines}" warnaserror="false"  
 		debug="${build.debug}" output="${build.dir}/${project.config}/bin/${nant.project.name}.dll" doc="${build.dir}/${project.config}/bin/${nant.project.name}.xml">
             <nowarn>
-				<warning number="${nowarn.numbers}" />
+				<warning number="${nowarn.numbers}"/>
 			</nowarn>
 			<sources failonempty="true">
-                <include name="**/*.cs" />
+                <include name="**/*.cs"/>
             </sources>
             <resources basedir="." prefix="IBatisNet.DataMapper.">
-                <include name="SqlMapConfig.xsd" />
-                <include name="SqlMap.xsd" />
+                <include name="SqlMapConfig.xsd"/>
+                <include name="SqlMap.xsd"/>
             </resources>
             <resources basedir="Resources">
-                <include name="**/*" />
+                <include name="**/*"/>
             </resources>
             <references basedir="${build.dir}/${project.config}/bin">
                 <include name="*.dll"/>

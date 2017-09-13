@@ -31,7 +31,7 @@ using System.Text;
 namespace Apache.Ibatis.Common.Logging.Impl
 {
 	/// <summary>
-	/// Sends log messages to <see cref="Console.Out" />.
+	/// Sends log messages to <see cref="Console.Out"/>.
 	/// </summary>
 	public class ConsoleOutLogger : AbstractLogger
 	{
@@ -43,7 +43,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
         private readonly bool _hasDateTimeFormat = false;
 
 		/// <summary>
-		/// Creates and initializes a logger that writes messages to <see cref="Console.Out" />.
+		/// Creates and initializes a logger that writes messages to <see cref="Console.Out"/>.
 		/// </summary>
 		/// <param name="logName">The name, usually type name of the calling class, of the logger.</param>
 		/// <param name="logLevel">The current logging threshold. Messages recieved that are beneath this threshold will not be logged.</param>
@@ -66,12 +66,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Do the actual logging by constructing the log message using a <see cref="StringBuilder" /> then
-		/// sending the output to <see cref="Console.Out" />.
+		/// Do the actual logging by constructing the log message using a <see cref="StringBuilder"/> then
+		/// sending the output to <see cref="Console.Out"/>.
 		/// </summary>
-		/// <param name="level">The <see cref="LogLevel" /> of the message.</param>
+		/// <param name="level">The <see cref="LogLevel"/> of the message.</param>
 		/// <param name="message">The log message.</param>
-		/// <param name="e">An optional <see cref="Exception" /> associated with the message.</param>
+		/// <param name="e">An optional <see cref="Exception"/> associated with the message.</param>
 		protected override void Write( LogLevel level, object message, Exception e )
 		{
 			// Use a StringBuilder for better performance

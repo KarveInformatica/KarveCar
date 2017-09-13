@@ -20,7 +20,7 @@ namespace KarveCar.Logic.Generic
         /// </summary>
         /// <param name="opcion"></param>
         /// <returns></returns>
-        public static TabItem CreateTabItem(EOpcion opcion)
+        public static TabItemUserControl CreateTabItem(EOpcion opcion)
         {
             TabItemUserControl tbitem = new TabItemUserControl();
             var binding = new Binding();
@@ -47,10 +47,10 @@ namespace KarveCar.Logic.Generic
         {
             try
             {
-                if (tabitemdictionary.Count(p => p.Key == opcion) == 0)
+                if (!tabitemdictionary.ContainsKey(opcion))
                 {
                     //Se crea el Tabitem
-                    TabItem tabitem = CreateTabItem(opcion);
+                    TabItemUserControl tabitem = CreateTabItem(opcion);
 
                     //Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
                     tabitemdictionary.Add(opcion, new TemplateInfoTabItem(tabitem));

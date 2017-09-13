@@ -35,7 +35,7 @@ namespace Apache.Ibatis.DataMapper.Session
 {
     /// <summary>
     /// Default implementation of the <see cref="ISessionFactory"/> contract. 
-    /// Create <see cref="ISession" /> instance.
+    /// Create <see cref="ISession"/> instance.
     /// </summary>
     public class DefaultSessionFactory : ISessionFactory
     {

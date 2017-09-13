@@ -36,9 +36,9 @@ namespace Apache.Ibatis.DataMapper.Data
 	{
 
 		/// <summary>
-		///  Creates a DataReaderAdapter from a <see cref="IDataReader" />
+		///  Creates a DataReaderAdapter from a <see cref="IDataReader"/>
 		/// </summary>
-		/// <param name="reader">The <see cref="IDataReader" /> which holds the records from the Database.</param>
+		/// <param name="reader">The <see cref="IDataReader"/> which holds the records from the Database.</param>
 		/// <param name="dbProvider">The databse provider <see cref="IDbProvider"/></param>
 		public static IDataReader Transform(IDataReader reader, IDbProvider dbProvider)
 		{

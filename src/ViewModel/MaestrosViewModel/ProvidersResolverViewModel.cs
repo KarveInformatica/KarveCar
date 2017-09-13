@@ -53,7 +53,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
-            var opcion = RecopilatorioEnumerations.EOpcion.rbtnProveedores;
+            EOpcion opcion = EOpcion.rbtnProveedores;
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IProvidersView providerView= container.Resolve<IProvidersView>();
@@ -61,17 +61,17 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             UserControl view = providerView as UserControl;
             view.DataContext = providerViewModule;
             
-            if (!ribbonbuttondictionary.ContainsKey(RecopilatorioEnumerations.EOpcion.rbtnProveedores))
+            if (!ribbonbuttondictionary.ContainsKey(opcion))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();
                 ribbonTemplate.propertiesresources = "lrbtnProveedores";
-                ribbonbuttondictionary.Add(RecopilatorioEnumerations.EOpcion.rbtnProveedores, ribbonTemplate);
+                ribbonbuttondictionary.Add(opcion, ribbonTemplate);
             }
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                TabItemLogic.CreateTabItemUserControlFromContainer(RecopilatorioEnumerations.EOpcion.rbtnProveedores, providerView);
+                TabItemLogic.CreateTabItemUserControl(opcion, providerView);
                 providerViewModule.Navigate("SupplierView");
             }
         }
