@@ -91,6 +91,18 @@ namespace Apache.Ibatis.DataMapper.MappedStatements.PropertyStrategy
             }
 
             object dataBaseValue = mapping.GetDataBaseValue(reader);
+            if ((target is string) && (dataBaseValue == null))
+            {
+                dataBaseValue = String.Empty;
+            }
+            if ((target is int) && (dataBaseValue == null))
+            {
+                dataBaseValue = 0;
+            }
+            if ((target is double) && (dataBaseValue == null))
+            {
+                dataBaseValue = 0;
+            }
             request.IsRowDataFound = request.IsRowDataFound || (dataBaseValue != null);
             return dataBaseValue;
         }

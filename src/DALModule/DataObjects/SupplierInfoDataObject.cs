@@ -1,10 +1,10 @@
 ﻿using System;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
-
+using DataAccessLayer.DataObjects.Attributes;
 namespace DataAccessLayer.DataObjects
 {
-    public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataObjectInfo
+    public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataInfo
     {
         private string _countryCode = "";
         private string _direction = "";
@@ -29,10 +29,14 @@ namespace DataAccessLayer.DataObjects
         private string _mapDirection = "";
         private string _mobilePhone = "";
         private string _commercialName = "";
-        private object _type;
+        private string _type;
         private object _zip;
         private string _lastChange = "";
         private string _changedByUser = "";
+        private string _vatDate = "";
+        private string _surName1 = "";
+        private string _surName2 = "";
+
         public string Nif
         {
             get
@@ -377,7 +381,7 @@ namespace DataAccessLayer.DataObjects
                 return _zip;
             }
         }
-        public object Type
+        public string Type
         {
             set
             {
@@ -390,6 +394,18 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
+        public string VATDate
+        {
+            set
+            {
+                _vatDate = value;
+                OnPropertyChanged("VATDate");
+            }
+            get
+            {
+                return _vatDate;
+            }
+        }
         public string LastChange {
 
             set
@@ -417,5 +433,9 @@ namespace DataAccessLayer.DataObjects
             }
 
         }
+
+        public string Surname1 { get { return _surName1; } set { _surName1 = value; } }
+        public string Surname2 { get { return _surName2; } set { _surName2 = value; } }
+       // string Type { get; set; }
     }
 }

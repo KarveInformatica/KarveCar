@@ -1,4 +1,9 @@
 using System;
+using System.Collections.ObjectModel;
+using Prism.Commands;
+using System.Windows.Controls;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
+using System.Windows;
 
 namespace KarveCommon.Services
 {
@@ -7,8 +12,34 @@ namespace KarveCommon.Services
     /// </summary>
     public interface IConfigurationService
     {
-        void NotifyDataChange(DataPayLoad changedData);
-        void SubscribeDataChange(Action<DataPayLoad> dataChanged);
+        /// <summary>
+        ///  This method helps for closing the application
+        /// </summary>
+        /// <returns></returns>
         bool CloseApplication();
+        /// <summary>
+        ///  This method wrap up the old main tab subsystem. It adds a tab in the central window.
+        /// </summary>
+        /// <param name="view">Name of the view.</param>
+        /// <param name="tabName">Name of the tab.</param>
+        /// <returns></returns>
+        bool AddMainTab(object view, string tabName);
+        /// <summary>
+        ///  This returns the enviroment variables of the application.
+        /// </summary>
+        /// <returns></returns>
+        IEnviromentVariables GetEnviromentVariables();
+        /// <summary>
+        ///  The current main window
+        /// </summary>
+        Window Shell { set; get; }
+        /// <summary>
+        ///  get the account management and the permission modules.
+        /// </summary>
+        /// <returns></returns>
+       
+        IUserAccessControlList GetAccountManagement();
+
+
     }
 }

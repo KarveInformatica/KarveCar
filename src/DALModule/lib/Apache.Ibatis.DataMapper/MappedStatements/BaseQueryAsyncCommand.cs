@@ -16,7 +16,9 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
         protected string _statement;
         protected DataMapper _mapper;
         protected ISessionScope _scope;
-
+        /// <summary>
+        ///  This is the query that we want to execute
+        /// </summary>
         public string Statement
         {
             set

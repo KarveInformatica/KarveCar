@@ -32,7 +32,7 @@ using System.Reflection;
 using Apache.Ibatis.Common.Logging;
 using Apache.Ibatis.Common.Utilities.Objects.Members;
 using Apache.Ibatis.DataMapper.MappedStatements;
-using Castle.Core.Interceptor;
+using Castle.DynamicProxy;
 
 #endregion
 

@@ -2,7 +2,7 @@
 
 namespace KarveCommon.Services
 {
-    class DataChangeEvent: PubSubEvent<DataPayLoad>
+    public class DataChangeEvent: PubSubEvent<DataPayLoad>
     {
       
         public DataChangeEvent()

@@ -63,6 +63,10 @@ namespace Apache.Ibatis.Common.Utilities.TypesResolver
 		/// </summary>
 		public const string ArrayListAlias2 = "list";
 
+       
+        public const string DictionaryAlias = "dictionary";
+        
+
 		/// <summary>
 		/// Another alias around the 'bool' type.
 		/// </summary>
@@ -366,7 +370,7 @@ namespace Apache.Ibatis.Common.Utilities.TypesResolver
 
 			types[ArrayListAlias1] = typeof (ArrayList);
 			types[ArrayListAlias2] = typeof (ArrayList);
-
+            types[DictionaryAlias] = typeof(Dictionary<string, object>);
 			types[BoolAlias] = typeof (bool);
 			types[BooleanAlias] = typeof (bool);
 

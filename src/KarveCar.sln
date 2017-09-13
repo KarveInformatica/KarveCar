@@ -93,7 +93,7 @@ Global
 		{59B99363-3561-4B1F-94FB-136BECBAA675} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_DuplicateKeyHandling = Fail
 		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
 	EndGlobalSection
 EndGlobal

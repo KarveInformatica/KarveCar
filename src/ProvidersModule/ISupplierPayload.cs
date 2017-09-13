@@ -1,10 +1,14 @@
 ﻿using KarveDataServices.DataObjects;
+using System.Data;
 
 namespace ProvidersModule
 {
     public interface ISupplierPayload
     {
-        ISupplierDataObjectInfo SupplierDataObjectInfo { get; set; }
-        ISupplierTypeDataObject SupplierDataObjectType { get; set; }
+        ISupplierDataInfo SupplierDataObjectInfo { get; set; }
+        ISupplierTypeData SupplierDataObjectType { get; set; }
+        IProvinceData     SupplierProvinceDataObject { get; set; }
+        ICountryData      SupplierCountryDataObject { get; set; }
+        DataTable SupplierSummaryDataTable { get; set; }
     }
 }

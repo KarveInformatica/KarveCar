@@ -1,134 +1,139 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Windows.Input;
 using Prism.Mvvm;
 using KarveDataServices;
-using DataAccessLayer.DataObjects;
-using KarveCommon;
 using KarveCommon.Services;
-using Prism.Regions;
 using Prism.Commands;
 using KarveDataServices.DataObjects;
-using System.Net;
-using ProvidersModule.Views;
-using System.Windows.Controls;
+using Microsoft.Practices.Unity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
+using System.Windows;
 
 namespace ProvidersModule.ViewModels
 {
-    public class ProvidersControlViewModel : BindableBase, IProvidersViewModel, IEventObserver
+    public class ProvidersControlViewModel : BindableBase, IProvidersViewModel
     {
-        
+
         /// <summary>
         ///  Type of payment data services.
         /// </summary>
         private IEventManager _eventManager;
-        private ICareKeeperService _careKeeperService;
-        private IRegionManager _regionManager;
-        private DataTable _supplierDataTable;
-        private ISupplierDataObjectInfo _dataObjectInfo = new SupplierInfoDataObject();
-        private ISupplierTypeDataObject _dataObjectType = new SupplierTypeDataObject();
-        public ICommand SupplierSearchSelection { set; get; }
-        public ICommand SupplierSearchCommand { set; get; }
-        public ICommand SupplierSearchCountryCommand { set; get; }
-        public ICommand ClickSearchCountryCode { set; get; }
-        public ICommand SelectedIndexCommand { set; get; }
-        public DelegateCommand<string> NavigateCommand { get; set; }
-        private string _supplierSearchType;
+        private IConfigurationService _configurationService;
+        private ISupplierDataInfo _lastDataObject = null;
+        private DataTable _extendedSupplierDataTable;
+        private IDataServices _dataServices;
+        private ICommand _openItemCommand;
+        private IUnityContainer _container;
+        private const string SUPPLIER_ID = "supplierId";
 
-
-
-        public ProvidersControlViewModel(ICareKeeperService careKeeperService,
-                                  IRegionManager regionManager,
+        public ProvidersControlViewModel(IConfigurationService configurationService,
+                                  IUnityContainer container,
+                                  IDataServices services,
                                   IEventManager eventManager)
         {
-            _careKeeperService = careKeeperService;
+            _configurationService = configurationService;
             _eventManager = eventManager;
-            _regionManager = regionManager;
-            NavigateCommand = new DelegateCommand<string>(Navigate);
-            SupplierSearchSelection = new DelegateCommand<object>(SupplierSearch);
-            SupplierSearchCommand = new DelegateCommand<object>(SupplierSearchExecute);
-            SupplierSearchCountryCommand = new DelegateCommand<object>(SupplierSearchByCountry);
-            _eventManager.registerObserver(this);
-
-        }
-        /// <summary>
-        /// This method provide a method to select to  search by code or by type
-        /// </summary>
-        /// <param name="param"></param>
-        private void SupplierSearch(object param)
-        {
-            ComboBoxItem item = param as ComboBoxItem;
-            _supplierSearchType = item.Content as string;
-
-        }
-        /// <summary>
-        ///  This method provide a way to execute the search using the code or the type.
-        /// </summary>
-        /// <param name="param"></param>
-        private void SupplierSearchExecute(object param)
-        {
-            if (_supplierSearchType == "Tipo")
-            {
-              //  var parms = new NavigationParameters
-               // _regionManager.RequestNavigate("TabRegion", navigationPath, );
-            }
-        }
-        /// <summary>
-        /// This method provide a way to search by country
-        /// </summary>
-        /// <param name="param"></param>
-        private void SupplierSearchByCountry(object param)
-        {
-
+            _container = container;
+            _dataServices = services;
+            _extendedSupplierDataTable = new DataTable();
+            _openItemCommand = new DelegateCommand<object>(openCurrentItem);
+            StartDataLayer();
         }
         
-        public DataTable SummaryDataTable
+        public DataTable SummaryView
         {
-            set { _supplierDataTable = value; RaisePropertyChanged(); }
-            get { return _supplierDataTable; }
-        }
-
-        public ISupplierTypeDataObject SupplierDataObjectType
-        {
-            get
-            {
-                return _dataObjectType;
-            }
-            set
-            {
-                _dataObjectType = value;
-                RaisePropertyChanged("SupplierDataObjectType");
-            }
-        }
-        public ISupplierDataObjectInfo SupplierDataObjectInfo
-        {
-            get
-            {
-                return _dataObjectInfo;
-            }
-            set
-            {
-                _dataObjectInfo = value;
-                RaisePropertyChanged("SupplierDataObjectInfo");
-            }
-        }
-
-
-        
-        public void Navigate(string navigationPath)
-        {
+            get { return _extendedSupplierDataTable;  }
            
-            _regionManager.RequestNavigate("TabRegion", navigationPath);
         }
-
-        public void incomingPayload(ISupplierPayload payload)
+        
+        private async void StartDataLayer()
         {
-            this.SupplierDataObjectInfo = payload.SupplierDataObjectInfo;
-            this.SupplierDataObjectType = payload.SupplierDataObjectType;
+            ISupplierDataServices supplier = _dataServices.GetSupplierDataServices();
+            DataSet set = await supplier.GetAsyncCompleteSummary();
+            if (set.Tables.Count > 0)
+            {
+                _extendedSupplierDataTable = set.Tables[0];
+                RaisePropertyChanged("SummaryView");
+            }
+        }
+        public async void openCurrentItem(object currentItem)
+        {
+            ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
+            DataRowView local = currentItem as DataRowView;
+            string lastSupplierId = local.Row.ItemArray[0] as string;
+            string name = local.Row.ItemArray[1] as string;
+            string nif = local.Row.ItemArray[2] as string;
+            ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
+            _lastDataObject = await supplierDataServices.GetAsyncSupplierDataObjectInfo(lastSupplierId);
+            _lastDataObject.Name = name;
+            _lastDataObject.Nif = nif;
+            _lastDataObject.Number = lastSupplierId;
+            ISupplierPayload supplierDataPayLoad = new SupplierDataPayload();
+            supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
+            if (_lastDataObject.Type != null)
+            {
+                supplierDataPayLoad.SupplierDataObjectType = await supplierDataServices.GetAsyncSupplierTypesDataObject((string)_lastDataObject.Type);
+
+            }
+            else
+            {
+                supplierDataPayLoad.SupplierDataObjectType = null;
+            }
+            supplierDataPayLoad.SupplierSummaryDataTable = _extendedSupplierDataTable;
+            // fire up the view
+            _configurationService.AddMainTab(view, supplierDataPayLoad.SupplierDataObjectInfo.Name);
+            DataPayLoad registrationPayload = new DataPayLoad();
+            string routedName = "ProviderModule:" + supplierDataPayLoad.SupplierDataObjectInfo.Name;
+            registrationPayload.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            registrationPayload.Registration = routedName;
+            _eventManager.notifyObserverSubsystem("ProviderModule", registrationPayload);
+            IDictionary<string, object> param = new Dictionary<string, object>();
+            param["supplierId"] = _lastDataObject.Number;
+            DataPayLoad currentPayload = await LoadData(_dataServices, param);
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            _eventManager.notifyObserverSubsystem(routedName, currentPayload);    
+        }
+        public  async Task<DataPayLoad> LoadData(IDataServices services, IDictionary<string, object> data)
+        {
+            DataPayLoad payload = new DataPayLoad();
+            payload.DataMap = new Dictionary<string, object>();
+            string supplierId = "00";
+            if (data.ContainsKey(SUPPLIER_ID))
+            {
+                supplierId = data[SUPPLIER_ID] as string;
+            }
+            IEnviromentVariables env = _configurationService.GetEnviromentVariables();
+            ISupplierDataServices supplierServices = services.GetSupplierDataServices();
+            payload.DataMap[SupplierPayLoad.SupplierDOName] = await supplierServices.GetAsyncSupplierDataObjectInfo(supplierId).ConfigureAwait(false);
+            supplierServices.OpenDataSession();
+            try
+            {
+                ISupplierDataInfo info = payload.DataMap[SupplierPayLoad.SupplierDOName] as ISupplierDataInfo;
+                string typeId = info.Type;
+                payload.DataMap[SupplierPayLoad.SupplierDOType] = await supplierServices.GetAsyncSupplierTypesDataObject(typeId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierAccountingDO] = await supplierServices.GetAsyncSupplierAccountInfo(supplierId, env).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierMonitoringDS] = await supplierServices.GetAsyncMonitoring(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierEvaluationDS] = await supplierServices.GetAsyncEvaluationNote(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierVisitsDS] = await supplierServices.GetAsyncVisits(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierBranchesDS] = await supplierServices.GetAsyncDelegations(supplierId).ConfigureAwait(false);
+                payload.DataMap[SupplierPayLoad.SupplierAssuranceDS] = await supplierServices.GetAsyncSupplierAssuranceData(supplierId).ConfigureAwait(false);
+                
+                payload.DataMap[SupplierPayLoad.SupplierSummaryTable] = await supplierServices.GetAsyncAllSupplierSummary().ConfigureAwait(false);
+                //            payload.DataMap[SupplierPayLoad.SupplierTransportDS] = await supplierServices.GetAsyncTransportProviderData(supplierId).ConfigureAwait(false);
+            } catch (Exception ex)
+            {
+                // in this cases i will be not able to see any data.
+                MessageBox.Show(ex.Message);
+            }
+            supplierServices.CloseDataSession();
+            return payload;
+        }
+        public ICommand OpenItem
+        {
+            get { return _openItemCommand; }
+            set { _openItemCommand = value; }
         }
     }
 }

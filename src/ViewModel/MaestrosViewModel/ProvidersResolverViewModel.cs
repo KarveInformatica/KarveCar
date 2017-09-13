@@ -10,7 +10,8 @@ using System.Windows;
 using ProvidersModule;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
-
+using ProvidersModule.Views;
+using KarveCommon.Logic.Generic;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
@@ -58,9 +59,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             IUnityContainer container = mainWindow.UnityContainer;
             IProvidersView providerView= container.Resolve<IProvidersView>();
             IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
-            UserControl view = providerView as UserControl;
+            ProvidersControl view = providerView as ProvidersControl;
             view.DataContext = providerViewModule;
-            
+
             if (!ribbonbuttondictionary.ContainsKey(opcion))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();
@@ -72,7 +73,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (opcion.ToString() == parameter.ToString())
             {
                 TabItemLogic.CreateTabItemUserControl(opcion, providerView);
-                providerViewModule.Navigate("SupplierView");
+              //  providerViewModule.Navigate("SupplierView");
             }
         }
         #endregion

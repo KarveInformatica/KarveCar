@@ -1,6 +1,7 @@
 ﻿using KarveDataServices;
 using System.Data;
 using System;
+using KarveCommon.Services;
 
 namespace DataAccessLayer
 {
@@ -10,13 +11,19 @@ namespace DataAccessLayer
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
-        /// TODO: See if we can use dependency inject and elimitate the depenendency on base data mapper
-       
-        private BanksDataAccessLayer _bankLayer = new BanksDataAccessLayer();
+        private BanksDataAccessLayer _bankLayer;
+        private IPaymentDataServices _paymentDataService;
+        private ISupplierDataServices _supplierDataServices;
+        private IHelperDataServices _helperDataServices;
 
-        private IPaymentDataServices _paymentDataService = new ChargeTypeDataAccessLayer();
-        private ISupplierDataServices _supplierDataServices = new SupplierDataAccessLayer();
-
+        public DataServiceImplementation(IKarveDataMapper mapper, 
+            IConfigurationService configurationService)
+        {
+            _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
+            _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
+            _supplierDataServices = new SupplierDataAccessLayer(mapper, configurationService);
+            _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
+        }
         /// <summary>
         ///  Returns a the complete list of banks in the system.
         /// </summary>
@@ -43,6 +50,23 @@ namespace DataAccessLayer
         public ISupplierDataServices GetSupplierDataServices()
         {
            return _supplierDataServices;
+        }
+
+        public IHelperDataServices GetHelperDataServices()
+        {
+            return _helperDataServices;
+        }
+
+        public IDataServicesSession OpenSession()
+        {
+            return null;
+           // throw new NotImplementedException();
+        }
+
+        public void CloseSession(IDataServicesSession session)
+        {
+           
+           /// throw new NotImplementedException();
         }
     }
 }

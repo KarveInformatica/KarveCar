@@ -16,14 +16,14 @@
         </Style>
     </UserControl.Resources>
 
-    <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" >
-        <ToolBar x:Name="tbAcciones" HorizontalAlignment="Left" ToolBar.OverflowMode="Never" >
+    <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" ToolBar.OverflowMode="Never" >
+        <ToolBar>
+
             <Button x:Name="tbbtnNuevo" 
                     HorizontalAlignment="Left"
                     IsEnabled="False" >
                 <StackPanel>
-                    <Image Source="/KarveCar;component/Images/new.png" Stretch="Fill" Height="35" Style="{StaticResource ImageEnabled}"/>
-                    <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    <Image Source="/KarveCar;component/Images/new.png" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
@@ -44,74 +44,22 @@
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
-            </Button>
-            <Button x:Name="tbbtnEditar" 
-                    HorizontalAlignment="Left">
-                <StackPanel>
-                    <Image Source="/KarveCar;component/Images/edit.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <Button.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnEditar, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+E)"/>
-                    </StackPanel>
-                </Button.ToolTip>
-                <Button.InputBindings>
-                    <KeyBinding Key="E" 
-                                Modifiers="Ctrl" 
-                                Command="{Binding EditCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <KeyBinding Key="Return"                                                
-                                Command="{Binding EditCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding EditCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-
-                </Button.InputBindings>
-            </Button>
-            <Button x:Name="tbbtnEliminar" 
-                    HorizontalAlignment="Left"
-                    IsEnabled="{Binding ButtonEnabled}">
-                <StackPanel>
-                    <Image Source="/KarveCar;component/Images/delete.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnEliminar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <Button.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnEliminar, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+Supr)"/>
-                    </StackPanel>
-                </Button.ToolTip>
-                <Button.InputBindings>
-                    <KeyBinding Key="Delete" 
-                                Modifiers="Ctrl" 
-                                Command="{Binding DeleteCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <KeyBinding Key="Return"                                                
-                                Command="{Binding DeleteCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding DeleteCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                </Button.InputBindings>
+                
             </Button>
             <Button x:Name="tbbtnGuardar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="{Binding ButtonEnabled}">
+                    IsEnabled="{Binding IsSaveEnabled}" >
                 <StackPanel>
-                    <Image Source="/KarveCar;component/Images/save.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    <Image Source="{Binding CurrentSaveImagePath}" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+G)"/>
+                        <TextBlock Text="{Binding ltbbtnGuardar, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+S)" />
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
-                    <KeyBinding Key="G" 
+                    <KeyBinding Key="S" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding SaveCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
@@ -121,165 +69,87 @@
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding SaveCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+
                 </Button.InputBindings>
             </Button>
-            <Button x:Name="tbbtnCancelar"
+            <Button x:Name="tbbtnReload" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False">
+                    IsEnabled="False" >
                 <StackPanel>
-                    <Image Source="/KarveCar;component/Images/cancel.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnCancelar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    <Image Source="/KarveCar;component/Images/reload.png" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnCancelar, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+C)"/>
+                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+N)" />
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
-                    <KeyBinding Key="C" 
+                    <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
-                                Command="{Binding CancelCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
-                                Command="{Binding CancelCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding CancelCommand}" 
+                                  Command="{Binding NewCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+
                 </Button.InputBindings>
             </Button>
-            <Button x:Name="tbbtnImprimir" 
+            <Button x:Name="tbbtnUndo" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False">
+                    IsEnabled="False" >
                 <StackPanel>
-                    <Image Source="/KarveCar;component/Images/print.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnImprimir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    <Image Source="/KarveCar;component/Images/undo_red.png" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnImprimir, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+I)"/>
+                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+N)" />
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
-                    <KeyBinding Key="I" 
+                    <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
-                                Command="{Binding PrintCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
-                                Command="{Binding PrintCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding PrintCommand}" 
+                                  Command="{Binding NewCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+
                 </Button.InputBindings>
             </Button>
-            <Button x:Name="tbbtnAnterior" 
+            <Button x:Name="tbbtnFilter" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False">
+                    IsEnabled="False" >
                 <StackPanel>
-                    <Image Source="/KarveCar;component/Images/previous.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnAnterior, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
+                    <Image Source="/KarveCar;component/Images/filter.png" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnAnterior, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+←)"/>
+                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
+                        <TextBlock Text=" (Ctrl+N)" />
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
-                    <KeyBinding Key="Left" 
+                    <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
-                                Command="{Binding PreviousCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
-                                Command="{Binding PreviousCommand}" 
+                                Command="{Binding NewCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding PreviousCommand}" 
+                                  Command="{Binding NewCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+
                 </Button.InputBindings>
             </Button>
-            <Button x:Name="tbbtnSiguiente" 
-                    HorizontalAlignment="Left"
-                    IsEnabled="False">
-                <StackPanel>
-                    <Image Source="/KarveCar;component/Images/next.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnSiguiente, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <Button.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnSiguiente, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+→)"/>
-                    </StackPanel>
-                </Button.ToolTip>
-                <Button.InputBindings>
-                    <KeyBinding Key="Right" 
-                                Modifiers="Ctrl" 
-                                Command="{Binding SiguienteToolBarCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <KeyBinding Key="Return"                                                
-                                Command="{Binding SiguienteToolBarCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding SiguienteToolBarCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                </Button.InputBindings>
-            </Button>
-            <Button x:Name="tbbtnSalir" 
-                    HorizontalAlignment="Left"
-                    IsEnabled="True"
-                    Command="{Binding ExitCommand}">
-                <StackPanel>
-                    <Image Source="/KarveCar;component/Images/exit.png" Stretch="Fill" Height="35"/>
-                    <TextBlock Text="{Binding ltbbtnSalir, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <Button.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnSalir, Source={StaticResource ResourceLanguage}}"/>
-                        <TextBlock Text=" (Ctrl+Q)"/>
-                    </StackPanel>
-                </Button.ToolTip>
-                <Button.InputBindings>
-                    <KeyBinding Key="Q" 
-                                Modifiers="Ctrl"/>
-                    <KeyBinding Key="Return"/>
-                    <MouseBinding MouseAction="LeftClick"/>
-                </Button.InputBindings>
-            </Button>
-        </ToolBar>
-        <ToolBar x:Name="Search" HorizontalAlignment="Stretch" UseLayoutRounding="True">
-            <TextBlock Foreground="Transparent">
-                <TextBox x:Name="txtBuscar" Height="40" FontFamily="Calibri" FontSize="16" Width="600"
-                         HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="False"/>     
-                <Button x:Name="tbbtnBuscar" 
-                        BorderBrush="Transparent" Background="Transparent"
-                        HorizontalAlignment="Left"
-                        IsEnabled="False">
-                    <Button.ToolTip>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text=" (Ctrl+S)"/>
-                        </StackPanel>
-                    </Button.ToolTip>
-                    <Button.InputBindings>
-                        <KeyBinding Key="S" 
-                                    Modifiers="Ctrl" 
-                                    Command="{Binding BuscarToolBarCommand}" 
-                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                        <KeyBinding Key="Return"                                                
-                                    Command="{Binding BuscarToolBarCommand}" 
-                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                        <MouseBinding MouseAction="LeftClick"
-                                      Command="{Binding BuscarToolBarCommand}" 
-                                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    </Button.InputBindings>
-                    <StackPanel>
-                        <Image Source="/KarveCar;component/Images/search.png" Stretch="Fill" Height="35"/>
-                        <TextBlock Text="{Binding ltbbtnBuscar, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-            </TextBlock>
         </ToolBar>
     </ToolBarTray>
 </UserControl>

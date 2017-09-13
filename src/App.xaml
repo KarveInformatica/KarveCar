@@ -23,7 +23,7 @@
                         <Setter Property="FontSize" Value="12"/>
                         <Setter Property="FontFamily" Value="Arial"/>
                     </Style>
-                    
+                    <SolidColorBrush x:Key="WindowBrush" Color="LightGray"/>
                     <!--Pone el Background en LightGray los TextBox que son sólo lectura-->
                     <Style x:Key="TextBoxStyle" TargetType="TextBox">
                         <Style.Triggers>

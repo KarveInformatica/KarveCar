@@ -45,11 +45,18 @@
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
+                    <TextBlock Text="{Binding Nombre, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
 
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="Nif">
+            <TextBlock Text="{Binding Nif, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Name">
+            <TextBlock Text="{Binding Nombre, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+        </DataTemplate>
+        
         <DataTemplate x:Key="JobPositionDataTemplate">
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
@@ -94,7 +101,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="address.png"/>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png" />
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -128,7 +135,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="email.png"/>
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png" />
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"

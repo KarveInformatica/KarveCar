@@ -301,7 +301,7 @@
             rbtnNovedades,
             #endregion
 
-            Default,
+            Default
         }
 
 
@@ -356,5 +356,6 @@
             Update,
             HasNull
         }
+       
     }
 }

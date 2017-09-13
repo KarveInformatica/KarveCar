@@ -1,4 +1,5 @@
 ﻿using ExtendedGrid.ExtendedGridControl;
+using ProvidersModule.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,18 @@ namespace ProvidersModule.Views
         public SupplierView()
         {
             InitializeComponent();
-            
-            this.Suppliers.Theme = ExtendedDataGrid.Themes.Office2007Silver;
-           
+              
         }
+        public string Header
+        {
+            get
+
+            {
+                TabViewModelBase tvm = this.DataContext as TabViewModelBase;
+                return tvm.Header;
+
+            }
+        }
+      
     }
 }

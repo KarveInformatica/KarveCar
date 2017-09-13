@@ -51,6 +51,7 @@ namespace Apache.Ibatis.DataMapper
         private object dataMapperLock = new object();
         private object sessionLock = new object();
         private object dataSetLock = new object();
+        private ISessionScope sessionScope = null;
         private ConcurrentQueue<IMapperCommand> _batchCommands = new ConcurrentQueue<IMapperCommand>();
         /// <summary>
         /// Initializes a new instance of the <see cref="DataMapper"/> class.
@@ -66,6 +67,17 @@ namespace Apache.Ibatis.DataMapper
             sessionFactory = modelStore.SessionFactory;
         }
 
+        public ISessionScope Session 
+            { 
+                get
+                {
+                    return sessionScope;
+                }
+                set
+                {
+                     sessionScope = value;
+                }
+            }
         #region IDataMapper Members
 
         /// <summary>
@@ -521,6 +533,7 @@ namespace Apache.Ibatis.DataMapper
             get { return modelStore; }
         }
 
+    
         #endregion
 
 
@@ -752,7 +765,46 @@ namespace Apache.Ibatis.DataMapper
         {
             return modelStore.GetMappedStatement(statementId);
         }
+        
 
+        public Task<bool> ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<bool> ExecuteUpdateAsync(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteInsertAsync(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsync<T>(string v, IList<object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> QueryAsyncForObjectByDictionary<T>(T v, IDictionary<T, object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsyncDictionary<T>(string v, IDictionary<string, object> param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<T>> QueryAsyncForList<T>(string v, string companyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsync<T>(string v, IList<object> param, ISessionScope session)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,7 +10,7 @@
              xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients"
              xmlns:view="clr-namespace:PaymentTypeModule.ChargeClients.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:validationRules="clr-namespace:PaymentTypeModule.ChargeClients.ValidationRules"
+             xmlns:validationRules="clr-namespace:KarveCommon.Validation;assembly=KarveCommon"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="600">
 
@@ -181,7 +181,7 @@
                         </WrapPanel>
                     </Grid>
                     <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <ExtendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
+                        <ExtendedGridControl:ExtendedDataGrid Height="350" VerticalAlignment="Top" 
                                                               x:Name="PaymentSystem" 
                                                                SelectedIndex="{Binding SelectedIndex}"
                                                               ItemsSource="{Binding SourceTable}" 

@@ -346,6 +346,9 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config
         /// Token for xml path to result element.
         /// </summary>
         public const string ELEMENT_RESULT = "result";
+
+
+        public const string ELEMENT_RESULT_CLASS = "resultClass";
         /// <summary>
         /// Token for xml path to discriminator element.
         /// </summary>

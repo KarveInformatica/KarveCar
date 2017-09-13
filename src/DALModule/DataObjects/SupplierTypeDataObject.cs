@@ -8,7 +8,7 @@ using KarveCommon.Generic;
 
 namespace DataAccessLayer.DataObjects
 {
-    public class SupplierTypeDataObject : GenericPropertyChanged, ISupplierTypeDataObject
+    public class SupplierTypeDataObject : GenericPropertyChanged, ISupplierTypeData
     {
         private string _user;
         private string _emergencyAccount;

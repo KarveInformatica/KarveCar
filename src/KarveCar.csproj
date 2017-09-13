@@ -65,6 +65,9 @@
     <Reference Include="ExtendedGrid">
       <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
     </Reference>
+    <Reference Include="Hardcodet.Wpf.GenericTreeView">
+      <HintPath>..\..\..\KarveCar\lib\Hardcodet.Wpf.GenericTreeView.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
@@ -142,8 +145,11 @@
     <Compile Include="Commands\MaestrosCommand\MarcaCommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
-    <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
+    <Compile Include="Logic\Generic\ConfigurationService.cs" />
+    <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
+    <Compile Include="Logic\Generic\UserAccessControlList.cs" />
+    <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
@@ -198,6 +204,9 @@
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
+    <Compile Include="View\CustomTabControl.xaml.cs">
+      <DependentUpon>CustomTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -229,6 +238,7 @@
     <Compile Include="View\DataGridUserControl.xaml.cs">
       <DependentUpon>DataGridUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\KarveCategory.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -236,6 +246,10 @@
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\CustomTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -482,7 +496,27 @@
   <ItemGroup>
     <Resource Include="Images\refresh.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\undo_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save_toolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\modified.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)DALModule\Auxiliares.xml" "$(TargetDir)Auxiliares.xml" 
+copy "$(SolutionDir)DALModule\Suppliers.xml" "$(TargetDir)Suppliers.xml" 
+copy "$(SolutionDir)DALModule\Banks.xml" "$(TargetDir)Banks.xml" 
+copy "$(SolutionDir)DALModule\SqlMap.config" "$(TargetDir)SqlMap.config" 
+copy "$(SolutionDir)DALModule\providers.config" "$(TargetDir)providers.config" 
+copy "$(SolutionDir)DALModule\SupplierSummaryTypes.xml" "$(TargetDir)SupplierSummaryTypes.xml"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="SilverlightApplication1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              
+    mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
+    <Grid x:Name="GridOne" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="TextBoxOne" Text="One" Grid.Row="0" />
+
+        <StackPanel x:Name="StackPanelOne" Grid.Row="1">
+            <TextBox x:Name="TextBoxTwo" Text="Two" />
+
+            <Grid x:Name="GridTwo">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="TextBoxThree" Text="Three" Grid.Row="0" />
+
+                <StackPanel x:Name="StackPanelTwo" Grid.Row="1">
+                    <TextBox x:Name="TextBoxFour" Text="Four"/>                    
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

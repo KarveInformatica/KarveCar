@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="ProvidersModule.Views.BasicEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:ProvidersModule.Views"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+
+                <Button Command="{Binding SaveCommand}">
+                    <Image Source="/ProvidersModule;component/Images/disk.png" Width="16" Height="16" />
+                </Button>
+              </ToolBar>
+            <RichTextBox Name="rtbEditor" IsReadOnly="False" MinHeight="400">
+             </RichTextBox>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -85,6 +85,10 @@ namespace Apache.Ibatis.DataMapper.TypeHandlers
 			handler = new DoubleTypeHandler();
 			Register(typeof(Double), handler);
 
+
+            handler = new DictionaryTypeHandler();
+            Register(typeof(Dictionary<string, object>), handler);
+
 			handler = new Int16TypeHandler();
 			Register(typeof(Int16), handler);
 

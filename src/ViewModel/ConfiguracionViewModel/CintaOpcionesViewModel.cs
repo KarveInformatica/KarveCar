@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
+using KarveCommon.Logic.Generic;
 
 namespace KarveCar.ViewModel.ConfiguracionViewModel
 {

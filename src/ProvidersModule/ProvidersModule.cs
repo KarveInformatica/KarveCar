@@ -14,20 +14,22 @@ namespace ProvidersModule
     {
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
+        public const string NAME = "ProviderModule";
 
         public ProviderModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
         }
-
         protected void RegisterViewsAndServices()
         {
-            _container.RegisterType<IEventManager, ProvidersModule.EventManager>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IProvidersViewModel, ProvidersModule.ViewModels.ProvidersControlViewModel>();
             _container.RegisterType<IProvidersView, ProvidersModule.Views.ProvidersControl>();
-            _container.RegisterType<object, SupplierView>("SupplierView");
-                       
+            _container.RegisterType<ISupplierInfoView, ProvidersModule.Views.ProviderInfoView>();
+            //        _container.RegisterType<object, SupplierView>("SupplierView");
+            _container.RegisterType<object, GenericGridView>("GenericGridView");
+            _container.RegisterType<object, BasicEditorView>("BasicEditorView");
+            _container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
         }
         public void Initialize()
         {

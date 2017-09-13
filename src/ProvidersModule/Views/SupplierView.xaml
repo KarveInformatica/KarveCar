@@ -12,8 +12,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Top" 
+        <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Stretch" 
                                                                            x:Name="Suppliers" 
+                                                                           GroupByControlVisibility="Visible"
                                                                            ItemsSource="{Binding SummaryDataTable}" 
                                                                            RowHeaderWidth="17" 
                                                                            IsReadOnly="True"
@@ -23,7 +24,6 @@
                                                                            SearchAutoFilterVisibility="Visible" 
                                                                            AutoFilterFontSize="12"
                                                                            Theme="Office2007Silver"
-                                                                           GroupByControlVisibility="Collapsed" 
                                                                            IsSynchronizedWithCurrentItem="True"  
                                                                            SelectionMode="Extended" 
                                                                            SelectionUnit="FullRow" 

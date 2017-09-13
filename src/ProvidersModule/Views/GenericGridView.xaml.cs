@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProvidersModule.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,27 @@ namespace ProvidersModule.Views
     /// </summary>
     public partial class GenericGridView : UserControl
     {
+        private string header;
         public GenericGridView()
         {
             InitializeComponent();
+            this.SuppliersGeneric.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+        }
+        public string Header
+        {
+            get
+
+            {
+                TabViewModelBase tvm = this.DataContext as TabViewModelBase;
+                return tvm.Header;
+
+            }
+
+            set
+            {
+                header = value;
+               
+            }
         }
     }
 }

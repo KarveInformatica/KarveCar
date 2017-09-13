@@ -273,6 +273,10 @@ namespace Apache.Ibatis.DataMapper.MappedStatements
                     }
                     while (reader.NextResult());
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
                 finally
                 {
                     reader.Close();

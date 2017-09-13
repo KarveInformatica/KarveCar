@@ -19,6 +19,11 @@ namespace KarveCommon.Command
         private AbstractCommand _command;
         // Parameters of the command.
         private object _parameters;
+       
+        public CommandWrapper(AbstractCommand dataCommand)
+        {
+            this.Command = dataCommand;
+        }
 
         public CommandWrapper(AbstractCommand cmd, object param)
         {
