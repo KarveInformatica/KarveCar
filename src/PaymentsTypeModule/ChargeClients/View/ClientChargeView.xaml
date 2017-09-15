@@ -81,9 +81,7 @@
                                     
                                 <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
                                    
-                                                <Binding.ValidationRules>
-                                        <validationRules:NumberValidationRule />
-                                    </Binding.ValidationRules>
+                                            
                                 </Binding>
                               </TextBox.Text>
                         </TextBox>
@@ -117,9 +115,7 @@
                         <TextBox Name="CommissionPercentage"  Grid.Row="4" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5">
                             <TextBox.Text>
                                 <Binding Path="CommissionPercentage" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                    <Binding.ValidationRules>
-                                        <validationRules:PercentageValidationRule/>
-                                    </Binding.ValidationRules>
+                                    
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
@@ -144,9 +140,7 @@
                         <TextBox Grid.Row="7" Name="IbanValue" Grid.Column="1" Grid.ColumnSpan="2" Background="LightCyan" Height="Auto" Margin="0,3">
                             <TextBox.Text>
                                 <Binding Path="IbanValue" UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <validationRules:IbanValidationRule/>
-                                    </Binding.ValidationRules>
+                                    
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>

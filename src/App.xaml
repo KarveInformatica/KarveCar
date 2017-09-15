@@ -39,10 +39,11 @@
 
          
             <!-- Maestros-->
-            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
-            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
+            <!--<ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>-->
             <ms:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
             <ms:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
+            <ms:AgentResolverViewModel     x:Key="agentResolverViewModel"/>
             <!-- Configuracion-->
             <cfg:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>

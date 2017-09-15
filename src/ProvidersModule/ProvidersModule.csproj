@@ -43,7 +43,7 @@
       <HintPath>..\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid">
-      <HintPath>..\..\..\..\..\Visual Studio 2017\Projects\ClientesFormaDeCobros\ClientesFormaDeCobros\ExtendedGrid.dll</HintPath>
+      <HintPath>..\..\lib\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -219,7 +219,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

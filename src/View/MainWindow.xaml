@@ -744,7 +744,16 @@
                         <r:RibbonButton x:Name="rbtnComisionistas"
                                         Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
-                                        SmallImageSource="/KarveCar;component/Images/new.png" >
+                                        SmallImageSource="/KarveCar;component/Images/new.png"
+                                        DataContext="{StaticResource providersResolverViewModel}">
+                            <r:RibbonButton.InputBindings>
+                                <KeyBinding Key="Return"                                                
+                                                Command="{Binding ShowAgentCommand}" 
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                                <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding ShowAgentCommand}" 
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type r:RibbonButton}}, Path=Name}" />
+                            </r:RibbonButton.InputBindings>
                         </r:RibbonButton>
                         <r:RibbonButton x:Name="rbtnEmpleadosAgencia"
                                         Label="{Binding lrbtnEmpleadosAgencia, Source={StaticResource ResourceLanguage}}" 

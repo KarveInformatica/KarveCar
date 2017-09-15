@@ -63,10 +63,7 @@
       <HintPath>..\lib\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid">
-      <HintPath>..\..\..\KarveCar\lib\ExtendedGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Hardcodet.Wpf.GenericTreeView">
-      <HintPath>..\..\..\KarveCar\lib\Hardcodet.Wpf.GenericTreeView.dll</HintPath>
+      <HintPath>..\lib\ExtendedGrid.dll</HintPath>
     </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5">
       <HintPath>..\lib\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
@@ -203,8 +200,8 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\AgentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
-    <Compile Include="View\CategoryTree.cs" />
     <Compile Include="View\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
@@ -401,6 +398,10 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AgentModule\AgentsModules.csproj">
+      <Project>{b528e685-6536-43d8-8071-13108a1d56c3}</Project>
+      <Name>AgentsModules</Name>
+    </ProjectReference>
     <ProjectReference Include="DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>

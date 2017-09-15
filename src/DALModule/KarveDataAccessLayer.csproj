@@ -104,15 +104,13 @@
     <Compile Include="DataObjects\OrigenCliente.cs" />
     <Compile Include="DataObjects\Poblacion.cs" />
     <Compile Include="DataUpdateException.cs" />
-    <Compile Include="Attributes\DBFieldAttribute.cs" />
-    <Compile Include="Attributes\DBFieldType.cs" />
-    <Compile Include="Attributes\DBTableAttribute.cs" />
     <Compile Include="DeleteCommandObject.cs" />
     <Compile Include="HelperDataAccessLayer.cs" />
     <Compile Include="HelperDataServicesImplementation.cs" />
     <Compile Include="IKarveDataMapper.cs" />
     <Compile Include="InsertCommandObject.cs" />
     <Compile Include="InsertCommissionNumberCommand.cs" />
+    <Compile Include="MarcasDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataObjects\Provincia.cs" />
     <Compile Include="DataObjects\SectorActividad.cs" />
@@ -131,7 +129,6 @@
     <Compile Include="DataObjects\ZonaCliente.cs" />
     <Compile Include="DataObjects\ZonaOficina.cs" />
     <Compile Include="QueryAsyncForObjectCommandRetValue.cs" />
-    <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="SupplierDataServiceAccessDeniedException.cs" />
     <Compile Include="SupplierDataServicesAccessModifiedException.cs" />
     <Compile Include="SupplierDataUpdater.cs" />
@@ -176,6 +173,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Suppliers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attributes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar", "KarveCar.csproj", "{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}"
 EndProject
@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataServices", "DALMod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersModule", "ProvidersModule\ProvidersModule.csproj", "{59B99363-3561-4B1F-94FB-136BECBAA675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karve.Ibatis.Common.Test", "DALModule\lib\Apache.Ibatis.Common.Test\Karve.Ibatis.Common.Test.csproj", "{5961F3DE-CB5E-40FE-AE89-D00D6E453907}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentsModules", "..\AgentModule\AgentsModules.csproj", "{B528E685-6536-43D8-8071-13108A1D56C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,10 +80,10 @@ Global
 		{59B99363-3561-4B1F-94FB-136BECBAA675}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59B99363-3561-4B1F-94FB-136BECBAA675}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59B99363-3561-4B1F-94FB-136BECBAA675}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5961F3DE-CB5E-40FE-AE89-D00D6E453907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5961F3DE-CB5E-40FE-AE89-D00D6E453907}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5961F3DE-CB5E-40FE-AE89-D00D6E453907}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5961F3DE-CB5E-40FE-AE89-D00D6E453907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B528E685-6536-43D8-8071-13108A1D56C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B528E685-6536-43D8-8071-13108A1D56C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B528E685-6536-43D8-8071-13108A1D56C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B528E685-6536-43D8-8071-13108A1D56C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,10 +97,11 @@ Global
 		{3F0503DE-3DDE-40A4-AF70-F698BFA9F844} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{83407587-1785-481B-A4FB-23E035173190} = {31310D87-8201-43E3-A023-DC5B6999B02C}
 		{59B99363-3561-4B1F-94FB-136BECBAA675} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
-		{5961F3DE-CB5E-40FE-AE89-D00D6E453907} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{B528E685-6536-43D8-8071-13108A1D56C3} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_DuplicateKeyHandling = Fail
 		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
 	EndGlobalSection
 EndGlobal

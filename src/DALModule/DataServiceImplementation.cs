@@ -21,7 +21,7 @@ namespace DataAccessLayer
         {
             _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
             _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
-            _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper, configurationService);
+            //_supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper, configurationService);
             _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
         }
         /// <summary>

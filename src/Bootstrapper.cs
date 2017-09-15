@@ -33,6 +33,7 @@ namespace KarveCar
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
             catalog.AddModule(typeof(ProvidersModule.ProviderModule));
+            //catalog.AddModule(typeof(AgentsModule.AgentModule));
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
            
@@ -76,6 +77,7 @@ namespace KarveCar
         {
             // The main window and configuration services shall be injected just here 
             // because in the configure container are not yet available.
+            
             try
             {
                 IConfigurationService shell = Container.Resolve<IConfigurationService>();
@@ -83,7 +85,7 @@ namespace KarveCar
                 KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
                 window.UnityContainer = Container;
                 Application.Current.MainWindow.Show();
-            } catch (Exception e)
+            } catch (Exception)
             {
                 MessageBox.Show("Error");
             }
