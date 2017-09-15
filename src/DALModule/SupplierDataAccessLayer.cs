@@ -1,4 +1,4 @@
-?using System;
+﻿?using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -252,7 +252,6 @@ namespace DataAccessLayer
         /// <param name="visitsDataTable"></param>
         /// <param name="dataContactsChanged"></param>
         /// <returns></returns>
-        /// 
         private async Task<bool> Update(ISupplierDataInfo dataInfo,
                            ISupplierTypeData dataType,
                            ISupplierAccountObjectInfo account,
@@ -839,7 +838,7 @@ namespace DataAccessLayer
             return account;
         }
         // "Suppliers.GetAccountableAccount"
-       /* private async Task<AccountDataObject> GetAsyncSupplierAccountableAccount(string statementId, string supplierId, string sublicen)
+        private async Task<AccountDataObject> GetAsyncSupplierAccountableAccount(string statementId, string supplierId, string sublicen)
         {
             AccountDataObject accountDataObject;
             IDictionary<string, object> param = new Dictionary<string, object>();
@@ -854,7 +853,6 @@ namespace DataAccessLayer
 
             return accountDataObject;
         }
-        */
         public async Task<IDictionary<string, string>> GetAsyncSupplierDescription(string supplierId, string sublicen)
         {
             IList<string> list = new List<string>();

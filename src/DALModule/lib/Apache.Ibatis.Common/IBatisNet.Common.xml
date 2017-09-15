@@ -1806,7 +1806,7 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Data.ProviderSerializer.Serialize(Apache.Ibatis.Common.Data.IDbProvider)">
             <summary>
-            Serializes the specified <see cref="T:Apache.Ibatis.Common.Data.IDbProvider"/> into an <see cred="IConfiguration" /> node.
+            Serializes the specified <see cref="T:Apache.Ibatis.Common.Data.IDbProvider"/> into an <see cred="IConfiguration"/> node.
             </summary>
         </member>
         <member name="T:Apache.Ibatis.Common.Data.SqliteDbProvider">
@@ -2207,16 +2207,16 @@
             <configuration>
             	<configSections>
             		<sectionGroup name="iBATIS">
-            			<section name="logging" type="Apache.Ibatis.Common.Logging.ConfigurationSectionHandler, Apache.Ibatis.Common" />
+            			<section name="logging" type="Apache.Ibatis.Common.Logging.ConfigurationSectionHandler, Apache.Ibatis.Common"/>
             		</sectionGroup>	
             	</configSections>
             	<iBATIS>
             		<logging>
             			<logFactoryAdapter type="Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA, Apache.Ibatis.Common">
-            				<arg key="showLogName" value="true" />
-            				<arg key="showDataTime" value="true" />
-            				<arg key="level" value="ALL" />
-            				<arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:SSS" />
+            				<arg key="showLogName" value="true"/>
+            				<arg key="showDataTime" value="true"/>
+            				<arg key="level" value="ALL"/>
+            				<arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:SSS"/>
             			</logFactoryAdapter>
             		</logging>
             	</iBATIS>
@@ -2235,14 +2235,14 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.ConfigurationSectionHandler.ReadConfiguration(System.Xml.XmlNode)">
             <summary>
-            Retrieves the <see cref="T:System.Type" /> of the logger the use by looking at the logFactoryAdapter element
+            Retrieves the <see cref="T:System.Type"/> of the logger the use by looking at the logFactoryAdapter element
             of the logging configuration element.
             </summary>
             <param name="section"></param>
             <returns>
-            A <see cref="T:Apache.Ibatis.Common.Logging.LogSetting" /> object containing the specified type that implements 
-            <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> along with zero or more properties that will be 
-            passed to the logger factory adapter's constructor as an <see cref="T:System.Collections.IDictionary" />.
+            A <see cref="T:Apache.Ibatis.Common.Logging.LogSetting"/> object containing the specified type that implements 
+            <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> along with zero or more properties that will be 
+            passed to the logger factory adapter's constructor as an <see cref="T:System.Collections.IDictionary"/>.
             </returns>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.ConfigurationSectionHandler.Create(System.Object,System.Object,System.Xml.XmlNode)">
@@ -2253,7 +2253,7 @@
             <param name="configContext">Additional information about the configuration process.</param>
             <param name="section">The configuration section to apply an XPath query too.</param>
             <returns>
-            A <see cref="T:Apache.Ibatis.Common.Logging.LogSetting" /> object containing the specified logFactoryAdapter type
+            A <see cref="T:Apache.Ibatis.Common.Logging.LogSetting"/> object containing the specified logFactoryAdapter type
             along with user supplied configuration properties.
             </returns>
         </member>
@@ -2388,40 +2388,40 @@
             </summary>
             <remarks>
             Classes that implement this interface may optional implement a constructor that accepts 
-            a <see cref="T:System.Collections.Specialized.NameValueCollection" /> which will contain zero or more user supplied configuration
+            a <see cref="T:System.Collections.Specialized.NameValueCollection"/> which will contain zero or more user supplied configuration
             properties.
             <para>
-            The Apache.Ibatis.Common assembly ships with the following built-in <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> implementations:
+            The Apache.Ibatis.Common assembly ships with the following built-in <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> implementations:
             </para>
             <list type="table">
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA" /></term><description>Writes output to Console.Out</description></item>
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.TraceLoggerFA" /></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLoggerFA" /></term><description>Ignores all messages</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA"/></term><description>Writes output to Console.Out</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.TraceLoggerFA"/></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLoggerFA"/></term><description>Ignores all messages</description></item>
             </list>
             </remarks>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter.GetLogger(System.Type)">
             <summary>
-            Get a <see cref="T:Apache.Ibatis.Common.Logging.ILog" /> instance by type.
+            Get a <see cref="T:Apache.Ibatis.Common.Logging.ILog"/> instance by type.
             </summary>
             <param name="type"></param>
             <returns></returns>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter.GetLogger(System.String)">
             <summary>
-            Get a <see cref="T:Apache.Ibatis.Common.Logging.ILog" /> instance by name.
+            Get a <see cref="T:Apache.Ibatis.Common.Logging.ILog"/> instance by name.
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
         <member name="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLogger">
             <summary>
-            Sends log messages to <see cref="P:System.Console.Out" />.
+            Sends log messages to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLogger.#ctor(System.String,Apache.Ibatis.Common.Logging.LogLevel,System.Boolean,System.Boolean,System.String)">
             <summary>
-            Creates and initializes a logger that writes messages to <see cref="P:System.Console.Out" />.
+            Creates and initializes a logger that writes messages to <see cref="P:System.Console.Out"/>.
             </summary>
             <param name="logName">The name, usually type name of the calling class, of the logger.</param>
             <param name="logLevel">The current logging threshold. Messages recieved that are beneath this threshold will not be logged.</param>
@@ -2431,12 +2431,12 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLogger.Write(Apache.Ibatis.Common.Logging.LogLevel,System.Object,System.Exception)">
             <summary>
-            Do the actual logging by constructing the log message using a <see cref="T:System.Text.StringBuilder" /> then
-            sending the output to <see cref="P:System.Console.Out" />.
+            Do the actual logging by constructing the log message using a <see cref="T:System.Text.StringBuilder"/> then
+            sending the output to <see cref="P:System.Console.Out"/>.
             </summary>
-            <param name="level">The <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> of the message.</param>
+            <param name="level">The <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> of the message.</param>
             <param name="message">The log message.</param>
-            <param name="e">An optional <see cref="T:System.Exception" /> associated with the message.</param>
+            <param name="e">An optional <see cref="T:System.Exception"/> associated with the message.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLogger.IsLevelEnabled(Apache.Ibatis.Common.Logging.LogLevel)">
             <summary>
@@ -2447,29 +2447,29 @@
         </member>
         <member name="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA">
             <summary>
-            Factory for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog" /> instances that write data to <see cref="P:System.Console.Out" />.
+            Factory for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog"/> instances that write data to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA.#ctor(System.Collections.Specialized.NameValueCollection)">
             <summary>
             Looks for level, showDateTime, showLogName, dateTimeFormat items from 
-            <paramref name="properties" /> for use when the GetLogger methods are called.
+            <paramref name="properties"/> for use when the GetLogger methods are called.
             </summary>
             <param name="properties">Contains user supplied configuration information.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA.GetLogger(System.Type)">
             <summary>
-            Get a ILog instance by <see cref="T:System.Type" />.
+            Get a ILog instance by <see cref="T:System.Type"/>.
             </summary>
-            <param name="type">Usually the <see cref="T:System.Type" /> of the current class.</param>
-            <returns>An ILog instance that will write data to <see cref="P:System.Console.Out" />.</returns>
+            <param name="type">Usually the <see cref="T:System.Type"/> of the current class.</param>
+            <returns>An ILog instance that will write data to <see cref="P:System.Console.Out"/>.</returns>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA.GetLogger(System.String)">
             <summary>
             Get a ILog instance by name.
             </summary>
-            <param name="name">Usually a <see cref="T:System.Type" />'s Name or FullName property.</param>
-            <returns>An ILog instance that will write data to <see cref="P:System.Console.Out" />.</returns>
+            <param name="name">Usually a <see cref="T:System.Type"/>'s Name or FullName property.</param>
+            <returns>An ILog instance that will write data to <see cref="P:System.Console.Out"/>.</returns>
         </member>
         <member name="T:Apache.Ibatis.Common.Logging.Impl.AbstractLogger">
             <summary>
@@ -2486,7 +2486,7 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsLevelEnabled(Apache.Ibatis.Common.Logging.LogLevel)">
             <summary>
-            Concrete classes should override this method to determine if a particular <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" />
+            Concrete classes should override this method to determine if a particular <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/>
             is enabled.
             </summary>
             <param name="logLevel"></param>
@@ -2494,66 +2494,66 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Debug(System.Object)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug" /> message.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug"/> message.
             </summary>
             <param name="message">The message to log.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Debug(System.Object,System.Exception)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug" /> message with an optional <see cref="T:System.Exception" />.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug"/> message with an optional <see cref="T:System.Exception"/>.
             </summary>
             <param name="message">The message to log.</param>
             <param name="e">
-            The	<see cref="T:System.Exception" /> associated with the message. If there isn't any
-            <see cref="T:System.Exception" /> associated with the message, pass <see langword="null" />.
+            The	<see cref="T:System.Exception"/> associated with the message. If there isn't any
+            <see cref="T:System.Exception"/> associated with the message, pass <see langword="null"/>.
             </param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Error(System.Object)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" /> message.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/> message.
             </summary>
             <param name="message">The message to log.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Error(System.Object,System.Exception)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" /> message with an optional <see cref="T:System.Exception" />.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/> message with an optional <see cref="T:System.Exception"/>.
             </summary>
             <param name="message">The message to log.</param>
             <param name="e">
-            The	<see cref="T:System.Exception" /> associated with the message. If there isn't any
-            <see cref="T:System.Exception" /> associated with the message, pass <see langword="null" />.
+            The	<see cref="T:System.Exception"/> associated with the message. If there isn't any
+            <see cref="T:System.Exception"/> associated with the message, pass <see langword="null"/>.
             </param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Fatal(System.Object)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> message.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> message.
             </summary>
             <param name="message">The message to log.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Fatal(System.Object,System.Exception)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> message with an optional <see cref="T:System.Exception" />.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> message with an optional <see cref="T:System.Exception"/>.
             </summary>
             <param name="message">The message to log.</param>
             <param name="e">
-            The	<see cref="T:System.Exception" /> associated with the message. If there isn't any
-            <see cref="T:System.Exception" /> associated with the message, pass <see langword="null" />.
+            The	<see cref="T:System.Exception"/> associated with the message. If there isn't any
+            <see cref="T:System.Exception"/> associated with the message, pass <see langword="null"/>.
             </param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Info(System.Object)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info" /> message.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info"/> message.
             </summary>
             <param name="message">The message to log.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Info(System.Object,System.Exception)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info" /> message with an optional <see cref="T:System.Exception" />.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info"/> message with an optional <see cref="T:System.Exception"/>.
             </summary>
             <param name="message">The message to log.</param>
             <param name="e">
-            The	<see cref="T:System.Exception" /> associated with the message. If there isn't any
-            <see cref="T:System.Exception" /> associated with the message, pass <see langword="null" />.
+            The	<see cref="T:System.Exception"/> associated with the message. If there isn't any
+            <see cref="T:System.Exception"/> associated with the message, pass <see langword="null"/>.
             </param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Trace(System.Object)">
@@ -2573,54 +2573,54 @@
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Warn(System.Object)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn" /> message.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn"/> message.
             </summary>
             <param name="message">The message to log.</param>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.Warn(System.Object,System.Exception)">
             <summary>
-            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn" /> message with an optional <see cref="T:System.Exception" />.
+            Log a <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn"/> message with an optional <see cref="T:System.Exception"/>.
             </summary>
             <param name="message">The message to log.</param>
             <param name="e">
-            The	<see cref="T:System.Exception" /> associated with the message. If there isn't any
-            <see cref="T:System.Exception" /> associated with the message, pass <see langword="null" />.
+            The	<see cref="T:System.Exception"/> associated with the message. If there isn't any
+            <see cref="T:System.Exception"/> associated with the message, pass <see langword="null"/>.
             </param>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsDebugEnabled">
             <summary>
-            Returns <see langword="true" /> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> is greater than or
-            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug" />. If it is, all messages will be sent to <see cref="P:System.Console.Out" />.
+            Returns <see langword="true"/> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> is greater than or
+            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Debug"/>. If it is, all messages will be sent to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsErrorEnabled">
             <summary>
-            Returns <see langword="true" /> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> is greater than or
-            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" />. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> of
-            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" /> and <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> will be sent to <see cref="P:System.Console.Out" />.
+            Returns <see langword="true"/> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> is greater than or
+            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/>. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> of
+            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/> and <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> will be sent to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsFatalEnabled">
             <summary>
-            Returns <see langword="true" /> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> is greater than or
-            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" />. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> of
-            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> will be sent to <see cref="P:System.Console.Out" />.
+            Returns <see langword="true"/> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> is greater than or
+            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/>. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> of
+            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> will be sent to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsInfoEnabled">
             <summary>
-            Returns <see langword="true" /> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> is greater than or
-            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info" />. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> of
-            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info" />, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn" />, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" />, and 
-            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> will be sent to <see cref="P:System.Console.Out" />.
+            Returns <see langword="true"/> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> is greater than or
+            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info"/>. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> of
+            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Info"/>, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn"/>, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/>, and 
+            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> will be sent to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsWarnEnabled">
             <summary>
-            Returns <see langword="true" /> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> is greater than or
-            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn" />. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" /> of
-            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn" />, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error" />, and <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal" /> 
-            will be sent to <see cref="P:System.Console.Out" />.
+            Returns <see langword="true"/> if the current <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> is greater than or
+            equal to <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn"/>. If it is, only messages with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/> of
+            <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Warn"/>, <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Error"/>, and <see cref="F:Apache.Ibatis.Common.Logging.LogLevel.Fatal"/> 
+            will be sent to <see cref="P:System.Console.Out"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.AbstractLogger.IsTraceEnabled">
@@ -2716,27 +2716,27 @@
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsDebugEnabled">
             <summary>
-            Always returns <see langword="false" />.
+            Always returns <see langword="false"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsErrorEnabled">
             <summary>
-            Always returns <see langword="false" />.
+            Always returns <see langword="false"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsFatalEnabled">
             <summary>
-            Always returns <see langword="false" />.
+            Always returns <see langword="false"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsInfoEnabled">
             <summary>
-            Always returns <see langword="false" />.
+            Always returns <see langword="false"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsWarnEnabled">
             <summary>
-            Always returns <see langword="false" />.
+            Always returns <see langword="false"/>.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.Impl.NoOpLogger.IsTraceEnabled">
@@ -2751,8 +2751,8 @@
             return false.
             </summary>
             <remarks>
-            This factory creates a single instance of <see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLogger" /> and always returns that 
-            instance whenever an <see cref="T:Apache.Ibatis.Common.Logging.ILog" /> instance is requested.
+            This factory creates a single instance of <see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLogger"/> and always returns that 
+            instance whenever an <see cref="T:Apache.Ibatis.Common.Logging.ILog"/> instance is requested.
             </remarks>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.NoOpLoggerFA.#ctor">
@@ -2781,7 +2781,7 @@
         </member>
         <member name="T:Apache.Ibatis.Common.Logging.Impl.TraceLogger">
             <summary>
-            Logger that sends output to the <see cref="T:System.Diagnostics.Trace" /> sub-system.
+            Logger that sends output to the <see cref="T:System.Diagnostics.Trace"/> sub-system.
             </summary>
         </member>
         <member name="M:Apache.Ibatis.Common.Logging.Impl.TraceLogger.#ctor(System.String,Apache.Ibatis.Common.Logging.LogLevel,System.Boolean,System.Boolean,System.String)">
@@ -2790,7 +2790,7 @@
             </summary>
             <param name="logName">The name for this instance (usually the fully qualified class name).</param>
             <param name="logLevel">
-            The logging threshold. Log messages created with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel" />
+            The logging threshold. Log messages created with a <see cref="T:Apache.Ibatis.Common.Logging.LogLevel"/>
             beneath this threshold will not be logged.
             </param>
             <param name="showDateTime">Include the current time in the log message </param>
@@ -2884,7 +2884,7 @@
         </member>
         <member name="T:Apache.Ibatis.Common.Logging.LogManager">
             <summary>
-            Uses the specified <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> to create <see cref="T:Apache.Ibatis.Common.Logging.ILog" /> instances
+            Uses the specified <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> to create <see cref="T:Apache.Ibatis.Common.Logging.ILog"/> instances
             that are used to log messages. Inspired by log4net.
             </summary>
         </member>
@@ -2899,12 +2899,12 @@
             </summary>
             <remarks>
             <para>
-            The Apache.Ibatis.Common assembly ships with the following built-in <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> implementations:
+            The Apache.Ibatis.Common assembly ships with the following built-in <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> implementations:
             </para>
             <list type="table">
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA" /></term><description>Writes output to Console.Out</description></item>
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.TraceLoggerFA" /></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
-            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLoggerFA" /></term><description>Ignores all messages</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.ConsoleOutLoggerFA"/></term><description>Writes output to Console.Out</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.TraceLoggerFA"/></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
+            <item><term><see cref="T:Apache.Ibatis.Common.Logging.Impl.NoOpLoggerFA"/></term><description>Ignores all messages</description></item>
             </list>
             </remarks>
             <value>The adapter.</value>
@@ -2945,23 +2945,23 @@
             
             </summary>
             <param name="factoryAdapterType">
-            The <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> type 
-            that will be used for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog" />
+            The <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> type 
+            that will be used for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog"/>
             </param>
             <param name="properties">
             Additional user supplied properties that are passed to the 
-            <paramref name="factoryAdapterType" />'s constructor.
+            <paramref name="factoryAdapterType"/>'s constructor.
             </param>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.LogSetting.FactoryAdapterType">
             <summary>
-            The <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter" /> type that will be used for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog" />
+            The <see cref="T:Apache.Ibatis.Common.Logging.ILoggerFactoryAdapter"/> type that will be used for creating <see cref="T:Apache.Ibatis.Common.Logging.ILog"/>
             instances.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.Common.Logging.LogSetting.Properties">
             <summary>
-            Additional user supplied properties that are passed to the <see cref="P:Apache.Ibatis.Common.Logging.LogSetting.FactoryAdapterType" />'s constructor.
+            Additional user supplied properties that are passed to the <see cref="P:Apache.Ibatis.Common.Logging.LogSetting.FactoryAdapterType"/>'s constructor.
             </summary>
         </member>
         <member name="T:Apache.Ibatis.Common.Resources.FileResourceLoadEventArgs">

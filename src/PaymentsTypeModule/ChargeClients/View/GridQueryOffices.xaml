@@ -12,7 +12,7 @@
              d:DesignHeight="500" d:DesignWidth="300">
     <i:Interaction.Triggers>
         <interactionRequest:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">
-            <interactionRequest:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True" />
+            <interactionRequest:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True"/>
         </interactionRequest:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <Grid Grid.IsSharedSizeScope="True" VerticalAlignment="Top" ShowGridLines="false">
@@ -47,24 +47,24 @@
 
             <DataGrid.Columns>
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Codigo" AllowAutoFilter="True" Width="30*" Binding="{Binding Codigo}"
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Oficina" AllowAutoFilter="True" Width="70*" Binding="{Binding Oficina}"
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Telefono" AllowAutoFilter="True" Width="70*" Binding="{Binding Telefono}"
                                                                 
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Empresa" AllowAutoFilter="True" Width="70*" Binding="{Binding Empresa}"                                                               
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Zona" AllowAutoFilter="True" Width="70*" Binding="{Binding Zona}"                                                               
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="NombreZona" AllowAutoFilter="True" Width="70*" Binding="{Binding NombreZona}"                                                               
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Dirección" AllowAutoFilter="True" Width="70*" Binding="{Binding Direccion}"                                                               
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Codigo Postal" AllowAutoFilter="True" Width="70*" Binding="{Binding CP}"                                                               
-                />
+               />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Poblacion" AllowAutoFilter="True" Width="70*" Binding="{Binding Poblacion}"                                                               
-                />
+               />
             </DataGrid.Columns>
 
         </extendedGridControl:ExtendedDataGrid>

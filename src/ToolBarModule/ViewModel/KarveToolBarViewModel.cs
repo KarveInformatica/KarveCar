@@ -1,5 +1,4 @@
-﻿using DataAccessLayer;
-using KarveCommon.Services;
+﻿using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -115,7 +114,7 @@ namespace ToolBarModule
             return true;
         }
 
-        private async void DoSaveCommand()
+        private void DoSaveCommand()
         {
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;

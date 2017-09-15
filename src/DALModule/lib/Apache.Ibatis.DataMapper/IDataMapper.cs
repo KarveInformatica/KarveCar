@@ -379,5 +379,6 @@ namespace Apache.Ibatis.DataMapper
         /// <param name="sessionScope"></param>
         /// <returns></returns>
         Task<T> QueryAsyncForObjectSession<T>(string statementId, object parameterObject, ISessionScope sessionScope);
+        Task<T> ExecuteInsertAsync<T>(string v, IList<object> param, ISessionScope session);
     }
 }

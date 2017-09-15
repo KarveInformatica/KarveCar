@@ -40,6 +40,7 @@ using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.Statements;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
+using System.Text.RegularExpressions;
 
 namespace Apache.Ibatis.DataMapper.Data
 {
@@ -82,6 +83,21 @@ namespace Apache.Ibatis.DataMapper.Data
                 int tmpParam = (int)parameterObject;
 		        parameterObject = null;
 		        request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace("@param0", Convert.ToString(tmpParam));
+            }
+            if (parameterObject is Dictionary<string, object>)
+            {
+                IDictionary<string, object> param = parameterObject as Dictionary<string, object>;
+                int i = 0;
+                request.IDbCommand.CommandText = Regex.Replace(request.IDbCommand.CommandText, @"\t|\n|\r", "").Trim();
+                foreach (object value in param.Values)
+                {
+                    string tmpValue = value as string;
+                    tmpValue = tmpValue.Trim();
+                    string p = "@param" + i.ToString();
+                    ++i;
+
+                    request.IDbCommand.CommandText = request.IDbCommand.CommandText.Replace(p, "\'" + tmpValue + "\'");
+                }
             }
 		    if (parameterObject is string)
 		    {

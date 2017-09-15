@@ -23,7 +23,6 @@
  ********************************************************************************/
 #endregion
 
-using System;
 using System.Text;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;

@@ -435,6 +435,6 @@ namespace DataAccessLayer.DataObjects
 
         public string Surname1 { get { return _surName1; } set { _surName1 = value; } }
         public string Surname2 { get { return _surName2; } set { _surName2 = value; } }
-       // string Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+       // string Type { get; set; }
     }
 }

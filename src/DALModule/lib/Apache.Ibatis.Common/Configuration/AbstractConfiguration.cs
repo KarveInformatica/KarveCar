@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using Apache.Ibatis.Common.Utilities;
 
 namespace Apache.Ibatis.Common.Configuration
 {

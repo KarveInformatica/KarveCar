@@ -13,8 +13,8 @@
             <TextBlock Text="{TemplateBinding Content}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
@@ -26,7 +26,7 @@
         <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="FontFamily" Value="Tahoma"/>
         </Style>
 
         <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
@@ -38,15 +38,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -55,15 +55,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/watch.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/watch.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <extToolkit:DateTimeUpDown Format="Custom" FormatString="hh:mm tt" Value="13:30" />
+                    <extToolkit:DateTimeUpDown Format="Custom" FormatString="hh:mm tt" Value="13:30"/>
                   
                 </StackPanel>
             </Grid>
@@ -72,10 +72,10 @@
             <Grid
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 2, 0" Source="/ProvidersModule;component/Images/watch.png" />
+                <Image Margin="0, 0, 2, 0" Source="/ProvidersModule;component/Images/watch.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -88,15 +88,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -105,10 +105,10 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/reseller.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/reseller.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
@@ -124,15 +124,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -149,15 +149,15 @@
             <Grid MaxHeight="30"
                VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png" />
+                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png"/>
 
                 <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
+                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}"/>
 
                 </StackPanel>
             </Grid>
@@ -173,8 +173,8 @@
             <xcdg:DataGridCollectionViewSource x:Key="cvsOrders" 
                                                Source="{Binding}">
                 <xcdg:DataGridCollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="ShipCountry" />
-                    <PropertyGroupDescription PropertyName="ShipCity" />
+                    <PropertyGroupDescription PropertyName="ShipCountry"/>
+                    <PropertyGroupDescription PropertyName="ShipCity"/>
                 </xcdg:DataGridCollectionViewSource.GroupDescriptions>
             </xcdg:DataGridCollectionViewSource>
         </Grid.Resources>
@@ -189,7 +189,7 @@
 
             </xcdg:ColumnManagerCell>
             <xcdg:DataGridControl.View>
-                <xcdg:TableflowView FixedColumnCount="2" />
+                <xcdg:TableflowView FixedColumnCount="2"/>
             </xcdg:DataGridControl.View>
 
             <xcdg:DataGridControl.Columns>
@@ -203,7 +203,7 @@
                              Title="Vendedor"
                              Width="150"
                              CellContentTemplate="{StaticResource SellerDataTemplate}" 
-                             />
+                            />
                 <xcdg:Column FieldName="TypeVisit"
                              Title="Tipo"
                              Width="80"/>
@@ -214,12 +214,12 @@
                 <xcdg:Column FieldName="Text"
                              Title="Texto"
                              Width="110"
-                            />
+                           />
                 <xcdg:Column FieldName="Permanent"
                              Title="Permanent"
                              Width="80"
                              CellContentTemplate="{StaticResource PermanentDataTemplate}"
-                            />
+                           />
 
                 <xcdg:Column FieldName="Name"
                              Title="Nombre"

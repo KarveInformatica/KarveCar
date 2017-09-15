@@ -31,7 +31,7 @@ using System.Text;
 namespace Apache.Ibatis.Common.Logging.Impl
 {
 	/// <summary>
-	/// Logger that sends output to the <see cref="System.Diagnostics.Trace" /> sub-system.
+	/// Logger that sends output to the <see cref="System.Diagnostics.Trace"/> sub-system.
 	/// </summary>
 	public class TraceLogger: AbstractLogger
 	{
@@ -47,7 +47,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		/// </summary>
 		/// <param name="logName">The name for this instance (usually the fully qualified class name).</param>
 		/// <param name="logLevel">
-		///	The logging threshold. Log messages created with a <see cref="LogLevel" />
+		///	The logging threshold. Log messages created with a <see cref="LogLevel"/>
 		/// beneath this threshold will not be logged.
 		/// </param>
 		/// <param name="showDateTime">Include the current time in the log message </param>

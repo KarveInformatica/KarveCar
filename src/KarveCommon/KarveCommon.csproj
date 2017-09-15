@@ -76,6 +76,16 @@
     <Compile Include="Services\IUserAccessControlList.cs" />
     <Compile Include="Validation\CountryCodeValidationRule.cs" />
     <Compile Include="Validation\EmailValidationRule.cs" />
+    <Compile Include="Converter\SqlInjectionCodigoConverter.cs" />
+    <Compile Include="Converter\NullByteConverter.cs" />
+    <Compile Include="Converter\NullDateConverter.cs" />
+    <Compile Include="Converter\MultiCommandParameterConverter.cs" />
+    <Compile Include="Converter\NullDecimalConverter.cs" />
+    <Compile Include="Converter\NullDoubleConverter.cs" />
+    <Compile Include="Converter\NullIntegerConverter.cs" />
+    <Compile Include="Converter\NullLongConverter.cs" />
+    <Compile Include="Converter\NullShortConverter.cs" />
+    <Compile Include="Converter\SqlInjectionConverter.cs" />
     <Compile Include="Generic\ICreateRegionManagerScope.cs" />
     <Compile Include="Generic\IDataGridRowChange.cs" />
     <Compile Include="Generic\KarveIntertTabClient.cs" />

@@ -1,6 +1,6 @@
-﻿using KarveCar.ViewModel.MaestrosViewModel;
+﻿using System;
+using KarveCar.ViewModel.MaestrosViewModel;
 using KarveCommon.Command;
-using System;
 
 namespace KarveCar.Commands.MaestrosCommand
 {
@@ -16,7 +16,7 @@ namespace KarveCar.Commands.MaestrosCommand
 
         public override void Execute(object parameter)
         {
-            //grupovehiculovm.GrupoVehiculo(parameter);
+            grupovehiculovm.GrupoVehiculo(parameter);
         }
 
         public override bool UnExecute()

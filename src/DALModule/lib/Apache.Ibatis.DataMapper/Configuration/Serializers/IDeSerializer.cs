@@ -24,8 +24,6 @@
 #endregion
 
 #region Using
-
-using System.Xml;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Elements;
 

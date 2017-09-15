@@ -41,7 +41,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		protected abstract void Write(LogLevel logLevel, object message, Exception e);
 
 		/// <summary>
-		/// Concrete classes should override this method to determine if a particular <see cref="LogLevel" />
+		/// Concrete classes should override this method to determine if a particular <see cref="LogLevel"/>
 		/// is enabled.
 		/// </summary>
 		/// <param name="logLevel"></param>
@@ -51,7 +51,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		#region ILog Members
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Debug" /> message.
+		/// Log a <see cref="LogLevel.Debug"/> message.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		public void Debug(object message)
@@ -60,12 +60,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Debug" /> message with an optional <see cref="Exception" />.
+		/// Log a <see cref="LogLevel.Debug"/> message with an optional <see cref="Exception"/>.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="e">
-		/// The	<see cref="Exception" /> associated with the message. If there isn't any
-		/// <see cref="Exception" /> associated with the message, pass <see langword="null" />.
+		/// The	<see cref="Exception"/> associated with the message. If there isn't any
+		/// <see cref="Exception"/> associated with the message, pass <see langword="null"/>.
 		/// </param>
 		public void Debug(object message, Exception e)
 		{
@@ -76,7 +76,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Error" /> message.
+		/// Log a <see cref="LogLevel.Error"/> message.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		public void Error(object message)
@@ -85,12 +85,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Error" /> message with an optional <see cref="Exception" />.
+		/// Log a <see cref="LogLevel.Error"/> message with an optional <see cref="Exception"/>.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="e">
-		/// The	<see cref="Exception" /> associated with the message. If there isn't any
-		/// <see cref="Exception" /> associated with the message, pass <see langword="null" />.
+		/// The	<see cref="Exception"/> associated with the message. If there isn't any
+		/// <see cref="Exception"/> associated with the message, pass <see langword="null"/>.
 		/// </param>
 		public void Error(object message, Exception e)
 		{
@@ -101,7 +101,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Fatal" /> message.
+		/// Log a <see cref="LogLevel.Fatal"/> message.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		public void Fatal(object message)
@@ -110,12 +110,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Fatal" /> message with an optional <see cref="Exception" />.
+		/// Log a <see cref="LogLevel.Fatal"/> message with an optional <see cref="Exception"/>.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="e">
-		/// The	<see cref="Exception" /> associated with the message. If there isn't any
-		/// <see cref="Exception" /> associated with the message, pass <see langword="null" />.
+		/// The	<see cref="Exception"/> associated with the message. If there isn't any
+		/// <see cref="Exception"/> associated with the message, pass <see langword="null"/>.
 		/// </param>
 		public void Fatal(object message, Exception e)
 		{
@@ -126,7 +126,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Info" /> message.
+		/// Log a <see cref="LogLevel.Info"/> message.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		public void Info(object message)
@@ -135,12 +135,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Info" /> message with an optional <see cref="Exception" />.
+		/// Log a <see cref="LogLevel.Info"/> message with an optional <see cref="Exception"/>.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="e">
-		/// The	<see cref="Exception" /> associated with the message. If there isn't any
-		/// <see cref="Exception" /> associated with the message, pass <see langword="null" />.
+		/// The	<see cref="Exception"/> associated with the message. If there isn't any
+		/// <see cref="Exception"/> associated with the message, pass <see langword="null"/>.
 		/// </param>
 		public void Info(object message, Exception e)
 		{
@@ -176,7 +176,7 @@ namespace Apache.Ibatis.Common.Logging.Impl
         }
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Warn" /> message.
+		/// Log a <see cref="LogLevel.Warn"/> message.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		public void Warn(object message)
@@ -185,12 +185,12 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Log a <see cref="LogLevel.Warn" /> message with an optional <see cref="Exception" />.
+		/// Log a <see cref="LogLevel.Warn"/> message with an optional <see cref="Exception"/>.
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="e">
-		/// The	<see cref="Exception" /> associated with the message. If there isn't any
-		/// <see cref="Exception" /> associated with the message, pass <see langword="null" />.
+		/// The	<see cref="Exception"/> associated with the message. If there isn't any
+		/// <see cref="Exception"/> associated with the message, pass <see langword="null"/>.
 		/// </param>
 		public void Warn(object message, Exception e)
 		{
@@ -201,8 +201,8 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Returns <see langword="true" /> if the current <see cref="LogLevel" /> is greater than or
-		/// equal to <see cref="LogLevel.Debug" />. If it is, all messages will be sent to <see cref="Console.Out" />.
+		/// Returns <see langword="true"/> if the current <see cref="LogLevel"/> is greater than or
+		/// equal to <see cref="LogLevel.Debug"/>. If it is, all messages will be sent to <see cref="Console.Out"/>.
 		/// </summary>
 		public bool IsDebugEnabled
 		{
@@ -210,9 +210,9 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Returns <see langword="true" /> if the current <see cref="LogLevel" /> is greater than or
-		/// equal to <see cref="LogLevel.Error" />. If it is, only messages with a <see cref="LogLevel" /> of
-		/// <see cref="LogLevel.Error" /> and <see cref="LogLevel.Fatal" /> will be sent to <see cref="Console.Out" />.
+		/// Returns <see langword="true"/> if the current <see cref="LogLevel"/> is greater than or
+		/// equal to <see cref="LogLevel.Error"/>. If it is, only messages with a <see cref="LogLevel"/> of
+		/// <see cref="LogLevel.Error"/> and <see cref="LogLevel.Fatal"/> will be sent to <see cref="Console.Out"/>.
 		/// </summary>
 		public bool IsErrorEnabled
 		{
@@ -220,9 +220,9 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Returns <see langword="true" /> if the current <see cref="LogLevel" /> is greater than or
-		/// equal to <see cref="LogLevel.Fatal" />. If it is, only messages with a <see cref="LogLevel" /> of
-		/// <see cref="LogLevel.Fatal" /> will be sent to <see cref="Console.Out" />.
+		/// Returns <see langword="true"/> if the current <see cref="LogLevel"/> is greater than or
+		/// equal to <see cref="LogLevel.Fatal"/>. If it is, only messages with a <see cref="LogLevel"/> of
+		/// <see cref="LogLevel.Fatal"/> will be sent to <see cref="Console.Out"/>.
 		/// </summary>
 		public bool IsFatalEnabled
 		{
@@ -230,10 +230,10 @@ namespace Apache.Ibatis.Common.Logging.Impl
 		}
 
 		/// <summary>
-		/// Returns <see langword="true" /> if the current <see cref="LogLevel" /> is greater than or
-		/// equal to <see cref="LogLevel.Info" />. If it is, only messages with a <see cref="LogLevel" /> of
-		/// <see cref="LogLevel.Info" />, <see cref="LogLevel.Warn" />, <see cref="LogLevel.Error" />, and 
-		/// <see cref="LogLevel.Fatal" /> will be sent to <see cref="Console.Out" />.
+		/// Returns <see langword="true"/> if the current <see cref="LogLevel"/> is greater than or
+		/// equal to <see cref="LogLevel.Info"/>. If it is, only messages with a <see cref="LogLevel"/> of
+		/// <see cref="LogLevel.Info"/>, <see cref="LogLevel.Warn"/>, <see cref="LogLevel.Error"/>, and 
+		/// <see cref="LogLevel.Fatal"/> will be sent to <see cref="Console.Out"/>.
 		/// </summary>
 		public bool IsInfoEnabled
 		{
@@ -242,10 +242,10 @@ namespace Apache.Ibatis.Common.Logging.Impl
 
 
 		/// <summary>
-		/// Returns <see langword="true" /> if the current <see cref="LogLevel" /> is greater than or
-		/// equal to <see cref="LogLevel.Warn" />. If it is, only messages with a <see cref="LogLevel" /> of
-		/// <see cref="LogLevel.Warn" />, <see cref="LogLevel.Error" />, and <see cref="LogLevel.Fatal" /> 
-		/// will be sent to <see cref="Console.Out" />.
+		/// Returns <see langword="true"/> if the current <see cref="LogLevel"/> is greater than or
+		/// equal to <see cref="LogLevel.Warn"/>. If it is, only messages with a <see cref="LogLevel"/> of
+		/// <see cref="LogLevel.Warn"/>, <see cref="LogLevel.Error"/>, and <see cref="LogLevel.Fatal"/> 
+		/// will be sent to <see cref="Console.Out"/>.
 		/// </summary>
 		public bool IsWarnEnabled
 		{

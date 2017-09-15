@@ -25,7 +25,6 @@
 #endregion
 
 using System.Runtime.CompilerServices;
-using Apache.Ibatis.DataMapper.Model.Cache;
 
 namespace Apache.Ibatis.DataMapper.Model.Cache.Decorators
 {

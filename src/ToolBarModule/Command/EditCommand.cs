@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ToolBarModule.Command
+﻿namespace ToolBarModule.Command
 {
     public class EditCommand : ToolBarCommand
     {

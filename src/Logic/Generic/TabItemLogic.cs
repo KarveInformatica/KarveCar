@@ -3,7 +3,6 @@ using KarveCar.Model.Generic;
 using KarveCar.Model.Sybase;
 using KarveCar.View;
 using System;
-using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,12 +21,12 @@ namespace KarveCommon.Logic.Generic
         /// </summary>
         /// <param name="opcion"></param>
         /// <returns></returns>
-        public static TabItem CreateTabItem(EOpcion opcion)
+        public static TabItemUserControl CreateTabItem(EOpcion opcion)
         {
             TabItemUserControl tbitem = new TabItemUserControl();
             var binding = new Binding();
             binding.IsAsync = true;
-            binding.Path = new PropertyPath(ribbonbuttondictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.propertiesresources);
+            binding.Path = new PropertyPath(ribbonbuttondictionary.FirstOrDefault(z => z.Key == opcion).Value.propertiesresources);
             binding.Source = (ObjectDataProvider)App.Current.FindResource("ResourceLanguage");
             tbitem.SetBinding(TabItem.HeaderProperty, binding);
             tbitem.Name = opcion.ToString();
@@ -49,47 +48,20 @@ namespace KarveCommon.Logic.Generic
         {
             try
             {
-                if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
+                if (!tabitemdictionary.ContainsKey(opcion))
                 {
                     //Se crea el Tabitem
-                    TabItem tabitem = CreateTabItem(opcion);
+                    TabItemUserControl tabitem = CreateTabItem(opcion);
 
                     //Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
                     tabitemdictionary.Add(opcion, new TemplateInfoTabItem(tabitem));
 
                     //Se añade un nuevo UserControl al TabItem
                     tabitem.Content = obj;
-
                 }
                 else
                 {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                    tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorsGeneric.MessageError(ex);
-            }
-        }
-        public static void CreateTabItemUserControlFromContainer(EOpcion opcion,object userControlView)
-        {
-            try
-            {
-                if (tabitemdictionary.Where(p => p.Key == opcion).Count() == 0)
-                {
-                    //Se crea el Tabitem
-                    TabItem tabitem = CreateTabItem(opcion);
-
-                    //Se añade un nuevo UserControl al TabItem
-                    tabitem.Content = userControlView;
-
-                    //Se añade el EOpcion y el nuevo TabItem al Dictionary de TabItems(tabitemdictionary) que almacena los TabItems activos
-                    tabitemdictionary.Add(opcion, new TemplateInfoTabItem(tabitem));
-
-                }
-                else
-                {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                    tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Value.TabItem.Focus();
+                    tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.TabItem.Focus();
                 }
             }
             catch (Exception ex)

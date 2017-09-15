@@ -34,7 +34,7 @@ namespace Apache.Ibatis.Common.Data
     public sealed class ProviderSerializer
     {
         /// <summary>
-        /// Serializes the specified <see cref="IDbProvider"/> into an <see cred="IConfiguration" /> node.
+        /// Serializes the specified <see cref="IDbProvider"/> into an <see cred="IConfiguration"/> node.
         /// </summary>
         public static IConfiguration Serialize(IDbProvider dbProvider)
         {

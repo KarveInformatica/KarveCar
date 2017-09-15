@@ -38,19 +38,27 @@ namespace Apache.Ibatis.DataMapper.Configuration
         /// <param name="store">The store.</param>
         private void BuildTypeAlias(IConfigurationStore store)
         {
-            //_configScope.ErrorContext.Resource = nodeDataSource.OuterXml.ToString();
-            //_configScope.ErrorContext.MoreInfo = "parse DataSource";
-            try
-            {
+            /*_configScope.ErrorContext.Resource = nodeDataSource.OuterXml.ToString();
+            _configScope.ErrorContext.MoreInfo = "parse DataSource";
+
                 for (int i = 0; i < store.Alias.Length; i++)
-            {
-                TypeAlias typeAlias = TypeAliasDeSerializer.Deserialize(store.Alias[i]);
-                modelStore.DataExchangeFactory.TypeHandlerFactory.AddTypeAlias(typeAlias.Id, typeAlias);
-            }
+                {
+                    
+                    try
+                    {
+                        TypeAlias typeAlias = TypeAliasDeSerializer.Deserialize(store.Alias[i]);
+                        modelStore.DataExchangeFactory.TypeHandlerFactory.AddTypeAlias(typeAlias.Id, typeAlias);
+                    } catch (Exception e)
+                    {
+                    string message = "Exception during deserialized: " + store.Alias[i].Value +" StackTrace: "+e.Message;
+                    throw new TypeAliasDeserializeException(message);
+                    }
+                }
             } catch(Exception e)
             {
                 throw new Exception(e.Message);
             }
+            */
         }
     }
 }

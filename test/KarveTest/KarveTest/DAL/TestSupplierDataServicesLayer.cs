@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using DataAccessLayer;
-using KarveCar.View;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using Microsoft.Practices.Unity;
 using NUnit.Framework;
-using Prism.Unity;
+using KarveCommon.Services;
+using System.Diagnostics;
 
 namespace KarveTest.DAL
 {
@@ -20,7 +15,9 @@ namespace KarveTest.DAL
     {
         //private IDataServices _dataServices;
         //private ISupplierDataServices _supplierDataServices;
-
+        private IConfigurationService _serviceConf;
+        private Stopwatch _currentStopWatch;
+        private string _baseSupplierId = "";
         ///// <summary>
         /////  Returns a supplierId
         ///// </summary>
@@ -99,9 +96,15 @@ namespace KarveTest.DAL
         //            Assert.NotNull(dataObjectInfo);
         //        }
         //    }
-
+      /*      catch (Exception e)
+            {
+                Assert.NotNull(e.Message);
+            }
+            Assert.NotNull(supplierTypes);
+            _currentStopWatch.Stop();
+            TestContext.Out.WriteLine("Elapsed={0}", _currentStopWatch.Elapsed);
+            */
         //}
-
         ///// <summary>
         /////  This test shall not give a provider at all.
         ///// </summary>
@@ -163,12 +166,10 @@ namespace KarveTest.DAL
         /////  It should load the evalution note from the supplier.
         ///// </summary>
         ///// <returns></returns>
-
         //[Test]
         //public async Task Should_LoadEvaluationNote_By_SupplierId()
         //{
         //    DataSet set = null;
-            
         //    try
         //    {
         //        set = await _supplierDataServices.GetAsyncAllSupplierSummary();
@@ -213,7 +214,6 @@ namespace KarveTest.DAL
         //        Assert.Fail(e.Message);
         //    }
         //}
-
         //[Test]
         //public async Task Should_Return_Full_Supplier_Paged()
         //{
@@ -247,6 +247,21 @@ namespace KarveTest.DAL
         //    {
         //        Assert.NotNull(e);
         //    }
+            // ok we have the data.
+            /*if (set != null)
+            {
+                DataTable table = set.Tables[0];
+                // we shall see the fields.
+                int count = table.Rows.Count;
+                Assert.GreaterOrEqual(count, 1);
+                DataRow row = table.Rows[0];
+                Assert.NotNull(row["Numero"]);
+                supplierId = row["Numero"] as string;
+            }
+            
+            return supplierId;
+        }
+        */
 
 
         //}
@@ -260,7 +275,7 @@ namespace KarveTest.DAL
         //public async Task Should_Be_All_Not_Null_Fields_Suppliers()
         //{
         //    DataSet set = null;
-            
+
         //    try
         //    {
         //        set = await _supplierDataServices.GetAsyncAllSupplierSummary();
@@ -288,6 +303,14 @@ namespace KarveTest.DAL
         //    }
         //    return;
         //}
-        
+        private void CheckSingleSupplier(DataTableCollection tables)
+        {
+            Assert.Greater(tables.Count, 0);
+            DataTable table = tables[0];
+            Assert.Greater(table.Rows.Count, 0);
+            DataRow row = table.Rows[0];
+            Assert.NotNull(row["Numero"]);
+        }
+
     }
 }

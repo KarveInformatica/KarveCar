@@ -1,5 +1,4 @@
-﻿using System;
-using KarveCar.Model.Generic;
+﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -15,11 +14,11 @@ namespace DataAccessLayer.DataObjects
         private string _ultimamodificacion = "";
         private string _usuario = "";
         private string _nombre = "";
-        private EControlCambioDataGrid _controlcambiodatagrid;
+        private EControlCambio _controlcambiodatagrid;
 
         public BaseAuxDataObject()
         {
-            this.ControlCambioDataGrid = EControlCambioDataGrid.Null;
+            this.ControlCambio = EControlCambio.Null;
         }
 
       
@@ -80,13 +79,13 @@ namespace DataAccessLayer.DataObjects
                 OnPropertyChanged("Usuario");
             }
         }
-        public EControlCambioDataGrid ControlCambioDataGrid
+        public EControlCambio ControlCambio
         {
             get { return _controlcambiodatagrid; }
             set
             {
                 _controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
     }

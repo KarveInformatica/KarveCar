@@ -49,6 +49,7 @@
     <Compile Include="ChargeTypeDataAccessLayer.cs" />
     <Compile Include="CreateSupplierAccountCommandObject.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
+    <Compile Include="DataObjects\AccountDataObject.cs" />
     <Compile Include="DataObjects\ActividadVehiculo.cs" />
     <Compile Include="DataObjects\BancoDataObject.cs" />
     <Compile Include="BaseDataMapper.cs" />
@@ -73,10 +74,13 @@
     <Compile Include="DataObjects\FormaPagoProveedor.cs" />
     <Compile Include="DataObjects\FormaTraslado.cs" />
     <Compile Include="DataObjects\GrupoTarifa.cs" />
+    <Compile Include="DataObjects\GrupoVehiculoPrecioPorDefectoDataObject.cs" />
+    <Compile Include="DataObjects\MarcaDataObject.cs" />
     <Compile Include="DataObjects\OfficePerInvoiceTypeObject.cs" />
     <Compile Include="DataObjects\GrupoVehiculoDataObject.cs" />
     <Compile Include="DataObjects\PageParameterObject.cs" />
     <Compile Include="DataObjects\SupplierAccountObjectInfo.cs" />
+    <Compile Include="DataObjects\SupplierAssuranceDataObject.cs" />
     <Compile Include="DataObjects\SupplierContactsDataObject.cs" />
     <Compile Include="DataObjects\SupplierEvaluationDataObject.cs" />
     <Compile Include="DataObjects\SupplierInfoDataObject.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="DataObjects\SupplierProvinceDataObject.cs" />
     <Compile Include="DataObjects\SuppliersBranchesDataObject.cs" />
     <Compile Include="DataObjects\SupplierSummaryDataObject.cs" />
+    <Compile Include="DataObjects\SupplierTransportDataObject.cs" />
     <Compile Include="DataObjects\SupplierTypeDataObject.cs" />
     <Compile Include="DataObjects\SupplierVisitDataObject.cs" />
     <Compile Include="DataServiceImplementation.cs" />

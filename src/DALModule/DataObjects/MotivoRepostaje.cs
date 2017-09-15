@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class MotivoRepostaje : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public MotivoRepostaje() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public MotivoRepostaje() { this.ControlCambio = EControlCambio.Null; }
         public MotivoRepostaje(byte codigo, string definicion)
         {
             this.codigo = codigo;
@@ -60,14 +60,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

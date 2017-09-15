@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class TipoVisita : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public TipoVisita() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public TipoVisita() { this.ControlCambio = EControlCambio.Null; }
         public TipoVisita(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,14 +62,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

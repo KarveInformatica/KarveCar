@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class FormaTraslado : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public FormaTraslado() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public FormaTraslado() { this.ControlCambio = EControlCambio.Null; }
         public FormaTraslado(byte codigo, string definicion, string observaciones, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -74,14 +74,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

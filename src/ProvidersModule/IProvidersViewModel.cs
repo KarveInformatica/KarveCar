@@ -9,6 +9,6 @@ namespace ProvidersModule
 {
     public interface IProvidersViewModel
     {
-        void Navigate(string name);
+       
     }
 }

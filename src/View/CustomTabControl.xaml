@@ -3,11 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProvidersModule.Views"
-             xmlns:main="clr-namespace:KarveCar"
              mc:Ignorable="d" Background="{StaticResource WindowBackgroundBrush}">
 
-        <TabItem.Resources>
+    <TabItem.Resources>
             <DataTemplate x:Key="TabHeader" DataType="TabItem">
                 <DockPanel>
                     <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=Header}" />

@@ -165,18 +165,19 @@
                                                    x:Name="ProviderSupplierSummary" 
                                                    ItemsSource="{Binding SummaryView}" 
                                                    SelectedIndex="{Binding SelectedIndex}"
-                                                   RowHeaderWidth="17" 
-                                                   IsReadOnly="True"
+                                                  HideColumnChooser="True"
+                                                  CanUserAddRows="False" 
+                                                  OnlyTwoWaySorting="True" 
+                                                  
+                                                  AutoFilterFontSize="12" 
+                                                  GroupByControlVisibility="Collapsed" 
+                                                  IsReadOnly="True"
                                                    MaxHeight="670"
                                                    AutoGenerateColumns="False" 
-                                                   HideColumnChooser="True" 
                                                    AllowUserToCopy="True"
-                                                   OnlyTwoWaySorting="True"
                                                    SearchAutoFilterVisibility="Visible" 
-                                                   AutoFilterFontSize="12"
-                                                   GroupByControlVisibility="Collapsed" 
                                                    IsSynchronizedWithCurrentItem="True"                                           
-                                                   SelectionUnit="FullRow" >
+                                                   SelectionUnit="FullRow" SelectionChanged="ProviderSupplierSummary_SelectionChanged" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedValue}"/>
@@ -194,29 +195,35 @@
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Población" AllowAutoFilter="True" Binding="{Binding City}"
                                                                
                     />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="CP" AllowAutoFilter="True" Binding="{Binding Zip}"
-                    />
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Email" AllowAutoFilter="True" Binding="{Binding Zip}" />
+
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Email" AllowAutoFilter="True" Binding="{Binding Email}" />
+
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Commercial" AllowAutoFilter="True" Binding="{Binding Commercial}"
                     />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Telefono" AllowAutoFilter="True" Binding="{Binding Phone}"
                     />
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Tipo" AllowAutoFilter="True" Binding="{Binding Type}" />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Forma de Pago" AllowAutoFilter="True" Binding="{Binding PaymentType}" />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Cuenta contable" AllowAutoFilter="True" Binding="{Binding Account}" />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Cuenta gastos" AllowAutoFilter="True" Binding="{Binding ExpenseAccount}" />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Ultimo Cambio" AllowAutoFilter="True" Binding="{Binding LastChange}" />
                     <extendedColumn:ExtendedDataGridTextColumn  Header="Usuario" AllowAutoFilter="True" Binding="{Binding ChangedByUser}" />
-
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="Aeat" AllowAutoFilter="True" Binding="{Binding Aeat}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="ExpenseAccount" AllowAutoFilter="True" Binding="{Binding ExpenseAccount}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod1" AllowAutoFilter="True" Binding="{Binding SupplierPeriod1}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod2" AllowAutoFilter="True" Binding="{Binding SupplierPeriod2}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod3" AllowAutoFilter="True" Binding="{Binding SupplierPeriod3}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay1" AllowAutoFilter="True" Binding="{Binding SupplierDay1}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay2" AllowAutoFilter="True" Binding="{Binding SupplierDay2}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay3" AllowAutoFilter="True" Binding="{Binding SupplierDay3}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="VacationMonth1" AllowAutoFilter="True" Binding="{Binding VacationMonth1}"/>
+                    <extendedColumn:ExtendedDataGridTextColumn  Header="VacationMonth2" AllowAutoFilter="True" Binding="{Binding VacationMonth2}"/>
                 </DataGrid.Columns>
             </extendedGridControl:ExtendedDataGrid>
            
         </StackPanel>
-        <Grid.Resources>
-            <xcdg:DataGridCollectionViewSource 
-            x:Key="supplierList" 
-            Source="{Binding SummaryView}" 
-            />
-        </Grid.Resources>
-    </Grid>
+     </Grid>
 
 </UserControl>
 

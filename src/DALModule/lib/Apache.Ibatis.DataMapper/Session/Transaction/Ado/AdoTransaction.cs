@@ -36,7 +36,7 @@ using Apache.Ibatis.DataMapper.Exceptions;
 namespace Apache.Ibatis.DataMapper.Session.Transaction.Ado
 {
     /// <summary>
-    /// Implement the <see cref="ITransaction" /> interface using an ADO.NET <see cref="IDbTransaction"/>
+    /// Implement the <see cref="ITransaction"/> interface using an ADO.NET <see cref="IDbTransaction"/>
     /// </summary>
     public class AdoTransaction : ITransaction
     {
@@ -55,7 +55,7 @@ namespace Apache.Ibatis.DataMapper.Session.Transaction.Ado
         /// Gets a value indicating whether this instance is started.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if the <see cref="ITransaction" /> is started; otherwise, <c>false</c>.
+        /// 	<c>true</c> if the <see cref="ITransaction"/> is started; otherwise, <c>false</c>.
         /// </value>
         public bool IsStarted
         {

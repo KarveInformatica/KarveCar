@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class Color : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Color() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public Color() { this.ControlCambio = EControlCambio.Null; }
         public Color(string codigo, string definicion, string tipocolor, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -74,14 +74,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

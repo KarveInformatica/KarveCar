@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using iAnywhere.Data.SQLAnywhere;
-
-
-namespace Apache.Ibatis.Common.Data
+﻿namespace Apache.Ibatis.Common.Data
 {
     
     /// <summary>

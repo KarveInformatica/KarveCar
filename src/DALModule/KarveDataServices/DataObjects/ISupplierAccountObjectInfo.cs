@@ -15,16 +15,16 @@ namespace KarveDataServices.DataObjects
         string AccountDescription { set; get; }
         string AccountDescription2 { set; get; }
         string ExpensesAccountCode { set; get; }
-        string ExpensesAccount {set; get;}
+        string ExpensesAccount { set; get; }
         // cuenta efectos
         string CustomerAccount { set; get; }
         string DeductionAccountCode { set; get; }
-        object DeductionAccount { set; get; }
-        object DeductionPercentage { set; get; }
-        object PaymentAccountCode { set; get; }
-        object PaymentAccount { set; get; }
-        object IntraAccountSop { set; get; }
-        object IntraAccountRep { set; get; }
+        string DeductionAccount { set; get; }
+        string DeductionPercentage { set; get; }
+        string PaymentAccountCode { set; get; }
+        string PaymentAccount { set; get; }
+        string IntraAccountSop { set; get; }
+        string IntraAccountRep { set; get; }
         string IBAN { set; get; }
         object SWIFT { set; get; }
         string TransferAccount { set; get; }
@@ -36,7 +36,9 @@ namespace KarveDataServices.DataObjects
         object Active { get; set; }
         bool IsInvoiceManagementEnabled { get; set; }
         object edKCli { get; set; }
-        object Nif { get; set; }
+        string Nif { get; set; }
         string CommissionNumber { get; set; }
+        string CPAccount { get; set; }
+        string LPAccount { get; set; }
     }
 }

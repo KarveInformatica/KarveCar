@@ -1,6 +1,7 @@
 ﻿using KarveCar.ViewModel.MaestrosViewModel;
 using KarveCommon.Command;
 using System;
+using System.Threading.Tasks;
 
 namespace KarveCar.Commands.Generic
 {
@@ -15,9 +16,11 @@ namespace KarveCar.Commands.Generic
             this.mostrarauxiliaresvm = vm;
         }
 
-        public override void Execute(object parameter)
+        /// <inheritdoc/>
+        public override async void Execute(object parameter)
         {
-            mostrarauxiliaresvm.MostrarAuxiliares(parameter);        
+            if (mostrarauxiliaresvm != null)
+                await mostrarauxiliaresvm.MostrarAuxiliares(parameter);
         }
 
         public override bool UnExecute()

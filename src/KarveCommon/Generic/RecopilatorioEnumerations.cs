@@ -77,6 +77,7 @@
             rbtnExtras,
             rbtnFormasTraslado,
             rbtnGruposVehiculos,
+            rbtnGrupoVehiculoPrecioPorDefecto,
             rbtnMarcas,
             rbtnModelos,
             rbtnModificacionMasivaAux,
@@ -347,7 +348,7 @@
         /// <summary>
         /// Enumeración con los tipos de de Control de Cambio de los DataGrid
         /// </summary>
-        public enum EControlCambioDataGrid
+        public enum EControlCambio
         {
             Null,
             Delete,

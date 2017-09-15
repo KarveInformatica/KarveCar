@@ -23,7 +23,6 @@
  ********************************************************************************/
 #endregion
 
-using System;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Contracts;
 using Apache.Ibatis.Common.Contracts.Constraints;

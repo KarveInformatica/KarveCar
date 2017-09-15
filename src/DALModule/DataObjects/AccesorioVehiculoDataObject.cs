@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class AccesorioVehiculoDataObject : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public AccesorioVehiculoDataObject() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public AccesorioVehiculoDataObject() { this.ControlCambio = EControlCambio.Null; }
         public AccesorioVehiculoDataObject(int codigo, string definicion)
         {
             this.codigo = codigo;
@@ -60,14 +60,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class TipoComisionista : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public TipoComisionista() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public TipoComisionista() { this.ControlCambio = EControlCambio.Null; }
         public TipoComisionista(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,8 +62,8 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

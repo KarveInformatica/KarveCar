@@ -27,12 +27,6 @@
 #region Using
 using System;
 using System.Data;
-using System.Xml.Serialization;
-
-using Apache.Ibatis.Common.Exceptions;
-using Apache.Ibatis.DataMapper.Exceptions;
-using Apache.Ibatis.DataMapper.Model.Sql.External;
-using Apache.Ibatis.DataMapper.Scope;
 using System.Diagnostics;
 using Apache.Ibatis.Common.Utilities.Objects;
 using Apache.Ibatis.DataMapper.Model.Cache;

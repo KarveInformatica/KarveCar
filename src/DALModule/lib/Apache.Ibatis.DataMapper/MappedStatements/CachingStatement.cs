@@ -38,8 +38,6 @@ using Apache.Ibatis.DataMapper.Model.Cache;
 using Apache.Ibatis.DataMapper.Model.Statements;
 using Apache.Ibatis.DataMapper.Scope;
 using Apache.Ibatis.DataMapper.Session;
-using Apache.Ibatis.DataMapper.Model.Events;
-
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.MappedStatements

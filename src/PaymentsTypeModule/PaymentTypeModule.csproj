@@ -83,12 +83,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChargeClients\ValidationRules\Iban.cs" />
-    <Compile Include="ChargeClients\ValidationRules\IbanLibrary.cs" />
-    <Compile Include="ChargeClients\ValidationRules\IBANValidationRule.cs" />
-    <Compile Include="ChargeClients\ValidationRules\NumberValidationRule.cs" />
-    <Compile Include="ChargeClients\ValidationRules\PercentageValidationRule.cs" />
-    <Compile Include="ChargeClients\ValidationRules\SwiftValidationRule.cs" />
     <Compile Include="ChargeClients\ViewModel\ClientChargeViewModel.cs" />
     <Compile Include="ChargeClients\ViewModel\GridPopUpViewModel.cs" />
     <Compile Include="ChargeClients\ViewModel\RoleToVisibilityConverter.cs" />

@@ -37,7 +37,7 @@ namespace Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml.Process
         /// <param name="configurationStore">The configuration store.</param>
         private void ProcessSettingElement(Tag element, IConfigurationStore configurationStore)
         {
-            // <setting hello="world" />
+            // <setting hello="world"/>
 
             string settingKey = element.GetAttributeName(0);
             string settingValue = element.GetAttributeValue(0);

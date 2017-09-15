@@ -1,14 +1,12 @@
 ﻿using KarveCar.Utility;
+using KarveCar.ViewModel.GenericViewModel;
+using Microsoft.Practices.Unity;
 using Microsoft.Windows.Controls.Ribbon;
-using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
-using KarveCar.ViewModel;
-using KarveCar.ViewModel.GenericViewModel;
-using KarveCommon.Services;
-using Microsoft.Practices.Unity;
 
 namespace KarveCar.View
 {
@@ -25,8 +23,9 @@ namespace KarveCar.View
       
         public MainWindow()
         {
-            InitializeComponent();         
-            
+            InitializeComponent();            
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+
         }
         /// <summary>
         ///  Overrides the base window show to inject unity in the main view model.
@@ -46,8 +45,10 @@ namespace KarveCar.View
 
         }
 
+
         public void btnHelp_Click(object sender, RoutedEventArgs e)
         {
+            //Mensaje de ejemplo
             MessageBox.Show("Aquí va nuestro mensaje de ayuda", "Ayuda", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -62,6 +63,7 @@ namespace KarveCar.View
             RibbonGroupDragDrop.RibbonGroup_Drop(sender, e);
         }
         #endregion
+
         private void tbControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // this has to be done currently by the configuration service.

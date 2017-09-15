@@ -47,24 +47,25 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
-            var opcion = EOpcion.rbtnFormasCobroClientes;
+            EOpcion opcion = EOpcion.rbtnFormasCobroClientes;
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IPaymentView paymentView = container.Resolve<IPaymentView>();
             IPaymentViewModule paymentViewModule = container.Resolve<IPaymentViewModule>();
             UserControl view = paymentView as UserControl;
             view.DataContext = paymentViewModule;
-            if (!ribbonbuttondictionary.ContainsKey(EOpcion.rbtnFormasCobroClientes))
+
+            if (!ribbonbuttondictionary.ContainsKey(opcion))
             {
                 TemplateInfoRibbonButton ribbonTemplate = new TemplateInfoRibbonButton();
                 ribbonTemplate.propertiesresources = "lrbtnFormasCobroClientes"; 
-                ribbonbuttondictionary.Add(EOpcion.rbtnFormasCobroClientes, ribbonTemplate);   
+                ribbonbuttondictionary.Add(opcion, ribbonTemplate);   
             }          
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
             {
-                TabItemLogic.CreateTabItemUserControlFromContainer(EOpcion.rbtnFormasCobroClientes, paymentView);
+                TabItemLogic.CreateTabItemUserControl(opcion, paymentView);
             
             }
         }

@@ -42,12 +42,12 @@ namespace Apache.Ibatis.Common.Logging
 		/// 
 		/// </summary>
 		/// <param name="factoryAdapterType">
-		/// The <see cref="ILoggerFactoryAdapter" /> type 
-		/// that will be used for creating <see cref="ILog" />
+		/// The <see cref="ILoggerFactoryAdapter"/> type 
+		/// that will be used for creating <see cref="ILog"/>
 		/// </param>
 		/// <param name="properties">
 		/// Additional user supplied properties that are passed to the 
-		/// <paramref name="factoryAdapterType" />'s constructor.
+		/// <paramref name="factoryAdapterType"/>'s constructor.
 		/// </param>
 		public LogSetting ( Type factoryAdapterType , NameValueCollection properties )
 		{
@@ -56,7 +56,7 @@ namespace Apache.Ibatis.Common.Logging
 		}
 		
 		/// <summary>
-		/// The <see cref="ILoggerFactoryAdapter" /> type that will be used for creating <see cref="ILog" />
+		/// The <see cref="ILoggerFactoryAdapter"/> type that will be used for creating <see cref="ILog"/>
 		/// instances.
 		/// </summary>
 		public Type FactoryAdapterType
@@ -65,7 +65,7 @@ namespace Apache.Ibatis.Common.Logging
 		}
 
 		/// <summary>
-		/// Additional user supplied properties that are passed to the <see cref="FactoryAdapterType" />'s constructor.
+		/// Additional user supplied properties that are passed to the <see cref="FactoryAdapterType"/>'s constructor.
 		/// </summary>
 		public NameValueCollection Properties
 		{

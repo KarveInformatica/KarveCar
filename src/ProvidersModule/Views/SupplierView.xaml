@@ -35,11 +35,11 @@
             </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
-                                            />
+                                           />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="60*" Binding="{Binding Nombre}"
-                                            />
+                                           />
                 <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="20*" Binding="{Binding Nif}"
-                                            />
+                                           />
             </DataGrid.Columns>
         </extendedGridControl:ExtendedDataGrid>
     </Grid>

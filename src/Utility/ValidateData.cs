@@ -39,19 +39,26 @@ namespace KarveCar.Utility
             }
             catch (Exception)
             {
-                return ' ';
+                return '\0';
             }
         }
-
-        public static object GetChar(char? value)
+        public static char GetChar(char? value)
         {
             try
             {
-                return value == null ? ' ' : value;
+                if (value == null || value == '\0')
+                {
+                    return '\0';
+                }
+                else
+                {
+                    return (char) value;
+                }
+                //return value == null ? ' ' : (char)value; //DBNull.Value : value;
             }
             catch (Exception)
             {
-                return ' ';
+                return '\0'; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -89,11 +96,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -122,11 +129,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -155,11 +162,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -188,11 +195,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -221,11 +228,11 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
@@ -254,16 +261,16 @@ namespace KarveCar.Utility
         {
             try
             {
-                return value.HasValue ? value : 0;
+                return value.HasValue ? value : null; //(object)DBNull.Value;
             }
             catch (Exception)
             {
-                return 0;
+                return null; //(object)DBNull.Value;
             }
         }
         #endregion
 
-        #region double
+        #region Date
         public static void SetDate(string value, out bool tryparse, out object datagridvalue)
         {
             DateTime doubleValue;
@@ -273,14 +280,6 @@ namespace KarveCar.Utility
 
         public static DateTime GetDate(DateTime value)
         {
-            //try
-            //{
-            //    return value;
-            //}
-            //catch (Exception)
-            //{
-            //    return 0;
-            //}
             return value;
         }
 

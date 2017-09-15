@@ -25,7 +25,7 @@
 #endregion
 
 #region Imports
-using System;
+
 #endregion
 
 namespace Apache.Ibatis.DataMapper.Model.Sql.Dynamic

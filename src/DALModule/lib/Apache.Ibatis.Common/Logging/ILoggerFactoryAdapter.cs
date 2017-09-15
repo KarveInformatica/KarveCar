@@ -35,28 +35,28 @@ namespace Apache.Ibatis.Common.Logging
 	/// </summary>
 	/// <remarks>
 	/// Classes that implement this interface may optional implement a constructor that accepts 
-	/// a <see cref="NameValueCollection" /> which will contain zero or more user supplied configuration
+	/// a <see cref="NameValueCollection"/> which will contain zero or more user supplied configuration
 	/// properties.
 	/// <para>
-	/// The Apache.Ibatis.Common assembly ships with the following built-in <see cref="ILoggerFactoryAdapter" /> implementations:
+	/// The Apache.Ibatis.Common assembly ships with the following built-in <see cref="ILoggerFactoryAdapter"/> implementations:
 	/// </para>
 	///	<list type="table">
-	///	<item><term><see cref="ConsoleOutLoggerFA" /></term><description>Writes output to Console.Out</description></item>
-	///	<item><term><see cref="TraceLoggerFA" /></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
-	///	<item><term><see cref="NoOpLoggerFA" /></term><description>Ignores all messages</description></item>
+	///	<item><term><see cref="ConsoleOutLoggerFA"/></term><description>Writes output to Console.Out</description></item>
+	///	<item><term><see cref="TraceLoggerFA"/></term><description>Writes output to the System.Diagnostics.Trace sub-system</description></item>
+	///	<item><term><see cref="NoOpLoggerFA"/></term><description>Ignores all messages</description></item>
 	///	</list>
 	/// </remarks>
 	public interface ILoggerFactoryAdapter 
 	{
 		/// <summary>
-		/// Get a <see cref="ILog" /> instance by type.
+		/// Get a <see cref="ILog"/> instance by type.
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
 		ILog GetLogger( Type type );
 
 		/// <summary>
-		/// Get a <see cref="ILog" /> instance by name.
+		/// Get a <see cref="ILog"/> instance by name.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>

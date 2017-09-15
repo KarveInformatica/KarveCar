@@ -45,18 +45,24 @@ namespace KarveCar
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            // The dal service is used to access to the database
-            Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IKarveDataMapper, DataAccessLayer.BaseDataMapper>(new ContainerControlledLifetimeManager());
-            object[] values = new object[2];
-            values[0] = Container.Resolve<IKarveDataMapper>();
-            values[1] = Container.Resolve<IConfigurationService>();
+            try
+            {
+                // The dal service is used to access to the database
+                Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
+                Container.RegisterType<IKarveDataMapper, DataAccessLayer.BaseDataMapper>(new ContainerControlledLifetimeManager());
+                object[] values = new object[2];
+                values[0] = Container.Resolve<IKarveDataMapper>();
+                values[1] = Container.Resolve<IConfigurationService>();
 
-            InjectionConstructor injectionConstructor = new InjectionConstructor(values);
-            Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
-            Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
-            Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
+                InjectionConstructor injectionConstructor = new InjectionConstructor(values);
+                Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
+                Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
+                Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
+                Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error during the container configuration. KarveWin cannot start!", MessageBoxButton.OK);
+            }
         }
         protected override void ConfigureViewModelLocator()
         {
@@ -87,7 +93,7 @@ namespace KarveCar
                 Application.Current.MainWindow.Show();
             } catch (Exception)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error during bootstrap" + e.Message);
             }
         }
     }

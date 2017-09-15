@@ -27,21 +27,21 @@
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
-                        <TextBlock Text=" (Ctrl+N)" />
+                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}"/>
+                        <TextBlock Text=" (Ctrl+N)"/>
                     </StackPanel>
                 </Button.ToolTip>
                 <Button.InputBindings>
                     <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding NewCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
                 
@@ -62,13 +62,13 @@
                     <KeyBinding Key="S" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding SaveCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding SaveCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding SaveCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
             </Button>
@@ -88,13 +88,13 @@
                     <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding NewCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
             </Button>
@@ -114,13 +114,13 @@
                     <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding NewCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
             </Button>
@@ -140,13 +140,13 @@
                     <KeyBinding Key="N" 
                                 Modifiers="Ctrl" 
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <KeyBinding Key="Return"                                                
                                 Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
                                   Command="{Binding NewCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" />
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
             </Button>

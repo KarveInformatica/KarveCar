@@ -19,8 +19,8 @@ namespace DataAccessLayer
             this.v = v;
         }
 
-        public DataMapper Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ISessionScope Scope { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DataMapper Mapper { get; set; }
+        public ISessionScope Scope { get; set; }
 
         public Task<DataTable> ExecuteAsync()
         {

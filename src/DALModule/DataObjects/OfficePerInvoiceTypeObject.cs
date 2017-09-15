@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.DataObjects
+﻿namespace DataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Data Object with fields that are available in an invoice.

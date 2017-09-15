@@ -51,6 +51,7 @@ namespace Apache.Ibatis.DataMapper
         private object dataMapperLock = new object();
         private object sessionLock = new object();
         private object dataSetLock = new object();
+        private ISessionScope sessionScope = null;
         private ConcurrentQueue<IMapperCommand> _batchCommands = new ConcurrentQueue<IMapperCommand>();
         /// <summary>
         /// Initializes a new instance of the <see cref="DataMapper"/> class.
@@ -66,6 +67,17 @@ namespace Apache.Ibatis.DataMapper
             sessionFactory = modelStore.SessionFactory;
         }
 
+        public ISessionScope Session 
+            { 
+                get
+                {
+                    return sessionScope;
+                }
+                set
+                {
+                     sessionScope = value;
+                }
+            }
         #region IDataMapper Members
 
         /// <summary>
@@ -521,8 +533,7 @@ namespace Apache.Ibatis.DataMapper
             get { return modelStore; }
         }
 
-        public ISessionScope Session { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+    
         #endregion
 
 
@@ -754,15 +765,9 @@ namespace Apache.Ibatis.DataMapper
         {
             return modelStore.GetMappedStatement(statementId);
         }
-        /// <summary>
-        /// This 
-        /// </summary>
-        public void ExecuteUpdateAsyncBatch()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        Task<bool> IDataMapper.ExecuteUpdateAsyncBatch()
+        public Task<bool> ExecuteUpdateAsyncBatch()
         {
             throw new NotImplementedException();
         }
@@ -793,6 +798,11 @@ namespace Apache.Ibatis.DataMapper
         }
 
         public Task<IList<T>> QueryAsyncForList<T>(string v, string companyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteInsertAsync<T>(string v, IList<object> param, ISessionScope session)
         {
             throw new NotImplementedException();
         }

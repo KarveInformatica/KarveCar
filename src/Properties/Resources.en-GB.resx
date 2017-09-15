@@ -1143,14 +1143,29 @@
   <data name="msgEliminarRegistroTitulo" xml:space="preserve">
     <value>Delete record</value>
   </data>
-  <data name="msgEdicionRegistroValorVacio" xml:space="preserve">
+  <data name="msgEditarRegistroValorVacio" xml:space="preserve">
     <value>Empty values are not allowed</value>
   </data>
-  <data name="msgEdicionRegistroValorRepetido" xml:space="preserve">
+  <data name="msgEditarRegistroValorRepetido" xml:space="preserve">
     <value>Repeated values are not allowed</value>
   </data>
-  <data name="msgEdicionRegistroTitulo" xml:space="preserve">
-    <value>Record editing</value>
+  <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
+    <value>Empty values in field code are not allowed</value>
+  </data>
+  <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
+    <value>Code already exist</value>
+  </data>
+  <data name="msgEditarRegistroTitulo" xml:space="preserve">
+    <value>Edit record</value>
+  </data>
+  <data name="msgInsertarRegistroCampoVacio" xml:space="preserve">
+    <value>Empty values in this field are not allowed</value>
+  </data>
+  <data name="msgInsertarRegistroRepetido" xml:space="preserve">
+    <value>Repeated records are not allowed</value>
+  </data>
+  <data name="msgInsertarRegistroTitulo" xml:space="preserve">
+    <value>Insert record</value>
   </data>
   <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
     <value>Mark All</value>
@@ -1175,5 +1190,17 @@
   </data>
   <data name="msgError141" xml:space="preserve">
     <value>Table not found</value>
+  </data>
+  <data name="msgError157" xml:space="preserve">
+    <value>Cannot convert a text to a date</value>
+  </data>
+  <data name="msgError158" xml:space="preserve">
+    <value>Value out of range for destination</value>
+  </data>
+  <data name="msgError193" xml:space="preserve">
+    <value>Primary key already exists</value>
+  </data>
+  <data name="msgError683" xml:space="preserve">
+    <value>String exceeds established size</value>
   </data>
 </root>

@@ -9101,7 +9101,7 @@
         <member name="T:Apache.Ibatis.DataMapper.Session.DefaultSessionFactory">
             <summary>
             Default implementation of the <see cref="T:Apache.Ibatis.DataMapper.Session.ISessionFactory"/> contract. 
-            Create <see cref="T:Apache.Ibatis.DataMapper.Session.ISession" /> instance.
+            Create <see cref="T:Apache.Ibatis.DataMapper.Session.ISession"/> instance.
             </summary>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.DefaultSessionFactory.#ctor(Apache.Ibatis.Common.Data.IDataSource,Apache.Ibatis.DataMapper.Session.ISessionStore,Apache.Ibatis.DataMapper.Session.Transaction.ITransactionManager)">
@@ -9150,7 +9150,7 @@
         </member>
         <member name="P:Apache.Ibatis.DataMapper.Session.ISession.SessionFactory">
             <summary>
-            Get the <see cref="T:Apache.Ibatis.DataMapper.Session.ISessionFactory" /> that created this instance.
+            Get the <see cref="T:Apache.Ibatis.DataMapper.Session.ISessionFactory"/> that created this instance.
             </summary>
         </member>
         <member name="P:Apache.Ibatis.DataMapper.Session.ISession.Connection">
@@ -9172,7 +9172,7 @@
             <summary>
             End the <c>ISession</c> by disconnecting from the ADO.NET connection and cleaning up.
             </summary>
-            <returns>The connection provided by the DataMapper or <see langword="null" /></returns>
+            <returns>The connection provided by the DataMapper or <see langword="null"/></returns>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.ISession.BeginTransaction">
             <summary>
@@ -9230,7 +9230,7 @@
         </member>
         <member name="T:Apache.Ibatis.DataMapper.Session.Transaction.Ado.AdoTransaction">
             <summary>
-            Implement the <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction" /> interface using an ADO.NET <see cref="T:System.Data.IDbTransaction"/>
+            Implement the <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction"/> interface using an ADO.NET <see cref="T:System.Data.IDbTransaction"/>
             </summary>
         </member>
         <member name="F:Apache.Ibatis.DataMapper.Session.Transaction.Ado.AdoTransaction.isConsistent">
@@ -9243,7 +9243,7 @@
             Gets a value indicating whether this instance is started.
             </summary>
             <value>
-            	<c>true</c> if the <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction" /> is started; otherwise, <c>false</c>.
+            	<c>true</c> if the <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction"/> is started; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.Transaction.Ado.AdoTransaction.#ctor(Apache.Ibatis.DataMapper.Session.ISession)">
@@ -9325,7 +9325,7 @@
         </member>
         <member name="T:Apache.Ibatis.DataMapper.Session.Transaction.Ado.AdoTransactionFactory">
             <summary>
-            Create <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction" /> instance that will use ADO.NET <see cref="T:System.Data.IDbTransaction"/>
+            Create <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction"/> instance that will use ADO.NET <see cref="T:System.Data.IDbTransaction"/>
             </summary>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.Transaction.Ado.AdoTransactionFactory.Create(Apache.Ibatis.DataMapper.Session.ISession)">
@@ -9472,7 +9472,7 @@
             Was the transaction successfully committed?
             </summary>
             <remarks>
-            This method could return <see langword="false" /> even after successful invocation of <c>Commit()</c>
+            This method could return <see langword="false"/> even after successful invocation of <c>Commit()</c>
             </remarks>
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction.Enlist(System.Data.IDbCommand)">
@@ -9496,7 +9496,7 @@
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Session.Transaction.ITransactionFactory.Create(Apache.Ibatis.DataMapper.Session.ISession)">
             <summary>
-            Creates a new <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction" /> instance.
+            Creates a new <see cref="T:Apache.Ibatis.DataMapper.Session.Transaction.ITransaction"/> instance.
             </summary>
             <param name="session">The session.</param>
             <returns></returns>
@@ -10093,11 +10093,6 @@
             <param name="statementId">The statementId which is mapped the query</param>
             <returns>The mapped statement</returns>
         </member>
-        <member name="M:Apache.Ibatis.DataMapper.DataMapper.ExecuteUpdateAsyncBatch">
-            <summary>
-            This 
-            </summary>
-        </member>
         <member name="T:Apache.Ibatis.DataMapper.Data.DBHelperParameterCache">
             <summary>
             DBHelperParameterCache provides functions to leverage a 
@@ -10476,9 +10471,9 @@
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Data.DataReaderTransformer.Transform(System.Data.IDataReader,Apache.Ibatis.Common.Data.IDbProvider)">
             <summary>
-             Creates a DataReaderAdapter from a <see cref="T:System.Data.IDataReader" />
+             Creates a DataReaderAdapter from a <see cref="T:System.Data.IDataReader"/>
             </summary>
-            <param name="reader">The <see cref="T:System.Data.IDataReader" /> which holds the records from the Database.</param>
+            <param name="reader">The <see cref="T:System.Data.IDataReader"/> which holds the records from the Database.</param>
             <param name="dbProvider">The databse provider <see cref="T:Apache.Ibatis.Common.Data.IDbProvider"/></param>
         </member>
         <member name="T:Apache.Ibatis.DataMapper.Data.DbCommandDecorator">
@@ -10670,9 +10665,9 @@
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Data.InMemoryDataReader.#ctor(System.Data.IDataReader)">
             <summary>
-             Creates an InMemoryDataReader from a <see cref="T:System.Data.IDataReader" />
+             Creates an InMemoryDataReader from a <see cref="T:System.Data.IDataReader"/>
             </summary>
-            <param name="reader">The <see cref="T:System.Data.IDataReader" /> which holds the records from the Database.</param>
+            <param name="reader">The <see cref="T:System.Data.IDataReader"/> which holds the records from the Database.</param>
         </member>
         <member name="P:Apache.Ibatis.DataMapper.Data.InMemoryDataReader.RecordsAffected">
             <summary>
@@ -10909,13 +10904,13 @@
         </member>
         <member name="M:Apache.Ibatis.DataMapper.Data.InMemoryDataReader.InMemoryResultSet.#ctor(System.Data.IDataReader,System.Boolean)">
             <summary>
-             Creates an in-memory ResultSet from a <see cref="T:System.Data.IDataReader" />
+             Creates an in-memory ResultSet from a <see cref="T:System.Data.IDataReader"/>
             </summary>
             <param name="isMidstream">
             <c>true</c> if the <see cref="T:System.Data.IDataReader"/> is already positioned on the record
             to start reading from.
             </param>
-            <param name="reader">The <see cref="T:System.Data.IDataReader" /> which holds the records from the Database.</param>
+            <param name="reader">The <see cref="T:System.Data.IDataReader"/> which holds the records from the Database.</param>
         </member>
         <member name="P:Apache.Ibatis.DataMapper.Data.InMemoryDataReader.InMemoryResultSet.FieldCount">
             <summary>

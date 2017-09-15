@@ -36,8 +36,6 @@ using Apache.Ibatis.DataMapper.Model.Cache;
 using Apache.Ibatis.DataMapper.Model.ParameterMapping;
 using Apache.Ibatis.DataMapper.Model.ResultMapping;
 using Apache.Ibatis.DataMapper.Model.Statements;
-using Apache.Ibatis.DataMapper.Model.Sql.External;
-
 #endregion 
 
 namespace Apache.Ibatis.DataMapper.Configuration.Serializers

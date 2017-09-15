@@ -1,6 +1,5 @@
 ﻿using Prism.Mvvm;
 using System.Data;
-using System.Windows;
 using System.Windows.Input;
 using Prism.Commands;
 

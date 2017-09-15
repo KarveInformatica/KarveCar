@@ -1485,48 +1485,84 @@
     <value>Eliminar registre</value>
     <comment>344</comment>
   </data>
-  <data name="msgEdicionRegistroValorVacio" xml:space="preserve">
+  <data name="msgEditarRegistroValorVacio" xml:space="preserve">
     <value>No s'admeten valors buits</value>
     <comment>345</comment>
   </data>
-  <data name="msgEdicionRegistroValorRepetido" xml:space="preserve">
+  <data name="msgEditarRegistroValorRepetido" xml:space="preserve">
     <value>No s'admet un valors repetits</value>
     <comment>346</comment>
   </data>
-  <data name="msgEdicionRegistroTitulo" xml:space="preserve">
-    <value>Edición de registro</value>
+  <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
+    <value>No s'admeten valors buits en el camp codi</value>
     <comment>347</comment>
+  </data>
+  <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
+    <value>El codi ja existeix</value>
+    <comment>348</comment>
+  </data>
+  <data name="msgEditarRegistroTitulo" xml:space="preserve">
+    <value>Editar registre</value>
+    <comment>349</comment>
+  </data>
+  <data name="msgInsertarRegistroCampoVacio" xml:space="preserve">
+    <value>No s'admeten valors buits en aquest camp</value>
+    <comment>350</comment>
+  </data>
+  <data name="msgInsertarRegistroRepetido" xml:space="preserve">
+    <value>No s'admeten registres repetits</value>
+    <comment>351</comment>
+  </data>
+  <data name="msgInsertarRegistroTitulo" xml:space="preserve">
+    <value>Insertar registre</value>
+    <comment>352</comment>
   </data>
   <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
     <value>Marcar tots</value>
-    <comment>348</comment>
+    <comment>353</comment>
   </data>
   <data name="lrdbCintaOpcionesDesmarcarTodos" xml:space="preserve">
     <value>Desmarcar tots</value>
-    <comment>349</comment>
+    <comment>354</comment>
   </data>
   <data name="msgErrorTitulo" xml:space="preserve">
     <value>Missatge d'Error</value>
-    <comment>350</comment>
+    <comment>355</comment>
   </data>
   <data name="msgError83" xml:space="preserve">
     <value>No es troba la Base de Dades</value>
-    <comment>351</comment>
+    <comment>356</comment>
   </data>
   <data name="msgError100" xml:space="preserve">
     <value>No es troba el Servidor de la Base de Dades</value>
-    <comment>352</comment>
+    <comment>357</comment>
   </data>
   <data name="msgError103" xml:space="preserve">
     <value>Incorrecte Id d'usuari i/o contrasenya</value>
-    <comment>353</comment>
+    <comment>358</comment>
   </data>
   <data name="msgError131" xml:space="preserve">
     <value>Error de sintaxi en sentència SQL</value>
-    <comment>354</comment>
+    <comment>359</comment>
   </data>
   <data name="msgError141" xml:space="preserve">
     <value>No es troba la Taula</value>
-    <comment>355</comment>
+    <comment>360</comment>
+  </data>
+  <data name="msgError157" xml:space="preserve">
+    <value>No es pot convertir un texte a format de data</value>
+    <comment>361</comment>
+  </data>
+  <data name="msgError158" xml:space="preserve">
+    <value>Valor fora de rang</value>
+    <comment>362</comment>
+  </data>
+  <data name="msgError193" xml:space="preserve">
+    <value>Clau primària ja existeix</value>
+    <comment>363</comment>
+  </data>
+  <data name="msgError683" xml:space="preserve">
+    <value>Cadena de text excedeix la mida establerta</value>
+    <comment>364</comment>
   </data>
 </root>

@@ -24,7 +24,6 @@
  ********************************************************************************/
 #endregion
 
-using System.Collections.Generic;
 using Apache.Ibatis.Common.Configuration;
 using Apache.Ibatis.Common.Data;
 

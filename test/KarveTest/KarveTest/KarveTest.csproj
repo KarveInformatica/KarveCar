@@ -82,6 +82,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\TestEnviromentVariables.cs" />
     <Compile Include="DAL\BankAccessLayerTest.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
     <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />

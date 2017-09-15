@@ -1,11 +1,14 @@
-﻿<UserControl x:Name="cintaOpcionesUserControl" x:Class="KarveCar.View.CintaOpcionesUserControl"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KarveCar.View"
+             xmlns:local="clr-namespace:KarveCar.View"             
+             x:Name="cintaOpcionesUserControl" 
+             x:Class="KarveCar.View.CintaOpcionesUserControl"
              mc:Ignorable="d" 
              Height="200" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,25,0,0">
+
     <StackPanel x:Name="stckpCintaOpciones" Background="{StaticResource WindowBackgroundBrush}" >
         <Border BorderBrush="Black" BorderThickness="1,1,1,1" Height="200" CornerRadius="4" >
             <Grid x:Name="grdCintaOpciones">
@@ -13,18 +16,18 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <CheckBox x:Name="ckbCintaOpcionesMaestros"       Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbMaestros, Source={StaticResource ResourceLanguage}}"      Margin="25,25,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesContratos"      Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbContratos, Source={StaticResource ResourceLanguage}}"     Margin="25,50,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesReservas"       Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbReservas, Source={StaticResource ResourceLanguage}}"      Margin="25,75,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesAtipicos"       Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbAtipicos, Source={StaticResource ResourceLanguage}}"      Margin="25,100,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesComercial"      Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbComercial, Source={StaticResource ResourceLanguage}}"     Margin="25,125,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesFacturacion"    Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbFacturacion, Source={StaticResource ResourceLanguage}}"   Margin="25,150,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesFlota"          Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbFlota, Source={StaticResource ResourceLanguage}}"         Margin="25,25,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesIncidencias"    Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}"   Margin="25,50,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesEstadisticas"   Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}"  Margin="25,75,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesListados"       Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}"      Margin="25,100,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesServicios"      Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbServicios, Source={StaticResource ResourceLanguage}}"     Margin="25,125,0,0" />
-                <CheckBox x:Name="ckbCintaOpcionesConfiguracion"  Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbConfiguracion, Source={StaticResource ResourceLanguage}}" Margin="25,150,0,0" />
+                <CheckBox x:Name="ckbCintaOpcionesMaestros"       Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbMaestros, Source={StaticResource ResourceLanguage}}"      Margin="25,25,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesContratos"      Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbContratos, Source={StaticResource ResourceLanguage}}"     Margin="25,50,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesReservas"       Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbReservas, Source={StaticResource ResourceLanguage}}"      Margin="25,75,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesAtipicos"       Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbAtipicos, Source={StaticResource ResourceLanguage}}"      Margin="25,100,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesComercial"      Grid.Column="0" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbComercial, Source={StaticResource ResourceLanguage}}"     Margin="25,125,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesFacturacion"    Grid.Column="0" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbFacturacion, Source={StaticResource ResourceLanguage}}"   Margin="25,150,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesFlota"          Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbFlota, Source={StaticResource ResourceLanguage}}"         Margin="25,25,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesIncidencias"    Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}"   Margin="25,50,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesEstadisticas"   Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}"  Margin="25,75,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesListados"       Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}"      Margin="25,100,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesServicios"      Grid.Column="1" IsChecked="False" IsEnabled="False" Content="{Binding lrbtbServicios, Source={StaticResource ResourceLanguage}}"     Margin="25,125,0,0"/>
+                <CheckBox x:Name="ckbCintaOpcionesConfiguracion"  Grid.Column="1" IsChecked="False" IsEnabled="True"  Content="{Binding lrbtbConfiguracion, Source={StaticResource ResourceLanguage}}" Margin="25,150,0,0"/>
             </Grid>
         </Border>
     </StackPanel>

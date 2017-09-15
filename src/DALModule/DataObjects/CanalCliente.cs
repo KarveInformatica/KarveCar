@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class CanalCliente : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public CanalCliente() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public CanalCliente() { this.ControlCambio = EControlCambio.Null; }
         public CanalCliente(string codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,14 +62,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

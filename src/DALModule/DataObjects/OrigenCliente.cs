@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class OrigenCliente : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public OrigenCliente() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public OrigenCliente() { this.ControlCambio = EControlCambio.Null; }
         public OrigenCliente(int codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -66,14 +66,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

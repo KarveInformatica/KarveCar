@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 namespace KarveCommon.Services
 {
+    public enum DataSubSystem { PaymentSubsystem = 0, VehicleSubsystem = 1, HelperSubsytsem = 2, SupplierSubsystem = 3 };
+
     /// <summary>
     ///  TODO: add support for generics.
     /// </summary>
     public class DataPayLoad
     {
         public enum Type {
-            Insert = 0, Delete = 1, Update = 2,
-            RegistrationPayload = 3
+            Insert = 0, Delete = 1, Update = 2, 
+            RegistrationPayload = 3, Show = 4
         };
         /// <summary>
         ///  It endicate the data object associated
@@ -61,6 +63,6 @@ namespace KarveCommon.Services
         /// <summary>
         ///  This is useful for the subsystem.
         /// </summary>
-        public int Subsystem { get; set; }
+        public DataSubSystem Subsystem { get; set; }
     }
 }

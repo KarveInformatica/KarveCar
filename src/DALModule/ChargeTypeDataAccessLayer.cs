@@ -16,8 +16,7 @@ namespace DataAccessLayer
     /// </summary>    
     public class ChargeTypeDataAccessLayer : IPaymentDataServices
     {
-        private readonly string _id = "ChargeTypeDAL";
-        private Type _dalType = typeof(ChargeTypeObject);
+        private readonly Uri uri = new Uri(@"karve://paymentdata/paymenttype");
         private ICollection<BaseAuxDataObject> _accountDataTable;
         private IDataMapper _dataMapper;
 
@@ -25,7 +24,10 @@ namespace DataAccessLayer
         {
             this._dataMapper = dataMapper;
         }
-
+        public Uri Path
+        {
+            get { return uri; }
+        }
         private void QueryCopy(IDataMapper mapper, out ObservableCollection<ChargeTypeObject> collection)
         {
             ICollection<ChargeTypeObject> banks = mapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
@@ -203,7 +205,7 @@ namespace DataAccessLayer
                 row["Nombre"] = item.Nombre;
                 row["Cuenta"] = item.Cuenta;
                 table.Rows.Add(row);
-               // table.AcceptChanges();
+                table.AcceptChanges();
             }
             return table;
         }

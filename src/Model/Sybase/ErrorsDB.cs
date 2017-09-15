@@ -14,15 +14,15 @@ namespace KarveCar.Model.Sybase
             switch (e.NativeError)
             {
                 case -83: //Specified DataBase not found
-                    //Comprobrar que el DataBaseName en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobrar que el DataBaseName en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError83);
                     break;
                 case -100: //DataBase Server not found
-                    //Comprobar que EngineName o Host en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobar que EngineName o Host en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError100);
                     break;
                 case -103: //Invalid User Id or Password
-                    //Comprobar que el user/pass en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDB
+                    //Comprobar que el user/pass en la connectionstring sean correctos en AuxiliaresModel.GetValuesFromDBObsCollection
                     ErrorsMessage.ShowMessage(e, Resources.msgError103);
                     break;
                 case -131: //Syntax Error in SQL sentence
@@ -33,6 +33,22 @@ namespace KarveCar.Model.Sybase
                     //Comprobar que coindida el nombre de la tabla de la BBDD con el especificado en 
                     //VariablesGlobales.Dictionary<EOpcion, DatosInfoRibbonButton>
                     ErrorsMessage.ShowMessage(e, Resources.msgError141);
+                    break;
+                case -157: //Cannot convert a text to a date
+                    //Comprobar que se pase un valor válido como fecha
+                    ErrorsMessage.ShowMessage(e, Resources.msgError157);
+                    break;
+                case -158: //Value out of range for destination
+                    //Comprobar el tamaño del valor que se desea insertar
+                    ErrorsMessage.ShowMessage(e, Resources.msgError158);
+                    break;
+                case -193: //Primary key already exists
+                    //Comprobar que la clave primaria no exista en la tabla
+                    ErrorsMessage.ShowMessage(e, Resources.msgError193);
+                    break;
+                case -683: //Rigth truncation of string data
+                    //Comprobar la longitud del string que se desea insertar
+                    ErrorsMessage.ShowMessage(e, Resources.msgError683);
                     break;
                 default:
                     ErrorsMessage.ShowMessage(e, "default");

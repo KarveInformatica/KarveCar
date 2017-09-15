@@ -127,14 +127,14 @@ or
     Example (for log4NET) :
 	<configSections>
 		<sectionGroup name="iBATIS">
-			<section name="logging" type="IBatisNet.Common.Logging.Impl.LocationInfoLog4NetLoggerFA, IBatisNet.Common.Logging.Log4Net" />
+			<section name="logging" type="IBatisNet.Common.Logging.Impl.LocationInfoLog4NetLoggerFA, IBatisNet.Common.Logging.Log4Net"/>
 		</sectionGroup>	
-		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net"/>
 	</configSections>	
 	<iBATIS>
 		<logging>		
 			<logFactoryAdapter type="IBatisNet.Common.Logging.Impl.Log4NetLoggerFA, IBatisNet.Common.Logging.Log4Net">
-				<arg key="configType" value="inline" />
+				<arg key="configType" value="inline"/>
 			</logFactoryAdapter>
 		</logging>
 	</iBATIS>
@@ -185,7 +185,7 @@ or
 <properties> 
      <property resource="sqlmap-config.xml"/> 
      <property resource="${root}Resources/Query/database.xml"/> 
-     <property key="Hello" value="World" /> ( To resolve IBATISNET-63 ) 
+     <property key="Hello" value="World"/> ( To resolve IBATISNET-63 ) 
  <properties> 
  
 - Fixed JIRA-70 Passed inner exception when re-throwing when init provider
@@ -334,8 +334,8 @@ or
 - In SqlMap, added 'extends' attribute to 'parameterMap' tag with NUnit test (see category test).
 - In type cache, renamed 'Weack' type to 'Weak'
 - In SqlMap, added global element <alias>. Same purpose as SqlMapConfig alias.
-- In SqlMap, added <properties /> element to define an optional properties file.
-- In SqlMapConfig, added an enclosing element <database> for <provider /> and <datasource />.
+- In SqlMap, added <properties/> element to define an optional properties file.
+- In SqlMapConfig, added an enclosing element <database> for <provider/> and <datasource/>.
 - In iBatisNet.DataMapper, added Mapper object (a singleton to access the SqlMapper defined by the SqlMap.Config)
 - In ExecuteQueryList, added support for OutputParameters for strongly typed collection.
 - In SqlMap, rename attribute 'name' to 'namespace'. 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
 using Apache.Ibatis.DataMapper;
 using Apache.Ibatis.DataMapper.Configuration;
 using Apache.Ibatis.DataMapper.Configuration.Interpreters.Config.Xml;
@@ -48,7 +46,7 @@ namespace DataAccessLayer
         {
             try
             {
-                _configurationEngine = new DefaultConfigurationEngine();
+                 _configurationEngine = new DefaultConfigurationEngine();
                 _configurationEngine.RegisterInterpreter(new XmlConfigurationInterpreter(resource));
                 _mapperFactory = _configurationEngine.BuildMapperFactory();
                 _sessionFactory = _configurationEngine.ModelStore.SessionFactory;

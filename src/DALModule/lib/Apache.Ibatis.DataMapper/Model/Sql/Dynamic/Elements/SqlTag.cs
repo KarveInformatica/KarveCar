@@ -25,8 +25,6 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using Apache.Ibatis.DataMapper.Model.Sql.Dynamic.Handlers;
 

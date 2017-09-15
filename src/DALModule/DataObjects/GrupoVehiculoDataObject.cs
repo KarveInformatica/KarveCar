@@ -6,10 +6,10 @@ namespace DataAccessLayer.DataObjects
     public class GrupoVehiculoDataObject : BaseAuxDataObject
     {
         #region Constructores
-        public GrupoVehiculoDataObject() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public GrupoVehiculoDataObject() { this.ControlCambio = EControlCambio.Null; }
         public GrupoVehiculoDataObject(string codigo, string usuario, string ultimamodificacion, string acriss,
                                        string definicion, DateTime fechabaja, byte horasfrigo,
-                                       string modelo, char tipovehiculocodigo, string tipovehiculodescripcion, string notas,
+                                       string modelo, string tipovehiculocodigo, string tipovehiculodescripcion, string notas,
                                        decimal cdw, decimal plus, decimal fianza,
                                        decimal tp, decimal franquicia,
                                        decimal pai, decimal cesion, int mesesitv,
@@ -62,8 +62,8 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private DateTime fechabaja;
-        public DateTime FechaBaja
+        private DateTime? fechabaja;
+        public DateTime? FechaBaja
         {
             get { return fechabaja; }
             set
@@ -95,8 +95,8 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private char tipovehiculocodigo;
-        public char TipoVehiculoCodigo
+        private string tipovehiculocodigo;
+        public string TipoVehiculoCodigo
         {
             get { return tipovehiculocodigo; }
             set

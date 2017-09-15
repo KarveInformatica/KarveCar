@@ -2,7 +2,6 @@
 using KarveCar.Utility;
 using KarveCar.View;
 using System;
-using System.Data;
 using System.Linq;
 using System.Windows.Controls;
 using static KarveCar.Model.Generic.RecopilatorioCollections;

@@ -143,6 +143,10 @@ namespace Apache.Ibatis.Common.Utilities
                     {
                         return new DateTime();
                     }
+                    if (type == typeof(IDictionary<string, object>))
+                    {
+                        return new Dictionary<string, object>();
+                    }
                     if (type == typeof(Decimal))
                     {
                         return new Decimal();

@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class TarjetaEmpresa : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public TarjetaEmpresa() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public TarjetaEmpresa() { this.ControlCambio = EControlCambio.Null; }
         public TarjetaEmpresa(string codigo, string definicion, double precio, string condicion)
         {
             this.codigo     = codigo;
@@ -84,14 +84,14 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
             {
                 controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
+                OnPropertyChanged("ControlCambio");
             }
         }
         #endregion

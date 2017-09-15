@@ -156,7 +156,6 @@
     <Compile Include="Model\SQL\ScriptsSQLOthers.cs" />
     <Compile Include="Model\SQL\ScriptsSQLDelete.cs" />
     <Compile Include="Model\SQL\ScriptsSQLSelect.cs" />
-    <Compile Include="Utility\GetValuesFromDBGeneric.cs" />
     <Compile Include="Model\Sybase\DBConnect.cs" />
     <Compile Include="Model\Sybase\ErrorsDB.cs" />
     <Compile Include="Model\Sybase\ErrorsGeneric.cs" />

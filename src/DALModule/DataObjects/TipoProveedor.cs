@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
     public class TipoProveedor : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public TipoProveedor() { this.ControlCambioDataGrid = EControlCambioDataGrid.Null; }
+        public TipoProveedor() { this.ControlCambio = EControlCambio.Null; }
         public TipoProveedor(short codigo, string definicion, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -62,8 +62,8 @@ namespace DataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambioDataGrid controlcambiodatagrid;
-        public EControlCambioDataGrid ControlCambioDataGrid
+        private EControlCambio controlcambiodatagrid;
+        public EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set
