@@ -14,14 +14,11 @@ namespace KarveCar.ViewModel.MaestrosViewModel
     public class MostrarAuxiliaresViewModel : BindableBase
     {
         private MostrarAuxiliaresCommand mostrarauxiliarescommand;
-        private IUnityContainer _unityContainer;
-
+       
         public MostrarAuxiliaresViewModel()
         {
             this.mostrarauxiliarescommand = new MostrarAuxiliaresCommand(this);
-            // TODO: this is temporary. Unity shall be injected 
-            View.MainWindow window = Application.Current.MainWindow as View.MainWindow;
-            this._unityContainer = window.UnityContainer;
+         
             
         }
         public ICommand MostrarAuxCommand

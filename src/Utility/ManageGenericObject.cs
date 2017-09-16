@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using DataAccessLayer.DataObjects;
+using KarveDataAccessLayer.DataObjects;
 using KarveCar.Properties;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -49,52 +49,52 @@ namespace KarveCar.Utility
                                 //del nuevo objeto(newobj), validando el dato según su tipo(ValidateData.***)
                                 switch (item.tipodatocolumnadb)
                                 {
-                                    case ETiposDatoColumnaDB.DBstring:
+                                    case ETipoDato.DBstring:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetString(dr[item.nombrecolumnadb] as string));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBchar:
+                                    case ETipoDato.DBchar:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetChar(dr[item.nombrecolumnadb] as char?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBbool:
+                                    case ETipoDato.DBbool:
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBbyte: //byte en C# = tinyint en la DB
+                                    case ETipoDato.DBbyte: //byte en C# = tinyint en la DB
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetByte(dr[item.nombrecolumnadb] as byte?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBshort:
+                                    case ETipoDato.DBshort:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetShort(dr[item.nombrecolumnadb] as short?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBint:
+                                    case ETipoDato.DBint:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetInt(dr[item.nombrecolumnadb] as int?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBlong:
+                                    case ETipoDato.DBlong:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetLong(dr[item.nombrecolumnadb] as long?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBdecimal:
+                                    case ETipoDato.DBdecimal:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDecimal(dr[item.nombrecolumnadb] as decimal?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBdouble:
+                                    case ETipoDato.DBdouble:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDouble(dr[item.nombrecolumnadb] as double?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBdate:
+                                    case ETipoDato.DBdate:
                                         PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDate(dr[item.nombrecolumnadb] as DateTime?));
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBdatetime:
+                                    case ETipoDato.DBdatetime:
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBsmalldatetime:
+                                    case ETipoDato.DBsmalldatetime:
                                         salir = true;
                                         break;
-                                    case ETiposDatoColumnaDB.DBtime:
+                                    case ETipoDato.DBtime:
                                         salir = true;
                                         break;
                                     default:

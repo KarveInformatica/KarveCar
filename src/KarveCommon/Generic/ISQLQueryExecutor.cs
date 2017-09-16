@@ -124,6 +124,41 @@ namespace KarveCommon.Generic
         /// <param name="pars">Parametes</param>
         /// <returns></returns>
         bool ExecuteNonQuery(string CommandName, CommandType cmdType, IDBParameter param);
-        
+        /// <summary>
+        ///  Asynchrnous call for the query
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code);
+        /// <summary>
+        ///  Asynchronouse call for a single data object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sqlQuery"></param>
+        /// <param name="tmpComisioNumber"></param>
+        /// <returns></returns>
+        Task<T> QueryAsyncForObject<T>(string v, T parameter);
+        // This commnand 
+        // add a command to be executed directly to a batch pool.
+
+        void AddBatch(ISqlCommand command);
+        /// <summary>
+        ///  Execute the command properly
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> ExecuteUpdateAsyncBatch();
+        /// <summary>
+        /// `De
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        DataTable QueryForDataTable(string v, long pos);
+        Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session);
+        // a session is a 
+        ISqlSession OpenSession();
+        void CloseSession(ISqlSession sqlSession);
+
     }
 }

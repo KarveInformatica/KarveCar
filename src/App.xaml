@@ -11,7 +11,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ReuxablesLegacy;component/mercury.xaml" />
                 <ResourceDictionary Source="./View/StyledWindow.xaml" />
 
                 <ResourceDictionary>
@@ -39,11 +38,10 @@
 
          
             <!-- Maestros-->
-            <!--<ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
-            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>-->
+            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
             <ms:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
             <ms:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
-            <ms:AgentResolverViewModel     x:Key="agentResolverViewModel"/>
             <!-- Configuracion-->
             <cfg:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>

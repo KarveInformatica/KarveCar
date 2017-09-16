@@ -29,12 +29,12 @@
                                                         "    WHERE PRE.GRUPO = '{0}' " +
                                                         "ORDER BY PRE.CONCEPTO";
 
-        public const string SELECT_MARCA = "SELECT top 5 MAR.CODIGO, MAR.USUARIO, MAR.ULTMODI, MAR.NOMBRE, " +
+        public const string SELECT_MARCA = "SELECT TOP 10 MAR.CODIGO, MAR.USUARIO, MAR.ULTMODI, MAR.NOMBRE, " +
                                            "MAR.FBAJA, MAR.PROVEE, PRO.NOMBRE AS NOMBRE_PROVEEDOR, MAR.CONDICIONES, " +
                                            "MAR.PACTADAS, MAR.LOCUTOR, MAR.FECHA, MAR.OBS " +
-                                           "FROM MARCAS AS MAR " + 
+                                           "FROM MARCAS AS MAR " +
                                            "    LEFT JOIN PROVEE1 AS PRO " +
-                                           "        ON MAR.PROVEE = PRO.NUM_PROVEE " + 
+                                           "        ON MAR.PROVEE = PRO.NUM_PROVEE " +
                                            "ORDER BY MAR.CODIGO";
 
         public const string SELECT_PROVEEDOR_MARCA = "SELECT NUM_PROVEE, NOMBRE " +

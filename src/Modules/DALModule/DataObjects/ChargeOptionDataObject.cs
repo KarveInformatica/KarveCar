@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.DataObjects
+﻿namespace KarveDataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Option for charging 

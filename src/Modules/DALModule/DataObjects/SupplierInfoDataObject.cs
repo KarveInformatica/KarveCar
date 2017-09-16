@@ -1,7 +1,7 @@
 ﻿using System;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class SupplierInfoDataObject : GenericPropertyChanged, ISupplierDataInfo
     {

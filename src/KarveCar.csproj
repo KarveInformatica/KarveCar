@@ -100,9 +100,6 @@
       <HintPath>packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ReuxablesLegacy">
-      <HintPath>.\ReuxablesLegacy.dll</HintPath>
-    </Reference>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -182,6 +179,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Utility\ManageDataTable.cs" />
+    <Compile Include="Utility\ManageDBGeneric.cs" />
     <Compile Include="Utility\ManageGenericObject.cs" />
     <Compile Include="Utility\RibbonGroupDragDrop.cs" />
     <Compile Include="Utility\TabControlAndTabItemUtil.cs" />
@@ -199,7 +198,6 @@
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\AgentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
     <Compile Include="View\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
@@ -397,33 +395,33 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgentModule\AgentsModules.csproj">
-      <Project>{b528e685-6536-43d8-8071-13108a1d56c3}</Project>
-      <Name>AgentsModules</Name>
-    </ProjectReference>
-    <ProjectReference Include="DALModule\KarveDataAccessLayer.csproj">
-      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
-      <Name>KarveDataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="DALModule\KarveDataServices\KarveDataServices.csproj">
-      <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
-      <Name>KarveDataServices</Name>
-    </ProjectReference>
     <ProjectReference Include="KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="PaymentsTypeModule\PaymentTypeModule.csproj">
+    <ProjectReference Include="Modules\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\DALModule\KarveDataServices\KarveDataServices.csproj">
+      <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
+      <Name>KarveDataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\PaymentsTypeModule\PaymentTypeModule.csproj">
       <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
       <Name>PaymentTypeModule</Name>
     </ProjectReference>
-    <ProjectReference Include="ProvidersModule\ProvidersModule.csproj">
+    <ProjectReference Include="Modules\ProvidersModule\ProvidersModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
       <Name>ProvidersModule</Name>
     </ProjectReference>
-    <ProjectReference Include="ToolBarModule\ToolBarModule.csproj">
+    <ProjectReference Include="Modules\ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
       <Name>ToolBarModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\VehicleModule\VehicleModule.csproj">
+      <Project>{fe715282-21f1-47b2-902f-82bf37330251}</Project>
+      <Name>VehicleModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -472,12 +470,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)DALModule\Auxiliares.xml" "$(TargetDir)Auxiliares.xml" 
-copy "$(SolutionDir)DALModule\Suppliers.xml" "$(TargetDir)Suppliers.xml" 
-copy "$(SolutionDir)DALModule\Banks.xml" "$(TargetDir)Banks.xml" 
-copy "$(SolutionDir)DALModule\SqlMap.config" "$(TargetDir)SqlMap.config" 
-copy "$(SolutionDir)DALModule\providers.config" "$(TargetDir)providers.config" 
-copy "$(SolutionDir)DALModule\SupplierSummaryTypes.xml" "$(TargetDir)SupplierSummaryTypes.xml"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

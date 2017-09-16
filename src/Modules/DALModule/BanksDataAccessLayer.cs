@@ -1,13 +1,12 @@
-using Apache.Ibatis.DataMapper;
 using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using DataAccessLayer.DataObjects;
+using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     /// <summary>
     /// A DAL class for managing the lifecycle of Banks objects. This DAL implementation
@@ -17,23 +16,19 @@ namespace DataAccessLayer
     {
         private readonly string _id = RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString();
         private Type _dalType = typeof(BancoDataObject);
-        private IDataMapper _mapper;
-        
-        public BanksDataAccessLayer()
+        private ISqlQueryExecutor sqlQueryExecutor;
+        public BanksDataAccessLayer(ISqlQueryExecutor queryExecutor)
         {
-            
-        }
-        public BanksDataAccessLayer(IDataMapper mapper)
-        {
-            _mapper = mapper;
-        }
+            sqlQueryExecutor = queryExecutor;
+        } 
         /// <summary>
         /// 
         ///  This method queries the data mapper and return an observable collection.
         /// </summary>
         /// <param name="mapper"> DataMapper value </param>
         /// <param name="collection">Collection to be filled in output</param>
-        private void QueryCopy(IDataMapper mapper, out ObservableCollection<BancoDataObject> collection)
+        /*
+        private void QueryCopy( out ObservableCollection<BancoDataObject> collection)
         {
             ICollection<BancoDataObject> banks = _mapper.QueryForList<BancoDataObject>("Auxiliares.GetAllBanks", null);
             collection = new ObservableCollection<BancoDataObject>();
@@ -88,6 +83,6 @@ namespace DataAccessLayer
             }
             int ret = _mapper.Update("Auxiliares.UpdateBanks", current);
         }
-       }
-
+        */
+    }
 }

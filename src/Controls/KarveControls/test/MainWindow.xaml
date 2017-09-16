@@ -1,0 +1,41 @@
+﻿<Window x:Class="KarveControlsTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KarveControlsTest"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <StackPanel>
+
+            <StackPanel Name="stkMain">
+                <ItemsControl Name="itmCntrl" ItemsSource="{Binding ItemCollectionValue}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" ></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Name="stackPanel">
+                                <karveControls:SearchTextBox Name="SearchBox" 
+                                                             LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                             DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                             SourceView="{Binding AuxTable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             ItemSource="{Binding DataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MagnifierPress">
+                                        <i:InvokeCommandAction Command="{Binding MagnifierPressCommand}" CommandParameter="{Binding DataField}"/>
+                                    </i:EventTrigger>
+                               </i:Interaction.Triggers>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

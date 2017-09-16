@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
  
     public class SupplierEvaluationDataObject : ISupplierEvaluationNoteData

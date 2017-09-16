@@ -3,7 +3,7 @@ using KarveCommon.Generic;
 using System;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class MarcaDataObject : GenericPropertyChanged, IDataGridRowChange
     {

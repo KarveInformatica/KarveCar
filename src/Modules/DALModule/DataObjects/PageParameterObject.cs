@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     /// <summary>
     ///  This object contains a simple property for page.

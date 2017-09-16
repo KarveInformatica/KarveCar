@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     public class DataLayerExecutionException: Exception
     {

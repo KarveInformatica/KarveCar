@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.DataObjects;
-using KarveCar.Commands.MaestrosCommand;
+﻿using KarveCar.Commands.MaestrosCommand;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.SQL;
 using KarveCar.Utility;
@@ -15,15 +14,22 @@ using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 using KarveCommon.Logic.Generic;
+using KarveDataAccessLayer.DataObjects;
+using KarveDataServices;
+using Microsoft.Practices.Unity;
+using ProvidersModule;
+
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
     public class GrupoVehiculoViewModel : BindableBase
     {
+
         #region Propiedades
         private GrupoVehiculoUserControl thisusercontrol;
-
+        private IDataServices _dataServices;
         private DataTable grupovehiculodatatable;
+
         public DataTable GrupoVehiculoDataTable
         {
             get { return grupovehiculodatatable; }
@@ -102,14 +108,20 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         #endregion
 
         #region Constructor
+
         public GrupoVehiculoViewModel()
         {
-            this.grupovehiculocommand = new GrupoVehiculoCommand(this); //new DelegateCommand<object>(GrupoVehiculo);
+            /* in this case the injection doesnt work because the view model is not injected in the container*/
+
+            this.grupovehiculocommand = new GrupoVehiculoCommand(this);
         }
+
         #endregion
 
         #region Commands
         private ICommand grupovehiculocommand;
+        private IVehicleDataServices _vehiculosDataServices;
+
         public ICommand GrupoVehiculoCommand
         {
             get { return grupovehiculocommand; }
@@ -128,7 +140,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private DataTable InitDataLayerGrupoVehiculoSync()
         {            
             string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql);
+           GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnGruposVehiculos, sql);
             return ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
@@ -200,7 +212,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (dataRowView != null)
             {
                 DataRowView rowView = dataRowView as DataRowView;
-                this.GrupoVehiculoSelectedItem = ManageDataTable.ConvertDataRowViewToObject<GrupoVehiculoDataObject>(rowView);
+               // this.GrupoVehiculoSelectedItem = ManageDataTable.ConvertDataRowViewToObject<GrupoVehiculoDataObject>(rowView);
                 InitDataLayerPrecioPorDefectoSync(this.GrupoVehiculoSelectedItem.Codigo);
                 this.thisusercontrol.gridsplitter.Visibility = Visibility.Visible;
                 this.thisusercontrol.wrpGruposVehiculo.Visibility = Visibility.Visible;
@@ -230,7 +242,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (dataRowView != null)
             {
                 DataRowView rowView = dataRowView as DataRowView;
-                TipoVehiculo tipovehiculo = ManageDataTable.ConvertDataRowViewToObject<TipoVehiculo>(rowView);
+                TipoVehiculo tipovehiculo = null;
+               // TipoVehiculo tipovehiculo = ManageDataTable.ConvertDataRowViewToObject<TipoVehiculo>(rowView);
                 if (tipovehiculo != null)
                 {
                     if (this.GrupoVehiculoSelectedItem == null)
@@ -250,6 +263,11 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// <param name="parameter"></param>
         public void GrupoVehiculo(object parameter)
         {
+             MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
+             IUnityContainer container = mainWindow.UnityContainer;
+            // The data services interface is the data services related to the data access layer
+            this._dataServices = container.Resolve<IDataServices>();
+
             EOpcion opcion = ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;          
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
@@ -290,10 +308,10 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             {
                 case "grupoVehiculoUserControl":
                     this.thisusercontrol.grupoVehiculoDataGrid.Visibility = Visibility.Visible;
-                    this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Hidden;
+                  //  this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Hidden;
                     break;
                 case "tipoVehiculoUserControl":
-                    this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Visible;
+                   // this.thisusercontrol.tipoVehiculoDataGrid.Visibility = Visibility.Visible;
                     this.thisusercontrol.grupoVehiculoDataGrid.Visibility = Visibility.Hidden;
                     break;
                 default:

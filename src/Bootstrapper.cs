@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Unity;
 using System.Windows;
-using DataAccessLayer;
+using KarveDataAccessLayer;
 using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
@@ -13,17 +13,21 @@ using System.Reflection;
 using System.Globalization;
 using System;
 
+
 namespace KarveCar
 {
     class Bootstrapper : UnityBootstrapper
     {
+
+        /// This is a temporary bootstrapping service string connection string.
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
         /// <summary>
         ///  This create a new Prism Shell
         /// </summary>
         /// <returns></returns>
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+             return Container.Resolve<MainWindow>();
         }
         /// <summary>
         ///  This method configure the catalog of the prism modules.
@@ -49,9 +53,13 @@ namespace KarveCar
             {
                 // The dal service is used to access to the database
                 Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
-                Container.RegisterType<IKarveDataMapper, DataAccessLayer.BaseDataMapper>(new ContainerControlledLifetimeManager());
+                string connParams = ConnectionString;
+                object[] currentValue = new object[1];
+                currentValue[0] = connParams;
+                InjectionConstructor injectionConstructorDB = new InjectionConstructor(currentValue);
+                Container.RegisterType<ISqlQueryExecutor, KarveCommon.Generic.OleDbQueryExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
                 object[] values = new object[2];
-                values[0] = Container.Resolve<IKarveDataMapper>();
+                values[0] = Container.Resolve<ISqlQueryExecutor>();
                 values[1] = Container.Resolve<IConfigurationService>();
 
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
@@ -59,7 +67,10 @@ namespace KarveCar
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
                 Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
-            } catch (Exception e)
+                //Container.RegisterType(typeof(ViewModel.MaestrosViewModel.GrupoVehiculoViewModel), "GrupoVehiculoViewModel");
+               
+            }
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error during the container configuration. KarveWin cannot start!", MessageBoxButton.OK);
             }
@@ -91,7 +102,7 @@ namespace KarveCar
                 KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
                 window.UnityContainer = Container;
                 Application.Current.MainWindow.Show();
-            } catch (Exception)
+            } catch (Exception e)
             {
                 MessageBox.Show("Error during bootstrap" + e.Message);
             }

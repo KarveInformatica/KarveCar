@@ -1,5 +1,5 @@
 ﻿
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Supplier sublicen data object

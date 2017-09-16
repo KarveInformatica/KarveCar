@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Dragablz">
       <HintPath>..\..\lib\Dragablz.dll</HintPath>
     </Reference>
@@ -65,10 +68,11 @@
     <Compile Include="Generic\AbstractSqlQueryExecutor.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\IDBParameter.cs" />
+    <Compile Include="Generic\ISqlCommand.cs" />
     <Compile Include="Generic\ISQLQueryExecutor.cs" />
+    <Compile Include="Generic\ISqlSession.cs" />
     <Compile Include="Generic\OdbcQueryExecutor.cs" />
     <Compile Include="Generic\OleDbQueryExecutor.cs" />
-    <Compile Include="Generic\SQLQueryExecutor.cs" />
     <Compile Include="Services\EventManager.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />
     <Compile Include="Services\IEventManager.cs" />
@@ -92,7 +96,7 @@
     <Compile Include="Validation\Iban.cs" />
     <Compile Include="Validation\IbanLibrary.cs" />
     <Compile Include="Validation\IBANValidationRule.cs" />
-    <Compile Include="KarveCommonException.cs" />
+    <Compile Include="Errors\KarveCommonException.cs" />
     <Compile Include="Validation\NifValidationRule.cs" />
     <Compile Include="Validation\NotEmptyValueValidationRule.cs" />
     <Compile Include="Validation\NumberValidationRule.cs" />

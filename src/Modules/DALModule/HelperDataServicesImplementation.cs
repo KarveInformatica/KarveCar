@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     public class HelperDataServicesImplementation : IHelperDataServices
     {

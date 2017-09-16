@@ -1,6 +1,6 @@
 ﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class BancoDataObject : BaseAuxDataObject
     {

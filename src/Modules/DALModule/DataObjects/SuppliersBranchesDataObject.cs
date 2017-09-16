@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using KarveDataServices.DataObjects;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     // branches, delegaciones.
     public class SuppliersBranchesDataObject : ISupplierBranchesData

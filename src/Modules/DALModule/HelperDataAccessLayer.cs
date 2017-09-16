@@ -5,21 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using Apache.Ibatis.DataMapper;
-using Apache.Ibatis.DataMapper.MappedStatements;
+using KarveCommon.Generic;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     /// <summary>
-    ///  This class has some helper methods that retrives values needed.
+    ///  This class has some helper methods that retrives values needed. The so called auxiliares.
     /// </summary>
-    class HelperDataAccessLayer : BaseDataMapper, IHelperDataServices
+    class HelperDataAccessLayer :  IHelperDataServices
     {
-        private IDataMapper dataMapper;
+        private ISqlQueryExecutor sqlQueryExecutor;
 
-        public HelperDataAccessLayer(IDataMapper dataMapper)
+        public HelperDataAccessLayer(ISqlQueryExecutor dataMapper)
         {
-            this.dataMapper = dataMapper;
+            this.sqlQueryExecutor = dataMapper;
         }
 
         /// <summary>
@@ -29,11 +28,14 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetAsyncCountriesAndProvinces()
         {
+            /*
             IMapperCommand mapper1 = new QueryAsyncForDataTableCommand("Suppliers.GetAllProvinces", null);
             IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetAllCountries", null);
             DataMapper.AddBatch(mapper1);
             DataMapper.AddBatch(mapper2);
             DataSet set = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
+            */
+            DataSet set = new DataSet();
             return set;
         }
     }

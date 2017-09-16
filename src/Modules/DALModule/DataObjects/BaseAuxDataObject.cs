@@ -2,7 +2,7 @@
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Base class for each kind of data object in the AUX.

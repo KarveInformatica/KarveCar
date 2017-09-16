@@ -2041,8 +2041,9 @@
                     <RowDefinition Height="95*"/>
 
                 </Grid.RowDefinitions>
-
+<!--
                 <ContentControl Grid.Row="0"  prism:RegionManager.RegionName="KarveToolBar"/>
+                -->
                 <ScrollViewer Grid.Row="1">
                 <Grid Grid.IsSharedSizeScope="True" ShowGridLines="false">
                    

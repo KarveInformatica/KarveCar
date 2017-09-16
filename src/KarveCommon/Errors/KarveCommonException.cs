@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace KarveCommon
+namespace KarveCommon.Errors
 {
-    class KarveCommonException : Exception
+    class KarveCommonException : System.Exception
     {
         public KarveCommonException(string message) : base(message)
         {

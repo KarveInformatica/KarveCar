@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     class SupplierProvinceDataObject : GenericPropertyChanged
     {

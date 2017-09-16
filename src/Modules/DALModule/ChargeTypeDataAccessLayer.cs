@@ -1,15 +1,15 @@
-﻿using Apache.Ibatis.DataMapper;
-using DataAccessLayer.DataObjects;
-using KarveDataServices;
+﻿using KarveDataServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using KarveCommon.Generic;
+using KarveDataAccessLayer.DataObjects;
 
 /// <summary>
 ///  TODO: port this to async wait
 /// </summary>
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.
@@ -18,9 +18,9 @@ namespace DataAccessLayer
     {
         private readonly Uri uri = new Uri(@"karve://paymentdata/paymenttype");
         private ICollection<BaseAuxDataObject> _accountDataTable;
-        private IDataMapper _dataMapper;
+        private ISqlQueryExecutor _dataMapper;
 
-        public ChargeTypeDataAccessLayer(IDataMapper dataMapper)
+        public ChargeTypeDataAccessLayer(ISqlQueryExecutor dataMapper)
         {
             this._dataMapper = dataMapper;
         }
@@ -28,20 +28,24 @@ namespace DataAccessLayer
         {
             get { return uri; }
         }
-        private void QueryCopy(IDataMapper mapper, out ObservableCollection<ChargeTypeObject> collection)
+        private void QueryCopy(ISqlQueryExecutor mapper, out ObservableCollection<ChargeTypeObject> collection)
         {
+            collection = new ObservableCollection<ChargeTypeObject>();
+            /*
             ICollection<ChargeTypeObject> banks = mapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
             collection = new ObservableCollection<ChargeTypeObject>();
             foreach (var bank in banks)
             {
                 collection.Add(bank);
             }
+            */
         }
 
         public  DataTable GetAllInvoiceTypeDataTable()
         {
-            ICollection<BaseAuxDataObject> invoiceTypes = _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
+            //ICollection<BaseAuxDataObject> invoiceTypes = _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllInvoiceType", null);
             DataTable table = new DataTable();
+            /*
             table.Columns.Add(new DataColumn("Codigo", typeof(string)));
             table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (var item in invoiceTypes)
@@ -52,11 +56,13 @@ namespace DataAccessLayer
                 table.Rows.Add(row);
                // table.AcceptChanges();
             }
+            */
             return table;
         }
 
         public string GetAccountDefinitionByCode(string inCode)
         {
+            /*
             if (_accountDataTable == null)
             {
                 _accountDataTable = _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
@@ -70,13 +76,17 @@ namespace DataAccessLayer
                     return definicion;
                 }
             }
+            */
             return "";
         }
 
         public DataTable GetAllAccountsDataTable()
         {
-            _accountDataTable = _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
             DataTable table = new DataTable();
+
+            // _accountDataTable = _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllBanksAccount", null);
+
+            /*DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("Codigo", typeof(string)));
             table.Columns.Add(new DataColumn("Definicion", typeof(string)));
             foreach (var item in _accountDataTable)
@@ -87,6 +97,7 @@ namespace DataAccessLayer
                 table.Rows.Add(row);
                // table.AcceptChanges();
             }
+            */
             return table;
         }
 
@@ -97,6 +108,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         public IDictionary<string, bool> GetChargeOptions(int selectedItemCode)
         {
+            IDictionary<string, bool> options = new Dictionary<string, bool>();
+
+            /*
             IDictionary<string, bool> options = new Dictionary<string, bool>();
 
             ICollection<ChargeOptionDataObject> invoiceTypes = _dataMapper.QueryForList<ChargeOptionDataObject>("Auxiliares.GetChargeOptions", selectedItemCode);
@@ -110,16 +124,19 @@ namespace DataAccessLayer
                 options["IsShowerChecked"] = chargeOptionData.IsShowerChecked;
                 options["IsTeleChequeChecked"] = chargeOptionData.IsTeleChequeChecked;
             }
+            */
             return options;
         }
 
         public DataTable GetAllInvoiceOfficesDataTable()
         {
             // it might be desirable a query for table
+            /*
             ICollection<OfficePerInvoiceTypeObject> invoiceTypes =
                  _dataMapper.QueryForList<OfficePerInvoiceTypeObject>("Auxiliares.GetAllInvoiceOffices", null);
             ICollection<BaseAuxDataObject> officies =
                  _dataMapper.QueryForList<BaseAuxDataObject>("Auxiliares.GetAllOfficeZonesPerInvoice", null);
+                
             IDictionary<object, string> codeZone = new Dictionary<object, string>();
             DataTable officeDataTable = new DataTable();
             officeDataTable.Columns.Add(new DataColumn("Codigo", typeof(string)));
@@ -131,7 +148,11 @@ namespace DataAccessLayer
             officeDataTable.Columns.Add(new DataColumn("Direccion", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("CP", typeof(string)));
             officeDataTable.Columns.Add(new DataColumn("Poblacion", typeof(string)));
-
+            */
+            ICollection<OfficePerInvoiceTypeObject> invoiceTypes = new List<OfficePerInvoiceTypeObject>();
+            ICollection < BaseAuxDataObject> officies = new List<BaseAuxDataObject>();
+            IDictionary<object, string> codeZone = new Dictionary<object, string>();
+            DataTable officeDataTable = new DataTable();
             // i fetch alla the offices
             foreach (BaseAuxDataObject element in officies)
             {
@@ -193,7 +214,8 @@ namespace DataAccessLayer
         public DataTable GetChargeObjects()
         {
             DataTable table = new DataTable();
-            ICollection<ChargeTypeObject> charges =  _dataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
+            ICollection<ChargeTypeObject> charges =  new List<ChargeTypeObject>(); 
+                //_dataMapper.QueryForList<ChargeTypeObject>("Auxiliares.GetAllChargeType", null);
             table.Columns.Add(new DataColumn("Numero", typeof(string)));
             table.Columns.Add(new DataColumn("Nombre", typeof(string)));
             table.Columns.Add(new DataColumn("Cuenta", typeof(string)));

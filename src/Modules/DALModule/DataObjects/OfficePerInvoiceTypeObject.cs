@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.DataObjects
+﻿namespace KarveDataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Data Object with fields that are available in an invoice.

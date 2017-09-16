@@ -13,7 +13,7 @@ namespace KarveCar.Model.Generic
     {
         public string nombrepropiedadobj { get; set; }
         public string nombrecolumnadb { get; set ; }
-        public ETiposDatoColumnaDB tipodatocolumnadb { get; set; }
+        public ETipoDato tipodatocolumnadb { get; set; }
         public string datagridheader { get; set; }  
     }
 }

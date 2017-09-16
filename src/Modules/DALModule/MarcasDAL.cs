@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using KarveCommon.Generic;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     public class MarcasDAL
     {

@@ -2,7 +2,7 @@
 using KarveCommon.Generic;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class Mercado : GenericPropertyChanged, IDataGridRowChange
     {

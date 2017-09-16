@@ -1,7 +1,7 @@
 ﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
 using System;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class GrupoVehiculoDataObject : BaseAuxDataObject
     {

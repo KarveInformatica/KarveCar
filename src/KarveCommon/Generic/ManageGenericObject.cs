@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using KarveCommon.Errors;
 
 namespace KarveCommon.Generic
 {
@@ -71,7 +72,7 @@ namespace KarveCommon.Generic
                     }                    
                 }                
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 // FIXME: antipattern.
                 throw e;

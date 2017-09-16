@@ -282,6 +282,44 @@ namespace KarveCommon.Generic
                 }
             }
         }
+
+        public override async Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code)
+        {
+            await Task.Delay(10);
+            return new DataTable();  
+        }
+
+        public override Task<T> QueryAsyncForObject<T>(string v, T parameter)
+        {
+          
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DataTable QueryForDataTable(string v, long pos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ISqlSession OpenSession()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CloseSession(ISqlSession sqlSession)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Create a OdbcCommand from a transaction 
         /// </summary>

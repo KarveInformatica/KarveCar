@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     [Serializable]
     internal class SupplierDataServicesAccessModifiedException : Exception

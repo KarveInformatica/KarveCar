@@ -23,7 +23,17 @@ namespace KarveCommon.Generic
         private SATransaction _transaction;
         private string _connectionString;
         private ConnectionState _currentState;
-
+        private object asyncLoadLock = new object();
+        private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        public string ConnectionString
+        {
+            get { return _connectionString; }
+            set { _connectionString = value; _connection = new SAConnection(_connectionString); }
+        }
+        public OleDbQueryExecutor()
+        {
+            _connectionString = _defaultConnectionString;
+        }
         public OleDbQueryExecutor(string connectionString)
         {
             _connectionString = connectionString;
@@ -106,6 +116,7 @@ namespace KarveCommon.Generic
                     _command = new SACommand(sqlQuery, _connection, _transaction);
                 }
                 SADataAdapter dta = new SADataAdapter(_command);
+               
                 dta.FillSchema(dts, SchemaType.Source);
                 dta.Fill(dts);
                 if (_transaction == null)
@@ -148,8 +159,6 @@ namespace KarveCommon.Generic
             }
             return ds;
         }
-
-
 
         public override void UpdateDataSet(string sqlQuery, ref DataSet dts)
         {
@@ -199,6 +208,41 @@ namespace KarveCommon.Generic
                     cmd.Dispose();
                 }
             }
+        }
+
+        public override Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<T> QueryAsyncForObject<T>(string v, T parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> ExecuteUpdateAsyncBatch()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DataTable QueryForDataTable(string v, long pos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ISqlSession OpenSession()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CloseSession(ISqlSession sqlSession)
+        {
+            throw new NotImplementedException();
         }
 
 
@@ -400,9 +444,61 @@ namespace KarveCommon.Generic
             return ExecuteNonQuery(CommandName, cmdType, pars.oleDbParameters);
         }
 
-        public override Task<DataSet> AsyncDataSetLoad(string sqlQuery)
+        public override async Task<DataSet> AsyncDataSetLoad(string sqlQuery)
         {
-            throw new NotImplementedException();
+            DataSet dts = new DataSet();
+            SADataAdapter dta = null;
+            lock (asyncLoadLock)
+            {
+                try
+                {
+                    if (_transaction == null)
+                    {
+                        Open();
+                        _command = new SACommand(sqlQuery, _connection);
+                    }
+                    else
+                    {
+                        _command = new SACommand(sqlQuery, _connection, _transaction);
+                    }
+                    dta = new SADataAdapter(_command);
+
+                }
+                catch (Exception e)
+                {
+                    if (_transaction != null)
+                    {
+                        _transaction.Rollback();
+                    }
+                    string msg = "Loading dataset error :" + e.Message;
+                    throw new Exception(msg);
+                }
+            }
+            if (dta != null)
+            {
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        dta.FillSchema(dts, SchemaType.Source);
+                        dta.Fill(dts);
+                    });
+                }
+                catch (Exception e)
+                {
+                    if (_transaction != null)
+                    {
+                        _transaction.Rollback();
+                    }
+                    string msg = "Loading dataset error :" + e.Message;
+                    throw new Exception(msg);
+                }
+                finally
+                {
+                    Close();
+                }
+            }
+            return dts;
         }
     }
 }

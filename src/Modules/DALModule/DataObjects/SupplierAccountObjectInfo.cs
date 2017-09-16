@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class SupplierAccountObjectInfo : GenericPropertyChanged, ISupplierAccountObjectInfo
     {

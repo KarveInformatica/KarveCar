@@ -327,7 +327,7 @@
         /// <summary>
         /// Enumeración con los tipos de datos de las columnas de la BBDD
         /// </summary>
-        public enum ETiposDatoColumnaDB
+        public enum ETipoDato
         {
             DBstring,
             DBchar,
@@ -356,6 +356,50 @@
             Update,
             HasNull
         }
-       
+
+        public enum EWhereComparisson
+        {
+            WHITESPACE,
+            EQUALS,
+            NOTEQUALS,
+            LIKE,
+            NOTLIKE,
+            GREATERTHAN,
+            GREATEROREQUALS,
+            LESSTHAN,
+            LESSOREQUALS,
+            IN,
+            ISNULL,
+            ISNOTNULL
+        }
+        public enum EWhereLogicOperator
+        {
+            WHITESPACE,
+            AND,
+            OR
+        }
+
+        public enum EOrderBy
+        {
+            WHITESPACE,
+            ASC,
+            DESC
+        }
+
+        public enum ETopDistinct
+        {
+            WHITESPACE,
+            TOP,
+            STARTAT,
+            DISTINCT
+        }
+
+        public enum EJoinType
+        {
+            INNERJOIN,
+            OUTERJOIN,
+            LEFTJOIN,
+            RIGHTJOIN
+        }
     }
 }

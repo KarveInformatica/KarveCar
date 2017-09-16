@@ -1,6 +1,6 @@
 ﻿using KarveCommon.Generic;
 
-namespace DataAccessLayer.DataObjects
+namespace KarveDataAccessLayer.DataObjects
 {
     public class GrupoVehiculoPrecioPorDefectoDataObject : GenericPropertyChanged
     {

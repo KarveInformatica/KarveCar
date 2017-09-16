@@ -1,9 +1,10 @@
 ﻿using KarveDataServices;
 using System.Data;
 using System;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
     /// <summary>
     ///  Implementation of the the IDataService interface to provide the stairway pattern.
@@ -16,13 +17,13 @@ namespace DataAccessLayer
         private ISupplierDataServices _supplierDataServices;
         private IHelperDataServices _helperDataServices;
 
-        public DataServiceImplementation(IKarveDataMapper mapper, 
+        public DataServiceImplementation(ISqlQueryExecutor sqlQueryExecutor, 
             IConfigurationService configurationService)
         {
-            _bankLayer = new BanksDataAccessLayer(mapper.DataMapper);
-            _paymentDataService = new ChargeTypeDataAccessLayer(mapper.DataMapper);
-        //    _supplierDataServices = new SupplierDataAccessLayer(mapper.DataMapper, configurationService);
-            _helperDataServices = new HelperDataAccessLayer(mapper.DataMapper);
+            _bankLayer = new BanksDataAccessLayer(sqlQueryExecutor);
+            _paymentDataService = new ChargeTypeDataAccessLayer(sqlQueryExecutor);
+            _supplierDataServices = new SupplierDataAccessLayer(sqlQueryExecutor, configurationService);
+            _helperDataServices = new HelperDataAccessLayer(sqlQueryExecutor);
         }
         /// <summary>
         ///  Returns a the complete list of banks in the system.
@@ -30,7 +31,8 @@ namespace DataAccessLayer
         /// <returns></returns>
         public DataTable GetAllBanks()
         {
-             return _bankLayer.GetAllBanksTable();
+             return new DataTable(); 
+                //_bankLayer.GetAllBanksTable();
         }
 
         /// <summary>
@@ -44,14 +46,14 @@ namespace DataAccessLayer
 
         public IVehicleDataServices GetVehicleDataServices()
         {
-            throw new NotImplementedException();
+            throw new VeichlesDataService();
         }
 
         public ISupplierDataServices GetSupplierDataServices()
         {
            return _supplierDataServices;
         }
-
+        
         public IHelperDataServices GetHelperDataServices()
         {
             return _helperDataServices;

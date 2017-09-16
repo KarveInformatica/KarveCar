@@ -114,6 +114,20 @@ namespace KarveCar.Utility
             return obj;
         }
 
+        public static DataRowView CloneDataRowView(DataRowView datarowview)
+        {
+            DataRow datarow = datarowview.Row;
+
+            DataRowView datarowviewclone = datarow.Table.DefaultView.AddNew();
+
+            for (int i = 0; i < datarow.ItemArray.Length; i++)
+            {
+                datarowviewclone.Row[i] = datarow[i];
+            }
+
+            return datarowviewclone;
+        }
+
         /// <summary>
         /// Añade un object en un DataTable (object->DataRow->DataTable)
         /// </summary>
@@ -150,6 +164,17 @@ namespace KarveCar.Utility
                 datatable.Rows.Add(datarow);
                 datatable.AcceptChanges();
             }
+        }
+
+        public static DataTable AddDataRowViewToDataTable(DataRowView datarow, DataTable datatablesource)
+        {
+            DataTable datatable = new DataTable();
+            if (datarow != null)
+            {
+                datatable = datatablesource.Clone();
+                datatable.ImportRow(datarow.Row);
+            }
+            return datatable;
         }
 
         /// <summary>
@@ -191,16 +216,16 @@ namespace KarveCar.Utility
         /// <returns></returns>
         public static DataRowView FindDataRowViewInDataTableByString(string codigo, DataTable dataTable, string property)
         {
-            DataRowView dataRowView = null;
-            foreach (DataRowView tempRowView in dataTable.DefaultView)
+            DataRowView datarowview = null;
+            foreach (DataRowView datarowviewtemp in dataTable.DefaultView)
             {
-                if (String.Equals(tempRowView.Row.Field<string>(property), codigo, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(datarowviewtemp.Row.Field<string>(property), codigo, StringComparison.OrdinalIgnoreCase))
                 {
-                    dataRowView = tempRowView;
+                    datarowview = datarowviewtemp;
                     break;
                 }
             }
-            return dataRowView;
+            return datarowview;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿?using System;
+﻿using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,28 +6,23 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using DataAccessLayer.DataObjects;
-using Apache.Ibatis.DataMapper;
-using Apache.Ibatis.DataMapper.MappedStatements;
+using KarveDataAccessLayer.DataObjects;
 using System.Reflection;
 using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using Apache.Ibatis.DataMapper.Session;
 
-namespace DataAccessLayer
+namespace KarveDataAccessLayer
 {
 
     class SupplierDataAccessLayer : ISupplierDataServices
     {
-        private IDataMapper _dataMapper;
-        private IKarveDataMapper _mapper;
         private IConfigurationService _service;
-        private ISession _session;
-        public SupplierDataAccessLayer(IKarveDataMapper mapper, IConfigurationService service)
+        private ISqlQueryExecutor _queryExecutor;
+        private ISqlSession _session;
+        public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service)
         {
-            this._mapper = mapper;
-            this._dataMapper = mapper.DataMapper;
+            this._queryExecutor = mapper;
             this._service = service;
 
         }
@@ -40,8 +35,8 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncCompleteSummary()
         {
             DataSet dataSet = new DataSet("FullSupplierDataSet");
-            DataTable supplierTable;
-            supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetFullSuppliersSummary", null).ConfigureAwait(false);
+            DataTable supplierTable = new DataTable();
+      //      supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetFullSuppliersSummary", null).ConfigureAwait(false);
             dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
@@ -52,9 +47,9 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             DataSet dataSet = new DataSet("SupplierDataSet");
-            DataTable supplierTable;
-            supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null).ConfigureAwait(false);
-            dataSet.Tables.Add(supplierTable);
+            DataTable supplierTable = new DataTable();
+        //    supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null).ConfigureAwait(false);
+        //    dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
         /// <summary>
@@ -65,8 +60,8 @@ namespace DataAccessLayer
         {
             DataSet dataSet = new DataSet("SuppliersTypesDataSet");
             DataTable supplierTable;
-            supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetSupplierTypes", null).ConfigureAwait(false);
-            dataSet.Tables.Add(supplierTable);
+          //  supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetSupplierTypes", null).ConfigureAwait(false);
+          //  dataSet.Tables.Add(supplierTable);
             return dataSet;
         }
         /// <summary>
@@ -77,7 +72,9 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncProviderType(string supplierCode)
         {
             DataSet dataSet = new DataSet("SupplierType");
-            DataTable supplierTable = await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierType", supplierCode);
+            DataTable supplierTable = new DataTable();
+
+            //await _dataMapper.QueryAsyncForDataTable("Supplier.GetSupplierType", supplierCode);
             if (supplierTable != null)
             {
                 dataSet.Tables.Add(supplierTable);
@@ -93,7 +90,7 @@ namespace DataAccessLayer
         {
             DataSet set = new DataSet("SupplierDelegations");
             DataTable delegation = new DataTable();
-            delegation = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierDelegationByClient", supplierCode, _dataMapper.Session);
+            //delegation = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierDelegationByClient", supplierCode, _session);
             if (delegation != null)
             {
                 set.Tables.Add(delegation);
@@ -108,7 +105,8 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncVisits(string clientCode)
         {
             DataSet set = new DataSet("SupplierVisit");
-            DataTable visits = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierVisits", clientCode, _dataMapper.Session);
+            DataTable visits = new DataTable();
+            //await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierVisits", clientCode, _session));
             if (visits != null)
             {
                 set.Tables.Add(visits);
@@ -122,7 +120,8 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncEvaluationNote(string evCode)
         {
             DataSet set = new DataSet("EvaluationNote");
-            DataTable note = await _dataMapper.QueryAsyncForDataTable("Suppliers.LoadEvaluationNote", evCode);
+            DataTable note = new DataTable();
+            //await _dataMapper.QueryAsyncForDataTable("Suppliers.LoadEvaluationNote", evCode));
             if (note != null)
             {
                 set.Tables.Add(note);
@@ -141,6 +140,7 @@ namespace DataAccessLayer
             if (id != String.Empty)
             {
 
+                /*
                 IMapperCommand mapper1 = new QueryAsyncForObjectCommand<ISupplierDataInfo>("Suppliers.GetSupplierInfos", id);
                 IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetProvinceForEachSupplier", null);
 
@@ -194,7 +194,7 @@ namespace DataAccessLayer
                     }
                 }
 
-
+                */
             }
             return dataObject;
         }
@@ -205,6 +205,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<ISupplierTypeData> GetAsyncSupplierTypesDataObject(string id)
         {
+            ISupplierTypeData dataObjectType = new SupplierTypeDataObject();
+
+            /*
             IMapperCommand mapperSupplierTypes = new QueryAsyncForObjectCommand<ISupplierTypeData>("Suppliers.GetSupplierTypeById", id);
             _dataMapper.AddBatch(mapperSupplierTypes);
             DataSet supplierTypesDataSet = await _dataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
@@ -215,6 +218,7 @@ namespace DataAccessLayer
                 DataTable table = supplierTypesDataSet.Tables[0];
                 SetDataObjectFields(table.Rows[0], ref dataObjectType);
             }
+            */
             return dataObjectType;
         }
         #endregion
@@ -298,14 +302,14 @@ namespace DataAccessLayer
                 throw new SupplierDataServicesAccessModifiedException("Data modified in the contacts");
             }
             // cuenta contable in spanish.
-            bool IsAccountableAccountChanged = isAccountableAccountChanged(_dataMapper, account);
+            bool IsAccountableAccountChanged = isAccountableAccountChanged(this._queryExecutor, account);
             // FIXME: ask what means icono formulario_id_201. It shall be a configuration enviroment parameter.
             // valor of incremento.
             double increaseValue = 0.0;
+            /*
             if (environ.IsSet(EnvConfig.OfficeConfiguration, EnvironmentVariables.Herrero) && environ.IsSet(EnvConfig.OfficeConfiguration, EnvironmentVariables.IconoFormularioID201))
             {
                 IMapperCommand mapperIncreaseValue = new QueryAsyncForObjectCommandRetValue<double>("Suppliers.GetIncreasedValue", Convert.ToString(increaseValue));
-                /* increaseValue = select incremento from provee1 where num_provee= 'INCREMENTO' */
                 increaseValue = await _dataMapper.QueryAsyncForObject<double>("Suppliers.GetIncreasedValue", Convert.ToString(increaseValue)).ConfigureAwait(false);
 
             }
@@ -381,8 +385,6 @@ namespace DataAccessLayer
                         IDictionary<string, object> param = new Dictionary<string, object>();
                         param.Add("codigo", account.AccountableAccount);
                         param.Add("sublicen", account.Sublicen);
-                        /* select descrip from cu1 where codigo = account.AccountableAccount and sublicen = sublicen descrip
-                         */
                         string accountDescription = await _dataMapper.QueryAsyncForObjectByDictionary<string>("Supplier.SelectDescription", param);
 
                         if ((!environ.IsSet(EnvConfig.KarveConfiguration, EnvironmentVariables.RentMultiMedia)) && (!accountDescription.Equals(account.AccountableAccount)))
@@ -408,9 +410,6 @@ namespace DataAccessLayer
                     param.Add("sublicen", account.Sublicen);
                     bool ret = await _dataMapper.ExecuteInsertAsyncDictionary<bool>("Supplier.InsertNewAccount", param).ConfigureAwait(false);
                 }
-                /* FIXME: At this point i want todelete the old account if is required
-                 *       If OK And bCambioCta Then OK = BorraCtaVieja(CuentaA)               
-                 */
                 if (environ.IsSetNotEmpty(EnvConfig.KarveConfiguration, EnvironmentVariables.ExisteProveeDest))
                 {
                     IDictionary<string, object> param = new Dictionary<string, object>();
@@ -438,12 +437,12 @@ namespace DataAccessLayer
 			 * FIXME: AutoCodigoEliminar. ask why we need an autocodigo. 
 			 */
             #endregion
-            returnValue = returnValue & await ManageComi(environ, _dataMapper, dataInfo.Type, account, dataInfo);
+           // returnValue = returnValue & await ManageComi(environ, _dataMapper, dataInfo.Type, account, dataInfo);
             return returnValue;
         }
 
         private async Task<bool> ManageComi(IEnviromentVariables environ,
-            IDataMapper mapper,
+            ISqlQueryExecutor mapper,
             string type,
             ISupplierAccountObjectInfo account,
             ISupplierDataInfo info)
@@ -456,7 +455,7 @@ namespace DataAccessLayer
                     SELECT NOMBRE, PERSONA, NIF, DIRECTION, POBLACION, PROV, CP, NACIOPER, NACIODOMI, TELEFONO, FAX,
                     OBSERVA,sublicen , FALTA, fbaja, eMail, INTERNET, Movil, COORDGPS, Oficina
                     FROM PROVEE1 where NUM_PROVEE=info.Codigo*/
-                DataTable tmpSupplier = await mapper.QueryAsyncForDataTableSession("Supplier.GetSupplier", info.Code, mapper.Session).ConfigureAwait(false);
+                DataTable tmpSupplier = await mapper.QueryAsyncForDataTable("Supplier.GetSupplier", info.Code).ConfigureAwait(false);
                 /* from the select we need to fetch the values 
                   "NOMBRE", "PERSONA", "NIF", "DIRECCION", "POBLACION", "PROV", "CP", "NACIOPER", "NACIODOMI", "TELEFONO", "FAX", 
                  "OBSERVA", "sublicen", "FALTA", "fbaja", "eMail", "INTERNET", "Movil", "COORDGPS", "Oficina"
@@ -465,7 +464,7 @@ namespace DataAccessLayer
                 DataTable comi = null;
                 if (string.IsNullOrEmpty(account.CommissionNumber))
                 {
-                    comi = await mapper.QueryAsyncForDataTableSession("Supplier.GetCommissionByNif", account.Nif, mapper.Session).ConfigureAwait(false);
+                    comi = await mapper.QueryAsyncForDataTable("Supplier.GetCommissionByNif", account.Nif).ConfigureAwait(false);
                     if ((comi != null) && (comi.Rows.Count > 0) && (comi.Columns.Contains("NUM_COMI")))
                     {
                         DataRowCollection rows = comi.Rows;
@@ -490,33 +489,32 @@ namespace DataAccessLayer
                         }
                         tmpComisioNumber = BitConverter.ToInt16(data, 0);
                         account.CommissionNumber = tmpComisioNumber.ToString();
-                        commisionNumber = await mapper.QueryAsyncForObjectSession<short>("Commission.GetNumberOfCommission", tmpComisioNumber, mapper.Session).ConfigureAwait(false);
+                        commisionNumber = await mapper.QueryAsyncForObject<short>("Commission.GetNumberOfCommission", tmpComisioNumber).ConfigureAwait(false);
                     } while (commisionNumber == tmpComisioNumber);
-                    mapper.AddBatch(new InsertCommissionNumberCommand(account.CommissionNumber, tmpSupplier, "Commission.InsertCommission"));
+                  // mapper.AddBatch(new InsertCommissionNumberCommand(account.CommissionNumber, tmpSupplier, "Commission.InsertCommission"));
                     IDictionary<string, object> commissionParam = new Dictionary<string, object>();
                     commissionParam["NUMCOMI_PR"] = account.CommissionNumber;
                     commissionParam["NUM_PROVEE"] = info.Code;
-                    mapper.AddBatch(new UpdateCommandDictionary("Supplier.UpdateSupplierCommission", commissionParam));
+                   // mapper.AddBatch(new UpdateCommandDictionary("Supplier.UpdateSupplierCommission", commissionParam));
                     retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
                 }
                 else
                 {
-                    mapper.AddBatch(new UpdateCommandTable(tmpSupplier, account.CommissionNumber, "Commission.UpdateCommission"));
+                   // mapper.AddBatch(new UpdateCommandTable(tmpSupplier, account.CommissionNumber, "Commission.UpdateCommission"));
                     retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
                 }
 
             }
             return retValue;
         }
-        private async Task<bool> SaveOtherData(IEnviromentVariables environ, IDataMapper dataMapper,
+        private async Task<bool> SaveOtherData(IEnviromentVariables environ, ISqlQueryExecutor dataMapper,
                                              ISupplierAccountObjectInfo account, string connectedUser)
         {
-            // in case there is no supplier account.
+            /*
             if (environ.IsSet(EnvConfig.CompanyConfiguration, EnvironmentVariables.NoCtaContaProvee))
             {
                 return true;
             }
-            // cuenta contable 
             string accountName = account.AccountableAccount;
             account.AccountDescription = await GetAccountName(dataMapper, environ, account).ConfigureAwait(false);
             account.AccountDescription2 = await GetAccountName(dataMapper, environ, account, false).ConfigureAwait(false);
@@ -528,12 +526,11 @@ namespace DataAccessLayer
                 {
                     if (environ.IsSetNotEmpty(EnvConfig.CompanyConfiguration, EnvironmentVariables.ProveComun))
                     {
-                        /* SELECT list(codigo) from sublicen sublicen  */
-                        string value = await dataMapper.QueryAsyncForObjectSession<string>("Suppliers.GetAccountCodeList", null, _dataMapper.Session).ConfigureAwait(false);
+                        string value = await dataMapper.QueryAsyncForObjectSession<string>("Suppliers.GetAccountCodeList", null, _session).ConfigureAwait(false);
                         string[] words = value.Split(',');
                         foreach (string code in words)
                         {
-                            int rowsAffected = await dataMapper.QueryAsyncForObjectSession<int>("Suppliers.ExistAccountByCode", code, _dataMapper.Session).ConfigureAwait(false);
+                            int rowsAffected = await dataMapper.QueryAsyncForObjectSession<int>("Suppliers.ExistAccountByCode", code, _session).ConfigureAwait(false);
                             if (rowsAffected > 0)
                             {
                                 IList<object> param = new List<object>();
@@ -544,7 +541,7 @@ namespace DataAccessLayer
                                 param.Add(account.Active);
                                 param.Add(account.AccountDescription2);
                                 param.Add(code);
-                                bool ret = await dataMapper.ExecuteInsertAsync<bool>("Supplier.InsertNewAccount", param, _dataMapper.Session).ConfigureAwait(false);
+                                bool ret = await dataMapper.ExecuteInsertAsync<bool>("Supplier.InsertNewAccount", param, _session).ConfigureAwait(false);
                                 return ret;
                             }
                         }
@@ -569,37 +566,33 @@ namespace DataAccessLayer
                     }
                 }
             }
+            */
+            await Task.Delay(10);
             return true;
 
         }
 
-        private async Task<bool> CreateAccountCompanySupplier(IDataMapper mapper,
+        private async Task<bool> CreateAccountCompanySupplier(ISqlQueryExecutor mapper,
                                                       IEnviromentVariables environ,
                                                       ISupplierAccountObjectInfo account,
                                                       IDictionary<string, object> param,
                                                       string company)
         {
-
-            string companyName = company;
             bool returnValue = true;
-            /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
-            IList<SupplierSublicenDataObject> supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
-            /*SELECT CODIGO FROM SUBLICen WHERE CODIGO<>companyName*/
-            supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
-            foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
-            {
-                string companyCode = da.code;
-                /*
-                 *  SELECT TOP 1 CODIGO FROM CU1 WHERE SUBLICEN='00' AND CODIGO=companyCode;
-                 */
-                IDictionary<string, object> p = new Dictionary<string, object>();
+
+            /*
+                        string companyName = company;
+                        IList<SupplierSublicenDataObject> supplierSublicenDataObject = 
+                            await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
+
+                       supplierSublicenDataObject = await mapper.QueryAsyncForList<SupplierSublicenDataObject>("Suppliers.GetCodeInSublicen", companyName);
+                                   foreach (SupplierSublicenDataObject da in supplierSublicenDataObject)
+                        {
+                            string companyCode = da.code;
+            IDictionary<string, object> p = new Dictionary<string, object>();
                 p.Add("table", "cu1");
                 p.Add("codigo", account.AccountableAccount);
                 p.Add("sublicen", companyCode);
-                /*
-                *  SELECT (TOP 1 FROM CU WHERE codigo=account.AccountableAccount and sublicen = companyCode
-                * Check if Exist columns in code
-                 */
                 Tuple<string, object> cuTuple = await mapper.QueryAsyncForObject<Tuple<string, object>>("Suppliers.CheckExistColumnInTable", param).ConfigureAwait(true);
                 if (cuTuple.Item2 != null)
                 {
@@ -615,6 +608,7 @@ namespace DataAccessLayer
                     returnValue = ret && returnValue;
                 }
             }
+        */
             return returnValue;
 
         }
@@ -649,7 +643,7 @@ namespace DataAccessLayer
             }
             return sublicen;
         }
-        private async Task<bool> ExistsInAccountTable(IDataMapper dataMapper, string accountName, IEnviromentVariables environ)
+        private async Task<bool> ExistsInAccountTable(ISqlQueryExecutor dataMapper, string accountName, IEnviromentVariables environ)
         {
             int rowsAffected = 0;
             /*
@@ -667,14 +661,16 @@ namespace DataAccessLayer
             }
             if (String.IsNullOrEmpty(sublicen))
             {
-                rowsAffected = await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCode", accountName);
+                rowsAffected = 1;
+                //await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCode", accountName);
             }
             else
             {
                 IList<string> param = new List<string>();
                 param.Add(accountName);
                 param.Add(sublicen);
-                rowsAffected = await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCodeAndSublicen", param);
+                rowsAffected = 1;
+                //await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCodeAndSublicen", param);
             }
             return (rowsAffected > 0);
         }
@@ -682,7 +678,7 @@ namespace DataAccessLayer
 
 
 
-        private async Task<string> GetAccountName(IDataMapper dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
+        private async Task<string> GetAccountName(ISqlQueryExecutor dataMapper, IEnviromentVariables environ, ISupplierAccountObjectInfo accountInfo, bool firstAccount = true)
         {
             string accountName = "";
             int number = await NumberOfModification(dataMapper, environ, accountInfo).ConfigureAwait(false);
@@ -710,16 +706,17 @@ namespace DataAccessLayer
             IList<string> param = new List<string>();
             param.Add(accountInfo.AccountableAccount);
             param.Add(sublicenValue);
-            accountName = await dataMapper.QueryAsyncForObject<string>(queryName, param).ConfigureAwait(false);
+            accountName = "";
+//            accountName = await dataMapper.QueryAsyncForObject<string>(queryName, param).ConfigureAwait(false);
             return accountName;
         }
 
-        private bool isAccountableAccountChanged(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
+        private bool isAccountableAccountChanged(ISqlQueryExecutor dataMapper, ISupplierAccountObjectInfo account)
         {
             return true;
         }
 
-        private async Task<string> ComputeSWIFT(IDataMapper dataMapper, string Iban)
+        private async Task<string> ComputeSWIFT(ISqlQueryExecutor dataMapper, string Iban)
         {
             string bankCode = Iban.Substring(5, 4);
             /* SELECT SWIFT FROM BANCO WHERE CODBAN = banco*/
@@ -727,13 +724,13 @@ namespace DataAccessLayer
             return swift;
         }
 
-        private async Task<string> ComputeIBAN(IDataMapper dataMapper, ISupplierAccountObjectInfo account)
+        private async Task<string> ComputeIBAN(ISqlQueryExecutor dataMapper, ISupplierAccountObjectInfo account)
         {
             /* SELECT CREAR_IBAN account.Transfer as IBAN IBAN*/
             string iban = await dataMapper.QueryAsyncForObject<string>("Suppliers.ComputeIban", account.TransferAccount).ConfigureAwait(false);
             return iban;
         }
-        private async Task<int> NumberOfModification(IDataMapper mapper, IEnviromentVariables environ,
+        private async Task<int> NumberOfModification(ISqlQueryExecutor mapper, IEnviromentVariables environ,
                                     ISupplierAccountObjectInfo accountInfo)
         {
             /*
@@ -752,7 +749,8 @@ namespace DataAccessLayer
             IList<string> param = new List<string>();
             param.Add(accountInfo.AccountableAccount);
             param.Add(sublicenValue);
-            int numberOfModification = await mapper.QueryAsyncForObject<int>("Suppliers.NoModifica", param);
+            int numberOfModification = 1;
+            //await mapper.QueryAsyncForObject<int>("Suppliers.NoModifica", param);
             return numberOfModification;
         }
 
@@ -760,14 +758,14 @@ namespace DataAccessLayer
         {
             PageParameterObject paged = new PageParameterObject();
             paged.startPos = pos;
-            DataTable setSummary = _dataMapper.QueryForDataTable("Suppliers.GetFullSuppliersSummaryPaged", pos);
+            DataTable setSummary = _queryExecutor.QueryForDataTable("Suppliers.GetFullSuppliersSummaryPaged", pos);
             DataSet setName = new DataSet("PagedSupplierSummary");
             setName.Tables.Add(setSummary);
             return setName;
         }
         public async Task<ISupplierTypeData> GetAsyncSupplierTypeById(string supplierId)
         {
-            ISupplierTypeData data = await _dataMapper.QueryAsyncForObjectSession<ISupplierTypeData>("Suppliers.GetSupplierTypeById", supplierId, _dataMapper.Session).ConfigureAwait(false);
+            ISupplierTypeData data = await _queryExecutor.QueryAsyncForObjectSession<ISupplierTypeData>("Suppliers.GetSupplierTypeById", supplierId, this._session).ConfigureAwait(false);
             return data;
         }
         public async Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId, object environ)
@@ -785,7 +783,8 @@ namespace DataAccessLayer
             param["cuenta"] = accountDataObject.AccountNumber;
             param["sublicen"] = sublicen;
             account.AccountName = accountDataObject.AccountDescription2;
-            string value = await _dataMapper.QueryAsyncForObjectSession<string>("Suppliers.GetBalance", param, _dataMapper.Session).ConfigureAwait(false);
+            string value = "400";
+            //await _queryExecutor.QueryAsyncForObjectSession<string>("Suppliers.GetBalance", param, this._session).ConfigureAwait(false);
             account.PrefixAccount = accountPrefix;
             account.AccountBalance = String.IsNullOrEmpty(value) ? 0 : Convert.ToDouble(value);
             //account.AccountName =
@@ -832,8 +831,8 @@ namespace DataAccessLayer
             }
             if (!String.IsNullOrEmpty(account.TransferAccount))
             {
-                account.IBAN = await ComputeIBAN(_dataMapper, account).ConfigureAwait(false);
-                account.SWIFT = await ComputeSWIFT(_dataMapper, account.IBAN).ConfigureAwait(false);
+                account.IBAN = await ComputeIBAN(_queryExecutor, account).ConfigureAwait(false);
+                account.SWIFT = await ComputeSWIFT(_queryExecutor, account.IBAN).ConfigureAwait(false);
             }
             return account;
         }
@@ -849,8 +848,8 @@ namespace DataAccessLayer
             }
             param["supplierId"] = supplierId;
             param["sublicen"] = sublicen;
-            accountDataObject = await _dataMapper.QueryAsyncForObjectSession<AccountDataObject>(statementId, param, _dataMapper.Session);
-
+            //  accountDataObject = await _queryExecutor.QueryAsyncForObjectSession<AccountDataObject>(statementId, param, _session);
+            accountDataObject = new AccountDataObject();
             return accountDataObject;
         }
         public async Task<IDictionary<string, string>> GetAsyncSupplierDescription(string supplierId, string sublicen)
@@ -858,8 +857,10 @@ namespace DataAccessLayer
             IList<string> list = new List<string>();
             list.Add(supplierId);
             list.Add(sublicen);
-            string description = await _dataMapper.QueryAsyncForObject<string>("Suppliers.AccountableAccountDescription", list);
-            string description2 = await _dataMapper.QueryAsyncForObject<string>("Suppliers.AccountableAccountDescription2", list);
+            string description = "";
+            //await this._queryExecutor.QueryAsyncForObject<string>("Suppliers.AccountableAccountDescription", list);
+            string description2 = "";
+            //await this._queryExecutor.QueryAsyncForObject<string>("Suppliers.AccountableAccountDescription2", list);
             IDictionary<string, string> dictionary = new Dictionary<string, string>();
             dictionary["Description"] = description;
             dictionary["Description2"] = description2;
@@ -871,7 +872,8 @@ namespace DataAccessLayer
             IDictionary<string, object> param = new Dictionary<string, object>();
             param["cuenta"] = supplierId;
             param["sublicen"] = sublicen;
-            data = await _dataMapper.QueryAsyncForObject<string>("Suppliers.GetBalance", param);
+            data = null;
+            //await _queryExecutor.QueryAsyncForObject<string>("Suppliers.GetBalance", param);
             if (!String.IsNullOrEmpty(data))
             {
                 return Convert.ToDouble(data);
@@ -880,14 +882,17 @@ namespace DataAccessLayer
         }
         public async Task<DataSet> GetEvaluationNote(string supplierId)
         {
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.LoadEvaluationNote", supplierId, _dataMapper.Session).ConfigureAwait(false);
+            DataTable table = new DataTable();
+            //await _queryExecutor.QueryAsyncForDataTableSession("Suppliers.LoadEvaluationNote", supplierId, _session).ConfigureAwait(false));
             DataSet set = new DataSet("SupplierEvaluationNote");
             set.Tables.Add(table);
             return set;
         }
         public async Task<DataSet> GetAsyncTransportProviderData(string supplierId)
         {
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierTransportInfo", supplierId, _dataMapper.Session).ConfigureAwait(false);
+            DataTable table = new DataTable();
+
+           // DataTable table = await _queryExecutor.QueryAsyncForDataTableSession("Suppliers.GetSupplierTransportInfo", supplierId, _session).ConfigureAwait(false);
             DataSet set = new DataSet("SupplierEvaluationNote");
             set.Tables.Add(table);
             return set;
@@ -896,14 +901,16 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId)
         {
             DataSet set = new DataSet("SupplierAssurance");
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierAssuranceInfo", supplierId, _dataMapper.Session);
+            DataTable table = new DataTable();
+            //await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierAssuranceInfo", supplierId, _session));
             set.Tables.Add(table);
             return set;
         }
         public async Task<DataSet> GetAsyncSupplierContacts(string supplierId)
         {
             DataSet set = new DataSet("SupplierContacts");
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierContacts", supplierId, _dataMapper.Session);
+            DataTable table = new DataTable();
+                //await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierContacts", supplierId, _session));
             set.Tables.Add(table);
             return set;
         }
@@ -911,7 +918,8 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncMonitoring(string supplierId)
         {
             DataSet set = new DataSet("MonitoringSupplier");
-            DataTable table = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.MonitoringSuppliersById", supplierId, _dataMapper.Session);
+            DataTable table = new DataTable();
+                //await _dataMapper.QueryAsyncForDataTableSession("Suppliers.MonitoringSuppliersById", supplierId, _session);
             set.Tables.Add(table);
             return set;
         }
@@ -942,21 +950,22 @@ namespace DataAccessLayer
 
         public void OpenDataSession()
         {
-            _session = _mapper.SessionFactory.OpenSession();
-            if (this._dataMapper.Session != null)
+            /*
+            _session = _queryExecutor.OpenSession();
+            
+                _mapper.SessionFactory.OpenSession();
+            if (this._session != null)
             {
-                this._dataMapper.Session.Dispose();
+                this._session.Dispose();
             }
-            this._dataMapper.Session = new ScopedSession(_session);
+            this._session = new ScopedSession(_session);
+            */
         }
 
         public void CloseDataSession()
         {
-            this._dataMapper.Session.Session.Dispose();
+            //this._session.Session.Dispose();
         }
-
-
-
         public Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string baseSupplierId)
         {
             throw new NotImplementedException();
@@ -966,12 +975,11 @@ namespace DataAccessLayer
         {
             throw new NotImplementedException();
         }
-
+       
         public Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData)
         {
             throw new NotImplementedException();
         }
     }
 }
-#endregion
 
