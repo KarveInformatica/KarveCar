@@ -1,4 +1,6 @@
-﻿using System;
+﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -11,8 +13,7 @@ namespace KarveCommon.Generic
 {
     public class SQLBuilder
     {
-        #region SQLBuilder
-        #region SqlSelectBuilder        
+        #region SqlBuilderSelect
         /// <summary>
         /// Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
         /// List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
@@ -35,10 +36,10 @@ namespace KarveCommon.Generic
         /// <param name="whereClause"></param>
         /// <param name="orderByClause"></param>
         /// <returns></returns>
-        public static string SqlBuilderSelectComplex(List<string> columns, string table, string tableAlias,
-                                                     Tuple<RecopilatorioEnumerations.ETopDistinct, int, int> topDistinctClause,
-                                                     List<Tuple<RecopilatorioEnumerations.EWhereLogicOperator, string, RecopilatorioEnumerations.EWhereComparisson, RecopilatorioEnumerations.ETipoDato, string>> whereClause,
-                                                     List<Tuple<string, RecopilatorioEnumerations.EOrderBy>> orderByClause)
+        public static string SqlBuilderSelect(List<string> columns, string table, string tableAlias,
+                                              Tuple<ETopDistinct, int, int> topDistinctClause,
+                                              List<Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string>> whereClause,
+                                              List<Tuple<string, EOrderBy>> orderByClause)
         {
             string sqlSentence;
 
@@ -79,7 +80,7 @@ namespace KarveCommon.Generic
             {
                 if (whereClause.Any())
                 {
-                    sqlSentence += " WHERE " + SqlWhereBuilderList(whereClause);
+                    sqlSentence += " WHERE " + SqlBuilderWhereList(whereClause);
                 }
             }
 
@@ -95,10 +96,32 @@ namespace KarveCommon.Generic
             return sqlSentence.Replace("  ", " ");
         }
 
-        public static string SqlBuilderSelectSimple(List<string> columns, string table, string tableAlias,
-                                                    Tuple<RecopilatorioEnumerations.ETopDistinct, int, int> topDistinctClause,
-                                                    Tuple<RecopilatorioEnumerations.EWhereLogicOperator, string, RecopilatorioEnumerations.EWhereComparisson, RecopilatorioEnumerations.ETipoDato, string> whereClause,
-                                                    Tuple<string, RecopilatorioEnumerations.EOrderBy> orderByClause)
+        /// <summary>
+        /// Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
+        /// List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
+        ///     en el Tag del control correspondiente: alias.nombreColumna); * por defecto<para/>
+        /// string table -> nombre de la tabla<para/>
+        /// string tableAlias -> alias de la tabla<para/>
+        /// Tuple&lt;ETopDistinct, int, int&gt; topDistinctClause -> TOP, STARTAT, DISTINCT; número de top en el caso TOP; número de start en el caso de STARTAT<para/>
+        /// Tuple&lt;EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string&gt; whereClause -> 
+        ///     condiciones para filtrar la tabla de la BBDD:
+        ///     operador lógico para WHERE múltiples (AND, OR); 
+        ///     columna a comparar; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...); 
+        ///     dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos); 
+        ///     valor a comparar<para/>
+        /// Tuple&lt;string, EOrderBy&gt; orderByClause -> columnas por donde ordenar; tipo de ordenación (ASC, DESC)<para/>
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <param name="table"></param>
+        /// <param name="tableAlias"></param>
+        /// <param name="topDistinctClause"></param>
+        /// <param name="whereClause"></param>
+        /// <param name="orderByClause"></param>
+        /// <returns></returns>
+        public static string SqlBuilderSelect(List<string> columns, string table, string tableAlias,
+                                              Tuple<ETopDistinct, int, int> topDistinctClause,
+                                              Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string> whereClause,
+                                              Tuple<string, EOrderBy> orderByClause)
         {
             string sqlSentence;
 
@@ -149,9 +172,30 @@ namespace KarveCommon.Generic
             return sqlSentence.Replace("  ", " ");
         }
 
-        public static string SqlBuilderSelectSimple(List<string> columns, string table, string tableAlias,
-                                                    Tuple<RecopilatorioEnumerations.ETopDistinct, int, int> topDistinctClause,
-                                                    string whereClause, string orderByClause)
+        /// <summary>
+        /// Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
+        /// List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
+        ///     en el Tag del control correspondiente: alias.nombreColumna); * por defecto<para/>
+        /// string table -> nombre de la tabla<para/>
+        /// string tableAlias -> alias de la tabla<para/>
+        /// Tuple&lt;ETopDistinct, int, int&gt; topDistinctClause -> TOP, STARTAT, DISTINCT; número de top en el caso TOP; número de start en el caso de STARTAT<para/>
+        /// string whereClause -> condiciones para filtrar la tabla de la BBDD:
+        ///     operador lógico para WHERE múltiples (AND, OR); 
+        ///     columna a comparar; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...); 
+        ///     dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos); 
+        ///     valor a comparar<para/>
+        /// string orderByClause -> columnas por donde ordenar; tipo de ordenación (ASC, DESC)<para/>
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <param name="table"></param>
+        /// <param name="tableAlias"></param>
+        /// <param name="topDistinctClause"></param>
+        /// <param name="whereClause"></param>
+        /// <param name="orderByClause"></param>
+        /// <returns></returns>
+        public static string SqlBuilderSelect(List<string> columns, string table, string tableAlias,
+                                              Tuple<ETopDistinct, int, int> topDistinctClause,
+                                              string whereClause, string orderByClause)
         {
             string sqlSentence;
 
@@ -201,11 +245,20 @@ namespace KarveCommon.Generic
 
             return sqlSentence.Replace("  ", " ");
         }
-
         #endregion
 
-        #region SqlWhereBuilder
-        public static string SqlBuilderWhereOne(Tuple<RecopilatorioEnumerations.EWhereLogicOperator, string, RecopilatorioEnumerations.EWhereComparisson, RecopilatorioEnumerations.ETipoDato, string> whereClause)
+        #region SqlBuilderWhere
+        /// <summary>
+        /// Crea la cláusula WHERE con la condición pasada por params en un Tuple:<para/>
+        /// EWhereLogicOperator -&gt; tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)&lt;para/&gt;
+        /// string -&gt; columna a comparar&lt;para/&gt;
+        /// EWhereComparisson -&gt; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)&lt;para/&gt;
+        /// ETipoDato -&gt; Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)&lt;para/&gt;
+        /// string -&gt; valor a comparar&lt;para/&gt;
+        /// </summary>
+        /// <param name="whereClause"></param>
+        /// <returns></returns>
+        public static string SqlBuilderWhereOne(Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string> whereClause)
         {
             string sqlWhereClause = string.Empty;
 
@@ -219,9 +272,9 @@ namespace KarveCommon.Generic
             sqlWhereClause += SqlBuilderWhereComparissonType(whereClause.Item3);
 
 
-            if (whereClause.Item3 != RecopilatorioEnumerations.EWhereComparisson.ISNULL && whereClause.Item3 != RecopilatorioEnumerations.EWhereComparisson.ISNOTNULL)
+            if (whereClause.Item3 != EWhereComparisson.ISNULL && whereClause.Item3 != EWhereComparisson.ISNOTNULL)
             {   //Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)
-                RecopilatorioEnumerations.ETipoDato wherecomparissonvaluetype = whereClause.Item4;
+                ETipoDato wherecomparissonvaluetype = whereClause.Item4;
                 string wherecomparissonvalue = whereClause.Item5.Equals(string.Empty) || whereClause.Item5 == null || whereClause.Item5[0] == ' ' ? "%" : whereClause.Item5;
                 sqlWhereClause += SqlBuilderWhereComparissonValue(wherecomparissonvaluetype, wherecomparissonvalue);
             }
@@ -229,8 +282,22 @@ namespace KarveCommon.Generic
             return sqlWhereClause.Replace("  ", " "); //eliminamos el exceso de caracteres en blanco        
         }
 
-        public static string SqlBuilderWhereOne(RecopilatorioEnumerations.EWhereLogicOperator wherelogicoperator, string column, RecopilatorioEnumerations.EWhereComparisson wherecomparissontype, 
-                                                RecopilatorioEnumerations.ETipoDato wherecomparissonvaluetype, string value)
+        /// <summary>
+        /// Crea la cláusula WHERE con la condición pasada por params:<para/>
+        /// EWhereLogicOperator -> tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)<para/>
+        /// string -> columna a comparar<para/>
+        /// EWhereComparisson -> tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)<para/>
+        /// ETipoDato -> Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)<para/>
+        /// string -> valor a comparar<para/>
+        /// </summary>
+        /// <param name="wherelogicoperator"></param>
+        /// <param name="column"></param>
+        /// <param name="wherecomparissontype"></param>
+        /// <param name="wherecomparissonvaluetype"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string SqlBuilderWhereOne(EWhereLogicOperator wherelogicoperator, string column, EWhereComparisson wherecomparissontype, 
+                                                ETipoDato wherecomparissonvaluetype, string value)
         {
             string sqlWhereClause = string.Empty;
 
@@ -243,7 +310,7 @@ namespace KarveCommon.Generic
             //Tipo de comparación
             sqlWhereClause += SqlBuilderWhereComparissonType(wherecomparissontype);
 
-            if (wherecomparissontype != RecopilatorioEnumerations.EWhereComparisson.ISNULL && wherecomparissontype != RecopilatorioEnumerations.EWhereComparisson.ISNOTNULL)
+            if (wherecomparissontype != EWhereComparisson.ISNULL && wherecomparissontype != EWhereComparisson.ISNOTNULL)
             {   
                 //Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)
                 string wherecomparissonvalue = value.Equals(string.Empty) || value == null || value[0] == ' ' ? "%" : value;
@@ -254,7 +321,7 @@ namespace KarveCommon.Generic
         }
 
         /// <summary>
-        /// Crea la cláusula WHERE con la List de valores pasados por params:<para/>
+        /// Crea la cláusula WHERE con la List de condiciones pasadas por params:<para/>
         /// EWhereLogicOperator -> tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)<para/>
         /// string -> columna a comparar<para/>
         /// EWhereComparisson -> tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)<para/>
@@ -263,11 +330,11 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="whereClause"></param>
         /// <returns></returns>
-        public static string SqlWhereBuilderList(List<Tuple<RecopilatorioEnumerations.EWhereLogicOperator, string, RecopilatorioEnumerations.EWhereComparisson, RecopilatorioEnumerations.ETipoDato, string>> whereClause)
+        public static string SqlBuilderWhereList(List<Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string>> whereClause)
         {
             string sqlWhereClause = string.Empty;
 
-            foreach (Tuple<RecopilatorioEnumerations.EWhereLogicOperator, string, RecopilatorioEnumerations.EWhereComparisson, RecopilatorioEnumerations.ETipoDato, string> item in whereClause)
+            foreach (Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string> item in whereClause)
             {
                 //Tipo de operador lógico para WHERE múltiples
                 sqlWhereClause += SqlBuilderWhereLogicOperator(item.Item1);
@@ -278,9 +345,9 @@ namespace KarveCommon.Generic
                 //Tipo de comparación
                 sqlWhereClause += SqlBuilderWhereComparissonType(item.Item3);
 
-                if (item.Item3 != RecopilatorioEnumerations.EWhereComparisson.ISNULL && item.Item3 != RecopilatorioEnumerations.EWhereComparisson.ISNOTNULL)
+                if (item.Item3 != EWhereComparisson.ISNULL && item.Item3 != EWhereComparisson.ISNOTNULL)
                 {   //Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)
-                    RecopilatorioEnumerations.ETipoDato wherecomparissonvaluetype = item.Item4;
+                    ETipoDato wherecomparissonvaluetype = item.Item4;
                     string wherecomparissonvalue = item.Item5.Equals(string.Empty) || item.Item5 == null || item.Item5[0] == ' ' ? "%" : item.Item5;
                     sqlWhereClause += SqlBuilderWhereComparissonValue(wherecomparissonvaluetype, wherecomparissonvalue);
                 }
@@ -289,26 +356,41 @@ namespace KarveCommon.Generic
         }
         #endregion
 
-        #region SqlOrderByBuilder
-        public static string SqlBuilderOrderByOne(Tuple<string, RecopilatorioEnumerations.EOrderBy> orderByClause)
+        #region SqlBuilderOrderBy
+        /// <summary>
+        /// Crea la cláusula ORDER BY con la condición pasada por params en un Tuple:<para/>
+        /// string -> columna por donde ordenar;<para/>
+        /// EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
+        /// </summary>
+        /// <param name="orderByClause"></param>
+        /// <returns></returns>
+        public static string SqlBuilderOrderByOne(Tuple<string, EOrderBy> orderByClause)
         {
             string sqlOrderBy = string.Empty;
 
             sqlOrderBy += orderByClause.Item1;
 
-            RecopilatorioEnumerations.EOrderBy orderby = orderByClause.Item2;
+            EOrderBy orderby = orderByClause.Item2;
             switch (orderby)
             {
-                case RecopilatorioEnumerations.EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
-                case RecopilatorioEnumerations.EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
-                case RecopilatorioEnumerations.EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
+                case EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
+                case EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
+                case EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
                 default: break;
             }
             
             return sqlOrderBy.TrimEnd(' ').TrimEnd(',').Replace("  ", " ");
         }
 
-        public static string SqlBuilderOrderByOne(string column, RecopilatorioEnumerations.EOrderBy orderby)
+        /// <summary>
+        /// Crea la cláusula ORDER BY con la condición pasada por params:<para/>
+        /// string -> columna por donde ordenar;<para/>
+        /// EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="orderby"></param>
+        /// <returns></returns>
+        public static string SqlBuilderOrderByOne(string column, EOrderBy orderby)
         {
             string sqlOrderBy = string.Empty;
 
@@ -316,9 +398,9 @@ namespace KarveCommon.Generic
 
             switch (orderby)
             {
-                case RecopilatorioEnumerations.EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
-                case RecopilatorioEnumerations.EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
-                case RecopilatorioEnumerations.EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
+                case EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
+                case EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
+                case EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
                 default: break;
             }
 
@@ -326,26 +408,26 @@ namespace KarveCommon.Generic
         }
 
         /// <summary>
-        /// Crea la cláusula ORDER BY con la List de valores pasados por params:<para/>
+        /// Crea la cláusula ORDER BY con la List de condiciones pasadas por params:<para/>
         /// string -> columna por donde ordenar<para/>
-        /// EOrderBy -> tipo de ordenación (ASC, DESC)<para/>
+        /// EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
         /// </summary>
         /// <param name="orderByClause"></param>
         /// <returns></returns>
-        public static string SqlBuilderOrderByList(List<Tuple<string, RecopilatorioEnumerations.EOrderBy>> orderByClause)
+        public static string SqlBuilderOrderByList(List<Tuple<string, EOrderBy>> orderByClause)
         {
             string sqlOrderBy = string.Empty;
 
-            foreach (Tuple<string, RecopilatorioEnumerations.EOrderBy> item in orderByClause)
+            foreach (Tuple<string, EOrderBy> item in orderByClause)
             {
                 sqlOrderBy += item.Item1;
 
-                RecopilatorioEnumerations.EOrderBy orderby = item.Item2;
+                EOrderBy orderby = item.Item2;
                 switch (orderby)
                 {
-                    case RecopilatorioEnumerations.EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
-                    case RecopilatorioEnumerations.EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
-                    case RecopilatorioEnumerations.EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
+                    case EOrderBy.WHITESPACE: sqlOrderBy += " ASC, "; break;
+                    case EOrderBy.ASC: sqlOrderBy += " ASC, "; break;
+                    case EOrderBy.DESC: sqlOrderBy += " DESC, "; break;
                     default: break;
                 }
             }
@@ -353,104 +435,154 @@ namespace KarveCommon.Generic
         }
         #endregion
 
-        #region TopDistinct WhereLogicOperator WhereComparissonType WhereComparissonValue
-        private static string SqlBuilderTopDistinct(RecopilatorioEnumerations.ETopDistinct topdistinct, int top, int startat)
+        #region TopDistinctStartAt WhereLogicOperator WhereComparissonType WhereComparissonValue
+        /// <summary>
+        /// Crea la cláusula TOP, DISCTINCT o START AT con las condiciones pasadas por params:<para/>
+        /// ETopDistinct topdistinct -> tipo de operador (TOP, DISCTINCT o STARTAT)<para/>
+        /// int top -> (sólo para TOP y START AT), límite de columnas a mostrar<para/>
+        /// int startat -> (sólo para START AT), índice desde donde se mostrarán las columnas<para/>
+        /// </summary>
+        /// <param name="topdistinct"></param>
+        /// <param name="top"></param>
+        /// <param name="startat"></param>
+        /// <returns></returns>
+        public static string SqlBuilderTopDistinct(ETopDistinct topdistinct, int top, int startat)
         {
             string sqlSentence = string.Empty;
             switch (topdistinct)
             {
-                case RecopilatorioEnumerations.ETopDistinct.WHITESPACE: sqlSentence += " "; break;
-                case RecopilatorioEnumerations.ETopDistinct.TOP: sqlSentence += " TOP " + top + " "; break;
-                case RecopilatorioEnumerations.ETopDistinct.STARTAT: sqlSentence += " TOP " + top + " START AT " + startat + " "; break;
-                case RecopilatorioEnumerations.ETopDistinct.DISTINCT: sqlSentence += " DISTINCT "; break;
+                case ETopDistinct.WHITESPACE: sqlSentence += " "; break;
+                case ETopDistinct.TOP: sqlSentence += " TOP " + top + " "; break;
+                case ETopDistinct.STARTAT: sqlSentence += " TOP " + top + " START AT " + startat + " "; break;
+                case ETopDistinct.DISTINCT: sqlSentence += " DISTINCT "; break;
                 default: break;
             }
             return sqlSentence;
         }
 
-        private static string SqlBuilderWhereLogicOperator(RecopilatorioEnumerations.EWhereLogicOperator wherelogicoperator)
+        /// <summary>
+        /// Devuelve el operador lógico AND O or con las condiciones pasadas por params:
+        /// EWhereLogicOperator wherelogicoperator -> tipo de operador lógico(WHITESPACE, AND o OR)
+        /// </summary>
+        /// <param name="wherelogicoperator"></param>
+        /// <returns></returns>
+        public static string SqlBuilderWhereLogicOperator(EWhereLogicOperator wherelogicoperator)
         {
             string sqlWhereClause = string.Empty;
             switch (wherelogicoperator)
             {
-                case RecopilatorioEnumerations.EWhereLogicOperator.WHITESPACE: sqlWhereClause += " "; break;
-                case RecopilatorioEnumerations.EWhereLogicOperator.AND: sqlWhereClause += " AND "; break;
-                case RecopilatorioEnumerations.EWhereLogicOperator.OR: sqlWhereClause += " OR "; break;
+                case EWhereLogicOperator.WHITESPACE: sqlWhereClause += " "; break;
+                case EWhereLogicOperator.AND: sqlWhereClause += " AND "; break;
+                case EWhereLogicOperator.OR: sqlWhereClause += " OR "; break;
                 default: break;
             }
             return sqlWhereClause;
         }
 
-        private static string SqlBuilderWhereComparissonType(RecopilatorioEnumerations.EWhereComparisson wherecomparissontype)
+        /// <summary>
+        /// Devuelve el tipo de operador (LIKE, IS NULL, IS NOT NULL, EQUALS, =,...) con las condiciones pasadas por params:<para/>
+        /// EWhereComparisson wherecomparissontype -> tipo de operador (LIKE, IS NULL, IS NOT NULL, EQUALS, =,...)<para/>
+        /// </summary>
+        /// <param name="wherecomparissontype"></param>
+        /// <returns></returns>
+        public static string SqlBuilderWhereComparissonType(EWhereComparisson wherecomparissontype)
         {
             string sqlWhereClause = string.Empty;
             switch (wherecomparissontype)
             {
-                case RecopilatorioEnumerations.EWhereComparisson.WHITESPACE: sqlWhereClause += " "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.ISNULL:     sqlWhereClause += " IS NULL "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.ISNOTNULL:  sqlWhereClause += " IS NOT NULL "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.LIKE:    sqlWhereClause += " LIKE "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.NOTLIKE: sqlWhereClause += " NOT LIKE "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.EQUALS:    sqlWhereClause += " = "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.NOTEQUALS: sqlWhereClause += " <> "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.GREATEROREQUALS: sqlWhereClause += " >= "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.GREATERTHAN:     sqlWhereClause += " > "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.LESSOREQUALS:    sqlWhereClause += " <= "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.LESSTHAN:        sqlWhereClause += " < "; break;
-                case RecopilatorioEnumerations.EWhereComparisson.IN: sqlWhereClause += " IN "; break;
+                case EWhereComparisson.WHITESPACE: sqlWhereClause += " "; break;
+                case EWhereComparisson.ISNULL:     sqlWhereClause += " IS NULL "; break;
+                case EWhereComparisson.ISNOTNULL:  sqlWhereClause += " IS NOT NULL "; break;
+                case EWhereComparisson.LIKE:    sqlWhereClause += " LIKE "; break;
+                case EWhereComparisson.NOTLIKE: sqlWhereClause += " NOT LIKE "; break;
+                case EWhereComparisson.EQUALS:    sqlWhereClause += " = "; break;
+                case EWhereComparisson.NOTEQUALS: sqlWhereClause += " <> "; break;
+                case EWhereComparisson.GREATEROREQUALS: sqlWhereClause += " >= "; break;
+                case EWhereComparisson.GREATERTHAN:     sqlWhereClause += " > "; break;
+                case EWhereComparisson.LESSOREQUALS:    sqlWhereClause += " <= "; break;
+                case EWhereComparisson.LESSTHAN:        sqlWhereClause += " < "; break;
+                case EWhereComparisson.IN: sqlWhereClause += " IN "; break;
                 default: break;
             }
             return sqlWhereClause;
         }
 
-        private static string SqlBuilderWhereComparissonValue(RecopilatorioEnumerations.ETipoDato wherecomparissonvaluetype, string wherecomparissonvalue)
+        /// <summary>
+        /// Devuelve el valor a comparar (con comillas simples '' para strings, sin comillas simples para numéricos) con las condiciones pasadas por params:<para/>
+        /// ETipoDato wherecomparissonvaluetype -> tipo de dato del valor de la condición a comparar<para/>
+        /// string wherecomparissonvalue -> valor de la condición a comparar<para/>
+        /// </summary>
+        /// <param name="wherecomparissonvaluetype"></param>
+        /// <param name="wherecomparissonvalue"></param>
+        /// <returns></returns>
+        public static string SqlBuilderWhereComparissonValue(ETipoDato wherecomparissonvaluetype, string wherecomparissonvalue)
         {
             string sqlWhereClause = string.Empty;
             switch (wherecomparissonvaluetype)
             {
-                case RecopilatorioEnumerations.ETipoDato.DBstring:   sqlWhereClause += " '" + wherecomparissonvalue + "' "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBchar:     sqlWhereClause += " '" + wherecomparissonvalue[0] + "' "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBbyte:     sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBshort:    sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBint:      sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBlong:     sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBdecimal:  sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBdouble:   sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
-                case RecopilatorioEnumerations.ETipoDato.DBdatetime: sqlWhereClause += " '" + wherecomparissonvalue + "' "; break;
+                case ETipoDato.DBstring:   sqlWhereClause += " '" + wherecomparissonvalue + "' "; break;
+                case ETipoDato.DBchar:     sqlWhereClause += " '" + wherecomparissonvalue[0] + "' "; break;
+                case ETipoDato.DBbyte:     sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBshort:    sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBint:      sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBlong:     sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBdecimal:  sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBdouble:   sqlWhereClause += " "  + wherecomparissonvalue + " "; break;
+                case ETipoDato.DBdatetime: sqlWhereClause += " '" + wherecomparissonvalue + "' "; break;
                 default: break;
             }
             return sqlWhereClause;
         }
-        #endregion
-        #endregion
 
-        #region GetChild
-        public static List<string> GetChild<T>(DependencyObject container)
+        /// <summary>
+        /// Recorre los controles de una pantalla (de forma recursiva para el caso que encuentre un control contenedor, p.e.: Grid, GroupBox, DockPanel, StackPanel,...),
+        /// y devuelve un List&lt;string&gt; con el nombre de las columnas correspondientes en la BBDD para cada control<para/>
+        /// DependencyObject container -> container a recorrer<para/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="container"></param>
+        /// <returns></returns>
+        public static List<string> SqlBuilderColumns<T>(DependencyObject container)
         {
             List<string> resultchild = new List<string>();
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(container); i++)
-            {
-                FrameworkElement child = (FrameworkElement)VisualTreeHelper.GetChild(container, i);
 
-                if (child.GetType() == typeof(Grid) || child.GetType() == typeof(GroupBox) || child.GetType() == typeof(ScrollViewer) ||
-                    child.GetType() == typeof(DockPanel) || child.GetType() == typeof(StackPanel) || child.GetType() == typeof(WrapPanel) ||
-                    child.GetType() == typeof(Border) || child.GetType() == typeof(Canvas) || child.GetType() == typeof(Page) ||
-                    child.GetType() == typeof(Table) || child.GetType() == typeof(TabPanel) || child.GetType() == typeof(ToolBarOverflowPanel) ||
-                    child.GetType() == typeof(UniformGrid) || child.GetType() == typeof(VirtualizingPanel) || child.GetType() == typeof(VirtualizingStackPanel))
+            if (container.GetType().BaseType == typeof(Window) || container.GetType().BaseType == typeof(UserControl) ||
+                container.GetType().BaseType == typeof(Page))
+            {
+                IEnumerable children = LogicalTreeHelper.GetChildren(container);
+
+                foreach (DependencyObject child in children)
                 {
-                    resultchild.AddRange(GetChild<T>(child));
+                    resultchild.AddRange(SqlBuilderColumns<T>(child));
                 }
-                else
+            }
+            else
+            {               
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(container); i++)
                 {
-                    if (child.GetType() != typeof(Label) && child.GetType() != typeof(Button))
+                    FrameworkElement child = (FrameworkElement) VisualTreeHelper.GetChild(container, i);
+
+                    if (child.GetType() == typeof(DockPanel) || child.GetType() == typeof(StackPanel) || child.GetType() == typeof(WrapPanel) ||
+                        child.GetType() == typeof(Grid) || child.GetType() == typeof(Canvas) || child.GetType() == typeof(GroupBox) || 
+                        child.GetType() == typeof(ScrollViewer) || child.GetType() == typeof(Border) || child.GetType() == typeof(UniformGrid) ||
+                        child.GetType() == typeof(Table) || child.GetType() == typeof(TabPanel) || child.GetType() == typeof(ToolBarOverflowPanel) ||
+                        child.GetType() == typeof(VirtualizingPanel) || child.GetType() == typeof(VirtualizingStackPanel))
                     {
-                        if (child.Tag != null)
+                        resultchild.AddRange(SqlBuilderColumns<T>(child));
+                    }
+                    else
+                    {
+                        if (child.GetType() != typeof(Label) && child.GetType() != typeof(Button))
                         {
-                            resultchild.Add(child.Tag.ToString());
+                            if (child.Tag != null)
+                            {
+                                resultchild.Add(child.Tag.ToString());
+                            }
                         }
                     }
                 }
             }
+            
             return resultchild;
         }
         #endregion

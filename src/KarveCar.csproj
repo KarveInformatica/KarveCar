@@ -126,6 +126,8 @@
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\MarcaCommand.cs" />
+    <Compile Include="Commands\MaestrosCommand\MarcaDataTablecommand.cs" />
     <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
@@ -169,6 +171,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Utility\AdvanceEnterKey.cs" />
     <Compile Include="Utility\ManageDataTable.cs" />
     <Compile Include="Utility\ManageDBGeneric.cs" />
     <Compile Include="Utility\ManageGenericObject.cs" />
@@ -186,6 +189,8 @@
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MarcaDataTableViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
@@ -208,9 +213,24 @@
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MarcaDataGridUserControl.xaml.cs">
+      <DependentUpon>MarcaDataGridUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarcaDataTableUserControl.xaml.cs">
+      <DependentUpon>MarcaDataTableUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarcaUserControl.xaml.cs">
+      <DependentUpon>MarcaUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProveedorMarcaDataGridUserControl.xaml.cs">
+      <DependentUpon>ProveedorMarcaDataGridUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\StyledWindow.cs" />
     <Compile Include="View\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TipoVehiculoDataGridUserControl.xaml.cs">
+      <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="View\CustomTabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -240,6 +260,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\MarcaDataGridUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MarcaDataTableUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MarcaUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ProveedorMarcaDataGridUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\StyledWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -247,6 +283,10 @@
     <Page Include="View\TabItemUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TipoVehiculoDataGridUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -457,6 +497,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\modified.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -73,6 +73,7 @@
     <Compile Include="Generic\ISqlSession.cs" />
     <Compile Include="Generic\OdbcQueryExecutor.cs" />
     <Compile Include="Generic\OleDbQueryExecutor.cs" />
+    <Compile Include="Generic\SQLBuilder.cs" />
     <Compile Include="Services\EventManager.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />
     <Compile Include="Services\IEventManager.cs" />
