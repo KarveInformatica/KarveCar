@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleModule", "Modules\Ve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "Modules\ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveControls", "Controls\KarveControls\KarveControls.csproj", "{183A9EC4-DC89-411D-975D-C67FA4C01747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183A9EC4-DC89-411D-975D-C67FA4C01747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183A9EC4-DC89-411D-975D-C67FA4C01747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183A9EC4-DC89-411D-975D-C67FA4C01747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183A9EC4-DC89-411D-975D-C67FA4C01747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,8 +87,8 @@ Global
 		{55CE0DE8-792F-49FC-8E90-6C3F9CD75486} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = es-ES
-		RESX_DuplicateKeyHandling = Fail
 		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
+		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
 	EndGlobalSection
 EndGlobal
