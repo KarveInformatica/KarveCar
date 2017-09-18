@@ -5,7 +5,15 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveControls", "KarveControls.csproj", "{183A9EC4-DC89-411D-975D-C67FA4C01747}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveControlsTest", "KarveControlsTest\KarveControlsTest.csproj", "{62574BD3-BB43-4C51-8909-B9873A3DA626}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveControlsTest", "test\KarveControlsTest.csproj", "{62574BD3-BB43-4C51-8909-B9873A3DA626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataAccessLayer", "..\..\Modules\DALModule\KarveDataAccessLayer.csproj", "{140C1044-4F56-4855-AF52-A2F91B369460}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCommon", "..\..\KarveCommon\KarveCommon.csproj", "{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataServices", "..\..\Modules\DALModule\KarveDataServices\KarveDataServices.csproj", "{83407587-1785-481B-A4FB-23E035173190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTemplate", "WpfUpdater\TestTemplate.csproj", "{0C725581-74A9-48BF-93F6-0986E0326BC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{62574BD3-BB43-4C51-8909-B9873A3DA626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62574BD3-BB43-4C51-8909-B9873A3DA626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62574BD3-BB43-4C51-8909-B9873A3DA626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140C1044-4F56-4855-AF52-A2F91B369460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{140C1044-4F56-4855-AF52-A2F91B369460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{140C1044-4F56-4855-AF52-A2F91B369460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{140C1044-4F56-4855-AF52-A2F91B369460}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83407587-1785-481B-A4FB-23E035173190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83407587-1785-481B-A4FB-23E035173190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83407587-1785-481B-A4FB-23E035173190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83407587-1785-481B-A4FB-23E035173190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C725581-74A9-48BF-93F6-0986E0326BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C725581-74A9-48BF-93F6-0986E0326BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C725581-74A9-48BF-93F6-0986E0326BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C725581-74A9-48BF-93F6-0986E0326BC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

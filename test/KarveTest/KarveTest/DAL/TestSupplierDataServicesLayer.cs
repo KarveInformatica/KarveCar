@@ -17,7 +17,6 @@ namespace KarveTest.DAL
         //private ISupplierDataServices _supplierDataServices;
         private IConfigurationService _serviceConf;
         private Stopwatch _currentStopWatch;
-        private string _baseSupplierId = "";
         ///// <summary>
         /////  Returns a supplierId
         ///// </summary>

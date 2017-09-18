@@ -19,7 +19,7 @@ namespace KarveDataAccessLayer
     {
         private IConfigurationService _service;
         private ISqlQueryExecutor _queryExecutor;
-        private ISqlSession _session;
+        private ISqlSession _session = null;
         public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service)
         {
             this._queryExecutor = mapper;

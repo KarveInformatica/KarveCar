@@ -6,7 +6,26 @@
              xmlns:local="clr-namespace:KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+
+    <StackPanel Name="DualDataFieldContent" Orientation="Horizontal" Visibility="Visible">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type TextBox}" >
+                <Style.Triggers>
+                    <Trigger Property="IsReadOnly" Value="True">
+                        <Trigger.Setters>
+                            <Setter Property="Background" Value="CadetBlue" />
+                        </Trigger.Setters>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </StackPanel.Resources>
+        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelContent}" Width="{Binding Path=LabelTextWidth}" Visibility="Hidden">
+        </TextBlock>
+        <TextBox x:Name="TextFieldFirst" Text="{Binding Path=TextContentFirst}" Width="{Binding Path=TextContentWidthFirst}" 
+             Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
+        </TextBox>
+        <TextBox x:Name="TextFieldSecond" Text="{Binding Path=TextContentSecond}" Width="{Binding Path=TextContentWidthSecond}" 
+                 Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
+        </TextBox>
+    </StackPanel>
 </UserControl>

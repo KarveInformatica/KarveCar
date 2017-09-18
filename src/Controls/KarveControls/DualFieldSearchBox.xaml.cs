@@ -2,33 +2,34 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Xceed.Wpf.DataGrid;
 using DataRow = System.Data.DataRow;
-using ThicknessConverter = Xceed.Wpf.DataGrid.Converters.ThicknessConverter;
 
 namespace KarveControls
 {
     /// <summary>
     /// Interaction logic for DualFieldSearchBox.xaml
     /// </summary>
-    public partial class DualFieldSearchBox : UserControl
+    public partial class DualFieldSearchBox : UserControl, INotifyPropertyChanged
     {
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+       
         public static readonly DependencyProperty AssistNameDependencyProperty =
             DependencyProperty.Register(
-                "AssistName",
+                "AssistTableName",
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
 
@@ -90,17 +91,56 @@ namespace KarveControls
                 typeof(DataTable),
                 typeof(DualFieldSearchBox), new PropertyMetadata(new DataTable(), OnSearchTextBoxItemSourceChanged));
 
-        public static DependencyProperty DataFieldFirstDependencyProperty =
+         public static DependencyProperty DataFieldFirstDependencyProperty =
             DependencyProperty.Register(
                 "DataFieldFirst",
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnSearchTextBoxDataFieldFirstChanged));
-      
+
         public static DependencyProperty DataFieldSecondDependencyProperty =
             DependencyProperty.Register(
                 "DataFieldSecond",
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnSearchTextBoxDataFieldSecondChanged));
+
+        public static DependencyProperty DataAllowedFirstDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowedFirst",
+                typeof(CommonControl.DataType),
+                typeof(DualFieldSearchBox), new PropertyMetadata(CommonControl.DataType.Any, OnChangedDataAllowedFirst));
+
+        private static void OnChangedDataAllowedFirst(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
+            dualFieldSearchBox.OnPropertyChanged("DataAllowedFirst");
+            dualFieldSearchBox.OnDataAllowedChanged(e, true);
+        }
+
+        private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e, bool firstValue)
+        {
+            CommonControl.DataType dataType;
+            dataType = (CommonControl.DataType)Enum.Parse(typeof(CommonControl.DataType), e.NewValue.ToString());
+            if (firstValue)
+            {
+                _dataAllowedFirst = dataType;
+            }
+            else
+            {
+                _dataAllowedSecond = dataType;
+            }
+        }
+        public static DependencyProperty DataAllowedSecondDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowedSecond",
+                typeof(CommonControl.DataType),
+                typeof(DualFieldSearchBox), new PropertyMetadata(CommonControl.DataType.Any, OnChangedDataAllowedSecond));
+
+        private static void OnChangedDataAllowedSecond(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
+            dualFieldSearchBox.OnPropertyChanged("DataAllowedSecond");
+            dualFieldSearchBox.OnDataAllowedChanged(e, false);
+        }
 
         public static DependencyProperty DataFieldsDependencyProperty =
             DependencyProperty.Register(
@@ -111,10 +151,99 @@ namespace KarveControls
         public static DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
             "IsReadOnly",
             typeof(bool),
-            typeof(DualFieldSearchBox), 
+            typeof(DualFieldSearchBox),
             new PropertyMetadata(false, OnIsReadOnlyProperty));
 
+
+        public static DependencyProperty IsReadOnlyFirstProperty = DependencyProperty.Register(
+            "IsReadOnlyFirst",
+            typeof(bool),
+            typeof(DualFieldSearchBox),
+            new PropertyMetadata(false, OnIsReadOnlyFirstProperty));
+
+        public static DependencyProperty IsReadOnlySecondProperty = DependencyProperty.Register(
+            "IsReadOnlySecond",
+            typeof(bool),
+            typeof(DualFieldSearchBox),
+            new PropertyMetadata(false, OnIsReadOnlySecondProperty));
+
+        public static readonly DependencyProperty TableNameDependencyProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(string.Empty, OnTableNameChange));
+
+        public static readonly DependencyProperty LabelVisibleDependencyProperty =
+            DependencyProperty.Register("LabelVisible",
+                typeof(bool),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(false, OnLabelVisibleChange));
+               
+        #region LabelVisible
+
+        public bool LabelVisible
+        {
+            get { return (bool)GetValue(LabelVisibleDependencyProperty); }
+            set { SetValue(LabelVisibleDependencyProperty, value); }
+        }
+
+        private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox control = d as DualFieldSearchBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelVisible");
+                control.OnLabelVisiblePropertyChanged(e);
+            }
+        }
+        private void OnLabelVisiblePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            bool value = Convert.ToBoolean(e.NewValue);
+            if (value)
+            {
+                SearchLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SearchLabel.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
+
         
+        #region TableName
+
+        private string _tableName;
+        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox control = d as DualFieldSearchBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("TableName");
+                control.OnTableNameChanged(e);
+            }
+        }
+
+        public string TableName
+        {
+            get { return (string)GetValue(TableNameDependencyProperty); }
+            set { SetValue(TableNameDependencyProperty, value); }
+        }
+
+        private void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _tableName = e.NewValue as string;
+        }
+
+
+        #endregion
+
+        #region Event Magnifier Lupa
+
+        
+
+       
         public class MagnificerPressEventArgs : RoutedEventArgs
         {
 
@@ -131,14 +260,6 @@ namespace KarveControls
             add { AddHandler(MagnificerPressEvent, value); }
             remove { RemoveHandler(MagnificerPressEvent, value); }
         }
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
         public string ButtonImage
         {
             get
@@ -150,13 +271,28 @@ namespace KarveControls
                 SetValue(ButtonImageDependencyProperty, value);
             }
         }
+        #endregion
+
+        public CommonControl.DataType DataAllowedFirst
+        {
+            get { return (CommonControl.DataType)GetValue(DataAllowedFirstDependencyProperty); }
+            set { SetValue(DataAllowedFirstDependencyProperty, value); }
+        }
+
+
+        public CommonControl.DataType DataAllowedSecond
+        {
+            get { return (CommonControl.DataType)GetValue(DataAllowedSecondDependencyProperty); }
+            set { SetValue(DataAllowedSecondDependencyProperty, value); }
+        }
+
         public Boolean Lookup
         {
             get { return (Boolean)GetValue(LookupDependencyProperty); }
             set { SetValue(LookupDependencyProperty, value); }
         }
 
-        public string AssistName
+        public string AssistTableName
         {
             get
             {
@@ -168,6 +304,7 @@ namespace KarveControls
             }
         }
 
+        
         public string DataFieldFirst
         {
             get
@@ -216,7 +353,7 @@ namespace KarveControls
                 typeof(string),
                 typeof(SearchTextBox),
                 new PropertyMetadata(string.Empty));
-        
+
         public static readonly DependencyProperty LabelWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelWidth",
@@ -227,26 +364,27 @@ namespace KarveControls
         // data field second text box
         private string _dataFieldSecond = String.Empty;
         // magnifier needed (the control is allowed to be search)
-        private bool _lookup;
         private IList<string> _dataFields = new List<string>();
-        
-        private DataRow _currentRow = null;
+
         // auxiliar data table
         private DataTable _sourceView = new DataTable();
         // data table for the data text
         private DataTable _dataTable = new DataTable();
         private DataGridVirtualizingCollectionViewSource _viewData;
         private int _buttonManifierState;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        
+        public const int DEFAULT_PAGE_SIZE = 100;
+        private CommonControl.DataType _dataAllowedFirst;
+        private CommonControl.DataType _dataAllowedSecond;
 
         public DualFieldSearchBox()
         {
             InitializeComponent();
-            _lookup = false;
             LayoutRoot.DataContext = this;
-             _viewData = new DataGridVirtualizingCollectionViewSource();
-            _viewData.PageSize = 50;
+
+            //_lookup = false;
+            _viewData = new DataGridVirtualizingCollectionViewSource();
+            _viewData.PageSize = DEFAULT_PAGE_SIZE;
             _viewData.Source = this.SourceView.DefaultView;
             MagnificerGrid.ItemsSource = _viewData.View;
         }
@@ -273,6 +411,12 @@ namespace KarveControls
             get { return (string)GetValue(TextContentFirstWidthDependencyProperty); }
             set { SetValue(TextContentFirstWidthDependencyProperty, value); }
         }
+        public string TextContentSecondWidth
+        {
+            get { return (string)GetValue(TextContentSecondWidthDependencyProperty); }
+            set { SetValue(TextContentSecondWidthDependencyProperty, value); }
+        }
+
         public DataTable ItemSource
         {
             get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
@@ -296,6 +440,47 @@ namespace KarveControls
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
+        public bool IsReadOnlyFirst
+        {
+            get { return (bool)GetValue(IsReadOnlyFirstProperty); }
+            set { SetValue(IsReadOnlyFirstProperty, value); }
+        }
+        public bool IsReadOnlySecond
+        {
+            get { return (bool)GetValue(IsReadOnlySecondProperty); }
+            set { SetValue(IsReadOnlySecondProperty, value); }
+        }
+
+        private static void OnIsReadOnlyFirstProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
+            if (dualFieldSearchBox != null)
+            {
+                 dualFieldSearchBox.OnPropertyChanged("IsReadOnlyFirst");
+                 dualFieldSearchBox.OnReadOnlySet(e, true);                
+            }
+        }
+        private static void OnIsReadOnlySecondProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
+            if (dualFieldSearchBox != null)
+            {
+                dualFieldSearchBox.OnPropertyChanged("IsReadOnlySecond");
+                dualFieldSearchBox.OnReadOnlySet(e, false);
+            }
+        }
+        private void OnReadOnlySet(DependencyPropertyChangedEventArgs e, bool eventReadOnly)
+        {
+            bool value = Convert.ToBoolean(e.NewValue);
+            if (eventReadOnly)
+            {
+                SearchTextFirst.IsReadOnly = value;
+            }
+            else
+            {
+                SearchTextSecond.IsReadOnly = value;
+            }
+        }
         private static void OnSourceTableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DualFieldSearchBox control = d as DualFieldSearchBox;
@@ -317,6 +502,8 @@ namespace KarveControls
         private void OnLookupPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             bool value = Convert.ToBoolean(e.NewValue);
+           
+           // _lookup = false;
             if (!value)
             {
                 this.PopUpButton.Visibility = Visibility.Hidden;
@@ -465,8 +652,6 @@ namespace KarveControls
                 control.OnIsReadOnlyPropertyChanged(e);
             }
         }
-
-
         private void OnTextContentFirstWidthPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             this.SearchTextFirst.Width = Convert.ToDouble(e.NewValue);
@@ -477,7 +662,7 @@ namespace KarveControls
         }
         private void OnTextContentSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-           this.SearchTextSecond.Text= e.NewValue as string;
+            this.SearchTextSecond.Text = e.NewValue as string;
         }
         private void OnLabelTextPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -486,7 +671,7 @@ namespace KarveControls
 
         private static void OnSearchTextBoxItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-           DualFieldSearchBox control = d as DualFieldSearchBox;
+            DualFieldSearchBox control = d as DualFieldSearchBox;
             if (control != null)
             {
                 control.OnPropertyChanged("ItemSource");
@@ -504,14 +689,13 @@ namespace KarveControls
             DataRowView currentRowView = gridControl.SelectedItem as DataRowView;
             DataRow row = currentRowView.Row;
             DataColumnCollection cols = row.Table.Columns;
-            string columnName = "";
             IList<string> columnNames = new List<string>();
             foreach (DataColumn col in cols)
             {
-                if (col.ColumnName == this.DataFieldFirst ) 
+                if (col.ColumnName == this.DataFieldFirst)
                 {
-                      columnNames.Add(DataFieldFirst);
-                    
+                    columnNames.Add(DataFieldFirst);
+
                 }
                 if (col.ColumnName == this.DataFieldSecond)
                 {
@@ -583,8 +767,8 @@ namespace KarveControls
         }
         private void OnIsReadOnlyPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-           IsReadOnly = Convert.ToBoolean(e.NewValue);
+            IsReadOnly = Convert.ToBoolean(e.NewValue);
         }
-
-    }
+        
+    }    
 }

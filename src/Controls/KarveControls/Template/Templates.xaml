@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:karveControls="clr-namespace:KarveControls">
+<DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:kcontrol="clr-namespace:KarveControls"
+              x:Key="DataFieldTemplate">
+  <kcontrol:DataField LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsReadOnly="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+  </kcontrol:DataField>
+</DataTemplate>
+
+<DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:kcontrol="clr-namespace:KarveControls"
+              x:Key="DualDataFieldTemplate">
+  <kcontrol:DualDataField LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          DataFieldFirst="{Binding DataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          DataFieldSecond="{Binding DataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          TextContentWidthFirst="{Binding TextContentWidthFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          TextContentWidthSecond="{Binding TextContentWidthSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsReadOnlyFirst="{Binding IsReadOnlyFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsReadOnlySecond="{Binding IsReadOnlySecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+    </kcontrol:DualDataField>
+</DataTemplate>
+
+    <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:kcontrol="clr-namespace:KarveControls"
+                  x:Key="DualFieldSearchBoxTemplate">
+        <kcontrol:DualFieldSearchBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                DataFieldFirst="{Binding DataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                DataFieldSecond="{Binding DataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextContentWidthFirst="{Binding TextContentWidthFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextContentWidthSecond="{Binding TextContentWidthSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsReadOnlyFirst="{Binding IsReadOnlyFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsReadOnlySecond="{Binding IsReadOnlySecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                ButtonImage="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+          
+        </kcontrol:DualFieldSearchBox>
+    </DataTemplate>
+
+    <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:kcontrol="clr-namespace:KarveControls"
+                  x:Key="DualFieldSearchBoxTemplate">
+        <kcontrol:DualFieldSearchBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     DataFieldFirst="{Binding DataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     DataFieldSecond="{Binding DataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     TextContentWidthFirst="{Binding TextContentWidthFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     TextContentWidthSecond="{Binding TextContentWidthSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsReadOnlyFirst="{Binding IsReadOnlyFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsReadOnlySecond="{Binding IsReadOnlySecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     ButtonImage="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+        </kcontrol:DualFieldSearchBox>
+    </DataTemplate>
+    <DataTemplate xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:kcontrol="clr-namespace:KarveControls"
+                  x:Key="SearchBoxTemplate">
+      <kcontrol:SearchTextBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   ButtonImage="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+      </kcontrol:SearchTextBox>
+    </DataTemplate>
+  
+</ResourceDictionary>
+

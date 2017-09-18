@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls"
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
@@ -29,14 +28,6 @@
                                               NavigationBehavior="RowOnly" SelectionChanged="MagnificerGrid_OnSelectionChanged">
                           
                         </xcdg:DataGridControl>
-                       <!-- <extendedGridControl:ExtendedDataGrid Grid.Row="0" Height="400" VerticalAlignment="Top" 
-                                                              x:Name="MagnificerGrid" 
-                                                              ItemsSource="{Binding MagnificerDataTable}" 
-                                                              SelectionChanged="MagnificerGeneric_OnSelectionChanged"
-                                                              SelectionMode="Extended" 
-                                                              SelectionUnit="FullRow" >
-                        </extendedGridControl:ExtendedDataGrid>
-                        -->
                         <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>
                     </Grid>
                 </Popup>
