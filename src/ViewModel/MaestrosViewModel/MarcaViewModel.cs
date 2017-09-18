@@ -1,11 +1,11 @@
-﻿using DataAccessLayer.DataObjects;
-using KarveCar.Commands.MaestrosCommand;
-using KarveCar.Logic.Generic;
+﻿using KarveCar.Commands.MaestrosCommand;
 using KarveCar.Model.SQL;
 using KarveCar.Properties;
 using KarveCar.Utility;
 using KarveCar.View;
 using KarveCommon.Generic;
+using KarveCommon.Logic.Generic;
+using KarveDataAccessLayer.DataObjects;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Data;
@@ -15,15 +15,6 @@ using System.Windows;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using System.Windows.Media;
-using KarveCommon.Logic.Generic;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
@@ -258,9 +249,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                     this.MarcaDataTable = InitDataLayerMarcaSync(); //InitDataLayerMarcaAsync();
                     this.ProveedorMarcaDataTable = InitDataLayerProveedorSync();  //InitDataLayerProveedorAsync();
                     UpdateMarca(null);
-
-                    string result = GetChild<UserControl>(thisusercontrol.wrpMarca);
-                    MessageBox.Show(result);
                 }
                 else
                 {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
@@ -268,36 +256,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 }
             }
         }
-
-        #region GetChild
-        public string GetChild<T>(DependencyObject container)
-        {
-            Type type = typeof(T);
-            string resultchild = string.Empty;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(container); i++)
-            {
-                FrameworkElement child = (FrameworkElement)VisualTreeHelper.GetChild(container, i);
-
-                if (child.GetType() == typeof(Grid) || child.GetType() == typeof(GroupBox) || child.GetType() == typeof(ScrollViewer) ||  
-                    child.GetType() == typeof(DockPanel) || child.GetType() == typeof(StackPanel) || child.GetType() == typeof(WrapPanel) ||
-                    child.GetType() == typeof(Border) || child.GetType() == typeof(Canvas) || child.GetType() == typeof(Page)  || 
-                    child.GetType() == typeof(Table) || child.GetType() == typeof(TabPanel) || child.GetType() == typeof(ToolBarOverflowPanel) || 
-                    child.GetType() == typeof(UniformGrid) || child.GetType() == typeof(VirtualizingPanel) || child.GetType() == typeof(VirtualizingStackPanel))
-                {
-                    resultchild += GetChild<T>(child) + "\n";
-                }
-                else
-                {
-                    if (child.GetType() != typeof(Label) && child.GetType() != typeof(Button))
-                    {
-                        resultchild += child.Name + "\n";
-                    }
-                }
-            }
-            return resultchild;
-        }
-        #endregion
-
 
         #region CRUD logic
         private void InsertMarca(object obj)
@@ -415,7 +373,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private void EmptyScreen(EControlCambio controlcambio)
         {
             this.statuscontrolcambio = controlcambio;
-            this.MarcaSelectedItem = (controlcambio == EControlCambio.Insert) ? new MarcaDataObject() : null;
+            this.MarcaSelectedItem = new MarcaDataObject();
+                //(controlcambio == EControlCambio.Insert) ? new MarcaDataObject() : new MarcaDataObject();//null;
             this.MarcaSelectedItemOld = null;
             this.codigoselecteditem = null;
             this.thisusercontrol.txtCodigo.IsReadOnly = false;

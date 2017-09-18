@@ -11,7 +11,7 @@
              mc:Ignorable="d" >
 
     <Grid>
-        <extendedGridControl:ExtendedDataGrid x:Name="dtgrMarcaDataGrid"                                                   
+        <extendedGridControl:ExtendedDataGrid x:Name="dtgrMarcaDataGrid"
                                               ItemsSource="{Binding MarcaDataTable, Mode=TwoWay}" 
                                               SelectedValue="False"
                                               RowHeaderWidth="12"  
@@ -34,8 +34,10 @@
             </i:Interaction.Triggers>
 
             <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"     AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding CODIGO}"     AllowAutoFilter="True" CanUserSort="True"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding NOMBRE}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
+                <!--<extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"     AllowAutoFilter="True" CanUserSort="True"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>-->
             </DataGrid.Columns>
             <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                 <DataTemplate>

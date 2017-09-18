@@ -34,8 +34,10 @@
             </i:Interaction.Triggers>
 
             <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Code}" AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Name}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding NUM_PROVEE}" AllowAutoFilter="True" CanUserSort="True"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding NOMBRE}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
+                <!--<extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Code}" AllowAutoFilter="True" CanUserSort="True"/>
+                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Name}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>-->
             </DataGrid.Columns>
             <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                 <DataTemplate>
