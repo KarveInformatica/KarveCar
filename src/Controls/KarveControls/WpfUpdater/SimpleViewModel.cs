@@ -24,6 +24,14 @@ namespace WpfUpdater
             dfObject0.TextContentWidth = "60";
             dfObject0.TableName = "Auxliares";
             dfObject0.DataField = "Nombre";
+            UserInterfaceDualDfObject dfObject1 = new UserInterfaceDualDfObject();
+            dfObject1.DataFieldFirst = "Nombre";
+            dfObject1.DataFieldSecond = "Apellido";
+            dfObject1.TextContentFirst = "Pipposki";
+            dfObject1.TextContentSecond = "Pipposki";
+            
+            //dfObject1.
+            /*
             DataTable workTable = new DataTable();
             DataColumn workCol = workTable.Columns.Add("Nombre", typeof(string));
             DataRow row = workTable.NewRow();
@@ -43,7 +51,7 @@ namespace WpfUpdater
             row8["Nombre"] = "Luigi";
             workTable3.Rows.Add(row8);
             dfObject1.SourceView = workTable3;
-            
+            */
 
 
 
@@ -55,7 +63,7 @@ namespace WpfUpdater
             dfObject1.DataField = "Nombre";
             */
             _list.Add(dfObject0);
-            _list.Add(dfObject1);
+            _list.Add(dfObject0);
 
         }
 

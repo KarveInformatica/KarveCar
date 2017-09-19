@@ -14,7 +14,6 @@ namespace KarveControls.UIObjects
         public bool IsReadOnlySecond { set; get; }
         public string DataFieldFirst { set; get; }
         public string DataFieldSecond { set; get; }
-      
-
+        public string TextContentSecond { get; set; }
     }
 }

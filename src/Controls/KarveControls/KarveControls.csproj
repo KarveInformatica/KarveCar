@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonControl.cs" />
+    <Compile Include="DataArea.cs" />
     <Compile Include="DataField.xaml.cs">
       <DependentUpon>DataField.xaml</DependentUpon>
     </Compile>
@@ -140,12 +141,14 @@
       <DependentUpon>SearchTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\DataTemplateSelector.cs" />
-    <Compile Include="UIObjects\DualDfSearchBox.cs" />
+    <Compile Include="UIObjects\UiDualDfAfterSearchBox.cs" />
+    <Compile Include="UIObjects\UserInterfaceDualDfSearchBox.cs" />
     <Compile Include="UIObjects\IUIObject.cs" />
-    <Compile Include="UIObjects\SearchTextBoxObject.cs" />
+    <Compile Include="UIObjects\UserInterfaceSearchTextObject.cs" />
     <Compile Include="UIObjects\UserInterfaceDataGrid.cs" />
     <Compile Include="UIObjects\UserInterfaceDfObject.cs" />
     <Compile Include="UIObjects\UserInterfaceDualDfObject.cs" />
+    <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataField.xaml">

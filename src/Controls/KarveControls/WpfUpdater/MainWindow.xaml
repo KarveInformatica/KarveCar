@@ -14,7 +14,7 @@
     <Grid Name="CollectionTest">
         <Grid.Resources>
             <DataTemplate x:Key="DualDataFieldTemplate">
-                <karveControls:DualDataField LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                <karveControls:DualDataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataFieldFirst="{Binding DataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataFieldSecond="{Binding DataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -31,6 +31,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="SearchTextBoxTemplate">
+                
                 <karveControls:SearchTextBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -46,17 +47,6 @@
             </DataTemplate>
 
             <DataTemplate x:Key="DataFieldDataTemplate">
-                <karveControls:DataField LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    DataBaseField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    DataAllowed="{Binding DataType, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Visibility="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                </karveControls:DataField>
-            </DataTemplate>
-            <!--
-            <DataTemplate x:Key="DataFieldDataTemplate">
                 <karveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                          TextContent="{Binding TextContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                          TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
@@ -69,7 +59,6 @@
             </karveControls:DataField>
            
             </DataTemplate>
-            -->
             <DataTemplate x:Key="DualFieldSearchTextBox">
 
                 <karveControls:DualFieldSearchBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -91,9 +80,47 @@
 
                 </karveControls:DualFieldSearchBox>
             </DataTemplate>
+            <DataTemplate x:Key="DualFieldAfterSearchBox">
+                <StackPanel Orientation="Horizontal">
+                    <karveControls:SearchTextBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 AuxDataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 TextContent="{Binding TextContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                                 TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 Visibility="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ButtonImage="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    </karveControls:SearchTextBox>
+                    <karveControls:DataField Name="DataField_1"  
+                                             LabelVisible="False"
+                                             TextContent="{Binding TextContent_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             TextContentWidth="{Binding TextContentWidth_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             TableName="{Binding TableName_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             DataBaseField="{Binding DataField_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             ItemSource="{Binding ItemSource_1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             Visibility="{Binding IsVisible_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             IsReadOnly="{Binding IsReadOnly_1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}">
+                    </karveControls:DataField>
+                    <karveControls:DataField Name="DataField_2"  
+                                             LabelVisible="False"
+                                             TextContent="{Binding TextContent_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             TextContentWidth="{Binding TextContentWidth_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             TableName="{Binding TableName_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             DataBaseField="{Binding DataField_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             ItemSource="{Binding ItemSource_2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             Visibility="{Binding IsVisible_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                             IsReadOnly="{Binding IsReadOnly_2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}">
+                    </karveControls:DataField>
+                </StackPanel>
+            </DataTemplate>
             <local:TemplateSelector x:Key="BasicTemplateSelector" 
                        DataField="{StaticResource ResourceKey=DataFieldDataTemplate}"
                        SearchTextBox="{StaticResource ResourceKey=SearchTextBoxTemplate}"
+                       DualFieldSearchTextBox="{StaticResource ResourceKey=DualFieldSearchTextBox}"
+                       DualDataFieldAfterSearchBox="{StaticResource ResourceKey=DualFieldAfterSearchBox}"
                       />
         </Grid.Resources>
         <StackPanel Name="stkMain" Orientation="Horizontal">

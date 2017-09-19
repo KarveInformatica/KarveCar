@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveControls.UIObjects
 {
-    public class SearchTextBoxObject: UserInterfaceDfObject
+    public class UserInterfaceSearchTextObject: UserInterfaceDfObject
     {
         public string AssistTableName { set; get; }
         public string AssistDataField { set; get; }

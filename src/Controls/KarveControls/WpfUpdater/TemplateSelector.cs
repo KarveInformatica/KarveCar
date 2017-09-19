@@ -16,6 +16,7 @@ namespace WpfUpdater
         private DataTemplate _searchTextBox;
         private DataTemplate _dualFieldSearchTextBox;
         private DataTemplate _dataGridTemplate;
+        private DataTemplate _dualFieldAfterSearchTextBox;
 
         public TemplateSelector()
         {
@@ -49,16 +50,22 @@ namespace WpfUpdater
             set { _dualFieldSearchTextBox = value; }
         }
 
+        public DataTemplate DualFieldAfterSeachBox
+        {
+            get { return _dualFieldAfterSearchTextBox; }
+            set { _dualFieldAfterSearchTextBox = value; }
+        }
+
         //You override this function to select your data template based in the given item
         public override System.Windows.DataTemplate SelectTemplate(object item,
             System.Windows.DependencyObject container)
         {
 
-            if (item is SearchTextBoxObject)
+            if (item is UserInterfaceSearchTextObject)
             {
                 return _searchTextBox;
             }
-            if (item is DualDfSearchBox)
+            if (item is UserInterfaceDualDfSearchBox)
             {
                 return _dualFieldSearchTextBox;
             }
@@ -74,7 +81,7 @@ namespace WpfUpdater
             {
                 return _dataGridTemplate;
             }
-            
+            if (item is UiDualDfAfterSearchBox)
             return base.SelectTemplate(item, container);
         }
     }
