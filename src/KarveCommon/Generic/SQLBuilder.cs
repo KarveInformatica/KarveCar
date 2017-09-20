@@ -1,5 +1,4 @@
-﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCommon.Generic
 {
@@ -160,7 +160,7 @@ namespace KarveCommon.Generic
             //WHERE
             if (whereClause != null)
             {
-                sqlSentence += " WHERE " + SqlBuilderWhereOne(whereClause);
+                sqlSentence += " WHERE " + SqlBuilderWhereOneRegister(whereClause);
             }
 
             //ORDERBY
@@ -258,7 +258,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="whereClause"></param>
         /// <returns></returns>
-        public static string SqlBuilderWhereOne(Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string> whereClause)
+        public static string SqlBuilderWhereOneRegister(Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string> whereClause)
         {
             string sqlWhereClause = string.Empty;
 
@@ -296,8 +296,8 @@ namespace KarveCommon.Generic
         /// <param name="wherecomparissonvaluetype"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string SqlBuilderWhereOne(EWhereLogicOperator wherelogicoperator, string column, EWhereComparisson wherecomparissontype, 
-                                                ETipoDato wherecomparissonvaluetype, string value)
+        public static string SqlBuilderWhereOneRegister(EWhereLogicOperator wherelogicoperator, string column, EWhereComparisson wherecomparissontype, 
+                                                        ETipoDato wherecomparissonvaluetype, string value)
         {
             string sqlWhereClause = string.Empty;
 
@@ -572,12 +572,9 @@ namespace KarveCommon.Generic
                     }
                     else
                     {
-                        if (child.GetType() != typeof(Label) && child.GetType() != typeof(Button))
+                        if (child.Tag != null)
                         {
-                            if (child.Tag != null)
-                            {
-                                resultchild.Add(child.Tag.ToString());
-                            }
+                            resultchild.Add(child.Tag.ToString());
                         }
                     }
                 }
