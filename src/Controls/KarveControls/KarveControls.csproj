@@ -123,23 +123,58 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonControl.cs" />
-    <Compile Include="DataArea.cs" />
-    <Compile Include="DataField.xaml.cs">
+    <Compile Include="DataField\CommonControl.cs" />
+    <Compile Include="DataField\DataField.xaml.cs">
       <DependentUpon>DataField.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DualDataField.xaml.cs">
-      <DependentUpon>DualDataField.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DualFieldSearchBox.xaml.cs">
-      <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="KarveGrid.xaml.cs">
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumnGroup\DataGridColumnGroup.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumnGroup\DataGridColumnGroups.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\BrowerGridEditorKarve.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\BrowseEditorElement.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridBrowseBoxColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridCheckBoxColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridColumnGroup.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridColumnGroups.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridColumns.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridComboBoxColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridDateColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridDecimalColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridPercentageColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridPriceColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridQuanityColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridTextBoxColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumns\DataGridTotalColumn.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumnVirtual\DataGridColumnVirtual.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridColumnVirtual\DataGridColumnVirtuales.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridDefinicion\DataGridDefinicion.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridDefinicion\IGridDataServices.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridOrder\DataGridOrdenColumna.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridOrder\DataGridOrdenColumnas.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridRules\DataGridRule.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridRules\DataGridRules.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridTable\DataGridTable.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridTable\DataGridTables.cs" />
+    <Compile Include="DataGrid\DataGridHelpers\DataGridTraduccion\MyTraducRadGrid.cs" />
+    <Compile Include="DataGrid\KarveGrid.xaml.cs">
       <DependentUpon>KarveGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SearchTextBox.xaml.cs">
-      <DependentUpon>SearchTextBox.xaml</DependentUpon>
+    <Compile Include="DataRadioGroup\DataRadioGroup.xaml.cs">
+      <DependentUpon>DataRadioGroup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataRadio\DataRadio.xaml.cs">
+      <DependentUpon>DataRadio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
+    <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
+    <Compile Include="DataSearchTextBox\DataSearchTextBox.cs" />
+    <Compile Include="DualDataField\DualDataField.xaml.cs">
+      <DependentUpon>DualDataField.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
+      <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Generic\KarveMessageBox.cs" />
     <Compile Include="Template\DataTemplateSelector.cs" />
     <Compile Include="UIObjects\UiDualDfAfterSearchBox.cs" />
     <Compile Include="UIObjects\UserInterfaceDualDfSearchBox.cs" />
@@ -151,25 +186,41 @@
     <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataField.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DualDataField.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DualFieldSearchBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="KarveGrid.xaml">
+    <Page Include="DataField\DataField.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SearchTextBox.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="DataGrid\KarveGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataRadioGroup\DataRadioGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataRadio\DataRadio.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataRatingsControl\RatingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataRatingsControl\StarsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataSearchTextBox\DataSearchTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DualDataField\DualDataField.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

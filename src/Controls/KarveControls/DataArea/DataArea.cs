@@ -29,7 +29,7 @@ using KarveControls.Utilities;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Core.Utilities;
 
-namespace KarveControl
+namespace KarveControls
 {
     [TemplatePart(Name = PART_TextBlock, Type = typeof(TextBlock))]
     [TemplatePart(Name = PART_ResizeThumb, Type = typeof(Thumb))]
@@ -55,20 +55,10 @@ namespace KarveControl
 
         #endregion //Members
 
-        #region KarveVariables
-        #endregion
 
         #region DataArea Events
 
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+   
         public static readonly RoutedEvent DataAreaChangedEvent =
           EventManager.RegisterRoutedEvent(
               "DataAreaChanged",
@@ -109,6 +99,15 @@ namespace KarveControl
             add { AddHandler(DataAreaChangedEvent, value); }
             remove { RemoveHandler(DataAreaChangedEvent, value); }
         }
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         #endregion
 
         #region KarveDependencyProperties
@@ -579,7 +578,7 @@ namespace KarveControl
 
         static DataArea()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MultiLineTextEditor), new FrameworkPropertyMetadata(typeof(MultiLineTextEditor)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DataArea), new FrameworkPropertyMetadata(typeof(DataArea)));
         }
 
         public DataArea()
@@ -603,7 +602,7 @@ namespace KarveControl
             if (_resizeThumb != null)
                 _resizeThumb.DragDelta += ResizeThumb_DragDelta;
 
-            if (_labelVisible)
+            if ((_labelPart != null) && (_labelVisible))
             {
                 _labelPart = GetTemplateChild(PART_TextBlock) as TextBlock;
             }

@@ -327,7 +327,7 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
             }
 
         }
-        public object Content
+        public new object Content
         {
             get { return GetValue(ContentDependencyProperty); }
             set { SetValue(ContentDependencyProperty, value); }

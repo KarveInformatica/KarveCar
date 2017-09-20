@@ -13,49 +13,170 @@ using DataRow = System.Data.DataRow;
 namespace KarveControls
 {
     /// <summary>
-    /// Interaction logic for SearchTextBox.xaml
+    /// Interaction logic for DataSearchTextBox.xaml
     /// </summary>
 
-    public partial class SearchTextBox : UserControl, INotifyPropertyChanged
+    public partial class DataSearchTextBox : UserControl, INotifyPropertyChanged
     {
 
+        
+        public static readonly RoutedEvent DataFieldChangedEvent =
+            EventManager.RegisterRoutedEvent(
+                "DataFieldChanged",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(DataSearchTextBox));
+
+        private bool textContentChanged = false;
+
+        public class DataFieldEventArgs : RoutedEventArgs
+        {
+            private string _fieldData = "";
+
+            public string FieldData
+            {
+                get { return _fieldData; }
+                set { _fieldData = value; }
+            }
+            public DataFieldEventArgs() : base()
+            {
+
+            }
+            public DataFieldEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            {
+
+            }
+        }
+
+        public event RoutedEventHandler DataFieldChanged
+        {
+            add { AddHandler(DataFieldChangedEvent, value); }
+            remove { RemoveHandler(DataFieldChangedEvent, value); }
+        }
+
+        #region Description
+        public static readonly DependencyProperty DescriptionDependencyProperty =
+            DependencyProperty.Register(
+                "Description",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty)
+               );
+#endregion
+
+        public static readonly DependencyProperty DataAllowedDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowed",
+                typeof(CommonControl.DataType),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(CommonControl.DataType.Any));
+
+        #region LabelTextWidth 
+        public readonly static DependencyProperty LabelTextWidthDependencyProperty =
+            DependencyProperty.Register(
+                "LabelTextWidth",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+
+        public string LabelTextWidth
+        {
+            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            set { SetValue(LabelTextWidthDependencyProperty, value); }
+        }
+        private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelTextWidth");
+                control.OnLabelTextWidthChanged(e);
+            }
+        }
+
+        private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
+        {
+            double value = Convert.ToDouble(e.NewValue);
+            SearchLabel.Width = value;
+        }
+
+        #endregion
+
+
+        private string _tableName = string.Empty;
+
+
+
+        public static readonly DependencyProperty TableNameDependencyProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnTableNameChange));
+
+
+        #region TableName
+
+        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("TableName");
+                control.OnTableNameChanged(e);
+            }
+        }
+
+        public string TableName
+        {
+            get { return (string)GetValue(TableNameDependencyProperty); }
+            set { SetValue(TableNameDependencyProperty, value); }
+        }
+
+        private void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _tableName = e.NewValue as string;
+        }
+
+        #endregion
+       
         public static readonly DependencyProperty AssistNameDependencyProperty =
             DependencyProperty.Register(
                 "AssistName",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty));
 
 
         public static readonly DependencyProperty TextContentDependencyProperty =
             DependencyProperty.Register(
                 "TextContent",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnTextContentChange));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnTextContentChange));
 
         public readonly static DependencyProperty TextContentWidthDependencyProperty =
             DependencyProperty.Register(
                 "TextContentWidth",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnTextContentWidthChange));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnTextContentWidthChange));
 
         public static readonly DependencyProperty ButtonImageDependencyProperty =
             DependencyProperty.Register(
                 "ButtonImage",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnButtonImageChange));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnButtonImageChange));
 
 
         public static readonly DependencyProperty LookupDependencyProperty =
             DependencyProperty.Register(
                 "Lookup",
                 typeof(Boolean),
-                typeof(SearchTextBox), new PropertyMetadata(false, OnLookupChanged));
+                typeof(DataSearchTextBox), new PropertyMetadata(false, OnLookupChanged));
 
         public static readonly DependencyProperty SourceViewDependencyProperty =
             DependencyProperty.Register(
                 "SourceView",
                 typeof(DataTable),
-                typeof(SearchTextBox),
+                typeof(DataSearchTextBox),
                 new PropertyMetadata(new DataTable(), OnSourceTableChanged));
 
         public static readonly RoutedEvent MagnificerPressEvent =
@@ -63,34 +184,34 @@ namespace KarveControls
                 "MagnificerPress",
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
-                typeof(SearchTextBox));
+                typeof(DataSearchTextBox));
 
 
         public static DependencyProperty ItemSourceDependencyProperty =
             DependencyProperty.Register(
                 "ItemSource",
                 typeof(DataTable),
-                typeof(SearchTextBox), new PropertyMetadata(new DataTable(), OnSearchTextBoxItemSourceChanged));
+                typeof(DataSearchTextBox), new PropertyMetadata(new DataTable(), OnDataSearchTextBoxItemSourceChanged));
 
         public static DependencyProperty DataFieldDependencyProperty =
             DependencyProperty.Register(
                 "DataField",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnSearchTextBoxDataFieldChanged));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnDataSearchTextBoxDataFieldChanged));
 
 
         public static DependencyProperty AuxDataFieldDependencyProperty =
             DependencyProperty.Register(
                 "AuxDataField",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnSearchTextBoxAuxDataFieldChanged));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnDataSearchTextBoxAuxDataFieldChanged));
 
 
         #region LabelVisible
         public static readonly DependencyProperty LabelVisibleDependencyProperty =
             DependencyProperty.Register("LabelVisible",
                 typeof(bool),
-                typeof(SearchTextBox),
+                typeof(DataSearchTextBox),
                 new PropertyMetadata(false, OnLabelVisibleChange));
 
         public bool LabelVisible
@@ -101,7 +222,7 @@ namespace KarveControls
 
         private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("LabelVisible");
@@ -125,12 +246,12 @@ namespace KarveControls
         public static readonly DependencyProperty IsReadOnlyDependencyProperty =
             DependencyProperty.Register("IsReadOnly",
                 typeof(bool),
-                typeof(SearchTextBox),
+                typeof(DataSearchTextBox),
                 new PropertyMetadata(false, OnReadOnlyDependencyProperty));
 
         private static void OnReadOnlyDependencyProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox controlDataField = d as SearchTextBox;
+            DataSearchTextBox controlDataField = d as DataSearchTextBox;
             if (controlDataField != null)
             {
                 controlDataField.OnPropertyChanged("IsReadOnly");
@@ -150,7 +271,7 @@ namespace KarveControls
             set { SetValue(IsReadOnlyDependencyProperty, value); }
         }
         #endregion
-
+        
         public class MagnificerPressEventArgs : RoutedEventArgs
         {
 
@@ -199,7 +320,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "LabelText",
                 typeof(string),
-                typeof(SearchTextBox),
+                typeof(DataSearchTextBox),
                 new PropertyMetadata(string.Empty));
         public string LabelText
         {
@@ -214,7 +335,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "LabelWidth",
                 typeof(string),
-                typeof(SearchTextBox), new PropertyMetadata(string.Empty, OnLabelWidthChange));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnLabelWidthChange));
 
        // private string ImagePath = @"Controls\KarveControls"
         // magnifier pressed or not pressed state
@@ -228,7 +349,7 @@ namespace KarveControls
         private DataGridVirtualizingCollectionViewSource _viewData;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SearchTextBox()
+        public DataSearchTextBox()
         {
             InitializeComponent();
             LayoutRoot.DataContext = this;
@@ -241,9 +362,6 @@ namespace KarveControls
                 this.MagnificerGrid.ItemsSource = _viewData.View;
             }
         }
-
-
-
         public string LabelWidth
         {
             get { return (string)GetValue(LabelWidthDependencyProperty); }
@@ -293,7 +411,7 @@ namespace KarveControls
         }
         private static void OnSourceTableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("SourceView");
@@ -303,7 +421,7 @@ namespace KarveControls
 
         private static void OnLookupChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("Lookup");
@@ -339,7 +457,7 @@ namespace KarveControls
 
         private static void OnButtonImageChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("ButtonImage");
@@ -382,7 +500,7 @@ namespace KarveControls
         private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
 
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("LabelText");
@@ -391,7 +509,7 @@ namespace KarveControls
         }
         private static void OnLabelWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("LabelWidth");
@@ -423,7 +541,7 @@ namespace KarveControls
         }
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("TextContent");
@@ -434,7 +552,7 @@ namespace KarveControls
 
         private static void OnTextContentWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("TextContentWidth");
@@ -455,9 +573,9 @@ namespace KarveControls
             SearchLabel.Text = e.NewValue as string;
         }
 
-        private static void OnSearchTextBoxItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDataSearchTextBoxItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("ItemSource");
@@ -471,18 +589,18 @@ namespace KarveControls
             DataTable dt = e.NewValue as DataTable;
             _dataTable = dt;
         }
-        private static void OnSearchTextBoxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDataSearchTextBoxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("DataField");
                 control.OnDataFieldPropertyChanged(e, true);
             }
         }
-        private static void OnSearchTextBoxAuxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDataSearchTextBoxAuxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchTextBox control = d as SearchTextBox;
+            DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
                 control.OnPropertyChanged("AuxDataField");

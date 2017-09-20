@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveControls.UIObjects
 {
-    class UiDualDfAfterSearchBox : IUiObject
+    public class UiDualDfAfterSearchBox : IUiObject
     {
         public string Description { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public CommonControl.DataType DataAllowed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

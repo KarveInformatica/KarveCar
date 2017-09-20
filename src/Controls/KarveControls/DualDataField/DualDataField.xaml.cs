@@ -94,29 +94,15 @@ namespace KarveControls
                 typeof(DualDataField),
                 new PropertyMetadata(string.Empty, OnDataFieldWidthSecondChange));
 
-        public static DependencyProperty IsReadOnlyFirstProperty = DependencyProperty.Register(
-            "IsReadOnlyFirst",
-            typeof(bool),
-            typeof(DualDataField),
-            new PropertyMetadata(false, OnIsReadOnlyFirstProperty));
+      
         
-        public static DependencyProperty IsReadOnlySecondProperty = DependencyProperty.Register(
-            "IsReadOnlySecond",
-            typeof(bool),
-            typeof(DualDataField),
-            new PropertyMetadata(false, OnIsReadOnlySecondProperty));
-
-        public bool IsReadOnlyFirst
-        {
-            get { return (bool)GetValue(IsReadOnlyFirstProperty); }
-            set { SetValue(IsReadOnlyFirstProperty, value); }
-        }
-        public bool IsReadOnlySecond
-        {
-            get { return (bool)GetValue(IsReadOnlySecondProperty); }
-            set { SetValue(IsReadOnlySecondProperty, value); }
-        }
-
+        public static readonly DependencyProperty IsReadOnlyFirstDependencyProperty =
+            DependencyProperty.Register(
+                "IsReadOnlyFirst",
+                typeof(bool),
+                typeof(DualDataField),
+                new PropertyMetadata(false, OnIsReadOnlyFirstProperty));
+      
         private static void OnIsReadOnlyFirstProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DualDataField dualFieldSearchBox = d as DualDataField;
@@ -202,19 +188,14 @@ namespace KarveControls
                 new PropertyMetadata(DataType.Any, OnDataAllowedSecondChange));
 
 
-        public static readonly DependencyProperty IsReadOnlyFirstDependencyProperty =
-            DependencyProperty.Register(
-                "IsReadOnlyFirst",
-                typeof(bool),
-                typeof(DualDataField),
-                new PropertyMetadata(false, OnDataFieldIsReadonlyFirst));
+   
 
         public static readonly DependencyProperty IsReadOnlySecondDependencyProperty =
             DependencyProperty.Register(
                 "IsReadOnlySeocnd",
                 typeof(bool),
                 typeof(DualDataField),
-                new PropertyMetadata(false, OnDataFieldIsReadonlySecond));
+                new PropertyMetadata(false, OnIsReadOnlySecondProperty));
 
        
         public static readonly DependencyProperty LabelVisibleDependencyProperty =
@@ -293,6 +274,19 @@ namespace KarveControls
             get { return (DataType)GetValue(DataAllowedSecondDependencyProperty); }
             set { SetValue(DataAllowedSecondDependencyProperty, value); }
         }
+
+        public DataType IsReadOnlyFirst
+        {
+            get { return (DataType)GetValue(IsReadOnlyFirstDependencyProperty); }
+            set { SetValue(IsReadOnlyFirstDependencyProperty, value); }
+        }
+
+        public DataType IsReadOnlySecond
+        {
+            get { return (DataType)GetValue(IsReadOnlySecondDependencyProperty); }
+            set { SetValue(IsReadOnlySecondDependencyProperty, value); }
+        }
+
 
 
         public string TextContentFirstWidth

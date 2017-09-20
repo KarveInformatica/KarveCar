@@ -82,6 +82,9 @@ namespace WpfUpdater
                 return _dataGridTemplate;
             }
             if (item is UiDualDfAfterSearchBox)
+            {
+                return _dualFieldAfterSearchTextBox;
+            }
             return base.SelectTemplate(item, container);
         }
     }

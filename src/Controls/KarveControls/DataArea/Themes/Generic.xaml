@@ -17,17 +17,12 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
-                    xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
-                    xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:karveControls="clr-namespace:KarveControls"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
-   <ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="..\..\Themes\Generic\Glyphs.xaml" />
-   </ResourceDictionary.MergedDictionaries>
-
-   <conv:InverseBoolConverter x:Key="InverseBoolConverter" />
-
-   <Image x:Key="DefaultContent" x:Shared="False" Height="16" Width="18" Source="./../Images/Notes16.png" />
+  
+   <Image x:Key="DefaultContent" x:Shared="False" Height="16" Width="18" Source="Images/Notes16.png" />
 
    <LinearGradientBrush x:Key="PopupDarkBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
       <GradientStop Color="#FFA3AEB9" Offset="0" />
@@ -65,11 +60,11 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                      </Border>
 
-                     <chrome:ButtonChrome x:Name="ToggleButtonChrome"
+                     <xctk:ButtonChrome x:Name="ToggleButtonChrome"
                                           Grid.Column="1"
                                           CornerRadius="0,2.75,2.75,0"
-                                          RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MultiLineTextEditor}}"
-                                          RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MultiLineTextEditor}}"
+                                          RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=karveControls:DataRichTextField}}"
+                                          RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=karveControls:DataRichTextField}}"
 											         RenderMouseOver="{TemplateBinding IsMouseOver}"
 											         RenderPressed="{TemplateBinding IsPressed}">
                         <Grid x:Name="arrowGlyph" IsHitTestVisible="False" Grid.Column="1" Margin="5">
@@ -80,7 +75,7 @@
                                  Fill="#FF000000" 
                                  Margin="0,1,0,0"/>
                         </Grid>
-                     </chrome:ButtonChrome>
+                     </xctk:ButtonChrome>
                   </Grid>
 
                </Grid>
@@ -95,7 +90,7 @@
       </Setter>
    </Style>
 
-   <Style TargetType="{x:Type local:MultiLineTextEditor}">
+   <Style TargetType="{x:Type karveControls:DataRichTextField}">
       <Setter Property="Background" Value="White"/>
       <Setter Property="BorderBrush">
          <Setter.Value>
@@ -115,7 +110,7 @@
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Template">
          <Setter.Value>
-            <ControlTemplate TargetType="{x:Type local:MultiLineTextEditor}">
+            <ControlTemplate TargetType="{x:Type local:Data}">
                <Grid x:Name="Root">
                   <ToggleButton x:Name="PART_DropDownButton"
                                 Grid.Column="1"
@@ -187,3 +182,4 @@
    </Style>
 
 </ResourceDictionary>
+

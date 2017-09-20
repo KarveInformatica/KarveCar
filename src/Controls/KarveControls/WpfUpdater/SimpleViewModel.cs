@@ -20,26 +20,21 @@ namespace WpfUpdater
             UserInterfaceDfObject dfObject0 = new UserInterfaceDfObject();
             dfObject0.LabelText = "Nombre";
             dfObject0.LabelVisible = true;
+            dfObject0.DataField = "NOMBRE";
+            dfObject0.TableName = "PROVE1";
             dfObject0.TextContent = "Luca Deri";
             dfObject0.TextContentWidth = "60";
             dfObject0.TableName = "Auxliares";
-            dfObject0.DataField = "Nombre";
-            UserInterfaceDualDfObject dfObject1 = new UserInterfaceDualDfObject();
-            dfObject1.DataFieldFirst = "Nombre";
-            dfObject1.DataFieldSecond = "Apellido";
-            dfObject1.TextContentFirst = "Pipposki";
-            dfObject1.TextContentSecond = "Pipposki";
-            
-            //dfObject1.
-            /*
+           
             DataTable workTable = new DataTable();
             DataColumn workCol = workTable.Columns.Add("Nombre", typeof(string));
             DataRow row = workTable.NewRow();
             row["Nombre"] = "Marta";
             workTable.Rows.Add(row);
             dfObject0.ItemSource = workTable;
-            SearchTextBoxObject dfObject1 = new SearchTextBoxObject();
+            UserInterfaceSearchTextObject dfObject1 = new UserInterfaceSearchTextObject();
             dfObject1.LabelText = "Nombre";
+            dfObject1.TableName = "PROVE1";
             dfObject1.LabelVisible = true;
             dfObject1.TextContent = "Luca Deri";
             dfObject1.TextContentWidth = "60";
@@ -51,19 +46,9 @@ namespace WpfUpdater
             row8["Nombre"] = "Luigi";
             workTable3.Rows.Add(row8);
             dfObject1.SourceView = workTable3;
-            */
-
-
-
-
-            /*
-            dfObject0.DataField = "Nombre";
-            UserInterfaceDfObject dfObject1 = new UserInterfaceDfObject();
-            dfObject1.LabelText = "Nombre1";
-            dfObject1.DataField = "Nombre";
-            */
             _list.Add(dfObject0);
             _list.Add(dfObject0);
+            _list.Add(dfObject1);
 
         }
 
