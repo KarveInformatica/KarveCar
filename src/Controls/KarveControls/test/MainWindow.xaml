@@ -12,6 +12,8 @@
         <StackPanel>
 
             <StackPanel Name="stkMain">
+                
+                <!--
                 <ItemsControl Name="itmCntrl" ItemsSource="{Binding ItemCollectionValue}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -35,6 +37,8 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                -->
+                <karveControls:DataField TextContent="Hello world!"></karveControls:DataField>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -1,14 +1,28 @@
-﻿using KarveDataServices;
-using KarveCommon.Services;
-using Prism.Mvvm;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
+using Prism.Mvvm;
+using KarveDataServices;
 namespace KarveCommon.Generic
 {
-    public abstract class KarveViewModelBase : BindableBase, IEventObserver
+    public class KarveViewModelBase: BindableBase
     {
-        public abstract void incomingPayload(DataPayLoad payload);
-        public abstract Task<DataPayLoad> LoadData(IDataServices services, IConfigurationService conf, IDictionary<string, object> data);
+        private string _sqlQuery;
+     
+        public KarveViewModelBase()
+        {       
+        }
+        public string Query
+        {
+            set
+            {
+                _sqlQuery = value;
+                RaisePropertyChanged("Query");
+            }
+            get { return _sqlQuery; }
+
+        }
     }
 }

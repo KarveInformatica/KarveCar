@@ -17,8 +17,9 @@ namespace KarveCommon.Generic
     public class OleDbQueryExecutor: AbstractSqlQueryExecutor
     {
         private SAConnection _connection;
-        private SADataAdapter _adapter;
-        private SACommandBuilder  _builder;
+
+        //private SADataAdapter _adapter;
+        //private SACommandBuilder  _builder;
         private SACommand _command;
         private SATransaction _transaction;
         private string _connectionString;
@@ -95,6 +96,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+
                 return false;
             }
             return true;
