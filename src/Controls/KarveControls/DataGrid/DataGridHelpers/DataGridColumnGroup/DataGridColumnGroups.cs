@@ -1,36 +1,32 @@
-
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using Telerik.WinControls.UI;
 
-public class DataGridColumnGroups : ColumnGroupsViewDefinition
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumnGroup
 {
+    public class DataGridColumnGroups : ColumnGroupsViewDefinition
+    {
 
-	public void Add(ref GridViewColumnGroup col)
-	{
-		this.ColumnGroups.Add(col);
-	}
+        public void Add(ref GridViewColumnGroup col)
+        {
+            this.ColumnGroups.Add(col);
+        }
 
-	//Public Overloads Sub Add(ByVal Columna As Object)
-	//    Try
-	//        Columna.Item = Me.Count
-	//        MyBase.Add(Columna.Name, Columna)
-	//    Catch
-	//    End Try
-	//End Sub
+        //Public Overloads Sub Add(ByVal Columna As Object)
+        //    Try
+        //        Columna.Item = Me.Count
+        //        MyBase.Add(Columna.Name, Columna)
+        //    Catch
+        //    End Try
+        //End Sub
 
-	//Public Function ToArray() As ArrayList
-	//    Dim HC = (From c As Object In Me.Values Order By c.Item Select c)
-	//    Dim RS As New ArrayList
-	//    For Each ctr As Object In HC
-	//        RS.Add(ctr)
-	//    Next
-	//    Return RS
-	//End Function
+        //Public Function ToArray() As ArrayList
+        //    Dim HC = (From c As Object In Me.Values Order By c.Item Select c)
+        //    Dim RS As New ArrayList
+        //    For Each ctr As Object In HC
+        //        RS.Add(ctr)
+        //    Next
+        //    Return RS
+        //End Function
+    }
 }
 
 //=======================================================

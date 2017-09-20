@@ -17,7 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
-
+using KarveControls.UIObjects;
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
     public class MarcaDataTableViewModel : BindableBase
@@ -109,6 +109,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         #region Commands
         private ICommand marcacommand;
+        
         public ICommand MarcaDataTableCommand
         {
             get { return marcacommand; }
@@ -127,6 +128,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         public ICommand ProveedorMarcaSelectionChanged { get; set; }
         public ICommand CodigoProveedorMarcaLostFocus { get; set; }
+        public List<Tuple<string, string>> Tables { get; private set; }
         #endregion
 
         #region EventTriggers
@@ -392,7 +394,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// </summary>
         private void SelectSqlCRUD()
         {
-            this.columnsSqlCRUD = SQLBuilder.SqlBuilderColumns<UserControl>(this.thisusercontrol);
+            List<Tuple<string, string>> list= new List<Tuple<string,string>>();
+            this.columnsSqlCRUD = SQLBuilder.SqlBuilderColumns<UserControl>(this.thisusercontrol, ref list);
             this.sqlCRUD        = SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR", null, string.Empty, null);
         }
 

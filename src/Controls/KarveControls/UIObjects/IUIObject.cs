@@ -6,7 +6,7 @@ namespace KarveControls.UIObjects
     public interface IUiObject
     { 
         string Description { set; get; }
-        DataField.DataType DataAllowed { set; get; }
+        CommonControl.DataType DataAllowed { set; get; }
         bool AllowedEmpty { set; get; }
         bool UpperCase { set; get; }
         string LabelText { set; get; }

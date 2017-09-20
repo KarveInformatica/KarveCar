@@ -1,10 +1,11 @@
 ﻿
-using Xceed.Wpf.DataGrid.Converters;
-
-public class DataGridPriceColumn: DataGridDecimalColumn
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
-    public DataGridPriceColumn()
+    public class DataGridPriceColumn: DataGridDecimalColumn
     {
-        NumeroDecimales = 2;
+        public DataGridPriceColumn()
+        {
+            NumeroDecimales = 2;
+        }
     }
 }

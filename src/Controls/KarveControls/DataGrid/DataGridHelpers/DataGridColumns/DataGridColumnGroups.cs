@@ -1,13 +1,6 @@
-﻿
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using Telerik.WinControls.UI;
+﻿using Telerik.WinControls.UI;
 
-namespace KarveControls
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
     public class DataGridColumnGroups : ColumnGroupsViewDefinition
     {

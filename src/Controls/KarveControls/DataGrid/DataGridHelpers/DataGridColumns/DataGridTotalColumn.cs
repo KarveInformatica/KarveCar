@@ -1,8 +1,11 @@
 ﻿
-class DataGridTotalColumn: DataGridDecimalColumn
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
-    public DataGridTotalColumn()
+    class DataGridTotalColumn: DataGridDecimalColumn
     {
-        NumeroDecimales = 2;
+        public DataGridTotalColumn()
+        {
+            NumeroDecimales = 2;
+        }
     }
 }

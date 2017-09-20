@@ -1,7 +1,8 @@
-﻿using Telerik.WinControls.UI;
-using  Telerik.WinControls;
-using System;
-namespace KarveControls
+﻿using System;
+using Telerik.WinControls;
+using Telerik.WinControls.UI;
+
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
     public class BrowerGridEditorKarve : BaseGridEditor
     {

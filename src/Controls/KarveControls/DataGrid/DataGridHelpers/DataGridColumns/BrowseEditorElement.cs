@@ -1,9 +1,9 @@
-﻿using Telerik.WinControls.UI;
-using Telerik.WinControls;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing;
+using Telerik.WinControls;
+using Telerik.WinControls.UI;
 
-namespace KarveControls
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
     internal class BrowseEditorElement : LightVisualElement
     {

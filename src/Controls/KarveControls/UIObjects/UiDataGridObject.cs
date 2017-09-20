@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveControls.UIObjects
 {
-    public class UserInterfaceDataGrid : IUiObject
+    public class UiDataGridObject : IUiObject
     {
         public string Description { get ; set ; }
         public CommonControl.DataType DataAllowed { get ; set ; }

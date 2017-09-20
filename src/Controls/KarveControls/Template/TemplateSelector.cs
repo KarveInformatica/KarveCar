@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using KarveControls.UIObjects;
+﻿using System.Windows;
 using System.Windows.Controls;
+using KarveControls.UIObjects;
 
-namespace KarveControls
+namespace KarveControls.Template
 {
     public class TemplateSelector : DataTemplateSelector
     {
@@ -61,27 +56,27 @@ namespace KarveControls
             System.Windows.DependencyObject container)
         {
 
-            if (item is UserInterfaceSearchTextObject)
+            if (item is UiSearchTextObject)
             {
                 return _searchTextBox;
             }
-            if (item is UserInterfaceDualDfSearchBox)
+            if (item is UiDualDfSearchTextObject)
             {
                 return _dualFieldSearchTextBox;
             }
-            if (item is UserInterfaceDualDfObject)
+            if (item is UiDualDfObject)
             {
                 return _dualDataField;
             }
-            if (item is UserInterfaceDfObject)
+            if (item is UiDfObject)
             {
                 return _dataField;
             }
-            if (item is UserInterfaceDataGrid)
+            if (item is UiDataGridObject)
             {
                 return _dataGridTemplate;
             }
-            if (item is UiDualDfAfterSearchBox)
+            if (item is UiDualDfAfterSearchBoxObject)
             {
                 return _dualFieldAfterSearchTextBox;
             }

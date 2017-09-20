@@ -28,7 +28,7 @@ namespace KarveControls
 /// <summary>
 /// Interaction logic for DataRadio.xaml
 /// </summary>
-public partial class DataRadio : UserControl, INotifyPropertyChanged
+public partial class DataRadio : CommonControl, INotifyPropertyChanged
     {
         #region Private Variables
 
@@ -44,6 +44,12 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
         #endregion
 
         #region PropertyChanged definition
+
+        protected override void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DataTable table = e.NewValue as DataTable;
+            this._itemSource = table;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -208,93 +214,9 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
             this._commandParameters = e.NewValue;
         }
         #endregion
-        #region ItemSource Dependency Property
-
-        public static DependencyProperty ItemSourceDependencyProperty
-            = DependencyProperty.Register(
-                "ItemSourceDependencyProperty",
-                typeof(DataTable),
-                typeof(DataRadio),
-                new PropertyMetadata(false, OnItemSourceChanged));
-
-        public DataTable ItemSource
-        {
-            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
-            set { SetValue(ItemSourceDependencyProperty, value); }
-        }
-        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataRadio control = d as DataRadio;
-            if (control != null)
-            {
-                control.OnPropertyChanged("ItemSource");
-                control.OnItemSourceChanged(e);
-            }
-        }
-        private void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-            DataTable table = e.NewValue as DataTable;
-            this._itemSource = table;
-        }
-        #endregion
-
-        #region TableName
-        private string _tableName = string.Empty;
-
-        public static readonly DependencyProperty DBTableNameDependencyProperty =
-            DependencyProperty.Register(
-                "TableName",
-                typeof(string),
-                typeof(DataRadio),
-                new PropertyMetadata(string.Empty, OnTableNameChange));
-        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataRadio control = d as DataRadio;
-            if (control != null)
-            {
-                control.OnPropertyChanged("TableName");
-                control.OnTableNameChanged(e);
-            }
-        }
-        public string TableName
-        {
-            get { return (string)GetValue(DBTableNameDependencyProperty); }
-            set { SetValue(DBTableNameDependencyProperty, value); }
-        }
-        private void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _tableName = e.NewValue as string;
-        }
-        #endregion
-
-        #region DataField
-        public static DependencyProperty DataFieldDependencyProperty =
-            DependencyProperty.Register(
-                "DataField",
-                typeof(string),
-                typeof(DataRadio),
-                new PropertyMetadata(string.Empty, OnDataFieldChanged));
-
-        public string DataField
-        {
-            get { return (string)GetValue(DataFieldDependencyProperty); }
-            set { SetValue(DataFieldDependencyProperty, value); }
-        }
-        private static void OnDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataRadio controlDataRadio = d as DataRadio;
-            if (controlDataRadio != null)
-            {
-                controlDataRadio.OnPropertyChanged("DataField");
-                controlDataRadio.OnDataFieldPropertyChanged(e);
-            }
-        }
-
-        private void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _dataField = e.NewValue as string;
-        }
-        #endregion
+  
+        
+       
 
         #region Content
         public static DependencyProperty ContentDependencyProperty =
@@ -334,28 +256,6 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
         }
         #endregion
 
-        #region DynamicBinding
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            string field = _dataField.ToUpper();
-            if (!string.IsNullOrEmpty(field))
-            {
-                Binding oBind = new Binding("IsChecked");
-                oBind.Source = dta.Columns[field];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = true;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-               SetBinding(DataRadio.IsCheckedCommandDependencyProperty, oBind);
-            }
-        }
-#endregion
         public DataRadio()
         {
             InitializeComponent();
@@ -388,6 +288,11 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
             host.Child = _radioView;
             RadioContext.Children.Add(host);
 
+        }
+
+        public override void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

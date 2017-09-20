@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace KarveControls.UIObjects
 {
-    public class UserInterfaceDualDfSearchBox: UserInterfaceDfObject
+    public class UiDualDfSearchTextObject: UiDfObject
     {
         public string AssistTableName { set; get; }
         public string TextContentFirst { set; get; }

@@ -4,7 +4,7 @@ using System.Data;
 
 namespace KarveControls.UIObjects
 {
-    public class UserInterfaceDfObject: IUiObject
+    public class UiDfObject: IUiObject
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

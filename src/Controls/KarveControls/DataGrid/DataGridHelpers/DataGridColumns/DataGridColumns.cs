@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-namespace KarveControls
+
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
     public class DataGridColumns : System.Collections.Hashtable
     {

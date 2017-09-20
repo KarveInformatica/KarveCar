@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
-using KarveDataServices;
 namespace KarveCommon.Generic
 {
     public class KarveViewModelBase: BindableBase

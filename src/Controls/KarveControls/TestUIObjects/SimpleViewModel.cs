@@ -19,7 +19,7 @@ namespace KarveControls.TestUIObject
         public SimpleViewModel()
         {
             // get values from db.
-            UserInterfaceDfObject dfObject0 = new UserInterfaceDfObject();
+            UiDfObject dfObject0 = new UiDfObject();
             dfObject0.LabelText = "Nombre";
             dfObject0.LabelVisible = true;
             dfObject0.DataField = "NOMBRE";
@@ -34,7 +34,7 @@ namespace KarveControls.TestUIObject
             row["Nombre"] = "Marta";
             workTable.Rows.Add(row);
             dfObject0.ItemSource = workTable;
-            UserInterfaceSearchTextObject dfObject1 = new UserInterfaceSearchTextObject();
+            UiSearchTextObject dfObject1 = new UiSearchTextObject();
             dfObject1.LabelText = "Nombre";
             dfObject1.TableName = "PROVE1";
             dfObject1.LabelVisible = true;

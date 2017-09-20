@@ -30,7 +30,7 @@ namespace KarveControls.TestUIObject
 //                getSqlQueryBuilder("dataTable",columns);
                 // SqlBuilderSelect(columns, "MARCA", "AS", null, string.Empty, null);
             SimpleViewModel viewModel = (SimpleViewModel)this.DataContext;
-           // viewModel.Query = sql.Query;
+            viewModel.Query = sql;
 
             
         }

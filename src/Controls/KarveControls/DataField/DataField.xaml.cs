@@ -60,36 +60,7 @@ namespace KarveControls
         }
 
 
-        #region ItemSource
-
-        public DataTable ItemSource
-        {
-            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
-            set { SetValue(ItemSourceDependencyProperty, value); }
-        }
-        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnPropertyChanged("ItemSource");
-                control.OnItemSourceChanged(e);
-            }
-        }
-        private void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-            DataTable table = e.NewValue as DataTable;
-            this._itemSource = table;
-            if (!string.IsNullOrEmpty(this.DataBaseField))
-            {
-                DataRow row = table.Rows[0];
-                string field = row[DataBaseField] as string;
-                TextContent = field;
-            }
-        }
-        #endregion
-
-        #region TextContent Property
+               #region TextContent Property
         public static readonly DependencyProperty TextContentDependencyProperty =
             DependencyProperty.Register(
                 "TextContent",
@@ -102,14 +73,6 @@ namespace KarveControls
             get { return (string)GetValue(TextContentDependencyProperty); }
             set { SetValue(TextContentDependencyProperty, value); }
         }
-
-        public static readonly DependencyProperty ItemSourceDependencyProperty =
-            DependencyProperty.Register(
-                "ItemSource",
-                typeof(DataTable),
-                typeof(DataField),
-                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
-
 
 
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -129,7 +92,7 @@ namespace KarveControls
         }
         #endregion
         #region LabelVisible
-       
+
         public static readonly DependencyProperty LabelVisibleDependencyProperty =
             DependencyProperty.Register("LabelVisible",
                 typeof(bool),
@@ -151,7 +114,7 @@ namespace KarveControls
                 control.OnLabelVisibleChanged(e);
             }
         }
-        
+
         private void OnLabelVisibleChanged(DependencyPropertyChangedEventArgs e)
         {
             bool value = Convert.ToBoolean(e.NewValue);
@@ -180,7 +143,7 @@ namespace KarveControls
         }
         private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-           DataField control = d as DataField;
+            DataField control = d as DataField;
             if (control != null)
             {
                 control.OnPropertyChanged("LabelText");
@@ -223,46 +186,6 @@ namespace KarveControls
         }
 
         #endregion
-
-
-        private string _dataField = string.Empty;
-        private string _tableName = string.Empty;
-
-
-
-        public static readonly DependencyProperty DBTableNameDependencyProperty =
-            DependencyProperty.Register(
-                "TableName",
-                typeof(string),
-                typeof(DataField),
-                new PropertyMetadata(string.Empty, OnTableNameChange));
-
-
-        #region TableName
-
-        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnPropertyChanged("TableName");
-                control.OnTableNameChanged(e);
-            }
-        }
-
-        public string TableName
-        {
-            get { return (string)GetValue(DBTableNameDependencyProperty); }
-            set { SetValue(DBTableNameDependencyProperty, value); }
-        }
-
-        private void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _tableName = e.NewValue as string;
-        }
-
-        #endregion
-
       
         #region TextContentWidth
 
@@ -295,69 +218,7 @@ namespace KarveControls
         }
         #endregion
 
-        #region IsReadOnly
-        public static readonly  DependencyProperty IsReadOnlyDependencyProperty = 
-            DependencyProperty.Register("IsReadOnly",
-                                        typeof(bool),
-                                        typeof(DataField), 
-                                        new PropertyMetadata(false, OnReadOnlyDependencyProperty));
-
-        private static void OnReadOnlyDependencyProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField controlDataField = d as DataField;
-            if (controlDataField != null)
-            {
-                controlDataField.OnPropertyChanged("IsReadOnly");
-                controlDataField.OnReadOnlyPropertyChanged(e);
-            }
-        }
-
-        private void OnReadOnlyPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            bool value= Convert.ToBoolean(e.NewValue);
-            TextField.IsReadOnly = value;
-        }
-
-        public bool IsReadOnly
-        {
-            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
-            set { SetValue(IsReadOnlyDependencyProperty, value); }
-        }
-        #endregion
-        public static DependencyProperty DataBaseFieldDependencyProperty =
-            DependencyProperty.Register(
-                "DataBaseField",
-                typeof(string),
-                typeof(DataField), 
-                new PropertyMetadata(string.Empty, OnDataBaseFieldChanged));
-
-        public string DataBaseField
-        {
-            get { return (string)GetValue(DataBaseFieldDependencyProperty); }
-            set { SetValue(DataBaseFieldDependencyProperty, value); }
-        }
-        private static void OnDataBaseFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField controlDataField = d as DataField;
-            if (controlDataField != null)
-            {
-                controlDataField.OnPropertyChanged("DataBaseField");
-                controlDataField.OnDataBaseFieldPropertyChanged(e);
-            }
-        }
-
-        private void OnDataBaseFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _dataField = e.NewValue as string;
-            DataBaseField = _dataField;
-            if ((this._itemSource != null) && (this._itemSource.Rows.Count > 0))
-            {
-                DataRow row = this._itemSource.Rows[0];
-                string field = row[DataBaseField] as string;
-                TextContent = field;
-            }
-            
-        }
+        
         
         public static DependencyProperty ReloadDependencyProperty =
             DependencyProperty.Register(
@@ -396,7 +257,7 @@ namespace KarveControls
             get { return (bool)GetValue(ReloadDependencyProperty); }
             set { SetValue(ReloadDependencyProperty, value); }
         }
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+        public override void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
             string field = _dataField.ToUpper();
             if (!string.IsNullOrEmpty(field))

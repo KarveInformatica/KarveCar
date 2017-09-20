@@ -1,4 +1,7 @@
-﻿public class DataGridPercentageColumn : DataGridDecimalColumn
+﻿namespace KarveControls.DataGrid.DataGridHelpers.DataGridColumns
 {
-    private int decimalNumbers = 2;
+    public class DataGridPercentageColumn : DataGridDecimalColumn
+    {
+        private int decimalNumbers = 2;
+    }
 }

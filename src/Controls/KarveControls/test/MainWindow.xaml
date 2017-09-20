@@ -38,8 +38,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 -->
-                <karveControls:DataField TextContent="Hello world!"></karveControls:DataField>
+              
             </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
+

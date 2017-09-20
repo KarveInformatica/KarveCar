@@ -123,7 +123,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataField\CommonControl.cs" />
+    <Compile Include="CommonControl.cs" />
     <Compile Include="DataField\DataField.xaml.cs">
       <DependentUpon>DataField.xaml</DependentUpon>
     </Compile>
@@ -167,7 +167,7 @@
     </Compile>
     <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
-    <Compile Include="DataSearchTextBox\DataSearchTextBox.cs" />
+    <Compile Include="DataSearchTextBox1\DataSearchTextBox.cs" />
     <Compile Include="DualDataField\DualDataField.xaml.cs">
       <DependentUpon>DualDataField.xaml</DependentUpon>
     </Compile>
@@ -179,13 +179,13 @@
     <Compile Include="Template\TemplateSelector.cs" />
     <Compile Include="UIObjects\SQLBuilder.cs" />
     <Compile Include="UIObjects\SQLBuilderFactory.cs" />
-    <Compile Include="UIObjects\UiDualDfAfterSearchBox.cs" />
-    <Compile Include="UIObjects\UserInterfaceDualDfSearchBox.cs" />
+    <Compile Include="UIObjects\UiDualDfAfterSearchBoxObject.cs" />
+    <Compile Include="UIObjects\UiDualDfSearchTextObject.cs" />
     <Compile Include="UIObjects\IUIObject.cs" />
-    <Compile Include="UIObjects\UserInterfaceSearchTextObject.cs" />
-    <Compile Include="UIObjects\UserInterfaceDataGrid.cs" />
-    <Compile Include="UIObjects\UserInterfaceDfObject.cs" />
-    <Compile Include="UIObjects\UserInterfaceDualDfObject.cs" />
+    <Compile Include="UIObjects\UiSearchTextObject.cs" />
+    <Compile Include="UIObjects\UiDataGridObject.cs" />
+    <Compile Include="UIObjects\UiDfObject.cs" />
+    <Compile Include="UIObjects\UiDualDfObject.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +213,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DataSearchTextBox\DataSearchTextBox.xaml">
+    <Page Include="DataSearchTextBox1\DataSearchTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

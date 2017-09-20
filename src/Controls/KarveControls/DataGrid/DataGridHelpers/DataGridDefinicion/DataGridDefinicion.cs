@@ -1,20 +1,4 @@
-
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Windows.Forms.Design;
-using Telerik.WinControls.UI;
-using Telerik.WinControls.UI.Localization;
-using Telerik.WinControls;
-using System.Drawing;
-
-namespace KarveControls
+namespace KarveControls.DataGrid.DataGridHelpers.DataGridDefinicion
 {
     public class DataGridDefinicion
     {

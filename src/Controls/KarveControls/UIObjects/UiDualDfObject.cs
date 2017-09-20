@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveControls.UIObjects
 {
-    public class UserInterfaceDualDfObject: UserInterfaceDfObject
+    public class UiDualDfObject: UiDfObject
     {
         public string TextContentFirst { set; get; }
         public string TextContentFirstWidth { set; get; }
