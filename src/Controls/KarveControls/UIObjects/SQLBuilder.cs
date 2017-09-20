@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KarveControls.UIObjects;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveCommon.Generic
+namespace KarveControls.UIObjects
 {
     public class SQLBuilder
     {
@@ -542,9 +543,10 @@ namespace KarveCommon.Generic
         /// <typeparam name="T"></typeparam>
         /// <param name="container"></param>
         /// <returns></returns>
-        public static List<string> SqlBuilderColumns<T>(DependencyObject container)
+        public static List<string> SqlBuilderColumns<T>(DependencyObject container, ref List<Tuple<string, string>> currentList)
         {
             List<string> resultchild = new List<string>();
+            
 
             if (container.GetType().BaseType == typeof(Window) || container.GetType().BaseType == typeof(UserControl) ||
                 container.GetType().BaseType == typeof(Page))
@@ -553,7 +555,7 @@ namespace KarveCommon.Generic
 
                 foreach (DependencyObject child in children)
                 {
-                    resultchild.AddRange(SqlBuilderColumns<T>(child));
+                    resultchild.AddRange(SqlBuilderColumns<T>(child, ref currentList));
                 }
             }
             else
@@ -568,13 +570,31 @@ namespace KarveCommon.Generic
                         child.GetType() == typeof(Table) || child.GetType() == typeof(TabPanel) || child.GetType() == typeof(ToolBarOverflowPanel) ||
                         child.GetType() == typeof(VirtualizingPanel) || child.GetType() == typeof(VirtualizingStackPanel))
                     {
-                        resultchild.AddRange(SqlBuilderColumns<T>(child));
+                        resultchild.AddRange(SqlBuilderColumns<T>(child, ref currentList));
                     }
                     else
                     {
-                        if (child.Tag != null)
+                        if (child.GetType() == typeof(ItemsControl))
                         {
-                            resultchild.Add(child.Tag.ToString());
+                            Tuple<string, string> currentTemp; 
+                            ItemsControl currentControl = (ItemsControl) child;
+                            foreach (IUiObject control in currentControl.ItemsSource)
+                            {
+                                resultchild.Add(control.DataField);
+                                currentTemp= new Tuple<string, string>(control.DataField, control.TableName);
+                                currentList.Add(currentTemp);
+                            }
+                        }
+                        if (child.GetType() == typeof(ListView))
+                        {
+                            Tuple<string, string> currentTemp;
+                            ItemsControl currentControl = (ItemsControl)child;
+                            foreach (IUiObject control in currentControl.ItemsSource)
+                            {
+                                resultchild.Add(control.DataField);
+                                currentTemp = new Tuple<string, string>(control.DataField, control.TableName);
+                                currentList.Add(currentTemp);
+                            }
                         }
                     }
                 }

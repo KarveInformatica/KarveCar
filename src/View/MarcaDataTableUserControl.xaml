@@ -25,7 +25,7 @@
             <local:ProveedorMarcaDataGridUserControl x:Name="proveedorMarcaDataGridUC"/>
         </Grid>
 
-        <GridSplitter x:Name="gridsplitter" Grid.Column="1" Visibility="Hidden" HorizontalAlignment="Stretch" ResizeDirection="Columns"/>
+        <GridSplitter x:Name="gridsplitter" Grid.Column="1" Visibility="Visible" HorizontalAlignment="Stretch" ResizeDirection="Columns"/>
 
         <WrapPanel x:Name="wrpMarcaDataTable" Visibility="Visible" Grid.Column="2" 
                    ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -35,7 +35,7 @@
                         <Grid>
                             <Label   x:Name="lblCodigo" Content="Código: " Margin="25,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtCodigo" Tag="MAR.CODIGO" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                     Text="{Binding MarcaSelectedItem.CODIGO, Mode=OneWay}" Style="{StaticResource TextBoxStyle}"
+                                     Text="{Binding MarcaSelectedItem.CODIGO, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}"
                                      Margin="100,25,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="False">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="LostFocus">
@@ -60,52 +60,52 @@
 
                             <Label   x:Name="lblNombre"  Content="Nombre: " Margin="25,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtNombre" Tag="MAR.NOMBRE" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                     Text="{Binding MarcaSelectedItem.NOMBRE, Mode=OneWay}"
+                                     Text="{Binding MarcaSelectedItem.NOMBRE, Mode=TwoWay}"
                                      Margin="100,50,0,0" Width="350" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Label   x:Name="lblFechaBaja" Content="Fecha Baja: " Margin="25,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <DatePicker x:Name="dtpckFechaBaja" Tag="MAR.FBAJA" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                        SelectedDate="{Binding MarcaSelectedItem.FBAJA, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
+                                        SelectedDate="{Binding MarcaSelectedItem.FBAJA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
                                         Margin="100,75,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Button x:Name="bttNew" Margin="300,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/new.png" HorizontalAlignment="Right"/>
                                 <Button.InputBindings>
-                                    <KeyBinding Key="Return" Command="{Binding InsertMarcaCommand}"/>
-                                    <KeyBinding Key="Enter"  Command="{Binding InsertMarcaCommand}"/>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding InsertMarcaCommand}"/>
+                                    <KeyBinding Key="Return" Command="{Binding InsertCommand}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding InsertCommand}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding InsertCommand}"/>
                                 </Button.InputBindings>
                             </Button>
                             <Button x:Name="bttUpdate" Margin="325,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/edit.png" HorizontalAlignment="Right"/>
                                 <Button.InputBindings>
-                                    <KeyBinding Key="Return" Command="{Binding UpdateMarcaCommand}"/>
-                                    <KeyBinding Key="Enter"  Command="{Binding UpdateMarcaCommand}"/>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding UpdateMarcaCommand}"/>
+                                    <KeyBinding Key="Return" Command="{Binding UpdateCommand}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding UpdateCommand}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding UpdateCommand}"/>
                                 </Button.InputBindings>
                             </Button>
                             <Button x:Name="bttDelete" Margin="350,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/delete.png" HorizontalAlignment="Right"/>
                                 <Button.InputBindings>
-                                    <KeyBinding Key="Return" Command="{Binding DeleteMarcaCommand}"/>
-                                    <KeyBinding Key="Enter"  Command="{Binding DeleteMarcaCommand}"/>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DeleteMarcaCommand}"/>
+                                    <KeyBinding Key="Return" Command="{Binding DeleteCommand}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding DeleteCommand}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding DeleteCommand}"/>
                                 </Button.InputBindings>
                             </Button>
                             <Button x:Name="bttCancel" Margin="375,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/refresh.png" HorizontalAlignment="Right"/>
                                 <Button.InputBindings>
-                                    <KeyBinding Key="Return" Command="{Binding CancelMarcaCommand}"/>
-                                    <KeyBinding Key="Enter"  Command="{Binding CancelMarcaCommand}"/>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding CancelMarcaCommand}"/>
+                                    <KeyBinding Key="Return" Command="{Binding CancelCommand}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding CancelCommand}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding CancelCommand}"/>
                                 </Button.InputBindings>
                             </Button>
                             <Button x:Name="bttSave" Margin="400,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <Image Source="/KarveCar;component/Images/save.png" HorizontalAlignment="Right"/>
                                 <Button.InputBindings>
-                                    <KeyBinding Key="Return" Command="{Binding SaveMarcaCommand}"/>
-                                    <KeyBinding Key="Enter"  Command="{Binding SaveMarcaCommand}"/>
-                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SaveMarcaCommand}"/>
+                                    <KeyBinding Key="Return" Command="{Binding SaveCommand}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding SaveCommand}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SaveCommand}"/>
                                 </Button.InputBindings>
                             </Button>
                         </Grid>
@@ -116,7 +116,7 @@
                         <Grid>
                             <Label   x:Name="lblProveedor" Content="Proveedor: " Margin="25,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtProveedorCodigo" Tag="MAR.PROVEE" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                     Text="{Binding MarcaSelectedItem.PROVEE, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionCodigoConverter}}"
+                                     Text="{Binding MarcaSelectedItem.PROVEE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionCodigoConverter}}"
                                      Margin="125,25,0,0" Height="25" Width="50"  HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="LostFocus">
@@ -141,27 +141,27 @@
 
                             <Label   x:Name="lblCondiciones" Content="Condiciones: " Margin="25,50,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtCondiciones" Tag="MAR.CONDICIONES" TextWrapping="Wrap" AcceptsReturn="True"
-                                     Text="{Binding MarcaSelectedItem.CONDICIONES, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
+                                     Text="{Binding MarcaSelectedItem.CONDICIONES, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
                                      Margin="125,50,0,0" Height="100" Width="325" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"/>
 
                             <Label   x:Name="lblPactadas" Content="Pactadas con: " Margin="25,150,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtPactadas" Tag="MAR.PACTADAS" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                     Text="{Binding MarcaSelectedItem.PACTADAS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
+                                     Text="{Binding MarcaSelectedItem.PACTADAS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
                                      Margin="125,150,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Label   x:Name="lblInterlocutor" Content="Interlocutor: " Margin="25,175,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtInterlocutor" Tag="MAR.LOCUTOR" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                     Text="{Binding MarcaSelectedItem.LOCUTOR, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
+                                     Text="{Binding MarcaSelectedItem.LOCUTOR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
                                      Margin="125,175,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Label   x:Name="lblFechaMarca" Content="Fecha Marca: " Margin="25,200,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <DatePicker x:Name="dtpckFechaMarca" Tag="MAR.FECHA" abek:AdvanceEnterKey.AdvancesByEnterKey="True"
-                                        SelectedDate="{Binding MarcaSelectedItem.FECHA, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
+                                        SelectedDate="{Binding MarcaSelectedItem.FECHA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
                                         Margin="125,200,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                             <Label   x:Name="lblObservaciones" Content="Observaciones: " Margin="25,225,0,0" Width="125" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtObservaciones" Tag="MAR.OBS" TextWrapping="Wrap" AcceptsReturn="True"
-                                     Text="{Binding MarcaSelectedItem.OBS, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
+                                     Text="{Binding MarcaSelectedItem.OBS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
                                      Margin="125,225,0,0" Height="100" Width="325" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"/>
                         </Grid>
                     </Border>

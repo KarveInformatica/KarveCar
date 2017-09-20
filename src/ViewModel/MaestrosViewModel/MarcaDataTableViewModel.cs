@@ -3,6 +3,7 @@ using KarveCar.Model.SQL;
 using KarveCar.Properties;
 using KarveCar.Utility;
 using KarveCar.View;
+using KarveCommon.Generic;
 using KarveCommon.Logic.Generic;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,7 +15,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using KarveCommon.Generic;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -23,14 +23,15 @@ namespace KarveCar.ViewModel.MaestrosViewModel
     public class MarcaDataTableViewModel : BindableBase
     {
         #region Propiedades
-        private static MarcaDataTableUserControl thisusercontrol;
-        private string codigoselecteditem = string.Empty;
+        private MarcaDataTableUserControl thisusercontrol;
         private EControlCambio statuscontrolcambio = EControlCambio.Update;
+        private string codigoselecteditem = string.Empty;
 
-        private List<string> columnsMarca;
-        private List<string> columnsProveedor = new List<string>() { "PRO.NUM_PROVEE, PRO.NOMBRE" }; //SqlBuilderColumns<UserControl>(thisusercontrol.marcaDataGridUC);
         private Tuple<ETopDistinct, int, int> topClause = Tuple.Create(ETopDistinct.TOP, 25, 1);
         private string sqlCRUD;
+        private List<string> columnsSqlCRUD;
+        private List<string> columnsMarca     = new List<string>() { "MAR.CODIGO, MAR.NOMBRE" };
+        private List<string> columnsProveedor = new List<string>() { "PRO.NUM_PROVEE, PRO.NOMBRE" };
 
         private DataTable marcadatatable;
         public DataTable MarcaDataTable
@@ -114,11 +115,12 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             set { marcacommand = value; }
         }
 
-        public ICommand InsertMarcaCommand { get; set; }
-        public ICommand UpdateMarcaCommand { get; set; }
-        public ICommand DeleteMarcaCommand { get; set; }
-        public ICommand CancelMarcaCommand { get; set; }
-        public ICommand SaveMarcaCommand { get; set; }
+        public ICommand InsertCommand { get; set; }
+        public ICommand UpdateCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+
         public ICommand ShowMarcaUserControlCommand { get; set; }
         public ICommand MarcaSelectionChanged { get; set; }
         public ICommand CodigoMarcaLostFocus { get; set; }
@@ -127,150 +129,62 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         public ICommand CodigoProveedorMarcaLostFocus { get; set; }
         #endregion
 
-        #region InitDataLayer
-        private DataTable InitDataLayerMarcaSync()
-        {
-            List<string> columns = SQLBuilder.SqlBuilderColumns<UserControl>(thisusercontrol.wrpMarcaDataTable);
-            string sql = SQLBuilder.SqlBuilderSelect(columns, "MARCAS", "MAR", 
-                                                     Tuple.Create(ETopDistinct.TOP, 25, 0), null, 
-                                                     new List<Tuple<string, EOrderBy>> { Tuple.Create("MAR.CODIGO", EOrderBy.ASC) });
-
-            return ManageDBGeneric.GetValuesFromDbDataTable(sql);
-        }
-
-        private DataTable InitDataLayerMarcaByCodigoSync()
-        {
-            List<string> columns = SQLBuilder.SqlBuilderColumns<UserControl>(thisusercontrol.wrpMarcaDataTable);
-            string sql = SQLBuilder.SqlBuilderSelect(columns, "MARCAS", "MAR", null, 
-                                                     new List<Tuple<EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string>>()
-                                                    {
-                                                         Tuple.Create(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO", EWhereComparisson.LIKE, 
-                                                                      ETipoDato.DBstring, thisusercontrol.txtCodigo.Text)                                                        
-                                                    }, null);
-
-            return ManageDBGeneric.GetValuesFromDbDataTable(sql);
-        }
-
-        private async Task<DataTable> InitDataLayerMarcaAsync()
-        {
-            return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(string.Format(ScriptsSQL.SELECT_MARCA)));
-        }
-
-        private DataTable InitDataLayerProveedorSync()
-        {
-            List<string> columnsProveedor = new List<string>() {"PRO.NUM_PROVEE, PRO.NOMBRE"}; //SqlBuilderColumns<UserControl>(thisusercontrol.marcaDataGridUC);
-            Tuple<ETopDistinct, int, int> topDistinctClauseProveedor = Tuple.Create(ETopDistinct.TOP, 25, 0);
-            List<Tuple<string, EOrderBy>> orderByClauseProveedor = new List<Tuple<string, EOrderBy>> {Tuple.Create("PRO.NUM_PROVEE", EOrderBy.ASC)};
-
-            string sql = SQLBuilder.SqlBuilderSelect(columnsProveedor, "PROVEE1", "PRO", topDistinctClauseProveedor, null, orderByClauseProveedor);
-
-            return ManageDBGeneric.GetValuesFromDbDataTable(sql);
-        }
-
-
-        private async Task<DataTable> InitDataLayerProveedorAsync()
-        {
-            return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(string.Format(ScriptsSQL.SELECT_PROVEEDOR_MARCA)));
-        }
-        #endregion
-
         #region EventTriggers
-        private void OnMarcaSelectionChanged(object datarowview)
+        private void OnMarcaSelectionChanged(object row)
         {
-            DataRowView row = datarowview as DataRowView;
-            if (row != null)
+            DataRowView datarowview = row as DataRowView;
+            if (datarowview != null)
             {
-                this.MarcaSelectedItem = row;
-                this.codigoselecteditem = thisusercontrol.txtCodigo.Text;
-                thisusercontrol.txtCodigo.IsReadOnly = true;
-                OnProveedorMarcaUpdateDefinicion((string)row.Row.Table.Rows[0]["PROVEE"].ToString());
+                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == EControlCambio.Update) ? true : false;
+
+                if (this.statuscontrolcambio == EControlCambio.Update)
+                {
+                    string codigo = datarowview.Row["CODIGO"].ToString();
+                    SelectMarca(codigo);
+                }
             }
-            else
-            {
-                this.MarcaSelectedItem = null;
-                this.codigoselecteditem = null;
-                thisusercontrol.txtCodigo.IsReadOnly = false;
-            }
-            this.statuscontrolcambio = EControlCambio.Update;
-            thisusercontrol.wrpMarcaDataTable.Visibility = Visibility.Visible;
         }
 
         private void OnCodigoMarcaLostFocus(object text)
         {
-            if (text != null)
+            if (text != null && statuscontrolcambio == EControlCambio.Update)
             {
-                thisusercontrol.txtCodigo.IsReadOnly = statuscontrolcambio == EControlCambio.Update ? true : false;
+                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == EControlCambio.Update) ? true : false;
+
                 if (this.statuscontrolcambio == EControlCambio.Update)
                 {
                     string codigo = (text as string).Replace(" ", string.Empty);
-                    string valueText = codigo == string.Empty ? thisusercontrol.txtProveedorCodigo.Text : codigo;
-                    string whereClause = SQLBuilder.SqlBuilderWhereOne(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
-                                                                       EWhereComparisson.LIKE, ETipoDato.DBstring, valueText);
-                    DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(
-                                                                                   columnsMarca, "MARCAS", "MAR", topClause, whereClause, null));
-                    DataRowView dataRowView = null;
-                    foreach (DataRowView datarowview in datatable.AsDataView())
-                    {
-                        dataRowView = datarowview;
-                    }
-                    OnMarcaSelectionChanged(dataRowView);                    
+                    SelectMarca(codigo);                  
                 }
             }
         }
 
-        private void OnProveedorMarcaUpdateDefinicion(string text)
+        private void OnProveedorMarcaSelectionChanged(object row)
         {
-            string valueText = text == string.Empty || text == null ? thisusercontrol.txtProveedorCodigo.Text : text;
-            string whereClause = SQLBuilder.SqlBuilderWhereOne(EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
-                                                               EWhereComparisson.LIKE, ETipoDato.DBstring, valueText);
-
-            DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(columnsProveedor, "PROVEE1", "PRO", topClause, whereClause, null));
-            if (datatable.Rows.Count > 0)
+            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == EControlCambio.Insert)
             {
-                foreach (DataRowView datarow in datatable.AsDataView())
+                DataRowView datarowview = row as DataRowView;
+                if (datarowview != null)
                 {
-                    this.ProveedorMarcaSelectedItem = datarow;
-                }                
-            }
-            else
-            {                
-                this.ProveedorMarcaSelectedItem = null;
-
-                this.MarcaSelectedItem.Row.BeginEdit();
-                this.MarcaSelectedItem.Row["PROVEE"] = null;
-                this.MarcaSelectedItem.Row.EndEdit();
-            }
-        }
-
-        private void OnProveedorMarcaSelectionChanged(object datarowview)
-        {
-            if (this.MarcaSelectedItem != null)
-            {
-                DataRowView row = datarowview as DataRowView;
-                if (row != null)
-                {
-                    this.ProveedorMarcaSelectedItem = row;   
-                                     
-                    this.MarcaSelectedItem.Row.BeginEdit();
-                    this.MarcaSelectedItem.Row["PROVEE"] = this.ProveedorMarcaSelectedItem.Row["NUM_PROVEE"];
-                    this.MarcaSelectedItem.Row.EndEdit();
-                }
-                else
-                {
-                    this.ProveedorMarcaSelectedItem = null;
-
-                    this.MarcaSelectedItem.Row.BeginEdit();
-                    this.MarcaSelectedItem.Row["PROVEE"] = null;
-                    this.MarcaSelectedItem.Row.EndEdit();
+                    string codigo = datarowview.Row["NUM_PROVEE"].ToString();
+                    SelectProveedorMarca(codigo);
                 }
             }
         }
 
         private void OnCodigoProveedorMarcaLostFocus(object text)
         {
-            if (text != null)
+            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == EControlCambio.Insert)
             {
-                OnProveedorMarcaUpdateDefinicion(text.ToString());
+                if (text != null)
+                {
+                    string codigo = (text as string).Replace(" ", string.Empty);
+                    SelectProveedorMarca(codigo);
+                }
+            }
+            else
+            {
+                this.MarcaSelectedItem = null;
             }
         }
         #endregion
@@ -288,11 +202,11 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             {
                 if (!tabitemdictionary.ContainsKey(opcion))
                 {
-                    this.InsertMarcaCommand = new DelegateCommand<object>(InsertMarca);
-                    this.UpdateMarcaCommand = new DelegateCommand<object>(UpdateMarca);
-                    this.DeleteMarcaCommand = new DelegateCommand<object>(DeleteMarca);
-                    this.CancelMarcaCommand = new DelegateCommand<object>(CancelMarca);
-                    this.SaveMarcaCommand = new DelegateCommand<object>(SaveMarca);
+                    this.InsertCommand = new DelegateCommand<object>(Insert);
+                    this.UpdateCommand = new DelegateCommand<object>(Update);
+                    this.DeleteCommand = new DelegateCommand<object>(Delete);
+                    this.CancelCommand = new DelegateCommand<object>(Cancel);
+                    this.SaveCommand = new DelegateCommand<object>(Save);
                     this.ShowMarcaUserControlCommand = new DelegateCommand<object>(ShowMarcaUserControl);
                     this.MarcaSelectionChanged = new DelegateCommand<object>(OnMarcaSelectionChanged);
                     this.CodigoMarcaLostFocus = new DelegateCommand<object>(OnCodigoMarcaLostFocus);
@@ -300,22 +214,15 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                     this.ProveedorMarcaSelectionChanged = new DelegateCommand<object>(OnProveedorMarcaSelectionChanged);
                     this.CodigoProveedorMarcaLostFocus = new DelegateCommand<object>(OnCodigoProveedorMarcaLostFocus);
 
-                    thisusercontrol = new MarcaDataTableUserControl();;
+                    this.thisusercontrol = new MarcaDataTableUserControl();
                     // FIXME: this is a sign of a bad code organization. The use of region prevent all this.        
-                    thisusercontrol.marcaDataGridUC.dtgrMarcaDataGrid.Items.Clear();
-                    TabItemLogic.CreateTabItemUserControl(opcion, thisusercontrol);
+                    this.thisusercontrol.marcaDataGridUC.dtgrMarcaDataGrid.Items.Clear();
+                    TabItemLogic.CreateTabItemUserControl(opcion, this.thisusercontrol);
 
-
-                    columnsMarca = SQLBuilder.SqlBuilderColumns<UserControl>(thisusercontrol);
-                    string orderbymarca = SQLBuilder.SqlBuilderOrderByOne("MAR.CODIGO", EOrderBy.ASC);
-                    this.sqlCRUD = SQLBuilder.SqlBuilderSelect(columnsMarca, "MARCAS", "MAR", null, string.Empty, null);
-                    this.MarcaDataTable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(
-                                                                                   columnsMarca, "MARCAS", "MAR", topClause, null, orderbymarca));
-
-                    string orderbyproveedor = SQLBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", EOrderBy.ASC);
-                    this.ProveedorMarcaDataTable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(
-                                                                                            columnsProveedor, "PROVEE1", "PRO", topClause, null, orderbyproveedor));
-                    UpdateMarca(null);
+                    SelectSqlCRUD();
+                    SelectMarcaDataTable();
+                    SelectProveedorMarcaDataTable();
+                    Update(null);
                 }
                 else
                 {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
@@ -325,59 +232,59 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         }
 
         #region CRUD logic
-        private void InsertMarca(object obj)
+        private void Insert(object obj)
         {
-            EmptyScreen(EControlCambio.Insert);
+            ClearMarca(EControlCambio.Insert);
         }
 
-        private void UpdateMarca(object obj)
+        private void Update(object obj)
         {
-            EmptyScreen(EControlCambio.Update);
+            ClearMarca(EControlCambio.Update);
         }
 
-        private void CancelMarca(object obj)
+        private void Cancel(object obj)
         {
             if (this.statuscontrolcambio == EControlCambio.Insert)
             {
-                InsertMarca(null);
+                Insert(null);
             }
             else if (this.statuscontrolcambio == EControlCambio.Update && this.MarcaSelectedItem == null)
             {
-                UpdateMarca(null);
+                Update(null);
             }
             else
             {
-                string codigo = thisusercontrol.txtCodigo.Text;
-                OnMarcaSelectionChanged(ManageDataTable.FindDataRowViewInDataTableByString(codigo, this.MarcaDataTable, "CODIGO"));
+                string codigo = this.thisusercontrol.txtCodigo.Text;
+                SelectMarca(codigo);
             }
         }
 
-        private void DeleteMarca(object obj)
+        private void Delete(object obj)
         {
-            if (!thisusercontrol.txtCodigo.Text.Equals(string.Empty))
+            if (!this.MarcaSelectedItem.Row["CODIGO"].ToString().Equals(string.Empty))
             {
                 switch (statuscontrolcambio)
                 {
                     case EControlCambio.Insert:
-                        InsertMarca(null);
+                        Insert(null);
                         break;
                     case EControlCambio.Update:
                         if (MessageBox.Show(Resources.msgEliminarRegistro, Resources.msgEliminarRegistroTitulo,
                                             MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            if (Delete(this.codigoselecteditem) == 0)
+                            if (DeleteMarca(this.codigoselecteditem) == 0)
                             {
                                 MessageBox.Show("NO se ha eliminado el registro");
                             }
                             else
                             {
-                                //this.MarcaDataTable = InitDataLayerMarcaSync(); //InitDataLayerMarcaAsync();
-                                UpdateMarca(null);
+                                SelectMarcaDataTable();
+                                Update(null);
                             }
                         }
                         else
                         {
-                            thisusercontrol.txtCodigo.IsReadOnly = true;
+                            this.thisusercontrol.txtCodigo.IsReadOnly = true;
                         }
                         break;
                     default:
@@ -386,36 +293,44 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             }
         }
 
-        private void SaveMarca(object obj)
+        private void Save(object obj)
         {
             switch (statuscontrolcambio)
             {
                 case EControlCambio.Insert:
-                    this.codigoselecteditem = thisusercontrol.txtCodigo.Text;
-                    DataRowView datarowview = ManageDataTable.FindDataRowViewInDataTableByString(this.codigoselecteditem, this.MarcaDataTable, "Codigo");
+                    DataRowView dataRowView = null;
+                    this.codigoselecteditem = this.MarcaSelectedItem.Row["CODIGO"].ToString().Replace(" ", string.Empty);
+                    string whereClause = SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                                                                               EWhereComparisson.LIKE, ETipoDato.DBstring, codigoselecteditem);
+                    DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                                                                                                               null, whereClause, null));
 
-                    if (!ManageGenericObject.CheckCodigo(this.codigoselecteditem, datarowview))
+                    foreach (DataRowView datarowview in datatable.AsDataView())
                     {
-                        if (Insert(this.MarcaSelectedItem) == 0)
+                        dataRowView = datarowview;
+                    }
+
+                    if (!ManageGenericObject.CheckCodigo(this.codigoselecteditem, dataRowView))
+                    {
+                        if (InsertMarca(this.MarcaSelectedItem) == 0)
                         {
                             MessageBox.Show("NO se ha insertado el registro");
                         }
                         else
-                        {
-                            //this.MarcaSelectedItemOld = this.MarcaSelectedItem; //(MarcaDataObject)ManageGenericObject.CloneObject(this.MarcaSelectedItem);
+                        {                            
                             SaveLogic();
-                            thisusercontrol.txtCodigo.IsReadOnly = true;
+                            this.thisusercontrol.txtCodigo.IsReadOnly = true;
                         }
                     }
                     else
                     {
-                        thisusercontrol.txtCodigo.Focus();
+                        this.thisusercontrol.txtCodigo.Focus();
                     }
                     break;
                 case EControlCambio.Update:
                     if (this.MarcaSelectedItem != null)
                     {
-                        if (Update(this.MarcaSelectedItem) == 0)
+                        if (UpdateMarca(this.MarcaSelectedItem) == 0)
                         {
                             MessageBox.Show("NO se ha modificado el registro");
                         }
@@ -432,28 +347,154 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         private void SaveLogic()
         {
-            //string codigo = this.MarcaSelectedItem.Codigo; //thisusercontrol.txtCodigo.Text;
-            //this.MarcaDataTable = InitDataLayerMarcaSync(); //InitDataLayerMarcaAsync();
+            //string codigo = this.MarcaSelectedItem.Codigo; //this.thisusercontrol.txtCodigo.Text;
+            //this.MarcaDataTable = LoadMarcaSync(); //LoadMarcaAsync();
             //OnCodigoMarcaLostFocus(codigo);
             this.statuscontrolcambio = EControlCambio.Update;
         }
 
-        private void EmptyScreen(EControlCambio controlcambio)
+        private void ClearMarca(EControlCambio controlcambio)
         {
             this.statuscontrolcambio = controlcambio;
-            this.MarcaSelectedItem = null; //(controlcambio == EControlCambio.Insert) ? new MarcaDataObject() : null;
-            //this.MarcaSelectedItemOld = null;
-            this.codigoselecteditem = null;
-            thisusercontrol.txtCodigo.IsReadOnly = false;
-            if (!thisusercontrol.txtCodigo.IsFocused)
+            if (controlcambio == EControlCambio.Insert)
             {
-                thisusercontrol.txtCodigo.Focus();
+                Tuple<ETopDistinct, int, int> topDistinctClause = Tuple.Create(ETopDistinct.TOP, 1, 0);
+                DataTable table = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                                                                                                           topDistinctClause, string.Empty, null));
+
+                DataTable datatable = table.Clone();
+                DataRow dataRow = datatable.NewRow();
+                datatable.Columns["CODIGO"].AllowDBNull = true;
+                datatable.Columns["NOMBRE"].AllowDBNull = true;
+                datatable.Rows.Add(dataRow);
+                dataRow = datatable.Rows[0];
+
+                this.MarcaSelectedItem = dataRow.Table.DefaultView[dataRow.Table.Rows.IndexOf(dataRow)];
+            }
+            else
+            {
+                this.MarcaSelectedItem = null;
+            }
+
+            this.codigoselecteditem = null;
+            this.thisusercontrol.txtCodigo.IsReadOnly = false;
+            this.ProveedorMarcaSelectedItem = null;
+            if (!this.thisusercontrol.txtCodigo.IsFocused)
+            {
+                this.thisusercontrol.txtCodigo.Focus();
             }
         }
         #endregion
 
         #region CRUD sql
-        private int Insert(DataRowView obj)
+        /// <summary>
+        /// Prepara las variables columnsSqlCRUD y sqlCRUD
+        /// </summary>
+        private void SelectSqlCRUD()
+        {
+            this.columnsSqlCRUD = SQLBuilder.SqlBuilderColumns<UserControl>(this.thisusercontrol);
+            this.sqlCRUD        = SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR", null, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Rellena el DataTable MarcaDataTable
+        /// </summary>
+        private async Task SelectMarcaDataTable()
+        {
+            string orderbymarca = SQLBuilder.SqlBuilderOrderByOne("MAR.CODIGO", EOrderBy.ASC);
+            this.MarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsMarca, "MARCAS", "MAR",
+                                                                                                                            this.topClause, null, orderbymarca)));
+        }
+
+        /// <summary>
+        /// Rellena el DataTable ProveedorMarcaDataTable
+        /// </summary>
+        private async Task SelectProveedorMarcaDataTable()
+        {
+            string orderbyproveedor = SQLBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", EOrderBy.ASC);
+            this.ProveedorMarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO",
+                                                                                                                this.topClause, null, orderbyproveedor)));
+        }
+
+        /// <summary>
+        /// Recupera la marca y su correspondiente proveedor según el código pasado por params. 
+        /// En caso de no existir la marca en la BBDD, limpia la pantalla.
+        /// </summary>
+        /// <param name="codigo"></param>
+        private void SelectMarca(string codigo)
+        {
+            DataRowView dataRowView = null;
+            if (!codigo.Equals(string.Empty))
+            {
+                string whereClause =  SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                                                                            EWhereComparisson.LIKE, ETipoDato.DBstring, codigo);
+                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                                                                                                           null, whereClause, null));
+
+                foreach (DataRowView datarowview in datatable.AsDataView())
+                {
+                    dataRowView = datarowview;
+                }
+            }
+
+            if (dataRowView != null)
+            {                    
+                this.MarcaSelectedItem = dataRowView;
+                this.codigoselecteditem = this.thisusercontrol.txtCodigo.Text;
+                this.thisusercontrol.txtCodigo.IsReadOnly = true;
+                SelectProveedorMarca(dataRowView.Row.Table.Rows[0]["PROVEE"].ToString());
+            }
+            else
+            {
+                this.MarcaSelectedItem = null;
+                this.codigoselecteditem = null;
+                this.thisusercontrol.txtCodigo.IsReadOnly = false;                
+            }
+            
+            this.statuscontrolcambio = EControlCambio.Update;
+            this.thisusercontrol.wrpMarcaDataTable.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Recupera el proveedor según el código pasado por params. 
+        /// En caso de no existir el proveedor en la BBDD, vacía el proveedor.
+        /// </summary>
+        /// <param name="codigo"></param>
+        private void SelectProveedorMarca(string codigo)
+        {
+            DataRowView dataRowView = null;
+            if (!codigo.Equals(string.Empty))
+            {
+                string whereClause = SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
+                                                                           EWhereComparisson.LIKE, ETipoDato.DBstring, codigo);
+
+                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO", 
+                                                                                                           this.topClause, whereClause, null));
+                foreach (DataRowView datarowview in datatable.AsDataView())
+                {
+                    dataRowView = datarowview;
+                }
+            }
+
+            if (dataRowView != null)
+            {
+                this.ProveedorMarcaSelectedItem = dataRowView;
+
+                this.MarcaSelectedItem.Row.BeginEdit();
+                this.MarcaSelectedItem.Row["PROVEE"] = this.ProveedorMarcaSelectedItem.Row["NUM_PROVEE"];
+                this.MarcaSelectedItem.Row.EndEdit();
+            }
+            else
+            {
+                this.ProveedorMarcaSelectedItem = null;
+
+                this.MarcaSelectedItem.Row.BeginEdit();
+                this.MarcaSelectedItem.Row["PROVEE"] = null;
+                this.MarcaSelectedItem.Row.EndEdit();                
+            }
+        }
+
+        private int InsertMarca(DataRowView datarowview)
         {
             //obj.Codigo = this.codigoselecteditem;
             //string fechabaja = ManageGenericObject.GetDateTimeToString(obj.FechaBaja);
@@ -466,26 +507,27 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             return ManageDBGeneric.CRUDRegister(sql);
         }
 
-        private int Update(DataRowView row)
+        private int UpdateMarca(DataRowView datarowview)
         {
             //string fechabaja = ManageGenericObject.GetDateTimeToString();
             //string fechamarca = ManageGenericObject.GetDateTimeToString();
 
             //string sql = string.Format(ScriptsSQL.UPDATE_MARCA, ManageGenericObject.GetUsuario(), ManageGenericObject.GetUltModi(),
-            //                                                    row.Row["NOMBRE"], row.Row["FBAJA"], row.Row["PROVEE"], row.Row["CONDICIONES"],
-            //                                                    row.Row["PACTADAS"], row.Row["LOCUTOR"], row.Row["FECHA"], row.Row["OBS"], this.codigoselecteditem);
+            //                                                    datarowview.Row["NOMBRE"], datarowview.Row["FBAJA"], datarowview.Row["PROVEE"],
+            //                                                    datarowview.Row["CONDICIONES"], datarowview.Row["PACTADAS"], datarowview.Row["LOCUTOR"],
+            //                                                    datarowview.Row["FECHA"], datarowview.Row["OBS"], this.codigoselecteditem);
             string sql = string.Empty;
             return ManageDBGeneric.CRUDRegister(sql);
         }
 
-        private int Delete(string codigo)
+        private int DeleteMarca(string codigo)
         {
             string sql = string.Format(ScriptsSQL.DELETE_MARCA, codigo);
 
             return ManageDBGeneric.CRUDRegister(sql);
         }
-        #endregion
-
+        #endregion        
+        
         #region Show Usercontrols   
         /// <summary>
         /// Hace visible/hidden el MarcaDataTableUserControl y ProveedorUserControl según el param
@@ -496,12 +538,12 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             switch (parameter.ToString())
             {
                 case "marcaDataGridUserControl":
-                    thisusercontrol.marcaDataGrid.Visibility = Visibility.Visible;
-                    thisusercontrol.proveedorMarcaDataGrid.Visibility = Visibility.Hidden;
+                    this.thisusercontrol.marcaDataGrid.Visibility = Visibility.Visible;
+                    this.thisusercontrol.proveedorMarcaDataGrid.Visibility = Visibility.Hidden;
                     break;
                 case "proveedorMarcaDataGridUserControl":
-                    thisusercontrol.proveedorMarcaDataGrid.Visibility = Visibility.Visible;
-                    thisusercontrol.marcaDataGrid.Visibility = Visibility.Hidden;
+                    this.thisusercontrol.proveedorMarcaDataGrid.Visibility = Visibility.Visible;
+                    this.thisusercontrol.marcaDataGrid.Visibility = Visibility.Hidden;
                     break;
                 default:
                     break;
