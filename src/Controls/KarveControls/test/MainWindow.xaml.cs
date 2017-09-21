@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveControls;
 
 namespace KarveControlsTest
 {
@@ -26,8 +27,9 @@ namespace KarveControlsTest
             InitializeComponent();
 
             this.DataContext = new SearchViewModel();
+           
             
-            //this.SearchBox.DataContext = new SearchViewModel();
+         
 
         }
 

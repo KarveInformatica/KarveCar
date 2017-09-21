@@ -19,29 +19,31 @@ namespace KarveControlsTest
 
         public string Label
         {
-            set
-            {
-                _label = value;
-            }
+            set { _label = value; }
 
-            get
-            {
-                return _label;
-            }
+            get { return _label; }
         }
+
         public string Width
+        {
+            set { _width = value; }
+
+            get { return _width; }
+        }
+
+        public DataTable AuxTable
         {
             set
             {
-                _width = value;
+                _auxTable= value;
             }
 
             get
             {
-                return _width;
+                return _auxTable;
             }
         }
-
+      
         public string DataField
         {
             set
@@ -55,6 +57,6 @@ namespace KarveControlsTest
             }
         }
 
-
+        public DataTable ItemSource { get => _dataTable; set => _dataTable = value; }
     }
 }

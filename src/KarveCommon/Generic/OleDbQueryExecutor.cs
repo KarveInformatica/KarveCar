@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using iAnywhere.Data.SQLAnywhere;
+using NLog;
 
 namespace KarveCommon.Generic
 {
@@ -21,11 +22,13 @@ namespace KarveCommon.Generic
         //private SADataAdapter _adapter;
         //private SACommandBuilder  _builder;
         private SACommand _command;
+        private static Logger _logger = LogManager.GetLogger("OleDbQueryExecutor");
         private SATransaction _transaction;
         private string _connectionString;
         private ConnectionState _currentState;
         private object asyncLoadLock = new object();
         private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+       
         public string ConnectionString
         {
             get { return _connectionString; }
@@ -96,7 +99,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
-
+                _logger.Log(LogLevel.Error, e);
                 return false;
             }
             return true;

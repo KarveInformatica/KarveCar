@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static KarveControls.CommonControl;
 using ThicknessConverter = Xceed.Wpf.DataGrid.Converters.ThicknessConverter;
 
 namespace KarveControls
@@ -21,7 +23,7 @@ namespace KarveControls
     /// <summary>
     /// Interaction logic for DataField.xaml
     /// </summary>
-    public partial class DataField : CommonControl
+    public partial class DataField : UserControl
     {
 
 
@@ -59,8 +61,248 @@ namespace KarveControls
             remove { RemoveHandler(DataFieldChangedEvent, value); }
         }
 
+        #region CommonPart
+        public event PropertyChangedEventHandler PropertyChanged;
 
-               #region TextContent Property
+        protected string _description;
+        protected DataType _dataAllowed;
+        protected bool _allowedEmpty;
+        protected bool _upperCase;
+        protected DataTable _itemSource;
+        protected string _dataField = string.Empty;
+        protected string _tableName = string.Empty;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+
+        #region Description
+        public static readonly DependencyProperty DescriptionDependencyProperty =
+            DependencyProperty.Register(
+                "Description",
+                typeof(string),
+                typeof(DataField),
+                new PropertyMetadata(String.Empty));
+        #endregion
+        #region DataAllowed
+        public static readonly DependencyProperty DataAllowedDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowed",
+                typeof(DataType),
+                typeof(DataField),
+                new PropertyMetadata(DataType.Any, OnDataAllowedChange));
+        public DataType DataAllowed
+        {
+            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
+            set { SetValue(DataAllowedDependencyProperty, value); }
+        }
+        private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("DataAllowed");
+                control.OnDataAllowedChange(e);
+            }
+        }
+        protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
+        {
+            DataType type = (DataType)Enum.Parse(typeof(DataType), e.NewValue.ToString());
+            DataAllowed = type;
+            _dataAllowed = type;
+        }
+        #endregion
+        #region ItemSource
+
+        public static DependencyProperty ItemSourceDependencyProperty
+            = DependencyProperty.Register(
+                "ItemSourceDependencyProperty",
+                typeof(DataTable),
+                typeof(DataField),
+                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
+
+        public DataTable ItemSource
+        {
+            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
+            set { SetValue(ItemSourceDependencyProperty, value); }
+        }
+        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("ItemSource");
+                control.OnItemSourceChanged(e);
+            }
+        }
+        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DataTable table = e.NewValue as DataTable;
+            this._itemSource = table;
+        }
+
+
+        #endregion
+        #region TableName
+        public static readonly DependencyProperty DBTableNameDependencyProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(DataField),
+                new PropertyMetadata(string.Empty, OnTableNameChange));
+        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("TableName");
+                control.OnTableNameChanged(e);
+            }
+        }
+        public string TableName
+        {
+            get { return (string)GetValue(DBTableNameDependencyProperty); }
+            set { SetValue(DBTableNameDependencyProperty, value); }
+        }
+        protected virtual void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _tableName = e.NewValue as string;
+        }
+        #endregion
+        #region UpperCaseChange
+
+        public static readonly DependencyProperty UpperCaseDependencyProperty =
+            DependencyProperty.Register(
+                "UpperCase",
+                typeof(bool),
+                typeof(DataField),
+                new PropertyMetadata(false, OnUpperCaseChange));
+
+        private static void OnUpperCaseChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("UpperCase");
+                control.OnUpperCaseChanged(e);
+            }
+        }
+
+        private void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e)
+        {
+            bool value = Convert.ToBoolean(e.NewValue);
+            if (value)
+            {
+               TextField.Text = TextField.Text.ToUpper();
+            }
+        }
+
+        public bool UpperCase
+        {
+            get { return (bool)GetValue(UpperCaseDependencyProperty); }
+            set { SetValue(UpperCaseDependencyProperty, value); }
+        }
+        #endregion
+        #region IsReadOnly
+
+        public static readonly DependencyProperty IsReadOnlyDependencyProperty =
+            DependencyProperty.Register(
+                "IsReadOnly",
+                typeof(bool),
+                typeof(DataField),
+                new PropertyMetadata(false, IsReadOnlyDependencyPropertyChange));
+
+        private static void IsReadOnlyDependencyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("IsReadOnly");
+                control.OnIsReadOnlyChanged(e);
+            }
+        }
+
+        private void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            bool value = Convert.ToBoolean(e.NewValue);
+            if (value)
+            {
+                this.TextField.IsReadOnly = value;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
+            set { SetValue(IsReadOnlyDependencyProperty, value); }
+        }
+        #endregion
+        #region DataField
+
+        public static DependencyProperty DataFieldDependencyProperty =
+            DependencyProperty.Register(
+                "DBField",
+                typeof(string),
+                typeof(DataField),
+                new PropertyMetadata(string.Empty, OnDataFieldChanged));
+
+        public string DBField
+        {
+            get { return (string)GetValue(DataFieldDependencyProperty); }
+            set { SetValue(DataFieldDependencyProperty, value); }
+        }
+        private static void OnDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField controlDataRadio = d as DataField;
+            if (controlDataRadio != null)
+            {
+                controlDataRadio.OnPropertyChanged("DBField");
+                controlDataRadio.OnDataFieldPropertyChanged(e);
+            }
+        }
+        private void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _dataField = e.NewValue as string;
+        }
+        #endregion
+        #endregion
+        #region AllowedEmpty
+        public static readonly DependencyProperty AllowedEmptyDependencyProperty =
+            DependencyProperty.Register(
+                "AllowedEmpty",
+                typeof(bool),
+                typeof(DataField),
+                new PropertyMetadata(false, OnAllowedEmptyChange));
+        public bool AllowedEmpty
+        {
+            get { return (bool)GetValue(AllowedEmptyDependencyProperty); }
+            set { SetValue(AllowedEmptyDependencyProperty, value); }
+        }
+        private static void OnAllowedEmptyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("AllowedEmpty");
+                control.OnAllowedEmptyChange(e);
+            }
+        }
+
+        private void OnAllowedEmptyChange(DependencyPropertyChangedEventArgs e)
+        {
+            bool value = Convert.ToBoolean(e.NewValue);
+           _allowedEmpty = value;
+        }
+        #endregion
+
+        #region TextContent Property
         public static readonly DependencyProperty TextContentDependencyProperty =
             DependencyProperty.Register(
                 "TextContent",
@@ -257,7 +499,7 @@ namespace KarveControls
             get { return (bool)GetValue(ReloadDependencyProperty); }
             set { SetValue(ReloadDependencyProperty, value); }
         }
-        public override void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
             string field = _dataField.ToUpper();
             if (!string.IsNullOrEmpty(field))

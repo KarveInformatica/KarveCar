@@ -17,7 +17,7 @@ namespace KarveControls.UIObjects
             }
         }
         private string _description;
-        private DataField.DataType _dataAllowed;
+        private CommonControl.DataType _dataAllowed;
         private bool _allowedEmpty;
         private bool _upperCase;
         private string _labelText;
@@ -39,7 +39,7 @@ namespace KarveControls.UIObjects
             get { return _description; }
         }
 
-        public DataField.DataType DataAllowed
+        public CommonControl.DataType DataAllowed
         {
             set { _dataAllowed = value; }
             get { return _dataAllowed; }

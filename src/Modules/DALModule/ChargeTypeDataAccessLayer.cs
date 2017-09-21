@@ -17,7 +17,7 @@ namespace KarveDataAccessLayer
     public class ChargeTypeDataAccessLayer : IPaymentDataServices
     {
         private readonly Uri uri = new Uri(@"karve://paymentdata/paymenttype");
-        private ICollection<BaseAuxDataObject> _accountDataTable;
+     //   private ICollection<BaseAuxDataObject> _accountDataTable;
         private ISqlQueryExecutor _dataMapper;
 
         public ChargeTypeDataAccessLayer(ISqlQueryExecutor dataMapper)

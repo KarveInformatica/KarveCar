@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Telerik.WinControls.UI;
+using static KarveControls.CommonControl;
 using Binding = System.Windows.Data.Binding;
 using TextBox = System.Windows.Controls.TextBox;
 using UserControl = System.Windows.Controls.UserControl;
@@ -28,30 +20,60 @@ namespace KarveControls
 /// <summary>
 /// Interaction logic for DataRadio.xaml
 /// </summary>
-public partial class DataRadio : CommonControl, INotifyPropertyChanged
+public partial class DataRadio : UserControl, INotifyPropertyChanged
     {
         #region Private Variables
 
-        private DataTable _itemSource;
         private ICommand _currentCommand;
         private object _commandParameters;
         private bool _isChecked;
 
-        private RadRadioButton _radioView;
-        private string _dataField;
+        private readonly RadRadioButton _radioView = new RadRadioButton();
         public enum RadioState { Unchecked,Checked, Undeterminate };
 
         #endregion
 
-        #region PropertyChanged definition
+        #region DataRadioCommand
 
-        protected override void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        public class DataRadioCommand: ICommand
         {
-            DataTable table = e.NewValue as DataTable;
-            this._itemSource = table;
+  
+            public DataRadioCommand()
+            {
+          
+            }
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public virtual void Execute(object parameter)
+            {
+            }
+
+            public event EventHandler CanExecuteChanged;
+        }
+        #endregion
+
+        #region CommonPart
+        protected virtual void OnAllowedEmptyChange(DependencyPropertyChangedEventArgs e)
+        {
+            _allowedEmpty = Convert.ToBoolean(e.NewValue);
+
         }
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected string _description;
+        protected DataType _dataAllowed;
+        protected bool _allowedEmpty;
+        protected bool _upperCase;
+        protected DataTable _itemSource;
+        protected string _DataRadio = string.Empty;
+        protected string _tableName = string.Empty;
+        protected string _dataField = String.Empty;
 
         public void OnPropertyChanged(string propertyName)
         {
@@ -61,8 +83,212 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
+
+        #region Description
+        public static readonly DependencyProperty DescriptionDependencyProperty =
+            DependencyProperty.Register(
+                "Description",
+                typeof(string),
+                typeof(DataRadio),
+                new PropertyMetadata(String.Empty));
+        #endregion
+        #region DataAllowed
+        public static readonly DependencyProperty DataAllowedDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowed",
+                typeof(DataType),
+                typeof(DataRadio),
+                new PropertyMetadata(DataType.Any, OnDataAllowedChange));
+        public DataType DataAllowed
+        {
+            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
+            set { SetValue(DataAllowedDependencyProperty, value); }
+        }
+        private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("DataAllowed");
+                control.OnDataAllowedChange(e);
+            }
+        }
+        protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
+        {
+            DataType type = (DataType)Enum.Parse(typeof(DataType), e.NewValue.ToString());
+            DataAllowed = type;
+            _dataAllowed = type;
+        }
+        #endregion
+        #region ItemSource
+
+        public static DependencyProperty ItemSourceDependencyProperty
+            = DependencyProperty.Register(
+                "ItemSourceDependencyProperty",
+                typeof(DataTable),
+                typeof(DataRadio),
+                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
+
+        public DataTable ItemSource
+        {
+            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
+            set { SetValue(ItemSourceDependencyProperty, value); }
+        }
+        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("ItemSource");
+                control.OnItemSourceChanged(e);
+            }
+        }
+        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DataTable table = e.NewValue as DataTable;
+            this._itemSource = table;
+        }
+
+
+        #endregion
+        #region TableName
+        public static readonly DependencyProperty DBTableNameDependencyProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(DataRadio),
+                new PropertyMetadata(string.Empty, OnTableNameChange));
+        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("TableName");
+                control.OnTableNameChanged(e);
+            }
+        }
+        public string TableName
+        {
+            get { return (string)GetValue(DBTableNameDependencyProperty); }
+            set { SetValue(DBTableNameDependencyProperty, value); }
+        }
+        protected virtual void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _tableName = e.NewValue as string;
+        }
+        #endregion
+        #region UpperCaseChange
+
+        public static readonly DependencyProperty UpperCaseDependencyProperty =
+            DependencyProperty.Register(
+                "UpperCase",
+                typeof(bool),
+                typeof(DataRadio),
+                new PropertyMetadata(false, OnUpperCaseChange));
+
+        private static void OnUpperCaseChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("UpperCase");
+                control.OnUpperCaseChanged(e);
+            }
+        }
+
+        private void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e)
+        {
+        
+        }
+
+        public bool UpperCase
+        {
+            get { return (bool)GetValue(UpperCaseDependencyProperty); }
+            set { SetValue(UpperCaseDependencyProperty, value); }
+        }
+        #endregion
+        #region IsReadOnly
+
+        public static readonly DependencyProperty IsReadOnlyDependencyProperty =
+            DependencyProperty.Register(
+                "IsReadOnly",
+                typeof(bool),
+                typeof(DataRadio),
+                new PropertyMetadata(false, IsReadOnlyDependencyPropertyChange));
+
+        private static void IsReadOnlyDependencyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("IsReadOnly");
+                control.OnIsReadOnlyChanged(e);
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
+            set { SetValue(IsReadOnlyDependencyProperty, value); }
+        }
+        #endregion
+        #region DataRadio
+
+        public static DependencyProperty DataRadioDependencyProperty =
+            DependencyProperty.Register(
+                "DataField",
+                typeof(string),
+                typeof(DataRadio),
+                new PropertyMetadata(string.Empty, OnDataRadioChanged));
+
+        public string DataField
+        {
+            get { return (string)GetValue(DataRadioDependencyProperty); }
+            set { SetValue(DataRadioDependencyProperty, value); }
+        }
+        private static void OnDataRadioChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio controlDataRadio = d as DataRadio;
+            if (controlDataRadio != null)
+            {
+                controlDataRadio.OnPropertyChanged("DataField");
+                controlDataRadio.OnDataRadioPropertyChanged(e);
+            }
+        }
+        private void OnDataRadioPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _DataRadio = e.NewValue as string;
+        }
+        #endregion
+        #region AllowedEmpty
+        public static readonly DependencyProperty AllowedEmptyDependencyProperty =
+            DependencyProperty.Register(
+                "AllowedEmpty",
+                typeof(bool),
+                typeof(DataRadio),
+                new PropertyMetadata(false, OnAllowedEmptyChange));
+        public bool AllowedEmpty
+        {
+            get { return (bool)GetValue(AllowedEmptyDependencyProperty); }
+            set { SetValue(AllowedEmptyDependencyProperty, value); }
+        }
+        private static void OnAllowedEmptyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataRadio control = d as DataRadio;
+            if (control != null)
+            {
+                control.OnPropertyChanged("AllowedEmpty");
+                control.OnAllowedEmptyChange(e);
+            }
+        }
         #endregion
 
+
+
+        #endregion
+        
         #region DataRadioChanged RoutedEvent  
         public event RoutedEventHandler DataRadioChanged
         {
@@ -102,14 +328,7 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
             {
             }
         }
-        #region
-        public static readonly DependencyProperty DescriptionDependencyProperty =
-            DependencyProperty.Register(
-                "Description",
-                typeof(string),
-                typeof(DataRadio));
-    
-        #endregion
+   
         #region IsChecked
 
         public static DependencyProperty IsCheckedCommandDependencyProperty
@@ -139,21 +358,20 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
         {
             bool value = Convert.ToBoolean(e.NewValue);
             _isChecked = value;
-            if (_isChecked)
+            if (_radioView != null)
             {
-                _radioView.CheckState = CheckState.Checked;
-            }
-            else
-            {
-                _radioView.CheckState = CheckState.Unchecked;
+                if (_isChecked)
+                {
+                    _radioView.CheckState = CheckState.Checked;
+                }
+                else
+                {
+                    _radioView.CheckState = CheckState.Unchecked;
+                }
             }
         }
 
     #endregion
-
-
-
-
 
         #region CheckedCommand
         public static DependencyProperty CheckedCommandDependencyProperty
@@ -161,7 +379,7 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
                 "CheckedCommand",
                 typeof(ICommand),
                 typeof(DataRadio), 
-                new PropertyMetadata(false, OnCheckedCommand));
+                new PropertyMetadata(new DataRadioCommand(), OnCheckedCommand));
 
         public ICommand CheckedCommand
         {
@@ -238,14 +456,18 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
         private void OnContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
 
+            
             object content = e.NewValue;
-            if (content is System.Drawing.Image)
+            if (_radioView != null)
             {
-                this._radioView.Image = content as System.Drawing.Image;
-            }
-            if (content is string)
-            {
-                this._radioView.Text = content as string;
+                if (content is System.Drawing.Image)
+                {
+                    this._radioView.Image = content as System.Drawing.Image;
+                }
+                if (content is string)
+                {
+                    this._radioView.Text = content as string;
+                }
             }
 
         }
@@ -259,40 +481,70 @@ public partial class DataRadio : CommonControl, INotifyPropertyChanged
         public DataRadio()
         {
             InitializeComponent();
-            this._radioView.CheckStateChanged+=RadioViewOnCheckStateChanged;
-          
+            /*if (_radioView != null)
+            {
+                this._radioView.CheckStateChanged += RadioViewOnCheckStateChanged;
+            }
+            */
             this.RadioContext.DataContext = this;
         }
 
         private void RadioViewOnCheckStateChanged(object sender, EventArgs eventArgs)
         {
             DataRadioEventArgs args = new DataRadioEventArgs();
-            bool checkedState = _radioView.CheckState == CheckState.Checked;
-
-            args.FieldData = this._dataField;
-            args.IsChecked = checkedState;            
-            if (this._currentCommand != null)
+            if (_radioView != null)
             {
-                if (_currentCommand.CanExecute(this._commandParameters))
+                bool checkedState = _radioView.CheckState == CheckState.Checked;
+
+                args.FieldData = this._dataField;
+                args.IsChecked = checkedState;
+                if (this._currentCommand != null)
                 {
-                    _currentCommand.Execute(this._commandParameters);
+                    if (_currentCommand.CanExecute(this._commandParameters))
+                    {
+                        _currentCommand.Execute(this._commandParameters);
+                    }
                 }
+                RaiseEvent(args);
             }
-            RaiseEvent(args);
         }
 
         private void RadioContext_OnLoaded(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
-            _radioView = new RadRadioButton();
             host.Child = _radioView;
             RadioContext.Children.Add(host);
-
         }
 
-        public override void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+
+        protected void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
         {
-            //throw new NotImplementedException();
+            bool value = Convert.ToBoolean(e.NewValue);
+            if (_radioView != null)
+            {
+                _radioView.IsAccessible = value;
+            }
+        }
+
+        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+        {
+            string field = _dataField.ToUpper();
+            if (!string.IsNullOrEmpty(field))
+            {
+                Binding oBind = new Binding("IsChecked");
+                oBind.Source = dta.Columns[field];
+                oBind.Mode = BindingMode.TwoWay;
+                oBind.ValidatesOnDataErrors = true;
+                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                if (rules != null)
+                {
+                    foreach (ValidationRule rule in rules)
+                    {
+                        oBind.ValidationRules.Add(rule);
+                    }
+                }
+                SetBinding(IsCheckedCommandDependencyProperty, oBind);
+            }
         }
     }
 }

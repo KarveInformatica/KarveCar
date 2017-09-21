@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="KarveControls.DataArea.DataArea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.DataArea"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:karveControls="clr-namespace:KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Name="DataAreaLayout" Margin="10" Orientation="Vertical">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" HorizontalAlignment="Left" Name="LabelComponent" Width="{Binding Path=DataAreaWidth}" 
+                                   Height="24" VerticalAlignment="Top" Content="{Binding Path=DataAreaLabel}"></Label>
+                <xctk:MultiLineTextEditor x:Name="EditorText" Grid.Row="1"
+                                TextWrapping="Wrap" 
+                                Text="{Binding Path=TextValue}" 
+                                Content="{Binding Path=Text, RelativeSource={RelativeSource Self}}" 
+                                HorizontalContentAlignment="Left" 
+                                VerticalContentAlignment="Center"
+                                Height="24" />
+                </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

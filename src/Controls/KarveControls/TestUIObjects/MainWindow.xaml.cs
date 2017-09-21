@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KarveCommon.Generic;
 using KarveControls.UIObjects;
+using TestUIComponents;
 
 namespace KarveControls.TestUIObject
 {

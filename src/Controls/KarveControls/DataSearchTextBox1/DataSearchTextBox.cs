@@ -16,19 +16,18 @@ namespace KarveControls
     /// Interaction logic for DataSearchTextBox.xaml
     /// </summary>
 
-    public partial class DataSearchTextBox : CommonControl, INotifyPropertyChanged
+    public partial class DataSearchTextBox : UserControl, INotifyPropertyChanged
     {
 
-        public static readonly RoutedEvent DataFieldChangedEvent =
+        public static readonly RoutedEvent DataSearchTextBoxChangedEvent =
             EventManager.RegisterRoutedEvent(
-                "DataFieldChanged",
+                "DataSearchTextBoxChanged",
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(DataSearchTextBox));
 
-        private bool textContentChanged = false;
-
-        public class DataFieldEventArgs : RoutedEventArgs
+       
+        public class DataSearchTextBoxEventArgs : RoutedEventArgs
         {
             private string _fieldData = "";
 
@@ -37,20 +36,20 @@ namespace KarveControls
                 get { return _fieldData; }
                 set { _fieldData = value; }
             }
-            public DataFieldEventArgs() : base()
+            public DataSearchTextBoxEventArgs() : base()
             {
 
             }
-            public DataFieldEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            public DataSearchTextBoxEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
 
             }
         }
 
-        public event RoutedEventHandler DataFieldChanged
+        public event RoutedEventHandler DataSearchTextBoxChanged
         {
-            add { base.AddHandler(DataFieldChangedEvent, value); }
-            remove { base.RemoveHandler(DataFieldChangedEvent, value); }
+            add { base.AddHandler(DataSearchTextBoxChangedEvent, value); }
+            remove { base.RemoveHandler(DataSearchTextBoxChangedEvent, value); }
         }
 
 
@@ -85,7 +84,321 @@ namespace KarveControls
         }
 
         #endregion
-        
+        #region CommonPart
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected string _description;
+        protected CommonControl.DataType _dataAllowed;
+        protected bool _allowedEmpty;
+        protected bool _upperCase;
+        protected DataTable _itemSource;
+        protected string _DataSearchTextBox = string.Empty;
+        protected string _tableName = string.Empty;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+
+        #region Description
+        public static readonly DependencyProperty DescriptionDependencyProperty =
+            DependencyProperty.Register(
+                "Description",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(String.Empty));
+        #endregion
+        #region DataAllowed
+        public static readonly DependencyProperty DataAllowedDependencyProperty =
+            DependencyProperty.Register(
+                "DataAllowed",
+                typeof(CommonControl.DataType),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(CommonControl.DataType.Any, OnDataAllowedChange));
+        public CommonControl.DataType DataAllowed
+        {
+            get { return (CommonControl.DataType)GetValue(DataAllowedDependencyProperty); }
+            set { SetValue(DataAllowedDependencyProperty, value); }
+        }
+        private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("DataAllowed");
+                control.OnDataAllowedChange(e);
+            }
+        }
+        protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
+        {
+            CommonControl.DataType type = (CommonControl.DataType)Enum.Parse(typeof(CommonControl.DataType), e.NewValue.ToString());
+            DataAllowed = type;
+            _dataAllowed = type;
+        }
+        #endregion
+        #region ItemSource
+
+        public static DependencyProperty ItemSourceDependencyProperty
+            = DependencyProperty.Register(
+                "ItemSourceDependencyProperty",
+                typeof(DataTable),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
+
+        public DataTable ItemSource
+        {
+            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
+            set { SetValue(ItemSourceDependencyProperty, value); }
+        }
+        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("ItemSource");
+                control.OnItemSourceChanged(e);
+            }
+        }
+        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DataTable table = e.NewValue as DataTable;
+            this._itemSource = table;
+        }
+
+
+        #endregion
+        #region TableName
+        public static readonly DependencyProperty DBTableNameDependencyProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnTableNameChange));
+        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("TableName");
+                control.OnTableNameChanged(e);
+            }
+        }
+        public string TableName
+        {
+            get { return (string)GetValue(DBTableNameDependencyProperty); }
+            set { SetValue(DBTableNameDependencyProperty, value); }
+        }
+        protected virtual void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _tableName = e.NewValue as string;
+        }
+        #endregion
+        #region UpperCaseChange
+
+        public static readonly DependencyProperty UpperCaseDependencyProperty =
+            DependencyProperty.Register(
+                "UpperCase",
+                typeof(bool),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(false, OnUpperCaseChange));
+
+        private static void OnUpperCaseChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("UpperCase");
+                control.OnUpperCaseChanged(e);
+            }
+        }
+
+        private void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e)
+        {
+            this.SearchText.Text = this.SearchText.Text.ToUpper();
+        }
+
+        public bool UpperCase
+        {
+            get { return (bool)GetValue(UpperCaseDependencyProperty); }
+            set { SetValue(UpperCaseDependencyProperty, value); }
+        }
+        #endregion
+        #region IsReadOnly
+
+        public static readonly DependencyProperty IsReadOnlyDependencyProperty =
+            DependencyProperty.Register(
+                "IsReadOnly",
+                typeof(bool),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(false, IsReadOnlyDependencyPropertyChange));
+
+        private static void IsReadOnlyDependencyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("IsReadOnly");
+                control.OnIsReadOnlyChanged(e);
+            }
+        }
+
+        private void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            bool newValue = Convert.ToBoolean(e.NewValue);
+            this.SearchText.IsReadOnly = newValue;
+        }
+
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
+            set { SetValue(IsReadOnlyDependencyProperty, value); }
+        }
+        #endregion
+        #region DataField
+
+        public static DependencyProperty DataFieldDependencyProperty =
+            DependencyProperty.Register(
+                "DataField",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnDataFieldDependencyProperty));
+
+        public string DataField
+        {
+            get { return (string)GetValue(DataFieldDependencyProperty); }
+            set { SetValue(DataFieldDependencyProperty, value); }
+        }
+        private static void OnDataFieldDependencyProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox controlDataField = d as DataSearchTextBox;
+            if (controlDataField != null)
+            {
+                controlDataField.OnPropertyChanged("DataSearchTextBox");
+                controlDataField.OnDataSearchTextBoxPropertyChanged(e);
+            }
+        }
+        private void OnDataSearchTextBoxPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _DataSearchTextBox = e.NewValue as string;
+        }
+        #endregion
+        #region LabelText
+        public static readonly DependencyProperty LabelTextDependencyProperty =
+            DependencyProperty.Register(
+                "LabelText",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnLabelTextChange));
+
+        public string LabelText
+        {
+            get { return (string)GetValue(LabelTextDependencyProperty); }
+            set { SetValue(LabelTextDependencyProperty, value); }
+        }
+        private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelText");
+                control.OnLabelTextChanged(e);
+            }
+        }
+
+        private void OnLabelTextChanged(DependencyPropertyChangedEventArgs e)
+        {
+            string value = e.NewValue as string;
+            SearchLabel.Text = value;
+        }
+
+        #endregion
+        /*
+        #region LabelTextWidth 
+        public readonly static DependencyProperty LabelTextWidthDependencyProperty =
+            DependencyProperty.Register(
+                "LabelTextWidth",
+                typeof(string),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+
+        public string LabelTextWidth
+        {
+            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            set { SetValue(LabelTextWidthDependencyProperty, value); }
+        }
+        private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelTextWidth");
+                control.OnLabelTextWidthChanged(e);
+            }
+        }
+        #endregion
+    */
+        #region LabelVisible
+
+        public readonly static DependencyProperty LabelVisibleDependencyProperty =
+            DependencyProperty.Register(
+                "LabelVisible",
+                typeof(bool),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(true, OnLabelVisibleChange));
+
+        public bool LabelVisible
+        {
+            get { return (bool)GetValue(LabelVisibleDependencyProperty); }
+            set { SetValue(LabelVisibleDependencyProperty, value); }
+        }
+
+        private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelVisible");
+                control.OnLabelVisibleChanged(e);
+            }
+        }
+
+        #endregion
+        #region AllowedEmpty
+        public static readonly DependencyProperty AllowedEmptyDependencyProperty =
+            DependencyProperty.Register(
+                "AllowedEmpty",
+                typeof(bool),
+                typeof(DataSearchTextBox),
+                new PropertyMetadata(false, OnAllowedEmptyChange));
+        public bool AllowedEmpty
+        {
+            get { return (bool)GetValue(AllowedEmptyDependencyProperty); }
+            set { SetValue(AllowedEmptyDependencyProperty, value); }
+        }
+        private static void OnAllowedEmptyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataSearchTextBox control = d as DataSearchTextBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("AllowedEmpty");
+                control.OnAllowedEmptyChange(e);
+            }
+        }
+
+        private void OnAllowedEmptyChange(DependencyPropertyChangedEventArgs e)
+        {
+            _allowedEmpty = Convert.ToBoolean(e.NewValue);
+           
+        }
+        #endregion
+
+        #endregion
         public static readonly DependencyProperty AssistNameDependencyProperty =
             DependencyProperty.Register(
                 "AssistName",
@@ -132,35 +445,13 @@ namespace KarveControls
                 typeof(RoutedEventHandler),
                 typeof(DataSearchTextBox));
 
-        public static DependencyProperty AuxDataFieldDependencyProperty =
+        public static DependencyProperty AuxDataSearchTextBoxDependencyProperty =
             DependencyProperty.Register(
                 "AuxDataField",
                 typeof(string),
-                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnDataSearchTextBoxAuxDataFieldChanged));
+                typeof(DataSearchTextBox), new PropertyMetadata(string.Empty, OnDataSearchTextBoxAuxDataSearchTextBoxChanged));
 
 
-        #region LabelVisible
-        public static readonly DependencyProperty LabelVisibleDependencyProperty =
-            DependencyProperty.Register("LabelVisible",
-                typeof(bool),
-                typeof(DataSearchTextBox),
-                new PropertyMetadata(false, OnLabelVisibleChange));
-
-        public bool LabelVisible
-        {
-            get { return (bool)GetValue(LabelVisibleDependencyProperty); }
-            set { SetValue(LabelVisibleDependencyProperty, value); }
-        }
-
-        private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataSearchTextBox control = d as DataSearchTextBox;
-            if (control != null)
-            {
-                control.OnPropertyChanged("LabelVisible");
-                control.OnLabelVisibleChanged(e);
-            }
-        }
         private void OnLabelVisibleChanged(DependencyPropertyChangedEventArgs e)
         {
             bool value = Convert.ToBoolean(e.NewValue);
@@ -173,36 +464,7 @@ namespace KarveControls
                 this.SearchLabel.Visibility = Visibility.Hidden;
             }
         }
-        #endregion
-        #region IsReadOnly
-        public static readonly DependencyProperty IsReadOnlyDependencyProperty =
-            DependencyProperty.Register("IsReadOnly",
-                typeof(bool),
-                typeof(DataSearchTextBox),
-                new PropertyMetadata(false, OnReadOnlyDependencyProperty));
-
-        private static void OnReadOnlyDependencyProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataSearchTextBox controlDataField = d as DataSearchTextBox;
-            if (controlDataField != null)
-            {
-                controlDataField.OnPropertyChanged("IsReadOnly");
-                controlDataField.OnReadOnlyPropertyChanged(e);
-            }
-        }
-
-        private void OnReadOnlyPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            bool value = Convert.ToBoolean(e.NewValue);
-            SearchText.IsReadOnly = value;
-        }
-
-        public bool IsReadOnly
-        {
-            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
-            set { SetValue(IsReadOnlyDependencyProperty, value); }
-        }
-        #endregion
+       
         
         public class MagnificerPressEventArgs : RoutedEventArgs
         {
@@ -221,14 +483,6 @@ namespace KarveControls
             remove { RemoveHandler(MagnificerPressEvent, value); }
         }
 
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
         public ICommand SelectedIndexCommand { set; get; }
 
         public string ButtonImage
@@ -248,21 +502,7 @@ namespace KarveControls
         }
 
 
-        public static readonly DependencyProperty LabelTextDependencyProperty =
-            DependencyProperty.Register(
-                "LabelText",
-                typeof(string),
-                typeof(DataSearchTextBox),
-                new PropertyMetadata(string.Empty));
-        public string LabelText
-        {
-            get { return (string)GetValue(LabelTextDependencyProperty); }
-            set
-            {
-                SetValue(LabelTextDependencyProperty, value);
-            }
-        }
-
+      
         public static readonly DependencyProperty LabelWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelWidth",
@@ -273,14 +513,11 @@ namespace KarveControls
         // magnifier pressed or not pressed state
         private int _state = 0;
         // name ofthe the field
-        private string _dataField = String.Empty;
-
-        private string _auxDataField = String.Empty;
+        private string _auxDataSearchTextBox = String.Empty;
         private DataTable _sourceView = new DataTable();
         private DataTable _dataTable = new DataTable();
         private DataGridVirtualizingCollectionViewSource _viewData;
-        public event PropertyChangedEventHandler PropertyChanged;
-
+      
         public DataSearchTextBox()
         {
             InitializeComponent();
@@ -309,23 +546,13 @@ namespace KarveControls
             get { return (string)GetValue(TextContentWidthDependencyProperty); }
             set { SetValue(TextContentWidthDependencyProperty, value); }
         }
-        public string DataField
+     
+        public string AuxDataSearchTextBox
         {
-            get { return (string)GetValue(DataFieldDependencyProperty); }
-            set { SetValue(DataFieldDependencyProperty, value); }
+            get { return (string)GetValue(AuxDataSearchTextBoxDependencyProperty); }
+            set { SetValue(AuxDataSearchTextBoxDependencyProperty, value); }
         }
 
-        public string AuxDataField
-        {
-            get { return (string)GetValue(AuxDataFieldDependencyProperty); }
-            set { SetValue(AuxDataFieldDependencyProperty, value); }
-        }
-
-        public DataTable ItemSource
-        {
-            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
-            set { SetValue(ItemSourceDependencyProperty, value); }
-        }
         public DataTable SourceView
         {
             get { return (DataTable)GetValue(SourceViewDependencyProperty); }
@@ -429,16 +656,8 @@ namespace KarveControls
             this.Popup.IsOpen = true;
             RaiseMagnificerPressEvent();
         }
-        private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
 
-            DataSearchTextBox control = d as DataSearchTextBox;
-            if (control != null)
-            {
-                control.OnPropertyChanged("LabelText");
-                control.OnLabelTextPropertyChanged(e);
-            }
-        }
+        
         private static void OnLabelWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataSearchTextBox control = d as DataSearchTextBox;
@@ -450,9 +669,9 @@ namespace KarveControls
         }
 
 
-        public override void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
+        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
-            string field = _dataField.ToUpper();
+            string field = _DataSearchTextBox.ToUpper();
             if (!string.IsNullOrEmpty(field))
             {
                 Binding oBind = new Binding("Text");
@@ -521,35 +740,35 @@ namespace KarveControls
             DataTable dt = e.NewValue as DataTable;
             _dataTable = dt;
         }
-        private static void OnDataSearchTextBoxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDataSearchTextBoxDataSearchTextBoxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
-                control.OnPropertyChanged("DataField");
-                control.OnDataFieldPropertyChanged(e, true);
+                control.OnPropertyChanged("DataSearchTextBox");
+                control.OnDataSearchTextBoxPropertyChanged(e, true);
             }
         }
-        private static void OnDataSearchTextBoxAuxDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDataSearchTextBoxAuxDataSearchTextBoxChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataSearchTextBox control = d as DataSearchTextBox;
             if (control != null)
             {
-                control.OnPropertyChanged("AuxDataField");
-                control.OnDataFieldPropertyChanged(e, false);
+                control.OnPropertyChanged("AuxDataSearchTextBox");
+                control.OnDataSearchTextBoxPropertyChanged(e, false);
             }
         }
 
-        private void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e, bool value)
+        private void OnDataSearchTextBoxPropertyChanged(DependencyPropertyChangedEventArgs e, bool value)
         {
             if (value)
             {
-                this._dataField = e.NewValue as string;
+                this._DataSearchTextBox = e.NewValue as string;
             }
             else
             {
 
-                this._auxDataField = e.NewValue as string;
+                this._auxDataSearchTextBox = e.NewValue as string;
             }
         }
 
@@ -562,9 +781,9 @@ namespace KarveControls
             string columnName = "";
             foreach (DataColumn col in cols)
             {
-                if (col.ColumnName == _auxDataField)
+                if (col.ColumnName == _auxDataSearchTextBox)
                 {
-                    columnName = _auxDataField;
+                    columnName = _auxDataSearchTextBox;
                     break;
                 }
             }

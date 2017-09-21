@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Text.RegularExpressions;
+using NLog;
 
 
 namespace KarveCommon.Generic
@@ -26,6 +27,7 @@ namespace KarveCommon.Generic
         private ConnectionState _currentState;
         private OdbcTransaction _sqlTransaction = null;
         private string _connectionString;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// This method is a sql command wrapper for sending command to the database.
         /// </summary>
@@ -79,6 +81,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                logger.Error(e, "Error opening the OdbcQuertExecutor");
                 return false;
             }
             return true;
@@ -98,6 +101,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
+                logger.Error(e, "Error closing the OdbcQuertExecutor");
                 return false;
             }
             return true;
@@ -128,6 +132,7 @@ namespace KarveCommon.Generic
             {
 
                 Rollback();
+                logger.Error(e, "Error loading the data set");
 
             }
             finally

@@ -1,4 +1,4 @@
-﻿<local:CommonControl x:Class="KarveControls.DataField"
+﻿<UserControl x:Class="KarveControls.DataField"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,4 +24,4 @@
                  Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
         </TextBox>
     </StackPanel>
-</local:CommonControl>
+</UserControl>

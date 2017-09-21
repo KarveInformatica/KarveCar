@@ -6,11 +6,10 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace KarveControlsTest
+namespace KarveControls
 {
     public class SearchViewModel: BindableBase
     {
-        private DataTable table;
         private string _dataField;
         private string _dataLabel = "Nombre";
         private string _width;
