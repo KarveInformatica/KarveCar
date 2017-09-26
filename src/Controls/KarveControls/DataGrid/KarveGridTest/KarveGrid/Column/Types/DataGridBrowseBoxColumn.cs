@@ -1,77 +1,55 @@
 using System.Data;
 using Telerik.WinControls.UI;
+using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using System;
 
 namespace KarveGrid.Column.Types
 {
-    public class DataGridBrowseBoxColumn : GridViewBrowseColumn
+    public class DataGridBrowseBoxColumn : GridViewBrowseColumn, IMixinDataBaseExtension
     {
 
         #region "Variables"
-        protected int _Item;
-        protected string _Campo;
-        protected string _Tabla;
-        protected string _ExpresionBd;
         protected GridViewDataColumn _relatedColumn;
-
-        protected System.Drawing.Color _BackColor = Drawing.Color.White;
+        protected System.Drawing.Color _BackColor = DefaultColors.DefaultBackgroundColor;
         private string _Desc_Datafield;
         //tabla con la que se rellena el campo descripcion
         private string _Desc_DBTable;
         //referencia de la tabla descripcion (el textbox editable)
         private string _Desc_DBPK;
         //filtro extra en la consulta
-        private string myWhere;
+        private string _myWhere;
         //si tiene que volver a tirar la query (se pone en true cuando el texto cambia)
         private bool _requery = true;
         //si tira la query cada vez que el texto cambia o espera al lost focus, si por defecto
         private bool _queryOnTextChanged = true;
         protected int _txtDataWidth;
         private string _extraSQL = "";
+        private DataSet _dataSet = new DataSet();
         public event QueryThrownEventHandler QueryThrown;
-        public delegate void QueryThrownEventHandler(DataSet dts);
+        public delegate DataSet QueryThrownEventHandler(string mysql);
         #endregion
 
         #region "Propiedades"
-        public int Item {
-            get { return _Item; }
-            set { _Item = value; }
-        }
-
-        public string Tabla {
-            get { return _Tabla; }
-            set { _Tabla = value; }
-        }
-
-        public string Campo {
-            get { return _Campo; }
-            set { _Campo = value; }
-        }
-
+        
+        
         public string AliasCampo {
             get { return FieldName; }
             set { FieldName = value; }
         }
 
-        public string ExpresionBd {
-            get { return _ExpresionBd; }
-            set { _ExpresionBd = value; }
-        }
-
-        public System.Drawing.Color BackColor {
-            get { return _BackColor; }
-            set { _BackColor = value; }
-        }
-
+      
         public override bool ReadOnly {
             get { return base.ReadOnly; }
             set {
                 base.ReadOnly = value;
-                if (value) {
-                    _BackColor = ColorSel;
+                if (value) { 
+                   BackGroundColor = DefaultColors.DefaultReadOnlyColor;
                 }
             }
         }
 
+        
         public GridViewDataColumn RelatedColumn {
             get { return _relatedColumn; }
             set { _relatedColumn = value; }
@@ -93,8 +71,8 @@ namespace KarveGrid.Column.Types
         }
 
         public string Desc_Where {
-            get { return myWhere; }
-            set { myWhere = value; }
+            get { return _myWhere; }
+            set { _myWhere = value; }
         }
 
         public bool Query_on_Text_Changed {
@@ -111,11 +89,33 @@ namespace KarveGrid.Column.Types
             get { return _requery; }
             set { _requery = value; }
         }
+
+        public DataSet TableSet
+        {
+            get { return _dataSet; }
+            set { _dataSet = value; }
+        }
+        public int Item { get => MDataBaseExtension.GetItem(this); set => MDataBaseExtension.SetItem(this, value); }
+        public string ExtendedFieldName { get => MDataBaseExtension.GetExtendedFieldName(this); set => MDataBaseExtension.SetExtendedFieldName(this, value); }
+        public string Table { get => MDataBaseExtension.GetTable(this); set => MDataBaseExtension.SetTable(this, value); }
+        public string ExpressionDb { get => MDataBaseExtension.GetExpressionDb(this); set => MDataBaseExtension.SetTable(this, value); }
+        public System.Drawing.Color BackGroundColor { get => MDataBaseExtension.GetBackgroundColor(this); set => MDataBaseExtension.SetBackgroundColor(this, value); }
         #endregion
 
 
-        public string queryDesc(string codigo)
+        public void QueryDescription(string codigo)
         {
+            string mySql = "select " + _Desc_Datafield + (!string.IsNullOrEmpty(_extraSQL) ? ", " + _extraSQL : "") + " from " + _Desc_DBTable + " where " + _Desc_DBPK + " = '" + codigo + "'";
+            if ((Desc_Where != null) & !string.IsNullOrEmpty(Desc_Where))
+            {
+                mySql = mySql + " and " + Desc_Where;
+            }
+            if (QueryThrown != null)
+            {
+                QueryThrown(mySql);
+            }
+
+            /*
             string functionReturnValue = null;
             //lanza la query para resolver la descripción
             _requery = false;
@@ -144,15 +144,9 @@ namespace KarveGrid.Column.Types
             } else {
                 functionReturnValue = "";
             }
-            return functionReturnValue;
+            */
+          
         }
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

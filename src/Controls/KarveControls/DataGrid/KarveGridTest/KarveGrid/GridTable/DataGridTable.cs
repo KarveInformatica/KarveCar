@@ -5,7 +5,7 @@ namespace KarveGrid.GridTable
     public class DataGridTable
     {
 
-        #region "Variables Definition"
+        #region "Definition of variables"
 
         public enum JoinCriterias
         {
@@ -18,18 +18,18 @@ namespace KarveGrid.GridTable
             UnionAll,
             FromFrom
         }
-
         private int _item;
         private string _table;
         private string _alias;
         private JoinCriterias _join;
         private string _criteria;
-        private DataGridTables _virtualTables = new DataGridTables();
         private VirtualDataGridColumns _virtualColumns = new VirtualDataGridColumns();
         private string _name;
+        private DataGridTables _virtualTables = new DataGridTables();
+
         #endregion
 
-        #region "   -   PROPERTY.   "
+        #region "Properties"
 
         public int Item {
             get { return _item; }
@@ -85,14 +85,15 @@ namespace KarveGrid.GridTable
         }
 
 
-        public string Criterio {
+        public string Criterias {
             get { return _criteria; }
             set { _criteria = value; }
         }
 
-        public DataGridTables VirtualTables {
+        public DataGridTables VirtualTables
+        {
             get { return _virtualTables; }
-            set { _virtualColumns = value; }
+            set { _virtualTables = value; }
         }
 
         public VirtualDataGridColumns ColumnasTablaVirtual {
@@ -104,14 +105,13 @@ namespace KarveGrid.GridTable
             get {
                 if (!string.IsNullOrEmpty(_name)) {
                     return _name;
-                } else {
-                    return _table;
                 }
+             return _table;
+                
             }
             set { _name = value; }
         }
         #endregion
-
     }
 }
 

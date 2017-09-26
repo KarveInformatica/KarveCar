@@ -8,7 +8,7 @@ using KarveCommon.Generic;
 
 namespace KarveDataAccessLayer
 {
-    public class MarcasDAL
+    public class BrandsDataAccess
     {
         #region ". VARIABLES.   "
         private string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
@@ -20,7 +20,7 @@ namespace KarveDataAccessLayer
 
         #region ". CONSTRUCTOR.   "
 
-        public MarcasDAL()
+        public BrandsDataAccess()
         {
             _DAL = new OleDbQueryExecutor(ConnectionString);
         }

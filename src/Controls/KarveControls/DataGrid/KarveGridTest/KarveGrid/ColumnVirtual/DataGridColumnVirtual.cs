@@ -1,44 +1,39 @@
+using KarveGrid.Column.Types;
+
 namespace KarveGrid.ColumnVirtual
 {
     public class DataGridColumnVirtual
     {
-        int _Item;
-        string _sName;
-        string _sExpresion;
-        string _sAlias;
+        private int _item;
+        private string _sName;
+        private string _sExpression;
+        private string _sAlias;
+        private string _sAliasTable;
 
-        string _sAliasTabla;
+
+
+
         public int Item {
-            get { return _Item; }
-            set { _Item = value; }
+            get { return _item; }
+            set { _item = value; }
         }
-
         public string Name {
             get { return _sName; }
             set { _sName = value; }
         }
-
-        public string Expresion {
-            get { return _sExpresion; }
-            set { _sExpresion = value; }
+        public string Expression {
+            get { return _sExpression; }
+            set { _sExpression = value; }
         }
 
-        public string AliasCampo {
+        public string AliasField {
             get { return _sAlias; }
             set { _sAlias = value; }
         }
-
-        public string AliasTabla {
-            get { return _sAliasTabla; }
-            set { _sAliasTabla = value; }
+        public string AliasTable {
+            get { return _sAliasTable; }
+            set { _sAliasTable = value; }
         }
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

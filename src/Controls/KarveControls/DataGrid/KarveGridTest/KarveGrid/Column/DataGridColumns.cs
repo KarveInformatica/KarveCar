@@ -1,35 +1,36 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KarveGrid.Column
 {
-    public class DataGridColumns : System.Collections.Hashtable
+    public class DataGridColumns
     {
-
-        public void Add(object Columna)
+        private IDictionary<string, DataGridColumn> _dataGridColumns = new Dictionary<string, DataGridColumn>();
+        public void AddColumns(DataGridColumn Columna)
         {
-            try {
-                Columna.Item = this.Count;
-                base.Add(Columna.Name, Columna);
-            } catch {
-            }
+
+            Columna.Item = _dataGridColumns.Count;
+            _dataGridColumns.Add(Columna.Name, Columna);
         }
 
-        public ArrayList ToArray()
+        public DataGridColumn this[string name]
         {
-            dynamic HC = (from c in this.Valuesorderby c.Itemc);
-            ArrayList RS = new ArrayList();
-            foreach (object ctr in HC) {
-                RS.Add(ctr);
+             get { return _dataGridColumns[name]; }
+             set { _dataGridColumns[name] = value; }
+
+        }
+        public IList<DataGridColumn> Ordered()
+        {
+            IList<DataGridColumn> _dataGridList = new List<DataGridColumn>();
+            dynamic columns = (from c in _dataGridColumns.Values orderby c select c);
+            foreach (var val in columns)
+            {
+                _dataGridList.Add(val);
             }
-            return RS;
+            return _dataGridList;
         }
 
     }
 }
 
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

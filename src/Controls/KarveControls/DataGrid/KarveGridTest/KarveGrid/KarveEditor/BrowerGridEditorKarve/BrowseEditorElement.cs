@@ -1,8 +1,9 @@
+using System.Drawing;
 using System.Windows.Forms;
 using Telerik.WinControls;
 using Telerik.WinControls.UI;
 
-namespace KarveGrid.Column.Custom_Editor.BrowerGridEditorKarve
+namespace KarveGrid.KarveEditor.BrowerGridEditorKarve
 {
     public class BrowseEditorElement : LightVisualElement
     {
@@ -54,10 +55,3 @@ namespace KarveGrid.Column.Custom_Editor.BrowerGridEditorKarve
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

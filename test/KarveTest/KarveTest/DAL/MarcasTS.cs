@@ -13,7 +13,7 @@ namespace KarveTest.DAL
     [TestFixture]
     public class MarcasTS
     {
-        MarcasDAL _MD;
+        BrandsDataAccess _MD;
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -23,7 +23,7 @@ namespace KarveTest.DAL
                 //IKarveDataMapper mapper = new BaseDataMapper();
                 //_dataServices = new DataServiceImplementation(mapper);
                 //_supplierDataServices = _dataServices.GetSupplierDataServices();
-                _MD = new MarcasDAL();
+                _MD = new BrandsDataAccess();
             }
             catch (Exception e)
             {

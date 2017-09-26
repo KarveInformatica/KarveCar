@@ -124,12 +124,6 @@
     <Compile Include="ColumnGroup\DataGridColumnGroups.cs" />
     <Compile Include="ColumnVirtual\DataGridColumnVirtual.cs" />
     <Compile Include="ColumnVirtual\VirtualDataGridColumns.cs" />
-    <Compile Include="GridDefinicion\DataGridRule.cs" />
-    <Compile Include="GridDefinicion\DataGridRules.cs" />
-    <Compile Include="GridOrder\DataGridOrdenColumna.cs" />
-    <Compile Include="GridOrder\DataGridOrdenColumnas.cs" />
-    <Compile Include="Column\Custom Editor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
-    <Compile Include="Column\Custom Editor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
     <Compile Include="Column\DataGridColumn.cs" />
     <Compile Include="Column\DataGridColumnGroup.cs" />
     <Compile Include="Column\DataGridColumnGroups.cs" />
@@ -144,14 +138,27 @@
     <Compile Include="Column\Types\DataGridDecimalColumn Subtypes\DataGridTotalColumn.cs" />
     <Compile Include="Column\Types\DataGridDecimalColumn.cs" />
     <Compile Include="Column\Types\DataGridTextBoxColumn.cs" />
-    <Compile Include="GridDefinicion\DataGridDefinicion.cs" />
+    <Compile Include="Column\Types\DefaultColors.cs" />
+    <Compile Include="Column\Types\MDataBaseExtension.cs" />
+    <Compile Include="Events\ChangeFilterEvent.cs" />
+    <Compile Include="GridFilters\BaseFilter.cs" />
+    <Compile Include="GridFilters\DateFilter.cs" />
+    <Compile Include="GridDefinition\DataGridTemplate.cs" />
+    <Compile Include="GridDefinition\DataGridRule.cs" />
+    <Compile Include="GridDefinition\DataGridRules.cs" />
+    <Compile Include="GridOrder\DataGridOrderedColumn.cs" />
+    <Compile Include="GridOrder\DataGridOrderedColumns.cs" />
+    <Compile Include="GridRowModifiedCellEventArgs.cs" />
     <Compile Include="GridTable\DataGridTable.cs" />
     <Compile Include="GridTable\DataGridTables.cs" />
     <Compile Include="GridTraduccion\MyTraducRadGrid.cs" />
-    <Compile Include="KarveGrid.xaml.cs" />
-    <Compile Include="KarveGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="GridFilters\IKarveGridFilter.cs" />
+    <Compile Include="GridFilters\KarveCompositeFilter.cs" />
+    <Compile Include="GridViewSelectedCellsChangedEventArgs.cs" />
+    <Compile Include="KarveEditor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
+    <Compile Include="KarveEditor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
+    <Compile Include="KarveGridView.cs" />
+    <Compile Include="LayoutLocalizationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,6 +172,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="QueryColumnsName.cs" />
+    <Compile Include="Events\QueryDataTableEventArgs.cs" />
+    <Compile Include="GridFilters\TextFilter.cs" />
+    <Compile Include="Events\UpdateQueryEventArgs.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -173,12 +184,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="KarveGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

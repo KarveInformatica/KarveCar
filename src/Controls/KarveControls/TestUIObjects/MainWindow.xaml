@@ -27,7 +27,7 @@
             </DataTemplate>
             <DataTemplate x:Key="SearchBoxDataTemplate">
                 <karveControls:DataSearchTextBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContent="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContent="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -40,8 +40,8 @@
 
                 <karveControls:DualFieldSearchBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  DataFieldFirst="{Binding DataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  DataFieldSecond="{Binding DataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="{Binding DataFieldFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldSecond="{Binding DataFieldSecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataAllowedFirst="{Binding DataTypeFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataAllowedSecond="{Binding DataTypeSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -56,11 +56,6 @@
                                                   ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                 </karveControls:DualFieldSearchBox>
-            </DataTemplate>
-            <DataTemplate x:Key="DataGrid">
-                <karveGrid:KarveGrid>
-
-                </karveGrid:KarveGrid>
             </DataTemplate>
             <template:TemplateSelector x:Key="BasicTemplateSelector" 
                        DataField="{StaticResource ResourceKey=DataFieldDataTemplate}"

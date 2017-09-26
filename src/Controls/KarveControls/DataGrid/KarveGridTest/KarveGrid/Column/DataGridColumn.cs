@@ -1,90 +1,70 @@
 using System.Windows.Media;
+using KarveGrid.Column.Types;
 using Telerik.WinControls.UI;
 
 namespace KarveGrid.Column
 {
-    public class DataGridColumn : GridViewDataColumn
+    public class DataGridColumn : GridViewDataColumn, IMixinDataBaseExtension
     {
-        public enum eTipoColumn
+        public enum eColumnType
         {
             Pk,
-            Fecha,
-            Hora,
-            Texto,
-            Observaciones,
-            Numerico
+            Date,
+            Hour,
+            Text,
+            Observation,
+            Numeric
         }
 
-        int _Item;
-        string _Campo;
-        string _Tabla;
-        string _ExpresionBd;
-        System.Drawing.Color _BackColor = System.Drawing.Color.White;
+        
+        private eColumnType _eColumnType;
 
-        eTipoColumn _eTipoColumn;
-        public int Item {
-            get { return _Item; }
-            set { _Item = value; }
-        }
 
-        public string Campo {
-            get { return _Campo; }
-            set { _Campo = value; }
-        }
+        public int Item { get => MDataBaseExtension.GetItem(this); set => MDataBaseExtension.SetItem(this, value); }
+        public string ExtendedFieldName { get => MDataBaseExtension.GetExtendedFieldName(this); set => MDataBaseExtension.SetExtendedFieldName(this, value); }
+        public string Table { get => MDataBaseExtension.GetTable(this); set => MDataBaseExtension.SetTable(this, value); }
+        public string ExpressionDb { get => MDataBaseExtension.GetExpressionDb(this); set => MDataBaseExtension.SetTable(this, value); }
+        public System.Drawing.Color BackGroundColor { get => MDataBaseExtension.GetBackgroundColor(this); set => MDataBaseExtension.SetBackgroundColor(this, value); }
+        
 
-        public string ExpresionBd {
-            get { return _ExpresionBd; }
-            set { _ExpresionBd = value; }
-        }
-
-        public string Tabla {
-            get { return _Tabla; }
-            set { _Tabla = value; }
-        }
-
-        public string AliasCampo {
+        public string AliasField {
             get { return FieldName; }
             set { FieldName = value; }
         }
-
-        public System.Drawing.Color BackColor {
-            get { return _BackColor; }
-            set { _BackColor = value; }
-        }
-
-        public eTipoColumn TipoColumna {
-            get { return _eTipoColumn; }
+        
+        public eColumnType Columnn {
+            get { return _eColumnType; }
             set {
-                _eTipoColumn = value;
-                EstablecePropiedadesTipoColumna();
+                _eColumnType = value;
+                ExtractColumnProperties();
             }
         }
 
-        private void EstablecePropiedadesTipoColumna()
+        private void ExtractColumnProperties()
         {
-            switch (_eTipoColumn) {
-                case eTipoColumn.Pk:
-                    ColumnaPk();
+            switch (_eColumnType) {
+                case eColumnType.Pk:
+                    ColumnPk();
                     break;
-                case eTipoColumn.Fecha:
-                    ColumnaFecha();
+                case eColumnType.Date:
+                    ColumnDate();
                     break;
             }
 
         }
 
-        private void ColumnaPk()
+        private void ColumnPk()
         {
-            _BackColor = Drawing.Color.SkyBlue;
+            BackGroundColor = System.Drawing.Color.SkyBlue;
             base.Width = 80;
         }
 
-        private void ColumnaFecha()
+        private void ColumnDate()
         {
-            string sAlias = _Tabla;
+            string sAlias = Table;
             if (!string.IsNullOrEmpty(sAlias))
                 sAlias = sAlias + ".";
-            _ExpresionBd = " DATEFORMAT(" + sAlias + base.FieldName + ", 'dd/mm/yyyy') ";
+            ExpressionDb = " DATEFORMAT(" + sAlias + base.FieldName + ", 'dd/mm/yyyy') ";
             base.Width = 100;
             base.AllowResize = false;
         }

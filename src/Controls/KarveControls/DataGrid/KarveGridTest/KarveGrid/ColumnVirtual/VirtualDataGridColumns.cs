@@ -1,31 +1,30 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KarveGrid.ColumnVirtual
 {
-    public class VirtualDataGridColumns : System.Collections.Hashtable
+    /// <summary>
+    /// VirtualDataGridColumns is dictionary for storing a collection of a datagrid columns virtual by its name.
+    /// </summary>
+    public class VirtualDataGridColumns
     {
+        private readonly IDictionary<string, DataGridColumnVirtual> _dataGridColumns = new Dictionary<string, DataGridColumnVirtual>();
 
-        public void Add(DataGridColumnVirtual TablaQuery)
+        public void AddColumns(DataGridColumnVirtual queryTable)
         {
-            base.Add(TablaQuery.Name, TablaQuery);
+            _dataGridColumns.Add(queryTable.Name, queryTable);
         }
 
-        public ArrayList Order()
+        public IList<DataGridColumnVirtual> Ordered()
         {
-            dynamic HC = (from c in this.Valuesorderby c.Itemc);
-            ArrayList RS = new ArrayList();
-            foreach (DataGridColumnVirtual ctr in HC) {
-                RS.Add(ctr);
+            dynamic orderedColumnVirtuals = (from c in _dataGridColumns.Values orderby c.Item select c);
+            IList<DataGridColumnVirtual> arrayList = new List<DataGridColumnVirtual>();
+            foreach (DataGridColumnVirtual item in orderedColumnVirtuals) {
+                arrayList.Add(item);
             }
-            return RS;
+            return arrayList;
         }
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

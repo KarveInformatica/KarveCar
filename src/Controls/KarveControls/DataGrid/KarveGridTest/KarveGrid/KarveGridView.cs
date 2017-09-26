@@ -1,234 +1,459 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Forms;
+using Telerik.WinControls;
+using Telerik.WinControls.UI;
+using Binding = System.Windows.Data.Binding;
+using PropertyChangedCallback = System.Windows.PropertyChangedCallback;
+using GridColView = Telerik.WinControls.UI.GridViewColumn;
 using KarveGrid.Column;
-using KarveGrid.Column.Custom_Editor.BrowerGridEditorKarve;
 using KarveGrid.Column.Types;
-using KarveGrid.GridDefinicion;
+using KarveGrid.Events;
+using KarveGrid.GridDefinition;
+using KarveGrid.GridFilters;
 using KarveGrid.GridOrder;
 using KarveGrid.GridTable;
-using KarveGrid.GridTraduccion;
-using Telerik.WinControls;
+using KarveGrid.KarveEditor.BrowerGridEditorKarve;
 using Telerik.WinControls.Data;
-using Telerik.WinControls.UI;
-using Telerik.WinControls.UI.Localization;
-using KarveDataGridColumnText = KarveGrid.Column.Types.DataGridTextBoxColumn;
+using DataGridColumn = KarveGrid.Column.DataGridColumn;
+using DataGridTextBoxColumn = KarveGrid.Column.Types.DataGridTextBoxColumn;
+using MessageBox = System.Windows.MessageBox;
 
 namespace KarveGrid
 {
-    public class KarveGridView : RadGridView
+    public class KarveGridView : Grid, INotifyPropertyChanged
     {
-
-        #region "Variables"
-        private GridTableElement _tbsElement = new Telerik.WinControls.UI.GridTableElement();
-        private bool _datasetFiltering = false;
-        private DataGridDefinicion _dataGridDefinicionValue = new DataGridDefinicion();
+        #region Private Variables
+        private RadGridView _currentView = new RadGridView();
+        private Grid _baseContainer;
+        private int _columnWidth = 100;
+        private int _pageSize;
+        private DataGridTemplate _dataGridDefinition = new DataGridTemplate();
+        private DataGridRules _dataGridRules = new DataGridRules();
         private DataGridTables _dataGridTables = new DataGridTables();
         private DataGridColumns _dataGridColumns = new DataGridColumns();
-        protected DataGridRules _dataGridRules = new DataGridRules();
-        protected DataGridOrdenColumnas dgoOrdenes = new DataGridOrdenColumnas();
-        protected DataGridColumnGroups dgcgGroups;
-        //en esta variable se almacena la columna que relaciona los datos de la grid con los de la cabecera
-        private KarveDataGridColumnText _colRel;
-        protected string _idRel;
-        private RadGridLocalizationProvider _currentProvider;
-        protected bool _MarcarFilas = false;
-        protected GridType _DataGridType = GridType.Search;
-
-        protected string _sColsSelect;
-        private bool _bScrolling;
-        private RadProgressBarElement _BarraNotifica = new RadProgressBarElement();
-        private RadLabelElement _LabelNotifica = new RadLabelElement();
+        private DataGridOrderedColumns _dataGridOrderedColumns = new DataGridOrderedColumns();
+        private DataGridColumnGroups _dataGridColumnGroups = new DataGridColumnGroups();
+        private DataGridTextBoxColumn _relationalColumn = new DataGridTextBoxColumn();
+        private bool _loading;
+        private bool _reQuery;
+        /// <summary>
+        ///  This delegate trigger an internal query that it will raise an event to the view model.
+        /// </summary>
+        /// <param name="Clausulas"></param>
+        private delegate void TriggerQueryEventHandler(DataGridRules Clausulas);
+        private TriggerQueryEventHandler TriggerQuery;
         private bool _bChangeOperator;
-        private bool _reloadCons = true;
+        private MasterGridViewTemplate _masterTemplate;
+        #endregion
+        #region Public Variables
 
-        private bool requery = false;
-        protected event CellValidatingExtraEventHandler CellValidatingExtra;
-
-        protected delegate void CellValidatingExtraEventHandler(object sender, CellValidatingEventArgs e);
-
-        public event LanzaConsultaEventHandler LanzaConsulta;
-
-        public delegate void LanzaConsultaEventHandler(DataGridRules Clausulas);
-
-        public event OpenMenuEventHandler OpenMenu;
-
-        public delegate void OpenMenuEventHandler(object sender, ContextMenuOpeningEventArgs e);
-
-        private bool _bCargando;
-        private int IndexRow;
-        private bool bBtnIzq;
-        private int OldRow;
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         public enum GridType
         {
             Edit,
             Search
         }
+        #endregion
+        #region DependencyProperty
+
+        public static DependencyProperty SourceViewProperty =
+            DependencyProperty.Register(
+                "SourceView",
+                typeof(DataTable),
+                typeof(KarveGridView),
+                new PropertyMetadata(new DataTable(), OnSourceViewChange));
+
+        public static DependencyProperty TableNameProperty =
+            DependencyProperty.Register(
+                "TableName",
+                typeof(string),
+                typeof(KarveGridView),
+                new PropertyMetadata(string.Empty));
+
+        public string TableName
+        {
+            get { return (string) GetValue(TableNameProperty); }
+            set { SetValue(TableNameProperty, value);}
+        }
+
+        public static DependencyProperty AutoGenerateColumnsDependencyProperty =
+            DependencyProperty.Register(
+                "AutoGenerateColumns",
+                typeof(bool),
+                typeof(KarveGridView),
+                new PropertyMetadata(false));
+
+        public static DependencyProperty TableAliasProperty =
+            DependencyProperty.Register(
+                "TableAlias",
+                typeof(string),
+                typeof(KarveGridView),
+                new PropertyMetadata(string.Empty));
+
+        public static DependencyProperty PageSizeProperty =
+            DependencyProperty.Register(
+                "PageSize",
+                typeof(int),
+                typeof(KarveGridView),
+                new FrameworkPropertyMetadata(
+                    20,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure,
+                    new PropertyChangedCallback(OnPageSizeChange)),
+                new System.Windows.ValidateValueCallback(OnPageSizeValidateValue));
+
+        public static DependencyProperty ColumnMinWidthProperty =
+            DependencyProperty.Register(
+                "ColumnWidth",
+                typeof(int),
+                typeof(KarveGridView),
+                new FrameworkPropertyMetadata(
+                    100,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure,
+                    new PropertyChangedCallback(OnColumnWidthChange)),
+                new System.Windows.ValidateValueCallback(OnColumnMinWidthValue));
 
         #endregion
+        #region Custom Events
 
-        #region "Propiedades"
+        public static readonly System.Windows.RoutedEvent FilterChangeEvent =
+            EventManager.RegisterRoutedEvent(
+                "FilterChangeEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
 
-        public bool Scrolling
+        public static readonly System.Windows.RoutedEvent ColumnQueryEvent =
+            EventManager.RegisterRoutedEvent(
+                "ColumnQueryEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
+
+        public static readonly System.Windows.RoutedEvent UpdateQueryEvent =
+            EventManager.RegisterRoutedEvent(
+                "UpdateQueryEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
+
+
+        public static readonly System.Windows.RoutedEvent QueryDataTableEvent =
+            EventManager.RegisterRoutedEvent(
+                "QueryDataTableEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
+
+        public static readonly System.Windows.RoutedEvent SelectedRowGridViewEvent =
+            EventManager.RegisterRoutedEvent(
+                "SelectedRowGridViewEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
+
+        public static readonly System.Windows.RoutedEvent ModifiedCellRoutedEvent =
+            EventManager.RegisterRoutedEvent(
+                "ModifiedCellRoutedEvent",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(KarveGridView));
+
+        private object _relationalId;
+        private bool _dataSetFiltering;
+        private bool _bScrolling;
+
+        public event RoutedEventHandler QueryDataTableRequest
         {
-            get { return _bScrolling; }
+            add { AddHandler(QueryDataTableEvent, value); }
+            remove { RemoveHandler(QueryDataTableEvent, value); }
+        }
+        public event RoutedEventHandler UpdateDataTableChanged
+        {
+            add { AddHandler(UpdateQueryEvent, value); }
+            remove { RemoveHandler(UpdateQueryEvent, value); }
+        }
+        public event RoutedEventHandler ColumnQueryRequest
+        {
+            add { AddHandler(ColumnQueryEvent, value); }
+            remove { RemoveHandler(ColumnQueryEvent, value); }
+        }
+        public event RoutedEventHandler SelectionRowChanged
+        {
+            add { AddHandler(SelectedRowGridViewEvent, value); }
+            remove { RemoveHandler(SelectedRowGridViewEvent, value); }
+        }
+        private void QueryDataTable(string table, string alias, bool isMergeNeeded)
+        {
+            Events.QueryDataTableEventArgs args = new Events.QueryDataTableEventArgs(QueryDataTableEvent);
+            args.Table = table;
+            args.Alias = alias;
+            args.Merge = isMergeNeeded;
+            RaiseEvent(args);
+        }
+        private void UpdateData(DataSet dataSet, string sqlQuery)
+        {
+            Events.UpdateQueryEventArgs args = new Events.UpdateQueryEventArgs();
+            args.DataSet = dataSet;
+            args.SqlQuery = sqlQuery;
+            RaiseEvent(args);
         }
 
-       
-        public RadProgressBarElement BarraNotifica
+        private void QueryColumnsName(string sql, string table, string alias)
         {
-            get { return _BarraNotifica; }
-            set { _BarraNotifica = value; }
+            Events.QueryColumnsName args = new Events.QueryColumnsName();
+            args.SqlQuery = sql;
+            args.AliasName = alias;
+            args.TableName = table;
+            RaiseEvent(args);
         }
 
-        public DataGridTables Tables
+        private void ChangeFilterEvents(IList<string> expressionList)
         {
-            get { return _dataGridTables; }
-            set { _dataGridTables = value; }
+            Events.ChangeFilterEvent args = new Events.ChangeFilterEvent(FilterChangeEvent);
+            args.ExpressionList = expressionList;
+            args.TableName = this.TableName;
+            //       RaiseEvent();
         }
-
-        public DataGridColumns Columns
-        {
-            get { return _dataGridColumns; }
-            set { _dataGridColumns = value; }
-        }
-
-        public DataGridOrdenColumnas Ordenes
-        {
-            get { return dgoOrdenes; }
-            set { dgoOrdenes = value; }
-        }
-
-        public bool MarkRows
-        {
-            get { return _MarcarFilas; }
-            set { _MarcarFilas = value; }
-        }
-
-        public DataGridRules Clausulas
-        {
-            get { return _dataGridRules; }
-            set { _dataGridRules = value; }
-        }
-   
-        public GridType DataGridType
-        {
-            get { return _DataGridType; }
-            set
-            {
-                _DataGridType = value;
-                SetGridType();
-            }
-        }
-
-        public string idRel
-        {
-            get { return _idRel; }
-            set { _idRel = value; }
-        }
-
-        public string ColSelectFilter
-        {
-            get { return _sColsSelect; }
-            set { _sColsSelect = value; }
-        }
-
-        /*
-        public new ASADB.Connection DBConnection
-        {
-            get { return dgdDefinicion.DBConnection; }
-            set { dgdDefinicion.DBConnection = value; }
-        }
-        */
-
-        public KarveDataGridColumnText ColRel
-        {
-            get { return _colRel; }
-            set { _colRel = value; }
-        }
-
-        public DataGridTable TablaEdit
-        {
-            get { return _dataGridDefinicionValue.TablaEdit; }
-            set { _dataGridDefinicionValue.TablaEdit = value; }
-        }
-
-        public bool DatasetFiltering { get; private set; }
-        private RadGridLocalizationProvider _localizationProvider;
-        public RadGridLocalizationProvider CurrentProvider { get => _localizationProvider; set => _localizationProvider = value; }
-     
-
         #endregion
 
+
+        static KarveGridView()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(KarveGridView),
+                new FrameworkPropertyMetadata(typeof(KarveGridView)));
+        }
         public KarveGridView() : base()
         {
-            /*
-             events.
-             */
-            MouseDown += DataGrid_MouseDown;
-            MouseUp += DataGrid_MouseUp;
-            ContextMenuOpening += DataGrid_ContextMenuOpening;
-            MouseWheel += DataGrid_MouseWheel;
-            FilterChanged += DataGrid_FilterChanged;
-            FilterChanging += DataGrid_FilterChanging;
-            SortChanging += DataGrid_SortChanging;
-            CellFormatting += DataGrid_CellFormatting;
-            RowFormatting += DataGrid_RowFormatting;
-            CellValueChanged += DataGrid_CellValueChanged;
-            CellValidating += DataGrid_CellValidating;
-            UserAddingRow += GridDelegacion_UserAddingRow;
-            EditorRequired += DataGrid_EditorRequired;
-            this.EnablePaging = true;
-            CellEditorInitialized += DataGrid_CellEditorInitialized;
-            this.ThemeClassName = "Telerik.WinControls.UI.RadGridView";
-            RadGridLocalizationProvider.CurrentProvider = new MyTraducRadGrid();
-            this.TableElement.VScrollBar.MouseDown += VScrollBar_MouseDown;
+
+            _currentView.EnablePaging = true;
+            _currentView.PageSize = 20;
+            _currentView.Width = (int)this.Width;
+            _currentView.EnableFiltering = true;
+            System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+            host.Child = _currentView;
+            this.Children.Add(host);
+            SetColumnWidth(this.ColumnWidth);
+            this.SizeChanged += KarveGridView_SizeChanged;
+            InitContainers();
+            InitEvents();
+            InitDelegates();
         }
 
-        private System.Drawing.Color GetColor(string sAliasCampo)
+        private void InitContainers()
         {
-            object DGT = null;
-            /*
-            foreach (DictionaryEntry DGTh in dgcColumnas)
+           
+        }
+
+        public void InitDelegates()
+        {
+            _dataGridDefinition = new DataGridTemplate();
+            _dataGridDefinition.QueryColumnsName += QueryColumnsName;
+            _dataGridDefinition.UpdateData += UpdateData;
+            _dataGridDefinition.QueryDataTable += QueryDataTable;
+            TriggerQuery+=TriggerQueryUpdate;
+        }
+
+        private void TriggerQueryUpdate(DataGridRules clausulas)
+        {
+            MessageBox.Show("Name");
+        } 
+
+        private static bool OnColumnMinWidthValue(object value)
+        {
+            int number = Convert.ToInt32(value);
+            return GreaterThanZero(number);
+        }
+
+        private static void OnColumnWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            KarveGridView karveGrid = d as KarveGridView;
+            karveGrid.OnPropertyChanged("ColumnWidth");
+            karveGrid.OnColumnWidthChanged(e);
+        }
+        private void OnColumnWidthChanged(DependencyPropertyChangedEventArgs e)
+        {
+            Telerik.WinControls.UI.GridViewColumnCollection cols = this._currentView.Columns;
+            _columnWidth = Convert.ToInt32(e.NewValue);
+
+            foreach (GridColView column in _currentView.Columns)
             {
-                DGT = (object) dgcColumnas(DGTh.Key);
-                if (Strings.UCase(DGT.AliasCampo) == Strings.UCase(sAliasCampo))
+                if (column is GridViewDataColumn)
                 {
-                    return DGT.BackColor;
+                    GridViewDataColumn col = column as GridViewDataColumn;
+                    if (col != null)
+                    {
+                        col.Width = _columnWidth;
+                    }
                 }
             }
-            */
+
         }
 
+        private static bool OnPageSizeValidateValue(object value)
+        {
+            int number = Convert.ToInt32(value);
+            return GreaterThanZero(number);
+        }
+
+        private static bool GreaterThanZero(int value)
+        {
+            int tmp = Convert.ToInt32(value);
+            return (tmp > 0);
+        }
+        private static void OnPageSizeChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            KarveGridView karveGrid = d as KarveGridView;
+            karveGrid.OnPropertyChanged("PageSize");
+            karveGrid.OnPageSizeChanged(e);
+        }
+
+        private void OnPageSizeChanged(DependencyPropertyChangedEventArgs e)
+        {
+            int value = Convert.ToInt32(e.NewValue);
+            _currentView.PageSize = value;
+        }
+
+        private static void OnSourceViewChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            KarveGridView karveGrid = d as KarveGridView;
+            karveGrid.OnPropertyChanged("SourceView");
+            karveGrid.OnSourceViewChanged(e);
+
+        }
+
+        private void OnSourceViewChanged(DependencyPropertyChangedEventArgs e)
+        {
+            DataTable table = e.NewValue as DataTable;
+            _currentView.DataSource = table;
+            foreach (var column in _currentView.Columns)
+            {
+                if (column is GridViewDataColumn)
+                {
+                    GridViewDataColumn col = column as GridViewDataColumn;
+                    if (col != null)
+                    {
+                        col.Width = 100;
+
+                    }
+                }
+            }
+            _masterTemplate = _currentView.MasterTemplate;
+        }
+
+
+        private void SetColumnWidth(int columnWidth)
+        {
+            foreach (var column in _currentView.Columns)
+            {
+                if (column is GridViewDataColumn)
+                {
+                    GridViewDataColumn col = column as GridViewDataColumn;
+                    if (col != null)
+                    {
+                        col.Width = columnWidth;
+
+                    }
+                }
+            }
+        }
+
+
+        private void KarveGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            System.Windows.Forms.Integration.WindowsFormsHost host = (System.Windows.Forms.Integration.WindowsFormsHost)Children[0];
+            host.Height = Convert.ToInt32(e.NewSize.Height);
+            host.Width = Convert.ToInt32(e.NewSize.Width);
+            _currentView.Width = Convert.ToInt32(e.NewSize.Width);
+            _currentView.Height = Convert.ToInt32(e.NewSize.Height);
+        }
+
+        public DataTable SourceView
+        {
+            get { return (DataTable)GetValue(SourceViewProperty); }
+            set
+            {
+                SetValue(SourceViewProperty, value);
+                _currentView.DataSource = value;
+                _currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.DisplayedCells);
+                _currentView.MasterTemplate.Refresh();
+
+            }
+        }
+        private bool ExistColumn(string Value)
+        {
+            GridViewCellInfoCollection cellInfo = _currentView.MasterView.TableFilteringRow.Cells;
+            foreach (GridViewCellInfo cell in cellInfo)
+            {
+                if (cell.ColumnInfo.Name == Value)
+                    return true;
+            }
+            return false;
+        }
+        public int PageSize
+        {
+            get { return (int)GetValue(PageSizeProperty); }
+            set
+            {
+                SetValue(PageSizeProperty, value);
+                _pageSize = value;
+                PageSize = _pageSize;
+            }
+        }
+        public int ColumnWidth
+        {
+            get { return (int)GetValue(ColumnMinWidthProperty); }
+            set
+            {
+                SetValue(ColumnMinWidthProperty, value);
+
+            }
+        }
+
+        public bool AutoGenerateColumns
+        {
+            get { return (bool)GetValue(AutoGenerateColumnsDependencyProperty); }
+            set
+            {
+                bool tmpValue = Convert.ToBoolean(value);
+                SetValue(AutoGenerateColumnsDependencyProperty, tmpValue);
+
+            }
+        }
+
+        public bool RowsMark { get; internal set; }
+
+        public Telerik.WinControls.UI.GridViewColumnCollection Columns
+        {
+            get
+            {
+                return this._currentView.Columns;
+            }
+        }
         private void DataGrid_CellEditorInitialized(object sender, GridViewCellEventArgs e)
         {
-            RadTextBoxEditor tbEditor = this.ActiveEditor as RadTextBoxEditor;
+            RadTextBoxEditor tbEditor = _currentView.ActiveEditor as RadTextBoxEditor;
             if ((tbEditor != null))
             {
-                RadTextBoxEditorElement tbElement = (RadTextBoxEditorElement) tbEditor.EditorElement;
+                RadTextBoxEditorElement tbElement = (RadTextBoxEditorElement)tbEditor.EditorElement;
                 tbElement.KeyDown -= tbElement_KeyDown;
                 tbElement.KeyDown += tbElement_KeyDown;
             }
         }
-
-        private void tbElement_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (_DataGridType == GridType.Search)
-            {
-                if (this.MasterView.TableFilteringRow.IsCurrent)
-                {
-                    if (e.KeyCode == Keys.Enter)
-                    {
-                        LoadCons();
-                    }
-                    else if (e.KeyCode == Keys.F4)
-                    {
-                    }
-                }
-            }
-        }
-
         private void DataGrid_EditorRequired(object sender, EditorRequiredEventArgs e)
         {
             if (object.ReferenceEquals(e.EditorType, typeof(GridBrowseEditor)))
@@ -237,439 +462,136 @@ namespace KarveGrid
             }
         }
 
-        #region "Definicion"
-
-        private void SetGridType()
+        private void tbElement_KeyDown(object sender, KeyEventArgs e)
         {
-            if (_DataGridType == GridType.Edit)
+            if (DataGridType == GridType.Search)
             {
-                this.EnableFiltering = true;
-                this.DatasetFiltering = true;
-                this.AllowEditRow = true;
-                this.AllowAddNewRow = true;
-                this.AllowDeleteRow = true;
-                this.AllowColumnChooser = false;
-                this.EnableGrouping = false;
-                this.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect;
-                this.MultiSelect = true;
-            }
-            else if (_DataGridType == GridType.Search)
-            {
-                this.EnableFiltering = true;
-                this.DatasetFiltering = false;
-                this.AllowEditRow = true;
-                this.AllowAddNewRow = false;
-                this.AllowDeleteRow = false;
-                this.MultiSelect = false;
-                this.EnableGrouping = true;
-                this.AllowColumnChooser = true;
-                this.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.FullRowSelect;
-            }
-        }
-
-        public void GenerateGrid()
-        {
-            DefineGrid();
-
-            foreach (var col in _dataGridColumns.ToArray())
-            {
-               _dataGridDefinicionValue.Columnas.Add(col);
-            }
-            foreach (var tb in DataGridTablesTablas.ToArray())
-            {
-               _dataGridDefinicionValue.TablasQuery.Add(tb);
-            }
-            foreach (var ord in dgoOrdenes.ToArray())
-            {
-                _dataGridDefinicionValue.Ordenes.Add(ord);
-            }
-            foreach (var Rl_loopVariable in _dataGridRules.Order())
-            {
-                _dataGridDefinicionValue.Clausulas.Add(Rl_loopVariable);
-            }
-            if ((dgcgGroups != null))
-            {
-                foreach (void gr in dgcgGroups.ColumnGroups)
+                if (_currentView.MasterView.TableFilteringRow.IsCurrent)
                 {
-                    gr = gr_loopVariable;
-                    _dataGridDefinicionValue.GruposColumnas.Add(gr);
-                }
-            }
-        }
-
-        #endregion
-
-        public void MarcarFilasEnGrid(bool Value)
-        {
-            DataTable dtt = new DataTable();
-            DataRow dtr = default(DataRow);
-            dtt = this.DataSource;
-            foreach (dtr in dtt.Rows)
-            {
-                dtr.Item(DgDefinicion.NombreColMarcar) = Value;
-            }
-        }
-
-        #region "Funciones de Acceso a Datos"
-
-        public void loadGrid()
-        {
-            _MarcarFilas = false;
-            if (_DataGridType == GridType.Edit)
-            {
-                DataGridRules dgrWhere = new DataGridRules();
-                DataGridRule rl = new DataGridRule();
-                rl.Criterio = DataGridOrdenColumna.euCriterio.Asc;
-                rl.Tabla = _colRel.Tabla;
-                rl.Campo = (!string.IsNullOrEmpty(_colRel.Campo) ? _colRel.Campo : _colRel.AliasCampo);
-                rl.Valor = _idRel;
-                rl.Name = _colRel.Name;
-                dgrWhere.Add(rl);
-                DgDefinicion.Clausulas = dgrWhere;
-            }
-            DgDefinicion.LoadGrid(this);
-            if (_MarcarFilas)
-                SetConditions();
-            setGridType();
-            loadExtra();
-
-            DataTable dta = default(DataTable);
-            dta = this.DataSource;
-            dta.RowDeleted += rowDeleted;
-
-        }
-
-
-        protected virtual void loadExtra()
-        {
-        }
-
-
-        protected virtual void rowDeleted()
-        {
-        }
-
-        private bool Columna_Existe(string Value)
-        {
-            bool functionReturnValue = false;
-            foreach (Telerik.WinControls.UI.GridViewCellInfo CL in this.MasterView.TableFilteringRow.Cells)
-            {
-                if (CL.ColumnInfo.Name == Value)
-                {
-                    return true;
-                    return functionReturnValue;
-                }
-            }
-            return false;
-            return functionReturnValue;
-        }
-
-        public void LoadCons(bool bMerge = false)
-        {
-            bCargando = true;
-            requery = false;
-            DgDefinicion.LoadCons(this, bMerge);
-            LoadFiltros();
-            LoadOrdenes();
-            if (LanzaConsulta != null)
-            {
-                LanzaConsulta(_dataGridRules);
-            }
-            bCargando = false;
-
-        }
-
-        public void guardar()
-        {
-            DgDefinicion.guardar();
-        }
-
-        public void setIdRel()
-        {
-            foreach (void row_loopVariable in this.Rows)
-            {
-                row = row_loopVariable;
-                row.Cells(_colRel.Name).Value = _idRel;
-            }
-            if (_DataGridType == GridType.Edit)
-            {
-                DataGridRules dgrWhere = new DataGridRules();
-                DataGridRule rl = new DataGridRule();
-                rl.Criterio = DataGridRule.euCriterio.Igual;
-                rl.Tabla = _colRel.Tabla;
-                rl.Campo = (!string.IsNullOrEmpty(_colRel.Campo) ? _colRel.Campo : _colRel.AliasCampo);
-                rl.Valor = _idRel;
-                rl.Name = _colRel.Name;
-                dgrWhere.Add(rl);
-                DgDefinicion.Clausulas.Clear();
-                DgDefinicion.Clausulas = dgrWhere;
-            }
-
-            //CType(dgrClausulas.Item(_colRel.Name), DataGridRule).Valor = _idRel
-        }
-
-        private void GridDelegacion_UserAddingRow(object sender, Telerik.WinControls.UI.GridViewRowCancelEventArgs e)
-        {
-            e.Rows(0).Cells(_colRel.Name).Value = _idRel;
-            AddExtra(sender, e);
-        }
-
-
-        protected virtual void AddExtra(object sender, Telerik.WinControls.UI.GridViewRowCancelEventArgs e)
-        {
-        }
-
-        public void Clear()
-        {
-            DataTable dta = this.DataSource;
-            dta.Rows.Clear();
-        }
-
-        #endregion
-
-        #region "Eventos celdas Browser"
-
-        private void DataGrid_CellValidating(object sender, CellValidatingEventArgs e)
-        {
-            try
-            {
-                if (e.Column.GetType == typeof(DataGridBrowseBoxColumn))
-                {
-                    string OldValue = "";
-                    if (Information.IsDBNull(e.OldValue))
+                    if (e.KeyCode == Keys.Enter)
                     {
-                        OldValue = "";
+                        LoadQuery();
                     }
-                    else
+                    else if (e.KeyCode == Keys.F4)
                     {
-                        OldValue = e.OldValue;
-                    }
 
-                    if (Strings.StrComp(OldValue, e.Value, CompareMethod.Text))
-                    {
-                        DataGridBrowseBoxColumn col = (DataGridBrowseBoxColumn) e.Column;
-                        if ((col.RelatedColumn != null))
-                        {
-                            if (col.Requery & !this.MasterView.TableFilteringRow.IsCurrent)
-                            {
-                                e.Row.Cells(col.RelatedColumn.Name).Value = col.QueryDesc(e.Value);
-                            }
-                        }
                     }
                 }
             }
-            catch
-            {
-            }
+        }
+        public void LoadQuery(bool bMerge = false)
+        {
 
-            try
+            _loading = true;
+            _reQuery = false;
+            KarveGridView view = this;
+            _dataGridDefinition.LoadQueries(ref view, bMerge);
+            LoadFilters();
+            LoadOrdered();
+            TriggerQuery?.Invoke(_dataGridRules);
+            _loading = false;
+        }
+        public void LoadFilters()
+        {
+            _currentView.FilterDescriptors.BeginUpdate();
+            _currentView.FilterDescriptors.Clear();
+            foreach (DataGridRule dataGridRule in _dataGridRules.Order())
             {
-                if (this.MasterView.TableFilteringRow.IsCurrent & requery & !bCargando)
+                FilterDescriptor filterDescriptor = null;
+                switch (dataGridRule.CurrentFilterType)
                 {
-                    LoadCons();
-                    requery = false;
+                    case DataGridRule.FilterType.Text:
+                        filterDescriptor = LoadTextFilter(dataGridRule);
+                        break;
+                    case DataGridRule.FilterType.Data:
+                        filterDescriptor = LoadDateFilter(dataGridRule);
+                        break;
+                    case DataGridRule.FilterType.Composed:
+                        filterDescriptor = LoadCompositeFilter(dataGridRule);
+                        break;
+                }
+                _currentView.FilterDescriptors.Add(filterDescriptor);
+            }
+            _currentView.FilterDescriptors.EndUpdate();
+        }
+
+        private FilterDescriptor LoadCompositeFilter(DataGridRule dataGridRule)
+        {
+            CompositeFilterDescriptor compositeFilter = new CompositeFilterDescriptor();
+            FilterDescriptor filterDescriptor = null;
+            foreach (var partGridRule in dataGridRule.Rules.Order())
+            {
+                DataGridRule.FilterType filterType = partGridRule.CurrentFilterType;
+                switch (filterType)
+                {
+                    case DataGridRule.FilterType.Text:
+                        filterDescriptor = LoadTextFilter(partGridRule);
+                        break;
+                    case DataGridRule.FilterType.Data:
+                        filterDescriptor = LoadDateFilter(partGridRule);
+                        break;
+                }
+                if (filterDescriptor != null)
+                {
+                    filterDescriptor.PropertyName = dataGridRule.Name;
+                    compositeFilter.FilterDescriptors.Add(filterDescriptor);
                 }
             }
-            catch (Exception ex)
-            {
-            }
-
-            if (CellValidatingExtra != null)
-            {
-                CellValidatingExtra(sender, e);
-            }
+            compositeFilter.Value = dataGridRule.Value;
+            compositeFilter.Operator = FilterOperator.Contains;
+            compositeFilter.IsFilterEditor = true;
+            compositeFilter.PropertyName = dataGridRule.Name;
+            compositeFilter.LogicalOperator = (dataGridRule.Operador == DataGridRule.OperatorRule.And)
+                ? FilterLogicalOperator.And
+                : FilterLogicalOperator.Or;
+            compositeFilter.NotOperator = dataGridRule.Expresion.Substring(1, 3) == "NOT" ? true : false;
+            return compositeFilter;
         }
 
-        private void DataGrid_CellValueChanged(object sender, GridViewCellEventArgs e)
+        private FilterDescriptor LoadDateFilter(DataGridRule dataGridRule)
         {
-            if (e.Column.GetType == typeof(DataGridBrowseBoxColumn))
-            {
-                ((DataGridBrowseBoxColumn) e.Column).Requery = true;
-            }
-            if (this.MasterView.TableFilteringRow.IsCurrent)
-            {
-                requery = true;
-            }
+            DateFilterDescriptor dateFilterDescriptor = new DateFilterDescriptor();
+            dateFilterDescriptor.Value = Convert.ToDateTime(dataGridRule.Value);
+            dateFilterDescriptor.Operator = DataGridRule.TranslateFilter(dataGridRule.Criterio);
+            dateFilterDescriptor.IsFilterEditor = true;
+            dateFilterDescriptor.PropertyName = dataGridRule.Name;
+            return dateFilterDescriptor;
         }
 
-        private void SetConditions()
+        private FilterDescriptor LoadTextFilter(DataGridRule dataGridRule)
         {
-            //add a couple of sample formatting objects
-            ConditionalFormattingObject c1 =
-                new ConditionalFormattingObject("Fila Marcada", ConditionTypes.Equal, true, "", true);
-            c1.RowBackColor = Color.SkyBlue;
-            c1.CellBackColor = Color.SkyBlue;
-
-            this.Columns(DgDefinicion.NombreColMarcar).ConditionalFormattingObjectList.Add(c1);
-
-            //update the grid view for the conditional formatting to take effect
-
-
+            FilterDescriptor textFilterDescriptor = new FilterDescriptor();
+            textFilterDescriptor.Value = dataGridRule.Value;
+            textFilterDescriptor.Operator = DataGridRule.TranslateFilter(dataGridRule.Criterio);
+            textFilterDescriptor.IsFilterEditor = true;
+            textFilterDescriptor.PropertyName = dataGridRule.Name;
+            return textFilterDescriptor;
         }
-
-        private void DataGrid_RowFormatting(object sender, RowFormattingEventArgs e)
-        {
-            if (_MarcarFilas)
-            {
-                if (e.RowElement.IsSelected)
-                {
-                    e.RowElement.BackColor = Color.BlueViolet;
-                }
-                else if (e.RowElement.RowInfo.Cells(DgDefinicion.NombreColMarcar).Value == false)
-                {
-                    e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local);
-                    e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local);
-                    e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local);
-                }
-            }
-        }
-
-
-        private void DataGrid_CellFormatting(object sender, CellFormattingEventArgs e)
-        {
-            System.Drawing.Color Color = DameColor(Strings.UCase(e.CellElement.ColumnInfo.Name));
-            //Para las Lupas, desactivamos marcar columnas con colorines
-            if (_DataGridType == GridType.Edit)
-            {
-                if (Color != System.Drawing.Color.Empty)
-                {
-                    e.CellElement.DrawFill = (e.Row.IsSelected == false);
-                    e.CellElement.NumberOfColors = 1;
-                    e.CellElement.BackColor = Color;
-                }
-                else
-                {
-                    e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local);
-                    e.CellElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local);
-                    e.CellElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local);
-                }
-            }
-
-        }
-
-        #endregion
-
-        #region ".  No Usar.  "
-
-        private System.Drawing.Color DameColor_(string sAliasCampo)
-        {
-            DataGridColumn DGT = default(DataGridColumn);
-            for (iRg = 0; iRg <= dgcColumnas.Count - 1; iRg++)
-            {
-                DGT = new DataGridColumn();
-                DGT = (object) dgcColumnas.Item(iRg);
-                if (Strings.UCase(DGT.AliasCampo) == Strings.UCase(sAliasCampo))
-                {
-                    return DGT.BackColor;
-                }
-            }
-        }
-
-        #endregion
-
-        private void InitializeComponent()
-        {
-            ((System.ComponentModel.ISupportInitialize) this).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) this.MasterTemplate).BeginInit();
-            this.SuspendLayout();
-            //
-            //DataGrid
-            //
-            ((System.ComponentModel.ISupportInitialize) this.MasterTemplate).EndInit();
-            ((System.ComponentModel.ISupportInitialize) this).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
-
-
-        }
-
-        #region "   . Control Ordenes.    "
-
-        public void LoadOrdenes()
-        {
-            bCargando = true;
-            try
-            {
-                this.MasterTemplate.SortDescriptors.Clear();
-                foreach (DataGridOrdenColumna CL in dgoOrdenes.ToArray)
-                {
-                    if (Columna_Existe(CL.Name))
-                    {
-                        int iSort = 0;
-                        if (CL.Criterio == DataGridOrdenColumna.euCriterio.Desc)
-                            iSort = 1;
-                        this.MasterTemplate.SortDescriptors.Add(CL.Name, iSort);
-                    }
-                }
-            }
-            catch
-            {
-            }
-            bCargando = false;
-        }
-        //Revisar en que caso petan los orders
-
-        private void DataGrid_SortChanging(object sender, GridViewCollectionChangingEventArgs e)
-        {
-            DataGridOrdenColumna CL = new DataGridOrdenColumna();
-            if (_DataGridType == GridType.Search)
-            {
-                if (bCargando == false)
-                {
-                    e.Cancel = true;
-                    if (e.NewItems.Count != 0)
-                    {
-                        var _with1 = CL;
-                        dynamic col = DgDefinicion.Columnas.Item(e.NewItems(0).PropertyName);
-                        if ((col != null))
-                            _with1.AliasTabla = col.Tabla;
-                        _with1.Name = e.NewItems(0).PropertyName;
-                        if ((col != null))
-                        {
-                            _with1.Campo = col.Campo;
-                            _with1.AliasCampo = col.AliasCampo;
-                            _with1.ExpresionBD = col.ExpresionBD;
-                        }
-                        if (e.NewItems(0).Direction == 0)
-                        {
-                            _with1.Criterio = DataGridOrdenColumna.euCriterio.Asc;
-                        }
-                        else
-                        {
-                            _with1.Criterio = DataGridOrdenColumna.euCriterio.Desc;
-                        }
-                        dgoOrdenes.Clear();
-                        dgoOrdenes.Add(CL);
-                    }
-                    else
-                    {
-                        if (dgoOrdenes(0).criterio == DataGridOrdenColumna.euCriterio.Desc)
-                        {
-                            dgoOrdenes(0).criterio = DataGridOrdenColumna.euCriterio.Asc;
-                        }
-                        else
-                        {
-                            dgoOrdenes(0).criterio = DataGridOrdenColumna.euCriterio.Desc;
-                        }
-                    }
-                    DgDefinicion.Ordenes = dgoOrdenes;
-                    LoadCons();
-                }
-            }
-        }
-
-        #endregion
-
-        #region "   . Control Filtros.    "
-
 
         private void DataGrid_FilterChanging(object sender, GridViewCollectionChangingEventArgs e)
         {
-
-            if (!datasetFiltering)
+           
+            IDictionary<Type, IKarveGridFilter> filterTypes = new Dictionary<Type, IKarveGridFilter>();
+            object value = e.NewValue;
+            
+            FilterDescriptor filterDescriptor = null;
+            CompositeFilterDescriptor compositeFilter = null;
+            if (e.NewValue is FilterDescriptor)
             {
-                if (bCargando == false)
+                filterDescriptor = (FilterDescriptor) e.NewValue;
+            }
+            else
+            {
+                compositeFilter = (CompositeFilterDescriptor) e.NewValue;
+            }
+            // check if this exists
+            filterTypes.Add(typeof(FilterDescriptor), new TextFilter(filterDescriptor));
+            filterTypes.Add(typeof(DateFilterDescriptor), new DateFilter(filterDescriptor));
+            filterTypes.Add(typeof(CompositeFilterDescriptor), new KarveCompositeFilter(compositeFilter));
+
+            if (!_dataSetFiltering)
+            {
+                if (_loading == false)
                 {
                     _bChangeOperator = false;
                     switch (e.Action)
@@ -677,486 +599,282 @@ namespace KarveGrid
                         case NotifyCollectionChangedAction.Remove:
                             _dataGridRules.Remove(e.PropertyName);
                             _bChangeOperator = true;
-                            _reloadCons = false;
+                            _reQuery = false;
                             break;
                         default:
-                            switch (e.NewItems(0).GetType)
-                            {
-                                case typeof(FilterDescriptor):
-                                    TextFilter(e.NewItems(0));
-                                    break;
-                                case typeof(DateFilterDescriptor):
-                                    DateFilter(e.NewItems(0));
-                                    break;
-                                case typeof(CompositeFilterDescriptor):
-                                    CompositeFilter(e.NewItems(0));
-                                    _bChangeOperator = true;
-                                    break;
-                                default:
-                                    TextFilter(e.NewItems(0));
-                                    break;
-                            }
+                            Type type = e.NewItems[0].GetType();
+                            filterTypes[type].Apply(_dataGridColumns, ref _dataGridRules);
                             break;
                     }
-
-                    DgDefinicion.Clausulas = _dataGridRules;
+                    _dataGridDefinition.Clausulas = _dataGridRules;
                     e.Cancel = !_bChangeOperator;
                 }
             }
         }
-
-        private void TextFilter(FilterDescriptor filter)
+        public void LoadOrdered()
         {
-            DataGridRule RL = new DataGridRule();
-            dynamic col = dgcColumnas.Item(filter.PropertyName);
-
-
-            if ((col != null))
+            this._loading = true;
+            _currentView.MasterTemplate.SortDescriptors.Clear();
+            foreach (DataGridOrderedColumn column in _dataGridOrderedColumns.Ordered())
             {
-                var _with2 = RL;
-                //Hay que machearlo con las columnas
-                _with2.Tabla = col.Tabla;
-                _with2.Name = col.Name;
-                _with2.Campo = col.Campo;
-                _with2.AliasCampo = col.AliasCampo;
-                _with2.ExpresionBD = col.ExpresionBD;
-                _with2.Criterio = Correspondencia_Filtro(filter.Operator);
-                _with2.Tipo = DataGridRule.TipoFiltro.Texto;
-                if (filter.Operator == Telerik.WinControls.Data.FilterOperator.IsNull)
+                if (ExistColumn(column.Name))
                 {
-                    _with2.Valor = "";
-                }
-                else
-                {
-                    _with2.Valor = filter.Value;
-                }
-
-                //Borra elemento si lo encuentra
-                if (string.IsNullOrEmpty(VD.getString(filter.Value)) & !PermiteValueNull(filter.Operator))
-                {
-                    _dataGridRules.Remove(RL.Name);
-                }
-                else if (_dataGridRules.Existe(RL.Name))
-                {
-                    DataGridRule tmp = _dataGridRules(RL.Name);
-                    RL.Item = tmp.Item;
-                    if (RL.Criterio != tmp.Criterio)
-                        _bChangeOperator = true;
-                    _dataGridRules.Modify(RL);
-                }
-                else
-                {
-                    _dataGridRules.Add(RL);
+                    ListSortDirection direction = ListSortDirection.Ascending;
+                    if (column.Criteria == DataGridOrderedColumn.OrderCriteria.Desc)
+                    {
+                        direction = ListSortDirection.Descending;
+                    }
+                    _currentView.MasterTemplate.SortDescriptors.Add(column.Name, direction);
                 }
             }
         }
-
-        private void DateFilter(DateFilterDescriptor filter)
+        public void SetRelationalIdentifier()
         {
-            DataGridRule RL = new DataGridRule();
-            dynamic col = dgcColumnas.Item(filter.PropertyName);
-
-
-            if ((col != null))
+            foreach (var row in _currentView.Rows)
             {
-                var _with3 = RL;
-                //Hay que machearlo con las columnas
-                _with3.Tabla = col.Tabla;
-                _with3.Name = col.Name;
-                _with3.Campo = col.Campo;
-                _with3.AliasCampo = col.AliasCampo;
-                _with3.ExpresionBD = col.ExpresionBD;
-                _with3.Criterio = Correspondencia_Filtro(filter.Operator);
-                _with3.Tipo = DataGridRule.TipoFiltro.Fecha;
-                if (filter.Operator == Telerik.WinControls.Data.FilterOperator.IsNull)
-                {
-                    _with3.Valor = "";
-                }
-                else
-                {
-                    _with3.Valor = Convert.ToDateTime(filter.Value).ToString("yyyy-MM-dd");
-                }
+                row.Cells[_relationalColumn.Name].Value = _relationalId;
+            }
+            if (DataGridType == GridType.Edit)
+            {
+                DataGridRules dataGridRules = new DataGridRules();
+                DataGridRule dataGridRule = new DataGridRule();
+                dataGridRule.Criterio = DataGridRule.SortingCriteria.IsEqualTo;
+                dataGridRule.Table = _relationalColumn.Table;
+                dataGridRule.ExtendedFieldName = (!string.IsNullOrEmpty(_relationalColumn.ExtendedFieldName)
+                    ? _relationalColumn.ExtendedFieldName
+                    : _relationalColumn.AliasField);
 
-                //Borra elemento si lo encuentra
-                if (string.IsNullOrEmpty(VD.getString(filter.Value)) & !PermiteValueNull(filter.Operator))
-                {
-                    _dataGridRules.Remove(RL.Name);
-                }
-                else if (_dataGridRules.Existe(RL.Name))
-                {
-                    DataGridRule tmp = _dataGridRules(RL.Name);
-                    RL.Item = tmp.Item;
-                    if (RL.Criterio != tmp.Criterio)
-                        _bChangeOperator = true;
-                    _dataGridRules.Modify(RL);
-                }
-                else
-                {
-                    _dataGridRules.Add(RL);
-                }
-
+                dataGridRule.Name = _relationalColumn.Name;
+                dataGridRules.Add(dataGridRule);
+                _dataGridDefinition.Clausulas.Clear();
+                _dataGridDefinition.Clausulas = dataGridRules;
             }
         }
 
-        private void CompositeFilter(CompositeFilterDescriptor filter)
+        private void GridDelegacion_UserAddingRow(object sender, Telerik.WinControls.UI.GridViewRowCancelEventArgs e)
         {
-            DataGridRule RL = new DataGridRule();
-            dynamic col = dgcColumnas.Item(filter.PropertyName);
-            DataGridRules rlParts = new DataGridRules();
-
-            if ((col != null))
+            if (e.Rows.Length > 0)
             {
-                int i = 0;
-                foreach (void fil_loopVariable in filter.FilterDescriptors)
-                {
-                    fil = fil_loopVariable;
-                    DataGridRule rlPart = new DataGridRule();
+                e.Rows[0].Cells[RelationalColumn.Name].Value = _relationalId;
+            }
+        }
+        public object DataSource
+        {
+            get { return this._currentView.DataSource; }
+            set { this._currentView.DataSource = value; }
+        }
 
-                    var _with4 = rlPart;
-                    //Hay que machearlo con las columnas
-                    _with4.Tabla = col.Tabla;
-                    _with4.Name = col.Name + i;
-                    _with4.Campo = col.Campo;
-                    _with4.AliasCampo = col.AliasCampo;
-                    _with4.ExpresionBD = col.ExpresionBD;
-                    _with4.Criterio = Correspondencia_Filtro(fil.Operator);
+        public DataGridColumnGroups ViewDefinition
+        {
+            get { return this.ViewDefinition; }
+            set { this.ViewDefinition = value; }
+        }
 
-                    switch (fil.GetType)
-                    {
-                        case typeof(FilterDescriptor):
-                            _with4.Tipo = DataGridRule.TipoFiltro.Texto;
-                            if (fil.Operator == Telerik.WinControls.Data.FilterOperator.IsNull)
-                            {
-                                _with4.Valor = "";
-                            }
-                            else
-                            {
-                                _with4.Valor = fil.Value;
-                            }
-                            break;
-                        case typeof(DateFilterDescriptor):
-                            _with4.Tipo = DataGridRule.TipoFiltro.Fecha;
-                            if (fil.Operator == Telerik.WinControls.Data.FilterOperator.IsNull)
-                            {
-                                _with4.Valor = "";
-                            }
-                            else
-                            {
-                                _with4.Valor = Convert.ToDateTime(fil.Value).ToString("yyyy-MM-dd");
-                            }
-                            break;
-                    }
+        public bool AllowAddNewRow { get; internal set; }
+        public bool AllowEditRow { get; internal set; }
+        public bool AllowDeleteRow { get; internal set; }
+        public GridType DataGridType { get; internal set; }
 
-                    if (string.IsNullOrEmpty(VD.getString(rlPart.Valor)) & !PermiteValueNull(fil.Operator))
-                    {
-                        //en lugar de eliminar la regla no la creamos
-                    }
-                    else
-                    {
-                        rlParts.Add(rlPart);
-                        i += 1;
-                    }
-                }
+        public DataGridTextBoxColumn RelationalColumn
+        {
+            get { return _relationalColumn; }
+            set { _relationalColumn = value; }
+        }
 
-                var _with5 = RL;
-                _with5.Tabla = col.Tabla;
-                _with5.Name = col.Name;
-                _with5.Campo = col.Campo;
-                _with5.AliasCampo = col.AliasCampo;
-                _with5.ExpresionBD = col.ExpresionBD;
-                _with5.Tipo = DataGridRule.TipoFiltro.Compuesto;
-                _with5.Operador = (filter.LogicalOperator == FilterLogicalOperator.And
-                    ? DataGridRule.euOperadorRule.eAnd
-                    : DataGridRule.euOperadorRule.eOr);
-                _with5.Rules = rlParts;
-                _with5.Expresion = " " + (filter.NotOperator ? "NOT " : "") + "(";
-                foreach (DataGridRule rlPart in _with5.Rules.Order)
-                {
-                    if (rlPart.Item > 0)
-                        _with5.Expresion += _with5.OperadorVal;
-                    _with5.Expresion += _with5.Rules.DameClausula(rlPart);
-                }
-                _with5.Expresion += ") ";
+       
 
-                //si no tiene reglas las eliminamos
-                if (RL.Rules.Count == 0)
-                {
-                    _dataGridRules.Remove(RL.Name);
-                }
-                else if (_dataGridRules.Existe(RL.Name))
-                {
-                    RL.Item = _dataGridRules(RL.Name).Item;
-                    _dataGridRules.Modify(RL);
-                }
-                else
-                {
-                    _dataGridRules.Add(RL);
-                }
+        private void Init()
+        {
+            this._masterTemplate = _currentView.MasterTemplate;
+        }
+
+        private void InitEvents()
+        {
+            if (_currentView != null)
+            {
+                _currentView.FilterChanged += DataGrid_FilterChanged;
+                _currentView.RowFormatting += DataGrid_RowFormatting;
+                _currentView.EnableGrouping = true;
+                _currentView.EnableSorting = true;
+                _currentView.SelectionMode = GridViewSelectionMode.FullRowSelect;
+                _currentView.EnablePaging = true;
+                _currentView.CurrentRowChanged+=CurrentViewOnSelectionChanged;
+                _currentView.PageChanging += DataGrid_PageChanging;
+                _currentView.CellEndEdit+=CurrentViewOnCellEndEdit;
+                
             }
         }
 
+        private void CurrentViewOnCellEndEdit(object sender, GridViewCellEventArgs gridViewCellEventArgs)
+        {
+            GridViewRowInfo info = _currentView.CurrentRow;
+            GridRowModifiedCellEventArgs args = new GridRowModifiedCellEventArgs(ModifiedCellRoutedEvent);
+            args.CurrentRow = info;
+            RaiseEvent(args);
+
+        }
+
+        private void CurrentViewOnSelectionChanged(object sender, EventArgs eventArgs)
+        {
+            GridViewRowInfo info = _currentView.CurrentRow;
+            GridViewSelectedCellsChangedEventArgs args = new GridViewSelectedCellsChangedEventArgs(SelectedRowGridViewEvent);
+            args.CurrentRow = info;
+            RaiseEvent(args);
+        }
+
+        private void DataGrid_SortChanging(object sender, GridViewCollectionChangingEventArgs e)
+        {
+            DataGridOrderedColumn orderedColumn = new DataGridOrderedColumn();
+            if (DataGridType == GridType.Search)
+            {
+                if (_loading == false)
+                {
+                    e.Cancel = true;
+                    if (e.NewItems.Count != 0)
+                    {
+                        DataGridColumn name = e.NewItems[0] as DataGridColumn;
+         //               dynamic col = _dataGridDefinition.Columns[name.Pro]
+                    }
+                }
+                
+            }
+        }
+
+        
         private void DataGrid_FilterChanged(object sender, GridViewCollectionChangedEventArgs e)
         {
-            if (_DataGridType == GridType.Search)
+            
+            IList<string> filterCurrent = new List<string>();
+            foreach (var item in e.NewItems)
             {
-                if (_bChangeOperator)
+                FilterDescriptor filterDescriptor = item as FilterDescriptor;
+                string  set = filterDescriptor.Expression;
+                filterCurrent.Add(set);
+            }
+            ChangeFilterEvents(filterCurrent);
+        }
+        private void DataGrid_RowFormatting(object sender, RowFormattingEventArgs e)
+        {
+            GridRowElement row = e.RowElement;
+            if (RowsMark)
+            {
+                if (e.RowElement.IsSelected)
                 {
-                    _bChangeOperator = false;
-                    //If _reloadCons Then LoadCons()
-                    _reloadCons = true;
+                    e.RowElement.BackColor = DefaultColors.DefaultSelectedColor;
                 }
-            }
-        }
-
-        private bool PermiteValueNull(Telerik.WinControls.Data.FilterOperator Value)
-        {
-            switch (Value)
-            {
-                case Telerik.WinControls.Data.FilterOperator.IsNull:
-                case Telerik.WinControls.Data.FilterOperator.IsNotNull:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        private object BuscaColumna(string Value)
-        {
-            object functionReturnValue = null;
-            foreach (object CL in dgcColumnas.ToArray)
-            {
-                if (Value == CL.FieldName)
+                else
                 {
-                    return CL;
-                    return functionReturnValue;
-                }
-            }
-            return null;
-            return functionReturnValue;
-        }
-
-        private DataGridRule.SortingCriteria Correspondencia_Filtro(Telerik.WinControls.Data.FilterOperator Value)
-        {
-            switch (Value)
-            {
-                case Telerik.WinControls.Data.FilterOperator.Contains:
-                    return DataGridRule.SortingCriteria.Contiene;
-                case Telerik.WinControls.Data.FilterOperator.StartsWith:
-                    return DataGridRule.SortingCriteria.Empieza;
-                case Telerik.WinControls.Data.FilterOperator.EndsWith:
-                    return DataGridRule.SortingCriteria.Termina;
-                case Telerik.WinControls.Data.FilterOperator.IsEqualTo:
-                    return DataGridRule.euCriterio.Igual;
-                case Telerik.WinControls.Data.FilterOperator.IsGreaterThan:
-                    return DataGridRule.euCriterio.Mayor_Que;
-                case Telerik.WinControls.Data.FilterOperator.IsGreaterThanOrEqualTo:
-                    return DataGridRule.euCriterio.MayorIgual_Que;
-                case Telerik.WinControls.Data.FilterOperator.IsLessThan:
-                    return DataGridRule.euCriterio.Menor_Que;
-                case Telerik.WinControls.Data.FilterOperator.IsLessThanOrEqualTo:
-                    return DataGridRule.euCriterio.MenorIgual_Que;
-                case Telerik.WinControls.Data.FilterOperator.IsNotEqualTo:
-                    return DataGridRule.euCriterio.Distinto;
-                case Telerik.WinControls.Data.FilterOperator.IsNotNull:
-                    return DataGridRule.euCriterio.NoEsNulo;
-                case Telerik.WinControls.Data.FilterOperator.IsNull:
-                    return DataGridRule.euCriterio.EsNulo;
-                case Telerik.WinControls.Data.FilterOperator.NotContains:
-                    return DataGridRule.euCriterio.NoContiene;
-                default:
-                    return DataGridRule.euCriterio.Empieza;
-            }
-        }
-
-        private Telerik.WinControls.Data.FilterOperator Correspondencia_Filtro_Ret(DataGridRule.euCriterio Value)
-        {
-            switch (Value)
-            {
-                case DataGridRule.euCriterio.Contiene:
-                    return Telerik.WinControls.Data.FilterOperator.Contains;
-                case DataGridRule.euCriterio.Empieza:
-                    return Telerik.WinControls.Data.FilterOperator.StartsWith;
-                case DataGridRule.euCriterio.Termina:
-                    return Telerik.WinControls.Data.FilterOperator.EndsWith;
-                case DataGridRule.euCriterio.Igual:
-                    return Telerik.WinControls.Data.FilterOperator.IsEqualTo;
-                case DataGridRule.euCriterio.Mayor_Que:
-                    return Telerik.WinControls.Data.FilterOperator.IsGreaterThan;
-                case DataGridRule.euCriterio.MayorIgual_Que:
-                    return Telerik.WinControls.Data.FilterOperator.IsGreaterThanOrEqualTo;
-                case DataGridRule.euCriterio.Menor_Que:
-                    return Telerik.WinControls.Data.FilterOperator.IsLessThan;
-                case DataGridRule.euCriterio.MenorIgual_Que:
-                    return Telerik.WinControls.Data.FilterOperator.IsLessThanOrEqualTo;
-                case DataGridRule.euCriterio.Distinto:
-                    return Telerik.WinControls.Data.FilterOperator.IsNotEqualTo;
-                case DataGridRule.euCriterio.EsNulo:
-                    return Telerik.WinControls.Data.FilterOperator.IsNull;
-                case DataGridRule.euCriterio.NoEsNulo:
-                    return Telerik.WinControls.Data.FilterOperator.IsNotNull;
-                case DataGridRule.euCriterio.NoContiene:
-                    return Telerik.WinControls.Data.FilterOperator.NotContains;
-                default:
-                    return Telerik.WinControls.Data.FilterOperator.StartsWith;
-            }
-        }
-
-        public void LoadFiltros()
-        {
-            this.FilterDescriptors.BeginUpdate();
-            this.FilterDescriptors.Clear();
-
-
-            foreach (DataGridRule CL in _dataGridRules.Order)
-            {
-                try
-                {
-                    object s = new object();
-                    switch (CL.Tipo)
+                    GridViewCellInfoCollection infoCollection = row.RowInfo.Cells;
+                    var valueInfo = infoCollection[_dataGridDefinition.ColMarkName];
+                    if (Convert.ToBoolean(valueInfo) == false)
                     {
-                        case DataGridRule.TipoFiltro.Texto:
-                            s = LoadTextFilter(CL);
-                            break;
-                        case DataGridRule.TipoFiltro.Fecha:
-                            s = LoadDateFilter(CL);
-                            break;
-                        case DataGridRule.TipoFiltro.Compuesto:
-                            s = LoadCompositeFilter(CL);
-                            break;
+                        e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local);
+                        e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local);
+                        e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local);
                     }
-
-                    this.FilterDescriptors.Add(s);
-                }
-                catch
-                {
                 }
             }
-            this.FilterDescriptors.EndUpdate();
         }
 
-        private FilterDescriptor LoadTextFilter(DataGridRule RL)
+        public void GenerateGrid()
         {
-            FilterDescriptor functionReturnValue = default(FilterDescriptor);
-            functionReturnValue = new FilterDescriptor();
 
-            var _with6 = functionReturnValue;
-            _with6.Value = RL.Valor;
-            _with6.Operator = Correspondencia_Filtro_Ret(RL.Criterio);
-            _with6.IsFilterEditor = true;
-            _with6.PropertyName = RL.Name;
-            return functionReturnValue;
-        }
-
-        private DateFilterDescriptor LoadDateFilter(DataGridRule RL)
-        {
-            DateFilterDescriptor functionReturnValue = default(DateFilterDescriptor);
-            functionReturnValue = new DateFilterDescriptor();
-
-            var _with7 = functionReturnValue;
-            _with7.Value = Convert.ToDateTime(RL.Valor);
-            _with7.Operator = Correspondencia_Filtro_Ret(RL.Criterio);
-            _with7.IsFilterEditor = true;
-            _with7.PropertyName = RL.Name;
-            return functionReturnValue;
-        }
-
-        private CompositeFilterDescriptor LoadCompositeFilter(DataGridRule RL)
-        {
-            CompositeFilterDescriptor functionReturnValue = default(CompositeFilterDescriptor);
-            functionReturnValue = new CompositeFilterDescriptor();
-            foreach (void rlPart_loopVariable in RL.Rules.Order)
+            foreach (var col in _dataGridColumns.Ordered())
             {
-                rlPart = rlPart_loopVariable;
-                object filter = new object();
-                switch (rlPart.Tipo)
-                {
-                    case DataGridRule.TipoFiltro.Texto:
-                        filter = LoadTextFilter(rlPart);
-                        break;
-                    case DataGridRule.TipoFiltro.Fecha:
-                        filter = LoadDateFilter(rlPart);
-                        break;
-                }
-                filter.PropertyName = RL.Name;
-                functionReturnValue.FilterDescriptors.Add(filter);
+                _dataGridDefinition.Columns.AddColumns(col);
+
             }
-            var _with8 = functionReturnValue;
-            _with8.Value = RL.Valor;
-            _with8.Operator = FilterOperator.Contains;
-            _with8.IsFilterEditor = true;
-            _with8.PropertyName = RL.Name;
-            _with8.LogicalOperator = (RL.Operador == DataGridRule.euOperadorRule.eAnd
-                ? FilterLogicalOperator.And
-                : FilterLogicalOperator.Or);
-            _with8.NotOperator = (RL.Expresion.Substring(1, 3) == "NOT" ? true : false);
-            return functionReturnValue;
+            foreach (var table in _dataGridTables.Ordered())
+            {
+                _dataGridDefinition.QueryTables.AddDataGridTable(table);
+            }
+            foreach (var col in _dataGridOrderedColumns.Ordered())
+            {
+                _dataGridDefinition.Ordenes.AddColumns(col);
+            }
+            foreach (var col in _dataGridRules.Order())
+            {
+                _dataGridDefinition.Clausulas.Add(col);
+            }
+            if ((_dataGridColumnGroups != null))
+            {
+                foreach (var column in _dataGridColumnGroups.ColumnGroups)
+                {
+                    _dataGridDefinition.GruposColumnas.AddColumns(column);
+
+                }
+            }
         }
 
-        #endregion
+        private void DataGrid_PageChanging(object sender, PageChangingEventArgs e)
+        {
 
-        #region "   . Control ScrollBar.   "
+        }
 
         private void VScrollBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            RadScrollBarElement scrollBar = _currentView.TableElement.VScrollBar;
+            int deltaScrollBar = scrollBar.Maximum - scrollBar.Value;
             _bScrolling = true;
-            if (this.TableElement.VScrollBar.Maximum - this.TableElement.VScrollBar.Value <=
-                (this.TableElement.VScrollBar.LargeChange - 1))
+            if (deltaScrollBar <= (scrollBar.LargeChange - 1))
             {
-                LoadConsMerge();
+                LoadMergeQuery();
             }
             _bScrolling = false;
         }
 
+        private void LoadMergeQuery()
+        {
+            throw new NotImplementedException();
+        }
+
         private void DataGrid_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (_DataGridType == GridType.Search)
+            RadScrollBarElement scrollBar = _currentView.TableElement.VScrollBar;
+            int deltaScrollBar = scrollBar.Maximum - scrollBar.Value;
+
+            if (DataGridType == GridType.Search)
             {
-                if (this.TableElement.VScrollBar.Maximum - this.TableElement.VScrollBar.Value <=
-                    (this.TableElement.VScrollBar.LargeChange - 1))
+                if (deltaScrollBar <= (scrollBar.LargeChange - 1))
                 {
-                    LoadConsMerge();
+                    LoadMergeQuery();
                 }
             }
         }
-
-        private void LoadConsMerge()
+        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
-            if (_DataGridType == GridType.Search)
+            Binding oBind = new Binding("SourceView");
+            oBind.Source = dta;
+            oBind.Mode = BindingMode.TwoWay;
+            oBind.ValidatesOnDataErrors = true;
+            oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            SetBinding(SourceViewProperty, oBind);
+        }
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            object tmpContainer = GetTemplateChild("PART_GridContainer");
+            _baseContainer = tmpContainer as Grid;
+            if (_baseContainer != null)
             {
-                DgDefinicion.NRegPaginado = DgDefinicion.NRegPaginado + 40;
-                LoadCons(true);
-                this.TableElement.ScrollToRow(this.Rows.Count - (this.TableElement.RowsPerPage + 5));
+                _baseContainer.Loaded += KarveGrid2_Loaded;
             }
         }
-
-        #endregion
-
-        #region "   . Control Menus Contextuales.   "
-
-        private void DataGrid_ContextMenuOpening(object sender, ContextMenuOpeningEventArgs e)
+        private void KarveGrid2_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (this.MasterView.TableFilteringRow.IsCurrent | bBtnIzq)
-            {
-                bBtnIzq = false;
-                return;
-            }
-            if (OpenMenu != null)
-            {
-                OpenMenu(sender, e);
-            }
+            System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
+            host.Child = _currentView;
+            _baseContainer.Children.Add(host);
         }
 
-        private void DataGrid_MouseUp(object sender, MouseEventArgs e)
+
+        public void BeginEdit()
         {
-            bBtnIzq = false;
+            _currentView.BeginEdit();
         }
-
-        private void DataGrid_MouseDown(object sender, MouseEventArgs e)
+        public void EndEdit()
         {
-            bBtnIzq = e.Button == Windows.Forms.MouseButtons.Left;
+            _currentView.EndEdit();
         }
-
-        #endregion
-
     }
 }

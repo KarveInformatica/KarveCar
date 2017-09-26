@@ -2,26 +2,29 @@ using System;
 using Telerik.WinControls;
 using Telerik.WinControls.UI;
 
-namespace KarveGrid.Column.Custom_Editor.BrowerGridEditorKarve
+namespace KarveGrid.KarveEditor.BrowerGridEditorKarve
 {
     public class BrowerGridEditorKarve : BaseGridEditor
     {
         private bool endEditOnLostFocus_Renamed = true;
-        public override object Value {
+        public override object Value
+        {
             get {
                 BrowseEditorElement editor = (BrowseEditorElement)this.EditorElement;
                 return editor.TextBox.Text;
             }
             set {
                 BrowseEditorElement editor = (BrowseEditorElement)this.EditorElement;
-                if (value != null && !object.ReferenceEquals(value, DBNull.Value)) {
-                    editor.TextBox.Text = value.ToString;
-                } else {
+                if (value != null)
+                {
+                    editor.TextBox.Text = value as string;
+                }
+                else
+                {
                     editor.TextBox.Text = "";
                 }
             }
         }
-
         public override void BeginEdit()
         {
             base.BeginEdit();
@@ -45,20 +48,11 @@ namespace KarveGrid.Column.Custom_Editor.BrowerGridEditorKarve
         public override bool EndEditOnLostFocus {
             get { return endEditOnLostFocus_Renamed; }
         }
-
         private void Button_click(object sender, EventArgs e)
         {
             endEditOnLostFocus_Renamed = false;
-            Interaction.MsgBox("");
-            endEditOnLostFocus_Renamed = true;
+       
         }
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

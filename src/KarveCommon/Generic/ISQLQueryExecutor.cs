@@ -155,8 +155,10 @@ namespace KarveCommon.Generic
         /// <param name="pos"></param>
         /// <returns></returns>
         DataTable QueryForDataTable(string v, long pos);
+        //
         Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session);
-        // a session is a 
+
+        // a session is a connection.
         ISqlSession OpenSession();
         void CloseSession(ISqlSession sqlSession);
 

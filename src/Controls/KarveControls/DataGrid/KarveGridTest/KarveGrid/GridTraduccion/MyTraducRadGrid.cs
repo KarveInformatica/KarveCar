@@ -612,7 +612,7 @@ namespace KarveGrid.GridTraduccion
                     functionReturnValue = "Column Chooser";
                     break;
                 case RadGridStringId.ColumnChooserFormMessage:
-                    functionReturnValue = "Drag a column header from the" + Constants.vbLf + "grid here to remove it from" + Constants.vbLf + "the current view.";
+                    functionReturnValue = "Drag a column header from the grid here to remove it from  the current view.";
                     break;
                 case RadGridStringId.GroupingPanelDefaultMessage:
                     functionReturnValue = "Desplazar la columna aquí para Agrupar por esta columna.";
@@ -744,7 +744,7 @@ namespace KarveGrid.GridTraduccion
                     break;
             }
 
-            return Translate(GetLocalizedString());
+           // return Translate(GetLocalizedString());
             return functionReturnValue;
         }
 

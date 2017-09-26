@@ -1,70 +1,48 @@
+using System.Windows.Media;
 using Telerik.WinControls.UI;
 
 namespace KarveGrid.Column.Types
 {
-    public class DataGridDecimalColumn : GridViewDecimalColumn
+    public class DataGridDecimalColumn : GridViewDecimalColumn, IMixinDataBaseExtension
     {
+        public const int DecimalCols = 2;
+        public const int DecimalPercentage = 2;
+        public const int DecimalPrice = 2;
+        public const int DecimalSubtotal = 2;
+
 
         public DataGridDecimalColumn()
         {
-            this.NumeroDecimales = 2;
+            this.DecimalFormattedPlaces = DecimalCols;
         }
-
-        #region "Variables"
-
-        int _Item;
-        string _Campo;
-        string _Tabla;
-        string _ExpresionBd;
-        #endregion
-        System.Drawing.Color _BackColor = Drawing.Color.White;
-
         #region "Propiedades"
+        public int Item { get => MDataBaseExtension.GetItem(this); set => MDataBaseExtension.SetItem(this, value); }
+        public string ExtendedFieldName { get => MDataBaseExtension.GetExtendedFieldName(this); set => MDataBaseExtension.SetExtendedFieldName(this, value); }
+        public string Table { get => MDataBaseExtension.GetTable(this); set => MDataBaseExtension.SetTable(this, value); }
+        public string ExpressionDb { get => MDataBaseExtension.GetExpressionDb(this); set => MDataBaseExtension.SetTable(this, value); }
+        public System.Drawing.Color BackGroundColor { get => MDataBaseExtension.GetBackgroundColor(this); set => MDataBaseExtension.SetBackgroundColor(this, value); }
 
-        public int Item {
-            get { return _Item; }
-            set { _Item = value; }
-        }
 
-        public string Tabla {
-            get { return _Tabla; }
-            set { _Tabla = value; }
-        }
-
-        public string Campo {
-            get { return _Campo; }
-            set { _Campo = value; }
-        }
-
-        public string AliasCampo {
+        public string AliasField {
             get { return FieldName; }
             set { FieldName = value; }
         }
 
-        public string ExpresionBd {
-            get { return _ExpresionBd; }
-            set { _ExpresionBd = value; }
-        }
-
-        public System.Drawing.Color BackColor {
-            get { return _BackColor; }
-            set { _BackColor = value; }
-        }
 
         public override bool ReadOnly {
             get { return base.ReadOnly; }
             set {
                 base.ReadOnly = value;
                 if (value) {
-                    _BackColor = ColorSel;
+                    BackGroundColor = DefaultColors.DefaultReadOnlyColor;
                 }
             }
         }
-
-        public int NumeroDecimales {
+        public int DecimalFormattedPlaces {
             get { return this.DecimalPlaces; }
             set {
                 this.DecimalPlaces = value;
+
                 this.FormatString = "{0:N" + value + "}";
             }
         }
@@ -72,10 +50,3 @@ namespace KarveGrid.Column.Types
 
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================

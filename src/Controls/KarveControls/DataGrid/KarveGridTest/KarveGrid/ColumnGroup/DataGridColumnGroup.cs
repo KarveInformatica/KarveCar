@@ -5,9 +5,12 @@ namespace KarveGrid.ColumnGroup
     public class DataGridColumnGroup : GridViewColumnGroup
     {
 
-        public void Add(ref GridViewDataColumn col)
+        public void AddColumns(ref GridViewDataColumn col)
         {
-            this.Rows(0).Columns.Add(col);
+            if (Rows.Count > 0)
+            {
+                Rows[0].Columns.Add(col);
+            }
         }
 
         public DataGridColumnGroup()
@@ -16,10 +19,3 @@ namespace KarveGrid.ColumnGroup
         }
     }
 }
-
-//=======================================================
-//Service provided by Telerik (www.telerik.com)
-//Conversion powered by NRefactory.
-//Twitter: @telerik
-//Facebook: facebook.com/telerik
-//=======================================================
