@@ -423,6 +423,7 @@ namespace KarveControls.KarveGrid
         public KarveGridView() : base()
         {
             
+            
             _currentView.EnablePaging = true;
             _currentView.PageSize = 20;
             _currentView.Width = (int)this.Width;

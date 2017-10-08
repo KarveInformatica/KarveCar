@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace KarveCar.View
 {
@@ -10,6 +13,14 @@ namespace KarveCar.View
         public TabItemUserControl()
         {
             InitializeComponent();
+            //this.SizeChanged+=OnSizeChanged;
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+          //  SizeChangedEventArgs args = sizeChangedEventArgs;
+          //  UIElement element = (UIElement)VisualTreeHelper.GetParent(this);
+            
         }
     }
 }

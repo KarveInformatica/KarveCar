@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -24,6 +25,10 @@ namespace KarveCommon.Logic.Generic
         public static TabItemUserControl CreateTabItem(EOpcion opcion)
         {
             TabItemUserControl tbitem = new TabItemUserControl();
+            tbitem.VerticalAlignment = VerticalAlignment.Stretch;
+            tbitem.HorizontalAlignment = HorizontalAlignment.Stretch;
+            tbitem.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            tbitem.VerticalContentAlignment = VerticalAlignment.Stretch;
             var binding = new Binding();
             binding.IsAsync = true;
             binding.Path = new PropertyPath(ribbonbuttondictionary.FirstOrDefault(z => z.Key == opcion).Value.propertiesresources);
@@ -31,9 +36,10 @@ namespace KarveCommon.Logic.Generic
             tbitem.SetBinding(TabItem.HeaderProperty, binding);
             tbitem.Name = opcion.ToString();
             tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
-            // TODO.
-            //Se añade el nuevo TabItem al TabControl, le ponemos el focus y devolvemos el nuevo TabItem
-            ((MainWindow)Application.Current.MainWindow).tbControl.Items.Add(tbitem);
+            // TODO. This is no ok.
+            TabControl control = (TabControl) ((MainWindow) Application.Current.MainWindow).tbControl;
+          //Se añade el nuevo TabItem al TabControl, le ponemos el focus y devolvemos el nuevo TabItem
+            control.Items.Add(tbitem);
             tbitem.Focus();
             return tbitem;
         }
@@ -58,6 +64,8 @@ namespace KarveCommon.Logic.Generic
 
                     //Se añade un nuevo UserControl al TabItem
                     tabitem.Content = obj;
+                    
+                    
                 }
                 else
                 {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem

@@ -1,7 +1,7 @@
 ﻿using KarveCar.Utility;
 using KarveCar.ViewModel.GenericViewModel;
 using Microsoft.Practices.Unity;
-using Microsoft.Windows.Controls.Ribbon;
+using System.Windows.Controls.Ribbon;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -13,7 +13,7 @@ namespace KarveCar.View
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : RibbonWindow
+    public partial class MainWindow
     {
 
         /// <summary>

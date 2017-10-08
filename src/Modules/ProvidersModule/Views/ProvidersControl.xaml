@@ -22,9 +22,10 @@
 
 
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-            <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" 
-                                     TableName="{Binding Tables}"  Height="800" ColumnWidth="100" SourceView="{Binding SummaryView}">
+           
+          
+                <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" Grid.IsSharedSizeScope="True"
+                                     TableName="{Binding Tables}" Height="800"  ColumnWidth="100" SourceView="{Binding SummaryView}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="RowMouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedRow}"/>
@@ -33,7 +34,7 @@
 
                 
                 </karveGrid:KarveGridView>
-        </StackPanel>
+        
      </Grid>
 
 </UserControl>

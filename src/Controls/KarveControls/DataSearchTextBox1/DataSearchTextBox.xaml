@@ -12,9 +12,9 @@
     <Grid>
         <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
             <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, PresentationTraceSources.TraceLevel=High}" Width="50"></TextBlock>
-            <TextBox x:Name="SearchText"></TextBox>
+            <TextBox x:Name="SearchText" Width="106" Margin="0,0,0,280"></TextBox>
             <StackPanel>
-                <ToggleButton Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left"  Width="40">
+                <ToggleButton Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left"  Width="23" Height="20">
                     <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
                 </ToggleButton>
                 <Popup Name="Popup">
