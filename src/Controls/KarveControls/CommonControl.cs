@@ -16,7 +16,11 @@ namespace KarveControls
     {
         public enum DataType
         {
-            DoubleField, IntegerField, NifField, IbanField, Any
+            DoubleField, IntegerField, NifField, IbanField, Any,
+            Email,
+            BankAccount,
+            Swift,
+            DateTime
         }
 
         public enum Encoding
@@ -206,7 +210,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "DataField",
                 typeof(string),
-                typeof(DataField),
+                typeof(CommonControl),
                 new PropertyMetadata(string.Empty, OnCommonControlChanged));
 
         public string DataField

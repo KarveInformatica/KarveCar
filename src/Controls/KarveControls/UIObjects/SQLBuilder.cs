@@ -2,7 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -14,6 +16,101 @@ namespace KarveControls.UIObjects
 {
     public class SQLBuilder
     {
+       
+    public static IDictionary<string, string> SqlBuildSelectFromUiObjects(ObservableCollection<IUiObject> list, string primaryKeyValue ="")
+        {  
+            IDictionary<string, StringBuilder> tableDictionary = new Dictionary<string, StringBuilder>();
+            IDictionary<string, string> primaryKeys = new Dictionary<string, string>();
+            IDictionary<string, string> tableWithQuery = new Dictionary<string, string>();
+            IList<string> queryList = new List<string>();
+            foreach (IUiObject obj in list)
+            {
+                IUiObject tmpUiObject = obj;
+                if (obj.TableName != null)
+                {
+
+                    if (string.IsNullOrEmpty(obj.TableName))
+                    {
+                        continue;
+                    }
+                    if (obj is UiMultipleDfObject)
+                    {
+                        ObservableCollection<IUiObject> objectValues = ((UiMultipleDfObject)obj).Values;
+                        foreach (IUiObject objValue in objectValues)
+                        {
+                            if (!tableDictionary.ContainsKey(objValue.TableName))
+                            {
+                                tableDictionary[objValue.TableName] = new StringBuilder();
+                                primaryKeys[objValue.TableName] = objValue.PrimaryKey;
+                            }
+                            tableDictionary[objValue.TableName].Append(objValue.ToSQLString);
+                        }
+                    }
+                    else
+                    {
+                        if (!tableDictionary.ContainsKey(obj.TableName))
+                        {
+                            tableDictionary[obj.TableName] = new StringBuilder();
+                            primaryKeys[obj.TableName] = obj.PrimaryKey;
+                        }
+                        tableDictionary[obj.TableName].Append(obj.ToSQLString);
+                    }
+                }
+            }
+            foreach (var key in tableDictionary.Keys)
+            {
+                tableDictionary[key][tableDictionary[key].Length - 1] = ' ';
+            }
+            string modifiedKey = "";
+            StringBuilder newBuilder = null;
+            foreach (var key in tableDictionary.Keys)
+            {
+                StringBuilder current = tableDictionary[key];
+                newBuilder = new StringBuilder();
+                string tmp = current.ToString();
+                if (!tmp.Contains(primaryKeys[key]))
+                {
+                    newBuilder.Append(tmp);
+                    newBuilder.Append(",");
+                    newBuilder.Append(primaryKeys[key]);
+                    modifiedKey = key;
+                    newBuilder.Append(",");
+                }
+            }
+            if (newBuilder != null)
+            {
+                tableDictionary[modifiedKey] = newBuilder;
+            }
+            foreach (var key in tableDictionary.Keys)
+            {
+                tableDictionary[key][tableDictionary[key].Length - 1] = ' ';
+            }
+            foreach (var key in tableDictionary.Keys)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append("SELECT ");
+
+              /*  string tmpString = tableDictionary[key].ToString();
+                if (!tmpString.Contains(primaryKeyValue))
+                {
+                    tmpString = "," + primaryKeyValue;
+                }
+                */
+                builder.Append(tableDictionary[key]);
+                
+                builder.Append(" FROM ");
+                builder.Append(key);
+                if (!string.IsNullOrEmpty(primaryKeyValue))
+                {
+                    // if it is not null
+                    builder.Append(" WHERE "+primaryKeys[key]);
+                    builder.Append("=\'" + primaryKeyValue + "\'");
+                }
+                queryList.Add(builder.ToString());
+                tableWithQuery[key] = builder.ToString();
+            }
+            return tableWithQuery;
+        }
         #region SqlBuilderSelect
         /// <summary>
         /// Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>

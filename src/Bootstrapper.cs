@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Unity;
 using System.Windows;
-using KarveDataAccessLayer;
 using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
@@ -12,6 +11,7 @@ using KarveCommon.Generic;
 using System.Reflection;
 using System.Globalization;
 using System;
+using DataAccessLayer;
 
 
 namespace KarveCar
@@ -39,7 +39,7 @@ namespace KarveCar
             catalog.AddModule(typeof(ProvidersModule.ProviderModule));
             //catalog.AddModule(typeof(AgentsModule.AgentModule));
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
-            catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
+          //  catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
            
         }
 

@@ -33,9 +33,9 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <xcdg:DataGridControl x:Name="MagnificerGrid" AllowDrag="True" SelectionMode="Single" 
-                                              ReadOnly="True" SelectionUnit="Row" 
-                                              NavigationBehavior="RowOnly" SelectionChanged="MagnificerGrid_OnSelectionChanged">
+                        <xcdg:DataGridControl x:Name="MagnifierGrid" AllowDrag="True" SelectionMode="Single" 
+                                              ReadOnly="True" SelectionUnit="Row" Height="400"
+                                              NavigationBehavior="RowOnly" SelectionChanged="MagnifierGrid_OnSelectionChanged">
 
                         </xcdg:DataGridControl>
                         <!-- <extendedGridControl:ExtendedDataGrid Grid.Row="0" Height="400" VerticalAlignment="Top" 

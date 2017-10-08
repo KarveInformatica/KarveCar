@@ -26,7 +26,7 @@ namespace ToolBarModule
         private const string currentSaveImage = @"/KarveCar;component/Images/save_toolbar.png";
         private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
         private string _currentSaveImage = null;
-        private bool _buttonSaveEnabled = false;
+        private bool _buttonSaveEnabled = true;
         
         public KarveToolBarViewModel(IDataServices dataServices,
                                  IEventManager eventManager,
@@ -36,16 +36,15 @@ namespace ToolBarModule
             this._dataServices = dataServices;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
-            this._eventManager.registerObserverToolBar(this);
+            this._eventManager.RegisterObserverToolBar(this);
             this._careKeeper = careKeeper;
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this._dataServices = dataServices;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
-            this._eventManager.registerObserverToolBar(this);
-            _currentSaveImage = currentSaveImage;
-           
-            
+            this._eventManager.RegisterObserverToolBar(this);
+            this.CurrentSaveImagePath = currentSaveImage;
+          
         }
         private object GetImage(string imageUri)
         {
@@ -118,8 +117,9 @@ namespace ToolBarModule
         {
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
-            SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper);
+            SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper, this._eventManager);
             _careKeeper.Do(new CommandWrapper(dataCommand));
+
             
         }
         /*
@@ -130,6 +130,7 @@ namespace ToolBarModule
             // ok in this case we can 
             this.CurrentSaveImagePath = currentSaveImageModified;
             this.IsSaveEnabled = true;
+            // this keeps the value for saving.
             _careKeeper.Schedule(payload);
         }
 

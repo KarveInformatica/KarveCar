@@ -4,11 +4,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KarveControls.UIObjects
 {
     public class UiDataGridObject : IUiObject
     {
+        private string _primaryKey;
         public string Description { get ; set ; }
         public CommonControl.DataType DataAllowed { get ; set ; }
         public bool AllowedEmpty { get ; set ; }
@@ -21,5 +23,15 @@ namespace KarveControls.UIObjects
         public string DataField { get ; set; }
         public string TableName { get ; set ; }
         public DataTable ItemSource { get ; set; }
+        
+        public string ToSQLString
+        {
+            get { return string.Empty; }
+        }
+        public string PrimaryKey
+        {
+            get { return _primaryKey; }
+            set { _primaryKey = value; }
+        }
     }
 }

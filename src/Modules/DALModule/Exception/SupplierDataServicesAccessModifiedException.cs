@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer.Exception
 {
     [Serializable]
-    internal class SupplierDataServicesAccessModifiedException : Exception
+    internal class SupplierDataServicesAccessModifiedException : System.Exception
     {
         public SupplierDataServicesAccessModifiedException()
         {
@@ -14,7 +14,7 @@ namespace KarveDataAccessLayer
         {
         }
 
-        public SupplierDataServicesAccessModifiedException(string message, Exception innerException) : base(message, innerException)
+        public SupplierDataServicesAccessModifiedException(string message, System.Exception innerException) : base(message, innerException)
         {
         }
 

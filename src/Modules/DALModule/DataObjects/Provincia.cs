@@ -1,13 +1,12 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class Provincia : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Provincia() { this.ControlCambio = EControlCambio.Null; }
+        public Provincia() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public Provincia(string codigo, string definicion, string prefijo, string abreviatura, 
                          string capital, string ultimamodificacion, string usuario)
         {
@@ -99,8 +98,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

@@ -1,14 +1,13 @@
-﻿using KarveCar.Model.Generic;
+﻿using System;
+using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using System;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class MarcaDataObject : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public MarcaDataObject() { this.ControlCambio = EControlCambio.Null; }
+        public MarcaDataObject() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public MarcaDataObject(string codigo, string definicion, string ultimamodificacion, string usuario,
                                DateTime fechabaja, string proveedorcodigo, string proveedordescripcion, string condiciones,
                                string pactadas, string interlocutor, DateTime fechamarca, string observaciones)
@@ -161,8 +160,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

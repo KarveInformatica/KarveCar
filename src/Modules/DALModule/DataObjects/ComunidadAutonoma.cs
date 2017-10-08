@@ -1,13 +1,12 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class ComunidadAutonoma : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public ComunidadAutonoma() { this.ControlCambio = EControlCambio.Null; }
+        public ComunidadAutonoma() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public ComunidadAutonoma(string codigo, string definicion)
         {
             this.codigo = codigo;
@@ -61,8 +60,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

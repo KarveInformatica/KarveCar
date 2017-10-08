@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KarveDataServices.DataObjects;
+﻿using KarveDataServices.DataObjects;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     /// <summary>
     ///  Supplier contacts.

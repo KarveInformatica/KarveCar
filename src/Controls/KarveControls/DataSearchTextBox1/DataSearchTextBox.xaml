@@ -23,9 +23,9 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <xcdg:DataGridControl x:Name="MagnificerGrid" AllowDrag="True" SelectionMode="Single" 
+                        <xcdg:DataGridControl x:Name="MagnifierGrid" AllowDrag="True" SelectionMode="Single" 
                                               ReadOnly="True" SelectionUnit="Row" 
-                                              NavigationBehavior="RowOnly" SelectionChanged="MagnificerGrid_OnSelectionChanged">
+                                              NavigationBehavior="RowOnly" SelectionChanged="MagnifierGrid_OnSelectionChanged">
                           
                         </xcdg:DataGridControl>
                         <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>

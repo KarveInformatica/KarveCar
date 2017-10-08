@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KarveControls.UIObjects
 {
-    class UiDataArea : IUiObject
+    public class UiDataArea : IUiObject
     {
         private string _description;
+        private string _primaryKey;
         private CommonControl.DataType _dataType;
         private bool _allowedEmpty;
         private bool _upperCase;
@@ -19,6 +17,7 @@ namespace KarveControls.UIObjects
         private bool _isReadOnly;
         private string _DataField;
         private string _TableName;
+        [XmlIgnore]
         private DataTable _itemSource;
         public string Description { get => _description; set => _description = value; }
         public CommonControl.DataType DataAllowed { get => _dataType; set => _dataType = value; }
@@ -30,6 +29,18 @@ namespace KarveControls.UIObjects
         public bool IsReadOnly { get => _isReadOnly; set => _isReadOnly=value; }
         public string DataField { get => _DataField; set => _DataField=value; }
         public string TableName { get => _TableName; set => _TableName=value; }
+        [XmlIgnore]
         public DataTable ItemSource { get => _itemSource; set => _itemSource=value; }
+        
+        public string ToSQLString
+        {
+            get { return _DataField + ","; }
+        }
+
+        public string PrimaryKey
+        {
+            get { return _primaryKey; }
+            set { _primaryKey = value; }
+        }
     }
 }

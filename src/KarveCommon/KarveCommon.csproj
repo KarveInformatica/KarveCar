@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KarveCommon</RootNamespace>
     <AssemblyName>KarveCommon</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -69,8 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generic\AbstractSqlQueryExecutor.cs" />
+    <Compile Include="Generic\AbstractSqlSession.cs" />
     <Compile Include="Generic\DataLayerException.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
+    <Compile Include="Generic\GenericSQL.cs" />
+    <Compile Include="Generic\IAsyncInitialization.cs" />
     <Compile Include="Generic\IDBParameter.cs" />
     <Compile Include="Generic\ISqlCommand.cs" />
     <Compile Include="Generic\ISQLQueryExecutor.cs" />

@@ -4,10 +4,12 @@ using System.Data;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using KarveCommon.Generic;
 using iAnywhere.Data.SQLAnywhere;
 using NLog;
@@ -18,7 +20,9 @@ namespace KarveCommon.Generic
     public class OleDbQueryExecutor: AbstractSqlQueryExecutor
     {
         private SAConnection _connection;
-
+        private object asyncBatchLock = new object();
+        // this is simply the engine for cloning a table
+        private object cloneTableLock = new object();
         //private SADataAdapter _adapter;
         //private SACommandBuilder  _builder;
         private SACommand _command;
@@ -124,6 +128,7 @@ namespace KarveCommon.Generic
                
                 dta.FillSchema(dts, SchemaType.Source);
                 dta.Fill(dts);
+               
                 if (_transaction == null)
                 {
                     Close();
@@ -178,10 +183,12 @@ namespace KarveCommon.Generic
                 }
                 if (dts.HasChanges())
                 {
+
                     int i = 0;
                     IList<string> queryPart = Regex.Split(sqlQuery, ";");
                     foreach (DataTable table in dts.Tables)
                     {
+                        
                         if (_transaction == null)
                         {
                             cmd = new SACommand(queryPart[i++], _connection);
@@ -192,9 +199,10 @@ namespace KarveCommon.Generic
                         }
                         SADataAdapter dta = new SADataAdapter(cmd);
                         SACommandBuilder commandBuilder = new SACommandBuilder(dta);
-                        dta.Update(table );                        
+                        int numRows = dta.Update(table);
                     }
-                }                
+                }
+
             }
             catch (Exception e)
             {
@@ -215,10 +223,20 @@ namespace KarveCommon.Generic
             }
         }
 
-        public override Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code)
+
+        public override async Task<DataTable> QueryAsyncForDataTable(string sqlQuery)
         {
-            throw new NotImplementedException();
+            DataSet set = new DataSet();
+            DataTable table = new DataTable();
+            set = await AsyncDataSetLoad(sqlQuery);
+            lock (cloneTableLock)
+            {
+                table = set.Tables[0].Clone();
+            }
+            return table;
         }
+        
+        
 
         public override Task<T> QueryAsyncForObject<T>(string v, T parameter)
         {
@@ -250,6 +268,7 @@ namespace KarveCommon.Generic
             throw new NotImplementedException();
         }
 
+       
 
         /// <summary>
         /// Create a OdbcCommand from a transaction 
@@ -403,8 +422,13 @@ namespace KarveCommon.Generic
             }
             return executeQueryString;
         }
-
-
+        public override IList<string> ExecuteQueryFields(string sqlQuery)
+        {
+            IList<string> sList = new List<string>();
+            DataSet dts = LoadDataSet(sqlQuery);
+            // now we have to load the data set 
+            return sList;
+        }
         /// <summary>
         /// Execute an insert, update, delete with OdbcParameters. It returns with 
         /// </summary>
@@ -449,12 +473,46 @@ namespace KarveCommon.Generic
             return ExecuteNonQuery(CommandName, cmdType, pars.oleDbParameters);
         }
 
+        public override async Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList)
+        {
+            DataSet completeSet = null;
+            lock (asyncBatchLock)
+            {
+                completeSet = new DataSet();
+            }
+            foreach (string tableNameKey in queryList.Keys)
+            {
+
+                var queryValue = queryList[tableNameKey];
+                if (!string.IsNullOrEmpty(queryValue))
+                {
+                    DataSet firstSet = await AsyncDataSetLoad(queryValue).ConfigureAwait(false);
+                    if (completeSet.Tables.Count == 0)
+                    {
+                        completeSet = firstSet;
+                        completeSet.Tables[0].TableName = tableNameKey;
+                    }
+                    else
+                    {
+                        foreach (DataTable table in firstSet.Tables)
+                        {
+                            table.TableName = tableNameKey;
+                            completeSet.Tables.Add(table.Copy());
+                        }
+                    }
+                }
+            }
+            return completeSet;
+        }
+
         public override async Task<DataSet> AsyncDataSetLoad(string sqlQuery)
         {
-            DataSet dts = new DataSet();
+           
             SADataAdapter dta = null;
+            DataSet dts = null;
             lock (asyncLoadLock)
             {
+                dts = new DataSet();
                 try
                 {
                     if (_transaction == null)

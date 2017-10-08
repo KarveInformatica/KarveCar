@@ -1,15 +1,15 @@
-﻿using KarveDataServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
-using KarveDataAccessLayer.DataObjects;
+using KarveDataServices;
 
 /// <summary>
 ///  TODO: port this to async wait
 /// </summary>
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.

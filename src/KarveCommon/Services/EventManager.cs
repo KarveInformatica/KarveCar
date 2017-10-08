@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using KarveCommon.Services;
 
@@ -6,12 +7,21 @@ namespace KarveCommon.Services
 {
     public class EventManager : IEventManager
     {
+
         IList<IEventObserver> _observers = new List<IEventObserver>();
+        // This are events for the each subsystem, module wide.
         IDictionary<string, IList<IEventObserver>> _subsystemObserver = new Dictionary<string, IList<IEventObserver>>();
         IDictionary<string, IList<IEventObserver>> _notificationDisabled = new Dictionary<string, IList<IEventObserver>>();
-
+        // This are events that notify the toolbar. Each view module can notify the toolbar
         IList<IEventObserver> _toolBar = new List<IEventObserver>();
+        // This are direct events, each view module has a mailbox for receiving messages.
+        private IDictionary<string, MailBoxMessageHandler> _mailBox = new ConcurrentDictionary<string, MailBoxMessageHandler>();
 
+        public void SendMessage(string viewModuleId, DataPayLoad payLoad)
+        {
+            MailBoxMessageHandler messageHandler = _mailBox[viewModuleId];
+            messageHandler?.Invoke(payLoad);
+        }
         private void notifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
             foreach (IEventObserver eo in eoList)
@@ -53,7 +63,7 @@ namespace KarveCommon.Services
             }
         }
 
-        public void notifyObserverToolBar(DataPayLoad payload)
+        public void NotifyToolBar(DataPayLoad payload)
         {
             notifyObserver(payload, _toolBar);
         }
@@ -83,7 +93,7 @@ namespace KarveCommon.Services
 
         }
 
-        public void registerObserverToolBar(IEventObserver obs)
+        public void RegisterObserverToolBar(IEventObserver obs)
         {
             _toolBar.Add(obs);
         }
@@ -133,6 +143,11 @@ namespace KarveCommon.Services
                     }
                 }
             }
+        }
+
+        public void RegisterMailBox(string id, MailBoxMessageHandler messageHandler)
+        {
+            _mailBox[id] = messageHandler;
         }
     }
 }

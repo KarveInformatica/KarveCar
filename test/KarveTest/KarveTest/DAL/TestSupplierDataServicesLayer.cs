@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Data;
 using System.Threading.Tasks;
-using KarveDataAccessLayer;
+using DataAccessLayer;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using NUnit.Framework;
 using KarveCommon.Services;
 using System.Diagnostics;
+using KarveCommon.Generic;
 
 namespace KarveTest.DAL
 {
     [TestFixture]
-    public class TestSupplierDataServicesLayer
+    public class TestSupplierDataServicesLayer: TestBase
     {
-        //private IDataServices _dataServices;
-        //private ISupplierDataServices _supplierDataServices;
+        private IDataServices _dataServices;
+        private ISupplierDataServices _supplierDataServices;
         private IConfigurationService _serviceConf;
         private Stopwatch _currentStopWatch;
+
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+
         ///// <summary>
         /////  Returns a supplierId
         ///// </summary>
@@ -47,27 +51,41 @@ namespace KarveTest.DAL
         //    }
         //    return supplierId;
         //}
-        //[OneTimeSetUp]
-        //public void SetUp()
-        //{
-        //    _dataServices = null;
-        //    try
-        //    {
-        //        //IKarveDataMapper mapper = new BaseDataMapper();
-        //        //_dataServices = new DataServiceImplementation(mapper);
-        //        //_supplierDataServices = _dataServices.GetSupplierDataServices();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Assert.Fail(e.Message);
-        //    }
-        //}
-        ///// <summary>
-        /////  This is an asynchronous test where for each supplier we get the information for its supplierId.
-        ///// </summary>
-        ///// <returns></returns>
-        //[Test]
-        //public async Task Should_Give_SupplierInfo_Given_A_SupplierId()
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            _dataServices = null;
+            _serviceConf = base.SetupConfigurationService();
+            try
+            {
+                ISqlQueryExecutor executor = SetupSqlQueryExecutor();
+               _dataServices = new DataServiceImplementation(executor,_serviceConf);
+                _supplierDataServices = _dataServices.GetSupplierDataServices();
+            }
+           catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
+        // <summary>
+        // This is an asynchronous test where for each supplier we get the information for its supplierId.
+        // </summary>
+        // <returns></returns>
+        [Test]
+        public async Task Should_Give_SupplierSummary()
+        {
+            DataSet set = null;
+            try
+            {
+                set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         //{
         //    DataSet set = null;
         //    try

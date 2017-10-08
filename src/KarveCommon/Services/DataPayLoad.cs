@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +17,11 @@ namespace KarveCommon.Services
     /// <summary>
     ///  TODO: add support for generics.
     /// </summary>
-    public class DataPayLoad
+    public class DataPayLoad: ICloneable
     {
         public enum Type {
             Insert = 0, Delete = 1, Update = 2, 
-            RegistrationPayload = 3, Show = 4
+            RegistrationPayload = 3, Show = 4, UpdateView
         };
         /// <summary>
         ///  It endicate the data object associated
@@ -28,11 +31,23 @@ namespace KarveCommon.Services
         ///  It has a data set associated
         /// </summary>
         public bool HasDataSet { set; get; }
+        ///
+        /// Data Set list.
+        /// 
+        public bool HasDataSetList { set; get; }
+        /// 
         /// <summary>
         ///  It has an observable collection associated.
         /// </summary>
         public bool HasObservableCollection { set; get; }
         ///
+        /// It has a dictionary associated. 
+        ///
+        public bool HasDictionary { set; get; }
+
+
+        public IDictionary<string, object> DataDictionary { set; get; }
+
         /// We map each command inside the system with a Uri
         ///  karve://suppliers/all?action=save  - this means the save the object
         ///  karve://vehicles/group?action=save - this means save the vehicles group
@@ -55,6 +70,8 @@ namespace KarveCommon.Services
         /// </summary>
         public ObservableCollection<object> Data { get; set; }
 
+        public IList<DataSet> SetList { get; set; }
+
         public DataSet Set { get; set; }
         /// <summary>
         ///  This is useful for the registration with the event manager.
@@ -64,5 +81,26 @@ namespace KarveCommon.Services
         ///  This is useful for the subsystem.
         /// </summary>
         public DataSubSystem Subsystem { get; set; }
+        public string PrimaryKeyValue { get; set; }
+        public IDictionary<string, string> Queries { get; set; }
+        public string Sender { get; set; }
+
+        public object Clone()
+        {
+            DataPayLoad payLoad = new DataPayLoad();
+            if (!typeof(DataPayLoad).IsSerializable)
+            {
+                throw new ArgumentException("The type must be serializable.", "source");
+            }
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new MemoryStream();
+            using (stream)
+            {
+                formatter.Serialize(stream, this);
+                stream.Seek(0, SeekOrigin.Begin);
+                payLoad = (DataPayLoad)formatter.Deserialize(stream);
+            }
+            return payLoad;
+        }
     }
 }

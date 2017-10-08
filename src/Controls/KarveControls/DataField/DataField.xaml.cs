@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveControls.Generic;
 using static KarveControls.CommonControl;
 using ThicknessConverter = Xceed.Wpf.DataGrid.Converters.ThicknessConverter;
 
@@ -39,17 +40,26 @@ namespace KarveControls
         public class DataFieldEventArgs : RoutedEventArgs
         {
             private string _fieldData = "";
+            private IDictionary<string, object> _changedValues = new Dictionary<string, object>();
 
             public string FieldData
             {
                 get { return _fieldData; }
-                set { _fieldData= value; }
+                set { _fieldData = value; }
             }
+
+            public IDictionary<string, object> ChangedValuesObjects
+            {
+                get { return _changedValues; }
+                set { _changedValues = value; }
+            }
+
             public DataFieldEventArgs() : base()
             {
 
             }
-            public  DataFieldEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+
+            public DataFieldEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
 
             }
@@ -62,6 +72,7 @@ namespace KarveControls
         }
 
         #region CommonPart
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected string _description;
@@ -71,6 +82,7 @@ namespace KarveControls
         protected DataTable _itemSource;
         protected string _dataField = string.Empty;
         protected string _tableName = string.Empty;
+        private ComponentFiller _filler = new ComponentFiller();
 
         public void OnPropertyChanged(string propertyName)
         {
@@ -84,25 +96,31 @@ namespace KarveControls
 
 
         #region Description
+
         public static readonly DependencyProperty DescriptionDependencyProperty =
             DependencyProperty.Register(
                 "Description",
                 typeof(string),
                 typeof(DataField),
                 new PropertyMetadata(String.Empty));
+
         #endregion
+
         #region DataAllowed
+
         public static readonly DependencyProperty DataAllowedDependencyProperty =
             DependencyProperty.Register(
                 "DataAllowed",
                 typeof(DataType),
                 typeof(DataField),
                 new PropertyMetadata(DataType.Any, OnDataAllowedChange));
+
         public DataType DataAllowed
         {
-            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
+            get { return (DataType) GetValue(DataAllowedDependencyProperty); }
             set { SetValue(DataAllowedDependencyProperty, value); }
         }
+
         private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataField control = d as DataField;
@@ -112,27 +130,31 @@ namespace KarveControls
                 control.OnDataAllowedChange(e);
             }
         }
+
         protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
         {
-            DataType type = (DataType)Enum.Parse(typeof(DataType), e.NewValue.ToString());
+            DataType type = (DataType) Enum.Parse(typeof(DataType), e.NewValue.ToString());
             DataAllowed = type;
             _dataAllowed = type;
         }
+
         #endregion
+
         #region ItemSource
 
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
-                "ItemSourceDependencyProperty",
+                "ItemSource",
                 typeof(DataTable),
                 typeof(DataField),
                 new PropertyMetadata(new DataTable(), OnItemSourceChanged));
 
         public DataTable ItemSource
         {
-            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
+            get { return (DataTable) GetValue(ItemSourceDependencyProperty); }
             set { SetValue(ItemSourceDependencyProperty, value); }
         }
+
         private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataField control = d as DataField;
@@ -142,10 +164,40 @@ namespace KarveControls
                 control.OnItemSourceChanged(e);
             }
         }
-        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+       
+
+    protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
         {
             DataTable table = e.NewValue as DataTable;
             this._itemSource = table;
+            if (!string.IsNullOrEmpty(DBField))
+            {
+                if (table != null)
+                {
+                    DataColumnCollection collection = table.Columns;
+                    if (collection.Contains(DBField))
+                    {
+                        DataRow dataRow = table.Rows[0];
+                        string colName = DBField;
+                        string value = _filler.FetchDataFieldValue(table, DBField);
+                        if (DataAllowed == DataType.Email)
+                        {
+                            value = value.Replace("#", "@");
+                        }
+                        TextField.Text = value;
+                        TextField.Visibility = Visibility.Visible;
+                        if (IsReadOnly)
+                        {
+                            TextField.Background = Brushes.CadetBlue;
+                            
+                        }
+                        else
+                        {
+                            TextField.Background = Brushes.White;
+                        }
+                }
+                }
+            }
         }
 
 
@@ -267,9 +319,34 @@ namespace KarveControls
                 controlDataRadio.OnDataFieldPropertyChanged(e);
             }
         }
-        private void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
+
+        public void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             _dataField = e.NewValue as string;
+            if (this._itemSource != null)
+            {
+                if (!string.IsNullOrEmpty(_dataField))
+                {
+                        DataColumnCollection collection = _itemSource.Columns;
+                        if (collection.Contains(_dataField))
+                        {
+                            string value = _filler.FetchDataFieldValue(_itemSource, _dataField);
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                if (DataAllowed == DataType.Email)
+                                {
+                                    value = value.Replace("#", "@");
+                                }
+                                TextContent = value;
+                                //  BindingOperations.ClearBinding(this.TextField, TextBox.TextProperty);
+                                // TODO adding the right validation rule for the stuff.
+                                // SetDynamicBinding(ref _itemSource, null);
+                                // TextField.Text = dataRow[colName] as string;
+                                TextField.Visibility = Visibility.Visible;
+                            }
+                        }
+                }
+            }
         }
         #endregion
         #endregion
@@ -331,6 +408,21 @@ namespace KarveControls
         {
             string value = e.NewValue as string;
             this.TextField.Text = value;
+            if ((_itemSource!=null) && (!String.IsNullOrEmpty(this._dataField)))
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    // here we go.
+                   string tmpValue = value;
+                    if (DataAllowed == DataType.Email)
+                    {
+                        tmpValue = value.Replace("@", "#");
+                    }
+                    
+                    _itemSource.Rows[0][_dataField] = tmpValue;
+                    //_itemSource.AcceptChanges();
+                }
+            }
         }
         #endregion
         #region LabelVisible
@@ -460,8 +552,39 @@ namespace KarveControls
         }
         #endregion
 
-        
-        
+
+        #region DataFieldHeight 
+        public readonly static DependencyProperty DataFieldHeightDependencyProperty =
+            DependencyProperty.Register(
+                "DataFieldHeight",
+                typeof(string),
+                typeof(DataField),
+                new PropertyMetadata("40", OnDataFieldHeightChange));
+
+        public string DataFieldHeight
+        {
+            get { return (string)GetValue(DataFieldHeightDependencyProperty); }
+            set { SetValue(DataFieldHeightDependencyProperty, value); }
+        }
+        private static void OnDataFieldHeightChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnPropertyChanged("DataFieldHeight");
+                control.OnDataFieldHeightChanged(e);
+            }
+        }
+
+        private void OnDataFieldHeightChanged(DependencyPropertyChangedEventArgs e)
+        {
+            double value = Convert.ToDouble(e.NewValue);
+            LabelField.Height = value;
+            TextField.Height = value;
+        }
+
+        #endregion
+
         public static DependencyProperty ReloadDependencyProperty =
             DependencyProperty.Register(
                 "Reload",
@@ -501,11 +624,39 @@ namespace KarveControls
         }
         public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
+            /*
             string field = _dataField.ToUpper();
             if (!string.IsNullOrEmpty(field))
             {
-                Binding oBind = new Binding("Text");
-                oBind.Source = dta.Columns[field];
+                //DataView dataView = dta.DefaultView;
+            }
+            Binding bind = BindingOperations.GetBinding(this.TextField, TextBox.TextProperty);
+            BindingOperations.ClearBinding(this.TextField, TextBox.TextProperty);
+            DataView dataView = dta.DefaultView;
+            // Now, for my binding preparation...
+            Binding bindMyColumn = new Binding();
+            bindMyColumn.Mode = BindingMode.TwoWay;
+            bindMyColumn.Source = dataView;
+            bindMyColumn.Path = new PropertyPath("ItemSource");
+            TextField.SetBinding(TextBox.TextProperty, bindMyColumn);
+           OnPropertyChanged("[0][" + field + "]");
+            extContent =
+            
+            string field = _dataField.ToUpper();
+            if (!string.IsNullOrEmpty(field))
+            {
+                DataView dataView = dta.DefaultView;
+                // Now, for my binding preparation...
+                Binding bindMyColumn = new Binding();
+                bindMyColumn.Mode = BindingMode.TwoWay;
+                bindMyColumn.Source = dataView;
+                bindMyColumn.Path = new PropertyPath("[0][NUM_PROVEE]");
+                TextField.SetBinding(TextBox.TextProperty, bindMyColumn);
+                
+              
+            Binding oBind = new Binding(field);
+                oBind.Source = dta.Defau
+                    //dta.Columns[field];
                 oBind.Mode = BindingMode.TwoWay;
                 oBind.ValidatesOnDataErrors = true;
                 oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -516,12 +667,16 @@ namespace KarveControls
                         oBind.ValidationRules.Add(rule);
                     }
                 }
-                TextField.Width = dta.Columns[field].MaxLength;
+                //TextField.Width = dta.Columns[field].MaxLength;
                 TextField.SetBinding(TextBox.TextProperty, oBind);
-            }
-           
+            */
         }
-        
+
+        public static string CHANGED_VALUE = "ChangedValue";
+        public static string FIELD = "Field";
+        public static string DATATABLE = "DataTable";
+        public static string TABLENAME = "TableName";
+
         public DataField()
         {
             InitializeComponent();
@@ -548,17 +703,25 @@ namespace KarveControls
 
         private void DataField_LostFocus(object sender, RoutedEventArgs e)
         {
-          //  RaiseEvent(e);
-            if ((TextField.Text.Length > 0) && (textContentChanged))
+                if ((TextField.Text.Length > 0) && (textContentChanged))
             {
-                DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent);
-                ev.FieldData = TextField.Text;
-                RaiseEvent(ev);
-            }
+                    DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent);
+                    ev.FieldData = TextField.Text;
+                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+                    valueDictionary["TableName"] = TableName;
+                    valueDictionary["Field"] = DBField;
+                    valueDictionary["DataTable"] = ItemSource;
+                    valueDictionary["ChangedValue"] = TextField.Text;
+                    ev.ChangedValuesObjects = valueDictionary;
+                    RaiseEvent(ev);
+                }
+                textContentChanged = false;
+            
         }
 
         private void TextField_GotFocus(object sender, RoutedEventArgs e)
         {
+            textContentChanged = false;
             this.TextField.SelectAll();
             RaiseEvent(e);
         }

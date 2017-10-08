@@ -105,6 +105,14 @@ namespace KarveDataServices
                     DataSet assuranceProviderData, 
                     bool contactsChanged, 
                     DataSet visitsData);
+
+        /// <summary>
+        ///  Load a data set with all information needed for a given sheet.
+        /// </summary>
+        /// <param name="queryList"></param>
+        /// <returns></returns>
+        Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList);
+
         /// <summary>
         ///  Returns the delegations foreach supplier.
         /// </summary>
@@ -123,6 +131,14 @@ namespace KarveDataServices
         /// <param name="supplierId"></param>
         /// <returns></returns>
         Task<DataSet> GetEvaluationNote(string supplierId);
+
+        /// <summary>
+        /// Update the data set 
+        /// </summary>
+        /// <param name="queries">The dictionary of the queries per table</param>
+        /// <param name="set">The dataset per table</param>
+        void UpdateDataSet(IDictionary<string, string> queries, DataSet set);
+        
         /// <summary>
         ///  Return the supplier data object in asynchnouns way
         /// </summary>
@@ -136,6 +152,8 @@ namespace KarveDataServices
         /// <param name="supplierId">supplier identifier</param>
         /// <returns></returns>
         Task<DataSet> GetAsyncEvaluationNote(string supplierId);
+        void UpdateTable(DataTable table);
+
         /// <summary>
         /// Return the supplier transport information.
         /// </summary>
@@ -186,6 +204,9 @@ namespace KarveDataServices
         /// Close a session to the database provider.
         /// </summary>
         void CloseDataSession();
+
+        Task<DataSet> GetAsyncSuppliers();
+
         #endregion
     }
 }

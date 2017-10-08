@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KarveControls;
 
-namespace KarveControlsTest
+namespace KarveControls.TestUIObject
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

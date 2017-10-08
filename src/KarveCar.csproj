@@ -441,10 +441,6 @@
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
-    <ProjectReference Include="Modules\PaymentsTypeModule\PaymentTypeModule.csproj">
-      <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
-      <Name>PaymentTypeModule</Name>
-    </ProjectReference>
     <ProjectReference Include="Modules\ProvidersModule\ProvidersModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
       <Name>ProvidersModule</Name>

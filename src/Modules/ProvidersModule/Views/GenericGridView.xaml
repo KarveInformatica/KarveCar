@@ -4,34 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProvidersModule.Views"
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:mvvm1="http://prismlibrary.com/"
               mvvm1:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-               <extendedGridControl:ExtendedDataGrid Height="400" VerticalAlignment="Top" 
-                                                                           x:Name="SuppliersGeneric" 
-                                                                           ItemsSource="{Binding GenericDataTable}" 
-                                                                           RowHeaderWidth="17" 
-                                                                           IsReadOnly="True"
-                                                                           HideColumnChooser="True" 
-                                                                           AllowUserToCopy="True"
-                                                                           SearchAutoFilterVisibility="Visible" 
-                                                                           AutoFilterFontSize="12"
-                                                                           Theme="Office2007Silver"
-                                                                           GroupByControlVisibility="Collapsed" 
-                                                                           IsSynchronizedWithCurrentItem="True"  
-                                                                           SelectionMode="Extended" 
-                                                                           SelectionUnit="FullRow" >
-                    <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedIndexCommand}" CommandParameter="{Binding ElementName=SuppliersGeneric, Path=SelectedValue}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-              </extendedGridControl:ExtendedDataGrid>
-            </Grid>
+            
+     </Grid>
         
 </UserControl>

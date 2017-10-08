@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Documents.DocumentStructures;
 using System.Windows.Input;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -52,11 +53,17 @@ namespace KarveControls
             MessageBox.Show("Name");
         }
 
+        private void Open(object o)
+        {
+            MessageBox.Show("MyMessageBox");
+        }
+        public ICommand OpenItem { set; get; }
+
         public SearchViewModel()
         {
-
+            
             this.MagnifierPressCommand = new DelegateCommand<object>(OnValue);
-
+            this.OpenItem = new DelegateCommand<object>(Open);
             DataTable table = new DataTable();
            table.Columns.Add("Name");
             table.Columns.Add("Surname");

@@ -146,7 +146,7 @@ namespace ProvidersModule.ViewModels
             }
         }
 
-
+        /*
         private async void ListByCountryOrProvince(string param)
         {
             try
@@ -177,6 +177,7 @@ namespace ProvidersModule.ViewModels
                 throw e;
             }
         }
+        */
         /// <summary>
         ///  This method list the in asynchronous way
         /// </summary>
@@ -229,8 +230,8 @@ namespace ProvidersModule.ViewModels
                 {
                     case TabViewModelBase.NUMBER: ListByNumber(); break;
                     case TabViewModelBase.TYPE: ListByType(); break;
-                    case TabViewModelBase.COUNTRIES: ListByCountryOrProvince("Country"); break;
-                    case TabViewModelBase.PROVINCES: ListByCountryOrProvince("Prov"); break;
+           //         case TabViewModelBase.COUNTRIES: ListByCountryOrProvince("Country"); break;
+          //          case TabViewModelBase.PROVINCES: ListByCountryOrProvince("Prov"); break;
                 }
 
 

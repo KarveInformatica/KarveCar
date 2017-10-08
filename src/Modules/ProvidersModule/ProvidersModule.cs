@@ -27,9 +27,9 @@ namespace ProvidersModule
             _container.RegisterType<IProvidersView, ProvidersModule.Views.ProvidersControl>();
             _container.RegisterType<ISupplierInfoView, ProvidersModule.Views.ProviderInfoView>();
             //        _container.RegisterType<object, SupplierView>("SupplierView");
-            _container.RegisterType<object, GenericGridView>("GenericGridView");
-            _container.RegisterType<object, BasicEditorView>("BasicEditorView");
-            _container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
+        //    _container.RegisterType<object, GenericGridView>("GenericGridView");
+          //  _container.RegisterType<object, BasicEditorView>("BasicEditorView");
+          //  _container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
         }
         public void Initialize()
         {

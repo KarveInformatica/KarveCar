@@ -12,5 +12,6 @@ namespace ProvidersModule.ViewModels
         public IProvinceData SupplierProvinceDataObject { get; set; }
         public ICountryData SupplierCountryDataObject { get; set; }
         public DataTable SupplierSummaryDataTable { get; set; }
+        public DataSet DataSet { get; set; }
     }
 }

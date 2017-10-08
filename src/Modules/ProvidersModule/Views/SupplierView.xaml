@@ -12,35 +12,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <extendedGridControl:ExtendedDataGrid  Height="350" VerticalAlignment="Stretch" 
-                                                                           x:Name="Suppliers" 
-                                                                           GroupByControlVisibility="Visible"
-                                                                           ItemsSource="{Binding SummaryDataTable}" 
-                                                                           RowHeaderWidth="17" 
-                                                                           IsReadOnly="True"
-                                                                           AutoGenerateColumns="False" 
-                                                                           HideColumnChooser="True" 
-                                                                           AllowUserToCopy="True"
-                                                                           SearchAutoFilterVisibility="Visible" 
-                                                                           AutoFilterFontSize="12"
-                                                                           Theme="Office2007Silver"
-                                                                           IsSynchronizedWithCurrentItem="True"  
-                                                                           SelectionMode="Extended" 
-                                                                           SelectionUnit="FullRow" 
-                                                                           >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedIndexCommand}" CommandParameter="{Binding ElementName=Suppliers, Path=SelectedValue}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="20*" Binding="{Binding Numero}"
-                                           />
-                <extendedColumn:ExtendedDataGridTextColumn  Header="Proveedor" AllowAutoFilter="True" Width="60*" Binding="{Binding Nombre}"
-                                           />
-                <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="False" Width="20*" Binding="{Binding Nif}"
-                                           />
-            </DataGrid.Columns>
-        </extendedGridControl:ExtendedDataGrid>
+     
     </Grid>
 </UserControl>

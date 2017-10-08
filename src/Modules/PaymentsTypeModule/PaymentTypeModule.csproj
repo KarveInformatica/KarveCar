@@ -38,10 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\ExtendedGrid.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -113,13 +109,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Controls\KarveControls\KarveControls.csproj">
+      <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
+      <Name>KarveControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>

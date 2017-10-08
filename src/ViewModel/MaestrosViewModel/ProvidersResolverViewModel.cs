@@ -4,7 +4,6 @@ using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using Microsoft.Practices.Unity;
-using PaymentTypeModule;
 using Prism.Commands;
 using System.Windows;
 using ProvidersModule;
@@ -58,9 +57,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
             IProvidersView providerView= container.Resolve<IProvidersView>();
-            IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
+          //  IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
             ProvidersControl view = providerView as ProvidersControl;
-            view.DataContext = providerViewModule;
+         //   view.DataContext = providerViewModule;
 
             if (!ribbonbuttondictionary.ContainsKey(opcion))
             {

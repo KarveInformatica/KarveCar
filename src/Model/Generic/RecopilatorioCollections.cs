@@ -2,8 +2,8 @@
 using Microsoft.Windows.Controls.Ribbon;
 using System.Collections.Generic;
 using System.Windows;
+using DataAccessLayer.DataObjects;
 using KarveCar.Properties;
-using KarveDataAccessLayer.DataObjects;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Generic

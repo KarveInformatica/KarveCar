@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer.Exception
 {
     [Serializable]
-    internal class DataUpdateException : Exception
+    internal class DataUpdateException : System.Exception
     {
-        private Exception e;
+        private System.Exception e;
 
         public DataUpdateException()
         {
         }
 
-        public DataUpdateException(Exception e)
+        public DataUpdateException(System.Exception e)
         {
             this.e = e;
         }
@@ -21,7 +21,7 @@ namespace KarveDataAccessLayer
         {
         }
 
-        public DataUpdateException(string message, Exception innerException) : base(message, innerException)
+        public DataUpdateException(string message, System.Exception innerException) : base(message, innerException)
         {
         }
 

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using KarveControls.Generic;
+using KarveControls.UIObjects;
 using Xceed.Wpf.DataGrid;
 using DataRow = System.Data.DataRow;
 
@@ -30,6 +34,19 @@ namespace KarveControls
         public static readonly DependencyProperty AssistNameDependencyProperty =
             DependencyProperty.Register(
                 "AssistTableName",
+                typeof(string),
+                typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
+
+
+        public static readonly DependencyProperty AssistDataFieldFirstDependencyProperty =
+            DependencyProperty.Register(
+                "AssistDataFieldFirst",
+                typeof(string),
+                typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty AssistDataFieldSecondDependencyProperty =
+            DependencyProperty.Register(
+                "AssistDataFieldSecond",
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
 
@@ -78,9 +95,9 @@ namespace KarveControls
                 typeof(DualFieldSearchBox),
                 new PropertyMetadata(new DataTable(), OnSourceTableChanged));
 
-        public static readonly RoutedEvent MagnificerPressEvent =
+        public static readonly RoutedEvent MagnifierPressEvent =
             EventManager.RegisterRoutedEvent(
-                "MagnificerPress",
+                "MagnifierPress",
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(DualFieldSearchBox));
@@ -244,21 +261,37 @@ namespace KarveControls
         
 
        
-        public class MagnificerPressEventArgs : RoutedEventArgs
+        public class MagnifierPressEventArgs : RoutedEventArgs
         {
+            public const string ASSISTTABLE = "AssistTable";
+            public const string ASSISTQUERY = "AssistQuery";
 
-            public MagnificerPressEventArgs() : base()
+            public MagnifierPressEventArgs() : base()
             {
             }
-            public MagnificerPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            public MagnifierPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
             }
+
+            public IDictionary<string, string> AssistParameters
+            {
+                get
+                {
+                    Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                    dictionary.Add(ASSISTTABLE, TableName);
+                    dictionary.Add(ASSISTQUERY, AssistQuery);
+                    return dictionary;
+                }
+            }
+
+            public string AssistQuery { get; set; }
+            public string TableName { get; set; }
         }
 
-        public event RoutedEventHandler MagnificerPress
+        public event RoutedEventHandler MagnifierPress
         {
-            add { AddHandler(MagnificerPressEvent, value); }
-            remove { RemoveHandler(MagnificerPressEvent, value); }
+            add { AddHandler(MagnifierPressEvent, value); }
+            remove { RemoveHandler(MagnifierPressEvent, value); }
         }
         public string ButtonImage
         {
@@ -303,8 +336,29 @@ namespace KarveControls
                 SetValue(AssistNameDependencyProperty, value);
             }
         }
+        public string AssistDataFieldFirst
+        {
+            get
+            {
+                return (string)GetValue(AssistDataFieldFirstDependencyProperty);
+            }
+            set
+            {
+                SetValue(AssistDataFieldFirstDependencyProperty, value);
+            }
+        }
+        public string AssistDataFieldSecond
+        {
+            get
+            {
+                return (string)GetValue(AssistDataFieldSecondDependencyProperty);
+            }
+            set
+            {
+                SetValue(AssistDataFieldSecondDependencyProperty, value);
+            }
+        }
 
-        
         public string DataFieldFirst
         {
             get
@@ -347,6 +401,23 @@ namespace KarveControls
             }
         }
 
+
+        public static readonly DependencyProperty AssistQueryDependencyProperty =
+            DependencyProperty.Register(
+                "AssistQuery",
+                typeof(string),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(string.Empty));
+
+        public string AssistQuery
+        {
+            get { return (string)GetValue(AssistQueryDependencyProperty); }
+            set
+            {
+                SetValue(AssistQueryDependencyProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty LabelTextDependencyProperty =
             DependencyProperty.Register(
                 "LabelText",
@@ -371,22 +442,27 @@ namespace KarveControls
         // data table for the data text
         private DataTable _dataTable = new DataTable();
         private DataGridVirtualizingCollectionViewSource _viewData;
-        private int _buttonManifierState;
+        private ComponentFiller _filler;
+        private static int _buttonManifierState;
         
         public const int DEFAULT_PAGE_SIZE = 100;
         private CommonControl.DataType _dataAllowedFirst;
         private CommonControl.DataType _dataAllowedSecond;
+        private ComponentFiller _componentFiller;
 
         public DualFieldSearchBox()
         {
             InitializeComponent();
             LayoutRoot.DataContext = this;
-
+            _filler = new ComponentFiller();
             //_lookup = false;
             _viewData = new DataGridVirtualizingCollectionViewSource();
             _viewData.PageSize = DEFAULT_PAGE_SIZE;
             _viewData.Source = this.SourceView.DefaultView;
-            MagnificerGrid.ItemsSource = _viewData.View;
+            _componentFiller = new ComponentFiller();
+            MagnifierGrid.ItemsSource = _viewData.View;
+            MagnifierGrid.AllowDrag = true;
+            RaiseMagnifierPressEvent();
         }
 
         public string LabelWidth
@@ -434,6 +510,35 @@ namespace KarveControls
                 }
             }
         }
+        #region LabelTextWidth 
+        public readonly static DependencyProperty LabelTextWidthDependencyProperty =
+            DependencyProperty.Register(
+                "LabelTextWidth",
+                typeof(string),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+
+        public string LabelTextWidth
+        {
+            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            set { SetValue(LabelTextWidthDependencyProperty, value); }
+        }
+        private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox control = d as DualFieldSearchBox;
+            if (control != null)
+            {
+                control.OnPropertyChanged("LabelTextWidth");
+                control.OnLabelTextWidthChanged(e);
+            }
+        }
+
+        private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
+        {
+            double value = Convert.ToDouble(e.NewValue);
+            SearchLabel.Width = value;
+        }
+        #endregion
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -475,10 +580,26 @@ namespace KarveControls
             if (eventReadOnly)
             {
                 SearchTextFirst.IsReadOnly = value;
+                if (value)
+                {
+                    SearchTextFirst.Background = Brushes.CadetBlue;
+                }
+                else
+                {
+                    SearchTextFirst.Background = Brushes.White;
+                }
             }
             else
             {
                 SearchTextSecond.IsReadOnly = value;
+                if (value)
+                {
+                    SearchTextFirst.Background = Brushes.CadetBlue;
+                }
+                else
+                {
+                    SearchTextFirst.Background = Brushes.White;
+                }
             }
         }
         private static void OnSourceTableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -510,17 +631,75 @@ namespace KarveControls
             }
             else
             {
+             //   this.Popup.IsOpen = true;
                 this.PopUpButton.Visibility = Visibility.Visible;
             }
         }
 
+        private void UpdateValues(DataTable sourceView, DataTable itemSource)
+        {
+            if ((sourceView != null) && (sourceView.Rows.Count>0))
+            {
+
+                DataColumnCollection collection = sourceView.Columns;
+                DataColumnCollection primaryKeyCollection = itemSource.Columns;
+                if (itemSource.Rows.Count > 0)
+                {
+                    DataRow primaryItemSourceRow =itemSource.Rows[0];
+                    DataRow[] filteredRows = null;
+                    if (collection.Contains(AssistDataFieldFirst))
+                    {
+                        if (primaryKeyCollection.Contains(DataFieldFirst))
+                        {
+
+                            var valueToFind = primaryItemSourceRow[DataFieldFirst];
+                            Type dataType = primaryItemSourceRow.Table.Columns[DataFieldFirst].DataType;
+                            string fieldFormat = "";
+                            if ((dataType.Name == "Int16") || (dataType.Name=="Int32"))
+                            {
+                                fieldFormat = string.Format("{0} = {1}", AssistDataFieldFirst, valueToFind);
+                            }
+                            else
+                            if (dataType.Name == "String")
+                            {
+                                fieldFormat = string.Format("{0} = '{1}'", AssistDataFieldFirst, valueToFind);
+                            }
+                            filteredRows = sourceView.Select(fieldFormat);
+                        }
+                        if ((filteredRows != null) && (filteredRows.Length == 1))
+                        {
+                            TextContentFirst = String.Format("{0}",filteredRows[0][AssistDataFieldFirst]);
+                            TextContentSecond =String.Format("{0}",filteredRows[0][AssistDataFieldSecond]);
+                        }
+
+                    }
+                    
+                }
+            }
+        }
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             DataTable currentTable = e.NewValue as DataTable;
-            _viewData.PageSize = 1000;
-            _viewData.Source = currentTable.DefaultView;
-            // _viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
-            this.MagnificerGrid.ItemsSource = _viewData.View;
+            if (currentTable != null)
+            {
+               
+
+                DataGridCollectionViewSource viewData = new DataGridCollectionViewSource();
+                //  viewData.PageSize = DEFAULT_PAGE_SIZE;
+                viewData.Source = currentTable;
+                //_viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
+                this.MagnifierGrid.ItemsSource = viewData.View;
+                if (_buttonManifierState == 1)
+                {
+                    
+                        this.Popup.IsOpen = true;
+                        _buttonManifierState = 0;
+                    
+                }
+                UpdateValues(currentTable, ItemSource);
+                _sourceView = currentTable;
+
+            }
         }
 
         private static void OnButtonImageChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -541,11 +720,17 @@ namespace KarveControls
                 this.PopUpButtonImage.Source = new BitmapImage(uriSource);
             }
         }
-        private void RaiseMagnificerPressEvent()
+        private void RaiseMagnifierPressEvent()
         {
-            MagnificerPressEventArgs args = new MagnificerPressEventArgs(MagnificerPressEvent);
-            _buttonManifierState = 1;
-            RaiseEvent(args);
+            MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
+            if (!string.IsNullOrEmpty(this.AssistQuery))
+            {
+                args.AssistQuery = this.AssistQuery;
+                args.TableName = AssistTableName;
+                _buttonManifierState = 1;
+                RaiseEvent(args);
+
+            }
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -555,11 +740,12 @@ namespace KarveControls
 
         private void PopUpButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Binding bind = new Binding();
-            bind.Source = this.SourceView;
-            MagnificerGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
-            this.Popup.IsOpen = true;
-            RaiseMagnificerPressEvent();
+           // Binding bind = new Binding();
+           // bind.Source = this.SourceView;
+          //  MagnifierGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
+          //  this.Popup.IsOpen = true;
+        
+            RaiseMagnifierPressEvent();
         }
         private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -654,15 +840,50 @@ namespace KarveControls
         }
         private void OnTextContentFirstWidthPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.SearchTextFirst.Width = Convert.ToDouble(e.NewValue);
+            if (e.NewValue != null)
+            {
+                this.SearchTextFirst.Width = Convert.ToDouble(e.NewValue);
+            }
+            else
+            {
+                this.SearchTextFirst.Width = 100;
+            }
         }
+
         private void OnTextContentFirstPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.SearchTextFirst.Text = e.NewValue as string;
+            this.SearchTextFirst.Text = Convert.ToString(e.NewValue);
+
+            if (!IsReadOnlyFirst)
+            {
+                if (!string.IsNullOrEmpty(DataFieldFirst))
+                {
+                    _componentFiller.FillTable(SearchTextFirst, DataFieldFirst, ref _dataTable);
+                }
+                else
+                {
+                    _componentFiller.FillTable(SearchTextFirst, AssistDataFieldFirst, ref _sourceView);
+
+                }
+            }
+
         }
         private void OnTextContentSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.SearchTextSecond.Text = e.NewValue as string;
+            this.SearchTextSecond.Text = Convert.ToString(e.NewValue);
+
+            
+            if (!string.IsNullOrEmpty(DataFieldSecond))
+            {
+                _componentFiller.FillTable(SearchTextSecond, DataFieldSecond, ref _dataTable);
+            }
+            else
+            {
+                _componentFiller.FillTable(SearchTextSecond, AssistDataFieldSecond, ref _sourceView);
+
+            }
+            
+
         }
         private void OnLabelTextPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -682,8 +903,11 @@ namespace KarveControls
         {
             DataTable dt = e.NewValue as DataTable;
             _dataTable = dt;
+            UpdateValues(_sourceView, _dataTable);
+             
+
         }
-        private void MagnificerGrid_OnSelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
+        private void MagnifierGrid_OnSelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
         {
             DataGridControl gridControl = sender as DataGridControl;
             DataRowView currentRowView = gridControl.SelectedItem as DataRowView;
@@ -692,23 +916,32 @@ namespace KarveControls
             IList<string> columnNames = new List<string>();
             foreach (DataColumn col in cols)
             {
-                if (col.ColumnName == this.DataFieldFirst)
+                if (col.ColumnName == AssistDataFieldFirst)
                 {
-                    columnNames.Add(DataFieldFirst);
+                    columnNames.Add(AssistDataFieldFirst);
 
                 }
-                if (col.ColumnName == this.DataFieldSecond)
+                if (col.ColumnName == AssistDataFieldSecond)
                 {
-                    columnNames.Add(DataFieldSecond);
+                    columnNames.Add(AssistDataFieldSecond);
                 }
             }
-            if (!string.IsNullOrEmpty(columnNames[0]))
+            if (Popup.IsOpen)
             {
-                this.SearchTextFirst.Text = row[columnNames[0]] as string;
-            }
-            if (!string.IsNullOrEmpty(columnNames[1]))
-            {
-                this.SearchTextSecond.Text = row[columnNames[1]] as string;
+                if (columnNames.Count > 1)
+                {
+                    if (!string.IsNullOrEmpty(columnNames[0]))
+                    {
+                        string columnValue = Convert.ToString(row[columnNames[0]]);
+                        TextContentFirst = columnValue;
+                    }
+                    if (!string.IsNullOrEmpty(columnNames[1]))
+                    {
+
+                        string columnValue = Convert.ToString(row[columnNames[1]]);
+                        TextContentSecond = columnValue;
+                    }
+                }
             }
         }
         private static void OnSearchTextBoxDataFieldFirstChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -733,11 +966,12 @@ namespace KarveControls
         {
             string value = e.NewValue as string;
             this.DataFieldFirst = value;
+            UpdateValues(_sourceView, _dataTable);
         }
         private void OnDataFieldSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            this.DataFieldFirst = value;
+            this.DataFieldSecond= value;
         }
         private static void OnSearchTextBoxDataFields(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -759,7 +993,14 @@ namespace KarveControls
         }
         private void OnTextContentSecondWidthPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.SearchTextSecond.Width = Convert.ToDouble(e.NewValue);
+            if (e.NewValue != null)
+            {
+                this.SearchTextSecond.Width = Convert.ToDouble(e.NewValue);
+            }
+            else
+            {
+                this.SearchTextSecond.Width = 100;
+            }
         }
         private void OnDataFieldsPropertyChanged(DependencyPropertyChangedEventArgs e)
         {

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Prism.Mvvm;
-using KarveDataAccessLayer.DataObjects;
 using KarveCommon;
 using KarveCommon.Services;
 using Prism.Regions;
