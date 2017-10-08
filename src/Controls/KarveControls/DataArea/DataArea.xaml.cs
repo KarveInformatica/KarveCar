@@ -2,21 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static KarveControls.CommonControl;
 
-namespace KarveControls.DataArea
+namespace KarveControls
 {
     /// <summary>
     /// Interaction logic for DataArea.xaml
@@ -26,16 +17,13 @@ namespace KarveControls.DataArea
         private double _dataAreaWidth;
         private string _dataAreaLabel;
         private string _textValue;
-        
-        
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected string _description;
         protected DataType _dataAllowed;
         protected bool _allowedEmpty;
         protected bool _upperCase;
+        private bool _dataAreaChanged = false;
         protected DataTable _itemSource;
         protected string _DataArea = string.Empty;
         protected string _tableName = string.Empty;
@@ -89,7 +77,7 @@ namespace KarveControls.DataArea
 
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
-                "ItemSourceDependencyProperty",
+                "ItemSource",
                 typeof(DataTable),
                 typeof(DataArea),
                 new PropertyMetadata(new DataTable(), OnItemSourceChanged));
@@ -141,6 +129,33 @@ namespace KarveControls.DataArea
         {
             _tableName = e.NewValue as string;
         }
+        #endregion
+        #region DataAreaTitle
+        public static readonly DependencyProperty DataAreaTitleDependencyProperty =
+            DependencyProperty.Register(
+                "DataAreaTitle",
+                typeof(string),
+                typeof(DataArea),
+                new PropertyMetadata(string.Empty, OnDataAreaTitleChange));
+        private static void OnDataAreaTitleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataArea control = d as DataArea;
+            if (control != null)
+            {
+                control.OnPropertyChanged("DateAreaTitle");
+                control.OnDateAreaTitleChanged(e);
+            }
+        }
+        public string DataAreaTitle
+        {
+            get { return (string)GetValue(DataAreaTitleDependencyProperty); }
+            set { SetValue(DataAreaTitleDependencyProperty, value); }
+        }
+        protected virtual void OnDateAreaTitleChanged(DependencyPropertyChangedEventArgs e)
+        {
+            this.GBox.Header = e.NewValue;
+        }
+
         #endregion
         #region UpperCaseChange
 
@@ -376,6 +391,7 @@ namespace KarveControls.DataArea
 
         public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
         {
+            /*
             string field = DataField;
             if (!string.IsNullOrEmpty(field))
             {
@@ -394,6 +410,7 @@ namespace KarveControls.DataArea
                EditorText.DropDownWidth = dta.Columns[field].MaxLength;
                EditorText.SetBinding(DataArea.TextContentDependencyProperty, oBind);
             }
+            */
         }
 
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -419,8 +436,44 @@ namespace KarveControls.DataArea
         {
             InitializeComponent();
             this.DataAreaLayout.DataContext = this;
+         //   this.EditorText.TargetUpdated+=EditorTextOnDataContextChanged;
+            this.EditorText.LostFocus +=EditorTextOnLostFocus;
+            this.EditorText.GotFocus+=EditorTextOnGotFocus;
         }
 
+        private void EditorTextOnGotFocus(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _dataAreaChanged = false;
+            RaiseEvent(routedEventArgs);
+        }
+
+
+        private void EditorTextOnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (_dataAreaChanged)
+            {
+                if (EditorText.Text != null)
+                {
+                    DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs();
+                    ev.FieldData = EditorText.Text;
+                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+                    valueDictionary["TableName"] = TableName;
+                    valueDictionary["Field"] = DataField;
+                    valueDictionary["DataTable"] = ItemSource;
+                    valueDictionary["ChangedValue"] = EditorText.Text;
+                    ev.ChangedValuesObjects = valueDictionary;
+                    RaiseEvent(ev);
+                    _dataAreaChanged = false;
+                }
+            }
+        }
+
+        private void EditorTextOnDataContextChanged(object sender, RoutedEventArgs e)
+        {
+            _dataAreaChanged = true;
+            RaiseEvent(e);
+        }
+     
         public double DataAreaWidth
         {
             get { return _dataAreaWidth; }
@@ -444,20 +497,7 @@ namespace KarveControls.DataArea
             }
         }
 
-        public string TextValue
-        {
-            get
-            {
-                return _textValue;
-                
-            }
-            set
-            {
-                _textValue = value;
-                EditorText.Text = value;
-            }
-            
-        }
+        
        
     }
 }

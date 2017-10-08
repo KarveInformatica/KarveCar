@@ -2,7 +2,8 @@
 using KarveCar.Model.Generic;
 using KarveCommon.Logic.Generic;
 using Microsoft.Practices.Unity;
-using PaymentTypeModule;
+
+//using PaymentTypeModule;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 {
     public class PaymentResolverViewModel
     {
+        /*
         #region Variables
         private DelegateCommand<object> _showPaymentCommand;
         #endregion
@@ -43,10 +45,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         ///         
         public void showPaymentCommand(object parameter)
         {
-            /*
-            * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
-            * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
-            */
             EOpcion opcion = EOpcion.rbtnFormasCobroClientes;
             View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
             IUnityContainer container = mainWindow.UnityContainer;
@@ -69,6 +67,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             
             }
         }
+        
         #endregion
+        */
     }
 }

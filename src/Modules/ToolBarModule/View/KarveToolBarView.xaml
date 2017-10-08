@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mvvm1="http://prismlibrary.com/">
-             <!--mvvm1:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:local="clr-namespace:ToolBarModule">-->
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:local="clr-namespace:ToolBarModule">
     <UserControl.Resources>
         <Style x:Key="ImageEnabled" TargetType="Image">
             <Style.Triggers>
@@ -50,7 +50,7 @@
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsSaveEnabled}" >
                 <StackPanel>
-                    <Image Source="{Binding CurrentSaveImagePath}" Stretch="Fill" Height="20" />
+                    <Image Source="{Binding CurrentSaveImagePath,PresentationTraceSources.TraceLevel=High}" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">

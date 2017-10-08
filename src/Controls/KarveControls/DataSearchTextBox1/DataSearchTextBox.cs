@@ -77,7 +77,7 @@ namespace KarveControls
             }
         }
 
-        private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
+        public void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
         {
             double value = Convert.ToDouble(e.NewValue);
             SearchLabel.Width = value;
@@ -438,9 +438,9 @@ namespace KarveControls
                 typeof(DataSearchTextBox),
                 new PropertyMetadata(new DataTable(), OnSourceTableChanged));
 
-        public static readonly RoutedEvent MagnificerPressEvent =
+        public static readonly RoutedEvent MagnifierPressEvent =
             EventManager.RegisterRoutedEvent(
-                "MagnificerPress",
+                "MagnifierPress",
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(DataSearchTextBox));
@@ -466,21 +466,21 @@ namespace KarveControls
         }
        
         
-        public class MagnificerPressEventArgs : RoutedEventArgs
+        public class MagnifierPressEventArgs : RoutedEventArgs
         {
 
-            public MagnificerPressEventArgs() : base()
+            public MagnifierPressEventArgs() : base()
             {
             }
-            public MagnificerPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            public MagnifierPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
             }
         }
 
-        public event RoutedEventHandler MagnificerPress
+        public event RoutedEventHandler MagnifierPress
         {
-            add { AddHandler(MagnificerPressEvent, value); }
-            remove { RemoveHandler(MagnificerPressEvent, value); }
+            add { AddHandler(MagnifierPressEvent, value); }
+            remove { RemoveHandler(MagnifierPressEvent, value); }
         }
 
         public ICommand SelectedIndexCommand { set; get; }
@@ -528,7 +528,7 @@ namespace KarveControls
             {
                 _viewData.Source = this.SourceView.DefaultView;
                 // _viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
-                this.MagnificerGrid.ItemsSource = _viewData.View;
+                this.MagnifierGrid.ItemsSource = _viewData.View;
             }
         }
         public string LabelWidth
@@ -610,7 +610,7 @@ namespace KarveControls
                 _viewData.Source = currentTable.DefaultView;
                 _sourceView = currentTable;
                 // _viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
-                this.MagnificerGrid.ItemsSource = _viewData.View;
+                this.MagnifierGrid.ItemsSource = _viewData.View;
             }
         }
 
@@ -632,9 +632,9 @@ namespace KarveControls
                 this.PopUpButtonImage.Source = new BitmapImage(uriSource);
             }
         }
-        private void RaiseMagnificerPressEvent()
+        private void RaiseMagnifierPressEvent()
         {
-            MagnificerPressEventArgs args = new MagnificerPressEventArgs(MagnificerPressEvent);
+            MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
             this._state = 1;
             RaiseEvent(args);
         }
@@ -651,10 +651,10 @@ namespace KarveControls
 
             bind.Source = this.SourceView;
 
-            MagnificerGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
+            MagnifierGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
 
             this.Popup.IsOpen = true;
-            RaiseMagnificerPressEvent();
+            RaiseMagnifierPressEvent();
         }
 
         
@@ -772,7 +772,7 @@ namespace KarveControls
             }
         }
 
-        private void MagnificerGrid_OnSelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
+        private void MagnifierGrid_OnSelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
         {
             Xceed.Wpf.DataGrid.DataGridControl gridControl = sender as Xceed.Wpf.DataGrid.DataGridControl;
             DataRowView currentRowView = gridControl.SelectedItem as DataRowView;

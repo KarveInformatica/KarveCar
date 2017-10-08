@@ -1,10 +1,9 @@
-﻿using KarveDataServices;
-using System.Data;
-using System;
+﻿using System.Data;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveDataServices;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
     /// <summary>
     ///  Implementation of the the IDataService interface to provide the stairway pattern.
@@ -46,7 +45,8 @@ namespace KarveDataAccessLayer
 
         public IVehicleDataServices GetVehicleDataServices()
         {
-            throw new VeichlesDataService();
+            return null;
+            // throw new VeichlesDataService();
         }
 
         public ISupplierDataServices GetSupplierDataServices()

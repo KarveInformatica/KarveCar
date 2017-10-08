@@ -1,12 +1,12 @@
-﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
-using System;
+﻿using System;
+using KarveCommon.Generic;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class GrupoVehiculoDataObject : BaseAuxDataObject
     {
         #region Constructores
-        public GrupoVehiculoDataObject() { this.ControlCambio = EControlCambio.Null; }
+        public GrupoVehiculoDataObject() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public GrupoVehiculoDataObject(string codigo, string usuario, string ultimamodificacion, string acriss,
                                        string definicion, DateTime fechabaja, byte horasfrigo,
                                        string modelo, string tipovehiculocodigo, string tipovehiculodescripcion, string notas,

@@ -1,4 +1,4 @@
-﻿namespace KarveDataAccessLayer
+﻿namespace DataAccessLayer.DataObjects
 {
     public static class Constants
     {

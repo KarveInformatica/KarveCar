@@ -1,29 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.Exception;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataAccessLayer.DataObjects;
-using System.Reflection;
-using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 
-namespace KarveDataAccessLayer
+using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
+
+namespace DataAccessLayer
 {
 
     class SupplierDataAccessLayer : ISupplierDataServices
     {
         private IConfigurationService _service;
         private ISqlQueryExecutor _queryExecutor;
+        private DatabaseHelper _databaseHelper;
         private ISqlSession _session = null;
+        public const string SupplierTable1 = "PROVEE1";
+        public const string SupplierTable2 = "PROVEE2";
+
+        private object _currentMerge = new object();
         public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service)
         {
             this._queryExecutor = mapper;
             this._service = service;
+            _databaseHelper = new DatabaseHelper(mapper);
 
         }
         #region ISupplierDataService Interface
@@ -44,13 +53,16 @@ namespace KarveDataAccessLayer
         /// Returns look for the Number, Nif, and brief summary of the supplier.
         /// </summary>
         /// <returns>A data set containing a Number, Nif, and summary</returns>
-        public async Task<DataSet> GetAsyncAllSupplierSummary()
+        public async Task<IList<ExtendedSummaryDataObject>> GetAsyncAllSupplierSummary(string sqlQuery)
         {
             DataSet dataSet = new DataSet("SupplierDataSet");
             DataTable supplierTable = new DataTable();
-        //    supplierTable = await _dataMapper.QueryAsyncForDataTable("Suppliers.GetAllSuppliersSummary", null).ConfigureAwait(false);
-        //    dataSet.Tables.Add(supplierTable);
-            return dataSet;
+            IList<ExtendedSummaryDataObject> extendedSummaryDataObjects;
+            using (_session = _queryExecutor.ConnectionFactory())
+            {
+                extendedSummaryDataObjects = _session.ExecuteAsync<ExtendedSummaryDataObject>(sqlQuery);
+            }
+            return extendedSummaryDataObjects;
         }
         /// <summary>
         ///  This method returns all providers types 
@@ -88,14 +100,9 @@ namespace KarveDataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetAsyncDelegations(string supplierCode)
         {
-            DataSet set = new DataSet("SupplierDelegations");
-            DataTable delegation = new DataTable();
-            //delegation = await _dataMapper.QueryAsyncForDataTableSession("Suppliers.GetSupplierDelegationByClient", supplierCode, _session);
-            if (delegation != null)
-            {
-                set.Tables.Add(delegation);
-            }
-            return set;
+            string supplierCodeQuery = string.Format(GenericSql.DelegationQuery, "'"+supplierCode+"'");
+            DataSet delegationDataSet = await _queryExecutor.AsyncDataSetLoad(supplierCodeQuery);
+            return delegationDataSet;
         }
         /// <summary>
         /// Get the visits from the supplier.
@@ -448,20 +455,19 @@ namespace KarveDataAccessLayer
             ISupplierDataInfo info)
         {
             bool retValue = false;
+
+            /*
             int value = (int)environ.GetKey(EnvConfig.CompanyConfiguration, EnvironmentVariables.Tipproconce);
             if (environ.IsSetNotEmpty(EnvConfig.CompanyConfiguration, EnvironmentVariables.Mercedes) && (type == value.ToString()))
             {
-                /*
                     SELECT NOMBRE, PERSONA, NIF, DIRECTION, POBLACION, PROV, CP, NACIOPER, NACIODOMI, TELEFONO, FAX,
                     OBSERVA,sublicen , FALTA, fbaja, eMail, INTERNET, Movil, COORDGPS, Oficina
-                    FROM PROVEE1 where NUM_PROVEE=info.Codigo*/
-                DataTable tmpSupplier = await mapper.QueryAsyncForDataTable("Supplier.GetSupplier", info.Code).ConfigureAwait(false);
-                /* from the select we need to fetch the values 
+                    FROM PROVEE1 where NUM_PROVEE=info.Codigo
+               from the select we need to fetch the values 
                   "NOMBRE", "PERSONA", "NIF", "DIRECCION", "POBLACION", "PROV", "CP", "NACIOPER", "NACIODOMI", "TELEFONO", "FAX", 
                  "OBSERVA", "sublicen", "FALTA", "fbaja", "eMail", "INTERNET", "Movil", "COORDGPS", "Oficina"
-                */
-                /* SELECT NUM_COMI from comisio where NIF = account.Nif */
-                DataTable comi = null;
+               SELECT NUM_COMI from comisio where NIF = account.Nif DataTable comi = null;
+                
                 if (string.IsNullOrEmpty(account.CommissionNumber))
                 {
                     comi = await mapper.QueryAsyncForDataTable("Supplier.GetCommissionByNif", account.Nif).ConfigureAwait(false);
@@ -471,40 +477,40 @@ namespace KarveDataAccessLayer
                         account.CommissionNumber = rows[0]["NUM_COMI"] as string;
                     }
                 }
-                if (string.IsNullOrEmpty(account.CommissionNumber))
-                {
-                    /** in vb6 we use a function for generating the comissionist numner
-                     * places in JaBAutoCodigoTrans("COMISIO", "NUM_COMI")
-                     * I would prefer generate a true random value with a fixed prefix.
-                     */
-                    short tmpComisioNumber = 0;
-                    short commisionNumber = 0;
-                    // i repeat the generation until there is a unique commision number
-                    do
-                    {
-                        byte[] data = new byte[1];
-                        using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-                        {
-                            rngCsp.GetBytes(data);
-                        }
-                        tmpComisioNumber = BitConverter.ToInt16(data, 0);
-                        account.CommissionNumber = tmpComisioNumber.ToString();
-                        commisionNumber = await mapper.QueryAsyncForObject<short>("Commission.GetNumberOfCommission", tmpComisioNumber).ConfigureAwait(false);
-                    } while (commisionNumber == tmpComisioNumber);
-                  // mapper.AddBatch(new InsertCommissionNumberCommand(account.CommissionNumber, tmpSupplier, "Commission.InsertCommission"));
-                    IDictionary<string, object> commissionParam = new Dictionary<string, object>();
-                    commissionParam["NUMCOMI_PR"] = account.CommissionNumber;
-                    commissionParam["NUM_PROVEE"] = info.Code;
-                   // mapper.AddBatch(new UpdateCommandDictionary("Supplier.UpdateSupplierCommission", commissionParam));
-                    retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
-                }
-                else
-                {
-                   // mapper.AddBatch(new UpdateCommandTable(tmpSupplier, account.CommissionNumber, "Commission.UpdateCommission"));
-                    retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
-                }
+                */
+            /*
+        if (string.IsNullOrEmpty(account.CommissionNumber))
+            {
 
+                short tmpComisioNumber = 0;
+                short commisionNumber = 0;
+                do
+                {
+                    byte[] data = new byte[1];
+                    using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+                    {
+                        rngCsp.GetBytes(data);
+                    }
+                    tmpComisioNumber = BitConverter.ToInt16(data, 0);
+                    account.CommissionNumber = tmpComisioNumber.ToString();
+                    commisionNumber = await mapper.QueryAsyncForObject<short>("Commission.GetNumberOfCommission", tmpComisioNumber).ConfigureAwait(false);
+                } while (commisionNumber == tmpComisioNumber);
+              // mapper.AddBatch(new InsertCommissionNumberCommand(account.CommissionNumber, tmpSupplier, "Commission.InsertCommission"));
+                IDictionary<string, object> commissionParam = new Dictionary<string, object>();
+                commissionParam["NUMCOMI_PR"] = account.CommissionNumber;
+                commissionParam["NUM_PROVEE"] = info.Code;
+               // mapper.AddBatch(new UpdateCommandDictionary("Supplier.UpdateSupplierCommission", commissionParam));
+                retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
             }
+            else
+            {
+               // mapper.AddBatch(new UpdateCommandTable(tmpSupplier, account.CommissionNumber, "Commission.UpdateCommission"));
+                retValue = retValue & await mapper.ExecuteUpdateAsyncBatch().ConfigureAwait(false);
+            }
+
+
+        }
+        */
             return retValue;
         }
         private async Task<bool> SaveOtherData(IEnviromentVariables environ, ISqlQueryExecutor dataMapper,
@@ -666,9 +672,8 @@ namespace KarveDataAccessLayer
             }
             else
             {
-                IList<string> param = new List<string>();
-                param.Add(accountName);
-                param.Add(sublicen);
+                IList<string> param = new List<string>() { accountName, sublicen};
+               
                 rowsAffected = 1;
                 //await dataMapper.QueryAsyncForObject<int>("Suppliers.ExistAccountByCodeAndSublicen", param);
             }
@@ -768,6 +773,30 @@ namespace KarveDataAccessLayer
             ISupplierTypeData data = await _queryExecutor.QueryAsyncForObjectSession<ISupplierTypeData>("Suppliers.GetSupplierTypeById", supplierId, this._session).ConfigureAwait(false);
             return data;
         }
+
+        public void UpdateDataSet(IDictionary<string, string> queries, DataSet set)
+        {
+            StringBuilder queryStringBuilder = new StringBuilder();
+            if (queries == null)
+            {
+                return;
+            }
+            if (set != null)
+            {
+                foreach (DataTable table in set.Tables)
+                {
+                    if (queries.ContainsKey(table.TableName))
+                    {
+                        queryStringBuilder.Append(queries[table.TableName]);
+                        queryStringBuilder.Append(";");
+                    }
+                }
+                _queryExecutor.BeginTransaction();
+                _queryExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref set);
+                _queryExecutor.Commit();
+            }
+        }
+
         public async Task<ISupplierAccountObjectInfo> GetAsyncSupplierAccountInfo(string supplierId, object environ)
 
         {
@@ -977,6 +1006,29 @@ namespace KarveDataAccessLayer
         }
        
         public Task<bool> Insert(ISupplierDataInfo info, ISupplierTypeData td, ISupplierAccountObjectInfo ao, DataSet monitoringData, DataSet evaluationData, DataSet transportData, DataSet assuranceProviderData, bool contactsChanged, DataSet visitsData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<DataSet> GetAsyncSuppliers()
+        {
+            DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierQuery);
+            return summary;
+        }
+        public async Task<DataSet> GetAsyncAllSupplierSummary()
+        {
+            //1. Se le do el data set de todos los proveedores.
+            DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierSummaryQuery);   
+            return summary;
+        }
+
+        public async Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList)
+        {
+            DataSet summary = await _queryExecutor.AsyncDataSetLoadBatch(queryList);
+            return summary;
+        }
+
+        public void UpdateTable(DataTable table)
         {
             throw new NotImplementedException();
         }

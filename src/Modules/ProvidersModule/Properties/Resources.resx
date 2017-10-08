@@ -66,36 +66,36 @@
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -114,4 +114,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ProviderInfoViewModel_Nombre" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="ProviderInfoViewModel_NIF" xml:space="preserve">
+    <value>NIF</value>
+  </data>
+  <data name="ProviderInfoViewModel_TipoProv" xml:space="preserve">
+    <value>Tipo Prov.</value>
+  </data>
+  <data name="ProviderInfoViewModel_Numero" xml:space="preserve">
+    <value>Numero</value>
+  </data>
+  <data name="ProviderInfoViewModel_NombreCommercial" xml:space="preserve">
+    <value>Nombre Commercial</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadLeftPart_Dirección" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadLeftPart_CP" xml:space="preserve">
+    <value>CP</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadLeftPart_Pais" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadLeftPart_Telefono" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadLeftPart_Provincia" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="ProviderInfoViewModel_Población" xml:space="preserve">
+    <value>Población</value>
+  </data>
+  <data name="ProviderInfoViewModel_Teléfono" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="ProviderInfoViewModel_Fax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="ProviderInfoViewModel_Móvil" xml:space="preserve">
+    <value>Móvil</value>
+  </data>
+  <data name="ProviderInfoViewModel_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ProviderInfoViewModel_Web" xml:space="preserve">
+    <value>Web</value>
+  </data>
+  <data name="ProviderInfoViewModel_Contacto" xml:space="preserve">
+    <value>Contacto</value>
+  </data>
+  <data name="ProviderInfoViewModel_Empresa" xml:space="preserve">
+    <value> Empresa</value>
+  </data>
+  <data name="ProviderInfoViewModel_Oficina" xml:space="preserve">
+    <value>Oficina</value>
+  </data>
+  <data name="ProviderInfoViewModel_Dirección2" xml:space="preserve">
+    <value>Segunda Dirección</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadAccountLeft_PlazoDePago" xml:space="preserve">
+    <value>Plazo de pago</value>
+  </data>
 </root>

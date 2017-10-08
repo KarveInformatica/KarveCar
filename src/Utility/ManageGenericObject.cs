@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using KarveDataAccessLayer.DataObjects;
 using KarveCar.Properties;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 

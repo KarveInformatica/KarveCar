@@ -1,4 +1,4 @@
-﻿namespace KarveDataAccessLayer.DataObjects
+﻿namespace DataAccessLayer.DataObjects
 {
     public class ChargeTypeObject: BaseAuxDataObject
     {

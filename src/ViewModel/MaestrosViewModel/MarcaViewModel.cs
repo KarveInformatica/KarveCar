@@ -5,7 +5,6 @@ using KarveCar.Utility;
 using KarveCar.View;
 using KarveCommon.Generic;
 using KarveCommon.Logic.Generic;
-using KarveDataAccessLayer.DataObjects;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Data;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DataAccessLayer.DataObjects;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
-    public class DataLayerExecutionException: Exception
+    public class DataLayerExecutionException: System.Exception
     {
         public DataLayerExecutionException() : base("Cannot save the data. Null data object")
         {   

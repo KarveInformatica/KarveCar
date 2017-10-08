@@ -6,12 +6,20 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
+using Dapper;
+
 
 namespace KarveCommon.Generic
 {
     public abstract class AbstractSqlQueryExecutor : ISqlQueryExecutor
     {
         protected IList<ISqlCommand> CommandList;
+        public ISqlSession ConnectionFactory()
+        {
+            return new AbstractSqlSession();
+//            throw new NotImplementedException();
+        }
+
         public abstract Task<DataSet> AsyncDataSetLoad(string sqlQuery);
         public abstract void BeginTransaction();
         public abstract void CallStoredProcedure(string statementProcedureName, IList<string> statementProcList);
@@ -26,13 +34,17 @@ namespace KarveCommon.Generic
         public abstract bool Open();
         public abstract void Rollback();
         public abstract void UpdateDataSet(string sqlQuery, ref DataSet dts);
-        public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code);
+        public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
         public abstract Task<T> QueryAsyncForObject<T>(string v, T parameter);
         public abstract Task<bool> ExecuteUpdateAsyncBatch();
         public abstract DataTable QueryForDataTable(string v, long pos);
         public abstract Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session);
         public abstract ISqlSession OpenSession();
         public abstract void CloseSession(ISqlSession sqlSession);
+
+        public abstract Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList);
+        //  public abstract IList<T> ExecuteQueryFields(string sqlQuery);
+       
         public void AddBatch(ISqlCommand command)
         {
             this.CommandList.Add(command);
@@ -43,6 +55,7 @@ namespace KarveCommon.Generic
             string value = ExecuteQueryDataTable(sqlString);
             return (!string.IsNullOrEmpty(value));
         }
+
         /// <summary>
         /// This method show the exact line number for the exception
         /// </summary>
@@ -57,5 +70,8 @@ namespace KarveCommon.Generic
             string outMessage = message + " at line " + lineNumber + " (" + caller + ")";
             return outMessage;
         }
+
+        public abstract IList<string> ExecuteQueryFields(string sqlQuery);
+     
     }
 }

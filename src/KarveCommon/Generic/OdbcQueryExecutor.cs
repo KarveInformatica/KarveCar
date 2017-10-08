@@ -144,6 +144,8 @@ namespace KarveCommon.Generic
             }
             return dts;
         }
+
+       
         /// <summary>
         /// Method for loading a dataset and setting the table names.
         /// </summary>
@@ -167,6 +169,46 @@ namespace KarveCommon.Generic
                 }
             }
             return ds;
+        }
+
+        private async Task<DataTable> AsyncLoadTable(string sqlQuery, OdbcTransaction dbTransaction)
+        {
+
+            object region = new object();
+            OdbcCommand cmd = null;
+            DataTable table = new DataTable();
+            OdbcDataAdapter dataAdapter = null;
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.ConnectionString = _connectionString;
+
+                await _connection.OpenAsync();
+            }
+            try
+            {
+                lock (region)
+                {
+                    cmd = new OdbcCommand(sqlQuery, _connection, dbTransaction);
+                    table = new DataTable();
+                    dataAdapter = new OdbcDataAdapter(cmd);
+                }
+                await Task.Run(() =>
+                {
+                    dataAdapter.Fill(table);
+                }).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Close();
+            }
+            finally
+            {
+                Close();
+                dataAdapter?.Dispose();
+             
+                cmd?.Dispose();
+            }
+            return table;
         }
         /// <summary>
         /// Asynchronous load for loading multiple select in a data set. Each query 
@@ -213,22 +255,42 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
-                Close();
                 set = null;
             }
             finally
             {
-                set.Dispose();
-                if (cmd != null)
-                {
-                    cmd.Dispose();
-                }
-                if (da != null)
-                {
-                    da.Dispose();
-                }
+                Close();
+                set?.Dispose();
+                cmd?.Dispose();
+                da?.Dispose();
+                
             }
             return set;
+        }
+        public override async Task<DataTable> QueryAsyncForDataTable(string sqlQuery)
+        {
+
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.ConnectionString = _connectionString;
+
+                await _connection.OpenAsync();
+            }
+            DataTable table = new DataTable();
+            OdbcTransaction dbTransaction = _connection.BeginTransaction();
+            try
+            {
+                table = await AsyncLoadTable(sqlQuery, dbTransaction).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Close();
+            }
+            finally
+            {
+                table.Dispose();
+            }
+            return table;
         }
         /// <summary>
         /// Update synchronosly a data set. Each update is separated by a ;
@@ -288,11 +350,7 @@ namespace KarveCommon.Generic
             }
         }
 
-        public override async Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code)
-        {
-            await Task.Delay(10);
-            return new DataTable();  
-        }
+       
 
         public override Task<T> QueryAsyncForObject<T>(string v, T parameter)
         {
@@ -300,6 +358,12 @@ namespace KarveCommon.Generic
             throw new NotImplementedException();
         }
 
+        public override IList<string> ExecuteQueryFields(string sqlQuery)
+        {
+            throw new NotImplementedException();
+        }
+
+       
         public override Task<bool> ExecuteUpdateAsyncBatch()
         {
             throw new NotImplementedException();
@@ -324,6 +388,12 @@ namespace KarveCommon.Generic
         {
             throw new NotImplementedException();
         }
+
+        public override Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Create a OdbcCommand from a transaction 
@@ -395,6 +465,7 @@ namespace KarveCommon.Generic
             }
 
         }
+        
         /// <summary>
         /// Execute a single select command
         /// </summary>

@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+
 namespace KarveCommon.Generic
 {
     public interface ISqlQueryExecutor
@@ -59,6 +60,7 @@ namespace KarveCommon.Generic
         /// <param name="tableAlias">Query for loading the tables</param>
         /// <returns></returns>
         DataSet LoadDataSetByTables(string sqlQuery, IList<string> tableAlias);
+        ISqlSession ConnectionFactory();
 
         /// <summary>
         /// Asynchronous load for loading multiple select in a data set. Each query 
@@ -125,12 +127,11 @@ namespace KarveCommon.Generic
         /// <returns></returns>
         bool ExecuteNonQuery(string CommandName, CommandType cmdType, IDBParameter param);
         /// <summary>
-        ///  Asynchrnous call for the query
+        ///  Asynchronous call for the query
         /// </summary>
         /// <param name="sqlQuery"></param>
-        /// <param name="code"></param>
         /// <returns></returns>
-        Task<DataTable> QueryAsyncForDataTable(string sqlQuery, string code);
+        Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
         /// <summary>
         ///  Asynchronouse call for a single data object.
         /// </summary>
@@ -141,6 +142,9 @@ namespace KarveCommon.Generic
         Task<T> QueryAsyncForObject<T>(string v, T parameter);
         // This commnand 
         // add a command to be executed directly to a batch pool.
+        // Get the field name of the query
+
+        IList<string> ExecuteQueryFields(string sqlQuery);
 
         void AddBatch(ISqlCommand command);
         /// <summary>
@@ -149,18 +153,22 @@ namespace KarveCommon.Generic
         /// <returns></returns>
         Task<bool> ExecuteUpdateAsyncBatch();
         /// <summary>
-        /// `De
+        /// This method returns a data table from a query.
         /// </summary>
         /// <param name="v"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
         DataTable QueryForDataTable(string v, long pos);
-        //
+        // This method returns an object asynchronous give a session.
         Task<T> QueryAsyncForObjectSession<T>(string v, string supplierId, ISqlSession session);
-
         // a session is a connection.
         ISqlSession OpenSession();
         void CloseSession(ISqlSession sqlSession);
-
+        /// <summary>
+        ///  This method loads in a batch a set of queries
+        /// </summary>
+        /// <param name="queryList">A list of queries separated by a semicolon</param>
+        /// <returns>Returns a  list of datasets.</returns>
+        Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList);
     }
 }

@@ -297,7 +297,7 @@ namespace KarveControls.DataGrid
             }
             if ((dgcgGroups != null))
             {
-                foreach (void gr in dgcgGroups.ColumnGroups)
+                foreach (var gr in dgcgGroups.ColumnGroups)
                 {
                     gr = gr_loopVariable;
                     dgdDefinicion.GruposColumnas.Add(gr);
@@ -312,7 +312,7 @@ namespace KarveControls.DataGrid
             DataTable dtt = new DataTable();
             DataRow dtr = default(DataRow);
             dtt = this.DataSource;
-            foreach (dtr in dtt.Rows)
+            foreach (var dtr in dtt.Rows)
             {
                 dtr.Item(dgdDefinicion.NombreColMarcar) = Value;
             }
@@ -394,7 +394,7 @@ namespace KarveControls.DataGrid
 
         public void setIdRel()
         {
-            foreach (void row_loopVariable in this.Rows)
+            foreach (var row_loopVariable in this.Rows)
             {
                 row = row_loopVariable;
                 row.Cells(_colRel.Name).Value = _idRel;
@@ -815,7 +815,7 @@ namespace KarveControls.DataGrid
             if ((col != null))
             {
                 int i = 0;
-                foreach (void fil_loopVariable in filter.FilterDescriptors)
+                foreach (var fil_loopVariable in filter.FilterDescriptors)
                 {
                     fil = fil_loopVariable;
                     DataGridRule rlPart = new DataGridRule();
@@ -1072,7 +1072,7 @@ namespace KarveControls.DataGrid
         {
             CompositeFilterDescriptor functionReturnValue = default(CompositeFilterDescriptor);
             functionReturnValue = new CompositeFilterDescriptor();
-            foreach (void rlPart_loopVariable in RL.Rules.Order)
+            foreach (var rlPart_loopVariable in RL.Rules.Order)
             {
                 rlPart = rlPart_loopVariable;
                 object filter = new object();

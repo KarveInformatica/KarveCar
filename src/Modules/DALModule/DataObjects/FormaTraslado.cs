@@ -1,13 +1,12 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class FormaTraslado : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public FormaTraslado() { this.ControlCambio = EControlCambio.Null; }
+        public FormaTraslado() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public FormaTraslado(byte codigo, string definicion, string observaciones, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -74,8 +73,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

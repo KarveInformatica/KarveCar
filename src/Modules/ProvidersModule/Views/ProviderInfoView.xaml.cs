@@ -25,7 +25,7 @@ namespace ProvidersModule.Views
         {
             InitializeComponent();
             Header = "Notes";
-            this.SupplierBriefSummary.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+           // this.SupplierBriefSummary.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
                 
         }
         public string Header
@@ -36,6 +36,9 @@ namespace ProvidersModule.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        
+
+            /*
        
         private void ScaleUp(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -172,8 +175,9 @@ namespace ProvidersModule.Views
         }
 
         private Viewbox _currentDashboardViewbox;
-       
+    */   
     }
+    
     
 
 }

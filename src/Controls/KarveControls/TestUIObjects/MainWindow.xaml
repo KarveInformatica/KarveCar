@@ -9,6 +9,7 @@
         xmlns:testUiObject="clr-namespace:KarveControls.TestUIObject"
         xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
         xmlns:testUiComponents1="clr-namespace:TestUIComponents"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.DataContext>
@@ -17,13 +18,21 @@
     <Grid Name="CollectionTest">
         <Grid.Resources>
             <DataTemplate x:Key="DataFieldDataTemplate">
-                <karveControls:DataField LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContent="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DBField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    
+                <karveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         TextContent="{Binding TextContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         TextContentWidth="{Binding TextContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         DBField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         Visibility="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                         IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DataFieldChanged">
+                            <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=MyCurrentField, Path=TextContent}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </karveControls:DataField>
+
             </DataTemplate>
             <DataTemplate x:Key="SearchBoxDataTemplate">
                 <karveControls:DataSearchTextBox LabelText="{Binding Label, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -59,7 +68,6 @@
             </DataTemplate>
             <template:TemplateSelector x:Key="BasicTemplateSelector" 
                        DataField="{StaticResource ResourceKey=DataFieldDataTemplate}"
-                       SearchTextBox="{StaticResource ResourceKey=SearchTextBoxTemplate}"
                        DualFieldSearchTextBox="{StaticResource ResourceKey=DualFieldSearchTextBox}"
                       
                       />
@@ -71,11 +79,11 @@
                     <ItemsPanelTemplate>
                         <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
                     </ItemsPanelTemplate>
+                    
                 </ItemsControl.ItemsPanel>
 
             </ItemsControl>
-            
-            </StackPanel>
+        </StackPanel>
             
     </Grid>
     </Window>

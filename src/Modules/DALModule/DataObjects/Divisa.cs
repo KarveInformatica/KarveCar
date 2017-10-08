@@ -1,13 +1,12 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class Divisa : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public Divisa() { this.ControlCambio = EControlCambio.Null; }
+        public Divisa() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public Divisa(string codigo, string definicion, decimal compra, decimal venta, string ultimamodificacion, string usuario)
         {
             this.codigo = codigo;
@@ -86,8 +85,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

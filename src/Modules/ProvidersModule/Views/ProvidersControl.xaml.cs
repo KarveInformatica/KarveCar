@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +25,6 @@ namespace ProvidersModule.Views
         public ProvidersControl()
         {
             InitializeComponent();
-            this.ProviderSupplierSummary.Theme = ExtendedDataGrid.Themes.Office2007Silver;
         }
-
-        private void ProviderSupplierSummary_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-  
     }
 }

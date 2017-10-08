@@ -1,7 +1,10 @@
-﻿namespace KarveCommon.Generic
+﻿using System;
+using System.Collections.Generic;
+
+namespace KarveCommon.Generic
 {
-    public interface ISqlSession
+    public interface ISqlSession: IDisposable
     {
-	
+        IList<T> ExecuteAsync<T>(string sqlQuery);
     }
 }

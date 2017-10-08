@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfUpdater"
         xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
-        xmlns:vm="clr-namespace:WpfUpdater"
         xmlns:testUiObject="lr-namespace:TestUIComponents;assembly=KarveControls"
         xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid Name="CollectionTest">
@@ -125,16 +124,21 @@
             />
         </Grid.Resources>
         <StackPanel Name="stkMain" Orientation="Horizontal">
-
-            <ItemsControl x:Name="textArgument" ItemsSource="{Binding ItemCollectionValue}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-            </ItemsControl>
-
+            
+          <karveControls:DataField Name="MyCurrentField" LabelText="CurrentName" LabelTextWidth="100" IsReadOnly="False" LabelVisible="True" TextContentWidth="200">
+              <i:Interaction.Triggers>
+                  <i:EventTrigger EventName="DataFieldChanged">
+                      <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=MyCurrentField, Path=TextContent}"/>
+                  </i:EventTrigger>
+              </i:Interaction.Triggers>
+          </karveControls:DataField>
+            <karveControls:DataField Name="MyCurrentField2" LabelText="CurrentName" LabelTextWidth="100" IsReadOnly="False" LabelVisible="True" TextContentWidth="200">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DataFieldChanged">
+                        <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=MyCurrentField, Path=TextContent}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </karveControls:DataField>
         </StackPanel>
 
     </Grid>

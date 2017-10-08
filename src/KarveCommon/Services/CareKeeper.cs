@@ -6,33 +6,36 @@ namespace KarveCommon.Services
 {
     public class CareKeeper: ICareKeeperService
     {
-        private CommandHistory history;
-        private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
+        private CommandHistory _history;
+        private DataPayLoad _payLoad;
+        //private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
         // object path
         public CareKeeper()
         {
-            history = CommandHistory.GetInstance();
+            _history = CommandHistory.GetInstance();
         }
         public void Do(CommandWrapper w)
         {
-            w.Parameters = dictionary;
-            history.DoCommand(w);
+            w.Parameters = _payLoad;
+            _history.DoCommand(w);
         }
 
         public void Undo()
         {
-            history.Undo();
+            _history.Undo();
         }
 
         public void Redo()
         {
-            history.Redo();
+            _history.Redo();
         }
 
         public void Schedule(DataPayLoad payload)
         {
-            string name = payload.ObjectPath+"#"+payload.PayloadType.ToString(); 
-            if (dictionary.ContainsKey(name))
+            //string name = payload.ObjectPath+"#"+payload.PayloadType.ToString();
+            _payLoad = payload;
+            /*
+             * if (dictionary.ContainsKey(name))
             {
                 dictionary.Remove(name);
                 dictionary.Add(name, payload);
@@ -41,6 +44,7 @@ namespace KarveCommon.Services
             {
                 dictionary.Add(name, payload);
             }
+            */
         }
     }
 }

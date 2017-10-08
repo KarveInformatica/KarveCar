@@ -18,9 +18,9 @@
                 </Style.Triggers>
             </Style>
         </StackPanel.Resources>
-        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelContent}" Width="{Binding Path=LabelTextWidth}" Visibility="Hidden">
+        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelContent}" Width="{Binding Path=LabelTextWidth}" Visibility="Collapsed">
         </TextBlock>
-        <TextBox x:Name="TextField" Text="{Binding Path=TextContent}" Width="{Binding Path=TextContentWidth}" 
+        <TextBox x:Name="TextField" Text="{Binding Path=TextContent, Mode=TwoWay}" Width="{Binding Path=TextContentWidth}" 
                  Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
         </TextBox>
     </StackPanel>

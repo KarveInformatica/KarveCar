@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
     [Serializable]
-    internal class VeichlesDataService : Exception
+    internal class VeichlesDataService : System.Exception
     {
         public VeichlesDataService()
         {
@@ -14,7 +14,7 @@ namespace KarveDataAccessLayer
         {
         }
 
-        public VeichlesDataService(string message, Exception innerException) : base(message, innerException)
+        public VeichlesDataService(string message, System.Exception innerException) : base(message, innerException)
         {
         }
 

@@ -25,7 +25,7 @@ namespace ProvidersModule.Views
         public GenericGridView()
         {
             InitializeComponent();
-            this.SuppliersGeneric.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
+          //  this.SuppliersGeneric.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
         }
         public string Header
         {

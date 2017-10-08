@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
-using KarveCommon.Generic;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class SupplierTypeDataObject : GenericPropertyChanged, ISupplierTypeData
     {

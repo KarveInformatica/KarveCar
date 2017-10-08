@@ -1,12 +1,8 @@
-using KarveCommon.Generic;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using KarveDataAccessLayer.DataObjects;
-using KarveDataServices;
+using DataAccessLayer.DataObjects;
+using KarveCommon.Generic;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
     /// <summary>
     /// A DAL class for managing the lifecycle of Banks objects. This DAL implementation

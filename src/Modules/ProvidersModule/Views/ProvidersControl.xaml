@@ -3,225 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mvvm1="http://prismlibrary.com/"
-             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="SupplierControl">
 
     <UserControl.Resources>
-        <ControlTemplate x:Key="HeaderTemplate" TargetType="{x:Type xcdg:ColumnManagerCell}">
-            <TextBlock Text="{TemplateBinding Content}">
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="Background" Value="White" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="FontFamily" Value="Times New Roman" />
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </ControlTemplate>
-        <Style TargetType="{x:Type xcdg:HierarchicalGroupByControl}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-        </Style>
-        <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma" />
-        </Style>
+     </UserControl.Resources>
 
-        <Style x:Key="CustomHeader" TargetType="{x:Type xcdg:ColumnManagerCell}">
-            <Setter Property="Template" Value="{StaticResource HeaderTemplate}"/>
-        </Style>
-        <!-- DataTemplate to display an Employee object -->
-
-        <DataTemplate x:Key="PersonDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/avatarNotKnown.png" />
-
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Nombre, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="JobPositionDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/job.png" />
-
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <ComboBox ItemsSource="{Binding JobPositionTypes}">
-                        <ComboBoxItem IsSelected="True">Director</ComboBoxItem>
-                    </ComboBox>
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="CityDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/city.png" />
-
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="AddressDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/address.png" />
-
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="PhoneDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/phone.png" />
-               
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Phone, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="EmailDataTemplate">
-            <Grid MaxHeight="30"
-               VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Image Margin="0, 0, 5, 0" Source="/ProvidersModule;component/Images/email.png" />
-
-                <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Name, NotifyOnValidationError=False, ValidatesOnDataErrors=False}" />
-
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-    </UserControl.Resources>
-
-
+<!--
+                          
+    -->
 
 
     <Grid>
-
-
-
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                <Label>Search</Label>
-                <TextBox Width="250"></TextBox>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                </StackPanel>
-            </StackPanel>
-            
-            <extendedGridControl:ExtendedDataGrid VerticalAlignment="Top" 
-                                                   x:Name="ProviderSupplierSummary" 
-                                                   ItemsSource="{Binding SummaryView}" 
-                                                   SelectedIndex="{Binding SelectedIndex}"
-                                                  HideColumnChooser="True"
-                                                  CanUserAddRows="False" 
-                                                  OnlyTwoWaySorting="True" 
-                                                  
-                                                  AutoFilterFontSize="12" 
-                                                  GroupByControlVisibility="Collapsed" 
-                                                  IsReadOnly="True"
-                                                   MaxHeight="670"
-                                                   AutoGenerateColumns="False" 
-                                                   AllowUserToCopy="True"
-                                                   SearchAutoFilterVisibility="Visible" 
-                                                   IsSynchronizedWithCurrentItem="True"                                           
-                                                   SelectionUnit="FullRow" SelectionChanged="ProviderSupplierSummary_SelectionChanged" >
+            <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" 
+                                     TableName="{Binding Tables}"  Height="800" ColumnWidth="100" SourceView="{Binding SummaryView}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedValue}"/>
+                    <i:EventTrigger EventName="RowMouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedRow}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <DataGrid.Columns>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Binding="{Binding Numero}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Binding="{Binding Nombre}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Nif" AllowAutoFilter="True" Binding="{Binding Nif}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Dirección" AllowAutoFilter="True" Binding="{Binding Direction}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Población" AllowAutoFilter="True" Binding="{Binding City}"
-                                                               
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Email" AllowAutoFilter="True" Binding="{Binding Zip}" />
 
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Email" AllowAutoFilter="True" Binding="{Binding Email}" />
-
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Commercial" AllowAutoFilter="True" Binding="{Binding Commercial}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Telefono" AllowAutoFilter="True" Binding="{Binding Phone}"
-                    />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Tipo" AllowAutoFilter="True" Binding="{Binding Type}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Forma de Pago" AllowAutoFilter="True" Binding="{Binding PaymentType}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Cuenta contable" AllowAutoFilter="True" Binding="{Binding Account}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Cuenta gastos" AllowAutoFilter="True" Binding="{Binding ExpenseAccount}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Ultimo Cambio" AllowAutoFilter="True" Binding="{Binding LastChange}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Usuario" AllowAutoFilter="True" Binding="{Binding ChangedByUser}" />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Aeat" AllowAutoFilter="True" Binding="{Binding Aeat}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="ExpenseAccount" AllowAutoFilter="True" Binding="{Binding ExpenseAccount}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod1" AllowAutoFilter="True" Binding="{Binding SupplierPeriod1}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod2" AllowAutoFilter="True" Binding="{Binding SupplierPeriod2}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierPeriod3" AllowAutoFilter="True" Binding="{Binding SupplierPeriod3}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay1" AllowAutoFilter="True" Binding="{Binding SupplierDay1}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay2" AllowAutoFilter="True" Binding="{Binding SupplierDay2}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="SupplierDay3" AllowAutoFilter="True" Binding="{Binding SupplierDay3}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="VacationMonth1" AllowAutoFilter="True" Binding="{Binding VacationMonth1}"/>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="VacationMonth2" AllowAutoFilter="True" Binding="{Binding VacationMonth2}"/>
-                </DataGrid.Columns>
-            </extendedGridControl:ExtendedDataGrid>
-           
+                
+                </karveGrid:KarveGridView>
         </StackPanel>
      </Grid>
 

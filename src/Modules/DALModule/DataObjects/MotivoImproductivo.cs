@@ -1,13 +1,12 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
     public class MotivoImproductivo : GenericPropertyChanged, IDataGridRowChange
     {
         #region Constructores
-        public MotivoImproductivo() { this.ControlCambio = EControlCambio.Null; }
+        public MotivoImproductivo() { this.ControlCambio = RecopilatorioEnumerations.EControlCambio.Null; }
         public MotivoImproductivo(int codigo, string definicion)
         {
             this.codigo = codigo;
@@ -60,8 +59,8 @@ namespace KarveDataAccessLayer.DataObjects
             }
         }
 
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
+        private RecopilatorioEnumerations.EControlCambio controlcambiodatagrid;
+        public RecopilatorioEnumerations.EControlCambio ControlCambio
         {
             get { return controlcambiodatagrid; }
             set

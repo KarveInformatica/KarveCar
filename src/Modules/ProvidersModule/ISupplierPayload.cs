@@ -10,5 +10,6 @@ namespace ProvidersModule
         IProvinceData     SupplierProvinceDataObject { get; set; }
         ICountryData      SupplierCountryDataObject { get; set; }
         DataTable SupplierSummaryDataTable { get; set; }
+        DataSet DataSet { get; set; }
     }
 }

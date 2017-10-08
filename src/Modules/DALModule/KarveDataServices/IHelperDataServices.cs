@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace KarveDataServices
@@ -10,6 +11,7 @@ namespace KarveDataServices
         ///  Get helper for countries and provinces. 
         /// </summary>
         /// <returns></returns>
-        Task<DataSet> GetAsyncCountriesAndProvinces();
+        Task<DataSet> GetAsyncHelper(string assistQuery, string assistTableName);
+        Task<DataSet> GetAsyncHelper(IDictionary<string, string> viewModelAssitantQueries);
     }
 }

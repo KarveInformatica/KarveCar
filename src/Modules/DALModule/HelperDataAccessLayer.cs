@@ -1,13 +1,11 @@
-﻿using KarveDataServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
+using System.Threading.Tasks;
 using KarveCommon.Generic;
+using KarveDataServices;
 
-namespace KarveDataAccessLayer
+namespace DataAccessLayer
 {
     /// <summary>
     ///  This class has some helper methods that retrives values needed. The so called auxiliares.
@@ -15,27 +13,23 @@ namespace KarveDataAccessLayer
     class HelperDataAccessLayer :  IHelperDataServices
     {
         private ISqlQueryExecutor sqlQueryExecutor;
-
+        /// <summary>
+        /// It needs the data accessr
+        /// </summary>
+        /// <param name="dataMapper">SQL executor</param>
         public HelperDataAccessLayer(ISqlQueryExecutor dataMapper)
         {
             this.sqlQueryExecutor = dataMapper;
         }
-
-        /// <summary>
-        ///  This method returns two table in the data set: The province table and the countries.
-        ///  It works in batch mode.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<DataSet> GetAsyncCountriesAndProvinces()
+        public async Task<DataSet> GetAsyncHelper(string assistQuery, string assitTableName)
         {
-            /*
-            IMapperCommand mapper1 = new QueryAsyncForDataTableCommand("Suppliers.GetAllProvinces", null);
-            IMapperCommand mapper2 = new QueryAsyncForDataTableCommand("Suppliers.GetAllCountries", null);
-            DataMapper.AddBatch(mapper1);
-            DataMapper.AddBatch(mapper2);
-            DataSet set = await DataMapper.ExecuteAsyncBatch().ConfigureAwait(false);
-            */
-            DataSet set = new DataSet();
+            DataSet set = await sqlQueryExecutor.AsyncDataSetLoad(assistQuery);
+            set.Tables[0].TableName = assitTableName;
+            return set;
+        }
+        public async Task<DataSet> GetAsyncHelper(IDictionary<string, string> assitQueryDictionary)
+        {
+            DataSet set = await sqlQueryExecutor.AsyncDataSetLoadBatch(assitQueryDictionary);
             return set;
         }
     }

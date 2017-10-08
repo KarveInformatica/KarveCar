@@ -1,11 +1,11 @@
-﻿using KarveDataAccessLayer;
-using KarveCommon.Command;
+﻿using KarveCommon.Command;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows;
 
 namespace ToolBarModule.Command
 {
@@ -22,6 +22,7 @@ namespace ToolBarModule.Command
         ///  The care keeper service will be used for doing do/undo
         /// </summary>
         private ICareKeeperService _careKeeperService;
+        private IEventManager _eventManager;
 
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
@@ -34,6 +35,12 @@ namespace ToolBarModule.Command
             this._dataServices = dataServices;
             this._careKeeperService = careKeeperService;
         }
+
+        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager) : this(dataServices, careKeeperService)
+        {
+            _eventManager = eventManager;
+        }
+
         /// <summary>
         /// Execute the command and save to the careKeeper.
         /// </summary>
@@ -103,46 +110,70 @@ namespace ToolBarModule.Command
         /// <param name="parameter">Data Payload that is composed of the table name and a observable collection</param>
         public override void Execute(object parameter)
         {
-
             if (parameter != null)
             {
-                // here we have the save or update parameters.
-                IDictionary<string, DataPayLoad> param = FilterParameters(parameter);
-                foreach (DataPayLoad payload in param.Values)
+                if (parameter is DataPayLoad)
                 {
-                   
-                   
+                    DataPayLoad payLoad = (DataPayLoad)parameter;
+                    if (payLoad.PayloadType == DataPayLoad.Type.Update)
+                    {
+                        // here we check the subsystem
+                        if (payLoad.Subsystem == DataSubSystem.SupplierSubsystem)
+                        {
+                            ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
+                            if (supplierDataServices != null)
+                            {
+                                // here we can update
+                                IDictionary<string, string> queries = payLoad.Queries;
 
-                    if (payload.PayloadType == DataPayLoad.Type.Update)
-                    {
-                        try
-                        {
-                            if (payload.Subsystem == DataSubSystem.SupplierSubsystem)
-                            {
-                                InsertOrUpdateSupplierDataLayer(payload, false);
+                                if (payLoad.HasDataSet)
+                                {
+                                    DataSet set = payLoad.Set;
+                                    if (set != null)
+                                    {
+                                        supplierDataServices.UpdateDataSet(queries, set);
+                                        payLoad.Sender = ToolBarModule.NAME;
+                                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                                        if (_eventManager != null)
+                                        {
+                                            _eventManager.SendMessage("ProviderControlViewModel", payLoad);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("ToolBar showed null dataset");
+                                    }
+                                }
+                                if (payLoad.HasDataSetList)
+                                {
+                                    IList<DataSet> dataSetList = payLoad.SetList;
+                                    foreach (DataSet set in dataSetList)
+                                    {
+                                        try
+                                        {
+                                            supplierDataServices.UpdateDataSet(queries, set);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            MessageBox.Show(e.Message);
+                                        }
+                                        DataPayLoad newSet = (DataPayLoad)payLoad.Clone();
+                                        newSet.HasDataSetList = false;
+                                        newSet.HasDataSet = true;
+                                        payLoad.Sender = ToolBarModule.NAME;
+                                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                                        if (_eventManager != null)
+                                        {
+                                            _eventManager.SendMessage("ProviderControlViewModel", newSet);
+                                        }
+                                    }
+
+                                }
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw new SaveDataException(e.Message);
-                        }
                     }
-                    if (payload.PayloadType == DataPayLoad.Type.Insert)
-                    {
-                        try
-                        {
-                            if (payload.Subsystem == DataSubSystem.SupplierSubsystem)
-                            {
-                                InsertOrUpdateSupplierDataLayer(payload, true);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            throw new SaveDataException(e.Message);
-                        }
-                    }
+                        
                 }
-
             }
         }
         /// <summary>

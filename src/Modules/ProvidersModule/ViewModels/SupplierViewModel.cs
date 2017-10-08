@@ -43,6 +43,7 @@ namespace ProvidersModule.ViewModels
         }
         private async void OnSelectedIndex(object param)
         {
+            /*
             DataRowView local = param as DataRowView;
             
             if (local != null)
@@ -68,21 +69,24 @@ namespace ProvidersModule.ViewModels
                 {
                     supplierDataPayLoad.SupplierDataObjectType = null;
                 }
-  //              _eventManager.notifyObserver(supplierDataPayLoad);
+               _eventManager.notifyObserver(supplierDataPayLoad);
+               
             }
+            */
 
         }
         private async void StartDataLayer()
         {
             try
             {
-
+/*
                 _supplierDataServices = _dataServices.GetSupplierDataServices();
                 if (_supplierDataServices != null)
                 {
                     DataSet dataSet = await _supplierDataServices.GetAsyncAllSupplierSummary();
                     this.SummaryDataTable = dataSet.Tables[0];
                 }
+                */
 
             }
             catch (Exception e)

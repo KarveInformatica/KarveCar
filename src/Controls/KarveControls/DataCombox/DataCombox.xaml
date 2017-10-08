@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="KarveControls.DataCombox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Name="ComboLayout">
+        <StackPanel>
+            <TextBlock x:Name="LabelField" Text="{Binding Path=LabelText}" Width="{Binding Path=LabelTextWidth}" Visibility="Collapsed">
+            </TextBlock>
+            <ComboBox Name="KarveComboBox" ItemsSource="{Binding CurrentItems}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ComboBoxChangedSelection}" CommandParameter="{Binding ElementName=KarveComboBox, Path=SelectedValue}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        </StackPanel>
+    </Grid>
+</UserControl>
