@@ -24,9 +24,9 @@
 
         <ResourceDictionary>
 
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="DataFieldDataTemplate">
                 <karveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContent="{Binding TextContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -47,7 +47,7 @@
 
                 </karveControls:DataField>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="DataFieldCheckBoxTemplate">
                 <karveControls:DataFieldCheckBox
                     Content="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -66,7 +66,7 @@
 
                 </karveControls:DataFieldCheckBox>
             </DataTemplate>
-          
+
             <DataTemplate x:Key="DoubleDataFieldDataTemplate">
                 <StackPanel Orientation="Horizontal">
                     <karveControls:DataField x:Name="FirstField" 
@@ -88,7 +88,7 @@
                         </i:Interaction.Triggers>
 
                     </karveControls:DataField>
-                    
+
                     <karveControls:DataField LabelText="{Binding LabelTextRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              TextContent="{Binding TextContentRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              TextContentWidth="{Binding TextContentWidthRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -134,7 +134,7 @@
                     <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
                         <Image Source="{Binding ButtonImage}" Height="20"/>
                     </Button>
-            </StackPanel>
+                </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="SearchBoxDataTemplate">
                 <karveControls:DataSearchTextBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -206,21 +206,21 @@
                     </ItemsControl>
                 </Grid>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="GroupBoxMultipleObject">
                 <GroupBox Header="{Binding GroupBoxTitle}" HorizontalAlignment="Left" Margin="10,10,0,0">
                     <Grid ShowGridLines="False">
-                    <ItemsControl x:Name="Panel"  Grid.Row="0" ItemsSource="{Binding MultipleDataFields}" ItemTemplateSelector="{StaticResource ResourceKey=SimpleTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
+                        <ItemsControl x:Name="Panel"  Grid.Row="0" ItemsSource="{Binding MultipleDataFields}" ItemTemplateSelector="{StaticResource ResourceKey=SimpleTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </Grid>
-                        </GroupBox>
+                        </ItemsControl>
+                    </Grid>
+                </GroupBox>
             </DataTemplate>
-          
+
             <DataTemplate x:Key="DataFieldPickerTemplate">
                 <karveControls:DataDatePicker 
                     DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -234,7 +234,7 @@
                     ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataDatePicker>
             </DataTemplate>
-                
+
             <DataTemplate x:Key="DataAreaTemplate">
                 <karveControls:DataArea DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -245,8 +245,8 @@
                                         ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataArea>
             </DataTemplate>
-            
-     
+
+
             <DataTemplate x:Key="ComboBoxTemplate">
                 <karveControls:DataCombox
                     Items="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -258,8 +258,8 @@
                     ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataCombox>
             </DataTemplate>
-           
-            
+
+
             <template:TemplateSelector x:Key="BasicTemplateSelector"
                                        DataFieldTemplate="{StaticResource ResourceKey=DataFieldDataTemplate}"
                                        DoubleDataTemplate="{StaticResource ResourceKey=DoubleDataFieldDataTemplate}"
@@ -274,7 +274,7 @@
                                        >
             </template:TemplateSelector>
 
-                <!--         
+            <!--         
                 PickerFieldTemplate="{StaticResource ResourceKey=DataFieldPickerTemplate}"
                                        DataAreaTemplate="{StaticResource ResourceKey=DataAreaTemplate}"
                                        DataFieldCheckBox ="{StaticResource ResourceKey=DataFieldCheckBoxTemplate}"
@@ -283,7 +283,7 @@
 
 
 
-                <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
             </karvecm:KarveInterTabClient>
             <ControlTemplate x:Key="HeaderTemplateStandard" TargetType="{x:Type xcdg:ColumnManagerCell}">
                 <TextBlock Text="{TemplateBinding Content}">
@@ -301,7 +301,7 @@
             <Style x:Key="KarveTabItemStyle"  TargetType="TabItem">
                 <Setter Property="Width" Value="40" />
 
-             
+
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
                         <DataTemplate>
@@ -450,337 +450,420 @@
 
     </UserControl.Resources>
     <Grid ShowGridLines="False">
-<ScrollViewer>        <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
-            <dragablz:TabablzControl.ItemContainerStyle>
-                <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
-                    <Setter Property="Width" Value="200" />
-                    <Setter Property="Height" Value="40" />
-                    <Setter Property="FontFamily" Value="Arial"/>
-                </Style>
-            </dragablz:TabablzControl.ItemContainerStyle>
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-            <TabItem Name="General"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <ScrollViewer>
+            <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
+                <dragablz:TabablzControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="FontFamily" Value="Arial"/>
+                    </Style>
+                </dragablz:TabablzControl.ItemContainerStyle>
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController />
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Name="General"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
 
-                <Grid ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ItemsControl x:Name="upperPart"  Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsSource="{Binding UpperValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                           
-                        </ItemsControl.ItemsPanel>
-                       
-                    </ItemsControl>
-                    <ItemsControl x:Name="middlePart" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding MiddleValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </Grid>
-            </TabItem>
-            <TabItem Name="Contables" Header="Contables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                
-                <Grid ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="90*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ItemsControl x:Name="upperPartContables"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ItemsControl x:Name="upperPart"  Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsSource="{Binding UpperValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
 
-                        </ItemsControl.ItemsPanel>
+                            </ItemsControl.ItemsPanel>
 
-                    </ItemsControl>
-                    <Grid Grid.Row="1">
-                        
+                        </ItemsControl>
+                        <ItemsControl x:Name="middlePart" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding MiddleValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                </TabItem>
+                <TabItem Name="Contables" Header="Contables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="90*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ItemsControl x:Name="upperPartContables"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+
+                            </ItemsControl.ItemsPanel>
+
+                        </ItemsControl>
+                        <Grid Grid.Row="1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <GroupBox Header="Facturacion" Grid.Row="0" Grid.Column="0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ItemsControl Grid.Row ="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="LeftCollection" ItemsSource="{Binding AccountLeftCollection}" 
+                                      ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                    <StackPanel Grid.Row="1" Grid.Column="0">
+                                        <ItemsControl x:Name="LeftCheckBoxes" ItemsSource="{Binding LeftCheckBoxesCollection}" 
+                                                 ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Grid.Column="1">
+                                        <ItemsControl x:Name="RightCheckBoxes" ItemsSource="{Binding RightCheckBoxesCollection}" 
+                                                 ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel  Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Grid.Row="0" Grid.Column="1" Header="Countable">
+
+                                <ItemsControl x:Name="RightCollection" ItemsSource="{Binding AccountRightCollection}" 
+                                      ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                        </Grid>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Name="Accumulados" Header="Accumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="90*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ItemsControl x:Name="upperPartAccumulados"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Grid Grid.Row="1" Name="RootGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <!-- left column -->
+                            <Grid Grid.Column="0" Height="650">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20*"></ColumnDefinition>
+                                        <ColumnDefinition Width="80*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Column="0" Grid.Row ="0" Content="Empresa" FontSize="14" FontFamily="Arial" FontStyle="Oblique"></Label>
+                                    <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                        <TextBox Name="ProfitCompanyCode" FontStyle="Oblique" Height="20" Width="60" VerticalAlignment="Top" Foreground="LightGray">Codigo</TextBox>
+                                        <TextBox Name="ProfitCompanyName" FontStyle="Oblique" Height="20" Width="250" VerticalAlignment="Top" Foreground="LightGray">Nombre</TextBox>
+                                        <Button   Name="SearchProfitCompany" Width="40" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Command="{Binding SearchChannelSupplierSearchCommand}" CommandParameter="SearchChannelSupplier" >
+                                            <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <Label Grid.Column="0" Grid.Row ="1" Content="Resume" FontSize="14" FontFamily="Arial"  FontStyle="Oblique"></Label>
+
+                                    <GroupBox Grid.Column="1" Grid.Row="1">
+                                        <Border BorderBrush="Gray" BorderThickness="4" Padding="1">
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Rectangle Grid.Row="0"
+                                                       Grid.ColumnSpan="3"  
+                                                       Stroke="Black"
+                                                       Fill="LightGray" />
+                                                <Rectangle Grid.Row="3"
+                                                       Grid.ColumnSpan="3"  
+                                                       Stroke="Black"
+                                                       Fill="LightGray" />
+                                                <Rectangle Grid.Row="1"
+                                                       Grid.Column="1"
+                                                       Grid.ColumnSpan="2"  
+                                                       Stroke="Black"
+                                                       Fill="LightBlue" />
+                                                <Rectangle Grid.Row="2"
+                                                       Grid.Column="1"
+                                                       Grid.ColumnSpan="2"  
+                                                       Stroke="Black"
+                                                       Fill="LightBlue" />
+                                                <Rectangle Grid.Row="5"
+                                                       Grid.Column="1"
+                                                       Grid.ColumnSpan="2"  
+                                                       Stroke="Black"
+                                                       Fill="LightBlue" />
+                                                <Label Grid.Column="1" Grid.Row="0" Content="Numero Facturas" HorizontalAlignment="Center"/>
+                                                <Label Grid.Column="2" Grid.Row="0" Content="Importes" HorizontalAlignment="Center"/>
+                                                <Label Grid.Column="0" Grid.Row="1" Content="Factura Recibidas" HorizontalAlignment="Center"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
+                                                <TextBlock Grid.Row="1" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
+                                                <Label Grid.Row="2" Grid.Column="0" Content="Pago Pendientes" HorizontalAlignment="Center"/>
+                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
+                                                <TextBlock Grid.Row="2" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
+                                                <Label Grid.Column="1" Grid.Row="3" Content="Numero Productos"/>
+                                                <Label Grid.Column="2" Grid.Row="3" Content="Importes" HorizontalAlignment="Center"/>
+                                                <Label Grid.Row="5" Grid.Column="0" Content="Pedido Pendientes" HorizontalAlignment="Center"/>
+                                                <TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Text="0"></TextBlock>
+                                                <TextBlock Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" Text="0,0"></TextBlock>
+                                            </Grid>
+                                        </Border>
+                                    </GroupBox>
+
+                                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                                        <Button Margin="8,0,0,0" Width="100">
+                                            <AccessText>_Extracto</AccessText>
+                                        </Button>
+                                        <Button Name="AccountExtract" Margin="2,0,0,0" Width="100" Content="Imprimir Carta" Command="{Binding AccountExtractCommand}"></Button>
+                                        <Button Name="PrintProviders" Margin="2,0,0,0" Width="60" Command="{Binding PrintProvidersCommand}">
+                                            <Image Source="/ProvidersModule;component/Images/email.png" Height="18"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel  Grid.Column="1" Grid.Row="3" Margin="10">
+                                        <CheckBox Style="{StaticResource PdfCheckBox}">
+
+                                        </CheckBox>
+                                    </StackPanel>
+
+                                </Grid>
+                            </Grid>
+
+
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Name="Direcciones" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                     
-                        <GroupBox Header="Facturacion" Grid.Row="0" Grid.Column="0">
-                           <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                               <Grid.ColumnDefinitions>
-                                   <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                               </Grid.ColumnDefinitions>
-
-                                <ItemsControl Grid.Row ="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="LeftCollection" ItemsSource="{Binding AccountLeftCollection}" 
-                                      ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                        <ItemsControl x:Name="upperPartDirecciones"  Grid.Row="0" Grid.ColumnSpan="2"  ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Dirección de Pago">
+                            <ItemsControl  x:Name="TopLeftDirection" ItemsSource="{Binding TopLeftDirection}" 
+                                          ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                                <StackPanel Grid.Row="1" Grid.Column="0">
-                                    <ItemsControl x:Name="LeftCheckBoxes" ItemsSource="{Binding LeftCheckBoxesCollection}" 
-                                                 ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Vertical"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                </StackPanel>
-                               <StackPanel Grid.Row="1" Grid.Column="1">
-                                <ItemsControl x:Name="RightCheckBoxes" ItemsSource="{Binding RightCheckBoxesCollection}" 
-                                                 ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel  Orientation="Vertical" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </Grid>
+                            </ItemsControl>
                         </GroupBox>
-                        <GroupBox Grid.Row="0" Grid.Column="1" Header="Countable">
-                            
-                        <ItemsControl x:Name="RightCollection" ItemsSource="{Binding AccountRightCollection}" 
-                                      ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                            </GroupBox>
+                        <GroupBox Header="Dirección de Reclamaciones" Grid.Row="1" Grid.Column="1">
+                            <ItemsControl  x:Name="TopRightDirection" ItemsSource="{Binding TopRightDirection}" 
+                                           ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
+
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="2" Grid.Column="0" Header="Modo de Comunicación de Pedidos">
+                            <ItemsControl  x:Name="BottomLeftDirection" ItemsSource="{Binding BottomLeftDirection}" 
+                                           ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </GroupBox>
+                        <GroupBox Grid.Row="2" Grid.Column="1" Header="Dirección de Devolución">
+                            <ItemsControl  x:Name="BottomRightDirection" ItemsSource="{Binding BottomRightDirection}" 
+                                           ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </GroupBox>
                     </Grid>
-                </Grid>
-               
                 </TabItem>
-            <TabItem Name="Accumulados" Header="Accumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Grid ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="90*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ItemsControl x:Name="upperPartAccumulados"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                    <Grid Grid.Row="1" Name="RootGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <!-- left column -->
-                        <Grid Grid.Column="0" Height="650">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20*"></ColumnDefinition>
-                                    <ColumnDefinition Width="80*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"></RowDefinition>
-                                    <RowDefinition Height="auto"></RowDefinition>
-                                    <RowDefinition Height="auto"></RowDefinition>
-                                    <RowDefinition Height="auto"></RowDefinition>
+                <TabItem Name="Delegaciones" Header="Delegaciones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="90*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ItemsControl x:Name="upperPartDelegaciones"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Grid Grid.Row="1" Name="RootGridDelegaciones">
 
-                                </Grid.RowDefinitions>
-
-                                <Label Grid.Column="0" Grid.Row ="0" Content="Empresa" FontSize="14" FontFamily="Arial" FontStyle="Oblique"></Label>
-                                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                                    <TextBox Name="ProfitCompanyCode" FontStyle="Oblique" Height="20" Width="60" VerticalAlignment="Top" Foreground="LightGray">Codigo</TextBox>
-                                    <TextBox Name="ProfitCompanyName" FontStyle="Oblique" Height="20" Width="250" VerticalAlignment="Top" Foreground="LightGray">Nombre</TextBox>
-                                    <Button   Name="SearchProfitCompany" Width="40" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Command="{Binding SearchChannelSupplierSearchCommand}" CommandParameter="SearchChannelSupplier" >
-                                        <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                    </Button>
-                                </StackPanel>
-                                <Label Grid.Column="0" Grid.Row ="1" Content="Resume" FontSize="14" FontFamily="Arial"  FontStyle="Oblique"></Label>
-
-                                <GroupBox Grid.Column="1" Grid.Row="1">
-                                    <Border BorderBrush="Gray" BorderThickness="4" Padding="1">
-                                        <Grid>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Rectangle Grid.Row="0"
-                                                       Grid.ColumnSpan="3"  
-                                                       Stroke="Black"
-                                                       Fill="LightGray" />
-                                            <Rectangle Grid.Row="3"
-                                                       Grid.ColumnSpan="3"  
-                                                       Stroke="Black"
-                                                       Fill="LightGray" />
-                                            <Rectangle Grid.Row="1"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                            <Rectangle Grid.Row="2"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                            <Rectangle Grid.Row="5"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                            <Label Grid.Column="1" Grid.Row="0" Content="Numero Facturas" HorizontalAlignment="Center"/>
-                                            <Label Grid.Column="2" Grid.Row="0" Content="Importes" HorizontalAlignment="Center"/>
-                                            <Label Grid.Column="0" Grid.Row="1" Content="Factura Recibidas" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
-                                            <TextBlock Grid.Row="1" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
-                                            <Label Grid.Row="2" Grid.Column="0" Content="Pago Pendientes" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
-                                            <TextBlock Grid.Row="2" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
-                                            <Label Grid.Column="1" Grid.Row="3" Content="Numero Productos"/>
-                                            <Label Grid.Column="2" Grid.Row="3" Content="Importes" HorizontalAlignment="Center"/>
-                                            <Label Grid.Row="5" Grid.Column="0" Content="Pedido Pendientes" HorizontalAlignment="Center"/>
-                                            <TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Text="0"></TextBlock>
-                                            <TextBlock Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" Text="0,0"></TextBlock>
-                                        </Grid>
-                                    </Border>
-                                </GroupBox>
-
-                                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                                    <Button Margin="8,0,0,0" Width="100">
-                                        <AccessText>_Extracto</AccessText>
-                                    </Button>
-                                    <Button Name="AccountExtract" Margin="2,0,0,0" Width="100" Content="Imprimir Carta" Command="{Binding AccountExtractCommand}"></Button>
-                                    <Button Name="PrintProviders" Margin="2,0,0,0" Width="60" Command="{Binding PrintProvidersCommand}">
-                                        <Image Source="/ProvidersModule;component/Images/email.png" Height="18"/>
-                                    </Button>
-                                </StackPanel>
-                                <StackPanel  Grid.Column="1" Grid.Row="3" Margin="10">
-                                    <CheckBox Style="{StaticResource PdfCheckBox}">
-
-                                    </CheckBox>
-                                </StackPanel>
-
-                            </Grid>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <karveGrid:KarveGridView x:Name="Delegations" PageSize="25" 
+                                             TableName="{Binding DelegationTableName}" ReadOnly="False" Height="800" SourceView="{Binding DelegationTable}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="RowMouseDoubleClick">
+                                            <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=Delegations, Path=SelectedRow}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </karveGrid:KarveGridView>
+                            </StackPanel>
                         </Grid>
-
-
                     </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem Name="Direcciones" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-            <Grid ShowGridLines="True">
-                    
-            </Grid>
-            </TabItem>
-            <TabItem Name="Delegaciones" Header="Delegaciones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Grid ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10*"></RowDefinition>
-                        <RowDefinition Height="90*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ItemsControl x:Name="upperPartDelegaciones"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                    <Grid Grid.Row="1" Name="RootGridDelegaciones">
+                </TabItem>
+                <TabItem Name="Contacts" Header="Contactos" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="90*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ItemsControl x:Name="upperPartContacts"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Grid Grid.Row="1" Name="RootGridContacts">
 
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                    <karveGrid:KarveGridView x:Name="Delegations" PageSize="25" 
-                                             TableName="{Binding DelegationTable}"  Height="800" SourceView="{Binding DelegationTable}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="RowMouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=Delegations, Path=SelectedRow}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </karveGrid:KarveGridView>
-                </StackPanel>
-             </Grid>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                                <karveGrid:KarveGridView x:Name="ContactGrid" PageSize="25" 
+                                                         TableName="{Binding ContactsTableName}" ReadOnly="False" Height="800" SourceView="{Binding ContactTable}">
+                                    
+                                </karveGrid:KarveGridView>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
-            </TabItem>
-        <TabItem Name="Evaluation" Header="Evaluación">
-            <ScrollViewer>
-                <Grid>
-                    <DockPanel>
-                        <GroupBox Header="Criterios">
-                            <WrapPanel Orientation="Horizontal">
-                                <StackPanel Orientation="Vertical">
-                                    <CheckBox Name="Survey" Content="Cuestionario"></CheckBox>
-                                    <Label Name="Points" Content="Puntuación"></Label>
-                                    <local:RatingsControl x:Name="ProviderSurveyRatings" 
+                </TabItem>
+                <TabItem Name="Evaluation" Header="Evaluación">
+                    <ScrollViewer>
+                        <Grid>
+                            <DockPanel>
+                                <GroupBox Header="Criterios">
+                                    <WrapPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox Name="Survey" Content="Cuestionario"></CheckBox>
+                                            <Label Name="Points" Content="Puntuación"></Label>
+                                            <local:RatingsControl x:Name="ProviderSurveyRatings" 
                                                           Value="1"
                                                           NumberOfStars="5"
                                                           Margin="5"
                                                           StarForegroundColor="Orange"           
                                                           BackgroundColor="LightGray"
                                                           HorizontalAlignment="Left"/>
-                                </StackPanel>
-                                <CheckBox Margin="40, 0, 0, 0" Name="ExclusiveProvider" Content="Exclusividad">
+                                        </StackPanel>
+                                        <CheckBox Margin="40, 0, 0, 0" Name="ExclusiveProvider" Content="Exclusividad">
 
-                                </CheckBox>
-                                <CheckBox Margin="40, 0, 0, 0" Name="HistoricProvider" Content="Histórico">
+                                        </CheckBox>
+                                        <CheckBox Margin="40, 0, 0, 0" Name="HistoricProvider" Content="Histórico">
 
-                                </CheckBox>
-                                <CheckBox Margin="40, 0, 0, 0" Name="ChallengeProvider" Content="Prueba">
+                                        </CheckBox>
+                                        <CheckBox Margin="40, 0, 0, 0" Name="ChallengeProvider" Content="Prueba">
 
-                                </CheckBox>
-                                <CheckBox Margin="40, 0, 0, 0" Name="CertifiedProvider" Content="Certificado u Homologación">
+                                        </CheckBox>
+                                        <CheckBox Margin="40, 0, 0, 0" Name="CertifiedProvider" Content="Certificado u Homologación">
 
-                                </CheckBox>
-                                <CheckBox Margin="40, 0, 0, 0" Name="NoConfirmityProvider" Content="Numero Maximo No conformidades">
+                                        </CheckBox>
+                                        <CheckBox Margin="40, 0, 0, 0" Name="NoConfirmityProvider" Content="Numero Maximo No conformidades">
 
-                                </CheckBox>
-                                <Label Margin="40, 0, 0, 0" Content="F.Aprobación"></Label>
-                                <DatePicker Name="ProviderApproveDate"></DatePicker>
-                                <Label Margin="40, 0, 0, 0" Content="F.Validez"></Label>
-                                <DatePicker Name="ProviderValidDate"></DatePicker>
-                            </WrapPanel>
-                        </GroupBox>
-                        <Grid>
-                            <Grid.Resources>
+                                        </CheckBox>
+                                        <Label Margin="40, 0, 0, 0" Content="F.Aprobación"></Label>
+                                        <DatePicker Name="ProviderApproveDate"></DatePicker>
+                                        <Label Margin="40, 0, 0, 0" Content="F.Validez"></Label>
+                                        <DatePicker Name="ProviderValidDate"></DatePicker>
+                                    </WrapPanel>
+                                </GroupBox>
+                                <Grid>
+                                    <Grid.Resources>
 
-                                <xcdg:DataGridCollectionViewSource x:Key="ProviderInspection" 
+                                        <xcdg:DataGridCollectionViewSource x:Key="ProviderInspection" 
                                                                    Source="{Binding}">
-                                </xcdg:DataGridCollectionViewSource>
-                            </Grid.Resources>
+                                        </xcdg:DataGridCollectionViewSource>
+                                    </Grid.Resources>
 
-                           
+
+                                </Grid>
+                                <Grid>
+
+                                </Grid>
+                            </DockPanel>
                         </Grid>
-                        <Grid>
-                           
-                        </Grid>
-                    </DockPanel>
-                </Grid>
-            </ScrollViewer>
-        </TabItem>
+                    </ScrollViewer>
+                </TabItem>
 
 
             </dragablz:TabablzControl>
-</ScrollViewer>
+        </ScrollViewer>
 
     </Grid>
-        
+
 </UserControl>
 
 

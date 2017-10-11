@@ -162,6 +162,7 @@ namespace KarveControls
         protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
         {
             DataTable table = e.NewValue as DataTable;
+          
             _itemSource = table;
             if (!string.IsNullOrEmpty(DataField))
             {
@@ -354,7 +355,12 @@ namespace KarveControls
             if (isDateTime)
             {
                 currentDateTime = (DateTime)e.NewValue;
-                _itemSource.Rows[0][_DataDatePicker] = currentDateTime.ToString("yyyy-MM-dd");
+                if (_itemSource.Rows.Count > 0)
+                {
+                    _itemSource.Rows[0][_DataDatePicker] = currentDateTime.ToString("yyyy-MM-dd");
+                }
+                
+                        
             }
         }
     }

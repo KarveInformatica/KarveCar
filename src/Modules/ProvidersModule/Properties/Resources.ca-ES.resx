@@ -180,4 +180,19 @@
   <data name="ProviderInfoViewModel_LoadAccountLeft_PlazoDePago" xml:space="preserve">
     <value>Plazo de pago</value>
   </data>
+  <data name="ProviderInfoViewModel_FechaDeBaja" xml:space="preserve">
+    <value>Fecha de Baja</value>
+  </data>
+  <data name="ProviderInfoViewModel_FechaDeAlta" xml:space="preserve">
+    <value>Fecha de Alta</value>
+  </data>
+  <data name="ProviderInfoViewModel_Notas" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="ProviderInfoViewModel_Observaciones" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
+  <data name="ProvidersControlViewModel_OpenNewItem_NewSupplier" xml:space="preserve">
+    <value>NuevoProveedor</value>
+  </data>
 </root>

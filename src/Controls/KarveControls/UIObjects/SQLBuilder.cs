@@ -16,8 +16,18 @@ namespace KarveControls.UIObjects
 {
     public class SQLBuilder
     {
-       
-    public static IDictionary<string, string> SqlBuildSelectFromUiObjects(ObservableCollection<IUiObject> list, string primaryKeyValue ="")
+
+        private const string TopOne = " TOP 1 ";
+
+        private static void InspectMultipleObject(IUiObject tmpUiObject, ref IDictionary<string, StringBuilder> tableDictionary)
+        {
+            if (tmpUiObject is UiMultipleDfObject)
+            {
+                
+            }
+        }
+
+        public static IDictionary<string, string> SqlBuildSelectFromUiObjects(ObservableCollection<IUiObject> list, string primaryKeyValue ="", bool isInsert = false)
         {  
             IDictionary<string, StringBuilder> tableDictionary = new Dictionary<string, StringBuilder>();
             IDictionary<string, string> primaryKeys = new Dictionary<string, string>();
@@ -89,22 +99,24 @@ namespace KarveControls.UIObjects
             {
                 StringBuilder builder = new StringBuilder();
                 builder.Append("SELECT ");
-
-              /*  string tmpString = tableDictionary[key].ToString();
-                if (!tmpString.Contains(primaryKeyValue))
-                {
-                    tmpString = "," + primaryKeyValue;
-                }
-                */
-                builder.Append(tableDictionary[key]);
                 
+                if (isInsert)
+                {
+                    builder.Append(TopOne);
+                }
+                
+                builder.Append(tableDictionary[key]);
+
                 builder.Append(" FROM ");
                 builder.Append(key);
-                if (!string.IsNullOrEmpty(primaryKeyValue))
+                if (!isInsert)
                 {
-                    // if it is not null
-                    builder.Append(" WHERE "+primaryKeys[key]);
-                    builder.Append("=\'" + primaryKeyValue + "\'");
+                    if (!string.IsNullOrEmpty(primaryKeyValue))
+                    {
+                        // if it is not null
+                        builder.Append(" WHERE " + primaryKeys[key]);
+                        builder.Append("=\'" + primaryKeyValue + "\'");
+                    }
                 }
                 queryList.Add(builder.ToString());
                 tableWithQuery[key] = builder.ToString();
@@ -700,5 +712,23 @@ namespace KarveControls.UIObjects
             return resultchild;
         }
         #endregion
+        public static void StripTop(ref IDictionary<string, string> dictionary)
+        {
+            IDictionary<string, string> strValue = new Dictionary<string, string>();
+
+            foreach (string k in dictionary.Keys)
+            {
+                if (dictionary[k].Contains(TopOne))
+                {
+                    strValue.Add(k, dictionary[k].Replace(TopOne, ""));
+                }
+                else
+                {
+                    strValue.Add(k, dictionary[k]);
+                }
+            }
+            dictionary = strValue;
+
+        }
     }
 }

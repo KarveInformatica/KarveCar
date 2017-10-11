@@ -32,6 +32,10 @@ namespace KarveControls.UIObjects
        /// </summary>
        public const string LabelTextSmallDefault = "50";
         /// <summary>
+        ///  very small path
+        /// </summary>
+        public const string LabelTextVerySmall = "20";
+        /// <summary>
         ///  TextBox Width Small
         /// </summary>
         public const string TextBoxWidthSmall = "50";

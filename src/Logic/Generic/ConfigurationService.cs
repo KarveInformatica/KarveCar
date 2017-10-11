@@ -10,9 +10,12 @@ using KarveCommon.Logic.Generic;
 using System.Windows.Data;
 using KarveCar.View;
 using System.Collections.Generic;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using Prism.Commands;
 using KarveCar.Logic.Generic;
+using KarveControls;
 
 namespace KarveCar.Logic
 {
@@ -23,6 +26,8 @@ namespace KarveCar.Logic
     public class ConfigurationService : IConfigurationService
     {
         private Window mainWindow;
+        private CustomTabItemViewModel tabItemVm;
+
         private IDictionary<string, TabItem> dictionaryTab = new Dictionary<string, TabItem>();
         public static IEnviromentVariables env = new EnviromentVariableContainer();
         /// <summary>
@@ -68,14 +73,13 @@ namespace KarveCar.Logic
             }
             return true;
         }
-        
+
 
         public bool AddMainTab(object view, string tabName)
         {
             HeaderData data = new HeaderData();
             CustomTabControl tbitem = new CustomTabControl();
             tbitem.HorizontalAlignment = HorizontalAlignment.Stretch;
-            CustomTabItemViewModel tabItemVm;
             var binding = new Binding();
             binding.IsAsync = true;
             tabItemVm = tbitem.Model;
@@ -97,6 +101,15 @@ namespace KarveCar.Logic
             tbitem.Focus();
             return false;
         }
+        public string GetPrimaryKeyValue()
+        {
+            object selectedItem = ((MainWindow)Application.Current.MainWindow).tbControl.SelectedItem;
+            TabItem item = (TabItem) selectedItem;
+            string itemHeader = item.Header as string;
+            string[] value = itemHeader.Split('.');
+            return value[0];
+        }
+
         /// <summary>
         /// This returns the enviroments variables.
         /// </summary>
@@ -110,6 +123,15 @@ namespace KarveCar.Logic
         {
             throw new NotImplementedException();
         }
+
+        public void CloseTab(string primaryKeyValue)
+        {
+            TabControl control = ((MainWindow) Application.Current.MainWindow).tbControl;
+            ItemCollection collection = control.Items;
+            TabItem currentItem = null;
+            string key = tabItemVm.ContainsItem(primaryKeyValue);
+            tabItemVm.CloseTabItemCommand.Execute(key);
+        }
     }
     /// <summary>
     ///  This is the custom view model for the main custom tabs.
@@ -119,7 +141,7 @@ namespace KarveCar.Logic
         IDictionary<string, CustomTabControl> control = new Dictionary<string, CustomTabControl>();
         public ICommand CloseTabItemCommand
         { set; get; }
-        
+
         public CustomTabItemViewModel()
         {
             this.CloseTabItemCommand = new DelegateCommand<object>(onCloseButton);
@@ -129,10 +151,10 @@ namespace KarveCar.Logic
             tabOut = null;
             if (control.ContainsKey(name))
             {
-               tabOut = control[name];
-               return true;
+                tabOut = control[name];
+                return true;
             }
-            return false ;
+            return false;
         }
         public void addItem(string name, CustomTabControl tab)
         {
@@ -147,7 +169,21 @@ namespace KarveCar.Logic
                 ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(view);
                 control.Remove(key);
             }
-            
+
+        }
+
+        internal string ContainsItem(string primaryKeyValue)
+        {
+           ICollection<string> keys =  control.Keys;
+           foreach (string s in keys)
+           {
+               if (s.Contains(primaryKeyValue))
+               {
+                   return s;
+               }
+                
+           }
+            return "";
         }
     }
     public class HeaderData
@@ -155,16 +191,19 @@ namespace KarveCar.Logic
         private string _header;
         private string _name;
         private CustomTabItemViewModel _model = new CustomTabItemViewModel();
-        public string Header {
+        public string Header
+        {
             set { _header = value; }
-            get { return _header; } }
+            get { return _header; }
+        }
         public string Name
         {
             set { _name = value; }
             get { return _name; }
         }
 
-        public CustomTabItemViewModel Model {
+        public CustomTabItemViewModel Model
+        {
             get { return _model; }
             set { _model = value; }
         }

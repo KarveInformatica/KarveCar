@@ -31,6 +31,15 @@ namespace KarveCommon.Generic
             "cldDireccion2 as Direccion2, " +
             "cldCP as CP, cldIdProvincia as IdProvincia, cldPoblacion as Poblacion " +
             "FROM ProDelega  WHERE cldIdCliente={0} ORDER BY cldIdCliente";
-        
+
+        public const string DelegationGenericQuery = "SELECT TOP 1 cldIdDelega as Numero, cldDelegacion as Nombre,  " +
+                                                     "cldDireccion1 as Direccion, cldDireccion2 as Direccion2, cldCP as CP," +
+                                                     "cldIdProvincia as IdProvincia, cldPoblacion as Poblacion FROM ProDelega;";
+            
+
+        public static string ContactsQuery = "SELECT ccoContacto as Nombre, ccoCargo as Cargo, ccoDepto as Departemento, ccoTelefono as Telefono, ccoMovil as Movil, ccoFax as Fax," +
+                                             "ccoMail as Email FROM ProContactos CC FULL OUTER JOIN ProDelega CD ON (CC.ccoIdCliente = CD.cldIdCliente AND " +
+                                             "CC.ccoIdDelega = CD.cldIdDelega) WHERE ccoIdCliente={0} ORDER BY ccoIdDelega, ccoContacto";
+
     }
 }

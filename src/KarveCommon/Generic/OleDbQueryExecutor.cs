@@ -352,9 +352,11 @@ namespace KarveCommon.Generic
 
             try
             {
-                _connection.Open();
-
-               SADataAdapter da = null;
+                if (_connection.State != ConnectionState.Open)
+                {
+                    _connection.Open();
+                }
+                SADataAdapter da = null;
                 using (da = new SADataAdapter(cmd))
                 {
                     da.Fill(table);

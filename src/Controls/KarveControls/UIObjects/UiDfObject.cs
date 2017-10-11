@@ -65,6 +65,7 @@ namespace KarveControls.UIObjects
 
         public UiDfObject(string label, string labelTextWidth)
         {
+            ChangedItem = new DelegateCommand<object>(ChangedObject);
             this.LabelText = label;
             this.LabelTextWidth = labelTextWidth;
         }

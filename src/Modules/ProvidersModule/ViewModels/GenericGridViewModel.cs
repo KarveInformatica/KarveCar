@@ -57,93 +57,9 @@ namespace ProvidersModule.ViewModels
         /// 
         /// </summary>
         /// <param name="data"></param>
-        private async void OnSelectedIndex(object data)
+        private void OnSelectedIndex(object data)
         {
-            DataRowView local = data as DataRowView;
-            // case base someone form a complex grid asks ok.
-            // SupplierSummary
-            ISupplierPayload supplierDataPayLoad = new SupplierDataPayload();
-      
-            if ((_supplierPayload != null) && (_supplierPayload.SupplierDataObjectInfo != null) && (_supplierPayload.SupplierDataObjectInfo.Number != null))
-            {
-
-                _lastDataObject = _supplierPayload.SupplierDataObjectInfo;
-
-                /// TODO: replace conditional with polymorphism and go on with this.
-                if ((local != null) && (local.Row.Table.TableName.Contains("SupplierInfoDataObject")))
-                {
-                    _lastSupplierId = local.Row.ItemArray[0] as string;
-                    if (_lastDataObject != null)
-                    {
-                        _lastDataObject.Name = local.Row.ItemArray[1] as string;
-                        _lastDataObject.Nif = local.Row.ItemArray[2] as string;
-                    }
-                }
-                else if ((local != null) && (local.Row.Table.TableName.Contains("Country")))
-                {
-                    string country = local.Row.ItemArray[0] as string;
-                    string countryCode = local.Row.ItemArray[1] as string;
-                    if (_lastDataObject != null)
-                    {
-                        if (_stateChange)
-                        {
-                            _lastDataObject.Country = country;
-                            _lastDataObject.CountryCode = countryCode;
-
-
-                        }
-
-                        _stateChange = true;
-                    }
-                }
-                else if ((local != null) && (local.Row.Table.TableName.Contains("Prov")))
-                {
-                    string provincia = local.Row.ItemArray[0] as string;
-                    string provinciaCode = local.Row.ItemArray[1] as string;
-                    if (_lastDataObject != null)
-                    {
-                        if (_stateChange)
-                        {
-                            _lastDataObject.ProvinceCode = provinciaCode;
-                            _lastDataObject.Province = provincia;
-                        }
-                        _stateChange = true;
-                    }
-                }
-                else if ((local != null) && (local.Row.Table.TableName.Contains("SupplierType")))
-
-                {
-                    string s=local.Row.ItemArray[2] as string;
-                    supplierDataPayLoad.SupplierDataObjectType = await _supplierDataServices.GetAsyncSupplierTypesDataObject(s);
-                }
-                else if ((local != null) && (local.Row.Table.TableName.Contains("ExtendedSummary")))
-                {
-                    _lastSupplierId = local.Row.ItemArray[0] as string;
-                    string name = local.Row.ItemArray[1] as string;
-                    string nif = local.Row.ItemArray[2] as string;
-                    _lastDataObject = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(_lastSupplierId);
-                    _lastDataObject.Name = name;
-                    _lastDataObject.Nif = nif;
-                    _lastDataObject.Number = _lastSupplierId;
-                    supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
-
-                    if (_lastDataObject.Type != null)
-                    {
-                        supplierDataPayLoad.SupplierDataObjectType = await _supplierDataServices.GetAsyncSupplierTypesDataObject((string)_lastDataObject.Type);
-
-                    }
-                    else
-                    {
-                        supplierDataPayLoad.SupplierDataObjectType = null;
-                    }
-                   
-
-                }
-
-                supplierDataPayLoad.SupplierDataObjectInfo = _lastDataObject;
-                //_manager.notifyObserverSubsystem("ProviderModule", supplierDataPayLoad);
-                 //   notifyObserver(supplierDataPayLoad);
-            }
+         
         }
 
         /*
@@ -183,27 +99,7 @@ namespace ProvidersModule.ViewModels
         /// </summary>
         private async void ListByNumber()
         {
-            try
-            {
-
-                _supplierDataServices = _dataServices.GetSupplierDataServices();
-                if (_supplierDataServices != null)
-                {
-                    DataSet dataSet = await _supplierDataServices.GetAsyncCompleteSummary();
-                    if ((dataSet != null) && (dataSet.Tables.Count > 0))
-                    {
-                        this.GenericDataTable = dataSet.Tables[0];
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                throw e;
-
-
-            }
+           
         }
 
         /// <summary>
@@ -246,26 +142,7 @@ namespace ProvidersModule.ViewModels
         /// </summary>
         private async void ListByType()
         {
-            try
-            {
-
-                _supplierDataServices = _dataServices.GetSupplierDataServices();
-                if (_supplierDataServices != null)
-                {
-                    DataSet dataSet = await _supplierDataServices.GetAsyncAllProviderTypes();
-                    if ((dataSet != null) && (dataSet.Tables.Count > 0))
-                    {
-
-                        this.GenericDataTable = dataSet.Tables[0];
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-
-            }
+           
         }
 
     }

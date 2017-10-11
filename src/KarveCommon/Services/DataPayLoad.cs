@@ -12,17 +12,29 @@ using System.Threading.Tasks;
 
 namespace KarveCommon.Services
 {
-    public enum DataSubSystem { PaymentSubsystem = 0, VehicleSubsystem = 1, HelperSubsytsem = 2, SupplierSubsystem = 3 };
+    public enum DataSubSystem
+    {
+        PaymentSubsystem = 0,
+        VehicleSubsystem = 1,
+        HelperSubsytsem = 2,
+        SupplierSubsystem = 3,
+        None = 4
+    };
 
     /// <summary>
     ///  TODO: add support for generics.
     /// </summary>
+    [Serializable]
     public class DataPayLoad: ICloneable
     {
+       
+
         public enum Type {
             Insert = 0, Delete = 1, Update = 2, 
-            RegistrationPayload = 3, Show = 4, UpdateView
+            RegistrationPayload = 3, Show = 4, UpdateView= 5
         };
+
+        private Type _payLoadType = Type.Insert;
         /// <summary>
         ///  It endicate the data object associated
         /// </summary>
@@ -56,7 +68,10 @@ namespace KarveCommon.Services
         /// <summary>
         ///  type of the payload
         /// </summary>
-        public Type PayloadType { get; set; }
+        public Type PayloadType {
+            get { return _payLoadType; }
+            set { _payLoadType = value; }
+        }
         /// <summary>
         ///  data object name. The name of the data object
         /// </summary>
@@ -81,9 +96,12 @@ namespace KarveCommon.Services
         ///  This is useful for the subsystem.
         /// </summary>
         public DataSubSystem Subsystem { get; set; }
+        public string SubsystemName { get; set; }
+
         public string PrimaryKeyValue { get; set; }
         public IDictionary<string, string> Queries { get; set; }
         public string Sender { get; set; }
+        public string SubsystemViewModel { get; set; }
 
         public object Clone()
         {

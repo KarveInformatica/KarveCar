@@ -23,6 +23,8 @@ namespace ToolBarModule.Command
         /// </summary>
         private ICareKeeperService _careKeeperService;
         private IEventManager _eventManager;
+        private IConfigurationService _configurationService;
+        
 
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
@@ -30,13 +32,15 @@ namespace ToolBarModule.Command
         /// </summary>
         /// <param name="dalLocator">Database AccessLayer Inteface API</param>
         /// <param name="careKeeperService">Carekeeper Do/Undo mechanism</param>
-        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService)
+        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IConfigurationService configurationService)
         {
-            this._dataServices = dataServices;
-            this._careKeeperService = careKeeperService;
+            _dataServices = dataServices;
+            _careKeeperService = careKeeperService;
+            _configurationService = configurationService;
         }
 
-        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager) : this(dataServices, careKeeperService)
+        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager, IConfigurationService configurationService) : 
+            this(dataServices, careKeeperService, configurationService)
         {
             _eventManager = eventManager;
         }
@@ -63,45 +67,6 @@ namespace ToolBarModule.Command
                 }
             }
             return filterPayload;
-        }
-        /// <summary>
-        ///  This method save the supplier data layer
-        /// </summary>
-        /// <param name="payload"></param>
-        private async void InsertOrUpdateSupplierDataLayer(DataPayLoad payload, bool insert)
-        {
-            ISupplierDataServices services = _dataServices.GetSupplierDataServices();
-            ISupplierDataInfo info = (ISupplierDataInfo)payload.DataMap[SupplierPayLoad.SupplierDOName];
-            ISupplierTypeData td = (ISupplierTypeData)payload.DataMap[SupplierPayLoad.SupplierDOType];
-            ISupplierAccountObjectInfo ao = (ISupplierAccountObjectInfo)payload.DataMap[SupplierPayLoad.SupplierAccountingDO];
-            DataSet monitoringData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierMonitoringDS];
-            DataSet evaluationData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierEvaluationDS];
-            DataSet transportData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierTransportDS];
-            DataSet contactsData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierContactsDS];
-            DataSet visitsData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierVisitsDS];
-            DataSet assuranceProviderData = (DataSet)payload.DataMap[SupplierPayLoad.SupplierAssuranceDS];
-            bool contactsChanged = (bool)payload.DataMap[SupplierPayLoad.SupplierContactsChangedField];
-            bool result = false;
-            if (!insert)
-            {
-                result = await services.Update(info, 
-                                               td, 
-                                               ao, 
-                                               monitoringData,
-                                               evaluationData, 
-                                               transportData,
-                                               assuranceProviderData,
-                                               contactsData, 
-                                               visitsData, 
-                                               contactsChanged);
-            }
-            else
-            {
-                result = await services.Insert(info, td, ao, monitoringData, evaluationData,
-                                               transportData, assuranceProviderData, contactsChanged, visitsData);
-
-            }
-            
         }
         
         /// <summary>

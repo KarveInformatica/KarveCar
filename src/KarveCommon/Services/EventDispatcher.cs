@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using KarveCommon.Services;
 
 namespace KarveCommon.Services
 {
-    public class EventManager : IEventManager
+    public class EventDispatcher : IEventManager
     {
 
         IList<IEventObserver> _observers = new List<IEventObserver>();
@@ -24,10 +25,12 @@ namespace KarveCommon.Services
         }
         private void notifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
-            foreach (IEventObserver eo in eoList)
+            for (int i = 0; i < eoList.Count; ++i)
             {
+                IEventObserver eo = eoList[i];
                 eo.incomingPayload(payload);
             }
+            
         }
         public void notifyObserver(DataPayLoad payload)
         {
@@ -147,7 +150,10 @@ namespace KarveCommon.Services
 
         public void RegisterMailBox(string id, MailBoxMessageHandler messageHandler)
         {
-            _mailBox[id] = messageHandler;
+            if (!_mailBox.ContainsKey(id))
+            {
+                _mailBox[id] = messageHandler;
+            }
         }
     }
 }

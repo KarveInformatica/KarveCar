@@ -81,15 +81,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\CancelCommand.cs" />
-    <Compile Include="Command\DeleteCommand.cs" />
-    <Compile Include="Command\EditCommand.cs" />
-    <Compile Include="Command\ExitCommand.cs" />
-    <Compile Include="Command\FindCommand.cs" />
-    <Compile Include="Command\NewCommand.cs" />
-    <Compile Include="Command\NextCommand.cs" />
-    <Compile Include="Command\PreviousCommand.cs" />
-    <Compile Include="Command\PrintCommand.cs" />
+    <Compile Include="Command\DeleteDataCommand.cs" />
     <Compile Include="Command\SaveDataException.cs" />
     <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />
@@ -110,6 +102,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ToolBarModule.cs" />
+    <Compile Include="Command\InsertDataCommand.cs" />
     <Compile Include="ViewModel\KarveToolBarViewModel.cs" />
     <Compile Include="View\KarveToolBarView.xaml.cs">
       <DependentUpon>KarveToolBarView.xaml</DependentUpon>

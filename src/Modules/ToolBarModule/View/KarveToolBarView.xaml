@@ -21,7 +21,7 @@
 
             <Button x:Name="tbbtnNuevo" 
                     HorizontalAlignment="Left"
-                    IsEnabled="False" >
+                    IsEnabled="{Binding IsNewEnabled}" >
                 <StackPanel>
                     <Image Source="/KarveCar;component/Images/new.png" Stretch="Fill" Height="20" />
                 </StackPanel>
@@ -46,6 +46,34 @@
                 </Button.InputBindings>
                 
             </Button>
+            <Button x:Name="tbbtnBorrar" 
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding IsNewEnabled}" >
+                <StackPanel>
+                    <Image Source="/KarveCar;component/Images/bt_delete.png" Stretch="Fill" Height="20" />
+                </StackPanel>
+                <Button.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ltbbtnBorrar, Source={StaticResource ResourceLanguage}}"/>
+                        <TextBlock Text=" (Ctrl+D)"/>
+                    </StackPanel>
+                </Button.ToolTip>
+                <Button.InputBindings>
+                    <KeyBinding Key="N" 
+                                Modifiers="Ctrl" 
+                                Command="{Binding DeleteCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+                    <KeyBinding Key="Return"                                                
+                                Command="{Binding DeleteCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+                    <MouseBinding MouseAction="LeftClick"
+                                  Command="{Binding DeleteCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
+
+                </Button.InputBindings>
+
+            </Button>
+
             <Button x:Name="tbbtnGuardar" 
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsSaveEnabled}" >

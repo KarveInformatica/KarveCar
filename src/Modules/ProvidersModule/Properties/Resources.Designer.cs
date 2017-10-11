@@ -106,6 +106,24 @@ namespace ProvidersModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha de Alta.
+        /// </summary>
+        internal static string ProviderInfoViewModel_FechaDeAlta {
+            get {
+                return ResourceManager.GetString("ProviderInfoViewModel_FechaDeAlta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de Baja.
+        /// </summary>
+        internal static string ProviderInfoViewModel_FechaDeBaja {
+            get {
+                return ResourceManager.GetString("ProviderInfoViewModel_FechaDeBaja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plazo de pago.
         /// </summary>
         internal static string ProviderInfoViewModel_LoadAccountLeft_PlazoDePago {
@@ -196,11 +214,29 @@ namespace ProvidersModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notas.
+        /// </summary>
+        internal static string ProviderInfoViewModel_Notas {
+            get {
+                return ResourceManager.GetString("ProviderInfoViewModel_Notas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Numero.
         /// </summary>
         internal static string ProviderInfoViewModel_Numero {
             get {
                 return ResourceManager.GetString("ProviderInfoViewModel_Numero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observaciones.
+        /// </summary>
+        internal static string ProviderInfoViewModel_Observaciones {
+            get {
+                return ResourceManager.GetString("ProviderInfoViewModel_Observaciones", resourceCulture);
             }
         }
         
@@ -246,6 +282,15 @@ namespace ProvidersModule.Properties {
         internal static string ProviderInfoViewModel_Web {
             get {
                 return ResourceManager.GetString("ProviderInfoViewModel_Web", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NewSupplier.
+        /// </summary>
+        internal static string ProvidersControlViewModel_OpenNewItem_NewSupplier {
+            get {
+                return ResourceManager.GetString("ProvidersControlViewModel_OpenNewItem_NewSupplier", resourceCulture);
             }
         }
     }

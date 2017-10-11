@@ -38,61 +38,7 @@ namespace ProvidersModule.ViewModels
             _dataServices = dataServices;
             _regionManager = manager;
             _eventManager = ev;
-            SelectedIndexCommand = new DelegateCommand<object>(OnSelectedIndex);
-            StartDataLayer();
         }
-        private async void OnSelectedIndex(object param)
-        {
-            /*
-            DataRowView local = param as DataRowView;
-            
-            if (local != null)
-            {
-                string supplierId = local.Row.ItemArray[0] as string;
-                string name = local.Row.ItemArray[1] as string;
-                string nif = local.Row.ItemArray[2] as string;
-
-                ISupplierDataInfo dataObject = await _supplierDataServices.GetAsyncSupplierDataObjectInfo(supplierId);
-                dataObject.Name = name;
-                dataObject.Nif = nif;
-                dataObject.Number = supplierId;
-                ISupplierPayload supplierDataPayLoad = new SupplierDataPayload();
-
-                supplierDataPayLoad.SupplierDataObjectInfo = dataObject;
-
-                if (dataObject.Type != null)
-                {
-                    supplierDataPayLoad.SupplierDataObjectType = await _supplierDataServices.GetAsyncSupplierTypesDataObject((string)dataObject.Type);
-
-                }
-                else
-                {
-                    supplierDataPayLoad.SupplierDataObjectType = null;
-                }
-               _eventManager.notifyObserver(supplierDataPayLoad);
-               
-            }
-            */
-
-        }
-        private async void StartDataLayer()
-        {
-            try
-            {
-/*
-                _supplierDataServices = _dataServices.GetSupplierDataServices();
-                if (_supplierDataServices != null)
-                {
-                    DataSet dataSet = await _supplierDataServices.GetAsyncAllSupplierSummary();
-                    this.SummaryDataTable = dataSet.Tables[0];
-                }
-                */
-
-            }
-            catch (Exception e)
-            {
-                 MessageBox.Show(e.Message);
-            }
-        }
+    
     }
 }

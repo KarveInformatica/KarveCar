@@ -22,10 +22,11 @@ namespace ProvidersModule.ViewModels
         ///  Type of payment data services.
         /// </summary>
         private readonly IEventManager _eventManager;
+
         private readonly IConfigurationService _configurationService;
         private readonly IDataServices _dataServices;
         private readonly IUnityContainer _container;
-        private static string PROVIDER_SUMMARY_VM = "ProviderControlViewModel";
+        private static string PROVIDER_SUMMARY_VM = "ProvidersControlViewModel";
         private DataTable _extendedSupplierDataTable;
         private ICommand _openItemCommand;
         private DataSet _completeSummary;
@@ -35,10 +36,11 @@ namespace ProvidersModule.ViewModels
         public MailBoxMessageHandler _messageHandler;
         private object _notifyStateObject = new object();
         private int _notifyState = 0;
+
         public ProvidersControlViewModel(IConfigurationService configurationService,
-                                  IUnityContainer container,
-                                  IDataServices services,
-                                  IEventManager eventManager)
+            IUnityContainer container,
+            IDataServices services,
+            IEventManager eventManager)
         {
             _configurationService = configurationService;
             _eventManager = eventManager;
@@ -47,10 +49,7 @@ namespace ProvidersModule.ViewModels
             _extendedSupplierDataTable = new DataTable();
             _openItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             _pagedItemCommand = new DelegateCommand<object>(LoadNewPage);
-            /**
-             * With the use of async method we shall avoid the async constructor.
-             */
-               StartAndNotify();           
+            StartAndNotify();
         }
 
         private void StartAndNotify()
@@ -59,8 +58,9 @@ namespace ProvidersModule.ViewModels
             _eventManager.RegisterMailBox(ProvidersControlViewModel.PROVIDER_SUMMARY_VM, _messageHandler);
             _initializationNotifier = new NotifyTaskCompletion<DataSet>(StartDataLayer());
             _initializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
-
+          
         }
+
         private void MessageHandler(DataPayLoad payLoad)
         {
             if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (_notifyState == 0))
@@ -69,11 +69,21 @@ namespace ProvidersModule.ViewModels
                 {
                     _notifyState = 1;
                 }
-                StartAndNotify(); 
+                StartAndNotify();
+            }
+            if (payLoad.PayloadType == DataPayLoad.Type.Delete)
+            {
+                // forward data to the current payload.
+                _eventManager.notifyObserverSubsystem(ProviderModule.NAME, payLoad);
+            }
+            if (payLoad.PayloadType == DataPayLoad.Type.Insert)
+            {
+                OpenNewItem();
             }
         }
 
-        private void CompleteSummaryInitializationOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void CompleteSummaryInitializationOnPropertyChanged(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (_completeSummaryInitialization.IsSuccessfullyCompleted)
             {
@@ -82,7 +92,7 @@ namespace ProvidersModule.ViewModels
             }
         }
 
-        private  async Task<DataSet> LoadCompleteSummary()
+        private async Task<DataSet> LoadCompleteSummary()
         {
             ISupplierDataServices supplier = _dataServices.GetSupplierDataServices();
             // load the dataset of provee1 and provee2.
@@ -90,7 +100,8 @@ namespace ProvidersModule.ViewModels
             return set;
         }
 
-        private void InitializationNotifierOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void InitializationNotifierOnPropertyChanged(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (_initializationNotifier.IsSuccessfullyCompleted)
             {
@@ -103,9 +114,15 @@ namespace ProvidersModule.ViewModels
                 {
                     _notifyState = 0;
                 }
-             
+                // each module notify the toolbar.
+                DataPayLoad payLoad = new DataPayLoad();
+                payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+                payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+               _eventManager.NotifyToolBar(payLoad);
             }
+
         }
+
         /// <summary>
         ///  TODO this is for supporting the paging..
         /// </summary>
@@ -121,8 +138,13 @@ namespace ProvidersModule.ViewModels
 
         public DataTable SummaryView
         {
-            get { return _extendedSupplierDataTable; ; }     
+            get
+            {
+                return _extendedSupplierDataTable;
+                ;
+            }
         }
+
         private async Task<DataSet> StartDataLayer()
         {
             ISupplierDataServices supplier = _dataServices.GetSupplierDataServices();
@@ -136,21 +158,42 @@ namespace ProvidersModule.ViewModels
             string routedName = "ProviderModule:" + name;
             currentPayload.PayloadType = DataPayLoad.Type.Show;
             currentPayload.Registration = routedName;
-            currentPayload.Set = _completeSummary;
+            currentPayload.Set = completeSummary;
             currentPayload.HasDataSet = true;
             return currentPayload;
         }
-        private void OpenCurrentItem(object currentItem)
+
+        private void OpenNewItem()
         {
-            DataRowView rowView = currentItem as DataRowView;
-            DataRow row = rowView.Row;
-            string name = row["Nombre"] as string;
-            string supplierId = row["Codigo"] as string;
+            string name = ProvidersModule.Properties.Resources.ProvidersControlViewModel_OpenNewItem_NewSupplier;
+            string codigo = "";
             ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
             _configurationService.AddMainTab(view, name);
             DataPayLoad currentPayload = BuildShowPayLoad(name, _completeSummary);
-            currentPayload.PrimaryKeyValue = supplierId;
-            _eventManager.notifyObserverSubsystem(ProviderModule.NAME, currentPayload);      
+            currentPayload.SubsystemViewModel = "ProvidersControlViewModel";
+            currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            currentPayload.PrimaryKeyValue = codigo;
+            _eventManager.notifyObserverSubsystem(ProviderModule.NAME, currentPayload);
+           
+        }
+
+        private void OpenCurrentItem(object currentItem)
+        {
+            DataRowView rowView = currentItem as DataRowView;
+            if (rowView != null)
+            {
+                DataRow row = rowView.Row;
+                string name = row["Nombre"] as string;
+                string supplierId = row["Codigo"] as string;
+                string tabName = supplierId + "." + name;
+                ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
+                _configurationService.AddMainTab(view, tabName);
+                DataPayLoad currentPayload = BuildShowPayLoad(tabName, _completeSummary);
+                currentPayload.PrimaryKeyValue = supplierId;
+                _eventManager.notifyObserverSubsystem(ProviderModule.NAME, currentPayload);
+            }
+
         }
 
         public ICommand PageChangedCommand { set; get; }

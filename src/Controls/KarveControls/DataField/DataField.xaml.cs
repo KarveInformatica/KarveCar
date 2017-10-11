@@ -2,32 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KarveControls.Generic;
 using static KarveControls.CommonControl;
-using ThicknessConverter = Xceed.Wpf.DataGrid.Converters.ThicknessConverter;
 
 namespace KarveControls
 {
     /// <summary>
-    /// Interaction logic for DataField.xaml
+    /// DataField Component Definition.
     /// </summary>
     public partial class DataField : UserControl
     {
-
-
         public static readonly RoutedEvent DataFieldChangedEvent =
             EventManager.RegisterRoutedEvent(
                 "DataFieldChanged",
@@ -75,6 +63,7 @@ namespace KarveControls
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private object _primaryKey;
         protected string _description;
         protected DataType _dataAllowed;
         protected bool _allowedEmpty;
@@ -104,6 +93,14 @@ namespace KarveControls
                 typeof(DataField),
                 new PropertyMetadata(String.Empty));
 
+        #endregion
+        #region PrimaryKey
+        public static readonly DependencyProperty PrimaryKeyDependencyProperty = 
+            DependencyProperty.Register("PrimaryKey", 
+                typeof(object),
+                typeof(DataField), 
+                new PropertyMetadata(null)
+                );
         #endregion
 
         #region DataAllowed
@@ -712,6 +709,7 @@ namespace KarveControls
                     valueDictionary["Field"] = DBField;
                     valueDictionary["DataTable"] = ItemSource;
                     valueDictionary["ChangedValue"] = TextField.Text;
+                //valueDictionary["PrimaryKey"] = MissingPrimaryKe;
                     ev.ChangedValuesObjects = valueDictionary;
                     RaiseEvent(ev);
                 }

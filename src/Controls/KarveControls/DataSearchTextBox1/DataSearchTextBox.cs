@@ -94,6 +94,7 @@ namespace KarveControls
         protected DataTable _itemSource;
         protected string _DataSearchTextBox = string.Empty;
         protected string _tableName = string.Empty;
+        private bool _textChanged = false;
 
         public void OnPropertyChanged(string propertyName)
         {
@@ -477,6 +478,18 @@ namespace KarveControls
             }
         }
 
+        public class AssistQueryEventArgs : RoutedEventArgs
+        {
+            public AssistQueryEventArgs(): base()
+            {
+            }
+            public AssistQueryEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            {
+            }
+
+            public string AssistQuery { set; get; }
+        }
+
         public event RoutedEventHandler MagnifierPress
         {
             add { AddHandler(MagnifierPressEvent, value); }
@@ -529,8 +542,12 @@ namespace KarveControls
                 _viewData.Source = this.SourceView.DefaultView;
                 // _viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
                 this.MagnifierGrid.ItemsSource = _viewData.View;
+
             }
         }
+
+       
+        
         public string LabelWidth
         {
             get { return (string)GetValue(LabelWidthDependencyProperty); }

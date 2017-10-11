@@ -6,11 +6,11 @@ namespace DataAccessLayer
 {
     internal class DatabaseHelper
     {
-        private ISqlQueryExecutor _mapperExecutor;
+        private ISqlQueryExecutor _sqlQueryExecutor;
 
-        public DatabaseHelper(ISqlQueryExecutor mapper)
+        public DatabaseHelper(ISqlQueryExecutor sqlQuery)
         {
-            _mapperExecutor = mapper;
+            _sqlQueryExecutor = sqlQuery;
         }
 
         public IList<string> PrependTableName(string tableName, IList<string> colList)
@@ -27,13 +27,13 @@ namespace DataAccessLayer
         {
             IList<string> colName = new List<string>();
             string queryValue = string.Format("SELECT sc.* FROM syscolumns sc INNER JOIN sysobjects so ON sc.id = so.id WHERE so.name = \'{0}\'", tableName);
-            if (_mapperExecutor.Open())
+            if (_sqlQueryExecutor.Open())
             {
-                _mapperExecutor.ExecuteQueryDataTable(queryValue);
+                _sqlQueryExecutor.ExecuteQueryDataTable(queryValue);
             }
 
             // prepare the query for the columns.
-
+            _sqlQueryExecutor.Close();
             return colName;
 
         }

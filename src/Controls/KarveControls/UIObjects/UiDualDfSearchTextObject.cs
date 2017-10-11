@@ -57,13 +57,13 @@ namespace KarveControls.UIObjects
             string assistTable = "";
             string assistQuery = "";
 
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE))
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTTABLE))
             {
-                assistTable = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE] as string;
+                assistTable = valueDictionary[DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTTABLE] as string;
             }
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY))
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTQUERY))
             {
-                assistQuery = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY] as string;
+                assistQuery = valueDictionary[DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTQUERY] as string;
             }
             OnAssistQuery?.Invoke(assistTable, assistQuery, DataFieldFirst);
         }

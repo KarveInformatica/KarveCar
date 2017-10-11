@@ -66,7 +66,7 @@ namespace KarveCar
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
-                Container.RegisterType<IEventManager, KarveCommon.Services.EventManager>(new ContainerControlledLifetimeManager());
+                Container.RegisterType<IEventManager, KarveCommon.Services.EventDispatcher>(new ContainerControlledLifetimeManager());
                 //Container.RegisterType(typeof(ViewModel.MaestrosViewModel.GrupoVehiculoViewModel), "GrupoVehiculoViewModel");
                
             }

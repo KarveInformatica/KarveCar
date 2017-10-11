@@ -8,7 +8,9 @@ using System.ComponentModel;
 using System.Data;
 using KarveControls.UIObjects;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using KarveControls;
+using ProvidersModule.Common;
 
 namespace ProvidersModule.ViewModels
 {
@@ -97,7 +99,17 @@ namespace ProvidersModule.ViewModels
           "Albaranes Coste Transporte", "Exenciones en Op.Interiores", "Generar Autofactura de Mantenimiento"
         };
 
-        private const string ProviderInfoVm = "ProviderInfoViewModel";
+        /// <summary>
+        ///  This works in case of insert/update.
+        /// </summary>
+        private IDictionary<DataPayLoad.Type, IUiComponentChangeHandler> _changeHandlers =
+            new Dictionary<DataPayLoad.Type, IUiComponentChangeHandler>
+            {
+                { DataPayLoad.Type.Insert, new InsertChangeHandler() },
+                { DataPayLoad.Type.Update, new InsertChangeHandler() }
+            };
+   
+            private const string ProviderInfoVm = "ProviderInfoViewModel";
         private const string ImagePath = "/ProvidersModule;component/Images/search.png";
         private const string EmailImagePath = "/ProvidersModule;component/Images/email.png";
 
@@ -113,12 +125,13 @@ namespace ProvidersModule.ViewModels
         private const string ProvinceComponentKey = "PROVINCE";
         private const string ZipKey = "SIGLAS";
         private const string PaisComponentKey = "PAIS";
-
+        private bool insertOperation = false;
+        
         // This is the event manager for communicating with the toolbar and other view modules inside the provider Module.
         private readonly IEventManager _eventManager;
 
         private readonly IDataServices _dataServices;
-        private readonly MailBoxMessageHandler _messageHandler;
+        private MailBoxMessageHandler _messageHandler;
         private readonly IDictionary<string, object> _componentsObjects = new Dictionary<string, object>();
 
         private IConfigurationService _configurationService;
@@ -130,16 +143,21 @@ namespace ProvidersModule.ViewModels
         private NotifyTaskCompletion<IList<DataSet>> _initializationTable;
         private DataSet _delegationSet;
         private DataTable _delegationDataTable;
-
+        private DataPayLoad.Type _currentOperationalState;
+        private string _primaryKeyValue = "";
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
             IDataServices dataServices)
         {
             _dataServices = dataServices;
             _configurationService = configurationService;
+        
             _messageHandler += MessageHandler;
+
             _eventManager = eventManager;
+
+
             _eventManager.registerObserverSubsystem(ProviderModule.NAME, this);
-            _eventManager.RegisterMailBox(ProviderInfoViewModel.ProviderInfoVm, _messageHandler);
+           
         }
 
         private void MessageHandler(DataPayLoad load)
@@ -150,10 +168,13 @@ namespace ProvidersModule.ViewModels
         private void SetItemSourceTable(DataSet set, ref ObservableCollection<IUiObject> uiDfObjects)
         {
             IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(set);
-
+            int count = 0;
+            if (uiDfObjects.Count == 0)
+                return;
             // now i have to check the uiDfObjects
             foreach (IUiObject uiObject in uiDfObjects)
             {
+
                 DataTable table = null;
                 if (tablesByNameDictionary.ContainsKey(uiObject.TableName))
                 {
@@ -178,18 +199,37 @@ namespace ProvidersModule.ViewModels
                         }
                     }
                 }
+                // this trigger a change
                 
 
+            }
+            triggerRefresh(ref uiDfObjects);
+
+        }
+
+        private void triggerRefresh(ref ObservableCollection<IUiObject> uiDfObjects)
+        {
+            int count = 0;
+            for (int i = 0; i < uiDfObjects.Count; ++i)
+            {
+                IUiObject tmp = uiDfObjects[count];
+                uiDfObjects.RemoveAt(count);
+                uiDfObjects.Insert(count, tmp);
+                count++;
             }
         }
         private void SetSourceViewTable(DataSet sourceView, ref ObservableCollection<IUiObject> uiDfObjects)
         {
             IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(sourceView);
+            if (uiDfObjects.Count == 0)
+                return;
+            int count = 0;
             foreach (IUiObject uiObject in uiDfObjects)
             {
+
                 if (uiObject is UiMultipleDfObject)
                 {
-                    UiMultipleDfObject box = (UiMultipleDfObject)uiObject;
+                    UiMultipleDfObject box = (UiMultipleDfObject) uiObject;
                     IList<string> assistTables = box.AssistTables;
                     if (assistTables != null)
                     {
@@ -204,13 +244,15 @@ namespace ProvidersModule.ViewModels
                 }
                 if (uiObject is UiDualDfSearchTextObject)
                 {
-                    UiDualDfSearchTextObject box = (UiDualDfSearchTextObject)uiObject;
+                    UiDualDfSearchTextObject box = (UiDualDfSearchTextObject) uiObject;
                     if (tablesByNameDictionary.ContainsKey(box.AssistTableName))
                     {
                         box.SourceView = tablesByNameDictionary[box.AssistTableName];
                     }
                 }
+
             }
+           triggerRefresh(ref uiDfObjects);
         }
         private IDictionary<string, DataTable> BuildDictionaryFromDataSet(DataSet set)
         {
@@ -237,7 +279,6 @@ namespace ProvidersModule.ViewModels
                 _currentDataSet = setResult[0];
                 _assistantDataSet = setResult[1];
             }
-            IDictionary<string, DataTable> currentDataTables = new Dictionary<string, DataTable>();
             if (_initializationTable.IsSuccessfullyCompleted)
             {
 
@@ -258,6 +299,9 @@ namespace ProvidersModule.ViewModels
 
                 }
             }
+
+           
+
             UpperValueCollection = _upperPartObservableCollection;
             MiddleValueCollection = _middlePartObservableCollection;
             AccountRightCollection = _accountRightCollection;
@@ -386,10 +430,10 @@ namespace ProvidersModule.ViewModels
         {
 
         }
-        private void Init(string primaryKeyValue)
+        private void Init(string primaryKeyValue, bool insert)
         {
             LoadUIObjects();
-            _initializationTable = new NotifyTaskCompletion<IList<DataSet>>(LoadDataValue(primaryKeyValue));
+            _initializationTable = new NotifyTaskCompletion<IList<DataSet>>(LoadDataValue(primaryKeyValue, insert));
             _initializationTable.PropertyChanged += InitializationTableOnPropertyChanged;
         }
 
@@ -1010,7 +1054,7 @@ namespace ProvidersModule.ViewModels
            
         }
         // create an abstract method that loads everything is too loong.
-        private async Task<IList<DataSet>> LoadDataValue(string primaryKeyValue)
+        private async Task<IList<DataSet>> LoadDataValue(string primaryKeyValue, bool insert)
         {
             IList<DataSet> sets = new List<DataSet>();
             IList<ObservableCollection<IUiObject>> collection = new List<ObservableCollection<IUiObject>>();
@@ -1022,10 +1066,19 @@ namespace ProvidersModule.ViewModels
             collection.Add(_accountRightCheckBoxes);
 
             ObservableCollection<IUiObject> obsValue = MergeInOneCpCollection(collection);
-            _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue);
+            _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, insert);
             // add all other assist table 
             ISupplierDataServices services = _dataServices.GetSupplierDataServices();
-            DataSet dataSet = await services.GetAsyncSupplierInfo(_viewModelQueries);
+            DataSet dataSet = null;
+            if (insert)
+            {
+                dataSet = await services.GetNewSupplier(_viewModelQueries);
+            //    SQLBuilder.StripTop("NUM_PROVEE", primaryKeyValue, ref _viewModelQueries);
+            }
+            else
+            {
+                dataSet = await services.GetAsyncSupplierInfo(_viewModelQueries);
+            }
             // replace with for.
             fillViewModelAssistantQueries(_upperPartObservableCollection, dataSet, ref _viewModelAssitantQueries);
             fillViewModelAssistantQueries(_middlePartObservableCollection, dataSet, ref _viewModelAssitantQueries);
@@ -1039,7 +1092,30 @@ namespace ProvidersModule.ViewModels
             DelegationTable = delegationSet.Tables[0];
             sets.Add(dataSet);
             sets.Add(assistDataSet);
+            if (insert)
+            {
+                SetItemSourceTable(dataSet, ref _upperPartObservableCollection);
+                SetItemSourceTable(dataSet, ref _middlePartObservableCollection);
+                UpdateObsCollection(primaryKeyValue, ref _upperPartObservableCollection);
+                UpdateObsCollection(primaryKeyValue, ref _middlePartObservableCollection);
+            }
+
             return sets;
+        }
+
+        private void UpdateObsCollection(string primaryKey, ref ObservableCollection<IUiObject> obs)
+        {
+            for (int j = 0; j < obs.Count; ++j)
+            {
+                IUiObject obj = obs[j];
+                if ((obj.DataField == primaryKey))
+                {
+                    DataTable table = obj.ItemSource;
+                    table.Rows[0][obj.DataField] = primaryKey;
+                    obj.ItemSource = table;
+                    _middlePartObservableCollection[j] = obj;
+                }
+            }
         }
         // move to ui builder.
 
@@ -1065,9 +1141,9 @@ namespace ProvidersModule.ViewModels
             doubleDfObject.LabelVisibleRight = true;
             doubleDfObject.TextContentWidthRight = TextBoxWidthDefault;
             doubleDfObject.HeightRight = TextboxHeight;
-            DataTable table = new DataTable();
-            doubleDfObject.ItemSource = table;
-            doubleDfObject.ItemSourceRight = table;
+          //  DataTable table = new DataTable();
+          //  doubleDfObject.ItemSource = table;
+          //  doubleDfObject.ItemSourceRight = table;
 
             return doubleDfObject;
         }
@@ -1157,6 +1233,7 @@ namespace ProvidersModule.ViewModels
                         LeftPartLabel[i], LeftPartFields[j], LeftPartFields[j]));
                     i = 1;
                 }
+                
                 else if (LeftPartFields[i] == ProvinceKey)
                 {
 
@@ -1164,13 +1241,13 @@ namespace ProvidersModule.ViewModels
                         BuildProvinceSearchTextObject(LeftPartLabel[i], LeftPartFields[i]);
 
                     _middlePartObservableCollection.Add(dualSearchTextObject1);
-                    _componentsObjects.Add(ProvinceComponentKey, dualSearchTextObject1);
+                    //_componentsObjects.Add(ProvinceComponentKey, dualSearchTextObject1);
                 }
                 else if (LeftPartFields[i] == PaisKey)
                 {
                     UiDualDfSearchTextObject tipoProve = BuildPaisSearchTextObject(LeftPartLabel[i], LeftPartFields[i]);
                     _middlePartObservableCollection.Add(tipoProve);
-                    _componentsObjects.Add(PaisComponentKey, tipoProve);
+                    //_componentsObjects.Add(PaisComponentKey, tipoProve);
                 }
                 else if (LeftPartFields[i] == "SUBLICEN")
                 {
@@ -1221,7 +1298,7 @@ namespace ProvidersModule.ViewModels
                     dualSearchTextObject2.DataFieldFirst = "OFICINA";
                     dualSearchTextObject2.DataField = "OFICINA";
                     dualSearchTextObject2.OnAssistQuery += AssistQueryRequestHandler;
-                    _componentsObjects.Add("Oficinas", dualSearchTextObject2);
+                    //_componentsObjects.Add("Oficinas", dualSearchTextObject2);
                     multipleDfObject.AddDataField(dualSearchTextObject2);
                    
                     _middlePartObservableCollection.Add(multipleDfObject);
@@ -1380,10 +1457,10 @@ namespace ProvidersModule.ViewModels
                     dataDfObject.OnChangedField += OnChangedField;
                     dataDfObject.AllowedEmpty = true;
                     _middlePartObservableCollection.Add(dataDfObject);
-                }
+                } 
 
             }
-           // MiddleValueCollection = _middlePartObservableCollection;
+          //MiddleValueCollection = _middlePartObservableCollection;
 
         }
 
@@ -1452,12 +1529,12 @@ namespace ProvidersModule.ViewModels
                 DataTable table = new DataTable();
                 dataUiDfObject.ItemSource = table;
                 _upperPartObservableCollection.Add(dataUiDfObject);
-                _componentsObjects.Add(dataUiDfObject.DataField, dataUiDfObject);
+                //_componentsObjects.Add(dataUiDfObject.DataField, dataUiDfObject);
 
             }
             UiDualDfSearchTextObject tipoProve = CraftSupplierTypeObject();
             _upperPartObservableCollection.Add(tipoProve);
-            _componentsObjects.Add(TipoProve, tipoProve);
+            //_componentsObjects.Add(TipoProve, tipoProve);
 
         }
         private void UpdateSource(DataSet dataSetAssistant, string primaryKey,
@@ -1480,9 +1557,12 @@ namespace ProvidersModule.ViewModels
                                            (update.AssistDataFieldFirst == primaryKey));
                         if (isValidKey)
                         {
-                            update.SourceView = dataSetAssistant.Tables[0];
-                            updateUiObject = update;
-                            found = true;
+                            if (dataSetAssistant.Tables.Count > 0)
+                            {
+                                update.SourceView = dataSetAssistant.Tables[0];
+                                updateUiObject = update;
+                                found = true;
+                            }
                             break;
                         }
                     }
@@ -1490,9 +1570,12 @@ namespace ProvidersModule.ViewModels
                    
                     if (obj is UiMultipleDfObject)
                     {
+                        if (dataSetAssistant.Tables.Count > 0)
+                        {
                             UiMultipleDfObject tmp = (UiMultipleDfObject) obj;
                             tmp.SetSourceView(dataSetAssistant.Tables[0], dataSetAssistant.Tables[0].TableName);
                             updateUiObject = tmp;
+                        }
                     }
                     ++index;
                 }
@@ -1525,40 +1608,15 @@ namespace ProvidersModule.ViewModels
 
         // fix this method is too long against clean code.
 
-        private void OnChangedField(IDictionary<string, object> eventDictionary)
-        {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.HasDictionary = true;
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-            payLoad.DataDictionary = eventDictionary;
-            DataTable table = (DataTable)eventDictionary["DataTable"];
-            string colName = (string)eventDictionary["Field"];
-            object changedValue = eventDictionary["ChangedValue"];
 
+        private void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
+        {
+        
             string tableName = table.TableName;
             bool foundTable = false;
-            foreach (DataTable currentTable in _currentDataSet.Tables)
+            if (currentDataSet != null)
             {
-                if (currentTable.TableName == tableName)
-                {
-                    foundTable = true;
-                    break;
-                }
-            }
-            if (foundTable)
-            {
-                _currentDataSet.Tables[tableName].Merge(table);
-                DataRowState state = _currentDataSet.Tables[tableName].Rows[0].RowState;
-                payLoad.HasDataSet = true;
-                payLoad.Set = _currentDataSet;
-                _eventManager.NotifyToolBar(payLoad);
-                payLoad.Queries = _viewModelQueries;
-            }
-            else
-            {
-
-                foreach (DataTable currentTable in _assistantDataSet.Tables)
+                foreach (DataTable currentTable in currentDataSet.Tables)
                 {
                     if (currentTable.TableName == tableName)
                     {
@@ -1568,10 +1626,82 @@ namespace ProvidersModule.ViewModels
                 }
                 if (foundTable)
                 {
-                    _assistantDataSet.Tables[tableName].Merge(table);
-                    payLoad.Set = _assistantDataSet;
-                    payLoad.Queries = _viewModelAssitantQueries;
+                    currentDataSet.Tables[tableName].Merge(table);
+                }
+            }
+        }
+
+        private void OnChangedField(IDictionary<string, object> eventDictionary)
+        {
+            DataPayLoad payLoad = new DataPayLoad();
+            if (_currentOperationalState == DataPayLoad.Type.Insert)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
+                payLoad.HasDataSetList = true;
+                payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+
+                DataTable table = (DataTable)eventDictionary["DataTable"];
+                MergeTableChanged(table, ref _currentDataSet);
+                MergeTableChanged(table, ref _assistantDataSet);
+                MergeTableChanged(table, ref _delegationSet);
+//                _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, insert);
+                // now with the table merged we go on.
+                SQLBuilder.StripTop(ref _viewModelQueries);
+                payLoad.Queries = _viewModelQueries;
+                List<DataSet> setList = new List<DataSet>();
+                setList.Add(_currentDataSet);
+                setList.Add(_assistantDataSet);
+                setList.Add(_delegationSet);
+                payLoad.SetList = setList;
+                _eventManager.NotifyToolBar(payLoad);
+            }
+            else
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+                payLoad.HasDictionary = true;
+                payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+                payLoad.DataDictionary = eventDictionary;
+                DataTable table = (DataTable) eventDictionary["DataTable"];
+                string colName = (string) eventDictionary["Field"];
+                object changedValue = eventDictionary["ChangedValue"];
+
+                string tableName = table.TableName;
+                bool foundTable = false;
+                foreach (DataTable currentTable in _currentDataSet.Tables)
+                {
+                    if (currentTable.TableName == tableName)
+                    {
+                        foundTable = true;
+                        break;
+                    }
+                }
+                if (foundTable)
+                {
+                    _currentDataSet.Tables[tableName].Merge(table);
+                    DataRowState state = _currentDataSet.Tables[tableName].Rows[0].RowState;
+                    payLoad.HasDataSet = true;
+                    payLoad.Set = _currentDataSet;
                     _eventManager.NotifyToolBar(payLoad);
+                    payLoad.Queries = _viewModelQueries;
+                }
+                else
+                {
+
+                    foreach (DataTable currentTable in _assistantDataSet.Tables)
+                    {
+                        if (currentTable.TableName == tableName)
+                        {
+                            foundTable = true;
+                            break;
+                        }
+                    }
+                    if (foundTable)
+                    {
+                        _assistantDataSet.Tables[tableName].Merge(table);
+                        payLoad.Set = _assistantDataSet;
+                        payLoad.Queries = _viewModelAssitantQueries;
+                        _eventManager.NotifyToolBar(payLoad);
+                    }
                 }
             }
         }
@@ -1609,15 +1739,45 @@ namespace ProvidersModule.ViewModels
         public void incomingPayload(DataPayLoad dataPayLoad)
         {
             DataPayLoad payload = dataPayLoad;
-            string primaryKey = payload.PrimaryKeyValue;
-            if (!string.IsNullOrEmpty(primaryKey))
+            if (_primaryKeyValue.Length == 0)
             {
-                Init(primaryKey);
-                _eventManager.disableNotify(ProviderModule.NAME, this);
+                _primaryKeyValue = payload.PrimaryKeyValue;
+                string mailboxName = "Providers." + _primaryKeyValue;
+                _eventManager.RegisterMailBox(mailboxName, _messageHandler);
             }
-
+            // here i can fix the primary key.
+            if (_primaryKeyValue == payload.PrimaryKeyValue)
+            {
+                if (payload.PayloadType == DataPayLoad.Type.Insert)
+                {
+                    _currentOperationalState = DataPayLoad.Type.Insert;
+                    _primaryKeyValue = _dataServices.GetSupplierDataServices().GetNewId();
+                    Init(_primaryKeyValue, true);
+                }
+                else if (payload.PayloadType == DataPayLoad.Type.Delete)
+                {
+                    DeleteItem();
+                }
+                else if (!string.IsNullOrEmpty(_primaryKeyValue))
+                {
+                    Init(_primaryKeyValue, false);
+                    _currentOperationalState = DataPayLoad.Type.Show;
+                }
+            }
+        //_eventManager.disableNotify(ProviderModule.NAME, this);
         }
 
+        private void DeleteItem()
+        {
+            string primaryKey = _primaryKeyValue;
+            ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
+            supplierDataServices.DeleteSupplier(_viewModelQueries, _currentDataSet);
+            DataPayLoad  payLoad = new DataPayLoad();
+            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.PrimaryKeyValue = primaryKey;
+            payLoad.PayloadType = DataPayLoad.Type.Delete;
+            _eventManager.NotifyToolBar(payLoad);
+        }
     }
 }
 

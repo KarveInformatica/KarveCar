@@ -100,11 +100,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\EmailCommand.cs" />
+    <Compile Include="Common\ComponentOnInsertChangeHandler.cs" />
+    <Compile Include="Common\ComponentOnUpdateChangeHandler.cs" />
+    <Compile Include="Common\IUiComponentChangeHandler.cs" />
     <Compile Include="Common\IUiPageBuilder.cs" />
-    <Compile Include="Common\ProviderDataLayer.cs" />
+    <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\UiDirectionPageBuilder.cs" />
-    <Compile Include="Common\UiObjectsProviderBuilder.cs" />
+    <Compile Include="Common\UiGeneralPageBuilder.cs" />
     <Compile Include="IProvidersView.cs" />
     <Compile Include="IProvidersViewModel.cs" />
     <Compile Include="ISupplierInfoView.cs" />
@@ -330,6 +332,9 @@
     <Resource Include="UIObjects\UIRightCollection.xml">
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

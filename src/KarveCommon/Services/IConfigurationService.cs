@@ -33,13 +33,17 @@ namespace KarveCommon.Services
         ///  The current main window
         /// </summary>
         Window Shell { set; get; }
+
         /// <summary>
-        ///  get the account management and the permission modules.
+        ///  Get the primary key value associated with the current active tab.
         /// </summary>
         /// <returns></returns>
-       
+        string GetPrimaryKeyValue();
+        /// <summary>
+        ///  Get the account managemenet solution.
+        /// </summary>
+        /// <returns></returns>
         IUserAccessControlList GetAccountManagement();
-
-
+        void CloseTab(string primaryKeyValue);
     }
 }
