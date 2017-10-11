@@ -180,7 +180,7 @@
   <data name="ProviderInfoViewModel_LoadAccountLeft_PlazoDePago" xml:space="preserve">
     <value>Plazo de pago</value>
   </data>
-  <data name="ProviderInfoViewModel_FechaDeBaja" xml:space="preserve">
+ <data name="ProviderInfoViewModel_FechaDeBaja" xml:space="preserve">
     <value>Fecha de Baja</value>
   </data>
   <data name="ProviderInfoViewModel_FechaDeAlta" xml:space="preserve">

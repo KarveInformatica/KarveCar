@@ -19,13 +19,6 @@ namespace KarveControls.UIObjects
 
         private const string TopOne = " TOP 1 ";
 
-        private static void InspectMultipleObject(IUiObject tmpUiObject, ref IDictionary<string, StringBuilder> tableDictionary)
-        {
-            if (tmpUiObject is UiMultipleDfObject)
-            {
-                
-            }
-        }
 
         public static IDictionary<string, string> SqlBuildSelectFromUiObjects(ObservableCollection<IUiObject> list, string primaryKeyValue ="", bool isInsert = false)
         {  

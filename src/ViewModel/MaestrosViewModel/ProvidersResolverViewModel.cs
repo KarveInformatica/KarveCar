@@ -59,10 +59,6 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             IProvidersView providerView= container.Resolve<IProvidersView>();
           //  IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
             ProvidersControl view = providerView as ProvidersControl;
-          //  view.Height = mainWindow.ActualHeight;
-           // view.Width = mainWindow.ActualWidth;
-         
-           
          //   view.DataContext = providerViewModule;
 
             if (!ribbonbuttondictionary.ContainsKey(opcion))

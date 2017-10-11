@@ -231,7 +231,6 @@
     <Compile Include="UIObjects\UiConstant.cs" />
     <Compile Include="UIObjects\UiDataCombox.cs" />
     <Compile Include="UIObjects\UiDataFieldCheckBox.cs" />
-    <Compile Include="UIObjects\UiDataTable.cs" />
     <Compile Include="UIObjects\UiDatePicker.cs" />
     <Compile Include="UIObjects\UiEmailDataField.cs" />
     <Compile Include="UIObjects\UiGroupBoxMultipleObject.cs" />

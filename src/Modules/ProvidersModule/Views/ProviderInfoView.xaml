@@ -47,7 +47,6 @@
 
                 </karveControls:DataField>
             </DataTemplate>
-
             <DataTemplate x:Key="DataFieldCheckBoxTemplate">
                 <karveControls:DataFieldCheckBox
                     Content="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -66,7 +65,6 @@
 
                 </karveControls:DataFieldCheckBox>
             </DataTemplate>
-
             <DataTemplate x:Key="DoubleDataFieldDataTemplate">
                 <StackPanel Orientation="Horizontal">
                     <karveControls:DataField x:Name="FirstField" 
@@ -88,7 +86,6 @@
                         </i:Interaction.Triggers>
 
                     </karveControls:DataField>
-
                     <karveControls:DataField LabelText="{Binding LabelTextRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              TextContent="{Binding TextContentRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              TextContentWidth="{Binding TextContentWidthRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -134,7 +131,7 @@
                     <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
                         <Image Source="{Binding ButtonImage}" Height="20"/>
                     </Button>
-                </StackPanel>
+            </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="SearchBoxDataTemplate">
                 <karveControls:DataSearchTextBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -211,7 +208,7 @@
                 <GroupBox Header="{Binding GroupBoxTitle}" HorizontalAlignment="Left" Margin="10,10,0,0">
                     <Grid ShowGridLines="False">
                         <ItemsControl x:Name="Panel"  Grid.Row="0" ItemsSource="{Binding MultipleDataFields}" ItemTemplateSelector="{StaticResource ResourceKey=SimpleTemplateSelector}">
-                            <ItemsControl.ItemsPanel>
+                           <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
                                 </ItemsPanelTemplate>
@@ -234,7 +231,6 @@
                     ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataDatePicker>
             </DataTemplate>
-
             <DataTemplate x:Key="DataAreaTemplate">
                 <karveControls:DataArea DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -245,8 +241,6 @@
                                         ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataArea>
             </DataTemplate>
-
-
             <DataTemplate x:Key="ComboBoxTemplate">
                 <karveControls:DataCombox
                     Items="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -258,8 +252,6 @@
                     ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DataCombox>
             </DataTemplate>
-
-
             <template:TemplateSelector x:Key="BasicTemplateSelector"
                                        DataFieldTemplate="{StaticResource ResourceKey=DataFieldDataTemplate}"
                                        DoubleDataTemplate="{StaticResource ResourceKey=DoubleDataFieldDataTemplate}"
@@ -274,16 +266,7 @@
                                        >
             </template:TemplateSelector>
 
-            <!--         
-                PickerFieldTemplate="{StaticResource ResourceKey=DataFieldPickerTemplate}"
-                                       DataAreaTemplate="{StaticResource ResourceKey=DataAreaTemplate}"
-                                       DataFieldCheckBox ="{StaticResource ResourceKey=DataFieldCheckBoxTemplate}"
-                                       DataComboxBoxTemplate="{StaticResource ResourceKey=ComboBoxTemplate}">
-                -->
-
-
-
-            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+                <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
             </karvecm:KarveInterTabClient>
             <ControlTemplate x:Key="HeaderTemplateStandard" TargetType="{x:Type xcdg:ColumnManagerCell}">
                 <TextBlock Text="{TemplateBinding Content}">
@@ -567,127 +550,8 @@
 
                 </TabItem>
                 <TabItem Name="Accumulados" Header="Accumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid ShowGridLines="False">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10*"></RowDefinition>
-                            <RowDefinition Height="90*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <ItemsControl x:Name="upperPartAccumulados"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <Grid Grid.Row="1" Name="RootGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <!-- left column -->
-                            <Grid Grid.Column="0" Height="650">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20*"></ColumnDefinition>
-                                        <ColumnDefinition Width="80*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"></RowDefinition>
-                                        <RowDefinition Height="auto"></RowDefinition>
-                                        <RowDefinition Height="auto"></RowDefinition>
-                                        <RowDefinition Height="auto"></RowDefinition>
-
-                                    </Grid.RowDefinitions>
-
-                                    <Label Grid.Column="0" Grid.Row ="0" Content="Empresa" FontSize="14" FontFamily="Arial" FontStyle="Oblique"></Label>
-                                    <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                                        <TextBox Name="ProfitCompanyCode" FontStyle="Oblique" Height="20" Width="60" VerticalAlignment="Top" Foreground="LightGray">Codigo</TextBox>
-                                        <TextBox Name="ProfitCompanyName" FontStyle="Oblique" Height="20" Width="250" VerticalAlignment="Top" Foreground="LightGray">Nombre</TextBox>
-                                        <Button   Name="SearchProfitCompany" Width="40" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left"  Command="{Binding SearchChannelSupplierSearchCommand}" CommandParameter="SearchChannelSupplier" >
-                                            <Image Source="/ProvidersModule;component/Images/search.png" Height="18"/>
-                                        </Button>
-                                    </StackPanel>
-                                    <Label Grid.Column="0" Grid.Row ="1" Content="Resume" FontSize="14" FontFamily="Arial"  FontStyle="Oblique"></Label>
-
-                                    <GroupBox Grid.Column="1" Grid.Row="1">
-                                        <Border BorderBrush="Gray" BorderThickness="4" Padding="1">
-                                            <Grid>
-
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                    <ColumnDefinition></ColumnDefinition>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Rectangle Grid.Row="0"
-                                                       Grid.ColumnSpan="3"  
-                                                       Stroke="Black"
-                                                       Fill="LightGray" />
-                                                <Rectangle Grid.Row="3"
-                                                       Grid.ColumnSpan="3"  
-                                                       Stroke="Black"
-                                                       Fill="LightGray" />
-                                                <Rectangle Grid.Row="1"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                                <Rectangle Grid.Row="2"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                                <Rectangle Grid.Row="5"
-                                                       Grid.Column="1"
-                                                       Grid.ColumnSpan="2"  
-                                                       Stroke="Black"
-                                                       Fill="LightBlue" />
-                                                <Label Grid.Column="1" Grid.Row="0" Content="Numero Facturas" HorizontalAlignment="Center"/>
-                                                <Label Grid.Column="2" Grid.Row="0" Content="Importes" HorizontalAlignment="Center"/>
-                                                <Label Grid.Column="0" Grid.Row="1" Content="Factura Recibidas" HorizontalAlignment="Center"/>
-                                                <TextBlock Grid.Row="1" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
-                                                <TextBlock Grid.Row="1" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
-                                                <Label Grid.Row="2" Grid.Column="0" Content="Pago Pendientes" HorizontalAlignment="Center"/>
-                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="0" HorizontalAlignment="Center"></TextBlock>
-                                                <TextBlock Grid.Row="2" Grid.Column="2" Text="0,0" HorizontalAlignment="Center"></TextBlock>
-                                                <Label Grid.Column="1" Grid.Row="3" Content="Numero Productos"/>
-                                                <Label Grid.Column="2" Grid.Row="3" Content="Importes" HorizontalAlignment="Center"/>
-                                                <Label Grid.Row="5" Grid.Column="0" Content="Pedido Pendientes" HorizontalAlignment="Center"/>
-                                                <TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Text="0"></TextBlock>
-                                                <TextBlock Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" Text="0,0"></TextBlock>
-                                            </Grid>
-                                        </Border>
-                                    </GroupBox>
-
-                                    <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                                        <Button Margin="8,0,0,0" Width="100">
-                                            <AccessText>_Extracto</AccessText>
-                                        </Button>
-                                        <Button Name="AccountExtract" Margin="2,0,0,0" Width="100" Content="Imprimir Carta" Command="{Binding AccountExtractCommand}"></Button>
-                                        <Button Name="PrintProviders" Margin="2,0,0,0" Width="60" Command="{Binding PrintProvidersCommand}">
-                                            <Image Source="/ProvidersModule;component/Images/email.png" Height="18"/>
-                                        </Button>
-                                    </StackPanel>
-                                    <StackPanel  Grid.Column="1" Grid.Row="3" Margin="10">
-                                        <CheckBox Style="{StaticResource PdfCheckBox}">
-
-                                        </CheckBox>
-                                    </StackPanel>
-
-                                </Grid>
-                            </Grid>
-
-
-                        </Grid>
-                    </Grid>
                 </TabItem>
-                <TabItem Name="Direcciones" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <TabItem Name="Direcciones1" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid ShowGridLines="False">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -767,7 +631,7 @@
 
                             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                                 <karveGrid:KarveGridView x:Name="Delegations" PageSize="25" 
-                                             TableName="{Binding DelegationTableName}" ReadOnly="False" Height="800" SourceView="{Binding DelegationTable}">
+                                             TableName="{Binding DelegationTableName}" ReadOnly="{Binding DelegationStateBinding}" Height="800" SourceView="{Binding DelegationTable}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="RowMouseDoubleClick">
                                             <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=Delegations, Path=SelectedRow}"/>
@@ -795,7 +659,7 @@
 
                             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                                 <karveGrid:KarveGridView x:Name="ContactGrid" PageSize="25" 
-                                                         TableName="{Binding ContactsTableName}" ReadOnly="False" Height="800" SourceView="{Binding ContactTable}">
+                                                         TableName="{Binding ContactsTableName}" ReadOnly="{Binding ContactBinding}" Height="800" SourceView="{Binding ContactTable}">
                                     
                                 </karveGrid:KarveGridView>
                             </StackPanel>
@@ -863,7 +727,6 @@
         </ScrollViewer>
 
     </Grid>
-
 </UserControl>
 
 

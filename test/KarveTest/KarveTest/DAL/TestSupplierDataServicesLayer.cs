@@ -18,8 +18,7 @@ namespace KarveTest.DAL
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
         private IConfigurationService _serviceConf;
-        private Stopwatch _currentStopWatch;
-
+       
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
 
         ///// <summary>

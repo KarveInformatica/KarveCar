@@ -25,7 +25,6 @@ namespace ToolBarModule.Command
         private IEventManager _eventManager;
         private IConfigurationService _configurationService;
         
-
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
         /// allows the do undo of the saving.

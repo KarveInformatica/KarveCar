@@ -160,6 +160,9 @@ namespace ToolBarModule
                     _careKeeper.Do(new CommandWrapper(dataCommand));
                 }
             }
+            this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+            this.IsSaveEnabled = false;
+           
         }
         /// <summary>
         ///  Each different subsytem call this method to notify a change in the system to the toolbar.

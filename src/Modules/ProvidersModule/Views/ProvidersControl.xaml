@@ -22,7 +22,6 @@
 
 
     <Grid>
-           
           
                 <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                      TableName="{Binding Tables}" Height="800"  ColumnWidth="100" SourceView="{Binding SummaryView}">
@@ -34,7 +33,6 @@
 
                 
                 </karveGrid:KarveGridView>
-        
      </Grid>
 
 </UserControl>

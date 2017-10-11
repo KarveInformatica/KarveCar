@@ -8,9 +8,13 @@ using System.ComponentModel;
 using System.Data;
 using KarveControls.UIObjects;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using System.Windows.Media;
 using KarveControls;
 using ProvidersModule.Common;
+=======
+using KarveControls;
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
 
 namespace ProvidersModule.ViewModels
 {
@@ -99,6 +103,7 @@ namespace ProvidersModule.ViewModels
           "Albaranes Coste Transporte", "Exenciones en Op.Interiores", "Generar Autofactura de Mantenimiento"
         };
 
+<<<<<<< HEAD
         /// <summary>
         ///  This works in case of insert/update.
         /// </summary>
@@ -110,6 +115,9 @@ namespace ProvidersModule.ViewModels
             };
    
             private const string ProviderInfoVm = "ProviderInfoViewModel";
+=======
+        private const string ProviderInfoVm = "ProviderInfoViewModel";
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
         private const string ImagePath = "/ProvidersModule;component/Images/search.png";
         private const string EmailImagePath = "/ProvidersModule;component/Images/email.png";
 
@@ -125,13 +133,21 @@ namespace ProvidersModule.ViewModels
         private const string ProvinceComponentKey = "PROVINCE";
         private const string ZipKey = "SIGLAS";
         private const string PaisComponentKey = "PAIS";
+<<<<<<< HEAD
         private bool insertOperation = false;
         
+=======
+
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
         // This is the event manager for communicating with the toolbar and other view modules inside the provider Module.
         private readonly IEventManager _eventManager;
 
         private readonly IDataServices _dataServices;
+<<<<<<< HEAD
         private MailBoxMessageHandler _messageHandler;
+=======
+        private readonly MailBoxMessageHandler _messageHandler;
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
         private readonly IDictionary<string, object> _componentsObjects = new Dictionary<string, object>();
 
         private IConfigurationService _configurationService;
@@ -143,13 +159,18 @@ namespace ProvidersModule.ViewModels
         private NotifyTaskCompletion<IList<DataSet>> _initializationTable;
         private DataSet _delegationSet;
         private DataTable _delegationDataTable;
+<<<<<<< HEAD
         private DataPayLoad.Type _currentOperationalState;
         private string _primaryKeyValue = "";
+=======
+
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
             IDataServices dataServices)
         {
             _dataServices = dataServices;
             _configurationService = configurationService;
+<<<<<<< HEAD
         
             _messageHandler += MessageHandler;
 
@@ -216,11 +237,58 @@ namespace ProvidersModule.ViewModels
                 uiDfObjects.RemoveAt(count);
                 uiDfObjects.Insert(count, tmp);
                 count++;
+=======
+            _messageHandler += MessageHandler;
+            _eventManager = eventManager;
+            _eventManager.registerObserverSubsystem(ProviderModule.NAME, this);
+            _eventManager.RegisterMailBox(ProviderInfoViewModel.ProviderInfoVm, _messageHandler);
+        }
+
+        private void MessageHandler(DataPayLoad load)
+        {
+            // here is coming the data from another view module
+        }
+
+        private void SetItemSourceTable(DataSet set, ref ObservableCollection<IUiObject> uiDfObjects)
+        {
+            IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(set);
+
+            // now i have to check the uiDfObjects
+            foreach (IUiObject uiObject in uiDfObjects)
+            {
+                DataTable table = null;
+                if (tablesByNameDictionary.ContainsKey(uiObject.TableName))
+                {
+                    table = tablesByNameDictionary[uiObject.TableName];
+                    uiObject.ItemSource = table;
+                    if (uiObject is UiDoubleDfObject)
+                    {
+                        UiDoubleDfObject valDoubleDfObject = (UiDoubleDfObject)uiObject;
+                        valDoubleDfObject.ItemSource = table;
+                        valDoubleDfObject.ItemSourceRight = table;
+                    }
+                }
+                if (uiObject is UiMultipleDfObject)
+                {
+                    UiMultipleDfObject box = (UiMultipleDfObject)uiObject;
+                    IList<string> tableNames = box.Tables;
+                    if (tableNames != null)
+                    {
+                        foreach (string tableName in tableNames)
+                        {
+                            box.SetItemSource(tablesByNameDictionary[tableName], tableName);
+                        }
+                    }
+                }
+                
+
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             }
         }
         private void SetSourceViewTable(DataSet sourceView, ref ObservableCollection<IUiObject> uiDfObjects)
         {
             IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(sourceView);
+<<<<<<< HEAD
             if (uiDfObjects.Count == 0)
                 return;
             int count = 0;
@@ -230,6 +298,13 @@ namespace ProvidersModule.ViewModels
                 if (uiObject is UiMultipleDfObject)
                 {
                     UiMultipleDfObject box = (UiMultipleDfObject) uiObject;
+=======
+            foreach (IUiObject uiObject in uiDfObjects)
+            {
+                if (uiObject is UiMultipleDfObject)
+                {
+                    UiMultipleDfObject box = (UiMultipleDfObject)uiObject;
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
                     IList<string> assistTables = box.AssistTables;
                     if (assistTables != null)
                     {
@@ -244,13 +319,20 @@ namespace ProvidersModule.ViewModels
                 }
                 if (uiObject is UiDualDfSearchTextObject)
                 {
+<<<<<<< HEAD
                     UiDualDfSearchTextObject box = (UiDualDfSearchTextObject) uiObject;
+=======
+                    UiDualDfSearchTextObject box = (UiDualDfSearchTextObject)uiObject;
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
                     if (tablesByNameDictionary.ContainsKey(box.AssistTableName))
                     {
                         box.SourceView = tablesByNameDictionary[box.AssistTableName];
                     }
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             }
            triggerRefresh(ref uiDfObjects);
         }
@@ -279,6 +361,10 @@ namespace ProvidersModule.ViewModels
                 _currentDataSet = setResult[0];
                 _assistantDataSet = setResult[1];
             }
+<<<<<<< HEAD
+=======
+            IDictionary<string, DataTable> currentDataTables = new Dictionary<string, DataTable>();
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             if (_initializationTable.IsSuccessfullyCompleted)
             {
 
@@ -299,26 +385,43 @@ namespace ProvidersModule.ViewModels
 
                 }
             }
+<<<<<<< HEAD
 
            
 
+=======
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             UpperValueCollection = _upperPartObservableCollection;
             MiddleValueCollection = _middlePartObservableCollection;
             AccountRightCollection = _accountRightCollection;
             AccountLeftCollection = _accountLeftCollection;
             RightCheckBoxesCollection = _accountRightCheckBoxes;
             LeftCheckBoxesCollection = _accountLeftCheckBoxes;
+<<<<<<< HEAD
         }
 
       
         public DataTable DelegationTable
         {
             get { return _delegationDataTable; }
-            set { _delegationDataTable = value; RaisePropertyChanged("DelegationTable"); }
+            set { _delegationDataTable = value; RaisePropertyChanged(); }
         }
 
         public ObservableCollection<IUiObject> HeaderValueCollection
         {
+=======
+        }
+
+      
+        public DataTable DelegationTable
+        {
+            get { return _delegationDataTable; }
+            set { _delegationDataTable = value; RaisePropertyChanged(); }
+        }
+
+        public ObservableCollection<IUiObject> HeaderValueCollection
+        {
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             get { return _headerObservableCollection; }
             set
             {
@@ -425,11 +528,22 @@ namespace ProvidersModule.ViewModels
             provDfSearchTextObject.AssistDataFieldFirst = "CP";
            
         }
-        
+        private void LoadReclamationsDirections(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery,
+            UiDfObject.ChangedField changedField)
+        {
+
+        }
+<<<<<<< HEAD
         private void Init(string primaryKeyValue, bool insert)
         {
             LoadUIObjects();
             _initializationTable = new NotifyTaskCompletion<IList<DataSet>>(LoadDataValue(primaryKeyValue, insert));
+=======
+        private void Init(string primaryKeyValue)
+        {
+            LoadUIObjects();
+            _initializationTable = new NotifyTaskCompletion<IList<DataSet>>(LoadDataValue(primaryKeyValue));
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
             _initializationTable.PropertyChanged += InitializationTableOnPropertyChanged;
         }
 
@@ -1048,6 +1162,7 @@ namespace ProvidersModule.ViewModels
                 }
             }
            
+<<<<<<< HEAD
         }
         // create an abstract method that loads everything is too loong.
         private async Task<IList<DataSet>> LoadDataValue(string primaryKeyValue, bool insert)
@@ -1069,6 +1184,7 @@ namespace ProvidersModule.ViewModels
             if (insert)
             {
                 dataSet = await services.GetNewSupplier(_viewModelQueries);
+            //    SQLBuilder.StripTop("NUM_PROVEE", primaryKeyValue, ref _viewModelQueries);
             }
             else
             {
@@ -1084,8 +1200,7 @@ namespace ProvidersModule.ViewModels
             assistDataSet.DataSetName = "AssistSet";
             // load delegaciones
             DataSet delegationSet = await services.GetAsyncDelegations(primaryKeyValue);
-            DataTable table = delegationSet.Tables[0];
-            DelegationTable = table;
+            DelegationTable = delegationSet.Tables[0];
             sets.Add(dataSet);
             sets.Add(assistDataSet);
             if (insert)
@@ -1099,10 +1214,6 @@ namespace ProvidersModule.ViewModels
             return sets;
         }
 
-        public bool DelegationStateBinding
-        {
-            get { return true; }
-        }
         private void UpdateObsCollection(string primaryKey, ref ObservableCollection<IUiObject> obs)
         {
             for (int j = 0; j < obs.Count; ++j)
@@ -1115,7 +1226,39 @@ namespace ProvidersModule.ViewModels
                     obj.ItemSource = table;
                     _middlePartObservableCollection[j] = obj;
                 }
-            }
+=======
+        }
+        // create an abstract method that loads everything is too loong.
+        private async Task<IList<DataSet>> LoadDataValue(string primaryKeyValue)
+        {
+            IList<DataSet> sets = new List<DataSet>();
+            IList<ObservableCollection<IUiObject>> collection = new List<ObservableCollection<IUiObject>>();
+            collection.Add(_upperPartObservableCollection);
+            collection.Add(_middlePartObservableCollection);
+            collection.Add(_accountRightCollection);
+            collection.Add(_accountLeftCollection);
+            collection.Add(_accountLeftCheckBoxes);
+            collection.Add(_accountRightCheckBoxes);
+
+            ObservableCollection<IUiObject> obsValue = MergeInOneCpCollection(collection);
+            _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue);
+            // add all other assist table 
+            ISupplierDataServices services = _dataServices.GetSupplierDataServices();
+            DataSet dataSet = await services.GetAsyncSupplierInfo(_viewModelQueries);
+            // replace with for.
+            fillViewModelAssistantQueries(_upperPartObservableCollection, dataSet, ref _viewModelAssitantQueries);
+            fillViewModelAssistantQueries(_middlePartObservableCollection, dataSet, ref _viewModelAssitantQueries);
+            fillViewModelAssistantQueries(_accountRightCollection, dataSet, ref _viewModelAssitantQueries);
+            fillViewModelAssistantQueries(_accountLeftCollection, dataSet, ref _viewModelAssitantQueries);
+            IHelperDataServices helperDataServices = _dataServices.GetHelperDataServices();
+            DataSet assistDataSet = await helperDataServices.GetAsyncHelper(_viewModelAssitantQueries);
+            assistDataSet.DataSetName = "AssistSet";
+            // load delegaciones
+            DataSet delegationSet = await services.GetAsyncDelegations(primaryKeyValue);
+            DelegationTable = delegationSet.Tables[0];
+            sets.Add(dataSet);
+            sets.Add(assistDataSet);
+            return sets;
         }
         // move to ui builder.
 
@@ -1141,9 +1284,9 @@ namespace ProvidersModule.ViewModels
             doubleDfObject.LabelVisibleRight = true;
             doubleDfObject.TextContentWidthRight = TextBoxWidthDefault;
             doubleDfObject.HeightRight = TextboxHeight;
-          //  DataTable table = new DataTable();
-          //  doubleDfObject.ItemSource = table;
-          //  doubleDfObject.ItemSourceRight = table;
+            DataTable table = new DataTable();
+            doubleDfObject.ItemSource = table;
+            doubleDfObject.ItemSourceRight = table;
 
             return doubleDfObject;
         }
@@ -1233,6 +1376,490 @@ namespace ProvidersModule.ViewModels
                         LeftPartLabel[i], LeftPartFields[j], LeftPartFields[j]));
                     i = 1;
                 }
+                else if (LeftPartFields[i] == ProvinceKey)
+                {
+
+                    UiDualDfSearchTextObject dualSearchTextObject1 =
+                        BuildProvinceSearchTextObject(LeftPartLabel[i], LeftPartFields[i]);
+
+                    _middlePartObservableCollection.Add(dualSearchTextObject1);
+                    _componentsObjects.Add(ProvinceComponentKey, dualSearchTextObject1);
+                }
+                else if (LeftPartFields[i] == PaisKey)
+                {
+                    UiDualDfSearchTextObject tipoProve = BuildPaisSearchTextObject(LeftPartLabel[i], LeftPartFields[i]);
+                    _middlePartObservableCollection.Add(tipoProve);
+                    _componentsObjects.Add(PaisComponentKey, tipoProve);
+                }
+                else if (LeftPartFields[i] == "SUBLICEN")
+                {
+
+
+                    UiMultipleDfObject multipleDfObject = new UiMultipleDfObject();
+
+                    UiDualDfSearchTextObject dualSearchTextObject1 =
+                        new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                            LabelTextWidthDefault);
+                    dualSearchTextObject1.ButtonImage = ImagePath;
+                    dualSearchTextObject1.AssistDataFieldFirst = "CODIGO";
+                    dualSearchTextObject1.AssistDataFieldSecond = "NOMBRE";
+                    dualSearchTextObject1.AssistTableName = "SUBLICEN";
+                    dualSearchTextObject1.Height = TextboxHeight;
+                    dualSearchTextObject1.LabelText = LeftPartLabel[i];
+                    dualSearchTextObject1.IsVisible = true;
+                    dualSearchTextObject1.IsReadOnly = true;
+                    dualSearchTextObject1.PrimaryKey = "NUM_PROVEE";
+                    dualSearchTextObject1.TableName = "PROVEE1";
+                    dualSearchTextObject1.OnChangedField += OnChangedField;
+                    dualSearchTextObject1.IsReadOnlySecond = false;
+                    dualSearchTextObject1.IsReadOnlyFirst = false;
+                    dualSearchTextObject1.LabelTextWidth = LabelTextWidthDefault;
+                    dualSearchTextObject1.DataFieldFirst = LeftPartFields[i];
+                    dualSearchTextObject1.DataField = LeftPartFields[i];
+                    dualSearchTextObject1.OnAssistQuery += AssistQueryRequestHandler;
+                    _componentsObjects.Add("Sublicen", dualSearchTextObject1);
+                    multipleDfObject.AddDataField(dualSearchTextObject1);
+                    ++i;
+                    UiDualDfSearchTextObject dualSearchTextObject2 =
+                        new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                            LabelTextWidthDefault);
+                    dualSearchTextObject2.ButtonImage = ImagePath;
+                    dualSearchTextObject2.AssistDataFieldFirst = "CODIGO";
+                    dualSearchTextObject2.AssistDataFieldSecond = "NOMBRE";
+                    dualSearchTextObject2.AssistTableName = "OFICINAS";
+                    dualSearchTextObject2.Height = TextboxHeight;
+                    dualSearchTextObject2.LabelText = LeftPartLabel[i];
+                    dualSearchTextObject2.IsVisible = true;
+                    dualSearchTextObject2.IsReadOnly = true;
+                    dualSearchTextObject2.PrimaryKey = "NUM_PROVEE";
+                    dualSearchTextObject2.TableName = "PROVEE1";
+                    dualSearchTextObject2.OnChangedField += OnChangedField;
+                    dualSearchTextObject2.IsReadOnlySecond = true;
+                    dualSearchTextObject2.IsReadOnlyFirst = false;
+                    dualSearchTextObject2.LabelTextWidth = LabelTextWidthDefault;
+                    dualSearchTextObject2.DataFieldFirst = "OFICINA";
+                    dualSearchTextObject2.DataField = "OFICINA";
+                    dualSearchTextObject2.OnAssistQuery += AssistQueryRequestHandler;
+                    _componentsObjects.Add("Oficinas", dualSearchTextObject2);
+                    multipleDfObject.AddDataField(dualSearchTextObject2);
+                   
+                    _middlePartObservableCollection.Add(multipleDfObject);
+
+                }
+                else if (LeftPartFields[i] == "EMAIL")
+                {
+                    UiEmailDataField dataDfObject = new UiEmailDataField();
+                    DataTable table = new DataTable();
+                    dataDfObject.ItemSource = table;
+                    dataDfObject.ButtonImage = EmailImagePath;
+                    dataDfObject.DataField = LeftPartFields[i];
+                    dataDfObject.LabelText = LeftPartLabel[i];
+                    dataDfObject.DataAllowed = CommonControl.DataType.Email;
+                    dataDfObject.LabelVisible = true;
+                    dataDfObject.TextContentWidth = TextBoxWidthDefault;
+                    dataDfObject.Height = TextboxHeight;
+                    dataDfObject.TableName = "PROVEE1";
+                    dataDfObject.LabelTextWidth = LabelTextWidthDefault;
+                    dataDfObject.IsReadOnly = false;
+                    dataDfObject.PrimaryKey = "NUM_PROVEE";
+                    dataDfObject.OnChangedField += OnChangedField;
+                    dataDfObject.AllowedEmpty = true;
+                    dataDfObject.EmailEventHandler += EmailLookupRequestHandler;
+                    _middlePartObservableCollection.Add(dataDfObject);
+                }
+                else if (LeftPartFields[i] == "CP")
+                {
+                    UiDoubleDfObject doubleDfObject = new UiDoubleDfObject();
+                    doubleDfObject.DataField = LeftPartFields[i];
+                    doubleDfObject.LabelText = LeftPartLabel[i];
+                    doubleDfObject.IsReadOnly = true;
+                    doubleDfObject.LabelVisible = true;
+                    doubleDfObject.TextContentWidth = TextBoxWidthDefault;
+                    doubleDfObject.Height = TextboxHeight;
+                    doubleDfObject.TableName = "PROVEE1";
+                    doubleDfObject.LabelTextWidth = LabelTextWidthDefault;
+                    doubleDfObject.IsReadOnly = false;
+                    doubleDfObject.IsReadOnlyRight = false;
+                    doubleDfObject.PrimaryKey = "NUM_PROVEE";
+                    doubleDfObject.OnChangedField += OnChangedField;
+                    doubleDfObject.AllowedEmpty = true;
+                    i++;
+                    doubleDfObject.DataFieldRight = LeftPartFields[i];
+                    doubleDfObject.LabelTextRight = LeftPartLabel[i];
+                    doubleDfObject.LabelTextWidthRight = LabelTextWidthDefault;
+                    doubleDfObject.LabelVisibleRight = true;
+                    doubleDfObject.TextContentWidthRight = TextBoxWidthDefault;
+                    doubleDfObject.HeightRight = TextboxHeight;
+                    DataTable table = new DataTable();
+                    doubleDfObject.ItemSource = table;
+                    doubleDfObject.ItemSourceRight = table;
+                    _middlePartObservableCollection.Add(doubleDfObject);
+                }
+                // FBAJA
+                else if (LeftPartFields[i] == "FBAJA")
+                {
+                    //  UiMultipleDfObject dateMultipleDfObject = new UiMultipleDfObject();
+                    UiDatePicker startDate = new UiDatePicker();
+                    startDate.LabelText = LeftPartLabel[i];
+                    startDate.LabelVisible = true;
+                    startDate.DataField = LeftPartFields[i];
+                    startDate.Height = TextboxHeight;
+                    startDate.Width = "40";
+                    startDate.OnChangedField += OnChangedField;
+                    startDate.PrimaryKey = "NUM_PROVEE";
+                    startDate.TableName = "PROVEE1";
+                    startDate.ItemSource = new DataTable();
+                    startDate.LabelTextWidth = LabelTextWidthDefault;
+                    _middlePartObservableCollection.Add(startDate);
+                    // dateMultipleDfObject.AddDataField(startDate);
+                    i++;
+                    UiDatePicker startDate1 = new UiDatePicker();
+                    startDate1.LabelText = "Fecha de alta";
+                    startDate1.LabelTextWidth = LabelTextWidthDefault;
+                    startDate1.DataField = "FALTA";
+                    startDate1.Height = TextboxHeight;
+                    startDate1.Width = "40";
+                    startDate1.LabelVisible = true;
+                    startDate1.OnChangedField += OnChangedField;
+                    startDate1.PrimaryKey = "NUM_PROVEE";
+                    startDate1.TableName = "PROVEE1";
+                    startDate1.ItemSource = new DataTable();
+                    //dateMultipleDfObject.AddDataField(startDate1);
+                    _middlePartObservableCollection.Add(startDate1);
+                }
+                else if (LeftPartFields[i] == "TELEFONO")
+                {
+
+                    UiMultipleDfObject multipleDfObject = new UiMultipleDfObject();
+
+                    for (int k = 0; k < 3; ++k)
+                    {
+                        UiDfObject dataDfObject = new UiDfObject();
+                        DataTable table = new DataTable();
+                        dataDfObject.ItemSource = table;
+                        dataDfObject.DataField = LeftPartFields[i];
+                        dataDfObject.LabelText = LeftPartLabel[i];
+                        dataDfObject.LabelVisible = true;
+                        dataDfObject.TextContentWidth = TextBoxWidthDefault;
+                        dataDfObject.Height = TextboxHeight;
+                        dataDfObject.TableName = "PROVEE1";
+                        dataDfObject.LabelTextWidth = LabelTextWidthDefault;
+                        dataDfObject.IsReadOnly = false;
+                        dataDfObject.PrimaryKey = "NUM_PROVEE";
+                        dataDfObject.OnChangedField += OnChangedField;
+                        dataDfObject.AllowedEmpty = true;
+                        multipleDfObject.AddDataField(dataDfObject);
+
+                        i++;
+                    }
+                    i--;
+
+                    _middlePartObservableCollection.Add(multipleDfObject);
+                }
+                
+                else if (LeftPartFields[i]=="NOTAS")
+                {
+                    UiDataArea dataArea  = new UiDataArea();
+                    dataArea.DataField = LeftPartFields[i];
+                    dataArea.LabelVisible = true;
+                    dataArea.LabelText = "Notas";
+                    dataArea.LabelTextWidth = LabelTextWidthDefault;
+                    dataArea.TableName = "PROVEE1";
+                    dataArea.PrimaryKey = "NUM_PROVEE";
+                    dataArea.ItemSource = new DataTable();
+                    _middlePartObservableCollection.Add(dataArea);
+                }
+                else if (LeftPartFields[i] == "OBSERVA")
+                {
+                    UiDataArea dataArea = new UiDataArea();
+                    dataArea.DataField = LeftPartFields[i];
+                    dataArea.LabelVisible = true;
+                    dataArea.LabelText = "Observaciones";
+                    dataArea.LabelTextWidth = LabelTextWidthDefault;
+                    dataArea.TableName = "PROVEE1";
+                    dataArea.PrimaryKey = "NUM_PROVEE";
+                    dataArea.ItemSource = new DataTable();
+                    _middlePartObservableCollection.Add(dataArea);
+                }
+                else
+                {
+                    // direccion.
+                    UiDfObject dataDfObject = new UiDfObject();
+                    dataDfObject.DataField = LeftPartFields[i];
+                    dataDfObject.LabelText = LeftPartLabel[i];
+                    dataDfObject.LabelVisible = true;
+                    dataDfObject.TextContentWidth = TextBoxWidthLarge;
+                    dataDfObject.Height = TextboxHeight;
+                    dataDfObject.TableName = "PROVEE1";
+                    dataDfObject.LabelTextWidth = LabelTextWidthDefault;
+                    dataDfObject.IsReadOnly = false;
+                    dataDfObject.ItemSource = new DataTable();
+                    dataDfObject.IsVisible = true;
+                    dataDfObject.PrimaryKey = "NUM_PROVEE";
+                    dataDfObject.OnChangedField += OnChangedField;
+                    dataDfObject.AllowedEmpty = true;
+                    _middlePartObservableCollection.Add(dataDfObject);
+                }
+
+            }
+           // MiddleValueCollection = _middlePartObservableCollection;
+
+        }
+
+        private void EmailLookupRequestHandler(string email)
+        {
+            LaunchMailClient(email);
+        }
+
+        private UiDualDfSearchTextObject CraftSupplierTypeObject()
+
+        {
+            UiDualDfSearchTextObject tipoProve = new UiDualDfSearchTextObject("Tipo.Prove", LabelTextWidthDefault);
+            tipoProve.ButtonImage = ImagePath;
+            tipoProve.TableName = "PROVEE1";
+            tipoProve.PrimaryKey = "NUM_PROVEE";
+            tipoProve.AssistTableName = "TIPOPROVE";
+            tipoProve.AssistDataFieldFirst = "NUM_TIPROVE";
+            tipoProve.AssistDataFieldSecond = "NOMBRE";
+            tipoProve.DataField = "TIPO";
+            tipoProve.DataFieldFirst = "TIPO";
+            tipoProve.Height = TextboxHeight;
+            tipoProve.LabelTextWidth = LabelTextWidthDefault;
+            tipoProve.TextContentFirstWidth = LabelTextWidthDefault;
+            tipoProve.TextContentSecondWidth = "150";
+            tipoProve.IsReadOnlyFirst = true;
+            tipoProve.IsReadOnlySecond = false;
+            tipoProve.SourceView = new DataTable();
+            tipoProve.OnChangedField += OnChangedField;
+            tipoProve.OnAssistQuery += AssistQueryRequestHandler;
+            return tipoProve;
+        }
+        private void LoadUpperPart()
+        {
+            _upperPartObservableCollection = new ObservableCollection<IUiObject>();
+            for (int i = 0; i < UpperPartFields.Length - 1; ++i)
+            {
+                UiDfObject dataUiDfObject = new UiDfObject();
+                dataUiDfObject.LabelText = UpperPartLabel[i];
+                double value = Convert.ToDouble(UpperPartLabel[i].Length) + 50;
+                dataUiDfObject.DataField = UpperPartFields[i];
+                dataUiDfObject.LabelTextWidth = LabelTextWidthDefault;
+                dataUiDfObject.TextContentWidth = "150";
+                dataUiDfObject.Height = TextboxHeight;
+                dataUiDfObject.TableName = "PROVEE1";
+                dataUiDfObject.PrimaryKey = "NUM_PROVEE";
+                dataUiDfObject.OnChangedField += OnChangedField;
+                dataUiDfObject.AllowedEmpty = true;
+                if (i == 0)
+                {
+                    dataUiDfObject.IsReadOnly = true;
+                }
+                else
+                {
+                    dataUiDfObject.IsReadOnly = false;
+                }
+                dataUiDfObject.IsVisible = true;
+                if (dataUiDfObject.DataField == "COMERCIAL")
+                {
+                    dataUiDfObject.LabelTextWidth = "150";
+                    dataUiDfObject.TableName = "PROVEE2";
+                }
+                else if (dataUiDfObject.DataField == "NIF")
+                {
+                    dataUiDfObject.LabelTextWidth = "50";
+                }
+                DataTable table = new DataTable();
+                dataUiDfObject.ItemSource = table;
+                _upperPartObservableCollection.Add(dataUiDfObject);
+                _componentsObjects.Add(dataUiDfObject.DataField, dataUiDfObject);
+
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
+            }
+            UiDualDfSearchTextObject tipoProve = CraftSupplierTypeObject();
+            _upperPartObservableCollection.Add(tipoProve);
+            _componentsObjects.Add(TipoProve, tipoProve);
+
+        }
+<<<<<<< HEAD
+        // move to ui builder.
+
+        private UiDoubleDfObject BuildDoubleDfObjectProviders(string dbField, string dbLabel, string dbField2,
+            string labelText2)
+        {
+            UiDoubleDfObject doubleDfObject = new UiDoubleDfObject();
+            doubleDfObject.DataField = dbField;
+            doubleDfObject.LabelText = dbLabel;
+            doubleDfObject.LabelVisible = true;
+            doubleDfObject.TextContentWidth = TextBoxWidthLarge;
+            doubleDfObject.Height = TextboxHeight;
+            doubleDfObject.TableName = "PROVEE1";
+            doubleDfObject.LabelTextWidth = LabelTextWidthDefault;
+            doubleDfObject.IsReadOnly = false;
+            doubleDfObject.IsReadOnlyRight = false;
+            doubleDfObject.PrimaryKey = "NUM_PROVEE";
+            doubleDfObject.OnChangedField += OnChangedField;
+            doubleDfObject.AllowedEmpty = true;
+            doubleDfObject.DataFieldRight = dbField2;
+            doubleDfObject.LabelTextRight = labelText2;
+            doubleDfObject.LabelTextWidthRight = LabelTextWidthDefault;
+            doubleDfObject.LabelVisibleRight = true;
+            doubleDfObject.TextContentWidthRight = TextBoxWidthDefault;
+            doubleDfObject.HeightRight = TextboxHeight;
+          //  DataTable table = new DataTable();
+          //  doubleDfObject.ItemSource = table;
+          //  doubleDfObject.ItemSourceRight = table;
+
+            return doubleDfObject;
+        }
+        // move to ui builder
+        private void LoadAccountHeader()
+        {
+            foreach (IUiObject obs in _middlePartObservableCollection)
+            {
+                if (obs.DataField == "NOMBRE")
+                {
+                    _headerObservableCollection.Add(obs);
+                }
+            }
+            foreach (IUiObject obs in _upperPartObservableCollection)
+            {
+                if (obs.DataField == "COMERCIAL")
+                {
+                    _headerObservableCollection.Add(obs);
+                }
+                if (obs.DataField == "TIPO")
+                {
+                    _headerObservableCollection.Add(obs);
+                }
+=======
+        private void UpdateSource(DataSet dataSetAssistant, string primaryKey,
+            ref ObservableCollection<IUiObject> collection)
+        {
+
+            IUiObject updateUiObject = null;
+            bool found = false;
+            int index = 0;
+            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
+            {
+
+                UiDualDfSearchTextObject update = null;
+                foreach (IUiObject obj in collection)
+                {
+                    if (obj is UiDualDfSearchTextObject)
+                    {
+                        update = (UiDualDfSearchTextObject)obj;
+                        bool isValidKey = ((update.DataFieldFirst == primaryKey) ||
+                                           (update.AssistDataFieldFirst == primaryKey));
+                        if (isValidKey)
+                        {
+                            update.SourceView = dataSetAssistant.Tables[0];
+                            updateUiObject = update;
+                            found = true;
+                            break;
+                        }
+                    }
+                    
+                   
+                    if (obj is UiMultipleDfObject)
+                    {
+                            UiMultipleDfObject tmp = (UiMultipleDfObject) obj;
+                            tmp.SetSourceView(dataSetAssistant.Tables[0], dataSetAssistant.Tables[0].TableName);
+                            updateUiObject = tmp;
+                    }
+                    ++index;
+                }
+                if (found)
+                {
+
+                    collection.RemoveAt(index);
+                    collection.Insert(index, updateUiObject);
+
+                }
+            }
+        }
+
+        private async void AssistQueryRequestHandler(string assistTableName, string assistQuery, string primaryKey)
+        {
+            IHelperDataServices helperDataServices = _dataServices.GetHelperDataServices();
+            DataSet dataSetAssistant = await helperDataServices.GetAsyncHelper(assistQuery, assistTableName);
+            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
+            {
+                UpdateSource(dataSetAssistant, primaryKey, ref _upperPartObservableCollection);
+                UpdateSource(dataSetAssistant, primaryKey, ref _middlePartObservableCollection);
+                UpdateSource(dataSetAssistant, primaryKey, ref _accountRightCollection);
+                UpdateSource(dataSetAssistant, primaryKey, ref _accountLeftCollection);
+                AccountRightCollection = _accountRightCollection;
+                AccountLeftCollection = _accountLeftCollection;
+                UpperValueCollection = _upperPartObservableCollection;
+                MiddleValueCollection = _middlePartObservableCollection;
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
+            }
+            HeaderValueCollection = _headerObservableCollection;
+        }
+        private UiDualDfSearchTextObject BuildProvinceSearchTextObject(string provinceLabel, string provinceDataField)
+        {
+            UiDualDfSearchTextObject dualSearchTextObject1 =
+                new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
+                    LabelTextWidthDefault);
+            dualSearchTextObject1.ButtonImage = ImagePath;
+            dualSearchTextObject1.AssistDataFieldFirst = ZipKey;
+            dualSearchTextObject1.AssistDataFieldSecond = ProvinceKey;
+            dualSearchTextObject1.AssistTableName = "PROVINCIA";
+            dualSearchTextObject1.Height = TextboxHeight;
+            dualSearchTextObject1.LabelText = provinceLabel;
+            dualSearchTextObject1.IsVisible = true;
+            dualSearchTextObject1.PrimaryKey = "NUM_PROVEE";
+            dualSearchTextObject1.TableName = "PROVEE1";
+            dualSearchTextObject1.OnChangedField += OnChangedField;
+            dualSearchTextObject1.IsReadOnlySecond = true;
+            dualSearchTextObject1.IsReadOnlyFirst = false;
+            dualSearchTextObject1.LabelTextWidth = LabelTextWidthDefault;
+            dualSearchTextObject1.DataFieldFirst = provinceDataField;
+            dualSearchTextObject1.DataField = provinceDataField;
+            dualSearchTextObject1.OnAssistQuery += AssistQueryRequestHandler;
+
+<<<<<<< HEAD
+            return dualSearchTextObject1;
+        }
+
+        private UiDualDfSearchTextObject BuildPaisSearchTextObject(string paisLabel, string paisDataField)
+        {
+            UiDualDfSearchTextObject tipoProve = new UiDualDfSearchTextObject("Pais", LabelTextWidthDefault);
+            tipoProve.ButtonImage = ImagePath;
+            tipoProve.TableName = "PROVEE1";
+            tipoProve.PrimaryKey = "NUM_PROVEE";
+            tipoProve.AssistTableName = "PAIS";
+            tipoProve.AssistDataFieldFirst = "SIGLAS";
+            tipoProve.AssistDataFieldSecond = "PAIS";
+            tipoProve.DataField = paisDataField;
+            tipoProve.DataFieldFirst = paisDataField;
+            tipoProve.LabelText = paisLabel;
+            tipoProve.Height = TextboxHeight;
+            tipoProve.LabelTextWidth = LabelTextWidthDefault;
+            tipoProve.TextContentFirstWidth = TextBoxWidthDefault;
+            tipoProve.TextContentSecondWidth = "150";
+            tipoProve.IsReadOnlyFirst = false;
+            tipoProve.IsReadOnlySecond = false;
+            tipoProve.SourceView = new DataTable();
+            tipoProve.OnChangedField += OnChangedField;
+            tipoProve.OnAssistQuery += AssistQueryRequestHandler;
+            return tipoProve;
+        }
+        private void LoadLeftPart()
+        {
+
+            _middlePartObservableCollection = new ObservableCollection<IUiObject>();
+
+            for (int i = 0; i < LeftPartFields.Length; ++i)
+            {
+                // Nombre and Nif
+                if (i == 0)
+                {
+                    int j = 1;
+                    _middlePartObservableCollection.Add(BuildDoubleDfObjectProviders(LeftPartFields[i],
+                        LeftPartLabel[i], LeftPartFields[j], LeftPartFields[j]));
+                    i = 1;
+                }
                 
                 else if (LeftPartFields[i] == ProvinceKey)
                 {
@@ -1275,7 +1902,7 @@ namespace ProvidersModule.ViewModels
                     dualSearchTextObject1.DataFieldFirst = LeftPartFields[i];
                     dualSearchTextObject1.DataField = LeftPartFields[i];
                     dualSearchTextObject1.OnAssistQuery += AssistQueryRequestHandler;
-                    //_componentsObjects.Add("Sublicen", dualSearchTextObject1);
+                    _componentsObjects.Add("Sublicen", dualSearchTextObject1);
                     multipleDfObject.AddDataField(dualSearchTextObject1);
                     ++i;
                     UiDualDfSearchTextObject dualSearchTextObject2 =
@@ -1777,7 +2404,103 @@ namespace ProvidersModule.ViewModels
             payLoad.PrimaryKeyValue = primaryKey;
             payLoad.PayloadType = DataPayLoad.Type.Delete;
             _eventManager.NotifyToolBar(payLoad);
+=======
+        // fix this method is too long against clean code.
+
+        private void OnChangedField(IDictionary<string, object> eventDictionary)
+        {
+            DataPayLoad payLoad = new DataPayLoad();
+            payLoad.PayloadType = DataPayLoad.Type.Update;
+            payLoad.HasDictionary = true;
+            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.DataDictionary = eventDictionary;
+            DataTable table = (DataTable)eventDictionary["DataTable"];
+            string colName = (string)eventDictionary["Field"];
+            object changedValue = eventDictionary["ChangedValue"];
+
+            string tableName = table.TableName;
+            bool foundTable = false;
+            foreach (DataTable currentTable in _currentDataSet.Tables)
+            {
+                if (currentTable.TableName == tableName)
+                {
+                    foundTable = true;
+                    break;
+                }
+            }
+            if (foundTable)
+            {
+                _currentDataSet.Tables[tableName].Merge(table);
+                DataRowState state = _currentDataSet.Tables[tableName].Rows[0].RowState;
+                payLoad.HasDataSet = true;
+                payLoad.Set = _currentDataSet;
+                _eventManager.NotifyToolBar(payLoad);
+                payLoad.Queries = _viewModelQueries;
+            }
+            else
+            {
+
+                foreach (DataTable currentTable in _assistantDataSet.Tables)
+                {
+                    if (currentTable.TableName == tableName)
+                    {
+                        foundTable = true;
+                        break;
+                    }
+                }
+                if (foundTable)
+                {
+                    _assistantDataSet.Tables[tableName].Merge(table);
+                    payLoad.Set = _assistantDataSet;
+                    payLoad.Queries = _viewModelAssitantQueries;
+                    _eventManager.NotifyToolBar(payLoad);
+                }
+            }
         }
+        public ObservableCollection<IUiObject> UpperValueCollection
+        {
+            set { _upperPartObservableCollection = value; RaisePropertyChanged("UpperValueCollection"); }
+            get { return _upperPartObservableCollection; }
+        }
+
+
+        private void LaunchMailClient(object value)
+        {
+            if (value != null)
+            {
+                string email = value as string;
+                string emailUrl = "mailto:" + email + "?subject=KarveCar";
+
+                System.Diagnostics.Process.Start(emailUrl);
+            }
+        }
+        private void LaunchWebBrowser(object value)
+        {
+            if (value != null)
+            {
+                string webBrowser = value as string;
+                if (webBrowser.Length > 0)
+                {
+
+                    System.Diagnostics.Process.Start(webBrowser);
+                }
+            }
+        }
+        public DataTable SupplierSummaryTable { get; private set; }
+
+        public void incomingPayload(DataPayLoad dataPayLoad)
+        {
+            DataPayLoad payload = dataPayLoad;
+            string primaryKey = payload.PrimaryKeyValue;
+            if (!string.IsNullOrEmpty(primaryKey))
+            {
+                Init(primaryKey);
+                _eventManager.disableNotify(ProviderModule.NAME, this);
+            }
+
+>>>>>>> ff924997e4831d843f6c7f8514a59cb51345c3a3
+        }
+
     }
 }
 

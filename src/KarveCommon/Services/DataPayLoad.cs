@@ -76,6 +76,7 @@ namespace KarveCommon.Services
         ///  data object name. The name of the data object
         /// </summary>
         public string DataObjectName { get; set; }
+        public string PrimaryKey { get; set; }
 
         public object DataObject { get; set; }
         
@@ -98,10 +99,10 @@ namespace KarveCommon.Services
         public DataSubSystem Subsystem { get; set; }
         public string SubsystemName { get; set; }
 
-        public string PrimaryKeyValue { get; set; }
         public IDictionary<string, string> Queries { get; set; }
         public string Sender { get; set; }
         public string SubsystemViewModel { get; set; }
+        public string PrimaryKeyValue { get; set; }
 
         public object Clone()
         {

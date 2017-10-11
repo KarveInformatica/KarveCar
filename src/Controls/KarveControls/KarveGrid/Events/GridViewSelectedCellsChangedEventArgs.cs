@@ -27,17 +27,18 @@ namespace KarveControls.KarveGrid.Events
             IDictionary<string, object> currentDictionary = new Dictionary<string, object>();
             DataRow row;
             DataColumnCollection cols = fetchCollection(rows, out row);
+
             if (cols!=null)
             {
              foreach (DataColumn col in cols)
-            {
+             {
                 string colName = col.ColumnName;
                 if (row != null)
                 {
                     object value = row[colName];
                     currentDictionary.Add(colName, value);
                 }
-            }
+             }
             }
             return currentDictionary;
         }

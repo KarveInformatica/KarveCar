@@ -307,20 +307,6 @@ namespace KarveControls
             public string AssistQuery { get; set; }
             public string TableName { get; set; }
         }
-        /*
-         * This is a magnifier press event.
-         */
-        public event RoutedEventHandler MagnifierPress
-        {
-            add { AddHandler(MagnifierPressEvent, value); }
-            remove { RemoveHandler(MagnifierPressEvent, value); }
-        }
-
-        public event RoutedEventHandler AssistQueryEvent
-        {
-            add { AddHandler(AssistQueryChangedEvent, value); }
-            remove { RemoveHandler(AssistQueryChangedEvent, value); }
-        }
         public string ButtonImage
         {
             get
@@ -493,7 +479,6 @@ namespace KarveControls
             SearchTextFirst.KeyUp += SearchTextOnKeyDown;
             MagnifierGrid.ItemsSource = _viewData.View;
             MagnifierGrid.AllowDrag = true;
-            
             RaiseMagnifierPressEvent();
         }
         private void SearchTextOnKeyDown(object sender, KeyEventArgs keyEventArgs)
@@ -732,9 +717,10 @@ namespace KarveControls
             }
             return fieldFormat;
         }
+
         private void UpdateValues(DataTable sourceView, DataTable itemSource)
         {
-            if ((sourceView != null) && (sourceView.Rows.Count>0))
+            if ((sourceView != null) && (sourceView.Rows.Count > 0))
             {
 
                 DataColumnCollection collection = sourceView.Columns;
@@ -780,6 +766,7 @@ namespace KarveControls
                 }
             }
         }
+
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             DataTable currentTable = e.NewValue as DataTable;
@@ -840,8 +827,7 @@ namespace KarveControls
         }
 
         private void PopUpButton_OnClick(object sender, RoutedEventArgs e)
-        {
-           
+        {        
             RaiseMagnifierPressEvent();
         }
         private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
