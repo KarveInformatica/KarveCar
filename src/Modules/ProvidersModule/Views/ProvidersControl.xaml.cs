@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ExtendedGrid.ExtendedGridControl;
 using System.Windows.Media.Animation;
-namespace ProvidersModule.Views
+namespace MasterModule.Views
 {
     /// <summary>
     /// Lógica de interacción para ProvidersControl.xaml

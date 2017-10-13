@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 
-namespace ProvidersModule
+namespace MasterModule
 {
     public interface IProvidersViewModel
     {

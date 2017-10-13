@@ -25,17 +25,19 @@ namespace KarveControls.UIObjects
             IDictionary<string, StringBuilder> tableDictionary = new Dictionary<string, StringBuilder>();
             IDictionary<string, string> primaryKeys = new Dictionary<string, string>();
             IDictionary<string, string> tableWithQuery = new Dictionary<string, string>();
+            IDictionary<string, object> dataFields = new Dictionary<string, object>();
             IList<string> queryList = new List<string>();
             foreach (IUiObject obj in list)
             {
                 IUiObject tmpUiObject = obj;
                 if (obj.TableName != null)
                 {
-
                     if (string.IsNullOrEmpty(obj.TableName))
                     {
                         continue;
                     }
+
+                    
                     if (obj is UiMultipleDfObject)
                     {
                         ObservableCollection<IUiObject> objectValues = ((UiMultipleDfObject)obj).Values;
@@ -46,7 +48,13 @@ namespace KarveControls.UIObjects
                                 tableDictionary[objValue.TableName] = new StringBuilder();
                                 primaryKeys[objValue.TableName] = objValue.PrimaryKey;
                             }
-                            tableDictionary[objValue.TableName].Append(objValue.ToSQLString);
+                            StringBuilder currentStringBuilder = tableDictionary[objValue.TableName];
+
+                            if (!currentStringBuilder.ToString().Contains(objValue.ToSQLString))
+                            {
+                                tableDictionary[objValue.TableName].Append(objValue.ToSQLString);
+                            }
+
                         }
                     }
                     else
@@ -56,7 +64,14 @@ namespace KarveControls.UIObjects
                             tableDictionary[obj.TableName] = new StringBuilder();
                             primaryKeys[obj.TableName] = obj.PrimaryKey;
                         }
-                        tableDictionary[obj.TableName].Append(obj.ToSQLString);
+                        StringBuilder currentStringBuilder = tableDictionary[obj.TableName];
+
+                        if (!currentStringBuilder.ToString().Contains(obj.ToSQLString))
+                        {
+                            tableDictionary[obj.TableName].Append(obj.ToSQLString);
+                        }
+
+                       // tableDictionary[obj.TableName].Append(obj.ToSQLString);
                     }
                 }
             }
@@ -69,10 +84,19 @@ namespace KarveControls.UIObjects
             foreach (var key in tableDictionary.Keys)
             {
                 StringBuilder current = tableDictionary[key];
-                newBuilder = new StringBuilder();
+                IEnumerable<string> values = current.ToString().Split(',').Distinct();
+                current.Clear();
+                foreach (string v in values)
+                {
+                    current.Append(v);
+                    current.Append(",");
+                }
+                tableDictionary[key][tableDictionary[key].Length - 1] = ' ';
                 string tmp = current.ToString();
+               
                 if (!tmp.Contains(primaryKeys[key]))
                 {
+                    newBuilder = new StringBuilder();
                     newBuilder.Append(tmp);
                     newBuilder.Append(",");
                     newBuilder.Append(primaryKeys[key]);
@@ -112,7 +136,8 @@ namespace KarveControls.UIObjects
                     }
                 }
                 queryList.Add(builder.ToString());
-                tableWithQuery[key] = builder.ToString();
+              
+                tableWithQuery[key] = builder.ToString().Replace(",,",",");
             }
             return tableWithQuery;
         }

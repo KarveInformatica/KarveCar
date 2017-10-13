@@ -2,7 +2,6 @@
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
 using Prism.Regions;
-using ProvidersModule.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,8 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using MasterModule.ViewModels;
 
-namespace ProvidersModule
+namespace MasterModule
 {
     public class ScopedRegionNavigationContentLoader: IRegionNavigationContentLoader
     {

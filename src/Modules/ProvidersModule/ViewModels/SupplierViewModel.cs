@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Prism.Mvvm;
-using ProvidersModule.ViewModels;
+using MasterModule.ViewModels;
 using Prism.Regions;
 using System.Windows.Input;
 using Prism.Commands;
@@ -14,7 +14,7 @@ using KarveDataServices.DataObjects;
 using KarveCommon.Services;
 using System.Windows;
 
-namespace ProvidersModule.ViewModels
+namespace MasterModule.ViewModels
 {
     public class SupplierViewModel: TabViewModelBase
     {

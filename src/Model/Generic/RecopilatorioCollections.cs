@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using DataAccessLayer.DataObjects;
 using KarveCar.Properties;
+using KarveCar.Views;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveCar.Model.Generic
@@ -679,7 +680,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
             { EOpcion.rbtnProveedores,        new TemplateInfoRibbonButton { propertiesresources = "lrbtnProveedores",
                                                                              nombretabladb = string.Empty,
-                                                                             obj = new SupplierInfoDataObject(),
+                                                                             obj = new SupplierDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_PROVEE",

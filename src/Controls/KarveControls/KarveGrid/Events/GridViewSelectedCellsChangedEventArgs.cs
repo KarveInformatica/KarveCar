@@ -14,12 +14,21 @@ namespace KarveControls.KarveGrid.Events
         {
             this._gridSelectedRowChanged = gridSelectedRowChanged;
         }
+
         private DataColumnCollection fetchCollection(GridViewRowInfo rows, out DataRow row)
         {
-            System.Data.DataRowView view = rows.DataBoundItem as DataRowView;
             DataColumnCollection cols = null;
-            row = view?.Row;
-            cols = row?.Table.Columns;
+            row = null;
+            if (rows != null)
+            {
+                if (rows.DataBoundItem != null)
+                {
+
+                    System.Data.DataRowView view = rows.DataBoundItem as DataRowView;
+                    row = view?.Row;
+                    cols = row?.Table.Columns;
+                }
+            }
             return cols;
         }
         IDictionary<string, object> TransformRowToMap(GridViewRowInfo rows)
@@ -27,7 +36,7 @@ namespace KarveControls.KarveGrid.Events
             IDictionary<string, object> currentDictionary = new Dictionary<string, object>();
             DataRow row;
             DataColumnCollection cols = fetchCollection(rows, out row);
-
+          
             if (cols!=null)
             {
              foreach (DataColumn col in cols)

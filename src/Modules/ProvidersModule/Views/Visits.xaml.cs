@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProvidersModule.Views
+namespace MasterModule.Views
 {
     /// <summary>
     /// Lógica de interacción para Visits.xaml

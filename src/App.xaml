@@ -6,12 +6,12 @@
              xmlns:cfg="clr-namespace:KarveCar.ViewModel.ConfiguracionViewModel"
              xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
              xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel"
+             xmlns:mainwindow="clr-namespace:KarveCar.ViewModels"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="./View/StyledWindow.xaml" />
-
+         
                 <ResourceDictionary>
                     <Style x:Key="MyWindowStyle" TargetType="Window">
                         <Setter Property="FontSize" Value="12" />
@@ -57,9 +57,9 @@
 
             <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
             <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
-
-         
-            <!-- Maestros-->
+            
+            <ms:MaestroCommonViewModel x:Key="MaestroCommonViewModel"/>
+                <!-- Maestros-->
             <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
             <ms:MarcaViewModel             x:Key="marcaViewModel"/>
             <ms:MarcaDataTableViewModel    x:Key="marcaDataTableViewModel"/>

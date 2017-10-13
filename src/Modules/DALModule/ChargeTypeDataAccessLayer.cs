@@ -7,14 +7,14 @@ using KarveCommon.Generic;
 using KarveDataServices;
 
 /// <summary>
-///  TODO: port this to async wait
+///  TODO: this needs a clear redesign of all.
 /// </summary>
 namespace DataAccessLayer
 {
     /// <summary>
     ///  Model or data abstraction for the kind of charging.
     /// </summary>    
-    public class ChargeTypeDataAccessLayer : IPaymentDataServices
+    internal class ChargeTypeDataAccessLayer : IPaymentDataServices
     {
         private readonly Uri uri = new Uri(@"karve://paymentdata/paymenttype");
      //   private ICollection<BaseAuxDataObject> _accountDataTable;

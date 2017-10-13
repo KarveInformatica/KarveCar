@@ -3,7 +3,7 @@ using KarveCommon.Services;
 using KarveDataServices.DataObjects;
 using System.Data;
 
-namespace ProvidersModule.ViewModels
+namespace MasterModule.ViewModels
 {
     public class SupplierDataPayload : ISupplierPayload
     {

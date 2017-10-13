@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -19,8 +20,8 @@ namespace KarveCar.Utility
             EOpcion opcion = EOpcion.Default;
             try
             {
-                TabItem tabitem = ((MainWindow)Application.Current.MainWindow).tbControl.SelectedItem as TabItem;
-                opcion = tabitemdictionary.FirstOrDefault(t => t.Key.ToString() == tabitem.Name.ToString()).Key;
+         //       TabItem tabitem = ((MainWindow)Application.Current.MainWindow).tbControl.SelectedItem as TabItem;
+          //      opcion = tabitemdictionary.FirstOrDefault(t => t.Key.ToString() == tabitem.Name.ToString()).Key;
                 return opcion;
             }
             catch (Exception) { }
@@ -33,7 +34,7 @@ namespace KarveCar.Utility
             TabControl ctrl = null;
             try
             {
-                ctrl = ((MainWindow)Application.Current.MainWindow).tbControl as TabControl;
+           //     ctrl = ((MainWindow)Application.Current.MainWindow).tbControl as TabControl;
                 return ctrl;
             }
             catch (Exception) { }

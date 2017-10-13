@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Services;
 
-namespace ProvidersModule.ViewModels
+namespace MasterModule.ViewModels
 {
     class GenericGridViewModel : TabViewModelBase
     {

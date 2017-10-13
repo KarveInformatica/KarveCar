@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using KarveCommon.Generic;
@@ -16,8 +17,8 @@ using NLog;
 
 namespace KarveCommon.Generic
 {
-    
-    public class OleDbQueryExecutor: AbstractSqlQueryExecutor
+
+    public class OleDbQueryExecutor : AbstractSqlQueryExecutor
     {
         private SAConnection _connection;
         private object asyncBatchLock = new object();
@@ -31,8 +32,9 @@ namespace KarveCommon.Generic
         private string _connectionString;
         private ConnectionState _currentState;
         private object asyncLoadLock = new object();
+        private object dataAdapterLock = new object();
         private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
-       
+
         public string ConnectionString
         {
             get { return _connectionString; }
@@ -88,7 +90,7 @@ namespace KarveCommon.Generic
                 return false;
             }
             return true;
-            
+
         }
 
         public override bool Close()
@@ -125,10 +127,10 @@ namespace KarveCommon.Generic
                     _command = new SACommand(sqlQuery, _connection, _transaction);
                 }
                 SADataAdapter dta = new SADataAdapter(_command);
-               
+
                 dta.FillSchema(dts, SchemaType.Source);
                 dta.Fill(dts);
-               
+
                 if (_transaction == null)
                 {
                     Close();
@@ -173,11 +175,11 @@ namespace KarveCommon.Generic
         public override void UpdateDataSet(string sqlQuery, ref DataSet dts)
         {
 
-          
+
             SACommand cmd = null;
             try
             {
-                if (_transaction!= null && _currentState != ConnectionState.Open)
+                if (_transaction != null && _currentState != ConnectionState.Open)
                 {
                     Open();
                 }
@@ -188,7 +190,7 @@ namespace KarveCommon.Generic
                     IList<string> queryPart = Regex.Split(sqlQuery, ";");
                     foreach (DataTable table in dts.Tables)
                     {
-                        
+
                         if (_transaction == null)
                         {
                             cmd = new SACommand(queryPart[i++], _connection);
@@ -199,7 +201,7 @@ namespace KarveCommon.Generic
                         }
                         SADataAdapter dta = new SADataAdapter(cmd);
                         SACommandBuilder commandBuilder = new SACommandBuilder(dta);
-                        int numRows = dta.Update(table);
+                        dta.Update(table);
                     }
                 }
 
@@ -235,8 +237,8 @@ namespace KarveCommon.Generic
             }
             return table;
         }
-        
-        
+
+
 
         public override Task<T> QueryAsyncForObject<T>(string v, T parameter)
         {
@@ -268,7 +270,7 @@ namespace KarveCommon.Generic
             throw new NotImplementedException();
         }
 
-       
+
 
         /// <summary>
         /// Create a OdbcCommand from a transaction 
@@ -418,7 +420,7 @@ namespace KarveCommon.Generic
             string executeQueryString = "";
             bool hasRow = (dts.Tables.Count > 0) && (dts.Tables[0].Rows.Count > 0);
             if (hasRow)
-            {
+            { 
                 DataRow row = dts.Tables[0].Rows[0];
                 executeQueryString = row.ItemArray[0] as string;
             }
@@ -438,7 +440,7 @@ namespace KarveCommon.Generic
         /// <param name="cmdType">type of the command</param>
         /// <param name="pars">Parametes</param>
         /// <returns></returns>
-        public  bool ExecuteNonQuery(string CommandName, CommandType cmdType, SAParameter[] pars)
+        public bool ExecuteNonQuery(string CommandName, CommandType cmdType, SAParameter[] pars)
         {
             SACommand cmd = null;
             int res = 0;
@@ -507,14 +509,53 @@ namespace KarveCommon.Generic
             return completeSet;
         }
 
-        public override async Task<DataSet> AsyncDataSetLoad(string sqlQuery)
+        public Task<DataSet> FillSchemaAsync(SADataAdapter dta, DataSet dataSet, CancellationToken cancellationToken)
         {
-           
-            SADataAdapter dta = null;
-            DataSet dts = null;
-            lock (asyncLoadLock)
+            var result = new TaskCompletionSource<DataSet>();
+            if (cancellationToken == CancellationToken.None || !cancellationToken.IsCancellationRequested)
             {
-                dts = new DataSet();
+                try
+                {
+                    dta.FillSchema(dataSet, SchemaType.Source);
+                    result.SetResult(dataSet);
+                }
+                catch (Exception ex)
+                {
+                    result.SetException(ex);
+                }
+            }
+            else
+            {
+                result.SetCanceled();
+            }
+            return result.Task;
+        }
+        public Task<DataSet> FillAsync(SADataAdapter dta, DataSet dataSet, CancellationToken cancellationToken)
+        {
+            var result = new TaskCompletionSource<DataSet>();
+            if (cancellationToken == CancellationToken.None || !cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    dta.Fill(dataSet);
+                    result.SetResult(dataSet);
+                }
+                catch (Exception ex)
+                {
+                    result.SetException(ex);
+                }
+            }
+            else
+            {
+                result.SetCanceled();
+            }
+            return result.Task;
+        }
+        private SADataAdapter CreateDataAdapter(string sqlQuery)
+        {
+            SADataAdapter dta = null;
+            lock (dataAdapterLock)
+            {
                 try
                 {
                     if (_transaction == null)
@@ -527,7 +568,7 @@ namespace KarveCommon.Generic
                         _command = new SACommand(sqlQuery, _connection, _transaction);
                     }
                     dta = new SADataAdapter(_command);
-
+                    
                 }
                 catch (Exception e)
                 {
@@ -539,15 +580,27 @@ namespace KarveCommon.Generic
                     throw new Exception(msg);
                 }
             }
+            return dta;
+        }
+        public override async Task<DataSet> AsyncDataSetLoad(string sqlQuery)
+        {
+            SADataAdapter dta = CreateDataAdapter(sqlQuery);
+            DataSet dts = null;
+            CancellationTokenSource cts = null;
+            CancellationTokenSource cts1 = null;
+            lock (asyncLoadLock)
+            {
+                dts = new DataSet();
+                cts = new CancellationTokenSource();
+                cts1 = new CancellationTokenSource();
+
+            }
             if (dta != null)
             {
                 try
                 {
-                    await Task.Run(() =>
-                    {
-                        dta.FillSchema(dts, SchemaType.Source);
-                        dta.Fill(dts);
-                    });
+                    await FillSchemaAsync(dta, dts, cts.Token);
+                    dts = await FillAsync(dta, dts, cts1.Token);
                 }
                 catch (Exception e)
                 {
@@ -560,9 +613,11 @@ namespace KarveCommon.Generic
                 }
                 finally
                 {
-                    Close();
+                    //Close();
                 }
             }
+            // to complete the async state machine.
+            await Task.Delay(1);
             return dts;
         }
     }

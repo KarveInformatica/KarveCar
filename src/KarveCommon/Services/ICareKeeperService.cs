@@ -10,5 +10,6 @@ namespace KarveCommon.Services
         void Do(CommandWrapper w);
         void Undo();
         void Schedule(DataPayLoad payload);
+        DataPayLoad.Type GetScheduledPayloadType();
     }
 }

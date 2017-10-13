@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 
-namespace ProvidersModule.Common
+namespace MasterModule.Common
 {
     interface IUiComponentChangeHandler
     {

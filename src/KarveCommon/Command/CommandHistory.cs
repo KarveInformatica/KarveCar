@@ -119,7 +119,7 @@ namespace KarveCommon.Command
             {
                 command.Execute(param);
                 AddUndo(commandWrapper);
-                historyList.Add(commandWrapper);
+                //historyList.Add(commandWrapper);
             }
         }
         /// <summary>

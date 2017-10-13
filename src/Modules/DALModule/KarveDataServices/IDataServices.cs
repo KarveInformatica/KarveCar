@@ -1,5 +1,4 @@
-﻿using System.Data;
-
+﻿
 namespace KarveDataServices
 {
     /// <summary>
@@ -7,24 +6,9 @@ namespace KarveDataServices
     ///  It is an interface for abstracting all dataservices.
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
-    struct SystemUri
-    {
-        const string suppliers = "karve://suppliers";
-        const string vehicles =  "karve://vehicles"; 
-    }
-    
-    public interface IDataServicesSession
-    {
-        object mapper {set; get;}
-        object session { set; get; }
-    }
+   
     public interface IDataServices
     {
-        /// <summary>
-        ///  Get all banks in the system
-        /// </summary>
-        /// <returns></returns>
-        DataTable GetAllBanks();
         /// <summary>
         /// Returns the payment data services.
         /// </summary>
@@ -41,11 +25,16 @@ namespace KarveDataServices
         /// <returns>Supplier data service subsystem</returns>
         ISupplierDataServices GetSupplierDataServices();
         /// <summary>
-        /// This returns the Helper data services. Helper data services all other services that might be used as helper 
+        /// Returns the Helper data services. Helper data services all other services that might be used as helper 
         /// </summary>
         /// <returns></returns>
         IHelperDataServices GetHelperDataServices();
-        
+        /// <summary>
+        ///  Returns the commission agent data services. 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        ICommissionAgentDataServices GetCommissionAgentDataServices();        
     }
 
 }

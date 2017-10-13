@@ -110,6 +110,9 @@ namespace KarveControls.UIObjects
             get { return _primaryKey; }
             set { _primaryKey = value; }
         }
+
+        public object DataObject { get; set; }
+
         /// <summary>
         /// Property that return a list of tablenames.
         /// </summary>
@@ -167,8 +170,15 @@ namespace KarveControls.UIObjects
             get { return _assistTables; }
             set { _assistTables = value; }
         }
+        /// <summary>
+        ///  Returns the Values of the objects
+        /// </summary>
         public ObservableCollection<IUiObject> Values { get { return _objectList; } }
-
+        /// <summary>
+        ///  Set the reference table foreach component in the collection.
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <param name="tableName"></param>
         public void SetSourceView(DataTable dataTable, string tableName)
         {
             int index = 0;
@@ -183,28 +193,19 @@ namespace KarveControls.UIObjects
                     if (currentDfSearchTextObject.AssistTableName == tableName)
                     {
                         currentDfSearchTextObject.SourceView = dataTable;
-                        currentDfSearchTextObject.Lookup = true;
                         newValues[index]=currentDfSearchTextObject;
 
                     }
                 }
                 if (objectDataField is UiGroupBoxMultipleObject)
                 {
-                  //  UiMultipleDfObject multipleDfObject = (UiMultipleDfObject) objectDataField;
-                 //   multipleDfObject.SetSourceView(dataTable, tableName);
+                    UiMultipleDfObject multipleDfObject = (UiMultipleDfObject) objectDataField;
+                    multipleDfObject.SetSourceView(dataTable, tableName);
                 }
                 
                 index++;
 
             }
-            
-            foreach (int key in newValues.Keys)
-            {
-                _objectList.RemoveAt(key);
-                _objectList.Insert(key, newValues[key]);
-            }
-            
-
         }
         public void SetItemSource(DataTable dataTable, string tableName)
         {

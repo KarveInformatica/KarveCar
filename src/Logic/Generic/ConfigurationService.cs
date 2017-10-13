@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Prism.Commands;
 using KarveCar.Logic.Generic;
+using KarveCar.Views;
 using KarveControls;
 
 namespace KarveCar.Logic
@@ -94,7 +95,7 @@ namespace KarveCar.Logic
                 tabItemVm.addItem(tabName, tbitem);
                 tbitem.Content = view;
                 tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
-                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Add(tbitem);
+                ((MainWindow)Application.Current.MainWindow).NewTabControl.Items.Add(tbitem);
                 tbitem.Focus();
                 return true;
             }
@@ -103,11 +104,15 @@ namespace KarveCar.Logic
         }
         public string GetPrimaryKeyValue()
         {
-            object selectedItem = ((MainWindow)Application.Current.MainWindow).tbControl.SelectedItem;
-            TabItem item = (TabItem) selectedItem;
-            string itemHeader = item.Header as string;
-            string[] value = itemHeader.Split('.');
-            return value[0];
+            object selectedItem = ((MainWindow)Application.Current.MainWindow).NewTabControl.SelectedItem;
+            if (selectedItem is TabItem)
+            {
+                TabItem item = (TabItem) selectedItem;
+                string itemHeader = item.Header as string;
+                string[] value = itemHeader.Split('.');
+                return value[0];
+            }
+            return "";
         }
 
         /// <summary>
@@ -126,9 +131,8 @@ namespace KarveCar.Logic
 
         public void CloseTab(string primaryKeyValue)
         {
-            TabControl control = ((MainWindow) Application.Current.MainWindow).tbControl;
+            TabControl control = ((MainWindow) Application.Current.MainWindow).NewTabControl;
             ItemCollection collection = control.Items;
-            TabItem currentItem = null;
             string key = tabItemVm.ContainsItem(primaryKeyValue);
             tabItemVm.CloseTabItemCommand.Execute(key);
         }
@@ -166,7 +170,7 @@ namespace KarveCar.Logic
             if (control.ContainsKey(key))
             {
                 CustomTabControl view = control[key];
-                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(view);
+                ((MainWindow)Application.Current.MainWindow).NewTabControl.Items.Remove(view);
                 control.Remove(key);
             }
 

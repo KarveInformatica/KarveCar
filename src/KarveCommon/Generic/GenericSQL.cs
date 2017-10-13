@@ -15,9 +15,8 @@ namespace KarveCommon.Generic
 
         public const string SupplierSummaryQuery =
             "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF , TIPOPROVE.NOMBRE as Provvedor, COMERCIAL as Comercial, " +
-            "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +
-            "PROVEE2.PLAZO as Plazo, PROVEE2.PLAZO2 as Plazo2, PROVEE2.PLAZO3 as Palzo3, PROVEE2.DIA as Dia, PROVEE2.DIA2 as Dia2, PROVEE2.DIA3 as Dia3, " +
-            "PROVEE1.MESVACA as MesVacaciones, PROVEE1.MESVACA2 as MesVacaciones2, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
+            "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION,F_AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +
+             "PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
             "PROVEE2, TIPOPROVE WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE AND PROVEE1.TIPO=TIPOPROVE.NUM_TIPROVE";
         public const string SupplierQuery =
             "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF,COMERCIAL as Comercial, " +
@@ -26,20 +25,28 @@ namespace KarveCommon.Generic
             "PROVEE1.MESVACA as MesVacaciones, PROVEE1.MESVACA2 as MesVacaciones2, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
             "PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE";
 
-        public const string DelegationQuery = "SELECT cldIdDelega as Numero, cldDelegacion as Nombre,  " +
-            "cldDireccion1 as Direccion, " +
-            "cldDireccion2 as Direccion2, " +
-            "cldCP as CP, cldIdProvincia as IdProvincia, cldPoblacion as Poblacion " +
+        public const string DelegationQuery = "SELECT cldIdDelega, cldDelegacion,  " +
+            "cldDireccion1, " +
+            "cldDireccion2, " +
+            "cldCP, cldIdProvincia, cldPoblacion " +
             "FROM ProDelega  WHERE cldIdCliente={0} ORDER BY cldIdCliente";
 
+        public const string ClientesGenericQuery = "Select CLIENTES1.NUMERO_CLI, NOMBRE, DIRECCION, NIF, POBLACION FROM CLIENTES1";
+
+        public const string CommissionAgentSummaryQuery =
+            "SELECT NUM_COMI as Numero, NOMBRE as Nombre, PERSONA as Persona, NIF as Nif, DIRECCION as Direccion, POBLACION as Poblacion, " +
+            "PROVINCIA.PROV as Provincia, PAIS.PAIS as Pais FROM COMISIO " +
+            " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
+            " LEFT JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;";
         public const string DelegationGenericQuery = "SELECT TOP 1 cldIdDelega as Numero, cldDelegacion as Nombre,  " +
                                                      "cldDireccion1 as Direccion, cldDireccion2 as Direccion2, cldCP as CP," +
                                                      "cldIdProvincia as IdProvincia, cldPoblacion as Poblacion FROM ProDelega;";
-            
-
-        public static string ContactsQuery = "SELECT ccoContacto as Nombre, ccoCargo as Cargo, ccoDepto as Departemento, ccoTelefono as Telefono, ccoMovil as Movil, ccoFax as Fax," +
+          
+        public const string ContactsQuery = "SELECT ccoContacto as Nombre, ccoCargo as Cargo, ccoDepto as Departemento, ccoTelefono as Telefono, ccoMovil as Movil, ccoFax as Fax," +
                                              "ccoMail as Email FROM ProContactos CC FULL OUTER JOIN ProDelega CD ON (CC.ccoIdCliente = CD.cldIdCliente AND " +
                                              "CC.ccoIdDelega = CD.cldIdDelega) WHERE ccoIdCliente={0} ORDER BY ccoIdDelega, ccoContacto";
-
+        // codigo vehicles.
+        public const string VehiclesSummaryQuery = "select vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
+                                                   "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
     }
 }

@@ -1,7 +1,7 @@
 ﻿using KarveDataServices.DataObjects;
 using System.Data;
 
-namespace ProvidersModule
+namespace MasterModule
 {
     public interface ISupplierPayload
     {

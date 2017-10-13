@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProvidersModule.ViewModels
+namespace MasterModule.ViewModels
 {
 
     public class TabViewModelBase : BindableBase, INavigationAware

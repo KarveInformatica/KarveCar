@@ -5,6 +5,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using KarveControls.Generic;
 using static KarveControls.CommonControl;
@@ -16,6 +17,9 @@ namespace KarveControls
     /// </summary>
     public partial class DataField : UserControl
     {
+        /// <summary>
+        /// Routed Event fired when any change in data field happen.
+        /// </summary>
         public static readonly RoutedEvent DataFieldChangedEvent =
             EventManager.RegisterRoutedEvent(
                 "DataFieldChanged",
@@ -23,36 +27,10 @@ namespace KarveControls
                 typeof(RoutedEventHandler),
                 typeof(DataField));
 
-        private bool textContentChanged = false;
-
-        public class DataFieldEventArgs : RoutedEventArgs
-        {
-            private string _fieldData = "";
-            private IDictionary<string, object> _changedValues = new Dictionary<string, object>();
-
-            public string FieldData
-            {
-                get { return _fieldData; }
-                set { _fieldData = value; }
-            }
-
-            public IDictionary<string, object> ChangedValuesObjects
-            {
-                get { return _changedValues; }
-                set { _changedValues = value; }
-            }
-
-            public DataFieldEventArgs() : base()
-            {
-
-            }
-
-            public DataFieldEventArgs(RoutedEvent routedEvent) : base(routedEvent)
-            {
-
-            }
-        }
-
+        private bool _textContentChanged = false;
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
         public event RoutedEventHandler DataFieldChanged
         {
             add { AddHandler(DataFieldChangedEvent, value); }
@@ -61,31 +39,16 @@ namespace KarveControls
 
         #region CommonPart
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        private object _primaryKey;
-        protected string _description;
-        protected DataType _dataAllowed;
-        protected bool _allowedEmpty;
-        protected bool _upperCase;
-        protected DataTable _itemSource;
-        protected string _dataField = string.Empty;
-        protected string _tableName = string.Empty;
-        private ComponentFiller _filler = new ComponentFiller();
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+        private DataTable _itemSource;
+        private readonly ComponentFiller _filler = new ComponentFiller();
+        private string _dataField = string.Empty;
 
 
         #region Description
-
+        /// <summary>
+        ///  Component description.
+        /// </summary>
         public static readonly DependencyProperty DescriptionDependencyProperty =
             DependencyProperty.Register(
                 "Description",
@@ -94,6 +57,9 @@ namespace KarveControls
                 new PropertyMetadata(String.Empty));
 
         #endregion
+        /// <summary>
+        ///  Database primary key
+        /// </summary>
         #region PrimaryKey
         public static readonly DependencyProperty PrimaryKeyDependencyProperty = 
             DependencyProperty.Register("PrimaryKey", 
@@ -104,48 +70,40 @@ namespace KarveControls
         #endregion
 
         #region DataAllowed
-
+        /// <summary>
+        ///  Kind of data allowed in this component.
+        /// </summary>
         public static readonly DependencyProperty DataAllowedDependencyProperty =
             DependencyProperty.Register(
                 "DataAllowed",
                 typeof(DataType),
                 typeof(DataField),
-                new PropertyMetadata(DataType.Any, OnDataAllowedChange));
-
+                new PropertyMetadata(DataType.Any));
+        
+        /// <summary>
+        ///  DataType allowed in this component.
+        /// </summary>
         public DataType DataAllowed
         {
             get { return (DataType) GetValue(DataAllowedDependencyProperty); }
             set { SetValue(DataAllowedDependencyProperty, value); }
         }
-
-        private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnPropertyChanged("DataAllowed");
-                control.OnDataAllowedChange(e);
-            }
-        }
-
-        protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
-        {
-            DataType type = (DataType) Enum.Parse(typeof(DataType), e.NewValue.ToString());
-            DataAllowed = type;
-            _dataAllowed = type;
-        }
-
+        
         #endregion
 
         #region ItemSource
-
+        /// <summary>
+        ///  Item Source. DataTable to be binded with this component.
+        /// </summary>
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
                 "ItemSource",
                 typeof(DataTable),
                 typeof(DataField),
                 new PropertyMetadata(new DataTable(), OnItemSourceChanged));
-
+        /// <summary>
+        ///  Item Source. DataTable to be binded with this component.
+        /// </summary>
         public DataTable ItemSource
         {
             get { return (DataTable) GetValue(ItemSourceDependencyProperty); }
@@ -157,7 +115,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("ItemSource");
                 control.OnItemSourceChanged(e);
             }
         }
@@ -167,16 +124,16 @@ namespace KarveControls
         {
             DataTable table = e.NewValue as DataTable;
             this._itemSource = table;
-            if (!string.IsNullOrEmpty(DBField))
+            if (!string.IsNullOrEmpty(_dataField))
             {
                 if (table != null)
                 {
                     DataColumnCollection collection = table.Columns;
-                    if (collection.Contains(DBField))
+                    if (collection.Contains(_dataField))
                     {
                         DataRow dataRow = table.Rows[0];
-                        string colName = DBField;
-                        string value = _filler.FetchDataFieldValue(table, DBField);
+                        string colName = _dataField;
+                        string value = _filler.FetchDataFieldValue(table, _dataField);
                         if (DataAllowed == DataType.Email)
                         {
                             value = value.Replace("#", "@");
@@ -205,28 +162,37 @@ namespace KarveControls
                 "TableName",
                 typeof(string),
                 typeof(DataField),
-                new PropertyMetadata(string.Empty, OnTableNameChange));
-        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnPropertyChanged("TableName");
-                control.OnTableNameChanged(e);
-            }
-        }
+                new PropertyMetadata(string.Empty));
         public string TableName
         {
             get { return (string)GetValue(DBTableNameDependencyProperty); }
             set { SetValue(DBTableNameDependencyProperty, value); }
         }
-        protected virtual void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _tableName = e.NewValue as string;
-        }
-        #endregion
-        #region UpperCaseChange
 
+        #endregion
+        /// <summary>
+        /// Command associated to the changed of a property. It gets triggered when a change happens.
+        /// </summary>
+        public static DependencyProperty ItemChangedCommandDependencyProperty =
+            DependencyProperty.Register(
+                "ItemChangedCommand",
+                typeof(ICommand),
+                typeof(DataField), new PropertyMetadata(null));
+
+        /// <summary>
+        ///  Command related to the change of an item.
+        /// </summary>
+        public ICommand ItemChangedCommand
+        {
+            get { return (ICommand) GetValue(ItemChangedCommandDependencyProperty); }
+            set { SetValue(ItemChangedCommandDependencyProperty, value);
+            }
+        }
+
+        #region UpperCaseChange
+        /// <summary>
+        ///  Uppercase dependency properties.
+        /// </summary>
         public static readonly DependencyProperty UpperCaseDependencyProperty =
             DependencyProperty.Register(
                 "UpperCase",
@@ -239,7 +205,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("UpperCase");
                 control.OnUpperCaseChanged(e);
             }
         }
@@ -252,7 +217,9 @@ namespace KarveControls
                TextField.Text = TextField.Text.ToUpper();
             }
         }
-
+        /// <summary>
+        ///  UpperCase property.
+        /// </summary>
         public bool UpperCase
         {
             get { return (bool)GetValue(UpperCaseDependencyProperty); }
@@ -273,7 +240,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("IsReadOnly");
                 control.OnIsReadOnlyChanged(e);
             }
         }
@@ -300,26 +266,26 @@ namespace KarveControls
                 "DBField",
                 typeof(string),
                 typeof(DataField),
-                new PropertyMetadata(string.Empty, OnDataFieldChanged));
+                new PropertyMetadata(string.Empty, DataFieldPropertyChanged));
+
+        private static void DataFieldPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField dataField = d as DataField;
+            dataField.OnDataFieldPropertyChanged(e);
+        }
 
         public string DBField
         {
             get { return (string)GetValue(DataFieldDependencyProperty); }
             set { SetValue(DataFieldDependencyProperty, value); }
         }
-        private static void OnDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField controlDataRadio = d as DataField;
-            if (controlDataRadio != null)
-            {
-                controlDataRadio.OnPropertyChanged("DBField");
-                controlDataRadio.OnDataFieldPropertyChanged(e);
-            }
-        }
+
+        private int valuePass = 0;
 
         public void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             _dataField = e.NewValue as string;
+            valuePass++;
             if (this._itemSource != null)
             {
                 if (!string.IsNullOrEmpty(_dataField))
@@ -353,27 +319,13 @@ namespace KarveControls
                 "AllowedEmpty",
                 typeof(bool),
                 typeof(DataField),
-                new PropertyMetadata(false, OnAllowedEmptyChange));
+                new PropertyMetadata(false));
         public bool AllowedEmpty
         {
             get { return (bool)GetValue(AllowedEmptyDependencyProperty); }
             set { SetValue(AllowedEmptyDependencyProperty, value); }
         }
-        private static void OnAllowedEmptyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnPropertyChanged("AllowedEmpty");
-                control.OnAllowedEmptyChange(e);
-            }
-        }
 
-        private void OnAllowedEmptyChange(DependencyPropertyChangedEventArgs e)
-        {
-            bool value = Convert.ToBoolean(e.NewValue);
-           _allowedEmpty = value;
-        }
         #endregion
 
         #region TextContent Property
@@ -396,13 +348,13 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("TextContent");
                 control.OnTextContentPropertyChanged(e);
             }
         }
 
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
+            // type validation is missing here.
             string value = e.NewValue as string;
             this.TextField.Text = value;
             if ((_itemSource!=null) && (!String.IsNullOrEmpty(this._dataField)))
@@ -417,7 +369,6 @@ namespace KarveControls
                     }
                     
                     _itemSource.Rows[0][_dataField] = tmpValue;
-                    //_itemSource.AcceptChanges();
                 }
             }
         }
@@ -441,7 +392,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelVisible");
                 control.OnLabelVisibleChanged(e);
             }
         }
@@ -477,7 +427,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelText");
                 control.OnLabelTextChanged(e);
             }
         }
@@ -505,7 +454,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelTextWidth");
                 control.OnLabelTextWidthChanged(e);
             }
         }
@@ -526,7 +474,7 @@ namespace KarveControls
             set {  SetValue(TextContentWidthDependencyProperty, value); }
         }
 
-        public readonly static DependencyProperty TextContentWidthDependencyProperty =
+        public static readonly DependencyProperty TextContentWidthDependencyProperty =
             DependencyProperty.Register(
                 "TextContentWidth",
                 typeof(string),
@@ -537,7 +485,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("TextContentWidth");
                 control.OnTextContentWidthPropertyChanged(e);
             }
         }
@@ -551,13 +498,15 @@ namespace KarveControls
 
 
         #region DataFieldHeight 
-        public readonly static DependencyProperty DataFieldHeightDependencyProperty =
+        public static readonly DependencyProperty DataFieldHeightDependencyProperty =
             DependencyProperty.Register(
                 "DataFieldHeight",
                 typeof(string),
                 typeof(DataField),
                 new PropertyMetadata("40", OnDataFieldHeightChange));
-
+        /// <summary>
+        /// Height of the datafield textbox.
+        /// </summary>
         public string DataFieldHeight
         {
             get { return (string)GetValue(DataFieldHeightDependencyProperty); }
@@ -568,7 +517,6 @@ namespace KarveControls
             DataField control = d as DataField;
             if (control != null)
             {
-                control.OnPropertyChanged("DataFieldHeight");
                 control.OnDataFieldHeightChanged(e);
             }
         }
@@ -581,99 +529,26 @@ namespace KarveControls
         }
 
         #endregion
-
-        public static DependencyProperty ReloadDependencyProperty =
-            DependencyProperty.Register(
-                "Reload",
-                typeof(bool),
-                typeof(DataField),
-                new PropertyMetadata(false, OnReloadChanged));
-
-        private static void OnReloadChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField controlDataField = d as DataField;
-            if (controlDataField != null)
-            {
-                controlDataField.OnPropertyChanged("Reload");
-                controlDataField.OnReloadPropertyChanged(e);
-            }
-        }
-
-        private void OnReloadPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            string field = _dataField.ToUpper();
-            if (!string.IsNullOrEmpty(field))
-            {
-                DataTable dta = ItemSource;
-                Binding oBind = new Binding("Text");
-                oBind.Source = dta.Columns[field];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = false;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                TextField.Width = dta.Columns[field].MaxLength;
-                TextField.SetBinding(TextBox.TextProperty, oBind);
-            }
-        }
-        public bool Reload
-        {
-            get { return (bool)GetValue(ReloadDependencyProperty); }
-            set { SetValue(ReloadDependencyProperty, value); }
-        }
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            /*
-            string field = _dataField.ToUpper();
-            if (!string.IsNullOrEmpty(field))
-            {
-                //DataView dataView = dta.DefaultView;
-            }
-            Binding bind = BindingOperations.GetBinding(this.TextField, TextBox.TextProperty);
-            BindingOperations.ClearBinding(this.TextField, TextBox.TextProperty);
-            DataView dataView = dta.DefaultView;
-            // Now, for my binding preparation...
-            Binding bindMyColumn = new Binding();
-            bindMyColumn.Mode = BindingMode.TwoWay;
-            bindMyColumn.Source = dataView;
-            bindMyColumn.Path = new PropertyPath("ItemSource");
-            TextField.SetBinding(TextBox.TextProperty, bindMyColumn);
-           OnPropertyChanged("[0][" + field + "]");
-            extContent =
-            
-            string field = _dataField.ToUpper();
-            if (!string.IsNullOrEmpty(field))
-            {
-                DataView dataView = dta.DefaultView;
-                // Now, for my binding preparation...
-                Binding bindMyColumn = new Binding();
-                bindMyColumn.Mode = BindingMode.TwoWay;
-                bindMyColumn.Source = dataView;
-                bindMyColumn.Path = new PropertyPath("[0][NUM_PROVEE]");
-                TextField.SetBinding(TextBox.TextProperty, bindMyColumn);
-                
-              
-            Binding oBind = new Binding(field);
-                oBind.Source = dta.Defau
-                    //dta.Columns[field];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = true;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-                //TextField.Width = dta.Columns[field].MaxLength;
-                TextField.SetBinding(TextBox.TextProperty, oBind);
-            */
-        }
-
+        /// <summary>
+        ///  Constant for changed value index
+        /// </summary>
         public static string CHANGED_VALUE = "ChangedValue";
+        /// <summary>
+        ///  Constant for the field value.
+        /// </summary>
         public static string FIELD = "Field";
+        /// <summary>
+        ///  Constant for the field data table
+        /// </summary>
         public static string DATATABLE = "DataTable";
+        /// <summary>
+        ///  Constant for the table name field.
+        /// </summary>
         public static string TABLENAME = "TableName";
-
+        /// <summary>
+        ///  Simple field with associated the database field. 
+        /// This is pretty useful for creating automagically the query to send to the data layer and bind the data.
+        /// </summary>
         public DataField()
         {
             InitializeComponent();
@@ -681,26 +556,20 @@ namespace KarveControls
             TextField.IsReadOnly = false;
             TextField.TextChanged += TextField_TextChanged;
             TextField.GotFocus += TextField_GotFocus;
-            
-            this.GotFocus += DataField_GotFocus;
-            this.LostFocus += DataField_LostFocus;
-            this.DataFieldContent.DataContext = this;
-            /*
-            Binding myBinding = BindingOperations.GetBinding(this.TextField, TextBox.TextProperty);
-            if (this.Dat)
-            myBinding.ValidationRules
-            */
+            GotFocus += DataField_GotFocus;
+            LostFocus += DataField_LostFocus;
+            DataFieldContent.DataContext = this;
         }
 
         private void TextField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            textContentChanged = true;
+            _textContentChanged = true;
             RaiseEvent(e);
         }
 
         private void DataField_LostFocus(object sender, RoutedEventArgs e)
         {
-                if ((TextField.Text.Length > 0) && (textContentChanged))
+                if ((TextField.Text.Length > 0) && (_textContentChanged))
             {
                     DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent);
                     ev.FieldData = TextField.Text;
@@ -709,17 +578,23 @@ namespace KarveControls
                     valueDictionary["Field"] = DBField;
                     valueDictionary["DataTable"] = ItemSource;
                     valueDictionary["ChangedValue"] = TextField.Text;
-                //valueDictionary["PrimaryKey"] = MissingPrimaryKe;
                     ev.ChangedValuesObjects = valueDictionary;
+                if (this.ItemChangedCommand != null)
+                {
+                    if (ItemChangedCommand.CanExecute(valueDictionary))
+                    {
+                        ItemChangedCommand.Execute(valueDictionary);
+                    }
+                }
                     RaiseEvent(ev);
                 }
-                textContentChanged = false;
+                _textContentChanged = false;
             
         }
 
         private void TextField_GotFocus(object sender, RoutedEventArgs e)
         {
-            textContentChanged = false;
+            _textContentChanged = false;
             this.TextField.SelectAll();
             RaiseEvent(e);
         }

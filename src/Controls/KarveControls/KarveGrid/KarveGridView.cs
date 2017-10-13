@@ -7,39 +7,41 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms;
 using KarveControls.KarveGrid.Column;
-using KarveControls.KarveGrid.Column.Types;
 using KarveControls.KarveGrid.Events;
 using KarveControls.KarveGrid.GridDefinition;
-using KarveControls.KarveGrid.GridFilters;
 using KarveControls.KarveGrid.GridOrder;
-using KarveControls.KarveGrid.GridTable;
 using KarveControls.KarveGrid.KarveEditor.BrowerGridEditorKarve;
-using Telerik.WinControls;
 using Telerik.WinControls.Data;
 using Telerik.WinControls.UI;
 using Binding = System.Windows.Data.Binding;
 using PropertyChangedCallback = System.Windows.PropertyChangedCallback;
 using GridColView = Telerik.WinControls.UI.GridViewColumn;
-using DataGridColumn = KarveControls.KarveGrid.Column.DataGridColumn;
-using DataGridTextBoxColumn = KarveControls.KarveGrid.Column.Types.DataGridTextBoxColumn;
-using MessageBox = System.Windows.MessageBox;
+using Panel = System.Windows.Controls.Panel;
 
 namespace KarveControls.KarveGrid
 {
+    /// <summary>
+    ///  This component wraps a Telerick DataGrid enables the reuse of the grid in the WPF context.
+    ///  It can generate automagically the query from the columns names. 
+    /// </summary>
     public class KarveGridView : Grid, INotifyPropertyChanged
     {
+        public enum GridType
+        {
+            Edit,
+            Search
+        }
+
+        private const int CurrentViewPageSize = 20;
+        private int _columnWidth = 100;
+        private GridType _gridType = GridType.Search;
+        private IList<string> _columnsList = new List<string>();
         #region Private Variables
 
-        private RadGridView _currentView = new RadGridView();
+        private readonly RadGridView _currentView = new RadGridView();
         private Grid _baseContainer;
-        private int _columnWidth = 100;
-        private int _pageSize;
         private long _pageIndex = 0;
-        private GridType _gridType;
-        private DataRowView _currentRow; 
-        
         #endregion
-        
         #region Public Variables
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,37 +53,24 @@ namespace KarveControls.KarveGrid
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        public enum GridType
-        {
-            Edit,
-            Search
-        }
+        
         #endregion
 
         #region DependencyProperty
+        /// <summary>
+        /// This depedency property exposes the grid type.
+        /// </summary>
+        public static DependencyProperty GridTypeDependencyProperty = DependencyProperty.Register("GridType", typeof(GridType), 
+            typeof(KarveGridView), new PropertyMetadata(GridType.Edit));
+        /// <summary>
+        ///  This dependency property exposes the field.
+        /// </summary>
+        public static DependencyProperty AliasFieldProperty = DependencyProperty.Register("AliasField", typeof(string), 
+            typeof(KarveGridView), new PropertyMetadata(string.Empty));
 
-
-        public static DependencyProperty PageIndexDependencyProperty =
-            DependencyProperty.Register("PageIndex", typeof(long),
-                typeof(KarveGridView),
-                new PropertyMetadata(0L, OnPageIndexChanged));
-
-        private static void OnPageIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            KarveGridView karveGridView = d as KarveGridView;
-            karveGridView.OnPropertyChanged("PageIndex");
-            karveGridView.OnPageIndexChanged(e);
-        }
-
-        private void OnPageIndexChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _pageIndex = Convert.ToInt64(e.NewValue);
-        }
-        public long PageIndex
-        {
-            get { return (long)GetValue(PageIndexDependencyProperty); }
-            set { SetValue(PageIndexDependencyProperty, value); }
-        }
+        /// <summary>
+        /// This depedency property exposes the source of the GridView. It is the table associated to the source.
+        /// </summary>
 
         public static DependencyProperty SourceViewProperty =
             DependencyProperty.Register(
@@ -111,9 +100,6 @@ namespace KarveControls.KarveGrid
                 if (table.Rows.Count != 0)
                 {
                     _currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.DisplayedCells);
-
-                    //_currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.SymmaryRowCells);
-                    //this.radGridView1.MasterGridViewTemplate.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill;
                     _currentView.MasterTemplate.AutoSizeColumnsMode = GridViewAutoSizeColumnsMode.Fill;
                 
                 }
@@ -135,6 +121,11 @@ namespace KarveControls.KarveGrid
                 karveGrid.OnPropertyChanged("SelectedRow");
                 karveGrid.OnSelectedRow(e);
             }
+        }
+
+        internal void EndEdit()
+        {
+            throw new NotImplementedException();
         }
 
         private void OnSelectedRow(DependencyPropertyChangedEventArgs e)
@@ -167,7 +158,38 @@ namespace KarveControls.KarveGrid
         private void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
         {
             bool value = Convert.ToBoolean(e.NewValue);
-            _currentView.ReadOnly = value;
+            
+            if (value == false)
+            {
+                _currentView.ReadOnly = false;
+                _currentView.EnableFiltering = true;
+                _currentView.AllowEditRow = true;
+                _currentView.AllowAddNewRow = true;
+                _currentView.AllowDeleteRow = true;
+                _currentView.AllowColumnChooser =true;
+                _currentView.EnableGrouping = true;
+                _currentView.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect;
+                _currentView.MultiSelect = true;
+                _currentView.MasterTemplate.Refresh();
+
+            }
+            else
+            {
+                _currentView.ReadOnly = true;
+                _currentView.EnableFiltering = true;
+                _currentView.AllowEditRow = false;
+                _currentView.AllowAddNewRow = false;
+                _currentView.AllowDeleteRow =false;
+                _currentView.MultiSelect = false;
+                _currentView.AllowDragToGroup = true;
+                _currentView.AllowColumnReorder = true;
+                _currentView.EnableGrouping = true;
+                _currentView.AllowColumnChooser = true;
+                _currentView.MasterTemplate.Refresh();
+                _currentView.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.FullRowSelect;
+            }
+            
+           
         }
 
         public bool ReadOnly
@@ -188,17 +210,20 @@ namespace KarveControls.KarveGrid
             get { return (string) GetValue(TableNameProperty); }
             set { SetValue(TableNameProperty, value);}
         }
+       
         public static DependencyProperty ColumnsNamesProperty =
             DependencyProperty.Register(
                 "ColumnNames",
                 typeof(string),
                 typeof(KarveGridView),
                 new PropertyMetadata(string.Empty));
+
         public string ColumnNames
         {
             get { return (string)GetValue(ColumnsNamesProperty); }
             set { SetValue(ColumnsNamesProperty, value); }
         }
+        
         public static DependencyProperty AutoGenerateColumnsDependencyProperty =
             DependencyProperty.Register(
                 "AutoGenerateColumns",
@@ -218,13 +243,30 @@ namespace KarveControls.KarveGrid
             get { return (string)GetValue(TableAliasProperty); }
             set { SetValue(TableAliasProperty, value); }
         }
+
+        public string PrimaryKey
+        {
+            get { return (string)GetValue(PrimaryKeyProperty); }
+            set { SetValue(PrimaryKeyProperty, value); }
+        }
+        public string AliasField
+        {
+            get { return (string)GetValue(AliasFieldProperty); }
+            set { SetValue(AliasFieldProperty, value); }
+        }
+
+        public string AssistQuery
+        {
+            get { return (string)GetValue(AssitQueryProperty); }
+            set { SetValue(AssitQueryProperty, value); }
+        }
         public static DependencyProperty PageSizeProperty =
             DependencyProperty.Register(
                 "PageSize",
                 typeof(int),
                 typeof(KarveGridView),
                 new FrameworkPropertyMetadata(
-                    20,
+                    CurrentViewPageSize,
                     FrameworkPropertyMetadataOptions.AffectsMeasure,
                     new PropertyChangedCallback(OnPageSizeChange)),
                 new System.Windows.ValidateValueCallback(OnPageSizeValidateValue));
@@ -248,8 +290,11 @@ namespace KarveControls.KarveGrid
         private static void OnColumnWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             KarveGridView karveGrid = d as KarveGridView;
-            karveGrid.OnPropertyChanged("ColumnWidth");
-            karveGrid.OnColumnWidthChanged(e);
+            if (karveGrid != null)
+            {
+                karveGrid.OnPropertyChanged("ColumnWidth");
+                karveGrid.OnColumnWidthChanged(e);
+            }
         }
         private void OnColumnWidthChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -269,8 +314,6 @@ namespace KarveControls.KarveGrid
             }
 
         }
-
-
         #endregion
         #region Custom Events
 
@@ -288,6 +331,8 @@ namespace KarveControls.KarveGrid
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(KarveGridView));
+
+      
 
         // RowDoubleClickEvent
         public static readonly System.Windows.RoutedEvent RowDoubleClickEvent =
@@ -326,18 +371,172 @@ namespace KarveControls.KarveGrid
                 typeof(RoutedEventHandler),
                 typeof(KarveGridView));
 
-        public static readonly System.Windows.RoutedEvent ModifiedCellRoutedEvent =
-            EventManager.RegisterRoutedEvent(
-                "ModifiedCellRoutedEvent",
+        public static readonly System.Windows.RoutedEvent ChangedRowsGridViewEvent =
+            EventManager.RegisterRoutedEvent("ChangedRows",
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(KarveGridView));
 
+        /// <summary>
+        ///  This event is the event of delete rows. It gets triggered when the user deletes a row.
+        /// </summary>
+        public class ChangedGridViewEventArgs : System.Windows.RoutedEventArgs
+        {
+
+            private string _tableName;
+            private object _dataSource;
+            
+
+            /// <summary>
+            /// This lists the parameters that the event can convey.
+            /// </summary>
+            public enum EventParams {
+                /// <summary>
+                /// Source of the data. It is a data source 
+                /// </summary>
+                DataSource,                         
+               /// <summary>
+               /// Name of the table
+               /// </summary>
+               TableName,   
+               /// <summary>
+               /// Rows deleted.
+               /// </summary>
+                RowsDeleted,     
+                /// <summary>
+                /// Operation done in the grid.
+                /// </summary>
+                Operation,
+                /// <summary>
+                /// Alias field.
+                /// </summary>
+                AliasField
+            }
+
+            /// <summary>
+            ///  Operation that changes the parameters.
+            /// </summary>
+            /// TODO This enum is duplicated in the DataPayLoad and it shall match.
+            public enum Operation
+            {
+                /// <summary>
+                /// Insert an item
+                /// </summary>
+                Insert = 0,
+                /// <summary>
+                /// Delete an item.
+                /// </summary>
+                Delete = 1,
+                /// <summary>
+                /// Update an item
+                /// </summary>
+                Update = 2
+            }
+            /// <summary>
+            ///  Rows changed
+            /// </summary>
+            private object _currentArrayList;
+            /// <summary>
+            /// Kind of operation
+            /// </summary>
+            private Operation _operation;
+
+            /// <summary>
+            ///  Base constructor
+            /// </summary>
+            public ChangedGridViewEventArgs() : base()
+            {
+
+            }
+            /// <summary>
+            ///  Constructor with an event.
+            /// </summary>
+            /// <param name="routedEvent"> This gives you the routedEvent</param>
+            public ChangedGridViewEventArgs(System.Windows.RoutedEvent routedEvent) : base(routedEvent)
+            {
+
+            }
+            /// <summary>
+            ///  This returns the current arraylist for the deleted collection in the grid.
+            /// </summary>
+            public object Rows
+            {
+                get { return _currentArrayList; }
+                set { _currentArrayList = value; }
+            }
+
+            /// <summary>
+            ///  This returns the current data table.
+            /// </summary>
+            public object DataSource
+            {
+                get { return _dataSource; }
+                set { _dataSource = value; }
+            }
+            /// <summary>
+            ///  Name of the table.
+            /// </summary>
+            public string TableName
+            {
+                get { return _tableName; }
+                set { _tableName = value; }
+            }
+            /// <summary>
+            ///  Current operation that the event conveys.
+            /// </summary>
+            public Operation CurrentOperation
+            {
+                get { return _operation; }
+                set { _operation = value; }
+            }
+
+            /// <summary>
+            ///  Dictionary of the parameters present in the event.
+            /// </summary>
+            public IDictionary<EventParams, object> RowParameters
+            {
+                get
+                {
+                    Dictionary<EventParams, object> dictionary = new Dictionary<EventParams, object>();
+                    if (DataSource != null)
+                    {
+                        dictionary.Add(EventParams.DataSource, DataSource);
+                    }
+                    if (string.IsNullOrEmpty(TableName))
+                    {
+                        dictionary.Add(EventParams.TableName, TableName);
+                    }
+                    if (Rows != null)
+                    {
+                        dictionary.Add(EventParams.RowsDeleted, Rows);
+                    }
+                    if (AliasField != null)
+                    {
+                        dictionary.Add(EventParams.AliasField, AliasField);
+                    }
+                    dictionary.Add(EventParams.Operation, CurrentOperation);
+                    return dictionary;
+                }
+            }
+            /// <summary>
+            ///  Relational Id value.
+            /// </summary>
+            public string AliasField { get; set; }
+        }
+
+
         private object _relationalId;
         private bool _dataSetFiltering;
         private bool _bScrolling;
+         /// <summary>
+         /// Master template for the grid.
+         /// </summary>
         private MasterGridViewTemplate _masterTemplate;
         private int _currentPageIndex;
+        private bool _isItemChanged;
+        private DependencyProperty PrimaryKeyProperty;
+        private int _pageSize;
+        private DataRowView _currentRow;
 
         public event RoutedEventHandler QueryDataTableRequest
         {
@@ -349,11 +548,6 @@ namespace KarveControls.KarveGrid
             add { AddHandler(PageChangeEvent, value); }
             remove { RemoveHandler(PageChangeEvent, value); }
         }
-        public event RoutedEventHandler UpdateDataTableChanged
-        {
-            add { AddHandler(UpdateQueryEvent, value); }
-            remove { RemoveHandler(UpdateQueryEvent, value); }
-        }
         public event RoutedEventHandler RowMouseDoubleClick
         {
             add { AddHandler(RowDoubleClickEvent, value); }
@@ -361,13 +555,21 @@ namespace KarveControls.KarveGrid
         }
         public event RoutedEventHandler ColumnQueryRequest
         {
-            add { AddHandler(ColumnQueryEvent, value); }
-            remove { RemoveHandler(ColumnQueryEvent, value); }
+            add => AddHandler(ColumnQueryEvent, value);
+            remove => RemoveHandler(ColumnQueryEvent, value);
         }
         public event RoutedEventHandler SelectionRowChanged
         {
-            add { AddHandler(SelectedRowGridViewEvent, value); }
-            remove { RemoveHandler(SelectedRowGridViewEvent, value); }
+            add => AddHandler(SelectedRowGridViewEvent, value);
+            remove => RemoveHandler(SelectedRowGridViewEvent, value);
+        }
+        /// <summary>
+        ///  This event is to detect any modification to the grid. It can be a delete, insert, add of a row.
+        /// </summary>
+        public event RoutedEventHandler ChangedRows
+        {
+            add { AddHandler(ChangedRowsGridViewEvent, value); }
+            remove { RemoveHandler(ChangedRowsGridViewEvent, value); }
         }
         private void QueryDataTable(string table, string alias, bool isMergeNeeded)
         {
@@ -420,27 +622,76 @@ namespace KarveControls.KarveGrid
                 typeof(KarveGridView),
                 new FrameworkPropertyMetadata(typeof(KarveGridView)));
         }
+        /// <summary>
+        ///  This class is a wrapper to the Telerick Grid for allowing WPF Grid.
+        /// </summary>
         public KarveGridView() : base()
         {
             
             _currentView.EnablePaging = true;
-            _currentView.PageSize = 20;
+            _currentView.PageSize = CurrentViewPageSize;
             _currentView.Width = (int)this.Width;
             _currentView.Height = (int) this.Height;
+            _currentView.EnableFiltering = true;
             _currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.DisplayedCells);
             _currentView.MasterTemplate.Refresh();
-            _currentView.EnableFiltering = true;
-            _currentView.ReadOnly = true;
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
             host.Child = _currentView;
             this.Children.Add(host);
             SetColumnWidth(this.ColumnWidth);
-            this.SizeChanged += KarveGridView_SizeChanged;
-
+        
             InitContainers();
             InitEvents();
-            InitDelegates();
+     }
+        /// <summary>
+        ///  This method handle the changes from the grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CurrentViewOnRowsChanged(object sender, GridViewCollectionChangedEventArgs e)
+        {
+            ChangedGridViewEventArgs changedEventArgs = new ChangedGridViewEventArgs(ChangedRowsGridViewEvent);
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                changedEventArgs.TableName = TableName;
+                changedEventArgs.DataSource = _currentView.DataSource;
+                changedEventArgs.Rows = e.NewItems;
+                changedEventArgs.AliasField = AliasField;
+                changedEventArgs.CurrentOperation = ChangedGridViewEventArgs.Operation.Delete;
+                RaiseEvent(changedEventArgs);
+            }
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                changedEventArgs.TableName = TableName;
+                changedEventArgs.DataSource = _currentView.DataSource;
+                changedEventArgs.Rows = e.NewItems;
+                changedEventArgs.AliasField = AliasField;
+                changedEventArgs.CurrentOperation = ChangedGridViewEventArgs.Operation.Insert;
+                RaiseEvent(changedEventArgs);
+            }
+            if (e.Action == NotifyCollectionChangedAction.ItemChanged)
+            {
+                _isItemChanged = true;
+            }
+            
         }
+       
+        // the cell has been edited and validated.
+       
+        private void CurrentViewOnCellEndEdit(object sender, GridViewCellEventArgs eventArgs)
+        {
+            ChangedGridViewEventArgs changedEventArgs = new ChangedGridViewEventArgs(ChangedRowsGridViewEvent);
+            if (_isItemChanged)
+            {
+                changedEventArgs.TableName = TableName;
+                changedEventArgs.DataSource = _currentView.DataSource;
+                changedEventArgs.Rows = eventArgs.Row;
+                changedEventArgs.AliasField = AliasField;
+                changedEventArgs.CurrentOperation = ChangedGridViewEventArgs.Operation.Update;
+                RaiseEvent(changedEventArgs);
+            }
+        }
+
 
         private void InitContainers()
         {
@@ -458,17 +709,7 @@ namespace KarveControls.KarveGrid
             }
           
         }
-
-        public void InitDelegates()
-        {
-            /*_dataGridDefinition = new DataGridTemplate();
-            _dataGridDefinition.QueryColumnsName += QueryColumnsName;
-            _dataGridDefinition.UpdateData += UpdateData;
-            _dataGridDefinition.QueryDataTable += QueryDataTable;
-            TriggerQuery+=TriggerQueryUpdate;
-            */
-        }
-
+ 
 
         private static bool OnPageSizeValidateValue(object value)
         {
@@ -514,7 +755,9 @@ namespace KarveControls.KarveGrid
                 }
             }
         }
-
+        /// <summary>
+        ///  This return the selected row in the DataGrid.
+        /// </summary>
         public DataRowView SelectedRow
         {
             get
@@ -533,7 +776,9 @@ namespace KarveControls.KarveGrid
             _currentView.Width = Convert.ToInt32(e.NewSize.Width);
             _currentView.Height = Convert.ToInt32(e.NewSize.Height);
         }
-
+        /// <summary>
+        ///  This set the DataSource in a form of a data table
+        /// </summary>
         public DataTable SourceView
         {
             get { return (DataTable)GetValue(SourceViewProperty); }
@@ -545,16 +790,9 @@ namespace KarveControls.KarveGrid
 
             }
         }
-        private bool ExistColumn(string Value)
-        {
-            GridViewCellInfoCollection cellInfo = _currentView.MasterView.TableFilteringRow.Cells;
-            foreach (GridViewCellInfo cell in cellInfo)
-            {
-                if (cell.ColumnInfo.Name == Value)
-                    return true;
-            }
-            return false;
-        }
+        /// <summary>
+        ///  This returns the PageSize
+        /// </summary>
         public int PageSize
         {
             get { return (int)GetValue(PageSizeProperty); }
@@ -564,6 +802,9 @@ namespace KarveControls.KarveGrid
                 _pageSize = value;
             }
         }
+        /// <summary>
+        ///  This sets the 
+        /// </summary>
         public int ColumnWidth
         {
             get { return (int)GetValue(ColumnMinWidthProperty); }
@@ -620,7 +861,7 @@ namespace KarveControls.KarveGrid
                 {
                     if (e.KeyCode == Keys.Enter)
                     {
-                        LoadQuery();
+                      //  LoadQuery();
                     }
                     else if (e.KeyCode == Keys.F4)
                     {
@@ -629,79 +870,9 @@ namespace KarveControls.KarveGrid
                 }
             }
         }
-        public void LoadQuery(bool bMerge = false)
-        {
 
-            /*
-            _loading = true;
-            _reQuery = false;
-            KarveGridView view = this;
-            _dataGridDefinition.LoadQueries(ref view, bMerge);
-            LoadFilters();
-            LoadOrdered();
-            TriggerQuery?.Invoke(_dataGridRules);
-            _loading = false;
-            */
-        }
-        public void LoadFilters()
-        {
-            /*
-            _currentView.FilterDescriptors.BeginUpdate();
-            _currentView.FilterDescriptors.Clear();
-            foreach (DataGridRule dataGridRule in _dataGridRules.Order())
-            {
-                FilterDescriptor filterDescriptor = null;
-                switch (dataGridRule.CurrentFilterType)
-                {
-                    case DataGridRule.FilterType.Text:
-                        filterDescriptor = LoadTextFilter(dataGridRule);
-                        break;
-                    case DataGridRule.FilterType.Data:
-                        filterDescriptor = LoadDateFilter(dataGridRule);
-                        break;
-                    case DataGridRule.FilterType.Composed:
-                        filterDescriptor = LoadCompositeFilter(dataGridRule);
-                        break;
-                }
-                _currentView.FilterDescriptors.Add(filterDescriptor);
-            }
-            _currentView.FilterDescriptors.EndUpdate();
-            */
-        }
-
-        private FilterDescriptor LoadCompositeFilter(DataGridRule dataGridRule)
-        {
-            CompositeFilterDescriptor compositeFilter = new CompositeFilterDescriptor();
-            FilterDescriptor filterDescriptor = null;
-            foreach (var partGridRule in dataGridRule.Rules.Order())
-            {
-                DataGridRule.FilterType filterType = partGridRule.CurrentFilterType;
-                switch (filterType)
-                {
-                    case DataGridRule.FilterType.Text:
-                        filterDescriptor = LoadTextFilter(partGridRule);
-                        break;
-                    case DataGridRule.FilterType.Data:
-                        filterDescriptor = LoadDateFilter(partGridRule);
-                        break;
-                }
-                if (filterDescriptor != null)
-                {
-                    filterDescriptor.PropertyName = dataGridRule.Name;
-                    compositeFilter.FilterDescriptors.Add(filterDescriptor);
-                }
-            }
-            compositeFilter.Value = dataGridRule.Value;
-            compositeFilter.Operator = FilterOperator.Contains;
-            compositeFilter.IsFilterEditor = true;
-            compositeFilter.PropertyName = dataGridRule.Name;
-            compositeFilter.LogicalOperator = (dataGridRule.Operador == DataGridRule.OperatorRule.And)
-                ? FilterLogicalOperator.And
-                : FilterLogicalOperator.Or;
-            compositeFilter.NotOperator = dataGridRule.Expresion.Substring(1, 3) == "NOT" ? true : false;
-            return compositeFilter;
-        }
-
+        
+        
         private FilterDescriptor LoadDateFilter(DataGridRule dataGridRule)
         {
             DateFilterDescriptor dateFilterDescriptor = new DateFilterDescriptor();
@@ -786,39 +957,7 @@ namespace KarveControls.KarveGrid
             }
             */
         }
-        public void SetRelationalIdentifier()
-        {
-            /*
-            foreach (var row in _currentView.Rows)
-            {
-                row.Cells[_relationalColumn.Name].Value = _relationalId;
-            }
-            if (DataGridType == GridType.Edit)
-            {
-                DataGridRules dataGridRules = new DataGridRules();
-                DataGridRule dataGridRule = new DataGridRule();
-                dataGridRule.Criterio = DataGridRule.SortingCriteria.IsEqualTo;
-                dataGridRule.Table = _relationalColumn.Table;
-                dataGridRule.ExtendedFieldName = (!string.IsNullOrEmpty(_relationalColumn.ExtendedFieldName)
-                    ? _relationalColumn.ExtendedFieldName
-                    : _relationalColumn.AliasField);
-
-                dataGridRule.Name = _relationalColumn.Name;
-                dataGridRules.Add(dataGridRule);
-                _dataGridDefinition.Clausulas.Clear();
-                _dataGridDefinition.Clausulas = dataGridRules;
-            }*/
-        }
-
-        private void GridDelegacion_UserAddingRow(object sender, Telerik.WinControls.UI.GridViewRowCancelEventArgs e)
-        {
-            /*
-            if (e.Rows.Length > 0)
-            {
-                e.Rows[0].Cells[RelationalColumn.Name].Value = _relationalId;
-            }
-            */
-        }
+        
         public object DataSource
         {
             get { return this._currentView.DataSource; }
@@ -835,8 +974,7 @@ namespace KarveControls.KarveGrid
         public bool AllowEditRow { get; internal set; }
         public bool AllowDeleteRow { get; internal set; }
         public GridType DataGridType { get; internal set; }
-        
-       
+        public DependencyProperty AssitQueryProperty { get; set; }
 
         private void Init()
         {
@@ -847,15 +985,17 @@ namespace KarveControls.KarveGrid
         {
             if (_currentView != null)
             {
+                SizeChanged += KarveGridView_SizeChanged;
+                _currentView.CellEndEdit += CurrentViewOnCellEndEdit;
+                _currentView.RowsChanged += CurrentViewOnRowsChanged;
                 _currentView.FilterChanged += DataGrid_FilterChanged;
-                _currentView.RowFormatting += DataGrid_RowFormatting;
                 _currentView.EnableGrouping = true;
                 _currentView.EnableSorting = true;
-                _currentView.SelectionMode = GridViewSelectionMode.FullRowSelect;
+                _currentView.EnableFiltering = true;
                 _currentView.EnablePaging = true;
+                _currentView.SelectionMode = GridViewSelectionMode.FullRowSelect;
                 _currentView.CurrentRowChanged+=CurrentViewOnSelectionChanged;
-                _currentView.PageChanging += DataGrid_PageChanging;
-                
+                _currentView.PageChanging += DataGrid_PageChanging;                
                 _currentView.CellEndEdit+=CurrentViewOnCellEndEdit;
                 _currentView.CellDoubleClick+=CurrentViewOnCellDoubleClick;
                 
@@ -870,16 +1010,7 @@ namespace KarveControls.KarveGrid
             args.CurrentRow = info;
             RaiseEvent(args);
         }
-
-        private void CurrentViewOnCellEndEdit(object sender, GridViewCellEventArgs gridViewCellEventArgs)
-        {
-            GridViewRowInfo info = _currentView.CurrentRow;
-            GridRowModifiedCellEventArgs args = new GridRowModifiedCellEventArgs(ModifiedCellRoutedEvent);
-            args.CurrentRow = info;
-            RaiseEvent(args);
-
-        }
-
+        
         private void CurrentViewOnSelectionChanged(object sender, EventArgs eventArgs)
         {
             GridViewRowInfo info = _currentView.CurrentRow;
@@ -890,26 +1021,7 @@ namespace KarveControls.KarveGrid
             RaiseEvent(args);
         }
 
-        private void DataGrid_SortChanging(object sender, GridViewCollectionChangingEventArgs e)
-        {
-            DataGridOrderedColumn orderedColumn = new DataGridOrderedColumn();
-            if (DataGridType == GridType.Search)
-            {
-                /*
-                if (_loading == false)
-                {
-                    e.Cancel = true;
-                    if (e.NewItems.Count != 0)
-                    {
-                        DataGridColumn name = e.NewItems[0] as DataGridColumn;
-         //               dynamic col = _dataGridDefinition.Columns[name.Pro]
-                    }
-                }
-                */
-                
-            }
-        }
-
+        
         
         private void DataGrid_FilterChanged(object sender, GridViewCollectionChangedEventArgs e)
         {
@@ -927,63 +1039,7 @@ namespace KarveControls.KarveGrid
             }
             ChangeFilterEvents(filterCurrent);
         }
-        private void DataGrid_RowFormatting(object sender, RowFormattingEventArgs e)
-        {
-            /*
-            GridRowElement row = e.RowElement;
-            if (RowsMark)
-            {
-                if (e.RowElement.IsSelected)
-                {
-                    e.RowElement.BackColor = DefaultColors.DefaultSelectedColor;
-                }
-                else
-                {
-                    GridViewCellInfoCollection infoCollection = row.RowInfo.Cells;
-                    var valueInfo = infoCollection[_dataGridDefinition.ColMarkName];
-                    if (Convert.ToBoolean(valueInfo) == false)
-                    {
-                        e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local);
-                        e.RowElement.ResetValue(LightVisualElement.GradientStyleProperty, ValueResetFlags.Local);
-                        e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local);
-                    }
-                }
-            }
-            */
-        }
-
-        public void GenerateGrid()
-        {
-            /*
-
-            foreach (var col in _dataGridColumns.Ordered())
-            {
-                _dataGridDefinition.Columns.AddColumns(col);
-
-            }
-            foreach (var table in _dataGridTables.Ordered())
-            {
-                _dataGridDefinition.QueryTables.AddDataGridTable(table);
-            }
-            foreach (var col in _dataGridOrderedColumns.Ordered())
-            {
-                _dataGridDefinition.Ordenes.AddColumns(col);
-            }
-            foreach (var col in _dataGridRules.Order())
-            {
-                _dataGridDefinition.Clausulas.Add(col);
-            }
-            if ((_dataGridColumnGroups != null))
-            {
-                foreach (var column in _dataGridColumnGroups.ColumnGroups)
-                {
-                    _dataGridDefinition.GruposColumnas.AddColumns(column);
-
-                }
-            }
-            */
-        }
-
+        
         private void DataGrid_PageChanging(object sender, Telerik.WinControls.PageChangingEventArgs e)
         {
             /*Change data and raise an event*/ 
@@ -1020,15 +1076,7 @@ namespace KarveControls.KarveGrid
                 }
             }
         }
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            Binding oBind = new Binding("SourceView");
-            oBind.Source = dta;
-            oBind.Mode = BindingMode.TwoWay;
-            oBind.ValidatesOnDataErrors = true;
-            oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            SetBinding(SourceViewProperty, oBind);
-        }
+        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -1044,16 +1092,6 @@ namespace KarveControls.KarveGrid
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
             host.Child = _currentView;
             _baseContainer.Children.Add(host);
-        }
-
-
-        public void BeginEdit()
-        {
-            _currentView.BeginEdit();
-        }
-        public void EndEdit()
-        {
-            _currentView.EndEdit();
         }
     }
 }

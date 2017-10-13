@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,20 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\ICommissionAgent.cs" />
     <Compile Include="DataObjects\ICountryData.cs" />
     <Compile Include="DataObjects\ISupplierAccountObjectInfo.cs" />
     <Compile Include="DataObjects\ISupplierBranchesData.cs" />
     <Compile Include="DataObjects\ISupplierContactsData.cs" />
     <Compile Include="DataObjects\IProvinceData.cs" />
-    <Compile Include="DataObjects\ISupplierDataInfo.cs" />
+    <Compile Include="DataObjects\ISupplierData.cs" />
     <Compile Include="DataObjects\ISupplierMonitoringData.cs" />
     <Compile Include="DataObjects\ISupplierTypeData.cs" />
     <Compile Include="DataObjects\ISupplierVisitData.cs" />
+    <Compile Include="ICommissionAgentDataServices.cs" />
     <Compile Include="IHelperDataServices.cs" />
     <Compile Include="IDataServices.cs" />
     <Compile Include="IPaymentDataService.cs" />
     <Compile Include="DataObjects\ISupplierEvaluationNoteData.cs" />
     <Compile Include="ISupplierDataServices.cs" />
+    <Compile Include="IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

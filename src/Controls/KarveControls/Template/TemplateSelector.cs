@@ -4,13 +4,16 @@ using KarveControls.UIObjects;
 
 namespace KarveControls.Template
 {
+    /// <summary>
+    /// Template selector for the items and group of collection that appear in the code
+    /// </summary>
+    
     public class TemplateSelector : DataTemplateSelector
     {
         private DataTemplate _dataField;
         private DataTemplate _dualDataField;
         private DataTemplate _searchTextBox;
         private DataTemplate _dualFieldSearchTextBox;
-        private DataTemplate _dataGridTemplate;
         private DataTemplate _doubleDataField;
         private DataTemplate _dualFieldAfterSearchTextBox;
         private DataTemplate _multipleDataFields;
@@ -20,14 +23,15 @@ namespace KarveControls.Template
         private DataTemplate _dataFieldCheckBox;
         private DataTemplate _dataFieldPickerBox;
         private DataTemplate _dataComboxTemplate;
-
+        /// <summary>
+        ///  This class is a data template selector foreach kind of UiData generated dynamically.
+        /// </summary>
         public TemplateSelector()
         {
             _dataField = new DataTemplate();
             _dualDataField = new DataTemplate();
             _searchTextBox = new DataTemplate();
             _dualFieldSearchTextBox = new DataTemplate();
-            _dataGridTemplate = new DataTemplate();
             _doubleDataField = new DataTemplate();
             _multipleDataFields = new DataTemplate();
             _emailDataTemplate = new DataTemplate();
@@ -138,6 +142,10 @@ namespace KarveControls.Template
             System.Windows.DependencyObject container)
         {
 
+            if (item is UiDataFieldCheckBox)
+            {
+                return _dataFieldCheckBox;
+            }
             if (item is UiDataCombox)
             {
                 return _dataComboxTemplate;
@@ -149,10 +157,6 @@ namespace KarveControls.Template
             if (item is UiDatePicker)
             {
                 return _dataFieldPickerBox;
-            }
-            if (item is UiDataFieldCheckBox)
-            {
-                return _dataFieldCheckBox;
             }
             if (item is UiSearchTextObject)
             {
@@ -169,10 +173,6 @@ namespace KarveControls.Template
             if (item is UiEmailDataField)
             {
                 return _emailDataTemplate;
-            }
-            if (item is UiDataGridObject)
-            {
-                return _dataGridTemplate;
             }
             if (item is UiDualDfAfterSearchBoxObject)
             {
@@ -193,10 +193,7 @@ namespace KarveControls.Template
             if (item is UiDfObject)
             {
                 return _dataField;
-            }
-            
-            
-            
+            }      
             return base.SelectTemplate(item, container);
         }
     }

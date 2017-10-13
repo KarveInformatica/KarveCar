@@ -184,71 +184,73 @@
     <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
     <Compile Include="Utility\ValidationRuleDataGrid.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MarcaDataTableViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
-    <Compile Include="View\CustomTabControl.xaml.cs">
+    <Compile Include="Views\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GrupoVehiculoDataGridUsercontrol.xaml.cs">
+    <Compile Include="Views\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GrupoVehiculoUserControl.xaml.cs">
+    <Compile Include="Views\GrupoVehiculoUserControl.xaml.cs">
       <DependentUpon>GrupoVehiculoUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CintaOpcionesUserControl.xaml.cs">
+    <Compile Include="Views\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DataGridUserControl.xaml.cs">
+    <Compile Include="Views\DataGridUserControl.xaml.cs">
       <DependentUpon>DataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\KarveCategory.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
+    <Compile Include="Views\KarveCategory.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MarcaDataGridUserControl.xaml.cs">
+    <Compile Include="Views\MarcaDataGridUserControl.xaml.cs">
       <DependentUpon>MarcaDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MarcaDataTableUserControl.xaml.cs">
+    <Compile Include="Views\MarcaDataTableUserControl.xaml.cs">
       <DependentUpon>MarcaDataTableUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MarcaUserControl.xaml.cs">
+    <Compile Include="Views\MarcaUserControl.xaml.cs">
       <DependentUpon>MarcaUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProveedorMarcaDataGridUserControl.xaml.cs">
+    <Compile Include="Views\ProveedorMarcaDataGridUserControl.xaml.cs">
       <DependentUpon>ProveedorMarcaDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StyledWindow.cs" />
-    <Compile Include="View\TabItemUserControl.xaml.cs">
+    <Compile Include="Views\StyledWindow.cs" />
+    <Compile Include="Views\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TipoVehiculoDataGridUserControl.xaml.cs">
+    <Compile Include="Views\TipoVehiculoDataGridUserControl.xaml.cs">
       <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\CustomTabControl.xaml">
+    <Page Include="Views\CustomTabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\GrupoVehiculoDataGridUsercontrol.xaml">
+    <Page Include="Views\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GrupoVehiculoUserControl.xaml">
+    <Page Include="Views\GrupoVehiculoUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CintaOpcionesUserControl.xaml">
+    <Page Include="Views\CintaOpcionesUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DataGridUserControl.xaml">
+    <Page Include="Views\DataGridUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,35 +258,35 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MarcaDataGridUserControl.xaml">
+    <Page Include="Views\MarcaDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MarcaDataTableUserControl.xaml">
+    <Page Include="Views\MarcaDataTableUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MarcaUserControl.xaml">
+    <Page Include="Views\MarcaUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ProveedorMarcaDataGridUserControl.xaml">
+    <Page Include="Views\ProveedorMarcaDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\StyledWindow.xaml">
+    <Page Include="Views\StyledWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\TabItemUserControl.xaml">
+    <Page Include="Views\TabItemUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TipoVehiculoDataGridUserControl.xaml">
+    <Page Include="Views\TipoVehiculoDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -441,9 +443,9 @@
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
-    <ProjectReference Include="Modules\ProvidersModule\ProvidersModule.csproj">
+    <ProjectReference Include="Modules\MasterModule\MasterModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
-      <Name>ProvidersModule</Name>
+      <Name>MasterModule</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
@@ -500,6 +502,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cagent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

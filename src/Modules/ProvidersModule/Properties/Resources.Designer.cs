@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProvidersModule.Properties {
+namespace MasterModule.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ProvidersModule.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ProvidersModule.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MasterModule.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace ProvidersModule.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gestión de albaranes.
+        /// </summary>
+        internal static string ProviderConstants_GestiónDeAlbaranes {
+            get {
+                return ResourceManager.GetString("ProviderConstants_GestiónDeAlbaranes", resourceCulture);
             }
         }
         
@@ -88,7 +97,7 @@ namespace ProvidersModule.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Empresa.
+        ///   Looks up a localized string similar to Empresa.
         /// </summary>
         internal static string ProviderInfoViewModel_Empresa {
             get {
@@ -120,6 +129,15 @@ namespace ProvidersModule.Properties {
         internal static string ProviderInfoViewModel_FechaDeBaja {
             get {
                 return ResourceManager.GetString("ProviderInfoViewModel_FechaDeBaja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cuenta C/P.
+        /// </summary>
+        internal static string ProviderInfoViewModel_LoadAccountLeft_CuentaCP {
+            get {
+                return ResourceManager.GetString("ProviderInfoViewModel_LoadAccountLeft_CuentaCP", resourceCulture);
             }
         }
         
@@ -286,11 +304,83 @@ namespace ProvidersModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PROVEE1.
+        /// </summary>
+        internal static string ProviderModule_Table1 {
+            get {
+                return ResourceManager.GetString("ProviderModule_Table1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PROVEE2.
+        /// </summary>
+        internal static string ProviderModule_Table2 {
+            get {
+                return ResourceManager.GetString("ProviderModule_Table2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NewSupplier.
         /// </summary>
         internal static string ProvidersControlViewModel_OpenNewItem_NewSupplier {
             get {
                 return ResourceManager.GetString("ProvidersControlViewModel_OpenNewItem_NewSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Via.
+        /// </summary>
+        internal static string UiDirectionPageBuilder_OrderCommunicationWay_Via {
+            get {
+                return ResourceManager.GetString("UiDirectionPageBuilder_OrderCommunicationWay_Via", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefijo.
+        /// </summary>
+        internal static string UiInvoicingBuilder_LoadAccounts_Prefijo {
+            get {
+                return ResourceManager.GetString("UiInvoicingBuilder_LoadAccounts_Prefijo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cta.Soportado.
+        /// </summary>
+        internal static string UiInvoicingBuilder_LoadIntraco_CtaSoportado {
+            get {
+                return ResourceManager.GetString("UiInvoicingBuilder_LoadIntraco_CtaSoportado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forma de Pago.
+        /// </summary>
+        internal static string UiInvoicingBuilder_LoadInvocingData_FormaDePago {
+            get {
+                return ResourceManager.GetString("UiInvoicingBuilder_LoadInvocingData_FormaDePago", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cuenta L/P.
+        /// </summary>
+        internal static string UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP {
+            get {
+                return ResourceManager.GetString("UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de alta.
+        /// </summary>
+        internal static string UiMiddlePartPageBuilder_BuildDates_FechaDeAlta {
+            get {
+                return ResourceManager.GetString("UiMiddlePartPageBuilder_BuildDates_FechaDeAlta", resourceCulture);
             }
         }
     }

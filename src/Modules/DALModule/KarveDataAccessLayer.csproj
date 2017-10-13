@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChargeTypeDataAccessLayer.cs" />
+    <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -92,7 +93,7 @@
     <Compile Include="DataObjects\SupplierAssuranceDataObject.cs" />
     <Compile Include="DataObjects\SupplierContactsDataObject.cs" />
     <Compile Include="DataObjects\SupplierEvaluationDataObject.cs" />
-    <Compile Include="DataObjects\SupplierInfoDataObject.cs" />
+    <Compile Include="DataObjects\SupplierDataObject.cs" />
     <Compile Include="DataObjects\SupplierMonitoringDataObject.cs" />
     <Compile Include="DataObjects\SupplierProvinceDataObject.cs" />
     <Compile Include="DataObjects\SuppliersBranchesDataObject.cs" />
@@ -147,7 +148,7 @@
     <Compile Include="Exception\SupplierDataServiceAccessDeniedException.cs" />
     <Compile Include="Exception\SupplierDataServicesAccessModifiedException.cs" />
     <Compile Include="DataObjects\SupplierSublicenDataObject.cs" />
-    <Compile Include="VeichlesDataService.cs" />
+    <Compile Include="VehiclesDataAccessLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

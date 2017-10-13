@@ -18,7 +18,8 @@ namespace KarveCommon.Services
         VehicleSubsystem = 1,
         HelperSubsytsem = 2,
         SupplierSubsystem = 3,
-        None = 4
+        CommissionAgentSubystem = 4,
+        None = 5,
     };
 
     /// <summary>
@@ -31,7 +32,8 @@ namespace KarveCommon.Services
 
         public enum Type {
             Insert = 0, Delete = 1, Update = 2, 
-            RegistrationPayload = 3, Show = 4, UpdateView= 5
+            RegistrationPayload = 3, Show = 4, UpdateView= 5,
+            Any = 6
         };
 
         private Type _payLoadType = Type.Insert;

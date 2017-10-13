@@ -8,16 +8,21 @@ namespace KarveCommon.Services
     {
         private CommandHistory _history;
         private DataPayLoad _payLoad;
+
+        private bool _scheduledPayLoad;
         //private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
         // object path
         public CareKeeper()
         {
             _history = CommandHistory.GetInstance();
+            _scheduledPayLoad = false;
         }
         public void Do(CommandWrapper w)
         {
             w.Parameters = _payLoad;
             _history.DoCommand(w);
+            _scheduledPayLoad = false;
+
         }
 
         public void Undo()
@@ -30,21 +35,19 @@ namespace KarveCommon.Services
             _history.Redo();
         }
 
+        public DataPayLoad.Type GetScheduledPayloadType()
+        {
+            if (_scheduledPayLoad)
+            {
+                return _payLoad.PayloadType;   
+            }
+            return DataPayLoad.Type.Any;
+            
+        }
         public void Schedule(DataPayLoad payload)
         {
-            //string name = payload.ObjectPath+"#"+payload.PayloadType.ToString();
             _payLoad = payload;
-            /*
-             * if (dictionary.ContainsKey(name))
-            {
-                dictionary.Remove(name);
-                dictionary.Add(name, payload);
-            }
-            else
-            {
-                dictionary.Add(name, payload);
-            }
-            */
+            _scheduledPayLoad = true;
         }
     }
 }

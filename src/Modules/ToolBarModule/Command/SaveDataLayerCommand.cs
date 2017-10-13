@@ -100,7 +100,7 @@ namespace ToolBarModule.Command
                                         payLoad.PayloadType = DataPayLoad.Type.UpdateView;
                                         if (_eventManager != null)
                                         {
-                                            _eventManager.SendMessage("ProviderControlViewModel", payLoad);
+                                            _eventManager.SendMessage("ProvidersControlViewModel", payLoad);
                                         }
                                     }
                                     else
@@ -128,7 +128,7 @@ namespace ToolBarModule.Command
                                         payLoad.PayloadType = DataPayLoad.Type.UpdateView;
                                         if (_eventManager != null)
                                         {
-                                            _eventManager.SendMessage("ProviderControlViewModel", newSet);
+                                            _eventManager.SendMessage("ProvidersControlViewModel", newSet);
                                         }
                                     }
 

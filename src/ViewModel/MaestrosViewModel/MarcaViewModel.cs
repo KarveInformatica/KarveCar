@@ -133,7 +133,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         {
             string sql = string.Format(ScriptsSQL.SELECT_PROVEEDOR_MARCA);
             GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnProveedores, sql);
-            return ManageDataTable.ConvertObsCollectionToDataTable<SupplierInfoDataObject>(obs); //CopyToTable(obs);
+            return ManageDataTable.ConvertObsCollectionToDataTable<SupplierDataObject>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
 
@@ -142,7 +142,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_PROVEEDOR_MARCA);
             GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(EOpcion.rbtnProveedores, sql));
-            return ManageDataTable.ConvertObsCollectionToDataTable<SupplierInfoDataObject>(obs); //CopyToTable(obs);
+            return ManageDataTable.ConvertObsCollectionToDataTable<SupplierDataObject>(obs); //CopyToTable(obs);
             //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
         #endregion
@@ -193,7 +193,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (dataRowView != null)
             {
                 DataRowView rowView = dataRowView as DataRowView;
-                SupplierInfoDataObject proveedor = ManageDataTable.ConvertDataRowViewToObject<SupplierInfoDataObject>(rowView);
+                SupplierDataObject proveedor = ManageDataTable.ConvertDataRowViewToObject<SupplierDataObject>(rowView);
                 if (proveedor != null)
                 {
                     this.MarcaSelectedItem.ProveedorCodigo = proveedor.Code;

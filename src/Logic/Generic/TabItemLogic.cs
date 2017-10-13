@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
@@ -24,7 +25,9 @@ namespace KarveCommon.Logic.Generic
         /// <returns></returns>
         public static TabItemUserControl CreateTabItem(EOpcion opcion)
         {
+
             TabItemUserControl tbitem = new TabItemUserControl();
+                /*
             tbitem.VerticalAlignment = VerticalAlignment.Stretch;
             tbitem.HorizontalAlignment = HorizontalAlignment.Stretch;
             tbitem.HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -41,6 +44,7 @@ namespace KarveCommon.Logic.Generic
           //Se añade el nuevo TabItem al TabControl, le ponemos el focus y devolvemos el nuevo TabItem
             control.Items.Add(tbitem);
             tbitem.Focus();
+            */
             return tbitem;
         }
 
@@ -88,7 +92,7 @@ namespace KarveCommon.Logic.Generic
             {
                 TemplateInfoTabItem item = tabitemdictionary[opcion] as TemplateInfoTabItem;
                 tabitemdictionary.Remove(tabitemdictionary.Where(z => z.Key == opcion).FirstOrDefault().Key);
-                ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(item.TabItem);
+             //   ((MainWindow)Application.Current.MainWindow).tbControl.Items.Remove(item.TabItem);
 
             }           
         }

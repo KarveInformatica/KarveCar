@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 using System.Windows.Input;
 using KarveCar.Logic.Generic;
 using KarveCar.Model.Generic;
@@ -6,11 +7,12 @@ using KarveCommon.Generic;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using System.Windows;
-using ProvidersModule;
+using MasterModule;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
-using ProvidersModule.Views;
+using MasterModule.Views;
 using KarveCommon.Logic.Generic;
+using MasterModule.Interfaces;
 
 namespace KarveCar.ViewModel.MaestrosViewModel
 {
@@ -20,10 +22,13 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private DelegateCommand<object> _showProvidersCommand;
         #endregion
 
+        Stopwatch start = new Stopwatch();
+
         #region Constructor
 
         public ProvidersResolverViewModel()
         {
+            start.Start();
             this._showProvidersCommand = new DelegateCommand<object>(showProvidersCommand);
         }
 
@@ -54,10 +59,13 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
             EOpcion opcion = EOpcion.rbtnProveedores;
-            View.MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
+            Views.MainWindow mainWindow = Application.Current.MainWindow as Views.MainWindow;
+           // start.Start();
+
             IUnityContainer container = mainWindow.UnityContainer;
             IProvidersView providerView= container.Resolve<IProvidersView>();
-          //  IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
+     
+            //  IProvidersViewModel providerViewModule = container.Resolve<IProvidersViewModel>();
             ProvidersControl view = providerView as ProvidersControl;
          //   view.DataContext = providerViewModule;
 
@@ -74,6 +82,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 TabItemLogic.CreateTabItemUserControl(opcion, providerView);
               //  providerViewModule.Navigate("SupplierView");
             }
+           start.Stop();
+          //  MessageBox.Show(string.Format("{0}", start.ElapsedMilliseconds));
+
         }
         #endregion
     }

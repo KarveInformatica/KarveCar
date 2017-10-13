@@ -14,7 +14,7 @@ using Prism.Commands;
 using KarveDataServices.DataObjects;
 using System.Windows;
 
-namespace ProvidersModule.ViewModels
+namespace MasterModule.ViewModels
 {
     public class BasicEditorViewModel: TabViewModelBase
     {

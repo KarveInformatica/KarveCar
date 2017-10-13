@@ -1,9 +1,10 @@
 ﻿using KarveCar.Model.Sybase;
 using KarveCar.Properties;
-using KarveCar.View;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using KarveCar.Views;
+
 namespace KarveCar.Logic.Generic
 {
     /// <summary>

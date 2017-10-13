@@ -1,5 +1,4 @@
-﻿using ProvidersModule.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MasterModule.ViewModels;
 
-namespace ProvidersModule.Views
+namespace MasterModule.Views
 {
     /// <summary>
     /// Interaction logic for GenericGridView.xaml

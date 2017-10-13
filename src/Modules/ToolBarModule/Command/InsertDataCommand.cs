@@ -84,6 +84,32 @@ namespace ToolBarModule
                         }
                     
                 }
+                else if (payLoad.HasDataSet)
+                {
+                    try
+                    {
+                        string name = payLoad.Set.DataSetName;
+                        supplierDataServices.UpdateDataSet(queries, payLoad.Set);
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                    DataPayLoad newSet = (DataPayLoad)payLoad.Clone();
+                    newSet.HasDataSetList = false;
+                    newSet.HasDataSet = true;
+                    newSet.Set = payLoad.Set;
+                    newSet.Queries = payLoad.Queries;
+                    newSet.Sender = ToolBarModule.NAME;
+                    newSet.PayloadType = DataPayLoad.Type.UpdateView;
+                    if (_eventManager != null)
+                    {
+                        _eventManager.SendMessage("ProvidersControlViewModel", newSet);
+                    }
+
+                }
             }
         }
 

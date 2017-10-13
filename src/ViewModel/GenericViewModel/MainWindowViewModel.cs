@@ -7,6 +7,7 @@ using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace KarveCar.ViewModel.GenericViewModel
 {
@@ -22,7 +23,16 @@ namespace KarveCar.ViewModel.GenericViewModel
             this._setLanguagesCommand = new DelegateCommand<object>(SetLanguages);
             this._closeWindowCommand = new DelegateCommand(CloseWindow);
             this._container = container;
-            
+            _regionManager = _container.Resolve<IRegionManager>(); 
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+
+        }
+        private readonly IRegionManager _regionManager;
+        public DelegateCommand<string> NavigateCommand { get; set; }
+
+        void Navigate(string navigationPath)
+        {
+            _regionManager.RequestNavigate("TabRegion", navigationPath);
         }
         public string Title
         {

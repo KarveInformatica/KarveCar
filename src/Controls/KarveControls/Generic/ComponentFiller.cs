@@ -13,7 +13,13 @@ namespace KarveControls.Generic
     internal class ComponentFiller
     {
 
-
+        /// <summary>
+        ///  This method fills the checkbox value with the value of the itemsource.
+        /// </summary>
+        /// <param name="itemSource"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="checkBox"></param>
+        /// <returns></returns>
         public bool FetchFillerCheckBox(DataTable itemSource, string fieldName, ref CheckBox checkBox)
         {
             DataColumnCollection dataFieldCollection = itemSource.Columns;
@@ -26,7 +32,6 @@ namespace KarveControls.Generic
                     object currentValue = primaryItemSourceRow[fieldName];
                     if (!DBNull.Value.Equals(currentValue))
                     {
-                        bool result = false;
                         if (currentValue is Int16)
                         {
                             Int16 value = (Int16) currentValue;

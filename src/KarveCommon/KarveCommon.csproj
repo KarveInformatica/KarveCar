@@ -80,6 +80,7 @@
     <Compile Include="Generic\ISQLQueryExecutor.cs" />
     <Compile Include="Generic\ISqlSession.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
+    <Compile Include="Generic\NotifyTaskCompletion.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
     <Compile Include="Generic\OdbcQueryExecutor.cs" />
     <Compile Include="Generic\OleDbQueryExecutor.cs" />

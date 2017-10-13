@@ -69,6 +69,7 @@ namespace ToolBarModule
 
         private void DoDeleteCommand()
         {
+            
             string value = _configurationService.GetPrimaryKeyValue();
             if (value.Length > 0)
             {
@@ -143,7 +144,7 @@ namespace ToolBarModule
             {
                 this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
                 this.IsSaveEnabled = false;
-                if (_states == ToolbarStates.Insert)
+                if ((_careKeeper.GetScheduledPayloadType() == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
                 {
                     InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
                         this._careKeeper,

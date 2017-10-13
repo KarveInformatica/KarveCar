@@ -1,8 +1,9 @@
-﻿using KarveDataServices.DataObjects;
+﻿using System;
+using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer.DataObjects
 {
-    class ExtendedSummaryDataObject : SupplierSummaryDataObject, ISupplierDataInfo
+    class ExtendedSummaryDataObject : SupplierSummaryDataObject, ISupplierData
     {
         public object Commercial { set; get; }
         public string ProvinceCode { get; set; }
@@ -33,10 +34,8 @@ namespace DataAccessLayer.DataObjects
         public string CountryCode { get; set; }
 
         public string City { set; get; }
-        public string Type { set; get; }
         public object Aeat { set; get; }
         public object PaymentType { set; get; }
-        public object Account { set; get; }
         public string Surname1 { get; set; }
         public string Surname2 { get; set; }
 
@@ -54,6 +53,8 @@ namespace DataAccessLayer.DataObjects
         public object VacationMonth2 { set; get; }
         public string LastChange { set; get; }
         public string ChangedByUser { set; get; }
+        public ISupplierTypeData Type { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ISupplierAccountObjectInfo Account { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
  

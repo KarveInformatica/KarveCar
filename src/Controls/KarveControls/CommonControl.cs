@@ -330,7 +330,7 @@ namespace KarveControls
 
         protected abstract void OnLabelTextChanged(DependencyPropertyChangedEventArgs e);
         protected abstract void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e);        
-        protected abstract void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e);
+        protected internal abstract void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e);
         protected abstract void OnLabelVisibleChanged(DependencyPropertyChangedEventArgs e);
         protected abstract void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e);
         public abstract void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules);

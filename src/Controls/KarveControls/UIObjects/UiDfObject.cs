@@ -12,13 +12,17 @@ using Prism.Mvvm;
 
 namespace KarveControls.UIObjects
 {
+    /// <summary>
+    /// UiDfObject is a user interface object that is able to be rendered as a data field.
+    /// </summary>
     [Serializable]
-    public class UiDfObject : BindableBase, IUiObject
+    public class UiDfObject : BindableBase,IUiObject
     {
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+     /// <summary>
+     ///  public delegate to detect a change in the datafiled
+     /// </summary>
+     /// <param name="eventDictionary"> Parameters returned from the datafield</param>
         public delegate void ChangedField(IDictionary<string, object> eventDictionary);
 
         public event ChangedField OnChangedField;
@@ -26,15 +30,7 @@ namespace KarveControls.UIObjects
         [XmlIgnore]
         public ICommand ChangedItem { set; get; }
 
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+     
         private string _description;
         private CommonControl.DataType _dataAllowed;
         private bool _allowedEmpty;
@@ -51,7 +47,10 @@ namespace KarveControls.UIObjects
         private string _labelTextWidth;
         private string _height;
         private string _primaryKey;
-
+        private object _dataObject;
+        /// <summary>
+        /// UiDfObject. Object for a data field control binded with a data object or a data table
+        /// </summary>
         public UiDfObject()
         {
             ChangedItem = new DelegateCommand<object>(ChangedObject);
@@ -62,46 +61,56 @@ namespace KarveControls.UIObjects
             IDictionary<string, object> currentDictionary = value as IDictionary<string, object>;
             OnChangedField?.Invoke(currentDictionary);
         }
-
+        /// <summary>
+        /// UiDfObject. UiObject for data representation to be binded with a data object or a data table
+        /// </summary>
+        /// <param name="label">Visible lable of a UiDfObject</param>
+        /// <param name="labelTextWidth"></param>
         public UiDfObject(string label, string labelTextWidth)
         {
             ChangedItem = new DelegateCommand<object>(ChangedObject);
             this.LabelText = label;
             this.LabelTextWidth = labelTextWidth;
         }
-
+        /// <summary>
+        /// Description of the field
+        /// </summary>
         [XmlAttribute("Description")]
         public string Description
         {
-            set { _description = value; }
+            set { _description = value; RaisePropertyChanged(); }
             get { return _description; }
         }
-
+        /// <summary>
+        ///  Data allowed for having control validation rules.
+        /// </summary>
         [XmlAttribute("DataAllowed")]
         public CommonControl.DataType DataAllowed
         {
-            set { _dataAllowed = value; }
+            set { _dataAllowed = value; RaisePropertyChanged(); }
             get { return _dataAllowed; }
         }
-
+        /// <summary>
+        /// Property to be binded
+        /// </summary>
         [XmlAttribute("AllowedEmpty")]
         public bool AllowedEmpty
         {
-            set { _allowedEmpty = value; }
+            set { _allowedEmpty = value; RaisePropertyChanged(); }
             get { return _allowedEmpty; }
         }
 
         [XmlAttribute("UpperCase")]
         public bool UpperCase
         {
-            set { _upperCase = value; }
+            set { _upperCase = value; RaisePropertyChanged(); }
             get { return _upperCase; }
         }
 
         [XmlAttribute("LabelText")]
         public string LabelText
         {
-            set { _labelText = value; }
+            set { _labelText = value; RaisePropertyChanged(); }
             get { return _labelText; }
 
         }
@@ -109,56 +118,56 @@ namespace KarveControls.UIObjects
         [XmlAttribute("LabelVisible")]
         public bool LabelVisible
         {
-            set { _labelVisible = value; }
+            set { _labelVisible = value; RaisePropertyChanged(); }
             get { return _labelVisible; }
         }
 
         [XmlAttribute("Height")]
         public string Height
         {
-            set { _height = value; }
+            set { _height = value; RaisePropertyChanged(); }
             get { return _height; }
         }
 
         [XmlAttribute("TextContent")]
         public virtual string TextContent
         {
-            set { _textContent = value; }
+            set { _textContent = value; RaisePropertyChanged(); }
             get { return _textContent; }
         }
 
         [XmlAttribute("TextContentWidth")]
         public string TextContentWidth
         {
-            set { _textContentWidth = value; }
+            set { _textContentWidth = value; RaisePropertyChanged(); }
             get { return _textContentWidth; }
         }
 
         [XmlAttribute("IsReadOnly")]
         public bool IsReadOnly
         {
-            set { _isReadOnly = value; }
+            set { _isReadOnly = value; RaisePropertyChanged(); }
             get { return _isReadOnly; }
         }
 
         [XmlAttribute("DataField")]
         public string DataField
         {
-            set { _dataField = value; }
+            set { _dataField = value; RaisePropertyChanged(); }
             get { return _dataField; }
         }
 
         [XmlAttribute("TableName")]
         public string TableName
         {
-            set { _tableName = value; }
+            set { _tableName = value; RaisePropertyChanged(); }
             get { return _tableName; }
         }
 
         [XmlIgnore]
         public DataTable ItemSource
         {
-            set { _itemSource = value; }
+            set { _itemSource = value; RaisePropertyChanged(); }
             get { return _itemSource; }
 
         }
@@ -178,7 +187,7 @@ namespace KarveControls.UIObjects
         [XmlAttribute("LabelTextWidth")]
         public string LabelTextWidth
         {
-            set { _labelTextWidth = value; }
+            set { _labelTextWidth = value; RaisePropertyChanged(); }
             get { return _labelTextWidth; }
 
         }
@@ -187,7 +196,7 @@ namespace KarveControls.UIObjects
 
         public bool IsVisible
         {
-            set { _isVisible = value; }
+            set { _isVisible = value; RaisePropertyChanged(); }
             get { return _isVisible; }
         }
 
@@ -195,8 +204,16 @@ namespace KarveControls.UIObjects
         public string PrimaryKey
         {
             get { return _primaryKey; }
-            set { _primaryKey = value; }
+            set { _primaryKey = value; RaisePropertyChanged(); }
         }
+        [XmlElement("DataObject")]
+        public object DataObject { get { return _dataObject; }
+            set
+            {
+                _dataObject = value;
+                RaisePropertyChanged();
 
             }
+        }
+    }
 }

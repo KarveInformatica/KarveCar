@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Threading.Tasks;
 using DataAccessLayer;
@@ -8,6 +10,7 @@ using KarveDataServices.DataObjects;
 using NUnit.Framework;
 using KarveCommon.Services;
 using System.Diagnostics;
+using System.Threading;
 using KarveCommon.Generic;
 
 namespace KarveTest.DAL
@@ -18,39 +21,12 @@ namespace KarveTest.DAL
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
         private IConfigurationService _serviceConf;
-       
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        private INotifyTaskCompletion<DataSet> _initializationNotifier;
+        private bool _notificationResult = false;
 
-        ///// <summary>
-        /////  Returns a supplierId
-        ///// </summary>
-        ///// <returns></returns>
-        //private async Task<string> SelectFirstId()
-        //{
-        //    DataSet set = null;
-        //    string supplierId="";
-        //    try
-        //    {
-        //        set = await _supplierDataServices.GetAsyncAllSupplierSummary();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.StackTrace);
-        //        Assert.Fail("Failed");
-        //    }
-        //    // ok we have the data.
-        //    if (set != null)
-        //    {
-        //        DataTable table = set.Tables[0];
-        //        // we shall see the fields.
-        //        int count = table.Rows.Count;
-        //        Assert.GreaterOrEqual(count, 1);
-        //        DataRow row = table.Rows[0];
-        //        Assert.NotNull(row["Numero"]);
-        //        supplierId = row["Numero"] as string;
-        //    }
-        //    return supplierId;
-        //}
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        
+
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -67,6 +43,31 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
+
+        [Test]
+        public void LoadAndNotify()
+        {
+            _notificationResult = false;
+
+            //_initializationNotifier = NotifyTaskCompletion.Create<DataSet>(_supplierDataServices.GetAsyncAllSupplierSu);
+            
+            _initializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
+            Assert.IsTrue(_notificationResult);
+        }
+
+        private void InitializationNotifierOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (_initializationNotifier.IsSuccessfullyCompleted)
+            {
+                _notificationResult = true;
+            
+            }
+            else
+            {
+                _notificationResult = false;
+            
+            }
+        }
         // <summary>
         // This is an asynchronous test where for each supplier we get the information for its supplierId.
         // </summary>
@@ -77,7 +78,46 @@ namespace KarveTest.DAL
             DataSet set = null;
             try
             {
-                set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+                for (int i = 0; i < 10; i++)
+                {
+                    set = await _supplierDataServices.GetAsyncAllSupplierSummary();
+                    Assert.NotNull(set);
+                    Assert.Greater(set.Tables.Count, 0);
+                    Assert.NotNull(set.Tables[0]);
+                    int rowCounts = set.Tables[0].Rows.Count;
+                    Assert.Greater(set.Tables[0].Rows.Count, 0);
+                    Assert.NotNull(set.Tables[0].Rows[0][0]);
+                    for (int k = 0; k < rowCounts; ++k)
+                    {
+                        string value = set.Tables[0].Rows[k][0] as string;
+                        Assert.NotNull(value);
+                        Assert.LessOrEqual(value.Length, 7);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        // <summary>
+        // This is an asynchronous test where for each supplier we get the information for its supplierId.
+        // </summary>
+        // <returns></returns>
+        [Test]
+        public async Task Should_Give_SupplierCompleteSummary()
+        {
+            DataSet set = null;
+            try
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    set = await _supplierDataServices.GetAsyncSuppliers();
+                    Assert.NotNull(set);
+                }
             }
             catch (Exception e)
             {

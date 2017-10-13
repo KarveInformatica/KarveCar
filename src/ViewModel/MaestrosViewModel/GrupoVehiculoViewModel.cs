@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DataAccessLayer.DataObjects;
+using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 using KarveCommon.Logic.Generic;
 using KarveDataServices;
 using Microsoft.Practices.Unity;
-using ProvidersModule;
 
 
 namespace KarveCar.ViewModel.MaestrosViewModel
@@ -263,7 +263,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// <param name="parameter"></param>
         public void GrupoVehiculo(object parameter)
         {
-             MainWindow mainWindow = Application.Current.MainWindow as View.MainWindow;
+             MainWindow mainWindow = Application.Current.MainWindow as Views.MainWindow;
              IUnityContainer container = mainWindow.UnityContainer;
             // The data services interface is the data services related to the data access layer
             this._dataServices = container.Resolve<IDataServices>();

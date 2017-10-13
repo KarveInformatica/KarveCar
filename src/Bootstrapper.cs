@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Unity;
 using System.Windows;
-using KarveCar.View;
 using KarveCommon.Services;
 using Prism.Modularity;
 using KarveDataServices;
@@ -12,6 +11,8 @@ using System.Reflection;
 using System.Globalization;
 using System;
 using DataAccessLayer;
+using KarveCar.Views;
+using MasterModule.Common;
 
 
 namespace KarveCar
@@ -36,13 +37,18 @@ namespace KarveCar
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
-            catalog.AddModule(typeof(ProvidersModule.ProviderModule));
+            catalog.AddModule(typeof(MasterModule.MasterModule));
             //catalog.AddModule(typeof(AgentsModule.AgentModule));
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
           //  catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
            
         }
-
+        protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
+        {
+            IRegionBehaviorFactory behaviors = base.ConfigureDefaultRegionBehaviors();
+            behaviors.AddIfMissing(RegionManagerBehavior.BehaviorKey, typeof(RegionManagerBehavior));
+            return behaviors;
+        }
         /// <summary>
         ///  This method register global services provided to to the module.
         /// </summary>
@@ -51,6 +57,7 @@ namespace KarveCar
             base.ConfigureContainer();
             try
             {
+                Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
                 // The dal service is used to access to the database
                 Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
                 string connParams = ConnectionString;
@@ -90,6 +97,8 @@ namespace KarveCar
             ViewModelLocationProvider.SetDefaultViewModelFactory(type => Container.Resolve(type));
 
         }
+
+
         protected override void InitializeShell()
         {
             // The main window and configuration services shall be injected just here 
@@ -99,7 +108,7 @@ namespace KarveCar
             {
                 IConfigurationService shell = Container.Resolve<IConfigurationService>();
                 shell.Shell = Application.Current.MainWindow;
-                KarveCar.View.MainWindow window = Application.Current.MainWindow as KarveCar.View.MainWindow;
+                KarveCar.Views.MainWindow window = Application.Current.MainWindow as KarveCar.Views.MainWindow;
                 window.UnityContainer = Container;
                 Application.Current.MainWindow.Show();
             } catch (Exception e)

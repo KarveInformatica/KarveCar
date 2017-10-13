@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -9,24 +10,9 @@ using KarveDataServices.DataObjects;
 
 namespace KarveDataServices
 {
-
-
-    public static class SupplierPayLoad
-    {
-        public const string SupplierDOName = "SupplierDataObjectInfo";
-        public const string SupplierDOType = "SupplierDataObjectType";
-        public const string SupplierAccountingDO = "SupplierAccountDataObject";
-        public const string SupplierMonitoringDS = "SupplierMonitoringDataSet";
-        public const string SupplierEvaluationDS = "SupplierEvaluationDataSet";
-        public const string SupplierTransportDS = "SupplierTransportDataSet";
-        public const string SupplierAssuranceDS = "SupplierAssuranceDataSet";
-        public const string SupplierContactsDS = "SupplierContactsDataSet";
-        public const string SupplierVisitsDS = "SupplierVisitsDataSet";
-        public const string SupplierBranchesDS = "SupplierBranchesDataSet";
-        public const string SupplierContactsChangedField = "SupplierContactsChanged";
-        public const string SupplierSummaryTable = "SupplierSummaryTable";
-    }
-
+    /// <summary>
+    /// Public interface for the supplier usage,
+    /// </summary>
     public interface ISupplierDataServices
     {
 
@@ -68,8 +54,8 @@ namespace KarveDataServices
         ///  Returns the delegations foreach supplier.
         /// </summary>
         /// <param name="supplierId">supplier code.</param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncDelegations(string supplierId);
+        /// <returns>A tuple containing the executed query and the resulting data set.</returns>
+        Task<Tuple<string, DataSet>> GetAsyncDelegations(string supplierId);
         /// <summary>
         ///  Returns the visits for a given supplier.
         /// </summary>
@@ -136,7 +122,13 @@ namespace KarveDataServices
         string GetNewId();
         // This supplier id.
         Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList);
-
+        /// <summary>
+        /// This is delete supplier.
+        /// </summary>
+        /// <param name="sqlQuery">Sql query</param>
+        /// <param name="supplierId">Identifier of the supplier</param>
+        /// <param name="supplierDataSet">DataSet</param>
+        /// <returns></returns>
         bool DeleteSupplier(string sqlQuery,
             string supplierId,
             DataSet supplierDataSet);
