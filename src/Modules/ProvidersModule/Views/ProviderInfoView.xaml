@@ -7,13 +7,10 @@
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
              xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
-             xmlns:karvevalidators="clr-namespace:KarveCommon.Validation;assembly=KarveCommon"
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
              xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
@@ -133,25 +130,6 @@
                     </Button>
             </StackPanel>
             </DataTemplate>
-            <DataTemplate x:Key="SearchBoxDataTemplate">
-                <karveControls:DataSearchTextBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 LabelTextWidth="{Binding LabelTextWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 TextContent="{Binding TextContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 TextContentWidth="{Binding TextContentWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 DataField="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 AssistName="{Binding AssistDataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 AuxDataSearchTextBox="{Binding TableNameAssistant, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SearchFieldChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </karveControls:DataSearchTextBox>
-            </DataTemplate>
             <DataTemplate x:Key="DualFieldSearchTextBox">
 
                 <karveControls:DualFieldSearchBox LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -180,15 +158,23 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MagnifierPress">
-                            <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="AssistParameters"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
 
+                            <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                       TriggerParameterPath="AssistParameters" />
+                            
+                        </i:EventTrigger>
+                    
+                            <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                                <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                 
                 </karveControls:DualFieldSearchBox>
             </DataTemplate>
             <template:TemplateSelector x:Key="SimpleTemplateSelector"
                                        DataFieldTemplate="{StaticResource ResourceKey=DataFieldDataTemplate}"
                                        DualFieldSearchTemplate="{StaticResource ResourceKey=DualFieldSearchTextBox}"
+                                       DataFieldCheckBox="{StaticResource ResourceKey=DataFieldCheckBoxTemplate}"
                                        />
 
             <DataTemplate x:Key="MultipleDataFieldTemplate">
@@ -255,7 +241,6 @@
             <template:TemplateSelector x:Key="BasicTemplateSelector"
                                        DataFieldTemplate="{StaticResource ResourceKey=DataFieldDataTemplate}"
                                        DoubleDataTemplate="{StaticResource ResourceKey=DoubleDataFieldDataTemplate}"
-                                       SearchTextBoxTemplate="{StaticResource ResourceKey=SearchBoxDataTemplate}"
                                        DualFieldSearchTemplate="{StaticResource ResourceKey=DualFieldSearchTextBox}"
                                        MultipleDataFieldTemplate ="{StaticResource ResourceKey=MultipleDataFieldTemplate}"
                                        EmailDataTemplate="{StaticResource ResourceKey=EmailDataTemplate}"    
@@ -263,6 +248,7 @@
                                        GroupBoxTemplate="{StaticResource ResourceKey=GroupBoxMultipleObject}"
                                        DataAreaTemplate="{StaticResource ResourceKey=DataAreaTemplate}"
                                        DataComboxBoxTemplate="{StaticResource ResourceKey=ComboBoxTemplate}"
+                                       DataFieldCheckBox="{StaticResource ResourceKey=DataFieldCheckBoxTemplate}"
                                        >
             </template:TemplateSelector>
 
@@ -323,87 +309,6 @@
                 <Setter Property="Margin" Value="0 5 0 0" />
             </Style>
 
-            <Style x:Key="SimpleStyle" TargetType="{x:Type TabControl}">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                <Setter Property="Padding" Value="4,4,4,4"/>
-                <Setter Property="BorderThickness" Value="0,0,0,0"/>
-                <Setter Property="Background" Value="#F9F9F9"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type TabControl}">
-                            <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition x:Name="ColumnDefinition0"/>
-                                    <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
-                                    <RowDefinition x:Name="RowDefinition1" Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TabPanel x:Name="HeaderPanel" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
-                                <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1 1 1 0" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
-                                    <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                </Border>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="TabStripPlacement" Value="Bottom">
-                                    <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
-                                    <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                    <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                    <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
-                                    <Setter Property="Margin" TargetName="HeaderPanel" Value="2,0,2,2"/>
-                                </Trigger>
-                                <Trigger Property="TabStripPlacement" Value="Left">
-                                    <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                                    <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                    <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="0"/>
-                                    <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1"/>
-                                    <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
-                                    <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
-                                    <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                    <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                                    <Setter Property="Margin" TargetName="HeaderPanel" Value="2,2,0,2"/>
-                                </Trigger>
-                                <Trigger Property="TabStripPlacement" Value="Right">
-                                    <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                                    <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                    <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
-                                    <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0"/>
-                                    <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
-                                    <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
-                                    <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                    <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                                    <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="StylelessButtonStyle" TargetType="{x:Type ButtonBase}">
-                <Setter Property="Margin" Value="3" />
-                <Setter Property="Cursor" Value="Hand" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ButtonBase}">
-                            <ContentPresenter />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <LinearGradientBrush x:Key="CellBrush" StartPoint="0,0" EndPoint="1,0">
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Color="AliceBlue" Offset="0" />
-                    <GradientStop Color="AntiqueWhite" Offset=".6" />
-                    <GradientStop Color="White" Offset="1" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
-
             <Style x:Key="PdfCheckBox" 
                TargetType="{x:Type CheckBox}">
                 <Setter Property="Width" Value="150"/>
@@ -437,7 +342,7 @@
             <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
                 <dragablz:TabablzControl.ItemContainerStyle>
                     <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
-                        <Setter Property="Width" Value="200" />
+                        <Setter Property="Width" Value="100" />
                         <Setter Property="Height" Value="40" />
                         <Setter Property="FontFamily" Value="Arial"/>
                     </Style>
@@ -473,11 +378,8 @@
                 <TabItem Name="Contables" Header="Contables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
 
                     <Grid ShowGridLines="False">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10*"></RowDefinition>
-                            <RowDefinition Height="90*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <ItemsControl x:Name="upperPartContables"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                       <WrapPanel Orientation="Vertical">
+                        <ItemsControl x:Name="upperPartContables"  ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
@@ -489,31 +391,24 @@
                         <Grid Grid.Row="1">
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="60*"></ColumnDefinition>
+                                <ColumnDefinition Width="40*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <GroupBox Header="Facturacion" Grid.Row="0" Grid.Column="0">
+                            <GroupBox Header="Facturacion"  Grid.Column="0">
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-
-                                    <ItemsControl Grid.Row ="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="LeftCollection" ItemsSource="{Binding AccountLeftCollection}" 
+                                    <WrapPanel Orientation="Vertical">    
+                                    <ItemsControl  x:Name="LeftCollection" ItemsSource="{Binding AccountLeftCollection}" 
                                       ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                                <StackPanel Orientation="Vertical" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                     </ItemsControl>
-                                    <StackPanel Grid.Row="1" Grid.Column="0">
-                                        <ItemsControl x:Name="LeftCheckBoxes" ItemsSource="{Binding LeftCheckBoxesCollection}" 
+                                    <StackPanel >
+                                                <GroupBox>
+                                                    <ItemsControl x:Name="LeftCheckBoxes" ItemsSource="{Binding AccountLeftCheckBoxes}" 
                                                  ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -521,9 +416,11 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Grid.Column="1">
-                                        <ItemsControl x:Name="RightCheckBoxes" ItemsSource="{Binding RightCheckBoxesCollection}" 
+                                                </GroupBox>
+                                            </StackPanel>
+                                    <StackPanel>
+                                        <GroupBox>
+                                                    <ItemsControl x:Name="RightCheckBoxes" ItemsSource="{Binding AccountRightCheckBoxes}" 
                                                  ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -531,30 +428,76 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
-                                    </StackPanel>
+                                        </GroupBox>
+                                            </StackPanel>
+                                 </WrapPanel>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Grid.Row="0" Grid.Column="1" Header="Countable">
-
-                                <ItemsControl x:Name="RightCollection" ItemsSource="{Binding AccountRightCollection}" 
+                            <GroupBox Grid.Row="0" Grid.Column="1" Header="Contables">
+                                 <StackPanel Orientation="Vertical">
+                                     
+                                    <GroupBox Header="Cuentas">
+                                        
+                                        <ItemsControl x:Name="RightCollection" ItemsSource="{Binding AccountRightCollection}" 
                                       ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </GroupBox>
+                                     
+                                     <GroupBox Header="Leasing">
+                                        <ItemsControl x:Name="LeasingCollection" ItemsSource="{Binding LeasingCollection}" 
+                                                      ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </GroupBox>
+                                     <GroupBox Header="Intracomunitario">
+                                            <ItemsControl x:Name="Intracomunitario" ItemsSource="{Binding IntracoCollection}" 
+                                                       ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                                             <ItemsControl.ItemsPanel>
+                                                 <ItemsPanelTemplate>
+                                                     <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" VerticalAlignment="Stretch"/>
+                                                 </ItemsPanelTemplate>
+                                             </ItemsControl.ItemsPanel>
+                                         </ItemsControl>
+                                     </GroupBox>
+                                     <GroupBox Header="Tipo Compra">
+                                         <StackPanel>                                        
+                                             <karveControls:DataRadio Content="Compra"></karveControls:DataRadio>
+                                              <karveControls:DataRadio Content="Gasto"></karveControls:DataRadio>
+                                              <karveControls:DataRadio Content="Inmovilizado"></karveControls:DataRadio>
+                                         </StackPanel>
+
+                                        </GroupBox>
+                                    </StackPanel>
+
                             </GroupBox>
                         </Grid>
+                           </WrapPanel>
                     </Grid>
 
                 </TabItem>
                 <TabItem Name="Accumulados" Header="Accumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                 </TabItem>
                 <TabItem Name="Direcciones1" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid ShowGridLines="False">
+                    <WrapPanel>
+                        <ItemsControl x:Name="upperPartDirecciones" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <Grid ShowGridLines="False">
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
@@ -562,14 +505,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <ItemsControl x:Name="upperPartDirecciones"  Grid.Row="0" Grid.ColumnSpan="2"  ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Dirección de Pago">
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Dirección de Pago">
                             <ItemsControl  x:Name="TopLeftDirection" ItemsSource="{Binding TopLeftDirection}" 
                                           ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                 <ItemsControl.ItemsPanel>
@@ -579,7 +515,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </GroupBox>
-                        <GroupBox Header="Dirección de Reclamaciones" Grid.Row="1" Grid.Column="1">
+                        <GroupBox Header="Dirección de Reclamaciones" Grid.Row="0" Grid.Column="1">
                             <ItemsControl  x:Name="TopRightDirection" ItemsSource="{Binding TopRightDirection}" 
                                            ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                 <ItemsControl.ItemsPanel>
@@ -592,7 +528,7 @@
 
                         </GroupBox>
 
-                        <GroupBox Grid.Row="2" Grid.Column="0" Header="Modo de Comunicación de Pedidos">
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Modo de Comunicación de Pedidos">
                             <ItemsControl  x:Name="BottomLeftDirection" ItemsSource="{Binding BottomLeftDirection}" 
                                            ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                 <ItemsControl.ItemsPanel>
@@ -602,7 +538,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </GroupBox>
-                        <GroupBox Grid.Row="2" Grid.Column="1" Header="Dirección de Devolución">
+                        <GroupBox Grid.Row="1" Grid.Column="1" Header="Dirección de Devolución">
                             <ItemsControl  x:Name="BottomRightDirection" ItemsSource="{Binding BottomRightDirection}" 
                                            ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                                 <ItemsControl.ItemsPanel>
@@ -613,6 +549,8 @@
                             </ItemsControl>
                         </GroupBox>
                     </Grid>
+                    </WrapPanel>
+
                 </TabItem>
                 <TabItem Name="Delegaciones" Header="Delegaciones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid ShowGridLines="False">

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using KarveControls.UIObjects;
 
-namespace ProvidersModule.Common
+namespace KarveControls.UIObjects
 {
     public interface IUiPageBuilder
     {

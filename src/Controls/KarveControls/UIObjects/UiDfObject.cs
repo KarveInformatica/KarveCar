@@ -13,7 +13,7 @@ using Prism.Mvvm;
 namespace KarveControls.UIObjects
 {
     [Serializable]
-    public class UiDfObject : BindableBase, IUiObject
+    public class UiDfObject : BindableBase,IUiObject
     {
 
 

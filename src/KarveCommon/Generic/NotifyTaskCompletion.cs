@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
-namespace ProvidersModule.ViewModels
+namespace KarveCommon.Generic
 {
     public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
     {

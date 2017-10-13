@@ -11,9 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
+using KarveControls.KarveGrid.Events;
 using KarveControls.UIObjects;
+using Telerik.WinControls.UI;
 using Xceed.Wpf.DataGrid;
 using DataRow = System.Data.DataRow;
+using static KarveControls.DataField;
 
 namespace KarveControls
 {
@@ -281,15 +284,15 @@ namespace KarveControls
 
 
 
-        public class AssitQueryPressEventArgs : RoutedEventArgs
+        public class MagnifierPressEventArgs : RoutedEventArgs
         {
             public const string ASSISTTABLE = "AssistTable";
             public const string ASSISTQUERY = "AssistQuery";
 
-            public AssitQueryPressEventArgs() : base()
+            public MagnifierPressEventArgs() : base()
             {
             }
-            public AssitQueryPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
+            public MagnifierPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
             }
 
@@ -307,6 +310,14 @@ namespace KarveControls
             public string AssistQuery { get; set; }
             public string TableName { get; set; }
         }
+        // This is needed fro InvokeCommand Prism 
+      
+        public event RoutedEventHandler MagnifierPress
+        {
+            add { AddHandler(MagnifierPressEvent, value); }
+            remove { RemoveHandler(MagnifierPressEvent, value); }
+        }
+
         public string ButtonImage
         {
             get
@@ -463,6 +474,7 @@ namespace KarveControls
         private CommonControl.DataType _dataAllowedFirst;
         private CommonControl.DataType _dataAllowedSecond;
         private ComponentFiller _componentFiller;
+        private bool _firstSelection = true;
         /// <summary>
         /// This is a component with a grid table associated.
         /// </summary>
@@ -477,8 +489,12 @@ namespace KarveControls
             _viewData.Source = this.SourceView.DefaultView;
             _componentFiller = new ComponentFiller();
             SearchTextFirst.KeyUp += SearchTextOnKeyDown;
-            MagnifierGrid.ItemsSource = _viewData.View;
-            MagnifierGrid.AllowDrag = true;
+            MagnifierGrid.PageSize = DEFAULT_PAGE_SIZE;
+            MagnifierGrid.AllowEditRow= false;
+            MagnifierGrid.DataSource = this.SourceView;
+            MagnifierGrid.ReadOnly = true;
+            //= _viewData.View;
+            //MagnifierGrid.AllowDrag = true;
             RaiseMagnifierPressEvent();
         }
         private void SearchTextOnKeyDown(object sender, KeyEventArgs keyEventArgs)
@@ -514,7 +530,7 @@ namespace KarveControls
                         AssistDataFieldFirst);
                     builder.Append(clause);
                     string query = builder.ToString();
-                    AssitQueryPressEventArgs assistParam = new AssitQueryPressEventArgs(AssistQueryChangedEvent);
+                    MagnifierPressEventArgs assistParam = new MagnifierPressEventArgs(AssistQueryChangedEvent);
                     assistParam.AssistQuery = query;
                     assistParam.TableName = AssistTableName;
                     RaiseEvent(assistParam);
@@ -720,13 +736,16 @@ namespace KarveControls
 
         private void UpdateValues(DataTable sourceView, DataTable itemSource)
         {
-            if ((sourceView != null) && (sourceView.Rows.Count > 0))
+            // not null input.
+ 
+        if ((sourceView != null) && (sourceView.Rows.Count > 0))
             {
 
                 DataColumnCollection collection = sourceView.Columns;
-                DataColumnCollection primaryKeyCollection = itemSource.Columns;
-                if (itemSource.Rows.Count > 0)
+                if (itemSource.Rows.Count > 0) 
                 {
+                    DataColumnCollection primaryKeyCollection = itemSource.Columns;
+
                     DataRow primaryItemSourceRow = itemSource.Rows[0];
                     DataRow[] filteredRows = null;
                     if (collection.Contains(AssistDataFieldFirst))
@@ -774,14 +793,14 @@ namespace KarveControls
             {
                
 
-                DataGridCollectionViewSource viewData = new DataGridCollectionViewSource();
-                viewData.Source = currentTable;
-                this.MagnifierGrid.ItemsSource = viewData.View;
+                this.MagnifierGrid.DataSource= currentTable;
+              //  this.MagnifierGrid.SelectedRow = _lastDataRowView;
+                
                 if (_buttonManifierState == 1)
                 {
-                    
-                        this.Popup.IsOpen = true;
-                        _buttonManifierState = 0;
+                    _firstSelection = true;
+                    this.Popup.IsOpen = true;
+                    _buttonManifierState = 0;
                     
                 }
                 UpdateValues(currentTable, ItemSource);
@@ -810,7 +829,7 @@ namespace KarveControls
         }
         private void RaiseMagnifierPressEvent()
         {
-            AssitQueryPressEventArgs args = new AssitQueryPressEventArgs(MagnifierPressEvent);
+            MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
             if (!string.IsNullOrEmpty(this.AssistQuery))
             {
                 args.AssistQuery = this.AssistQuery;
@@ -848,42 +867,7 @@ namespace KarveControls
                 control.OnLabelTextPropertyChanged(e);
             }
         }
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            string fieldFirst = _dataFieldFirst.ToUpper();
-            string fieldSecond = _dataFieldSecond.ToUpper();
-            if (!string.IsNullOrEmpty(fieldFirst) || !string.IsNullOrEmpty(fieldSecond))
-            {
-                Binding oBind = new Binding("Text");
-                oBind.Source = dta.Columns[fieldFirst];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = true;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-                SearchTextFirst.Width = dta.Columns[fieldFirst].MaxLength;
-                SearchTextFirst.SetBinding(TextBox.TextProperty, oBind);
-                Binding oBind1 = new Binding("Text1");
-                oBind1.Source = dta.Columns[fieldSecond];
-                oBind1.Mode = BindingMode.TwoWay;
-                oBind1.ValidatesOnDataErrors = true;
-                oBind1.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-                SearchTextSecond.Width = dta.Columns[fieldSecond].MaxLength;
-                SearchTextSecond.SetBinding(TextBox.TextProperty, oBind1);
-            }
-        }
+        
         private static void OnTextContentFirstChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DualFieldSearchBox control = d as DualFieldSearchBox;
@@ -936,19 +920,19 @@ namespace KarveControls
         private void OnTextContentFirstPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             this.SearchTextFirst.Text = Convert.ToString(e.NewValue);
-
-            if (!IsReadOnlyFirst)
-            {
-                if (!string.IsNullOrEmpty(DataFieldFirst))
+                if (!IsReadOnlyFirst)
                 {
-                    _componentFiller.FillTable(SearchTextFirst, DataFieldFirst, ref _dataTable);
-                }
-                else
-                {
-                    _componentFiller.FillTable(SearchTextFirst, AssistDataFieldFirst, ref _sourceView);
+                    if (!string.IsNullOrEmpty(DataFieldFirst))
+                    {
+                        _componentFiller.FillTable(SearchTextFirst, DataFieldFirst, ref _dataTable);
+                    }
+                    else
+                    {
+                        // _componentFiller.FillTable(SearchTextFirst, AssistDataFieldFirst, ref _sourceView);
 
+                    }
                 }
-            }
+            
 
         }
         private void OnTextContentSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -962,7 +946,7 @@ namespace KarveControls
             }
             else
             {
-                _componentFiller.FillTable(SearchTextSecond, AssistDataFieldSecond, ref _sourceView);
+              //  _componentFiller.FillTable(SearchTextSecond, AssistDataFieldSecond, ref _sourceView);
 
             }
             
@@ -990,10 +974,29 @@ namespace KarveControls
              
 
         }
-        private void MagnifierGrid_OnSelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
+        
+        private void MagnifierGrid_OnSelectionRowChanged(object sender, RoutedEventArgs e)
         {
-            DataGridControl gridControl = sender as DataGridControl;
-            DataRowView currentRowView = gridControl.SelectedItem as DataRowView;
+            GridViewSelectedCellsChangedEventArgs eventArgs = e as GridViewSelectedCellsChangedEventArgs;
+            GridViewRowInfo currentRow = eventArgs?.CurrentRow;
+            if (currentRow == null)
+            {
+                return;
+            }
+            if (currentRow.DataBoundItem == null)
+            {
+                return;
+            }
+            if (_firstSelection)
+            {
+                _firstSelection = false;
+                return;
+            }
+            DataRowView currentRowView = currentRow.DataBoundItem as DataRowView;
+            if (currentRowView == null)
+            {
+                return;
+            }
             DataRow row = currentRowView.Row;
             DataColumnCollection cols = row.Table.Columns;
             IList<string> columnNames = new List<string>();
@@ -1024,6 +1027,20 @@ namespace KarveControls
                         string columnValue = Convert.ToString(row[columnNames[1]]);
                         TextContentSecond = columnValue;
                     }
+                    DataFieldEventArgs ev = new DataFieldEventArgs(DataSearchTextBoxChangedEvent);
+                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+                    valueDictionary["TableName"] = TableName;
+                    valueDictionary["AssitTableName"] = AssistTableName;
+                    valueDictionary["DataFieldFirst"] = DataFieldFirst;
+                    valueDictionary["DataFieldSecond"] = DataFieldSecond;
+                    valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
+                    valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+                    valueDictionary["DataTable"] = ItemSource;
+                    valueDictionary["AssistDataTable"] = SourceView;
+                    valueDictionary["ChangedCode"] = TextContentFirst;
+                    valueDictionary["ChangedValue"] = TextContentSecond;
+                    ev.ChangedValuesObjects = valueDictionary;
+                    RaiseEvent(ev);
                 }
             }
         }
@@ -1093,6 +1110,7 @@ namespace KarveControls
         {
             IsReadOnly = Convert.ToBoolean(e.NewValue);
         }
+
         
     }    
 }

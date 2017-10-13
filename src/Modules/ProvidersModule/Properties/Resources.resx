@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ProviderInfoViewModel_Nombre" xml:space="preserve">
     <value>Nombre</value>
@@ -166,7 +169,7 @@
     <value>Contacto</value>
   </data>
   <data name="ProviderInfoViewModel_Empresa" xml:space="preserve">
-    <value> Empresa</value>
+    <value>Empresa</value>
   </data>
   <data name="ProviderInfoViewModel_Oficina" xml:space="preserve">
     <value>Oficina</value>
@@ -191,5 +194,35 @@
   </data>
   <data name="ProvidersControlViewModel_OpenNewItem_NewSupplier" xml:space="preserve">
     <value>NewSupplier</value>
+  </data>
+  <data name="ProviderModule_Table1" xml:space="preserve">
+    <value>PROVEE1</value>
+  </data>
+  <data name="ProviderModule_Table2" xml:space="preserve">
+    <value>PROVEE2</value>
+  </data>
+  <data name="UiMiddlePartPageBuilder_BuildDates_FechaDeAlta" xml:space="preserve">
+    <value>Fecha de alta</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadAccounts_Prefijo" xml:space="preserve">
+    <value>Prefijo</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadAccountLeft_CuentaCP" xml:space="preserve">
+    <value>Cuenta C/P</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP" xml:space="preserve">
+    <value>Cuenta L/P</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadInvocingData_FormaDePago" xml:space="preserve">
+    <value>Forma de Pago</value>
+  </data>
+  <data name="ProviderConstants_GestiónDeAlbaranes" xml:space="preserve">
+    <value>Gestión de albaranes</value>
+  </data>
+  <data name="UiDirectionPageBuilder_OrderCommunicationWay_Via" xml:space="preserve">
+    <value>Via</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadIntraco_CtaSoportado" xml:space="preserve">
+    <value>Cta.Soportado</value>
   </data>
 </root>

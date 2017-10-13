@@ -5,26 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:column="clr-namespace:KarveControls.KarveGrid.Column"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         
-        <Grid.Resources>
-            <Style x:Key="SearchText1"
-                   TargetType="{x:Type TextBox}">
-                <Style.Triggers>
-                    <Trigger Property="IsReadOnly" Value="true">
-                        <Setter Property="Background" Value="DarkSeaGreen" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Resources>
+        
         <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
-            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, PresentationTraceSources.TraceLevel=High}" Width="50"></TextBlock>
+            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, PresentationTraceSources.TraceLevel=High}" Width="50" Margin="10,0,0,0"></TextBlock>
             <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, PresentationTraceSources.TraceLevel=High}"></TextBox>
             <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, PresentationTraceSources.TraceLevel=High}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
             <StackPanel>
-                <ToggleButton Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left"  Width="40">
+                <ToggleButton Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
                     <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
                 </ToggleButton>
                 <Popup Name="Popup">
@@ -33,11 +27,20 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
+
+
+                        <karveGrid:KarveGridView x:Name="MagnifierGrid" TableName="{Binding Tables}"  Height="400" Width="400" ColumnWidth="200" 
+                                                 SourceView="{Binding SourceView}" SelectionRowChanged="MagnifierGrid_OnSelectionRowChanged">
+                           
+
+                        </karveGrid:KarveGridView>
+                        <!--
                         <xcdg:DataGridControl x:Name="MagnifierGrid" AllowDrag="True" SelectionMode="Single" 
                                               ReadOnly="True" SelectionUnit="Row" Height="400"
                                               NavigationBehavior="RowOnly" SelectionChanged="MagnifierGrid_OnSelectionChanged">
 
                         </xcdg:DataGridControl>
+                        -->
                         <!-- <extendedGridControl:ExtendedDataGrid Grid.Row="0" Height="400" VerticalAlignment="Top" 
                                                               x:Name="MagnificerGrid" 
                                                               ItemsSource="{Binding MagnificerDataTable}" 

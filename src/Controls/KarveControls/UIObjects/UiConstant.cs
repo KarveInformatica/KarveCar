@@ -23,10 +23,12 @@ namespace KarveControls.UIObjects
         ///  TextBox Height
         /// </summary>
         public const string TextboxHeight = "20";
+
+        public const string LabelTextWidthWide= "120";
         /// <summary>
         /// LabelText Width 
         /// </summary>
-        public const string LabelTextWidthDefault = "100";
+        public const string LabelTextWidthDefault = "70";
        /// <summary>
        /// LabelText Width 
        /// </summary>
@@ -35,10 +37,15 @@ namespace KarveControls.UIObjects
         ///  very small path
         /// </summary>
         public const string LabelTextVerySmall = "20";
+
+       /// <summary>
+       ///  TextBox Width Small
+       /// </summary>
+       public const string TextBoxWidthVerySmall = "20";
         /// <summary>
         ///  TextBox Width Small
         /// </summary>
-        public const string TextBoxWidthSmall = "50";
+        public const string TextBoxWidthSmall = "80";
         /// <summary>
         /// TextBod Width Default
         /// </summary>
@@ -51,5 +58,7 @@ namespace KarveControls.UIObjects
         /// TextBox Width Wide.
         /// </summary>
         public const string TextBoxWidthWide = "400";
-    }
+
+       public const string PickerWidth = "40";
+   }
 }

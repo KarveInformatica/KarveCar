@@ -10,7 +10,7 @@ namespace ProvidersModule.Common
     /// <summary>
     ///  This class implements the logic to send to the toobar, in case of insert.
     /// </summary>
-    class InsertChangeHandler: IUiComponentChangeHandler
+    internal class InsertChangeHandler: IUiComponentChangeHandler
     {
         public void OnComponentChange(IDictionary<string, string> dictionary, IEventManager eventManager)
         {

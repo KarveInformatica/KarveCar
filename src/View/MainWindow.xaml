@@ -1717,7 +1717,7 @@
                                 <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
                             </dragablz:TabablzControl.InterTabController>
                         </dragablz:TabablzControl>-->
-                        <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged" BorderThickness="0" HorizontalAlignment="Stretch" 
+                    <TabControl x:Name="tbControl" SelectionChanged="tbControl_SelectionChanged"  MinHeight="800" BorderThickness="0" HorizontalAlignment="Stretch" 
                                     VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
                     </Grid>
               </Grid>

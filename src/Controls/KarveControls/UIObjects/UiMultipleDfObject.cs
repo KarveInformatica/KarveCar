@@ -183,7 +183,7 @@ namespace KarveControls.UIObjects
                     if (currentDfSearchTextObject.AssistTableName == tableName)
                     {
                         currentDfSearchTextObject.SourceView = dataTable;
-                        currentDfSearchTextObject.Lookup = true;
+                        //currentDfSearchTextObject.Lookup = true;
                         newValues[index]=currentDfSearchTextObject;
 
                     }

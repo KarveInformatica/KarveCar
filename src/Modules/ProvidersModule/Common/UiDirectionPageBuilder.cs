@@ -14,11 +14,6 @@ namespace ProvidersModule.Common
     /// </summary>
     public class UiDirectionPageBuilder: IUiPageBuilder
     {
-
-        public const string PaymentDirectionsCollection = "PaymentDirectionsCollection";
-        public const string ReclaimDirectionsCollection = "ReclaimDirectionsCollection";
-        public const string OrderDirectionsCollection = "OrderCommunicationCollection";
-        public const string DevolutionDirectionsCollection = "DevolutionDirectionCollection";
         private const string FirstDirectionDf = "FirstDirectionDf";
         private const string FirstTableDirectionDf = "FirstDirectionTable";
         private const string SecondDirectionDf = "SecondDirecitonDf";
@@ -44,7 +39,19 @@ namespace ProvidersModule.Common
         private const string EmailTableName = "EmailTableName";
         private const string PobDataField = "PoblacionDataField";
         private const string PobTableName = "PoblacionTableName";
+        private UiEmailDataField.EmailCheckHandler _emailCheckHandler;
 
+
+        public UiDirectionPageBuilder(UiEmailDataField.EmailCheckHandler emailLookupRequestHandler)
+        {
+           _emailCheckHandler = emailLookupRequestHandler;
+        }
+
+        public UiEmailDataField.EmailCheckHandler EmailCheckHandler
+        {
+            get { return _emailCheckHandler; }
+            set { _emailCheckHandler = value; }
+        }
 
         /// <summary>
         ///  This method build a part of the page.
@@ -141,10 +148,10 @@ namespace ProvidersModule.Common
             ObservableCollection<IUiObject> devolucionCollection = LoadDirections(ref assistQuery, ref changedField, dataTableInfoDevolve);
             ObservableCollection<IUiObject> orderCommunicationWay = OrderCommunicationWay(assistQuery, changedField);
             IDictionary<string, ObservableCollection<IUiObject>> dictionaryMap = new Dictionary<string, ObservableCollection<IUiObject>>();
-            dictionaryMap.Add(PaymentDirectionsCollection, paymentCollection);
-            dictionaryMap.Add(ReclaimDirectionsCollection, reclamacionesCollection);
-            dictionaryMap.Add(DevolutionDirectionsCollection, devolucionCollection);
-            dictionaryMap.Add(OrderDirectionsCollection, orderCommunicationWay);
+            dictionaryMap.Add(ProviderConstants.UiPaymentDirectionsCollection, paymentCollection);
+            dictionaryMap.Add(ProviderConstants.UiReclaimDirectionsCollection, reclamacionesCollection);
+            dictionaryMap.Add(ProviderConstants.UiDevolutionDirectionsCollection, devolucionCollection);
+            dictionaryMap.Add(ProviderConstants.UiOrderDirectionsCollection, orderCommunicationWay);
    
             return dictionaryMap;
         }
@@ -154,13 +161,13 @@ namespace ProvidersModule.Common
             UiDfObject.ChangedField changedField)
         {
             ObservableCollection<IUiObject> collection = new ObservableCollection<IUiObject>();
-            UiDualDfSearchTextObject viaDfSearch = new UiDualDfSearchTextObject("Via",UiConstants.LabelTextSmallDefault);
+            UiDualDfSearchTextObject viaDfSearch = new UiDualDfSearchTextObject(ProvidersModule.Properties.Resources.UiDirectionPageBuilder_OrderCommunicationWay_Via,UiConstants.LabelTextWidthDefault);
             viaDfSearch.DataFieldFirst = "VIA";
-            viaDfSearch.ButtonImage = UiConstants.LabelTextSmallDefault;
             viaDfSearch.TableName = "PROVEE1";
             viaDfSearch.AssistDataFieldFirst = "NOMBRE";
             viaDfSearch.AssistDataFieldSecond = "CODIGO";
             viaDfSearch.AssistTableName = "VIASPEDIPRO";
+            viaDfSearch.ButtonImage = UiConstants.ImagePath;
             viaDfSearch.Height = UiConstants.TextboxHeight;
             viaDfSearch.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
             viaDfSearch.TextContentSecondWidth = UiConstants.TextBoxWidthLarge;
@@ -173,23 +180,27 @@ namespace ProvidersModule.Common
             collection.Add(viaDfSearch);
             UiEmailDataField emailDfSearch = new UiEmailDataField();
             emailDfSearch.LabelText = "Email";
+            emailDfSearch.LabelTextWidth = UiConstants.LabelTextWidthDefault;
+            emailDfSearch.TextContentWidth = UiConstants.TextBoxWidthDefault;
             emailDfSearch.DataField = "EMAIL";
-            emailDfSearch.ButtonImage = UiConstants.LabelTextSmallDefault;
+            emailDfSearch.ButtonImage = UiConstants.EmailImagePath;
             emailDfSearch.TableName = "PROVEE1";
             emailDfSearch.Height = UiConstants.TextboxHeight;
             emailDfSearch.ItemSource = new DataTable();
             emailDfSearch.PrimaryKey = "NUM_PROVEE";
             emailDfSearch.OnChangedField += changedField;
+            emailDfSearch.EmailEventHandler += _emailCheckHandler;
             collection.Add(emailDfSearch);
 
-            UiDualDfSearchTextObject fechaEntregaDfSearch = new UiDualDfSearchTextObject("F.Entrega", UiConstants.LabelTextSmallDefault);
+            UiDualDfSearchTextObject fechaEntregaDfSearch = new UiDualDfSearchTextObject("F.Entrega", UiConstants.LabelTextWidthDefault);
             fechaEntregaDfSearch.DataFieldFirst = "FORMA_ENVIO";
-            fechaEntregaDfSearch.ButtonImage = UiConstants.LabelTextSmallDefault;
+            fechaEntregaDfSearch.ButtonImage = UiConstants.ImagePath;
             fechaEntregaDfSearch.TableName = "PROVEE1";
             fechaEntregaDfSearch.AssistDataFieldFirst = "NOMBRE";
             fechaEntregaDfSearch.AssistDataFieldSecond = "CODIGO";
             fechaEntregaDfSearch.AssistTableName = "FORMAS_PEDENT";
             fechaEntregaDfSearch.Height = UiConstants.TextboxHeight;
+        
             fechaEntregaDfSearch.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
             fechaEntregaDfSearch.TextContentSecondWidth = UiConstants.TextBoxWidthLarge;
             fechaEntregaDfSearch.SourceView = new DataTable();
@@ -200,9 +211,9 @@ namespace ProvidersModule.Common
             // UiDfObject direccionDePago = new UiDfObject(title, UiConstants.LabelTextWidthDefault);
             collection.Add(fechaEntregaDfSearch);
 
-            UiDualDfSearchTextObject sellConditionDfSearch = new UiDualDfSearchTextObject("Condición Venta", UiConstants.LabelTextSmallDefault);
+            UiDualDfSearchTextObject sellConditionDfSearch = new UiDualDfSearchTextObject("Condición Venta", UiConstants.LabelTextWidthDefault);
             sellConditionDfSearch.DataFieldFirst = "CONDICION_VENTA";
-            sellConditionDfSearch.ButtonImage = UiConstants.LabelTextSmallDefault;
+            sellConditionDfSearch.ButtonImage = UiConstants.ImagePath;
             sellConditionDfSearch.TableName = "PROVEE1";
             sellConditionDfSearch.AssistDataFieldFirst = "NOMBRE";
             sellConditionDfSearch.AssistDataFieldSecond = "CODIGO";
@@ -217,7 +228,17 @@ namespace ProvidersModule.Common
             sellConditionDfSearch.OnAssistQuery += assistQuery;
             // UiDfObject direccionDePago = new UiDfObject(title, UiConstants.LabelTextWidthDefault);
             collection.Add(sellConditionDfSearch);
-
+            UiDataArea deliveringArea = new UiDataArea();
+            deliveringArea.LabelVisible = true;
+            deliveringArea.LabelTextWidth = UiConstants.LabelTextWidthWide;
+            deliveringArea.PrimaryKey = ProviderConstants.PrimaryKey;
+            deliveringArea.ItemSource = new DataTable();
+            deliveringArea.LabelText = "Lugares de Entrega";
+            deliveringArea.DataField = "DIRENVIO6";
+            deliveringArea.TableName = "PROVEE1";
+            deliveringArea.Height = UiConstants.TextboxHeight;
+            deliveringArea.TextContentWidth = UiConstants.TextBoxWidthDefault;
+            collection.Add(deliveringArea);
             return collection;
         }
 
@@ -315,7 +336,7 @@ namespace ProvidersModule.Common
             dfObject1.PrimaryKey = "NUM_PROVEE";
             dfObject1.AllowedEmpty = true;
             // Data field object 2
-            UiDfObject dfObject2 = new UiDfObject("Fax", UiConstants.LabelTextSmallDefault);
+            UiDfObject dfObject2 = new UiDfObject("Fax", UiConstants.LabelTextWidthDefault);
             dfObject2.DataField = dataDictionary[FaxDataField];
             dfObject2.TableName = dataDictionary[FaxTableName];
             dfObject2.LabelTextWidth = UiConstants.LabelTextWidthDefault;

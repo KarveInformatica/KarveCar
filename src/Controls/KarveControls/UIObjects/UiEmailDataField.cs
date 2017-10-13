@@ -20,6 +20,7 @@ namespace KarveControls.UIObjects
         public UiEmailDataField()
         {
             this.EmailCommand = new DelegateCommand<object>(OnEmailOpen);
+            DataAllowed = CommonControl.DataType.Email;
         }
         public new string TextContent
         {

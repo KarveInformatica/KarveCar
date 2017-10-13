@@ -9,10 +9,11 @@ namespace KarveCommon.Generic
     public class KarveViewModelBase: BindableBase
     {
         private string _sqlQuery;
-     
+        
         public KarveViewModelBase()
         {       
         }
+       
         public string Query
         {
             set

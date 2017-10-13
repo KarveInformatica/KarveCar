@@ -100,13 +100,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\ComponentOnInsertChangeHandler.cs" />
-    <Compile Include="Common\ComponentOnUpdateChangeHandler.cs" />
-    <Compile Include="Common\IUiComponentChangeHandler.cs" />
-    <Compile Include="Common\IUiPageBuilder.cs" />
+    <Compile Include="Common\InsertDataHandler.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
+    <Compile Include="Common\UiInvoicingBuilder.cs" />
+    <Compile Include="Common\UiMiddlePartPageBuilder.cs" />
+    <Compile Include="Common\UpdateDataHandler.cs" />
+    <Compile Include="Common\IUiComponentChangeHandler.cs" />
     <Compile Include="Common\UiDirectionPageBuilder.cs" />
     <Compile Include="Common\UiGeneralPageBuilder.cs" />
+    <Compile Include="Common\UiUpperPartPageBuilder.cs" />
     <Compile Include="IProvidersView.cs" />
     <Compile Include="IProvidersViewModel.cs" />
     <Compile Include="ISupplierInfoView.cs" />
@@ -115,7 +117,6 @@
     <Compile Include="ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="ViewModels\BasicEditorViewModel.cs" />
     <Compile Include="ViewModels\GenericGridViewModel.cs" />
-    <Compile Include="ViewModels\NotifyTaskCompletion.cs" />
     <Compile Include="ViewModels\ProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
     <Compile Include="ViewModels\SupplierDataPayload.cs" />

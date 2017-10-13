@@ -83,6 +83,7 @@ namespace KarveControls.KarveGrid
             set { SetValue(PageIndexDependencyProperty, value); }
         }
 
+        
         public static DependencyProperty SourceViewProperty =
             DependencyProperty.Register(
                 "SourceView",
@@ -143,6 +144,8 @@ namespace KarveControls.KarveGrid
             if (rowInfo != null)
             {
                 _currentRow = rowInfo;
+                
+              //  _currentView.CurrentRow
             }
         }
 
@@ -167,7 +170,34 @@ namespace KarveControls.KarveGrid
         private void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
         {
             bool value = Convert.ToBoolean(e.NewValue);
-            _currentView.ReadOnly = value;
+            
+            if (value == false)
+            {
+                _currentView.ReadOnly = false;
+                _currentView.EnableFiltering = true;
+                _currentView.AllowEditRow = true;
+                _currentView.AllowAddNewRow = true;
+                _currentView.AllowDeleteRow = true;
+                _currentView.AllowColumnChooser =true;
+                _currentView.EnableGrouping = true;
+                _currentView.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect;
+                _currentView.MultiSelect = true;
+                
+            }
+            else
+            {
+                _currentView.ReadOnly = true;
+                _currentView.EnableFiltering = true;
+                _currentView.AllowEditRow = true;
+                _currentView.AllowAddNewRow = true;
+                _currentView.AllowDeleteRow = true;
+                _currentView.MultiSelect = true;
+                _currentView.EnableGrouping = true;
+                _currentView.AllowColumnChooser = true;
+                _currentView.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.FullRowSelect;
+            }
+            
+           
         }
 
         public bool ReadOnly
@@ -188,6 +218,7 @@ namespace KarveControls.KarveGrid
             get { return (string) GetValue(TableNameProperty); }
             set { SetValue(TableNameProperty, value);}
         }
+        /*
         public static DependencyProperty ColumnsNamesProperty =
             DependencyProperty.Register(
                 "ColumnNames",
@@ -199,6 +230,7 @@ namespace KarveControls.KarveGrid
             get { return (string)GetValue(ColumnsNamesProperty); }
             set { SetValue(ColumnsNamesProperty, value); }
         }
+        */
         public static DependencyProperty AutoGenerateColumnsDependencyProperty =
             DependencyProperty.Register(
                 "AutoGenerateColumns",
@@ -431,6 +463,8 @@ namespace KarveControls.KarveGrid
             _currentView.MasterTemplate.Refresh();
             _currentView.EnableFiltering = true;
             _currentView.ReadOnly = true;
+
+
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();
             host.Child = _currentView;
             this.Children.Add(host);

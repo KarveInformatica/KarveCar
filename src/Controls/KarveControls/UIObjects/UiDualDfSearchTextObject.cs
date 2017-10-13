@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,7 +14,7 @@ using Telerik.WinControls;
 
 namespace KarveControls.UIObjects
 {
-    public class UiDualDfSearchTextObject : UiDfObject
+    public class UiDualDfSearchTextObject : UiDfObject, INotifyPropertyChanged
     {
         private string _dataField;
         private string _assistQuery;
@@ -21,7 +22,15 @@ namespace KarveControls.UIObjects
         private ICommand _assistCommand;
         private bool _lookup = false;
         private DataTable _table = new DataTable();
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         public delegate void OnAssistQueryRequestHandler(string assistTableName, string assistQuery, string field);
         public event OnAssistQueryRequestHandler OnAssistQuery;
 
@@ -39,7 +48,7 @@ namespace KarveControls.UIObjects
         public string TextContentSecondWidth { set; get; }
         public string ButtonImage { set; get; }
         [XmlIgnore]
-        public DataTable SourceView { set { _table = value;  }
+        public DataTable SourceView { set { _table = value;}
             get { return _table; } }
         public string DataFieldFirst { set; get; }
         public string DataFieldSecond { set; get; }
@@ -57,13 +66,13 @@ namespace KarveControls.UIObjects
             string assistTable = "";
             string assistQuery = "";
 
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTTABLE))
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE))
             {
-                assistTable = valueDictionary[DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTTABLE] as string;
+                assistTable = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE] as string;
             }
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTQUERY))
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY))
             {
-                assistQuery = valueDictionary[DualFieldSearchBox.AssitQueryPressEventArgs.ASSISTQUERY] as string;
+                assistQuery = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY] as string;
             }
             OnAssistQuery?.Invoke(assistTable, assistQuery, DataFieldFirst);
         }
@@ -88,13 +97,6 @@ namespace KarveControls.UIObjects
             }
         }
 
-        public bool Lookup
-        {
-            get { return _lookup; }
-            set { _lookup = value;
-                RaisePropertyChanged("Lookup");
-            }
-        }
         public string AssistRefQuery
         {
             get { return _assistRefQuery; }

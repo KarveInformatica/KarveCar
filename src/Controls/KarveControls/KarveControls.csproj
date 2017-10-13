@@ -161,13 +161,13 @@
     </Compile>
     <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
-    <Compile Include="DataSearchTextBox1\DataSearchTextBox.cs" />
     <Compile Include="DualDataField\DualDataField.xaml.cs">
       <DependentUpon>DualDataField.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Generic\KarveProperties.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
@@ -176,6 +176,7 @@
     <Compile Include="KarveGrid\ColumnGroup\DataGridColumnGroups.cs" />
     <Compile Include="KarveGrid\ColumnVirtual\DataGridColumnVirtual.cs" />
     <Compile Include="KarveGrid\ColumnVirtual\VirtualDataGridColumns.cs" />
+    <Compile Include="KarveGrid\Column\Columns.cs" />
     <Compile Include="KarveGrid\Column\DataGridColumn.cs" />
     <Compile Include="KarveGrid\Column\DataGridColumnGroup.cs" />
     <Compile Include="KarveGrid\Column\DataGridColumnGroups.cs" />
@@ -225,8 +226,8 @@
     <Compile Include="KarveGrid\Properties\Resources.Designer.cs" />
     <Compile Include="KarveGrid\Properties\Settings.Designer.cs" />
     <Compile Include="KarveGrid\QueryColumnsName.cs" />
-    <Compile Include="Template\DataTemplateSelector.cs" />
     <Compile Include="Template\TemplateSelector.cs" />
+    <Compile Include="UIObjects\IUiPageBuilder.cs" />
     <Compile Include="UIObjects\TableName.cs" />
     <Compile Include="UIObjects\UiConstant.cs" />
     <Compile Include="UIObjects\UiDataCombox.cs" />
@@ -236,7 +237,6 @@
     <Compile Include="UIObjects\UiGroupBoxMultipleObject.cs" />
     <Compile Include="UIObjects\UiMultipleDfObject.cs" />
     <Compile Include="UIObjects\SQLBuilder.cs" />
-    <Compile Include="UIObjects\SQLBuilderFactory.cs" />
     <Compile Include="UIObjects\UiDataArea.cs" />
     <Compile Include="UIObjects\UiDoubleDfObject.cs" />
     <Compile Include="UIObjects\UiDualDfAfterSearchBoxObject.cs" />
@@ -287,10 +287,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DataSearchTextBox1\DataSearchTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DualDataField\DualDataField.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -300,6 +296,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Generic\KarveMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,6 +14,7 @@ namespace KarveControls
 {
     /// <summary>
     /// Interaction logic for DataSearchTextBox.xaml
+    ///  I think this shall excluded.
     /// </summary>
 
     public partial class DataSearchTextBox : UserControl, INotifyPropertyChanged
@@ -319,31 +320,7 @@ namespace KarveControls
         }
 
         #endregion
-        /*
-        #region LabelTextWidth 
-        public readonly static DependencyProperty LabelTextWidthDependencyProperty =
-            DependencyProperty.Register(
-                "LabelTextWidth",
-                typeof(string),
-                typeof(DataSearchTextBox),
-                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
-
-        public string LabelTextWidth
-        {
-            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
-            set { SetValue(LabelTextWidthDependencyProperty, value); }
-        }
-        private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataSearchTextBox control = d as DataSearchTextBox;
-            if (control != null)
-            {
-                control.OnPropertyChanged("LabelTextWidth");
-                control.OnLabelTextWidthChanged(e);
-            }
-        }
-        #endregion
-    */
+        
         #region LabelVisible
 
         public readonly static DependencyProperty LabelVisibleDependencyProperty =
@@ -467,16 +444,7 @@ namespace KarveControls
         }
        
         
-        public class MagnifierPressEventArgs : RoutedEventArgs
-        {
-
-            public MagnifierPressEventArgs() : base()
-            {
-            }
-            public MagnifierPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
-            {
-            }
-        }
+       
 
         public class AssistQueryEventArgs : RoutedEventArgs
         {
@@ -530,15 +498,18 @@ namespace KarveControls
         private DataTable _sourceView = new DataTable();
         private DataTable _dataTable = new DataTable();
         private DataGridVirtualizingCollectionViewSource _viewData;
-      
+       /// <summary>
+       /// User control for search box.
+       /// </summary>
         public DataSearchTextBox()
         {
             InitializeComponent();
             LayoutRoot.DataContext = this;
-            _viewData = new DataGridVirtualizingCollectionViewSource();
-            _viewData.PageSize = 50;
+           // _viewData = new DataGridVirtualizingCollectionViewSource();
+           // _viewData.PageSize = 50;
             if (this.SourceView != null)
             {
+               
                 _viewData.Source = this.SourceView.DefaultView;
                 // _viewData.QueryItems += new EventHandler<QueryItemsEventArgs>(Fetch_QueryItems);
                 this.MagnifierGrid.ItemsSource = _viewData.View;
@@ -651,7 +622,7 @@ namespace KarveControls
         }
         private void RaiseMagnifierPressEvent()
         {
-            MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
+            AssistQueryEventArgs args = new AssistQueryEventArgs(MagnifierPressEvent);
             this._state = 1;
             RaiseEvent(args);
         }
@@ -668,7 +639,7 @@ namespace KarveControls
 
             bind.Source = this.SourceView;
 
-            MagnifierGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
+           // MagnifierGrid.SetBinding(Xceed.Wpf.DataGrid.DataGridControl.ItemsSourceProperty, bind);
 
             this.Popup.IsOpen = true;
             RaiseMagnifierPressEvent();

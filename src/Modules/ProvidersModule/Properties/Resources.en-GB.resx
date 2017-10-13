@@ -195,4 +195,28 @@
   <data name="ProvidersControlViewModel_OpenNewItem_NewSupplier" xml:space="preserve">
     <value>NewSupplier</value>
   </data>
+  <data name="UiMiddlePartPageBuilder_BuildDates_FechaDeAlta" xml:space="preserve">
+    <value>Entry Date</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadAccounts_Prefijo" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="ProviderInfoViewModel_LoadAccountLeft_CuentaCP" xml:space="preserve">
+    <value>C/P Account</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP" xml:space="preserve">
+    <value>L/P Account</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadInvocingData_FormaDePago" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="ProviderConstants_GestiónDeAlbaranes" xml:space="preserve">
+    <value>Management of delivery notes</value>
+  </data>
+  <data name="UiDirectionPageBuilder_OrderCommunicationWay_Via" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="UiInvoicingBuilder_LoadIntraco_CtaSoportado" xml:space="preserve">
+    <value>Account Enabled</value>
+  </data>
 </root>
