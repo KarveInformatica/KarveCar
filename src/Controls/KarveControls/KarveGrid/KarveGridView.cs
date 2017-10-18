@@ -72,6 +72,7 @@ namespace KarveControls.KarveGrid
         /// This depedency property exposes the source of the GridView. It is the table associated to the source.
         /// </summary>
 
+        
         public static DependencyProperty SourceViewProperty =
             DependencyProperty.Register(
                 "SourceView",
@@ -134,6 +135,8 @@ namespace KarveControls.KarveGrid
             if (rowInfo != null)
             {
                 _currentRow = rowInfo;
+                
+              //  _currentView.CurrentRow
             }
         }
 
