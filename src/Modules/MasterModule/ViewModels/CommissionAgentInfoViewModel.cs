@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using KarveCommon.Services;
 using KarveDataServices;
 using MasterModule.Common;
@@ -49,7 +50,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns a data table for binding the objects.
         /// </summary>
-        public DataTable CommissionDataTable
+        public DataTable CommissionTable
         {
             get
             {
@@ -58,11 +59,30 @@ namespace MasterModule.ViewModels
             set { _commissionDataTable = value; }
             
         }
+        /// <summary>
+        ///  This return the magnifier button
+        /// </summary>
+        public string MagnifierButtonImage
+        {
+            get { return MasterModule.ImagePath; }
+        }
+
+        public ICommand MagnifierCommand { set; get; }
+        public ICommand ItemChangedCommand { set; get; }
         public Visibility IsVisible
         {
             get { return _visibility; }
             set { _visibility = value; }
         }
+
+        /// <summary>
+        ///  Return the commissionist table.
+        /// </summary>
+        public string TableName
+        {
+            get { return "COMISIO"; }
+        }
+
         public override void StartAndNotify()
         {
             throw new NotImplementedException();

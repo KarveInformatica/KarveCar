@@ -24,7 +24,7 @@ namespace KarveControls.KarveGrid
     ///  This component wraps a Telerick DataGrid enables the reuse of the grid in the WPF context.
     ///  It can generate automagically the query from the columns names. 
     /// </summary>
-    public class KarveGridView : Grid, INotifyPropertyChanged
+    public class KarveGridView : WrapPanel, INotifyPropertyChanged
     {
         public enum GridType
         {
@@ -642,10 +642,31 @@ namespace KarveControls.KarveGrid
             host.Child = _currentView;
             this.Children.Add(host);
             SetColumnWidth(this.ColumnWidth);
-        
+            this.SizeChanged += KarveGridView_SizeChanged1;
             InitContainers();
             InitEvents();
      }
+
+        private void KarveGridView_SizeChanged1(object sender, SizeChangedEventArgs e)
+        {
+            double height = 0;
+            double width = 0;
+            if (e.HeightChanged)
+            {
+                height = e.NewSize.Height;
+                _currentView.Height = (int)height;
+
+            }
+            if (e.WidthChanged)
+            {
+                width = e.NewSize.Width;
+                _currentView.Width = (int)width;
+
+            }
+            _currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.DisplayedCells);
+            _currentView.MasterTemplate.Refresh();
+        }
+
         /// <summary>
         ///  This method handle the changes from the grid.
         /// </summary>

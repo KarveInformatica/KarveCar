@@ -116,7 +116,7 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            EventManager.notifyObserverSubsystem(MasterModule.NAME, currentPayload);
+            EventManager.notifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
         }
 
 

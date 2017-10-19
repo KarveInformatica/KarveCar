@@ -245,12 +245,10 @@ namespace MasterModule.Common
         /// <param name="navigationContext"></param>
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
-
         }
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
         }
 
         protected  abstract string GetRouteName(string name);

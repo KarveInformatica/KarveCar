@@ -16,7 +16,7 @@
                 prism:ViewModelLocator.AutoWireViewModel="True"
                 mc:Ignorable="d"
                 Title="{Binding Title}" 
-                x:Name="mainwindow" 
+                x:Name="Mainwindow" 
                 Icon="/KarveCar;component/Images/rentCarIcon.png"
                 HorizontalContentAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -31,12 +31,7 @@
             <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
                 
             </karvecm:KarveInterTabClient>
-            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
-                <Setter Property="ShowDefaultCloseButton" Value="True"/>
-                <Setter Property="HeaderMemberPath" Value="Header"/>
-                <Setter Property="Margin" Value="0 5 0 0"/>
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}"/>
-            </Style>
+            
             
             <!-- this is the style that is applied to the tree -->
             <Style x:Key="SimpleFolders" TargetType="{x:Type TreeViewItem}">
@@ -64,8 +59,9 @@
                 <Setter Property="BorderThickness" Value="4" />
                 <Setter Property="BorderBrush"     Value="#FFA6AAAB" />
             </Style>
-            <Style TargetType="TabItem">
-                <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+            <Style x:Key="KarveTabItemStyle"  TargetType="TabItem">
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Header" Value="{Binding DataContext.Header,PresentationTraceSources.TraceLevel=High}" />
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
                         <DataTemplate>
@@ -76,7 +72,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
                                                 Margin="0,0,7,0" Content="{Binding}"/>
-                                <Button Grid.Column="1" Content="x">
+                                <Button Grid.Column="1" Content="Press">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <views:CloseTabAction/>
@@ -88,8 +84,22 @@
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
 
+            </Style>
+            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+                <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
+
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                <Setter Property="HeaderMemberPath" Value="Header" />
+            
+                <Setter Property="Margin" Value="0 5 0 0" />
+            </Style>
+            
             <!-- the context menu for the tree -->
             <ContextMenu x:Key="CategoryMenu">
                 <MenuItem Header="Add Subcategory" Command="New">
@@ -1750,18 +1760,22 @@
             <!--</ScrollViewer>-->
         <!--<ScrollViewer>-->
                 <ContentControl  prism:RegionManager.RegionName="KarveToolBar"/>
-                </StackPanel>
+            
+            </StackPanel>
                         <!--<dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" ClosingItemCallback="{Binding ClosingTabItemHandler}" mvvm1:RegionManager.RegionName="TabRegion">
                             <dragablz:TabablzControl.InterTabController>
                                 <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
                             </dragablz:TabablzControl.InterTabController>
                         </dragablz:TabablzControl>-->
+            
 
-            <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" prism:RegionManager.RegionName="TabRegion" BorderThickness="0" HorizontalAlignment="Stretch">
-                <dragablz:InterTabController />
+                <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" prism:RegionManager.RegionName="TabRegion" ClosingItemCallback="{Binding ClosingTabItemHandler}">
+                    <dragablz:TabablzControl.InterTabController>
+                        <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
+                    </dragablz:TabablzControl.InterTabController>
             </dragablz:TabablzControl>
+            
 
-           
 
         </DockPanel>
 

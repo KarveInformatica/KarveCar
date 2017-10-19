@@ -23,7 +23,9 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
+          
             <DataTemplate x:Key="DataFieldDataTemplate">
                 <karveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContent="{Binding TextContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -305,7 +307,7 @@
 
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
                 <Setter Property="HeaderMemberPath" Value="Header" />
-
+                
                 <Setter Property="Margin" Value="0 5 0 0" />
             </Style>
 
@@ -338,13 +340,14 @@
 
     </UserControl.Resources>
     <Grid ShowGridLines="False">
-        <ScrollViewer>
+       
             <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
                 <dragablz:TabablzControl.ItemContainerStyle>
                     <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
                         <Setter Property="Width" Value="100" />
                         <Setter Property="Height" Value="40" />
                         <Setter Property="FontFamily" Value="Arial"/>
+                        <Setter Property="Background" Value="CornflowerBlue" ></Setter>
                     </Style>
                 </dragablz:TabablzControl.ItemContainerStyle>
                 <dragablz:TabablzControl.InterTabController>
@@ -381,12 +384,12 @@
                 
                 <TabItem Name="Contables" Header="Contables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
 
-                    <Grid ShowGridLines="False">
+                  
                        <WrapPanel Orientation="Vertical">
                         <ItemsControl x:Name="upperPartContables"  ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel Orientation="Vertical" />
+                                    <VirtualizingStackPanel Orientation="Horizontal" />
 
                                 </ItemsPanelTemplate>
 
@@ -486,7 +489,7 @@
                             </GroupBox>
                         </Grid>
                            </WrapPanel>
-                    </Grid>
+                   
 
                 </TabItem>
                 <TabItem Name="Accumulados" Header="Accumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -558,16 +561,24 @@
 
                 </TabItem>
                 <TabItem Name="Delegaciones" Header="Delegaciones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid ShowGridLines="False">
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="10*"></RowDefinition>
-                            <RowDefinition Height="90*"></RowDefinition>
+                            <RowDefinition Height="4*"></RowDefinition>
+                            <RowDefinition Height="96*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="1" Name="RootGridDelegaciones">
+                        <ItemsControl Grid.Row="0" x:Name="upperPartDelegations" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
 
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                                <karveGrid:KarveGridView x:Name="Delegations" PageSize="25" AliasField="cldIdCliente"
-                                             TableName="{Binding DelegationTableName}" ReadOnly="{Binding DelegationStateBinding, PresentationTraceSources.TraceLevel=High}" Height="800" SourceView="{Binding DelegationTable}">
+
+
+                    <karveGrid:KarveGridView Grid.Row="1" x:Name="Delegations" PageSize="25" AliasField="cldIdCliente" MinWidth="700"
+                                             TableName="{Binding DelegationTableName}" ReadOnly="{Binding DelegationStateBinding, PresentationTraceSources.TraceLevel=High}" 
+                                                         SourceView="{Binding DelegationTable}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="RowMouseDoubleClick">
                                             <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=Delegations, Path=SelectedRow}"/>
@@ -580,35 +591,35 @@
 
                                     </i:Interaction.Triggers>
                                 </karveGrid:KarveGridView>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </TabItem>
+
+                </Grid>
+
+            </TabItem>
        
                 <TabItem Name="Contacts" Header="Contactos" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid ShowGridLines="False">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10*"></RowDefinition>
-                            <RowDefinition Height="90*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <ItemsControl x:Name="upperPartContacts"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <Grid Grid.Row="1" Name="RootGridContacts">
 
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                                <karveGrid:KarveGridView x:Name="ContactGrid" PageSize="25" 
-                                                         TableName="{Binding ContactsTableName}" ReadOnly="{Binding ContactBinding}" Height="800" SourceView="{Binding ContactTable}">
-                                    
-                                </karveGrid:KarveGridView>
-                            </StackPanel>
-                        </Grid>
+                <Grid ShowGridLines="False">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="96*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ItemsControl x:Name="upperPartContacts"  Grid.Row="0" ItemsSource="{Binding HeaderValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <Grid Grid.Row="1" Name="RootGridContacts">
+
+                        <karveGrid:KarveGridView x:Name="ContactGrid" PageSize="25" 
+                                                         TableName="{Binding ContactsTableName}" ReadOnly="{Binding ContactBinding}" SourceView="{Binding ContactTable}">
+
+                        </karveGrid:KarveGridView>
                     </Grid>
-                </TabItem>
+                </Grid>
+            </TabItem>
                 <TabItem Name="Evaluation" Header="Evaluación">
                     <ScrollViewer>
                         <Grid>
@@ -669,7 +680,7 @@
 
 
             </dragablz:TabablzControl>
-        </ScrollViewer>
+        
 
     </Grid>
 </UserControl>

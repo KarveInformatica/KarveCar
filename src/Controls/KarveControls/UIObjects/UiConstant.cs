@@ -14,11 +14,11 @@ namespace KarveControls.UIObjects
         /// <summary>
         /// ImagePath for searching
         /// </summary>
-       public const string ImagePath = "/ProvidersModule;component/Images/search.png";
+       public const string ImagePath = "/MasterModule;component/Images/search.png";
         /// <summary>
         ///  Email Image Path
         /// </summary>
-        public const string EmailImagePath = "/ProvidersModule;component/Images/email.png";
+        public const string EmailImagePath = "/MasterModule;component/Images/email.png";
         /// <summary>
         ///  TextBox Height
         /// </summary>

@@ -130,7 +130,6 @@ namespace MasterModule.ViewModels
         /// <param name="navigationContext"></param>
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            MessageBox.Show("NavigatedFrom");
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)

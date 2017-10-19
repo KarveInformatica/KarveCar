@@ -4,18 +4,6 @@
         <name>Dragablz</name>
     </assembly>
     <members>
-        <member name="M:Dragablz.Converters.ShowDefaultCloseButtonConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            [0] is owning tabcontrol ShowDefaultCloseButton value.
-            [1] is owning tabcontrol FixedHeaderCount value.
-            [2] is item LogicalIndex
-            </summary>
-            <param name="values"></param>
-            <param name="targetType"></param>
-            <param name="parameter"></param>
-            <param name="culture"></param>
-            <returns></returns>
-        </member>
         <member name="T:Dragablz.Core.HitTest">
             <summary>
             Non-client hit test values, HT*
@@ -33,6 +21,20 @@
             Yields the logical ancestory (including the starting point).
             </summary>
             <param name="dependencyObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dragablz.Core.Extensions.GetActualLeft(System.Windows.Window)">
+            <summary>
+            Returns the actual Left of the Window independently from the WindowState
+            </summary>
+            <param name="window"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dragablz.Core.Extensions.GetActualTop(System.Windows.Window)">
+            <summary>
+            Returns the actual Top of the Window independently from the WindowState
+            </summary>
+            <param name="window"></param>
             <returns></returns>
         </member>
         <member name="P:Dragablz.Dockablz.BranchResult.Branch">
@@ -69,6 +71,17 @@
             <summary>
             Gets the proportional size of the first item, between 0 and 1, where 1 would represent the entire size of the branch.
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dragablz.Dockablz.BranchAccessor.Visit(Dragablz.Dockablz.BranchItem,System.Action{Dragablz.Dockablz.BranchAccessor},System.Action{Dragablz.TabablzControl},System.Action{System.Object})">
+            <summary>
+            Visits the content of the first or second side of a branch, according to its content type.  No more than one of the provided <see cref="T:System.Action"/>
+            callbacks will be called.  
+            </summary>
+            <param name="childItem"></param>
+            <param name="childBranchVisitor"></param>
+            <param name="childTabablzControlVisitor"></param>
+            <param name="childContentVisitor"></param>
             <returns></returns>
         </member>
         <member name="M:Dragablz.Dockablz.Extensions.Query(Dragablz.Dockablz.Layout)">
@@ -238,17 +251,6 @@
             (e.g double.NaN) when the trigger is unset.  so we need to re-apply sizes manually
             </summary>
         </member>
-        <member name="M:Dragablz.Dockablz.BranchAccessor.Visit(Dragablz.Dockablz.BranchItem,System.Action{Dragablz.Dockablz.BranchAccessor},System.Action{Dragablz.TabablzControl},System.Action{System.Object})">
-            <summary>
-            Visits the content of the first or second side of a branch, according to its content type.  No more than one of the provided <see cref="T:System.Action"/>
-            callbacks will be called.  
-            </summary>
-            <param name="childItem"></param>
-            <param name="childBranchVisitor"></param>
-            <param name="childTabablzControlVisitor"></param>
-            <param name="childContentVisitor"></param>
-            <returns></returns>
-        </member>
         <member name="T:Dragablz.EmptyHeaderSizingHint">
             <summary>
             Provide a hint for how the header should size itself if there are no tabs left (and a Window is still open).
@@ -263,6 +265,44 @@
             <summary>
             The header size remains that of the last tab prior to the tab header becoming empty.
             </summary>
+        </member>
+        <member name="T:Dragablz.AddLocationHint">
+            <summary>
+            Specifies where an item should appear when added to tab control, as the headers order do not
+            specifically correlate to the order of the the source items.
+            </summary>
+        </member>
+        <member name="F:Dragablz.AddLocationHint.First">
+            <summary>
+            Display item in the first position.
+            </summary>
+        </member>
+        <member name="F:Dragablz.AddLocationHint.Last">
+            <summary>
+            Display item in the first position.
+            </summary>
+        </member>
+        <member name="F:Dragablz.AddLocationHint.Prior">
+            <summary>
+            Display an item prior to the selected, or specified item.
+            </summary>
+        </member>
+        <member name="F:Dragablz.AddLocationHint.After">
+            <summary>
+            Display an item after the selected, or specified item.
+            </summary>
+        </member>
+        <member name="M:Dragablz.Converters.ShowDefaultCloseButtonConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            [0] is owning tabcontrol ShowDefaultCloseButton value.
+            [1] is owning tabcontrol FixedHeaderCount value.
+            [2] is item LogicalIndex
+            </summary>
+            <param name="values"></param>
+            <param name="targetType"></param>
+            <param name="parameter"></param>
+            <param name="culture"></param>
+            <returns></returns>
         </member>
         <member name="T:Dragablz.DefaultInterLayoutClient">
             <summary>
@@ -317,6 +357,32 @@
             the default thumb will handle mouse interaction).
             </summary>
         </member>
+        <member name="T:Dragablz.DragablzItemsControl">
+            <summary>
+            Items control which typically uses a canvas and 
+            </summary>
+        </member>
+        <member name="M:Dragablz.DragablzItemsControl.AddToSource(System.Object,Dragablz.AddLocationHint)">
+            <summary>
+            Adds an item to the underlying source, displaying in a specific position in rendered control.
+            </summary>
+            <param name="item"></param>
+            <param name="addLocationHint"></param>
+        </member>
+        <member name="M:Dragablz.DragablzItemsControl.AddToSource(System.Object,System.Object,Dragablz.AddLocationHint)">
+            <summary>
+            Adds an item to the underlying source, displaying in a specific position in rendered control.
+            </summary>
+            <param name="item"></param>
+            <param name="nearItem"></param>
+            <param name="addLocationHint"></param>
+        </member>
+        <member name="M:Dragablz.DragablzItemsControl.MoveItem(Dragablz.MoveItemRequest)">
+            <summary>
+            Move an item in the rendered layout.
+            </summary>
+            <param name="moveItemRequest"></param>
+        </member>
         <member name="T:Dragablz.DragablzWindow">
             <summary>
             It is not necessary to use a <see cref="T:Dragablz.DragablzWindow"/> to gain tab dragging features.
@@ -370,30 +436,10 @@
             with a common partition will be allowed to have tabs dragged between them.  <c>null</c> is a valid partition (i.e global).
             </summary>
         </member>
-        <member name="T:Dragablz.AddLocationHint">
+        <member name="T:Dragablz.StackPositionMonitor">
             <summary>
-            Specifies where an item should appear when added to tab control, as the headers order do not
-            specifically correlate to the order of the the source items.
-            </summary>
-        </member>
-        <member name="F:Dragablz.AddLocationHint.First">
-            <summary>
-            Display item in the first position.
-            </summary>
-        </member>
-        <member name="F:Dragablz.AddLocationHint.Last">
-            <summary>
-            Display item in the first position.
-            </summary>
-        </member>
-        <member name="F:Dragablz.AddLocationHint.Prior">
-            <summary>
-            Display an item prior to the selected, or specified item.
-            </summary>
-        </member>
-        <member name="F:Dragablz.AddLocationHint.After">
-            <summary>
-            Display an item after the selected, or specified item.
+            A linear position monitor simplifies the montoring of the order of items, where they are laid out
+            horizontally or vertically (typically via a <see cref="T:Dragablz.StackOrganiser"/>.
             </summary>
         </member>
         <member name="T:Dragablz.PositionMonitor">
@@ -430,12 +476,6 @@
             <summary>
             Disposes the underlying disposable as well as all future replacements.
             
-            </summary>
-        </member>
-        <member name="T:Dragablz.StackPositionMonitor">
-            <summary>
-            A linear position monitor simplifies the montoring of the order of items, where they are laid out
-            horizontally or vertically (typically via a <see cref="T:Dragablz.StackOrganiser"/>.
             </summary>
         </member>
         <member name="T:Dragablz.TabablzControl">
@@ -475,6 +515,17 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Dragablz.TabablzControl.CloseItem(System.Object)">
+            <summary>
+            Helper method to close all tabs where the item is the tab's content (helpful with MVVM scenarios)
+            </summary>
+            <remarks>
+            In MVVM scenarios where you don't want to bind the routed command to your ViewModel,
+            with this helper method and embedding the TabablzControl in a UserControl, you can keep
+            the View-specific dependencies out of the ViewModel.
+            </remarks>
+            <param name="tabContentItem">An existing Tab item content (a ViewModel in MVVM scenarios) which is backing a tab control</param>
+        </member>
         <member name="M:Dragablz.TabablzControl.AddItem(System.Object,System.Object,Dragablz.AddLocationHint)">
             <summary>
             Helper method to add an item next to an existing item.
@@ -510,6 +561,11 @@
             Indicates whether a default add button should be displayed.  Alternately an add button
             could be added in <see cref="P:Dragablz.TabablzControl.HeaderPrefixContent"/> or <see cref="P:Dragablz.TabablzControl.HeaderSuffixContent"/>, utilising 
             <see cref="F:Dragablz.TabablzControl.AddItemCommand"/>.
+            </summary>
+        </member>
+        <member name="P:Dragablz.TabablzControl.IsHeaderPanelVisible">
+            <summary>
+            Indicates wither the heaeder panel is visible.  Default is <c>true</c>.
             </summary>
         </member>
         <member name="P:Dragablz.TabablzControl.AddLocationHint">
@@ -801,48 +857,6 @@
             content.  Otherwise the effect will originate from the mouse down position.        
             </summary>
             <param name="element"></param>        
-        </member>
-        <member name="T:Dragablz.DragablzItemsControl">
-            <summary>
-            Items control which typically uses a canvas and 
-            </summary>
-        </member>
-        <member name="M:Dragablz.DragablzItemsControl.AddToSource(System.Object,Dragablz.AddLocationHint)">
-            <summary>
-            Adds an item to the underlying source, displaying in a specific position in rendered control.
-            </summary>
-            <param name="item"></param>
-            <param name="addLocationHint"></param>
-        </member>
-        <member name="M:Dragablz.DragablzItemsControl.AddToSource(System.Object,System.Object,Dragablz.AddLocationHint)">
-            <summary>
-            Adds an item to the underlying source, displaying in a specific position in rendered control.
-            </summary>
-            <param name="item"></param>
-            <param name="nearItem"></param>
-            <param name="addLocationHint"></param>
-        </member>
-        <member name="M:Dragablz.DragablzItemsControl.MoveItem(Dragablz.MoveItemRequest)">
-            <summary>
-            Move an item in the rendered layout.
-            </summary>
-            <param name="moveItemRequest"></param>
-        </member>
-        <member name="T:Dragablz.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:Dragablz.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:Dragablz.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
         </member>
     </members>
 </doc>

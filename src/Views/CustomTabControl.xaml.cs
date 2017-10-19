@@ -21,12 +21,12 @@ namespace KarveCar.View
     /// </summary>
     public partial class CustomTabControl : TabItem
     {
-        private CustomTabItemViewModel _model = new CustomTabItemViewModel();
+        private ConfigurationService.CustomTabItemViewModel _model = new ConfigurationService.CustomTabItemViewModel();
         public CustomTabControl()
         {
             InitializeComponent();
         }
-        public CustomTabItemViewModel Model
+        public ConfigurationService.CustomTabItemViewModel Model
         {
             set { _model=value; }
             get { return _model; }

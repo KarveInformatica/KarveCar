@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:local="clr-namespace:ToolBarModule">
     <UserControl.Resources>
         <Style x:Key="ImageEnabled" TargetType="Image">
@@ -15,7 +17,11 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-
+    <i:Interaction.Triggers>
+        <mvvm1:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest}">
+            <mvvm1:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True"/>
+        </mvvm1:InteractionRequestTrigger>
+         </i:Interaction.Triggers>
     <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" ToolBar.OverflowMode="Never" >
         <ToolBar>
 
@@ -67,13 +73,24 @@
                                 Command="{Binding DeleteCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding DeleteCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-
+                                  Command="{Binding ConfirmationCommand}"></MouseBinding> 
+                                <!--  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}" -->
+               
                 </Button.InputBindings>
-
+                <!---
+                    <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="LeftClick">
+                        <ei:CallMethodAction TargetObject="{Binding}" MethodName="Delete"></ei:CallMethodAction>
+                    </i:EventTrigger>    
+                </i:Interaction.Triggers>
+                <i:Interaction.Triggers>
+                    <mvvm1:InteractionRequestTrigger SourceObject="{Binding Delete}">
+                        <mvvm1:PopupWindowAction></mvvm1:PopupWindowAction>
+                    </mvvm1:InteractionRequestTrigger>
+                </i:Interaction.Triggers>
+-->
             </Button>
-
+            
             <Button x:Name="tbbtnGuardar" 
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsSaveEnabled}" >
@@ -95,7 +112,7 @@
                                 Command="{Binding SaveCommand}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
                     <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding SaveCommand}" 
+                                  Command="{Binding SaveValueCommand}" 
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
 
                 </Button.InputBindings>
@@ -152,32 +169,7 @@
 
                 </Button.InputBindings>
             </Button>
-            <Button x:Name="tbbtnFilter" 
-                    HorizontalAlignment="Left"
-                    IsEnabled="False" >
-                <StackPanel>
-                    <Image Source="/KarveCar;component/Images/filter.png" Stretch="Fill" Height="20" />
-                </StackPanel>
-                <Button.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ltbbtnNuevo, Source={StaticResource ResourceLanguage}}" />
-                        <TextBlock Text=" (Ctrl+N)" />
-                    </StackPanel>
-                </Button.ToolTip>
-                <Button.InputBindings>
-                    <KeyBinding Key="N" 
-                                Modifiers="Ctrl" 
-                                Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <KeyBinding Key="Return"                                                
-                                Command="{Binding NewCommand}" 
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-                    <MouseBinding MouseAction="LeftClick"
-                                  Command="{Binding NewCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Name}"/>
-
-                </Button.InputBindings>
-            </Button>
-        </ToolBar>
+                   </ToolBar>
     </ToolBarTray>
 </UserControl>
+

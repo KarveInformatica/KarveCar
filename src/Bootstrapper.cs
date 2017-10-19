@@ -59,6 +59,8 @@ namespace KarveCar
             {
                 Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
                 // The dal service is used to access to the database
+
+
                 Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];

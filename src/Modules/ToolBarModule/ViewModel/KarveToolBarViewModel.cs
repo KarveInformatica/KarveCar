@@ -9,8 +9,12 @@ using System.Windows.Media.Imaging;
 using System.Net.Cache;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
 using KarveCommon.Command;
 using KarveCommon.Generic;
+using Prism.Interactivity.InteractionRequest;
+using Prism.Regions;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ToolBarModule
@@ -44,10 +48,21 @@ namespace ToolBarModule
         private SqlValidationRule _validationRules;
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
+        private bool Confirmed = false;
 
+        private string confirmDelete = "Quieres borrar el registro?";
+
+        private string confirmSave = "Quieres guardar el registro?";
+        // this is useful for adding or removing item to the toolbar.
+        public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
+        public ICommand ConfirmationCommand { get; set; }
+
+        public ICommand SaveValueCommand { get; set; }
+        private IRegionManager _regionManager;
         public KarveToolBarViewModel(IDataServices dataServices,
                                  IEventManager eventManager,
                                  ICareKeeperService careKeeper,
+                                 IRegionManager regionManager,
                                  IConfigurationService configurationService)
         {
             this._dataServices = dataServices;
@@ -63,10 +78,56 @@ namespace ToolBarModule
             this._eventManager = eventManager;
             this._eventManager.RegisterObserverToolBar(this);
             this.CurrentSaveImagePath = currentSaveImage;
+            _regionManager = regionManager;
             _states = ToolbarStates.None;
+            ConfirmationRequest = new InteractionRequest<IConfirmation>();
+            Confirmation request = new Confirmation();
+            request.Title = "Confirmacion";
+            request.Content = confirmDelete;
+            Confirmed = false;
+            ConfirmationCommand = new DelegateCommand(() =>
+            {
+                string noActiveValue = configurationService.GetPrimaryKeyValue();
+                if (string.IsNullOrEmpty(noActiveValue))
+                {
+                    InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
+                    Notification nt = new Notification();
+                    nt.Content= "No puedo borrar ficha de consulta";
+                    nt.Title = "Error";
+                    ir.Raise(nt);
+                }
+                else
+                {
+                    request.Content = confirmDelete;
+                    ConfirmationRequest.Raise(request);
+                    if (request.Confirmed)
+                    {
+                        DeleteCommand.Execute();
+                        Confirmed = false;
+
+                    }
+                }
+            });
+            SaveValueCommand = new DelegateCommand(() =>
+            {
+                request.Content = confirmSave;
+
+                ConfirmationRequest.Raise(request);
+                if (request.Confirmed)
+                {
+                    SaveCommand.Execute();
+                    Confirmed = false;
+
+                }
+                else
+                {
+                    this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+                }
+            });
+
             SetInsertValidationChain();
         }
-
+        
         private void DoDeleteCommand()
         {
             
@@ -140,6 +201,8 @@ namespace ToolBarModule
 
         private void DoSaveCommand()
         {
+            
+          
             if (this.IsSaveEnabled)
             {
                 this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
@@ -185,6 +248,7 @@ namespace ToolBarModule
                 {
                     string primaryKeyValue = payload.PrimaryKeyValue;
                     _configurationService.CloseTab(primaryKeyValue);
+                   
                     _states = ToolbarStates.None;
                     DataPayLoad payLoad = new DataPayLoad(); 
                     payLoad.PayloadType = DataPayLoad.Type.UpdateView;

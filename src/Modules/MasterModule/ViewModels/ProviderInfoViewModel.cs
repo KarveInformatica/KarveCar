@@ -878,38 +878,48 @@ namespace MasterModule.ViewModels
                 string mailboxName = "Providers." + _primaryKeyValue;
                 EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
             }
-            // here i can fix the primary key.
-            if (_primaryKeyValue == payload.PrimaryKeyValue)
+            // here i can fix the primary key
+            
+            if (payload.PayloadType != DataPayLoad.Type.Delete)
             {
-                if (payload.PayloadType == DataPayLoad.Type.Insert)
+                if (!string.IsNullOrEmpty(_primaryKeyValue))
+                {
+                    Init(_primaryKeyValue, false);
+                    CurrentOperationalState = DataPayLoad.Type.Show;
+                }
+                else
                 {
                     CurrentOperationalState = DataPayLoad.Type.Insert;
                     _primaryKeyValue = DataServices.GetSupplierDataServices().GetNewId();
                     Init(_primaryKeyValue, true);
                 }
-                else if (payload.PayloadType == DataPayLoad.Type.Delete)
-                {
-                    DeleteItem();
-                }
-                else if (!string.IsNullOrEmpty(_primaryKeyValue))
-                {
-                    Init(_primaryKeyValue, false);
-                    CurrentOperationalState = DataPayLoad.Type.Show;
-                }
             }
+            else if (payload.PayloadType == DataPayLoad.Type.Delete)
+            {
+                    DeleteItem(payload.PrimaryKeyValue);
+                
+            }
+            
+            
             //_eventManager.disableNotify(ProviderModule.NAME, this);
         }
 
-        private void DeleteItem()
+        private void DeleteItem(string primaryKeyValue)
         {
-            string primaryKey = _primaryKeyValue;
-            ISupplierDataServices supplierDataServices = DataServices.GetSupplierDataServices();
-            supplierDataServices.DeleteSupplier(_viewModelQueries, _currentDataSet);
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-            payLoad.PrimaryKeyValue = primaryKey;
-            payLoad.PayloadType = DataPayLoad.Type.Delete;
-            EventManager.NotifyToolBar(payLoad);
+            string primaryKey = primaryKeyValue;
+            if (primaryKey == _primaryKeyValue)
+            {
+                ISupplierDataServices supplierDataServices = DataServices.GetSupplierDataServices();
+                IDictionary<string, string> namedDictionary = _viewModelQueries;
+                supplierDataServices.DeleteSupplier(_viewModelQueries, _currentDataSet);
+                DataPayLoad payLoad = new DataPayLoad();
+                payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+                payLoad.PrimaryKeyValue = primaryKey;
+                payLoad.Queries = _viewModelQueries;
+                payLoad.PayloadType = DataPayLoad.Type.Delete;
+                EventManager.NotifyToolBar(payLoad);
+                _primaryKeyValue = "";
+            }
         }
 
         public override void StartAndNotify()

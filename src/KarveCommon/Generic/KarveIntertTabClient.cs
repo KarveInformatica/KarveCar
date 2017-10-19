@@ -16,8 +16,9 @@ namespace KarveCommon.Generic
         public override TabEmptiedResponse TabEmptiedHandler(TabablzControl tabControl, Window window)
         {
             int items = tabControl.Items.Count;
+            var viewModel = window.DataContext;
 
-    if (tabControl.Items.Count  >1)
+            if (tabControl.Items.Count  >1)
         {
             return TabEmptiedResponse.CloseWindowOrLayoutBranch;
         }

@@ -216,8 +216,17 @@ namespace DataAccessLayer
                     {
                         set.Tables[i].Rows[0]["NUM_PROVEE"] = supplierId;
                     }
+                    foreach (DataColumn col in set.Tables[i].Columns)
+                    {
+                        if (col.DataType == typeof(string))
+                        {
+                            if (col.ColumnName != "NUM_PROVEE")
+                                set.Tables[i].Rows[0][col] = "";
+                        }
+                    }
                 }
             }
+           
             return set;
         }
 

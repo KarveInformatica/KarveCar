@@ -97,24 +97,24 @@
                 <Grid>
                     <GroupBox Header="{Binding OptionName}">
                         <StackPanel Orientation="Vertical">
-                            <karveControls:DataFieldCheckBox Content="IVA en Listado" TableName="COMISIO" DataField="IVASINO" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Retencion en Listado" TableName="COMISIO" DataField="RETENSINO" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Es Nacional" TableName="COMISIO" DataField="NACIONAL" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Si es cliente es agencia" TableName="COMISIO" DataField="CONCEPTOS_COND" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Es agencia de viaje" TableName="COMISIO" DataField="AGENCIA" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Traduce conceptos web" TableName="COMISIO" DataField="TRADUCE_WS" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Track rental broker" TableName="COMISIO" DataField="TRUCK_RENTAL_BROKER" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Combustible Prepago Obligatorio + de 5 Días de Alquiler" TableName="COMISIO" DataField="COMBUS_PREPAGO_COMI" ItemSource="{Binding ComisionTable}">
+                            <karveControls:DataFieldCheckBox Content="IVA en Listado" TableName="COMISIO" DataField="IVASINO" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Retencion en Listado" TableName="COMISIO" DataField="RETENSINO" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Es Nacional" TableName="COMISIO" DataField="NACIONAL" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Si es cliente es agencia" TableName="COMISIO" DataField="CONCEPTOS_COND" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Es agencia de viaje" TableName="COMISIO" DataField="AGENCIA" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Traduce conceptos web" TableName="COMISIO" DataField="TRADUCE_WS" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Track rental broker" TableName="COMISIO" DataField="TRUCK_RENTAL_BROKER" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Combustible Prepago Obligatorio + de 5 Días de Alquiler" TableName="COMISIO" DataField="COMBUS_PREPAGO_COMI" ItemSource="{Binding CommissionTable}">
                             </karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="No generar Autofacturas" TableName="COMISIO" DataField="NO_GENERAR_AUTOFAC" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Cotizar Todos los Extras" TableName="COMISIO" DataField="TODOS_EXTRAS" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="No Gestionar Cupos" TableName="COMISIO" DataField="NO_GESTIONAR_CUPO" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Oneway automatico" TableName="COMISIO" DataField="AUTO_ONEWAY" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Mostrar Sólo Incluidos al Cotizar Todos los Grupos" TableName="COMISIO" DataField="COT_INCLUIDOS_SIN_GRUPO" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Premium Access" TableName="COMISIO" DataField="ACCESO_PREMIUM" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="No Enviar Reservas" TableName="COMISIO" DataField="NO_MAIL_RES" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Autofactura sin IVA" TableName="COMISIO" DataField="AUTOFAC_SIN_IVA" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
-                            <karveControls:DataFieldCheckBox Content="Comisión Sin IVA" TableName="COMISIO" DataField="COMISION_SIN_IVA_COM" ItemSource="{Binding ComisionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="No generar Autofacturas" TableName="COMISIO" DataField="NO_GENERAR_AUTOFAC" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Cotizar Todos los Extras" TableName="COMISIO" DataField="TODOS_EXTRAS" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="No Gestionar Cupos" TableName="COMISIO" DataField="NO_GESTIONAR_CUPO" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Oneway automatico" TableName="COMISIO" DataField="AUTO_ONEWAY" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Mostrar Sólo Incluidos al Cotizar Todos los Grupos" TableName="COMISIO" DataField="COT_INCLUIDOS_SIN_GRUPO" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Premium Access" TableName="COMISIO" DataField="ACCESO_PREMIUM" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="No Enviar Reservas" TableName="COMISIO" DataField="NO_MAIL_RES" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Autofactura sin IVA" TableName="COMISIO" DataField="AUTOFAC_SIN_IVA" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox Content="Comisión Sin IVA" TableName="COMISIO" DataField="COMISION_SIN_IVA_COM" ItemSource="{Binding CommissionTable}"></karveControls:DataFieldCheckBox>
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -126,7 +126,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="{Binding TipoComisionista}">
+                    <GroupBox Grid.Row="0" Header="{Binding CommissionAgentType}">
                         <StackPanel Orientation="Vertical">
                             <karveControls:DualFieldSearchBox
                                 Name="TipoComisionista"
@@ -148,7 +148,7 @@
                         
                             <karveControls:DualFieldSearchBox 
                                 Name="TipoComision"
-                                SourceView="{Binding AssistTableComi}" 
+                                SourceView="{Binding AssistTable}" 
                                 ItemSource="{Binding ItemSource}"
                                 LabelText="Tipo Comisión"
                                 LabelTextWidth="100"
@@ -167,7 +167,7 @@
                             </karveControls:DualFieldSearchBox>
                             
                             <karveControls:DualFieldSearchBox 
-                                SourceView="{Binding AssistTableComi}" 
+                                SourceView="{Binding AssistTable}" 
                                 ItemSource="{Binding ItemSource}"
                                 LabelTextWidth="100"
                                 TextContentFirstWidth="70"
@@ -260,6 +260,7 @@
                             <karveControls:DualFieldSearchBox 
                                 LabelText="Cliente"
                                 LabelVisible="True"
+                                SourceView="{Binding AssistTable}" 
                                 ItemSource="{Binding ItemSource}"
                                 LabelTextWidth="100" 
                                 TextContentFirstWidth="200"
@@ -275,6 +276,7 @@
                                 LabelText="Product Comi."
                                 LabelTextWidth="100"
                                 LabelVisible="True"
+                                SourceView="{Binding AssistTable}" 
                                 ItemSource="{Binding ItemSource}"
                                 TextContentFirstWidth="200"
                                 TableName="{Binding TableName}"
@@ -293,6 +295,7 @@
                                 LabelTextWidth="100"
                                 LabelVisible="True"
                                 ItemSource="{Binding ItemSource}"
+                                SourceView="{Binding AssistTable}" 
                                 TextContentFirstWidth="200"
                                 TableName="{Binding TableName}"
                                 DataFieldFirst="PRODUCT_COMI"
@@ -309,6 +312,7 @@
                                 ItemSource="{Binding ItemSource}"
                                 TextContentFirstWidth="200"
                                 TableName="{Binding TableName}"
+                                SourceView="{Binding AssistTable}"
                                 DataFieldFirst="TARIFA_COMI"
                                 AssistTableName="PRODUCTS"
                                 AssistDataFieldFirst="CODIGO_PRD"

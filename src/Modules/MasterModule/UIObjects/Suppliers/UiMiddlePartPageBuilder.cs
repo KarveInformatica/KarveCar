@@ -204,6 +204,7 @@ namespace MasterModule.UIObjects.Suppliers
             dataArea.LabelVisible = true;
             dataArea.LabelText = dataLabel;
             dataArea.LabelTextWidth = UiConstants.LabelTextWidthDefault;
+            dataArea.TextContentWidth = UiConstants.LabelTextWidthWide;
             dataArea.TableName = Resources.ProviderModule_Table1;
             dataArea.PrimaryKey = ProviderConstants.PrimaryKey;
             dataArea.ItemSource = new DataTable();

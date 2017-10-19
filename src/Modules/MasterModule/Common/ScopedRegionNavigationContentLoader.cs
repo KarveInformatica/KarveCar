@@ -79,8 +79,11 @@ namespace MasterModule.Common
                 return view;
             }
 
-            string viewName = navigationContext.Parameters["SearchType"] as string;
+           // string viewName = navigationContext.Parameters["ViewType"] as string;
             view = this.CreateNewRegionItem(candidateTargetContract);
+            object value = view.GetType().GetProperty("Header").GetValue(view, null);
+            string viewName = value as string;
+
             /*
             if (view != null)
             {
@@ -89,7 +92,7 @@ namespace MasterModule.Common
                 tbvm.Header = navigationContext.Parameters["SearchType"] as string;
 
             }*/
-            /*
+
             bool isAlreadyATab = region.Views.Any(v =>
             {
                 Type viewType = v.GetType();
@@ -97,10 +100,13 @@ namespace MasterModule.Common
                 return  (header == viewName);
 
             });
-           
+           /*
             if (!isAlreadyATab)
             */
-                region.Add(view);
+            
+            region.Add(view, viewName);
+
+
             if (view is UserControl)
             {
                 ((UserControl) view).Focus();

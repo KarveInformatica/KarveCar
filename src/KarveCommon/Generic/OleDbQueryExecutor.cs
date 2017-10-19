@@ -26,6 +26,7 @@ namespace KarveCommon.Generic
         private object cloneTableLock = new object();
         //private SADataAdapter _adapter;
         //private SACommandBuilder  _builder;
+        private object asyncLock2  = new object();
         private SACommand _command;
         private static Logger _logger = LogManager.GetLogger("OleDbQueryExecutor");
         private SATransaction _transaction;
@@ -516,8 +517,11 @@ namespace KarveCommon.Generic
             {
                 try
                 {
-                    dta.FillSchema(dataSet, SchemaType.Source);
-                    result.SetResult(dataSet);
+                    lock (asyncLock2)
+                    {
+                        dta.FillSchema(dataSet, SchemaType.Source);
+                        result.SetResult(dataSet);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -537,8 +541,11 @@ namespace KarveCommon.Generic
             {
                 try
                 {
-                    dta.Fill(dataSet);
-                    result.SetResult(dataSet);
+                    lock (asyncLock2)
+                    {
+                        dta.Fill(dataSet);
+                        result.SetResult(dataSet);
+                    }
                 }
                 catch (Exception ex)
                 {
