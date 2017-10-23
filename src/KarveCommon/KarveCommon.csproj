@@ -68,23 +68,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Generic\AbstractSqlQueryExecutor.cs" />
-    <Compile Include="Generic\AbstractSqlSession.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\DataLayerException.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\IAsyncInitialization.cs" />
-    <Compile Include="Generic\IDBParameter.cs" />
-    <Compile Include="Generic\ISqlCommand.cs" />
-    <Compile Include="Generic\ISQLQueryExecutor.cs" />
-    <Compile Include="Generic\ISqlSession.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
-    <Compile Include="Generic\OdbcQueryExecutor.cs" />
-    <Compile Include="Generic\OleDbQueryExecutor.cs" />
-    <Compile Include="Generic\SqlValidationRule.cs" />
     <Compile Include="Services\EventDispatcher.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />
     <Compile Include="Services\IEventManager.cs" />

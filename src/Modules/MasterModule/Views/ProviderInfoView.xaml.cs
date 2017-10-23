@@ -13,8 +13,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveControls.UIObjects;
+using MasterModule.Common;
 using MasterModule.Interfaces;
-
+using KarveControls.VisualTreeDumper;
 namespace MasterModule.Views
 {
     /// <summary>
@@ -24,11 +26,14 @@ namespace MasterModule.Views
     {
         public ProviderInfoView()
         {
+            var obj = this.DataContext;
             InitializeComponent();
-            Header = "Notes";
-           // this.SupplierBriefSummary.Theme = ExtendedGrid.ExtendedGridControl.ExtendedDataGrid.Themes.Office2007Silver;
-                
+            Header = "";
+            
+            //   SetQuery();
         }
+
+
         public string Header
         { set; get; }
 

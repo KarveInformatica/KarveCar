@@ -10,10 +10,15 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveControls.UIObjects
 {
+
+    /*
+     * 
+     */
     public class SQLBuilder
     {
 
@@ -662,6 +667,40 @@ namespace KarveControls.UIObjects
             return sqlWhereClause;
         }
 
+        
+        /// <summary>
+        ///  This add or create a name.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="fieldName">Table field</param>
+        /// <param name="dictionary">Table dictionary that contains the fields for table</param>
+        private static void AddOrCreate(string tableName, string fieldName,
+            ref IDictionary<string, List<string>> dictionary)
+        {
+            if (!dictionary.ContainsKey(tableName))
+            {
+                List<string> str = new List<string>();
+                str.Add(fieldName);
+                dictionary.Add(tableName, str);
+            }
+            else
+            {
+                List<string> name = dictionary[tableName];
+                name.Add(fieldName);
+                dictionary[tableName] = name;
+            }
+        }
+        /// <summary>
+        ///  Collector of tables and databases
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="fieldDictionary"></param>
+        /// <param name="assistDictionary"></param>
+        public static void SqlFieldsCollector(DependencyObject container,
+            ref Dictionary<string, List<string>> fieldDictionary, ref Dictionary<string, List<string>> assistDictionary)
+        {
+         //   VisualTreeDumper.Dump();
+        }
         /// <summary>
         /// Recorre los controles de una pantalla (de forma recursiva para el caso que encuentre un control contenedor, p.e.: Grid, GroupBox, DockPanel, StackPanel,...),
         /// y devuelve un List&lt;string&gt; con el nombre de las columnas correspondientes en la BBDD para cada control<para/>

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractSqlQueryExecutor.cs" />
     <Compile Include="DataObjects\ICommissionAgent.cs" />
     <Compile Include="DataObjects\ICountryData.cs" />
     <Compile Include="DataObjects\ISupplierAccountObjectInfo.cs" />
@@ -53,14 +54,20 @@
     <Compile Include="DataObjects\ISupplierTypeData.cs" />
     <Compile Include="DataObjects\ISupplierVisitData.cs" />
     <Compile Include="ICommissionAgentDataServices.cs" />
+    <Compile Include="IDataWrapper.cs" />
+    <Compile Include="IDBParameter.cs" />
     <Compile Include="IHelperDataServices.cs" />
     <Compile Include="IDataServices.cs" />
     <Compile Include="IPaymentDataService.cs" />
     <Compile Include="DataObjects\ISupplierEvaluationNoteData.cs" />
+    <Compile Include="ISqlCommand.cs" />
+    <Compile Include="ISQLQueryExecutor.cs" />
+    <Compile Include="ISqlSession.cs" />
     <Compile Include="ISupplierDataServices.cs" />
     <Compile Include="IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlValidationRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

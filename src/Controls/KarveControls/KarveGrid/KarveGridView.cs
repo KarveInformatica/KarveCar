@@ -1028,11 +1028,13 @@ namespace KarveControls.KarveGrid
 
         private void CurrentViewOnCellDoubleClick(object sender, GridViewCellEventArgs gridViewCellEventArgs)
         {
+            
             GridViewRowInfo info = _currentView.CurrentRow;
             GridViewSelectedCellsChangedEventArgs args = new GridViewSelectedCellsChangedEventArgs(RowDoubleClickEvent); 
             this.SelectedRow = info.DataBoundItem as DataRowView;
             args.CurrentRow = info;
             RaiseEvent(args);
+           
         }
         
         private void CurrentViewOnSelectionChanged(object sender, EventArgs eventArgs)

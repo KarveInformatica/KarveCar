@@ -4,9 +4,102 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:kcgeneric="clr-namespace:KarveControls.Generic;assembly=KarveControls"
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <UserControl.Resources>
+	
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+                <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
+
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                <Setter Property="HeaderMemberPath" Value="Header" />
+
+                <Setter Property="Margin" Value="0 5 0 0" />
+            </Style>
             
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+<dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
+            <dragablz:TabablzControl.ItemContainerStyle>
+                <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
+                    <Setter Property="Width" Value="100" />
+                    <Setter Property="Height" Value="40" />
+                    <Setter Property="FontFamily" Value="Arial"/>
+                    <Setter Property="Background" Value="CornflowerBlue" ></Setter>
+                 </Style>
+            </dragablz:TabablzControl.ItemContainerStyle>
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController />
+            </dragablz:TabablzControl.InterTabController>
+       <TabItem Name="General"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                     
+                    <WrapPanel Orientation="Horizontal" Grid.Row="0">
+
+                        <kc:DualFieldSearchBox ItemSource="{Binding ItemSource}" LabelText="Numero" AssistTableName="" 
+                                               AssistDataFieldFirst="" AssistDataFieldSecond=""></kc:DualFieldSearchBox>
+                        <kc:DataField ItemSource="{Binding ItemSource}" LabelText="Matricula" TableName=""></kc:DataField>
+                        <kc:DualFieldSearchBox ItemSource="{Binding ItemSource}" LabelText="Color" AssistTableName="" 
+                                               AssistDataFieldFirst="" AssistDataFieldSecond=""></kc:DualFieldSearchBox>
+                        <kc:DualFieldSearchBox ItemSource="{Binding ItemSource}" LabelText="Marca" 
+                                               TableName="" 
+                                               AssistTableName="">
+                        </kc:DualFieldSearchBox>
+                        <kc:DualFieldSearchBox ItemSource="{Binding ItemSource}" LabelText="Modelo" 
+                                                   TableName="" 
+                                                   AssistTableName="">
+                        </kc:DualFieldSearchBox>
+
+                    </WrapPanel>
+                    <ItemsControl x:Name="LeftPart" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding LeftValueCollection}" 
+                                  ItemTemplateSelector="{Binding BasicTemplateSelector}">
+                        <ItemsControl.ItemsPanel>
+
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Vertical" VirtualizingStackPanel.VirtualizationMode=
+                                                            "Recycling" />
+
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+              
+                </Grid>
+            </TabItem>
+	    <TabItem Name="CompraVenta"  Header="Compra/Venta" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Seguros"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+       <TabItem Name="Otro"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Acumulados"  Header="Acumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Mantenimiento"  Header="Mantenimiento" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Revisiones"  Header="Revisiones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Danos"  Header="Danos" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+	   <TabItem Name="Frio"  Header="Frio/Plataforma" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">	
+	   </TabItem>
+</dragablz:TabablzControl>
     </Grid>
 </UserControl>

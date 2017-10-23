@@ -12,7 +12,6 @@ namespace DataAccessLayer
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
-        private BanksDataAccessLayer _bankLayer;
         // private readonly payment data services
         private readonly IPaymentDataServices _paymentDataService;
         // private supplier services
@@ -21,7 +20,9 @@ namespace DataAccessLayer
         private readonly IHelperDataServices _helperDataServices;
         // private commission agent access layer.
         private readonly ICommissionAgentDataServices _commissionAgentDataServices;
-
+        /// <summary>
+        /// Vehicle data services. 
+        /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
 
 
@@ -34,9 +35,8 @@ namespace DataAccessLayer
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlQueryExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlQueryExecutor);
         }
-     
         /// <summary>
-        /// Get the payement data services that are resposibles for the paymment and charging.
+        /// Get the payment data services that are resposibles for the paymment and charging.
         /// </summary>
         /// <returns></returns>
         public IPaymentDataServices GetPaymentDataService()
@@ -44,7 +44,7 @@ namespace DataAccessLayer
             return _paymentDataService;
         }
         /// <summary>
-        ///  Get teh vehicle data services that represent all veihicles.
+        ///  Get the vehicles data services that represent all veihicles.
         /// </summary>
         /// <returns></returns>
         public IVehicleDataServices GetVehicleDataServices()
@@ -62,15 +62,19 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get the assistant data services. All data services that are enabled in the helpers
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the assistant (auxliares in spanish) services</returns>
         public IHelperDataServices GetHelperDataServices()
         {
             return _helperDataServices;
         }
-
+        /// <summary>
+        ///  Get the commission agent services. All commission agent services are enabled.
+        /// </summary>
+        /// <returns>Return the commission agent services interface</returns>
         public ICommissionAgentDataServices GetCommissionAgentDataServices()
         {
            return _commissionAgentDataServices;
         }
+      
     }
 }

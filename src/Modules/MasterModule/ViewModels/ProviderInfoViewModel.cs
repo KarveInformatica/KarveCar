@@ -659,6 +659,7 @@ namespace MasterModule.ViewModels
         }
 
         // TODO Fix excessive depth of code.
+        /*
         private void
             UpdateSource(DataSet dataSetAssistant, string primaryKey,
             ref ObservableCollection<IUiObject> collection)
@@ -703,6 +704,7 @@ namespace MasterModule.ViewModels
 
             }
         }
+        */
 
         private async void AssistQueryRequestHandler(string assistTableName, string assistQuery, string primaryKey)
         {
@@ -744,28 +746,7 @@ namespace MasterModule.ViewModels
         // fix this method is too long against clean code.
 
 
-        private void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
-        {
-
-            string tableName = table.TableName;
-            bool foundTable = false;
-            if (currentDataSet != null)
-            {
-                foreach (DataTable currentTable in currentDataSet.Tables)
-                {
-                    if (currentTable.TableName == tableName)
-                    {
-                        foundTable = true;
-                        break;
-                    }
-                }
-                if (foundTable)
-                {
-                    currentDataSet.Tables[tableName].Merge(table);
-                }
-            }
-        }
-
+       // TODO: this shall be moved to the upper class
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad();

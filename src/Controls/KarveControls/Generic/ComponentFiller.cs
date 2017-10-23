@@ -2,16 +2,42 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace KarveControls.Generic
 {
+    /// <summary>
+    /// This class has the reponsability of filling an image source
+    /// </summary>
     internal class ComponentFiller
     {
+
+        /// <summary>
+        /// Fills an image from a bytearray 
+        /// </summary>
+        /// <param name="arrayOftheImage">Array to be used for filling</param>
+        /// <param name="image">Output image to be used</param>
+        public void FillImageSource(byte[] arrayOftheImage, ref Image image)
+        {
+            using (MemoryStream reader = new MemoryStream(arrayOftheImage))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = reader;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                image.Source = bitmap;
+            }
+
+        }
 
         /// <summary>
         ///  This method fills the checkbox value with the value of the itemsource.
@@ -34,14 +60,14 @@ namespace KarveControls.Generic
                     {
                         if (currentValue is Int16)
                         {
-                            Int16 value = (Int16) currentValue;
+                            Int16 value = (Int16)currentValue;
                             isEnabled = value != 0;
 
 
                         }
                         if (currentValue is Int32)
                         {
-                            Int32 value = (Int32) currentValue;
+                            Int32 value = (Int32)currentValue;
                             isEnabled = value != 0;
                         }
                     }
@@ -50,7 +76,62 @@ namespace KarveControls.Generic
             }
             return isEnabled;
         }
+        /// <summary>
+        /// Returns the name of a datafield from object.
+        /// </summary>
+        /// <param name="itemSource">The object from which we have to fill the data</param>
+        /// <param name="fieldName">The name of the field</param>
+        /// <returns></returns>
+        public object FetchDataFieldFromObject(object itemSource, string fieldName)
+        {
+            object value = null;
+            if ((itemSource == null) || (string.IsNullOrEmpty(fieldName)))
+            {
+                return null;
+            }
+            // this is how this works.
+            Type t = itemSource.GetType();
+            // we assume that the properties.
+            PropertyInfo info = t.GetProperty(fieldName);
+            var currentObjectValue = info.GetValue(itemSource);
+            if ((currentObjectValue != null) && (!DBNull.Value.Equals(currentObjectValue)))
+            {
+                value = currentObjectValue;
+            }
+            return value;
+        }
+        /// <summary>
+        ///  This fetches the data field object from a datatable.
+        /// </summary>
+        /// <param name="itemSource">DataTable to be injected</param>
+        /// <param name="fieldName">Name of the field</param>
+        /// <returns>The object representing that field</returns>
+        public object FetchDataFieldObject(DataTable itemSource, string fieldName)
+        {
+            DataColumnCollection dataFieldCollection = itemSource.Columns;
+            object value = null;
+            if (itemSource.Rows.Count > 0)
+            {
+                DataRow primaryItemSourceRow = itemSource.Rows[0];
+                if (dataFieldCollection.Contains(fieldName))
+                {
+                    var currentValue = primaryItemSourceRow[fieldName];
+                    Type dataType = primaryItemSourceRow.Table.Columns[fieldName].DataType;
+                    if ((currentValue != null) && (!DBNull.Value.Equals(currentValue)))
+                    {
+                        value = currentValue;
+                    }
 
+                }
+            }
+            return value;
+        }
+        /// <summary>
+        /// This fetches the data field object from a datatable.
+        /// </summary>
+        /// <param name="itemSource">DataTable to be injected</param>
+        /// <param name="fieldName">Name of the filed</param>
+        /// <returns>A string representation of the obejct stored in the datatable field</returns>
         public string FetchDataFieldValue(DataTable itemSource, string fieldName)
         {
             DataColumnCollection dataFieldCollection = itemSource.Columns;
@@ -162,7 +243,7 @@ namespace KarveControls.Generic
             {
                 if (value is int)
                 {
-                    return (int) value;
+                    return (int)value;
                 }
                 if (value is Int16)
                 {
@@ -187,7 +268,7 @@ namespace KarveControls.Generic
                     {
                         // check if it is an integer or a byte and force to int.
                         int value = ConvertToInt(currentValue);
-                        if ((value >=0) && (value <= karveComboBox.Items.Count))
+                        if ((value >= 0) && (value <= karveComboBox.Items.Count))
                         {
                             // count the number of controls.
                             karveComboBox.SelectedIndex = value;

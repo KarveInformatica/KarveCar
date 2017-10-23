@@ -44,6 +44,8 @@ namespace MasterModule.UIObjects.CommissionAgents
         public IDictionary<string, ObservableCollection<IUiObject>> BuildPageObjects(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             IDictionary<string, ObservableCollection<IUiObject>> pageObjects = new Dictionary<string, ObservableCollection<IUiObject>>();
+            pageObjects[MasterModule.UiLeftPartPage] = BuildLeftPartCollection(assistQuery, changedField);
+            pageObjects[MasterModule.UiRightPartPage] = BuildRightPartObjects(assistQuery, changedField);
             return pageObjects;
         }
 

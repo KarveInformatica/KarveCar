@@ -169,6 +169,7 @@
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
+    <Compile Include="Generic\ComponentEx.cs" />
     <Compile Include="Generic\KarveProperties.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">
@@ -252,6 +253,9 @@
     <Compile Include="UIObjects\UiObjectsLoader.cs" />
     <Compile Include="UIObjects\UiWpfCheckBox.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
+    <Compile Include="VisualTreeDumper\LogicalTreeDumper.cs" />
+    <Compile Include="VisualTreeDumper\Utils.cs" />
+    <Compile Include="VisualTreeDumper\VisualTreeDumper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataArea\DataArea.xaml">

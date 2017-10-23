@@ -25,6 +25,20 @@ namespace MasterModule.Common
     {
         protected const string Dataset = "dataset";
         protected const string Collection = "collection";
+        /// <summary>
+        ///  DataSet Assist for eache  info view modules
+        /// </summary>
+        protected DataSet AssistDataSet;
+        /// <summary>
+        ///  Current dataset info for the view mdouels
+        /// </summary>
+        protected DataSet CurrentDataSet;
+        /// <summary>
+        ///  list of view model queries.
+        /// </summary>
+        protected IDictionary<string, string> ViewModelQueries;
+        protected string PrimaryKeyValue;
+
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected ObservableCollection<IUiObject> UpperPartObservableCollection = new ObservableCollection<IUiObject>();
 
@@ -109,10 +123,12 @@ namespace MasterModule.Common
         ///  This asks to the control view model to open a new item for insertion. 
         /// </summary>
         public abstract void NewItem();
+
+       
         /// <summary>
-        ///  
+        /// Query. Set the query from the ui.
         /// </summary>
-        /// <param name="payLoad"></param>
+        protected string Query { set; get; }
         protected void MessageHandler(DataPayLoad payLoad)
         {
             if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
@@ -169,6 +185,53 @@ namespace MasterModule.Common
                 {
                     MessageBox.Show("Error loading supplier data");
                 }
+
+            }
+        }
+
+       
+        // TODO Fix excessive depth of code.
+        protected void
+            UpdateSource(DataSet dataSetAssistant, string primaryKey,
+                ref ObservableCollection<IUiObject> collection)
+        {
+
+            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
+            {
+
+                UiDualDfSearchTextObject update = null;
+                foreach (IUiObject obj in collection)
+                {
+                    if (obj is UiDualDfSearchTextObject)
+                    {
+                        update = (UiDualDfSearchTextObject)obj;
+                        bool isValidKey = ((update.DataFieldFirst == primaryKey) ||
+                                           (update.AssistDataFieldFirst == primaryKey));
+                        if (isValidKey)
+                        {
+                            if (dataSetAssistant.Tables.Count > 0)
+                            {
+                                dataSetAssistant.Tables[0].NewRow();
+
+                                update.SourceView = dataSetAssistant.Tables[0];
+
+                            }
+                            break;
+                        }
+                    }
+
+
+                    if (obj is UiMultipleDfObject)
+                    {
+                        if (dataSetAssistant.Tables.Count > 0)
+                        {
+                            UiMultipleDfObject tmp = (UiMultipleDfObject)obj;
+                            tmp.SetSourceView(dataSetAssistant.Tables[0], dataSetAssistant.Tables[0].TableName);
+                        }
+                    }
+                }
+
+
 
             }
         }
@@ -282,6 +345,33 @@ namespace MasterModule.Common
         protected void SetDynamicValuesDataSet(IList<ObservableCollection<IUiObject>> collection, DataSet set)
         {
             
+        }
+
+        /// <summary>
+        ///  This function merges the new table to the current dataset
+        /// </summary>
+        /// <param name="table">Table to be merged</param>
+        /// <param name="currentDataSet">Current dataset to be merged</param>
+        protected void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
+        {
+
+            string tableName = table.TableName;
+            bool foundTable = false;
+            if (currentDataSet != null)
+            {
+                foreach (DataTable currentTable in currentDataSet.Tables)
+                {
+                    if (currentTable.TableName == tableName)
+                    {
+                        foundTable = true;
+                        break;
+                    }
+                }
+                if (foundTable)
+                {
+                    currentDataSet.Tables[tableName].Merge(table);
+                }
+            }
         }
         /// <summary>
         ///  This methods has the resposability to lookup the helpers and set in the component collection

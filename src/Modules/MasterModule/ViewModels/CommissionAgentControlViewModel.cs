@@ -11,13 +11,15 @@ using KarveDataServices;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.UIObjects.CommissionAgents;
+using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
-    class CommissionAgentControlViewModel : MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
+
+    public class CommissionAgentControlViewModel : MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
     {
         private const string ComiNameColumn = "Numero";
         private const string ComiColumnCode = "Nombre";
@@ -84,9 +86,9 @@ namespace MasterModule.ViewModels
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, ComiNameColumn, ComiColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-            //    _regionManager.RequestNavigate("TabRegion", MasterModule.CommissionAgentInfoView);
+                 //_regionManager.RequestNavigate("TabRegion", MasterModule.CommissionAgentInfoView);
 
-                ICommissionAgentView view = _container.Resolve<ICommissionAgentView>();
+                CommissionAgentInfoView view = _container.Resolve<CommissionAgentInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
                 // this builds the dimension of the page.
                 IList<IUiPageBuilder> builders = new List<IUiPageBuilder>();
@@ -100,6 +102,7 @@ namespace MasterModule.ViewModels
                 ObservableCollection<IUiObject> observableCollection = MergeList(obsList);
                 IDictionary<string, string> currentQueries =
                     SQLBuilder.SqlBuildSelectFromUiObjects(observableCollection, idNameTuple.Item1, false);
+                /*
                 ICommissionAgentDataServices agentDataServices = DataServices.GetCommissionAgentDataServices();
                 DataSet currentSet = await agentDataServices.GetCommissionAgent(currentQueries);
                 IDictionary<string, object> componentDictionary =
@@ -113,6 +116,7 @@ namespace MasterModule.ViewModels
                 DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item1;
                 EventManager.notifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
+                */
             }
         }
         /// <summary>

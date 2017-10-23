@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using KarveCommon.Services;
 using KarveDataServices;
 using MasterModule.Common;
@@ -16,6 +17,10 @@ namespace MasterModule.ViewModels
     class VehiclesInfoViewModel: MasterViewModuleBase, IEventObserver
     {
         /// <summary>
+        ///  This the private basic data template selector.
+        /// </summary>
+        private DataTemplateSelector _dataTemplateSelector;
+        /// <summary>
         ///  Constructor
         /// </summary>
         /// <param name="configurationService">This is the configurartion service</param>
@@ -24,7 +29,19 @@ namespace MasterModule.ViewModels
         public VehiclesInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services) : base(configurationService, eventManager, services)
         {
         }
-
+        /// <summary>
+        ///  This return a basic template selector for each item colletion.
+        /// </summary>
+        public DataTemplateSelector BasicTemplateSelector
+        {
+            
+            get { return _dataTemplateSelector; }
+            set { _dataTemplateSelector = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+       
         public override void StartAndNotify()
         {
             throw new NotImplementedException();

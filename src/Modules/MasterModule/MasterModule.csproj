@@ -178,6 +178,9 @@
     <Compile Include="Views\StarsControl.xaml.cs">
       <DependentUpon>StarsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VehiclePhoto.xaml.cs">
+      <DependentUpon>VehiclePhoto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VehiclesInfoView.xaml.cs">
       <DependentUpon>VehiclesInfoView.xaml</DependentUpon>
     </Compile>
@@ -233,6 +236,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StarsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehiclePhoto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
