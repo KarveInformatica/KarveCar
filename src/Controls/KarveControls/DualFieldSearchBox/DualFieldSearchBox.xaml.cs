@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
 using KarveControls.KarveGrid.Events;
+using Telerik.WinControls.Data;
 using Telerik.WinControls.UI;
 using DataRow = System.Data.DataRow;
 using static KarveControls.DataField;
@@ -109,9 +112,9 @@ namespace KarveControls
         public static readonly DependencyProperty SourceViewDependencyProperty =
             DependencyProperty.Register(
                 "SourceView",
-                typeof(DataTable),
+                typeof(object),
                 typeof(DualFieldSearchBox),
-                new PropertyMetadata(new DataTable(), OnSourceTableChanged));
+                new PropertyMetadata(null, OnSourceViewChanged));
         /// <summary>
         ///  Event associated with the magnifier press.
         /// </summary>
@@ -324,8 +327,10 @@ namespace KarveControls
         {
             _tableName = e.NewValue as string;
         }
-
-
+        /// <summary>
+        /// This is a data source.
+        /// </summary>
+        private object _dataSource;
         #endregion
 
         #region assist Query
@@ -519,7 +524,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "DataSource",
                 typeof(object),
-                typeof(DualFieldSearchBox), null);
+                typeof(DualFieldSearchBox), new PropertyMetadata(null,OnDataSourceChanged));
         /// <summary>
         ///  DataSource dependency property.
         /// </summary>
@@ -531,6 +536,60 @@ namespace KarveControls
                 SetValue(DataSourceDependencyProperty, value);
             }
         }
+        /// <summary>
+        ///  This gives us a data source changed.
+        /// </summary>
+        /// <param name="d">Dependency object to be used.</param>
+        /// <param name="e">Depenendncy propperties to be used.</param>
+        private static void OnDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
+            if (dualFieldSearchBox != null)
+            {
+                dualFieldSearchBox.OnDataSourceChanged(e);
+            }
+        }
+        /// <summary>
+        /// This handle the object data change.
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+            _dataSource = value;
+            DataRow[] filteredRows = null;
+            Type type = value.GetType();
+            PropertyInfo info = type.GetProperty(DataFieldFirst);
+            if (info != null)
+            {
+                // ok we check if the second value is a data table.
+                var valueToFind = info.GetValue(_dataSource);
+                if (!System.DBNull.Value.Equals(valueToFind))
+                {
+                    string dataTypeName = value.GetType().FullName; 
+                     //   primaryItemSourceRow.Table.Columns[DataFieldFirst].DataType;
+                    string fieldFormat = "";
+                    if (dataTypeName != null)
+                    {
+                        if ((dataTypeName.Contains("Int16")) || (dataTypeName.Contains("Int32")))
+                        {
+                            fieldFormat = string.Format("{0} = {1}", AssistDataFieldFirst, valueToFind);
+                        }
+                        else if (dataTypeName.Contains("string"))
+                        {
+                            fieldFormat = string.Format("{0} = '{1}'", AssistDataFieldFirst, valueToFind);
+                        }
+                        filteredRows = _sourceView.Select(fieldFormat);
+                    }
+                }
+                if ((filteredRows != null) && (filteredRows.Length == 1))
+                {
+                    TextContentFirst = String.Format("{0}", filteredRows[0][AssistDataFieldFirst]);
+                    TextContentSecond = String.Format("{0}", filteredRows[0][AssistDataFieldSecond]);
+                }
+            }
+        }
+
         /// <summary>
         /// Label Text to be used.
         /// </summary>
@@ -600,6 +659,7 @@ namespace KarveControls
             values["AssitTable"] = SourceView;
             values["AssistTableName"] = TableName;
             values["TableName"] = TableName;
+            values["DataObject"] = _dataSource;
             values["ChangedCode"] = TextContentFirst;
             if (this.ItemChangedCommand != null)
             {
@@ -744,7 +804,6 @@ namespace KarveControls
             DualFieldSearchBox control = d as DualFieldSearchBox;
             if (control != null)
             {
-       //         control.OnPropertyChanged("LabelTextWidth");
                 control.OnLabelTextWidthChanged(e);
             }
         }
@@ -816,35 +875,12 @@ namespace KarveControls
                 }
             }
         }
-        private static void OnSourceTableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSourceViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DualFieldSearchBox control = d as DualFieldSearchBox;
             if (control != null)
             {
                 control.OnSourceViewPropertyChanged(e);
-            }
-        }
-        private static void OnLookupChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
-            {
-                control.OnLookupPropertyChanged(e);
-            }
-        }
-        private void OnLookupPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            bool value = Convert.ToBoolean(e.NewValue);
-           
-           // _lookup = false;
-            if (!value)
-            {
-                this.PopUpButton.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-             //   this.Popup.IsOpen = true;
-                this.PopUpButton.Visibility = Visibility.Visible;
             }
         }
         /// <summary>
@@ -930,25 +966,37 @@ namespace KarveControls
 
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            DataTable currentTable = e.NewValue as DataTable;
+            DataTable currentTable = null;
+           
+            if (e.NewValue is DataTable)
+            {
+                currentTable = e.NewValue as DataTable;
+            }
+            if (e.NewValue is DataSet)
+            {
+                string tableName = AssistTableName;
+                var currentDataSet = e.NewValue as DataSet;
+                currentTable = currentDataSet.Tables[tableName];
+               
+            }
             if (currentTable != null)
             {
-               
 
-                this.MagnifierGrid.DataSource= currentTable;
-              //  this.MagnifierGrid.SelectedRow = _lastDataRowView;
-                
+
+                this.MagnifierGrid.DataSource = currentTable;
+
                 if (_buttonManifierState == 1)
                 {
                     _firstSelection = true;
                     this.Popup.IsOpen = true;
                     _buttonManifierState = 0;
-                    
+
                 }
                 UpdateValues(currentTable, ItemSource);
                 _sourceView = currentTable;
 
             }
+           
         }
 
         private static void OnButtonImageChange(DependencyObject d, DependencyPropertyChangedEventArgs e)

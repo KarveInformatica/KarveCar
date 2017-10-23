@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Globalization;
 using System;
 using DataAccessLayer;
+using DataAccessLayer.SQL;
 using KarveCar.Views;
 using MasterModule.Common;
 
@@ -66,7 +67,7 @@ namespace KarveCar
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
                 InjectionConstructor injectionConstructorDB = new InjectionConstructor(currentValue);
-                Container.RegisterType<ISqlQueryExecutor, KarveCommon.Generic.OleDbQueryExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
+                Container.RegisterType<ISqlQueryExecutor, OleDbQueryExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
                 object[] values = new object[2];
                 values[0] = Container.Resolve<ISqlQueryExecutor>();
                 values[1] = Container.Resolve<IConfigurationService>();

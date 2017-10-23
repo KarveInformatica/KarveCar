@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Generic;
+using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.UIObjects.Suppliers;
 using Prism.Commands;
@@ -42,6 +43,7 @@ namespace MasterModule.ViewModels
         private bool _delegationReadonly;
         private DataSet _delegationSet;
         private string _delegationQuery = "";
+        private ISupplierData _supplierData;
         public DataTable DelegationTable
         {
             get
@@ -216,16 +218,13 @@ namespace MasterModule.ViewModels
             ConfigurationService = configurationService;  
             MailBoxHandler += MessageHandler;
             DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangeRows);
-            ContactsChangedRowsCommand = new DelegateCommand<object>(ContactsChangedRows);
+            //ContactsChangedRowsCommand = new DelegateCommand<object>(ContactsChangedRows);
             DelegationStateBinding = false;
             _visibility = Visibility.Collapsed;
             EventManager.registerObserverSubsystem(MasterModule.ProviderSubsystemName, this);
         }
 
-        private void ContactsChangedRows(object obj)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         /// <summary>
         ///  Handler for the delegation change rows
@@ -459,7 +458,7 @@ namespace MasterModule.ViewModels
 
             ObservableCollection<IUiObject> obsValue = MergeInOneCpCollection(_componentsList);
             
-            _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, isInsertion);
+            _viewModelQueries = SqlBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, isInsertion);
             _primaryKeyValue = primaryKeyValue;
             _isInsertion = isInsertion;
             StartAndNotify();
@@ -659,6 +658,7 @@ namespace MasterModule.ViewModels
         }
 
         // TODO Fix excessive depth of code.
+        /*
         private void
             UpdateSource(DataSet dataSetAssistant, string primaryKey,
             ref ObservableCollection<IUiObject> collection)
@@ -703,6 +703,7 @@ namespace MasterModule.ViewModels
 
             }
         }
+        */
 
         private async void AssistQueryRequestHandler(string assistTableName, string assistQuery, string primaryKey)
         {
@@ -744,28 +745,7 @@ namespace MasterModule.ViewModels
         // fix this method is too long against clean code.
 
 
-        private void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
-        {
-
-            string tableName = table.TableName;
-            bool foundTable = false;
-            if (currentDataSet != null)
-            {
-                foreach (DataTable currentTable in currentDataSet.Tables)
-                {
-                    if (currentTable.TableName == tableName)
-                    {
-                        foundTable = true;
-                        break;
-                    }
-                }
-                if (foundTable)
-                {
-                    currentDataSet.Tables[tableName].Merge(table);
-                }
-            }
-        }
-
+       // TODO: this shall be moved to the upper class
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad();
@@ -781,7 +761,7 @@ namespace MasterModule.ViewModels
                 //   MergeTableChanged(table, ref _delegationSet);
                 //                _viewModelQueries = SQLBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, insert);
                 // now with the table merged we go on.
-                SQLBuilder.StripTop(ref _viewModelQueries);
+                SqlBuilder.StripTop(ref _viewModelQueries);
                 payLoad.Queries = _viewModelQueries;
                 List<DataSet> setList = new List<DataSet>();
                 setList.Add(_currentDataSet);
@@ -925,8 +905,8 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             IsVisible = Visibility.Visible;
-            _initializationTable = NotifyTaskCompletion.Create<IList<DataSet>>(LoadDataValue(_primaryKeyValue, _isInsertion));
-            _initializationTable.PropertyChanged += InitializationTableOnPropertyChanged;
+            _initializationTable = NotifyTaskCompletion.Create<IList<DataSet>>(LoadDataValue(_primaryKeyValue, _isInsertion), InitializationTableOnPropertyChanged);
+          //  _initializationTable.PropertyChanged += InitializationTableOnPropertyChanged;
         }
         public override void NewItem()
         {
@@ -947,6 +927,11 @@ namespace MasterModule.ViewModels
         protected override string GetRouteName(string name)
         {
              return "ProviderModule:" + name;
+        }
+
+        protected override void SetDataObject(object result)
+        {
+            _supplierData = (ISupplierData) result;
         }
     }
 }

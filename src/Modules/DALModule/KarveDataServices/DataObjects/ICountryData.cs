@@ -2,8 +2,8 @@
 {
     public interface ICountryData
     {
-        object CountryCode { set; get; }
-        object Name { set; get; }
+        string Code { set; get; }
+        string CountryName { set; get; }
 
     }
 }

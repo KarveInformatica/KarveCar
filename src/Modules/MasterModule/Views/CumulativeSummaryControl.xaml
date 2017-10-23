@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
              mc:Ignorable="d" Height="214" Width="660">
-    <Grid Name="LayoutCumulativeSummary" Margin="0,0,103,0" Height="173" VerticalAlignment="Top">
-        <UniformGrid HorizontalAlignment="Left" Height="88.301" Margin="10,10,0,0" VerticalAlignment="Top" Width="290">
+    <Grid Name="LayoutCumulativeSummary" Height="173" VerticalAlignment="Top" HorizontalAlignment="Left">
+         
             <GroupBox Header="" Margin="0,0,-327,-86.699">
+                <WrapPanel>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -29,11 +30,12 @@
                         </UniformGrid>
                     </WrapPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,23">
-                        <Button Name="MarkButton"   Content="Marcar" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="104"/>
-                        <Button Name="UnmarkButton" Content="Desmarcar" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="109"/>
+                        <Button Name="MarkButton"   Content="Marcar" HorizontalAlignment="Left" Margin="0,5,0,0"  VerticalAlignment="Top" Width="104"/>
+                        <Button Name="UnmarkButton" Content="Desmarcar" HorizontalAlignment="Left" Margin="10,5,0,0"  VerticalAlignment="Top" Width="109"/>
                     </StackPanel>
                 </Grid>
-            </GroupBox>
-        </UniformGrid>
+            </WrapPanel>
+        </GroupBox>
+        
     </Grid>
 </UserControl>

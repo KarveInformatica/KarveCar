@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -40,7 +41,7 @@ namespace KarveControls
         #region CommonPart
 
 
-        private DataTable _itemSource;
+        private object _itemSource;
         private readonly ComponentFiller _filler = new ComponentFiller();
         private string _dataField = string.Empty;
 
@@ -98,9 +99,9 @@ namespace KarveControls
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
                 "ItemSource",
-                typeof(DataTable),
+                typeof(object),
                 typeof(DataField),
-                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
+                new PropertyMetadata(null, OnItemSourceChanged));
         /// <summary>
         ///  Item Source. DataTable to be binded with this component.
         /// </summary>
@@ -118,39 +119,92 @@ namespace KarveControls
                 control.OnItemSourceChanged(e);
             }
         }
-       
 
-    protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+
+        /// <summary>
+        /// This handle the logic for changing the depedency object using a data object.
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnItemSourceDoChanged(DependencyPropertyChangedEventArgs e)
         {
-            DataTable table = e.NewValue as DataTable;
-            this._itemSource = table;
-            if (!string.IsNullOrEmpty(_dataField))
+            object dataObject = e.NewValue;
+            Type dataType = dataObject.GetType();
+            // now with the reflection we get the field.
+            PropertyInfo info = dataType.GetProperty(DBField);
+            // ok we get the field to be used and changed
+            if (info != null)
             {
-                if (table != null)
+                string value = info.GetValue(dataObject) as string;
+                // since internally we have problems with email. 
+                if ((value != null) && (DataAllowed == DataType.Email))
                 {
-                    DataColumnCollection collection = table.Columns;
-                    if (collection.Contains(_dataField))
+                    value = value.Replace("#", "@");
+                }
+                TextField.Text = value;
+                if (IsReadOnly)
+                {
+                    TextField.Background = Brushes.CadetBlue;
+
+                }
+                else
+                {
+                    TextField.Background = Brushes.White;
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Call back after the change of the property item source
+        /// </summary>
+        /// <param name="e">Event to be handled</param>
+        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null)
+                return;
+
+            if (string.IsNullOrEmpty(_dataField))
+                return;
+
+            object objectValue = e.NewValue;
+            if (objectValue is DataTable)
+            {
+
+                DataTable table = e.NewValue as DataTable;
+
+                this._itemSource = table;
+                if (!string.IsNullOrEmpty(_dataField))
+                {
+                    if (table != null)
                     {
-                        DataRow dataRow = table.Rows[0];
-                        string colName = _dataField;
-                        string value = _filler.FetchDataFieldValue(table, _dataField);
-                        if (DataAllowed == DataType.Email)
+                        DataColumnCollection collection = table.Columns;
+                        if (collection.Contains(_dataField))
                         {
-                            value = value.Replace("#", "@");
+                            DataRow dataRow = table.Rows[0];
+                            string colName = _dataField;
+                            string value = _filler.FetchDataFieldValue(table, _dataField);
+                            if (DataAllowed == DataType.Email)
+                            {
+                                value = value.Replace("#", "@");
+                            }
+                            TextField.Text = value;
+                            TextField.Visibility = Visibility.Visible;
+                            if (IsReadOnly)
+                            {
+                                TextField.Background = Brushes.CadetBlue;
+
+                            }
+                            else
+                            {
+                                TextField.Background = Brushes.White;
+                            }
                         }
-                        TextField.Text = value;
-                        TextField.Visibility = Visibility.Visible;
-                        if (IsReadOnly)
-                        {
-                            TextField.Background = Brushes.CadetBlue;
-                            
-                        }
-                        else
-                        {
-                            TextField.Background = Brushes.White;
-                        }
+                    }
                 }
-                }
+            }
+            else
+            {
+                // ok it is an object
+                 OnItemSourceDoChanged(e);
             }
         }
 
@@ -281,19 +335,23 @@ namespace KarveControls
         }
 
         private int valuePass = 0;
-
+        /// <summary>
+        /// This data field property.
+        /// </summary>
+        /// <param name="e"></param>
         public void OnDataFieldPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             _dataField = e.NewValue as string;
             valuePass++;
             if (this._itemSource != null)
             {
+                DataTable itemSource = _itemSource as DataTable;
                 if (!string.IsNullOrEmpty(_dataField))
                 {
-                        DataColumnCollection collection = _itemSource.Columns;
+                        DataColumnCollection collection = itemSource.Columns;
                         if (collection.Contains(_dataField))
                         {
-                            string value = _filler.FetchDataFieldValue(_itemSource, _dataField);
+                            string value = _filler.FetchDataFieldValue(itemSource, _dataField);
                             if (!string.IsNullOrEmpty(value))
                             {
                                 if (DataAllowed == DataType.Email)
@@ -336,6 +394,9 @@ namespace KarveControls
                 typeof(DataField),
                 new PropertyMetadata(string.Empty, OnTextContentChange));
        
+        /// <summary>
+        /// TextContent. This is the content of the text.
+        /// </summary>
         public string TextContent
         {
             get { return (string)GetValue(TextContentDependencyProperty); }
@@ -367,14 +428,16 @@ namespace KarveControls
                     {
                         tmpValue = value.Replace("@", "#");
                     }
-                    
-                    _itemSource.Rows[0][_dataField] = tmpValue;
+                    DataTable itemSource = (DataTable) _itemSource;
+                    itemSource.Rows[0][_dataField] = tmpValue;
                 }
             }
         }
         #endregion
         #region LabelVisible
-
+        /// <summary>
+        /// Dependency property for the label visibility.
+        /// </summary>
         public static readonly DependencyProperty LabelVisibleDependencyProperty =
             DependencyProperty.Register("LabelVisible",
                 typeof(bool),

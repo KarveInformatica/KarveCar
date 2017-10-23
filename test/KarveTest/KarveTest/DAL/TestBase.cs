@@ -1,5 +1,6 @@
-﻿using KarveCommon.Generic;
+﻿using DataAccessLayer.SQL;
 using KarveCommon.Services;
+using KarveDataServices;
 
 namespace KarveTest.DAL
 {

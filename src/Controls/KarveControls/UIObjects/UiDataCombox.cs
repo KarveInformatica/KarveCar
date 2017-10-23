@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace KarveControls.UIObjects
 {
     /// <summary>
-    ///  UiDataCombox.
-    /// 
+    ///  UiDataCombox interface for the data template.
     /// </summary>
     public class UiDataCombox: UiDfObject
     {

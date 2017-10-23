@@ -4,19 +4,16 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.DataObjects;
-using DataAccessLayer.Exception;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataObjects;
 
 using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
 
 namespace DataAccessLayer
 {
 
-    internal class SupplierDataAccessLayer : ISupplierDataServices
+    internal class SupplierDataAccessLayer : AbstractDataAccessLayer, ISupplierDataServices
     {
         private IConfigurationService _service;
         private ISqlQueryExecutor _queryExecutor;
@@ -26,7 +23,12 @@ namespace DataAccessLayer
         public const string PrimaryKey = "NUM_PROVEE";
 
         private object _currentMerge = new object();
-        public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service)
+        /// <summary>
+        /// This a supplier data access layer constructor
+        /// </summary>
+        /// <param name="mapper">The sql layer for the connection</param>
+        /// <param name="service">The global configuration service</param>
+        public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service) :base(mapper)
         {
             this._queryExecutor = mapper;
             this._service = service;
@@ -57,17 +59,6 @@ namespace DataAccessLayer
             Tuple<string, DataSet> retValue = new Tuple<string, DataSet>(supplierCodeQuery, delegationDataSet);
             return retValue;
         }
-
-        public Task<DataSet> GetAsyncVisits(string clientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataSet> GetEvaluationNote(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// This function deletes a supplier form the supplierId
         /// </summary>
@@ -84,39 +75,14 @@ namespace DataAccessLayer
             {
                 return false;
             }
-            StringBuilder builder = new StringBuilder();
-            builder.Append(" WHERE ");
-            builder.Append(PrimaryKey);
-            string clause = $"='{supplierId}'";
-            builder.Append(clause);
-            string query = builder.ToString();
-
-            try
-            {
-                _queryExecutor.BeginTransaction();
-                foreach (DataTable table in supplierDataSet.Tables)
-                {
-                    foreach (DataRow row in table.Rows)
-                    {
-                        row.Delete();
-                    }
-                }
-                _queryExecutor.UpdateDataSet(query, ref supplierDataSet);
-                _queryExecutor.Commit();
-                return true;
-            }
-            catch (System.Exception e)
-            {
-                _queryExecutor.Rollback();
-            }
-            return false;
+            return DeleteData(sqlQuery, supplierId, PrimaryKey, supplierDataSet);
         }
 
         /// <summary>
         /// This update a set of dataset with batch of queries.
         /// </summary>
-        /// <param name="queries"></param>
-        /// <param name="setList"></param>
+        /// <param name="queries">List of the queries to be updated</param>
+        /// <param name="setList">DataSet to be updated.</param>
         public void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList)
         {
             StringBuilder queryStringBuilder = new StringBuilder();
@@ -147,31 +113,20 @@ namespace DataAccessLayer
 
         }
 
-        public Task<DataSet> GetAsyncEvaluationNote(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataSet> GetAsyncTransportProviderData(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Get suppliers contacts.
+        /// </summary>
+        /// <param name="supplierId">It returns the contact given a supplierId</param>
+        /// <returns></returns>
         public Task<DataSet> GetAsyncSupplierContacts(string supplierId)
         {
             throw new NotImplementedException();
         }
-
-        public Task<DataSet> GetAsyncMonitoring(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Update a dataset from the supplierId
+        /// </summary>
+        /// <param name="queries">List of the queries to be used for updating.</param>
+        /// <param name="set">Set to be used for the updating.</param>
         public void UpdateDataSet(IDictionary<string, string> queries, DataSet set)
         {
             StringBuilder queryStringBuilder = new StringBuilder();
@@ -204,6 +159,11 @@ namespace DataAccessLayer
             string name = GenerateUniqueId();
             return name;
         }
+        /// <summary>
+        /// This returns a new supplier.
+        /// </summary>
+        /// <param name="queryList">List of the queries for the supplier</param>
+        /// <returns></returns>
         public async Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList)
         {
             DataSet set = await _queryExecutor.AsyncDataSetLoadBatch(queryList);
@@ -229,7 +189,10 @@ namespace DataAccessLayer
            
             return set;
         }
-
+        /// <summary>
+        ///  This generate an uniqueId
+        /// </summary>
+        /// <returns></returns>
         private string GenerateUniqueId()
         {
             string id = "";
@@ -255,12 +218,19 @@ namespace DataAccessLayer
             return id;
         }
 
-
+        /// <summary>
+        ///  Get async supplier dataset
+        /// </summary>
+        /// <returns></returns>
         public async Task<DataSet> GetAsyncSuppliers()
         {
             DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierQuery).ConfigureAwait(false);
             return summary;
         }
+        /// <summary>
+        ///  Get async supplier summary.
+        /// </summary>
+        /// <returns></returns>
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
@@ -272,7 +242,7 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
-        public Task<ISupplierTypeData> GetAsyncSupplierTypeById(string supplierId)
+        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
         {
             throw new NotImplementedException();
         }
@@ -325,13 +295,8 @@ namespace DataAccessLayer
             return true;
 
 
-
-            return false;
         }
 
-        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

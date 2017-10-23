@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
 
 namespace KarveDataServices
 {
@@ -14,17 +12,59 @@ namespace KarveDataServices
     public interface ICommissionAgentDataServices
     {
         /// <summary>
-        ///  Get the dataset of a commission agent given its id.
+        /// Get the commission agent data obejct
         /// </summary>
-        /// <param name="query">query to build the commission agent</param>
+        /// <param name="commissionAgentId">Commission agent id</param>
+        /// <param name="queryDictionary">Query dictionary</param>
         /// <returns></returns>
-        Task<DataSet> GetCommissionAgent(IDictionary<string, string> query);
+        Task<ICommissionAgent> GetCommissionAgentDo( string commissionAgentId, IDictionary<string, string> queryDictionary=null);
         /// <summary>
-        ///  Get the commission agent data object given its id.
+        ///  Get the data set of a commission agent.
         /// </summary>
-        /// <param name="query">Query to build the commission agent data object and its dependecies.</param>
+        /// <returns>Returns the dataset of a commission agent</returns>
+        Task<DataSet> GetCommissionAgent(IDictionary<string, string> query);
+        
+        /// <summary>
+        /// Return the commission agent collection
+        /// </summary>
+        /// <param name="fields">  Fields of the database to be filled</param>
+        /// <param name="pageSize">Dimension of the page.</param>
+        /// <param name="startAt">Start at page.</param>
         /// <returns></returns>
-        Task<KarveDataServices.DataObjects.ICommissionAgent> GetCommissionAgentDo(IDictionary<string, string> query);
+        Task<IList<ICommissionAgent>> GetCommissionAgentCollection(IDictionary<string, string> fields, int pageSize = 0,
+            int startAt = 0);
+
+        /// <summary>
+        /// This returns the a new commission agent.
+        /// </summary>
+        /// <returns></returns>
+        ICommissionAgent GetNewCommissionAgentDo();
+        /// <summary>
+        /// This returns the dataset of the commisison agent.
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList);
+        /// <summary>
+        /// Save commission agent data services.
+        /// </summary>
+        /// <param name="commissionAgent"></param>
+        /// <returns></returns>
+        Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent);
+        /// <summary>
+        /// This returns the data set of the commission agent.
+        /// </summary>
+        /// <param name="commissionAgent">Commission agent to delete</param>
+        /// <returns>True if the commission agent has been deleted with succcess.</returns>
+        Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent);
+        /// <summary>
+        /// This delete the commission agent given an id.
+        /// </summary>
+        /// <param name="sqlQuery">Sql Query to be used in case of deleting</param>
+        /// <param name="commissionAgentId">Id to be deleted</param>
+        /// <param name="set">DataSet to be deleted</param>
+        /// <returns></returns>
+        bool DeleteCommissionAgent(string sqlQuery, string commissionAgentId, DataSet set);
         /// <summary>
         /// Get the commission agent summary in an ADO.NET database.
         /// </summary>
@@ -33,44 +73,15 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0);
         /// <summary>
-        /// Get the commission agent list of objects.
-        /// <param name="maxSize">Maximum size of the page, if 0 paging is disabled</param>
-        /// </summary>
-        /// <returns> A list of object up to max size in case of paging</returns>
-        Task<IList<KarveDataServices.DataObjects.ICommissionAgent>> GetCommissionAgentDoList(long maxSize = 0);
-        /// <summary>
-        /// This return a new fresh supplier with a dictionary of queries.
-        /// </summary>
-        /// <param name="queryList"></param>
-        /// <returns>A dataset of the all tables of the supplier</returns>
-        Task<DataSet> GetNewCommissionAgent(IDictionary<string, string> queryList);
-        /// <summary>
-        /// This returns a new commission agent data object with a querylist.
+        /// This is the primary key.
         /// </summary>
         /// <returns></returns>
-        Task<ICommissionAgent> GetNewCommissionAgentDo(IDictionary<string, string> commissionAgent);
+        string GetNewId();
         /// <summary>
-        ///  This deletes a commission agent from the database with optional validation rules. 
+        /// This saves the changes in the commision agent for updating.
         /// </summary>
-        /// <param name="sqlQuery"></param>
-        /// <param name="supplierId"></param>
-        /// <param name="supplierDataSet"></param>
+        /// <param name="commissionAgent"></param>
         /// <returns></returns>
-        bool DeleteCommissionAgent(string sqlQuery, string supplierId, DataSet supplierDataSet);
-        /// <summary>
-        /// Delete a supplier.
-        /// </summary>
-        /// <param name="queries"></param>
-        /// <param name="currentDataSet"></param>
-        /// <returns></returns>
-        bool DeleteCommissionAgents(IDictionary<string, string> queries, DataSet currentDataSet, IList<ValidationRule> validationRules);
-        /// <summary>
-        /// Delete a commission agent data object.
-        /// </summary>
-        /// <param name="commissionAgent">commission agent data object</param>
-        /// <param name="queriesDictionary">query dictionary associated to the data object.</param>
-        /// <returns></returns>
-        Task<bool> DeleteCommissionAgentDo(ICommissionAgent commissionAgent, IDictionary<string, string> queriesDictionary);
-
+        Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent);
     }
 }

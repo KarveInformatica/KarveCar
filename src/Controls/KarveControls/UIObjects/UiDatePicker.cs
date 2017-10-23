@@ -7,19 +7,25 @@ using System.Threading.Tasks;
 
 namespace KarveControls.UIObjects
 {
-    //FIXME: fill the need of an abstract superclass
+    /// <summary>
+    /// This is a data object for the ui data picker.
+    /// </summary>
     public class UiDatePicker : UiDfObject
     {
         private DateTime _dateContent;
         private string _width;
-        private string _height;
-
-        
+      
+        /// <summary>
+        /// DateTime data time
+        /// </summary>
         public DateTime Date
         {
             get { return _dateContent; }
             set { _dateContent = value; }
         }
+        /// <summary>
+        ///  Width size string.
+        /// </summary>
         public string Width
         {
             get

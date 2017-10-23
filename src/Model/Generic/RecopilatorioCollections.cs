@@ -4,8 +4,15 @@ using System.Collections.Generic;
 using System.Windows;
 using DataAccessLayer.DataObjects;
 using KarveCar.Properties;
+using KarveCar.ViewModel.MaestrosViewModel;
 using KarveCar.Views;
+using KarveDataAccessLayer.DataObjects;
+using KarveDataServices.DataObjects;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
+using Color = System.Windows.Media.Color;
+using GrupoVehiculoDataObject = KarveCar.ViewModel.MaestrosViewModel.GrupoVehiculoDataObject;
+using MarcaDataObject = KarveCar.ViewModel.MaestrosViewModel.MarcaDataObject;
+using TipoVehiculo = KarveCar.ViewModel.MaestrosViewModel.TipoVehiculo;
 
 namespace KarveCar.Model.Generic
 {
@@ -239,7 +246,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
             { EOpcion.rbtnProvincias,         new TemplateInfoRibbonButton { propertiesresources = "lrbtnProvincias",
                                                                              nombretabladb = "PROVINCIA",
-                                                                             obj = new Provincia(),
+                                                                             obj = null,
                                                                              templateinfodb = new List<TemplateInfoDB>() {
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
                                                                                                                     nombrecolumnadb    = "CP",
@@ -409,6 +416,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
+            /*
             { EOpcion.rbtnZonasCliente,       new TemplateInfoRibbonButton { propertiesresources = "lrbtnZonasCliente",
                                                                              nombretabladb = "ZONAS",
                                                                              obj = new ZonaCliente(),
@@ -428,7 +436,8 @@ namespace KarveCar.Model.Generic
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Usuario",
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
-                                                                                                                    datagridheader     = Resources.dttcUsuario } } } },
+                                                                                                                   datagridheader     = Resources.dttcUsuario } } } },
+                                                                                                                   */
             #endregion
             #region Maestros/Comisionistas
             { EOpcion.rbtnTipoComisionista,          new TemplateInfoRibbonButton { propertiesresources = "lrbtnTipoComisionista",

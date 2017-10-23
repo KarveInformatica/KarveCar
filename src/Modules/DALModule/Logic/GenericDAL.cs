@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using DataAccessLayer.SQL;
 using KarveCommon.Generic;
+using KarveDataServices;
 
 namespace DataAccessLayer.Logic
 {

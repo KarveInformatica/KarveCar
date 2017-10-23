@@ -25,7 +25,23 @@ namespace MasterModule.Common
     {
         protected const string Dataset = "dataset";
         protected const string Collection = "collection";
+        /// <summary>
+        ///  DataSet Assist for eache  info view modules
+        /// </summary>
+        protected DataSet AssistDataSet;
+        /// <summary>
+        ///  Current dataset info for the view mdouels
+        /// </summary>
+        protected DataSet CurrentDataSet;
+        /// <summary>
+        ///  list of view model queries.
+        /// </summary>
+        protected IDictionary<string, string> ViewModelQueries;
+        protected string PrimaryKeyValue;
+
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
+        protected INotifyTaskCompletion InitializationNotifierDo;
+
         protected ObservableCollection<IUiObject> UpperPartObservableCollection = new ObservableCollection<IUiObject>();
 
         protected ObservableCollection<IUiObject> MiddlePartObservableCollection =
@@ -62,12 +78,14 @@ namespace MasterModule.Common
         /// Object to warrant the notifications.
         /// </summary>
         protected  object _notifyStateObject = new object();
+        /// <summary>
+        /// Ok.
+        /// </summary>
         protected int NotifyState
         {
             set { _notifyState = 0; }
             get { return _notifyState; }
         }
-
         /// <summary>
         /// ViewModel base for the master registry
         /// </summary>
@@ -100,7 +118,6 @@ namespace MasterModule.Common
             Tuple<string, string> codeTuple = new Tuple<string, string>(commissionId, name);
             return codeTuple;
         }
-
         /// <summary>
         ///  This starts the load of data from the lower data layer.
         /// </summary>
@@ -109,8 +126,13 @@ namespace MasterModule.Common
         ///  This asks to the control view model to open a new item for insertion. 
         /// </summary>
         public abstract void NewItem();
+
         /// <summary>
-        ///  
+        /// Query. Set the query from the ui.
+        /// </summary>
+        protected string Query { set; get; }
+        /// <summary>
+        /// This is the message handler.
         /// </summary>
         /// <param name="payLoad"></param>
         protected void MessageHandler(DataPayLoad payLoad)
@@ -144,6 +166,47 @@ namespace MasterModule.Common
         /// <param name="payLoad"> This is the payalod to be be registered</param>
         protected abstract void SetRegistrationPayLoad(ref DataPayLoad payLoad);
 
+        /// <summary>
+        /// This is the initialization notifier on property changed data object
+        /// </summary>
+        /// <param name="sender">This is the sender</param>
+        /// <param name="propertyChangedEventArgs">This are the parameters.</param>
+        protected void InitializationNotifierOnPropertyChangedDo(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+
+            string propertyName = propertyChangedEventArgs.PropertyName;
+
+            if (propertyName.Equals("Status"))
+            {
+                if (InitializationNotifierDo.IsSuccessfullyCompleted)
+                {
+                    var result = InitializationNotifier.Task.Result;
+                    SetDataObject(result);
+                    lock (_notifyStateObject)
+                    {
+                        NotifyState = 0;
+                    }
+                    DataPayLoad payLoad = new DataPayLoad();
+                    payLoad.HasDataObject = true;
+                    payLoad.DataObject = result;
+                    SetRegistrationPayLoad(ref payLoad);
+                    EventManager.NotifyToolBar(payLoad);
+                }
+            }
+        }
+
+        /// <summary>
+        /// SetDataObject. 
+        /// </summary>
+        /// <param name="result">DataObject to be set.</param>
+        protected abstract void SetDataObject(object result);
+
+        /// <summary>
+        /// This initializatin notifier for the data object
+        /// </summary>
+        /// <param name="sender">The sender is</param>
+        /// <param name="propertyChangedEventArgs"></param>
         protected void InitializationNotifierOnPropertyChanged(object sender,
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
@@ -154,6 +217,8 @@ namespace MasterModule.Common
             {
                 if (InitializationNotifier.IsSuccessfullyCompleted)
                 {
+                    var result = InitializationNotifier.Task.Result;
+
                     SetTable(InitializationNotifier.Task.Result.Tables[0]);
                     /* ok the first load has been successfully i can do the second one while the UI Thread is refreshing*/
                     lock (_notifyStateObject)
@@ -172,11 +237,58 @@ namespace MasterModule.Common
 
             }
         }
+
+       
+        // TODO Fix excessive depth of code.
+        protected void
+            UpdateSource(DataSet dataSetAssistant, string primaryKey,
+                ref ObservableCollection<IUiObject> collection)
+        {
+
+            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
+            {
+
+                UiDualDfSearchTextObject update = null;
+                foreach (IUiObject obj in collection)
+                {
+                    if (obj is UiDualDfSearchTextObject)
+                    {
+                        update = (UiDualDfSearchTextObject)obj;
+                        bool isValidKey = ((update.DataFieldFirst == primaryKey) ||
+                                           (update.AssistDataFieldFirst == primaryKey));
+                        if (isValidKey)
+                        {
+                            if (dataSetAssistant.Tables.Count > 0)
+                            {
+                                dataSetAssistant.Tables[0].NewRow();
+
+                                update.SourceView = dataSetAssistant.Tables[0];
+
+                            }
+                            break;
+                        }
+                    }
+
+
+                    if (obj is UiMultipleDfObject)
+                    {
+                        if (dataSetAssistant.Tables.Count > 0)
+                        {
+                            UiMultipleDfObject tmp = (UiMultipleDfObject)obj;
+                            tmp.SetSourceView(dataSetAssistant.Tables[0], dataSetAssistant.Tables[0].TableName);
+                        }
+                    }
+                }
+
+
+
+            }
+        }
         /// <summary>
         /// Set the source item in the components.
         /// </summary>
-        /// <param name="set"></param>
-        /// <param name="uiDfObjects"></param>
+        /// <param name="set">DataSet. This set is sending </param>
+        /// <param name="uiDfObjects">IUiObject. Ok.</param>
         protected void SetItemSourceTable(DataSet set, ref ObservableCollection<IUiObject> uiDfObjects)
         {
             IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(set);
@@ -246,11 +358,18 @@ namespace MasterModule.Common
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-
+        /// <summary>
+        /// This is the navigation context.
+        /// </summary>
+        /// <param name="navigationContext">Naviagation Context.</param>
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
-
+        /// <summary>
+        /// GetRouteName
+        /// </summary>
+        /// <param name="name">This is the route name.</param>
+        /// <returns></returns>
         protected  abstract string GetRouteName(string name);
         /// <summary>
         ///  It detected the payload name following the data occurred.
@@ -274,14 +393,32 @@ namespace MasterModule.Common
             return currentPayload;
         }
 
+        
         /// <summary>
-        ///  This set the values dynamically foreach ui object.
+        ///  This function merges the new table to the current dataset
         /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="set"></param>
-        protected void SetDynamicValuesDataSet(IList<ObservableCollection<IUiObject>> collection, DataSet set)
+        /// <param name="table">Table to be merged</param>
+        /// <param name="currentDataSet">Current dataset to be merged</param>
+        protected void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
         {
-            
+
+            string tableName = table.TableName;
+            bool foundTable = false;
+            if (currentDataSet != null)
+            {
+                foreach (DataTable currentTable in currentDataSet.Tables)
+                {
+                    if (currentTable.TableName == tableName)
+                    {
+                        foundTable = true;
+                        break;
+                    }
+                }
+                if (foundTable)
+                {
+                    currentDataSet.Tables[tableName].Merge(table);
+                }
+            }
         }
         /// <summary>
         ///  This methods has the resposability to lookup the helpers and set in the component collection
@@ -384,7 +521,12 @@ namespace MasterModule.Common
 
         }
 
-        
+        /// <summary>
+        /// FillViewModelAssistantQueries.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="itemSource"></param>
+        /// <param name="assistantQueries"></param>
         protected void FillViewModelAssistantQueries(ObservableCollection<IUiObject> collection,
             DataSet itemSource,
             ref IDictionary<string, string> assistantQueries)

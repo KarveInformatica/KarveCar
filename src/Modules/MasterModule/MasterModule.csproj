@@ -82,6 +82,8 @@
       <HintPath>..\..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -109,15 +111,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ChangeFieldHandler.cs" />
+    <Compile Include="Common\ChangeFieldHandlerDo.cs" />
     <Compile Include="Common\CommissionAgentConstants.cs" />
     <Compile Include="Common\CommonPageBuilder.cs" />
+    <Compile Include="Common\DataSetUtilities.cs" />
+    <Compile Include="Common\IChangeHandler.cs" />
     <Compile Include="Common\IRegionManagerAware.cs" />
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\RegionManagerBehavior.cs" />
-    <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentPageBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentUpperPartBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionMiddlePageBuilder.cs" />
+    <Compile Include="UIObjects\CommissionAgents\UiDfSearch.cs" />
     <Compile Include="UIObjects\Suppliers\UiInvoicingBuilder.cs" />
     <Compile Include="UIObjects\Suppliers\UiMiddlePartPageBuilder.cs" />
     <Compile Include="UIObjects\Suppliers\UiDirectionPageBuilder.cs" />
@@ -132,6 +138,7 @@
     <Compile Include="ViewModels\CommissionAgentControlViewModel.cs" />
     <Compile Include="Interfaces\ICommissionAgentView.cs" />
     <Compile Include="ViewModels\CommissionAgentInfoViewModel.cs" />
+    <Compile Include="ViewModels\CommissionAgentInfoViewModelUi.cs" />
     <Compile Include="ViewModels\FaresControlViewModel.cs" />
     <Compile Include="ViewModels\ProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
@@ -177,6 +184,9 @@
     </Compile>
     <Compile Include="Views\StarsControl.xaml.cs">
       <DependentUpon>StarsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehiclePhoto.xaml.cs">
+      <DependentUpon>VehiclePhoto.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehiclesInfoView.xaml.cs">
       <DependentUpon>VehiclesInfoView.xaml</DependentUpon>
@@ -233,6 +243,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StarsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehiclePhoto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

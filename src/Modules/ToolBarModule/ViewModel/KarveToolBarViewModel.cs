@@ -15,6 +15,7 @@ using KarveCommon.Command;
 using KarveCommon.Generic;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
+using ToolBarModule.Properties;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ToolBarModule
@@ -92,7 +93,8 @@ namespace ToolBarModule
                 {
                     InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
                     Notification nt = new Notification();
-                    nt.Content= "No puedo borrar ficha de consulta";
+                    //  nt.Content= Resources.KarveToolBarViewModel_KarveToolBarViewModel_NoPuedoBorrarFichaDeConsulta
+                    nt.Content = "No puedo borrar la ficha de consulta";
                     nt.Title = "Error";
                     ir.Raise(nt);
                 }
@@ -148,9 +150,9 @@ namespace ToolBarModule
 
         private void SetInsertValidationChain()
         {
-            SqlValidationRule crossDomain = new CrossReferenceValidationRule();
+           // SqlValidationRule crossDomain = new CrossReferenceValidationRule();
             _validationRules = new RemoveDuplicateSqlValidationRule();
-            _validationRules.SetSuccessor(crossDomain);
+           // _validationRules.SetSuccessor(crossDomain);
         }
         private void DoNewCommand()
         {

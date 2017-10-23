@@ -9,6 +9,9 @@ using System.Xml.Serialization;
 
 namespace KarveControls.UIObjects
 {
+    /// <summary>
+    /// UiDoubleDfObject.
+    /// </summary>
     public class UiDoubleDfObject : IUiObject
     {
         private UiDfObject _leftUiDfObject = new UiDfObject();

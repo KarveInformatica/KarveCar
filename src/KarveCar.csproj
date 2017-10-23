@@ -143,6 +143,9 @@
     <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
     <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
+    <Compile Include="Model\Generic\UsoAlquiler.cs" />
+    <Compile Include="Model\Generic\ZonaCliente.cs" />
+    <Compile Include="Model\Generic\ZonaOficina.cs" />
     <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
     <Compile Include="Model\SQL\ScriptsSQLUpdate.cs" />
     <Compile Include="Model\SQL\ScriptsSQLProcedures.cs" />
@@ -195,13 +198,17 @@
     <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
     <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoDataObject.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MaestroCommonViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\MarcaDataObject.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MarcaDataTableViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\SupplierDataObject.cs" />
+    <Compile Include="ViewModel\MaestrosViewModel\TipoVehiculo.cs" />
     <Compile Include="Views\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>

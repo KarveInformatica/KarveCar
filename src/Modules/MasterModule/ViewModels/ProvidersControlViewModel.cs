@@ -16,12 +16,14 @@ using MasterModule.Interfaces;
 
 namespace MasterModule.ViewModels
 {
+    /// <summary>
+    /// This is the view model for suppliers.
+    /// </summary>
     public class ProvidersControlViewModel : MasterViewModuleBase, IProvidersViewModel
     {
         private const string ProviderNameColumn = "Nombre";
         private const string ProviderColumnCode = "Codigo";
         private const string ProviderModuleRoutePrefix = "ProviderModule:";
-        private Stopwatch _stopwatch = new Stopwatch();
         /// <summary>
         ///  Type of payment data services.
         /// </summary>
@@ -31,7 +33,6 @@ namespace MasterModule.ViewModels
         private ICommand _pagedItemCommand;
         private Stopwatch _timing = new Stopwatch();
 
-        private static int value = 0;
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
 
         public ProvidersControlViewModel(IConfigurationService configurationService,
@@ -40,7 +41,6 @@ namespace MasterModule.ViewModels
             IEventManager eventManager) : base(configurationService, eventManager, services)
         {
             _container = container;
-            _stopwatch = new Stopwatch();
             _extendedSupplierDataTable = new DataTable();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
@@ -48,7 +48,6 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
-            _stopwatch.Start();
             StartAndNotify();
         }
         /// <summary>
@@ -70,7 +69,12 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
         }
-     
+
+        protected override void SetDataObject(object result)
+        {
+           /// throw new System.NotImplementedException();
+        }
+
 
         /// <summary>
         ///  Return the selected columns summary view for the suppliers. It might be paged.
@@ -143,7 +147,7 @@ namespace MasterModule.ViewModels
                 obsList.Add(upperPartObservableCollection);
                 obsList.Add(middlePageObservableCollection);
                 ObservableCollection<IUiObject> observableCollection = MergeList(obsList);
-                IDictionary<string, string> current = SQLBuilder.SqlBuildSelectFromUiObjects(observableCollection, supplierId, false);
+                IDictionary<string, string> current = SqlBuilder.SqlBuildSelectFromUiObjects(observableCollection, supplierId, false);
                 DataSet currentSet = await DataServices.GetSupplierDataServices().GetAsyncSupplierInfo(current);
                 IDictionary<string, string> assistQueries = new Dictionary<string, string>();
                 FillViewModelAssistantQueries(observableCollection, currentSet, ref assistQueries);
@@ -165,8 +169,8 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(ProvidersControlViewModel.PROVIDER_SUMMARY_VM, MessageHandlerMailBox);
             ISupplierDataServices supplier = DataServices.GetSupplierDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary());
-            InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
+            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary(), InitializationNotifierOnPropertyChanged);
+ //           InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
         }
 
         /// <summary>

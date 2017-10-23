@@ -369,8 +369,36 @@
                             </ItemsControl.ItemsPanel>
 
                         </ItemsControl>
-                        
-                       <ItemsControl x:Name="middlePart" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding MiddleValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
+
+
+                    <ListBox Name="MiddlePartSource" ItemsSource="{Binding}" BorderBrush="Transparent" 
+                             Grid.IsSharedSizeScope="True"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                             HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <karveControls:DualFieldSearchBox
+                                        LabelText="{Binding Label}"
+                                        LabelTextWidth="100"
+                                        ItemSource="{Binding DataObject}"
+                                        SourceView="{Binding AssistDataTable}"
+                                        DataFieldFirst="{Binding DataField}"
+                                        AssistTableName="{Binding AssistTable}"
+                                        AssistDataFieldFirst="{Binding AssistPrimaryKey}"
+                                        AssistDataFieldSecond="{Binding AssistFieldSecond}">
+                                    </karveControls:DualFieldSearchBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                        <!--
+                    <ItemsControl x:Name="middlePart" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding MiddleValueCollection}" ItemTemplateSelector="{StaticResource ResourceKey=BasicTemplateSelector}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <VirtualizingStackPanel Orientation="Vertical" VirtualizingStackPanel.VirtualizationMode=
@@ -378,7 +406,8 @@
 
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
-                        </ItemsControl> 
+                        </ItemsControl> -->
+                        
                     </Grid>
                 </TabItem>
                 

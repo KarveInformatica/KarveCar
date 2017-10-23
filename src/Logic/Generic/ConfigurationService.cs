@@ -137,8 +137,6 @@ namespace KarveCar.Logic
             IRegion region = RegionManager.GetObservableRegion(control).Value;
             if (region == null)
                 return;
-            CustomTabControl itemFound = null;
-        
             for (int i= 0; i < control.Items.Count; ++i)
             {
                 var item = control.Items[i];

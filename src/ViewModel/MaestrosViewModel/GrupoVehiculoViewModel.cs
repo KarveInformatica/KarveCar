@@ -16,7 +16,9 @@ using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 using KarveCommon.Logic.Generic;
+using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
+using KarveDataServices.DataObjects;
 using Microsoft.Practices.Unity;
 
 
@@ -239,6 +241,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
 
         private void OnTipoVehiculoSelectionChanged(object dataRowView)
         {              
+            /*
             if (dataRowView != null)
             {
                 DataRowView rowView = dataRowView as DataRowView;
@@ -253,7 +256,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                     this.GrupoVehiculoSelectedItem.TipoVehiculoCodigo = tipovehiculo.Codigo;//tipo.Codigo[0];
                     this.GrupoVehiculoSelectedItem.TipoVehiculoDescripcion = tipovehiculo.Definicion;
                 }
-            }
+            }*/
+
         }
         #endregion
 

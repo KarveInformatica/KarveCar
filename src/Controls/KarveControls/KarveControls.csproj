@@ -169,6 +169,7 @@
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
+    <Compile Include="Generic\ComponentEx.cs" />
     <Compile Include="Generic\KarveProperties.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">

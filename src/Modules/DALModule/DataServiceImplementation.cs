@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Data;
+using AutoMapper;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.DataObjects.Wrapper;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer
 {
@@ -12,9 +16,6 @@ namespace DataAccessLayer
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
-        private BanksDataAccessLayer _bankLayer;
-        // private readonly payment data services
-        private readonly IPaymentDataServices _paymentDataService;
         // private supplier services
         private readonly ISupplierDataServices _supplierDataServices;
         // private helper data services.
@@ -22,29 +23,35 @@ namespace DataAccessLayer
         // private commission agent access layer.
         private readonly ICommissionAgentDataServices _commissionAgentDataServices;
 
+        /// <summary>
+        /// Vehicle data services. 
+        /// </summary>
+        private IMapper _mapper;
         private readonly IVehicleDataServices _vehicleDataServices;
 
 
         public DataServiceImplementation(ISqlQueryExecutor sqlQueryExecutor, 
             IConfigurationService configurationService)
         {
-            _paymentDataService = new ChargeTypeDataAccessLayer(sqlQueryExecutor);
+            //_mapper = InitMapper();
             _supplierDataServices = new SupplierDataAccessLayer(sqlQueryExecutor, configurationService);
             _helperDataServices = new HelperDataAccessLayer(sqlQueryExecutor);
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlQueryExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlQueryExecutor);
         }
-     
-        /// <summary>
-        /// Get the payement data services that are resposibles for the paymment and charging.
-        /// </summary>
-        /// <returns></returns>
-        public IPaymentDataServices GetPaymentDataService()
+
+        private IMapper InitMapper()
         {
-            return _paymentDataService;
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CommissionDto, COMISIO>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            return mapper;
         }
+        
         /// <summary>
-        ///  Get teh vehicle data services that represent all veihicles.
+        ///  Get the vehicles data services that represent all veihicles.
         /// </summary>
         /// <returns></returns>
         public IVehicleDataServices GetVehicleDataServices()
@@ -62,15 +69,19 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get the assistant data services. All data services that are enabled in the helpers
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return the assistant (auxliares in spanish) services</returns>
         public IHelperDataServices GetHelperDataServices()
         {
             return _helperDataServices;
         }
-
+        /// <summary>
+        ///  Get the commission agent services. All commission agent services are enabled.
+        /// </summary>
+        /// <returns>Return the commission agent services interface</returns>
         public ICommissionAgentDataServices GetCommissionAgentDataServices()
         {
            return _commissionAgentDataServices;
         }
+      
     }
 }

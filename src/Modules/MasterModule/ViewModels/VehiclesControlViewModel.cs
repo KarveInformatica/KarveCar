@@ -8,6 +8,7 @@ using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -38,11 +39,12 @@ namespace MasterModule.ViewModels
 
         public bool CreateRegionManagerScope => throw new NotImplementedException();
         /// <summary>
-        ///  This is the veichle control view model. This is responsable for the opening new tabs.
+        ///  This is the vehicle control view model. 
+        /// This is responsable for the opening new tabs.
         /// </summary>
         /// <param name="configurationService">Configuration service. It give us the global configuration</param>
-        /// <param name="eventManager"></param>
-        /// <param name="services"></param>
+        /// <param name="eventManager">EventManager. This is the eventManager</param>
+        /// <param name="services">DataServices. This are the dataservices for this stuff.</param>
         /// <param name="container"></param>
         /// <param name="regionManager"></param>
         public VehiclesControlViewModel(IConfigurationService configurationService, 
@@ -56,9 +58,7 @@ namespace MasterModule.ViewModels
            _extendedSupplierDataTable = new DataTable();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
-
         }
-
         private void OpenCurrentItem(object obj)
         {
            
@@ -81,8 +81,8 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox += VehicleMessageHandler;
             EventManager.RegisterMailBox(VehiclesControlViewModel.VehiclesAgentSummaryVm, MessageHandlerMailBox);
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0));
-            InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
+            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0,0), InitializationNotifierOnPropertyChanged);
+         //   InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
         }
         protected void VehicleMessageHandler(DataPayLoad payLoad)
         {
@@ -134,6 +134,15 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
         }
         /// <summary>
+        /// Set data object
+        /// </summary>
+        /// <param name="result">This is the data object for this screen</param>
+        protected override void SetDataObject(object result)
+        {
+         //   throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// This gets the routename for the vehicles subsystem.
         /// </summary>
         /// <param name="name"></param>
@@ -150,7 +159,7 @@ namespace MasterModule.ViewModels
         /// <param name="payload">Kind of payload coming from the diffent view model</param>
         public void incomingPayload(DataPayLoad payload)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
     }
 }

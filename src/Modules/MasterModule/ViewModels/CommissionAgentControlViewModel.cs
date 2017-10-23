@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -11,13 +12,15 @@ using KarveDataServices;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.UIObjects.CommissionAgents;
+using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
-    class CommissionAgentControlViewModel : MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
+
+    public class CommissionAgentControlViewModel : MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
     {
         private const string ComiNameColumn = "Numero";
         private const string ComiColumnCode = "Nombre";
@@ -84,9 +87,9 @@ namespace MasterModule.ViewModels
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, ComiNameColumn, ComiColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-            //    _regionManager.RequestNavigate("TabRegion", MasterModule.CommissionAgentInfoView);
+                 //_regionManager.RequestNavigate("TabRegion", MasterModule.CommissionAgentInfoView);
 
-                ICommissionAgentView view = _container.Resolve<ICommissionAgentView>();
+                CommissionAgentInfoView view = _container.Resolve<CommissionAgentInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
                 // this builds the dimension of the page.
                 IList<IUiPageBuilder> builders = new List<IUiPageBuilder>();
@@ -99,7 +102,8 @@ namespace MasterModule.ViewModels
                 obsList.Add(upperPartObservableCollection);
                 ObservableCollection<IUiObject> observableCollection = MergeList(obsList);
                 IDictionary<string, string> currentQueries =
-                    SQLBuilder.SqlBuildSelectFromUiObjects(observableCollection, idNameTuple.Item1, false);
+                   SqlBuilder.SqlBuildSelectFromUiObjects(observableCollection, idNameTuple.Item1, false);
+                /*
                 ICommissionAgentDataServices agentDataServices = DataServices.GetCommissionAgentDataServices();
                 DataSet currentSet = await agentDataServices.GetCommissionAgent(currentQueries);
                 IDictionary<string, object> componentDictionary =
@@ -107,12 +111,14 @@ namespace MasterModule.ViewModels
                 DataSet assistDataSet = componentDictionary[MasterViewModuleBase.Dataset] as DataSet;
                 ObservableCollection<IUiObject> componentObjects =
                     componentDictionary[MasterViewModuleBase.Collection] as ObservableCollection<IUiObject>;
+                    */
                 IList<DataSet> dataSet = new List<DataSet>();
-                dataSet.Add(currentSet);
-                dataSet.Add(assistDataSet);
+                //dataSet.Add(currentSet);
+                //dataSet.Add(assistDataSet);
                 DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);
-                currentPayload.PrimaryKeyValue = idNameTuple.Item1;
+                currentPayload.PrimaryKeyValue = idNameTuple.Item2;
                 EventManager.notifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
+                
             }
         }
         /// <summary>
@@ -147,8 +153,8 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox +=CommissionAgentMailBox;
             EventManager.RegisterMailBox(CommissionAgentControlViewModel.CommissionAgentSummaryVm, MessageHandlerMailBox);
             ICommissionAgentDataServices commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(commissionAgentDataServices.GetCommissionAgentSummary());
-            InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
+            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(commissionAgentDataServices.GetCommissionAgentSummary(), InitializationNotifierOnPropertyChanged);
+//            InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
         }
 
         private void CommissionAgentMailBox(DataPayLoad payLoad)
@@ -170,6 +176,11 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+        }
+
+        protected override void SetDataObject(object result)
+        {
+            throw new NotImplementedException();
         }
 
         protected override string GetRouteName(string name)

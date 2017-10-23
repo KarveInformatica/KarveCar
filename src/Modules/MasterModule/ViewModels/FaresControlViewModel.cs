@@ -12,6 +12,10 @@ using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
+   /// <summary>
+   ///  This is the fare control view model.
+   /// It controls the fares.
+   /// </summary>
     public class FaresControlViewModel : MasterViewModuleBase, IEventObserver
     {
         private UnityContainer _container;
@@ -19,7 +23,6 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This is the fares control view model.
         /// </summary>
-        
         public FaresControlViewModel(IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
@@ -46,6 +49,11 @@ namespace MasterModule.ViewModels
         }
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SetDataObject(object result)
         {
             throw new NotImplementedException();
         }

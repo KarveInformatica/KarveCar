@@ -48,5 +48,10 @@ namespace KarveCommon.Generic
         // codigo vehicles.
         public const string VehiclesSummaryQuery = "select vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
                                                    "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
+        // codigo vehicles summary paged.
+        public const string VehiclesSummaryQueryPaged = "select TOP {0} START AT {1} vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
+                                                        "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
+
+
     }
 }

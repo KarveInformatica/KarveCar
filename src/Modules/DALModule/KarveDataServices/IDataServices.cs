@@ -1,4 +1,6 @@
 ﻿
+using KarveDataServices.DataObjects;
+
 namespace KarveDataServices
 {
     /// <summary>
@@ -9,11 +11,6 @@ namespace KarveDataServices
    
     public interface IDataServices
     {
-        /// <summary>
-        /// Returns the payment data services.
-        /// </summary>
-        /// <returns>Payment data service subsystem</returns>
-        IPaymentDataServices GetPaymentDataService();
         /// <summary>
         /// Returns the vehicle data services.
         /// </summary>

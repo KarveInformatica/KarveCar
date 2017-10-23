@@ -31,6 +31,13 @@ namespace KarveControls.UIObjects
         /// </summary>
         public event OnAssistQueryRequestHandler OnAssistQuery;
         /// <summary>
+        /// This is the dual search box.
+        /// </summary>
+        public UiDualDfSearchTextObject()
+        {
+            
+        }
+        /// <summary>
         /// User object that represent an Doble field with a search text box using a cross reference table.
         /// </summary>
         /// <param name="labelTxt">Label of the data field.</param>

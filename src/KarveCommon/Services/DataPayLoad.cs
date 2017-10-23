@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using KarveDataServices;
 
 namespace KarveCommon.Services
 {
@@ -26,13 +27,14 @@ namespace KarveCommon.Services
     ///  TODO: add support for generics.
     /// </summary>
     [Serializable]
-    public class DataPayLoad: ICloneable
+    public class DataPayLoad: ICloneable, IDataPayLoad
     {
-       
 
-        public enum Type {
-            Insert = 0, Delete = 1, Update = 2, 
-            RegistrationPayload = 3, Show = 4, UpdateView= 5,
+
+        public enum Type
+        {
+            Insert = 0, Delete = 1, Update = 2,
+            RegistrationPayload = 3, Show = 4, UpdateView = 5,
             Any = 6
         };
 

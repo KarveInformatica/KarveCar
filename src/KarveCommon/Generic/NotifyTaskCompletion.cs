@@ -2,12 +2,6 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 
 namespace KarveCommon.Generic
 {
@@ -111,9 +105,9 @@ namespace KarveCommon.Generic
         /// <typeparam name="TResult">The type of the task result.</typeparam>
         /// <param name="task">The task to watch.</param>
         /// <returns>A new task notifier watching the specified task.</returns>
-        public static INotifyTaskCompletion<TResult> Create<TResult>(Task<TResult> task)
+        public static INotifyTaskCompletion<TResult> Create<TResult>(Task<TResult> task, PropertyChangedEventHandler ev)
         {
-            return new NotifyTaskCompletionImplementation<TResult>(task);
+            return new NotifyTaskCompletionImplementation<TResult>(task, ev);
         }
 
         /// <summary>
@@ -131,10 +125,10 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="asyncAction">The asynchronous code to execute.</param>
         /// <returns>A new task notifier watching the returned task.</returns>
-        public static INotifyTaskCompletion<TResult> Create<TResult>(Func<Task<TResult>> asyncAction)
+        /*ublic static INotifyTaskCompletion<TResult> Create<TResult>(Func<Task<TResult>> asyncAction)
         {
             return Create(asyncAction());
-        }
+        }*/
 
         /// <summary>
         /// Watches a task and raises property-changed notifications when the task completes.
@@ -209,13 +203,19 @@ namespace KarveCommon.Generic
         {
 
             private Task<bool> _completedTaskValue = System.Threading.Tasks.Task.FromResult(true);
+
             /// <summary>
             /// Initializes a task notifier watching the specified task.
             /// </summary>
             /// <param name="task">The task to watch.</param>
-            public NotifyTaskCompletionImplementation(Task<TResult> task)
+            /// <param name="ev"></param>
+            public NotifyTaskCompletionImplementation(Task<TResult> task, PropertyChangedEventHandler ev = null)
             {
                 Task = task;
+                if (ev != null)
+                {
+                    PropertyChanged += ev;
+                }
                 if (task.IsCompleted)
                 {
                     TaskCompleted = _completedTaskValue;

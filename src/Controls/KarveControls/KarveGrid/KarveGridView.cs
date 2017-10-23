@@ -18,6 +18,9 @@ using PropertyChangedCallback = System.Windows.PropertyChangedCallback;
 using GridColView = Telerik.WinControls.UI.GridViewColumn;
 using Panel = System.Windows.Controls.Panel;
 
+
+/// TODO: Remove property changes.
+
 namespace KarveControls.KarveGrid
 {
     /// <summary>
@@ -43,7 +46,9 @@ namespace KarveControls.KarveGrid
         private long _pageIndex = 0;
         #endregion
         #region Public Variables
-
+        /// <summary>
+        /// PropertyChanged. This shall be removed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
@@ -65,14 +70,21 @@ namespace KarveControls.KarveGrid
         /// <summary>
         ///  This dependency property exposes the field.
         /// </summary>
-        public static DependencyProperty AliasFieldProperty = DependencyProperty.Register("AliasField", typeof(string), 
+        public static DependencyProperty DataFieldProperty = DependencyProperty.Register("DataField", typeof(string), 
+            typeof(KarveGridView), new PropertyMetadata(string.Empty));
+
+
+        /// <summary>
+        ///  This dependency property exposes the field.
+        /// </summary>
+        public static DependencyProperty AliasFieldProperty = DependencyProperty.Register("AliasField", typeof(string),
             typeof(KarveGridView), new PropertyMetadata(string.Empty));
 
         /// <summary>
         /// This depedency property exposes the source of the GridView. It is the table associated to the source.
         /// </summary>
 
-        
+
         public static DependencyProperty SourceViewProperty =
             DependencyProperty.Register(
                 "SourceView",
@@ -252,12 +264,22 @@ namespace KarveControls.KarveGrid
             get { return (string)GetValue(PrimaryKeyProperty); }
             set { SetValue(PrimaryKeyProperty, value); }
         }
+        /// <summary>
+        /// This is a data field.
+        /// </summary>
+        public string DataField
+        {
+            get { return (string)GetValue(DataFieldProperty); }
+            set { SetValue(DataFieldProperty, value); }
+        }
+        /// <summary>
+        /// This is an alias field.
+        /// </summary>
         public string AliasField
         {
-            get { return (string)GetValue(AliasFieldProperty); }
-            set { SetValue(AliasFieldProperty, value); }
+            get { return (string)GetValue(DataFieldProperty); }
+            set { SetValue(DataFieldProperty, value); }
         }
-
         public string AssistQuery
         {
             get { return (string)GetValue(AssitQueryProperty); }
@@ -814,6 +836,8 @@ namespace KarveControls.KarveGrid
 
             }
         }
+
+
         /// <summary>
         ///  This returns the PageSize
         /// </summary>
@@ -1028,11 +1052,13 @@ namespace KarveControls.KarveGrid
 
         private void CurrentViewOnCellDoubleClick(object sender, GridViewCellEventArgs gridViewCellEventArgs)
         {
+            
             GridViewRowInfo info = _currentView.CurrentRow;
             GridViewSelectedCellsChangedEventArgs args = new GridViewSelectedCellsChangedEventArgs(RowDoubleClickEvent); 
             this.SelectedRow = info.DataBoundItem as DataRowView;
             args.CurrentRow = info;
             RaiseEvent(args);
+           
         }
         
         private void CurrentViewOnSelectionChanged(object sender, EventArgs eventArgs)
@@ -1041,7 +1067,6 @@ namespace KarveControls.KarveGrid
             GridViewSelectedCellsChangedEventArgs args = new GridViewSelectedCellsChangedEventArgs(SelectedRowGridViewEvent);
             args.CurrentRow = info;
             this.SelectedRow = info.DataBoundItem as DataRowView;
-
             RaiseEvent(args);
         }
 

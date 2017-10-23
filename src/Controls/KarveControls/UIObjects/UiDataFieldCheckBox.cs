@@ -7,11 +7,22 @@ using System.Xml.Serialization;
 
 namespace KarveControls.UIObjects
 {
+    /// <summary>
+    /// Data field check interface for the data template
+    /// </summary>
     public class UiDataFieldCheckBox : UiDfObject
     {
+        /// <summary>
+        ///  Content for the data template
+        /// </summary>
         public string Content { set; get; }
+        /// <summary>
+        ///  Put this checked or unchecked following the template.
+        /// </summary>
         public bool IsChecked { set; get; }
-      
+      /// <summary>
+      /// This is the string needed for the query.
+      /// </summary>
         public override string ToSQLString {
             get
             {

@@ -32,9 +32,9 @@ namespace MasterModule.UIObjects.CommissionAgents
                 dfSearchTextObject.DataField = CommissionAgentConstants.TipoDataFieldFirst;
                 dfSearchTextObject.DataFieldFirst = CommissionAgentConstants.TipoDataFieldFirst;
                 dfSearchTextObject.Height = UiConstants.TextboxHeight;
-                dfSearchTextObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
+                dfSearchTextObject.LabelTextWidth = UiConstants.LabelTextWidthWide2;
                 dfSearchTextObject.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
-                dfSearchTextObject.TextContentSecondWidth = UiConstants.TextBoxWidthDefault;
+                dfSearchTextObject.TextContentSecondWidth = UiConstants.TextBoxWidthWide;
                 dfSearchTextObject.IsReadOnlyFirst = true;
                 dfSearchTextObject.IsReadOnlySecond = false;
                 dfSearchTextObject.SourceView = new DataTable();

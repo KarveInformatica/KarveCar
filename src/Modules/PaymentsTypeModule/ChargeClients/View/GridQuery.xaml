@@ -25,35 +25,6 @@
         <Label Grid.Row="0" Width="300" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding Title}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="1">
-
-            <extendedGridControl:ExtendedDataGrid VerticalAlignment="Top" 
-                                                   x:Name="QueryType" 
-                                                   ItemsSource="{Binding QueryTable}" 
-                                                  SelectedIndex="{Binding SelectedIndex}"
-                                                   RowHeaderWidth="17" 
-                                                   IsReadOnly="True"
-                                                   MaxHeight="670"
-                                                   AutoGenerateColumns="False" 
-                                                   HideColumnChooser="True" 
-                                                   AllowUserToCopy="True"
-                                                   OnlyTwoWaySorting="True"
-                                                   SearchAutoFilterVisibility="Visible" 
-                                                   AutoFilterFontSize="12"
-                                                   GroupByControlVisibility="Collapsed" 
-                                                   IsSynchronizedWithCurrentItem="True"                                           
-                                                   SelectionUnit="FullRow" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=QueryType, Path=SelectedValue}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <DataGrid.Columns>
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Codigo" AllowAutoFilter="True" Width="30*" Binding="{Binding Codigo}"
-                   />
-                    <extendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="70*" Binding="{Binding Definicion}"
-                   />
-                </DataGrid.Columns>
-            </extendedGridControl:ExtendedDataGrid>
         </StackPanel>
     </Grid>
 </UserControl>

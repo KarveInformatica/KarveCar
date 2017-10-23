@@ -302,9 +302,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
                 case EControlCambio.Insert:
                     DataRowView dataRowView = null;
                     this.codigoselecteditem = this.MarcaSelectedItem.Row["CODIGO"].ToString().Replace(" ", string.Empty);
-                    string whereClause = SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                    string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
                                                                                EWhereComparisson.LIKE, ETipoDato.DBstring, codigoselecteditem);
-                    DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                    DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                                null, whereClause, null));
 
                     foreach (DataRowView datarowview in datatable.AsDataView())
@@ -361,7 +361,7 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             if (controlcambio == EControlCambio.Insert)
             {
                 Tuple<ETopDistinct, int, int> topDistinctClause = Tuple.Create(ETopDistinct.TOP, 1, 0);
-                DataTable table = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                DataTable table = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                            topDistinctClause, string.Empty, null));
 
                 DataTable datatable = table.Clone();
@@ -395,8 +395,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         private void SelectSqlCRUD()
         {
             List<Tuple<string, string>> list= new List<Tuple<string,string>>();
-            this.columnsSqlCRUD = SQLBuilder.SqlBuilderColumns<UserControl>(this.thisusercontrol, ref list);
-            this.sqlCRUD        = SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR", null, string.Empty, null);
+            this.columnsSqlCRUD = SqlBuilder.SqlBuilderColumns<UserControl>(this.thisusercontrol, ref list);
+            this.sqlCRUD        = SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR", null, string.Empty, null);
         }
 
         /// <summary>
@@ -404,8 +404,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// </summary>
         private async Task SelectMarcaDataTable()
         {
-            string orderbymarca = SQLBuilder.SqlBuilderOrderByOne("MAR.CODIGO", EOrderBy.ASC);
-            this.MarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsMarca, "MARCAS", "MAR",
+            string orderbymarca = SqlBuilder.SqlBuilderOrderByOne("MAR.CODIGO", EOrderBy.ASC);
+            this.MarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsMarca, "MARCAS", "MAR",
                                                                                                                             this.topClause, null, orderbymarca)));
         }
 
@@ -414,8 +414,8 @@ namespace KarveCar.ViewModel.MaestrosViewModel
         /// </summary>
         private async Task SelectProveedorMarcaDataTable()
         {
-            string orderbyproveedor = SQLBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", EOrderBy.ASC);
-            this.ProveedorMarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO",
+            string orderbyproveedor = SqlBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", EOrderBy.ASC);
+            this.ProveedorMarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO",
                                                                                                                 this.topClause, null, orderbyproveedor)));
         }
 
@@ -429,9 +429,9 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             DataRowView dataRowView = null;
             if (!codigo.Equals(string.Empty))
             {
-                string whereClause =  SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                string whereClause =  SqlBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
                                                                             EWhereComparisson.LIKE, ETipoDato.DBstring, codigo);
-                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
+                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                            null, whereClause, null));
 
                 foreach (DataRowView datarowview in datatable.AsDataView())
@@ -468,10 +468,10 @@ namespace KarveCar.ViewModel.MaestrosViewModel
             DataRowView dataRowView = null;
             if (!codigo.Equals(string.Empty))
             {
-                string whereClause = SQLBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
+                string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
                                                                            EWhereComparisson.LIKE, ETipoDato.DBstring, codigo);
 
-                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SQLBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO", 
+                DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO", 
                                                                                                            this.topClause, whereClause, null));
                 foreach (DataRowView datarowview in datatable.AsDataView())
                 {

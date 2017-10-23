@@ -107,6 +107,9 @@
     <Compile Include="View\KarveToolBarView.xaml.cs">
       <DependentUpon>KarveToolBarView.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.ca-ES.resx" />
+    <EmbeddedResource Include="Properties\Resources.en-GB.resx" />
+    <EmbeddedResource Include="Properties\Resources.es-ES.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -4,17 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 
 namespace KarveControls.UIObjects
 {
-    public class SQLBuilder
+
+    /// <summary>
+    /// This SQLBuilder provide differents way to build queries.
+    /// </summary>
+    public class SqlBuilder
     {
 
         private const string TopOne = " TOP 1 ";
@@ -662,6 +668,30 @@ namespace KarveControls.UIObjects
             return sqlWhereClause;
         }
 
+        
+        /// <summary>
+        ///  This add or create a name.
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="fieldName">Table field</param>
+        /// <param name="dictionary">Table dictionary that contains the fields for table</param>
+        private static void AddOrCreate(string tableName, string fieldName,
+            ref IDictionary<string, List<string>> dictionary)
+        {
+            if (!dictionary.ContainsKey(tableName))
+            {
+                List<string> str = new List<string>();
+                str.Add(fieldName);
+                dictionary.Add(tableName, str);
+            }
+            else
+            {
+                List<string> name = dictionary[tableName];
+                name.Add(fieldName);
+                dictionary[tableName] = name;
+            }
+        }
+        
         /// <summary>
         /// Recorre los controles de una pantalla (de forma recursiva para el caso que encuentre un control contenedor, p.e.: Grid, GroupBox, DockPanel, StackPanel,...),
         /// y devuelve un List&lt;string&gt; con el nombre de las columnas correspondientes en la BBDD para cada control<para/>
@@ -730,6 +760,10 @@ namespace KarveControls.UIObjects
             return resultchild;
         }
         #endregion
+        /// <summary>
+        ///  This strip the top from a query dictionary.
+        /// </summary>
+        /// <param name="dictionary">Query dictionary</param>
         public static void StripTop(ref IDictionary<string, string> dictionary)
         {
             IDictionary<string, string> strValue = new Dictionary<string, string>();
@@ -746,6 +780,102 @@ namespace KarveControls.UIObjects
                 }
             }
             dictionary = strValue;
+
+        }
+
+        /// <summary>
+        /// This add or create a dictionary for the key/value/
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="tableDictionary"></param>
+        private static void AddOrCreate(string key, string value, ref IDictionary<string, string> tableDictionary)
+        {
+            if (tableDictionary.ContainsKey(key))
+            {
+                string tmpValue = tableDictionary[key];
+                if (!tmpValue.Contains(value))
+                {
+                    tmpValue += "," + value;
+                    tableDictionary[key] = tmpValue;
+                }
+            }
+            else
+            {
+                tableDictionary.Add(key, value);
+            }
+        }
+        /// <summary>
+        /// Fetch table and assist stable fields
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="tableFields"></param>
+        /// <param name="assistTableFields"></param>
+        private static void FetchTableAndAssistTable(DependencyObject value,
+            ref IDictionary<string, string> tableFields,
+            ref IDictionary<string, string> assistTableFields)
+        {
+            if (value is DataField)
+            {
+                DataField df = (DataField)value;
+                AddOrCreate(df.TableName, df.DBField, ref tableFields);
+            }
+            else
+
+            {
+                OtherDataFieldComponent(value, tableFields, assistTableFields);
+            }
+
+        }
+        /// <summary>
+        ///  This looks up about the tagged named.
+        /// </summary>
+        /// <param name="value">Dependency object in a tree</param>
+        /// <param name="tableFields">Fields of the table on which we depend</param>
+        /// <param name="assistTableFields">Fields of the assist table on which we depend</param>
+        private static void OtherDataFieldComponent(DependencyObject value,
+            IDictionary<string, string> tableFields,
+            IDictionary<string, string> assistTableFields)
+        {
+            if (value is DualFieldSearchBox)
+            {
+                // get the table and the field.
+                DualFieldSearchBox dualFieldSearchBox = (DualFieldSearchBox)value;
+                AddOrCreate(dualFieldSearchBox.AssistTableName, dualFieldSearchBox.AssistDataFieldFirst,
+                    ref assistTableFields);
+                AddOrCreate(dualFieldSearchBox.AssistTableName, dualFieldSearchBox.AssistDataFieldSecond,
+                    ref assistTableFields);
+                AddOrCreate(dualFieldSearchBox.TableName, dualFieldSearchBox.DataFieldFirst, ref tableFields);
+            }
+            else
+            {
+                PropertyInfo fieldInfo = value.GetType().GetProperty("DataField");
+                PropertyInfo tableInfo = value.GetType().GetProperty("TableName");
+                if ((fieldInfo != null) || (tableInfo != null))
+                {
+                    string fieldName = (string)fieldInfo.GetValue(value);
+                    string tableName = (string)tableInfo.GetValue(value);
+                    if ((fieldName != null) || (tableName != null))
+                    {
+                        AddOrCreate(tableName, fieldName, ref tableFields);
+                    }
+                }
+            }
+
+        }
+        /// <summary>
+        ///  Get the fields from the visual tree.
+        ///  This method has been deprecated because of issues during displaying the visual tree.
+        /// </summary>
+        /// <param name="allDataFields">This is a list of DependencyObject</param>
+        /// <param name="tableFields">This is a list of tables</param>
+        /// <param name="assistDictionary">This is an assist dictionary</param>
+        public static void SqlGetFields(IEnumerable<DependencyObject> allDataFields, ref IDictionary<string, string> tableFields, ref IDictionary<string,string> assistDictionary)
+        {
+            foreach (var value in allDataFields)
+            {
+                FetchTableAndAssistTable(value, ref tableFields, ref assistDictionary);
+            }
 
         }
     }

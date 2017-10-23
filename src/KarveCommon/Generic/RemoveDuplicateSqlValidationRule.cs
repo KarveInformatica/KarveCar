@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
+using KarveDataServices;
 
 namespace KarveCommon.Generic
 {
@@ -12,7 +13,7 @@ namespace KarveCommon.Generic
     /// </summary>
     public class RemoveDuplicateSqlValidationRule: SqlValidationRule
     {
-        public override bool Validate(DataPayLoad request)
+        public override bool Validate(IDataPayLoad request)
         {
             return true;
         }

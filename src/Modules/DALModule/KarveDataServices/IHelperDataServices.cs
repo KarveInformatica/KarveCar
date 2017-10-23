@@ -12,6 +12,12 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncHelper(string assistQuery, string assistTableName);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="viewModelAssitantQueries">Queries for the assistant</param>
+        /// <returns></returns>
         Task<DataSet> GetAsyncHelper(IDictionary<string, string> viewModelAssitantQueries);
+        
     }
 }

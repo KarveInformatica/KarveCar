@@ -30,19 +30,14 @@ namespace KarveDataServices
         /// <param name="startPos">Start position where compute the page</param>
         /// <returns></returns>
         DataSet GetSuppliersSummaryPaged(long startPos);
-        /// <summary>
-        /// Returns the supplier type information from the supplier id.
-        /// </summary>
-        /// <param name="id">supplier code</param>
-        /// <returns></returns>
-        Task<ISupplierTypeData> GetAsyncSupplierTypeById(string supplierId);
+       
         /// <summary>
         /// Returns the complete suppliers information paged for 200 items.
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncSuppliersSummaryPaged();
         
-        
+        //ISupplierData GetAsyncSupplierInfo()
         /// <summary>
         ///  Load a data set with all information needed for a given sheet.
         /// </summary>
@@ -57,19 +52,6 @@ namespace KarveDataServices
         /// <returns>A tuple containing the executed query and the resulting data set.</returns>
         Task<Tuple<string, DataSet>> GetAsyncDelegations(string supplierId);
         /// <summary>
-        ///  Returns the visits for a given supplier.
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncVisits(string clientId);
-        /// <summary>
-        ///  Returns an evaluation note for a supplier.
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        Task<DataSet> GetEvaluationNote(string supplierId);
-
-        /// <summary>
         /// Update the data set 
         /// </summary>
         /// <param name="queries">The dictionary of the queries per table</param>
@@ -78,25 +60,7 @@ namespace KarveDataServices
         //List of dataset.
 
         void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList);
-        /// <summary>
-        ///  Returns the async evaluation note
-        /// </summary>
-        /// <param name="supplierId">supplier identifier</param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncEvaluationNote(string supplierId);
-        
-        /// <summary>
-        /// Return the supplier transport information.
-        /// </summary>
-        /// <param name="supplierId">supplier identifier</param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncTransportProviderData(string supplierId);
-        /// <summary>
-        /// Returns the async supplier assurance data given a supplerId
-        /// </summary>
-        /// <param name="supplierId">supplier identifier</param>
-        /// <returns></returns>       
-        Task<DataSet> GetAsyncSupplierAssuranceData(string supplierId);
+      
         /// <summary>
         /// Return the supplier contacts asynchronously
         /// </summary>
@@ -104,23 +68,16 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<DataSet> GetAsyncSupplierContacts(string supplierId);
         /// <summary>
-        /// Returns the asynchrnous monitoring
-        /// </summary>
-        /// <param name="supplierId">supplier identifier</param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncMonitoring(string supplierId);
-        /// <summary>
         /// This returns the asynchronous suppliers.
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncSuppliers();
-        
+
         /// <summary>
-        /// Generate a new id.
+        /// This retursn a new supplier
         /// </summary>
+        /// <param name="queryList">List of queries of the supplier</param>
         /// <returns></returns>
-        string GetNewId();
-        // This supplier id.
         Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList);
         /// <summary>
         /// This is delete supplier.
@@ -140,6 +97,7 @@ namespace KarveDataServices
         /// <param name="currentDataSet"></param>
         /// <returns></returns>
         bool DeleteSupplier(IDictionary<string, string> queries,  DataSet currentDataSet);
+        string GetNewId();
 
 
         #endregion

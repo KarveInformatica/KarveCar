@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,7 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractSqlQueryExecutor.cs" />
+    <Compile Include="DataLayerException.cs" />
+    <Compile Include="DataObjects\IBranchesData.cs" />
     <Compile Include="DataObjects\ICommissionAgent.cs" />
+    <Compile Include="DataObjects\ICommissionAgentTypeData.cs" />
+    <Compile Include="DataObjects\IContactsData.cs" />
     <Compile Include="DataObjects\ICountryData.cs" />
     <Compile Include="DataObjects\ISupplierAccountObjectInfo.cs" />
     <Compile Include="DataObjects\ISupplierBranchesData.cs" />
@@ -52,15 +58,22 @@
     <Compile Include="DataObjects\ISupplierMonitoringData.cs" />
     <Compile Include="DataObjects\ISupplierTypeData.cs" />
     <Compile Include="DataObjects\ISupplierVisitData.cs" />
+    <Compile Include="DataObjects\IVisitData.cs" />
     <Compile Include="ICommissionAgentDataServices.cs" />
+    <Compile Include="IDataPayLoad.cs" />
+    <Compile Include="IDataWrapper.cs" />
     <Compile Include="IHelperDataServices.cs" />
     <Compile Include="IDataServices.cs" />
     <Compile Include="IPaymentDataService.cs" />
     <Compile Include="DataObjects\ISupplierEvaluationNoteData.cs" />
+    <Compile Include="ISqlCommand.cs" />
+    <Compile Include="ISQLQueryExecutor.cs" />
+    <Compile Include="ISqlSession.cs" />
     <Compile Include="ISupplierDataServices.cs" />
-    <Compile Include="IVehicleData.cs" />
+    <Compile Include="DataObjects\IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlValidationRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
