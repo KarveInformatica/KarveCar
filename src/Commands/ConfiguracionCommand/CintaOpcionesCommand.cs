@@ -1,6 +1,6 @@
-﻿using KarveCar.ViewModel.ConfiguracionViewModel;
-using KarveCommon.Command;
+﻿using KarveCommon.Command;
 using System;
+using KarveCar.ViewModels;
 
 namespace KarveCar.Commands.ConfiguracionCommand
 {

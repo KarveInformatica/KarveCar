@@ -16,7 +16,7 @@ namespace KarveCar.View
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void titleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var window = (Window)((FrameworkElement)sender).TemplatedParent;
             window.DragMove();

@@ -21,9 +21,7 @@ namespace KarveTest.DAL
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
         private IConfigurationService _serviceConf;
-        private INotifyTaskCompletion<DataSet> _initializationNotifier;
-        private bool _notificationResult = false;
-
+       
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
         
 
@@ -34,7 +32,7 @@ namespace KarveTest.DAL
             _serviceConf = base.SetupConfigurationService();
             try
             {
-                ISqlQueryExecutor executor = SetupSqlQueryExecutor();
+                ISqlExecutor executor = SetupSqlQueryExecutor();
                _dataServices = new DataServiceImplementation(executor,_serviceConf);
                 _supplierDataServices = _dataServices.GetSupplierDataServices();
             }
@@ -44,30 +42,6 @@ namespace KarveTest.DAL
             }
         }
 
-        [Test]
-        public void LoadAndNotify()
-        {
-            _notificationResult = false;
-
-            //_initializationNotifier = NotifyTaskCompletion.Create<DataSet>(_supplierDataServices.GetAsyncAllSupplierSu);
-            
-            _initializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
-            Assert.IsTrue(_notificationResult);
-        }
-
-        private void InitializationNotifierOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (_initializationNotifier.IsSuccessfullyCompleted)
-            {
-                _notificationResult = true;
-            
-            }
-            else
-            {
-                _notificationResult = false;
-            
-            }
-        }
         // <summary>
         // This is an asynchronous test where for each supplier we get the information for its supplierId.
         // </summary>
@@ -127,25 +101,20 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public void Should_Have_NewId()
+        public void Should_Have_NewProviderId()
         {
-            // this shall be fixed.
+            // the item shall be unique.
             List<string> idList = new List<string>();
-            for(int i = 0; i < 10; ++i)
+            string item = "";
+            for (int i = 0; i < 10; ++i)
             {
-                string item = _supplierDataServices.GetNewId();
+                item = _supplierDataServices.GetNewId();
+                Assert.IsTrue(!idList.Contains(item));
+                idList.Add(item);
             }
+            Assert.AreEqual(idList.Count, 10);
         }
 
-        
-        private void CheckSingleSupplier(DataTableCollection tables)
-        {
-            Assert.Greater(tables.Count, 0);
-            DataTable table = tables[0];
-            Assert.Greater(table.Rows.Count, 0);
-            DataRow row = table.Rows[0];
-            Assert.NotNull(row["Numero"]);
-        }
 
     }
 }

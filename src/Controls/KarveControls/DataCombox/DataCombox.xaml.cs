@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls.Generic;
 using Prism.Commands;
-using static KarveControls.CommonControl;
+using static KarveControls.ControlExt;
 
 namespace KarveControls
 {

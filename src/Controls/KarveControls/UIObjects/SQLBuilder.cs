@@ -25,7 +25,13 @@ namespace KarveControls.UIObjects
 
         private const string TopOne = " TOP 1 ";
 
-
+        /// <summary>
+        ///  Build a query from user objects. Each user object has a part of the query.
+        /// </summary>
+        /// <param name="list">List of the userobject to be analized</param>
+        /// <param name="primaryKeyValue">Primary key that it needs to be used, optional</param>
+        /// <param name="isInsert"></param>
+        /// <returns></returns>
         public static IDictionary<string, string> SqlBuildSelectFromUiObjects(ObservableCollection<IUiObject> list, string primaryKeyValue ="", bool isInsert = false)
         {  
             IDictionary<string, StringBuilder> tableDictionary = new Dictionary<string, StringBuilder>();
@@ -768,6 +774,14 @@ namespace KarveControls.UIObjects
         {
             IDictionary<string, string> strValue = new Dictionary<string, string>();
 
+            if (dictionary == null)
+            {
+                return;
+            }
+            if (dictionary.Keys.Count == 0)
+            {
+                return;
+            }
             foreach (string k in dictionary.Keys)
             {
                 if (dictionary[k].Contains(TopOne))
@@ -818,7 +832,7 @@ namespace KarveControls.UIObjects
             if (value is DataField)
             {
                 DataField df = (DataField)value;
-                AddOrCreate(df.TableName, df.DBField, ref tableFields);
+                AddOrCreate(df.TableName, df.DataSourcePath, ref tableFields);
             }
             else
 

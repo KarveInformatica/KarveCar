@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:KarveCar"
              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
-             xmlns:cfg="clr-namespace:KarveCar.ViewModel.ConfiguracionViewModel"
-             xmlns:vm="clr-namespace:KarveCar.ViewModel.GenericViewModel"
-             xmlns:ms="clr-namespace:KarveCar.ViewModel.MaestrosViewModel"
+             xmlns:vm="clr-namespace:KarveCar.ViewModels"
              xmlns:mainwindow="clr-namespace:KarveCar.ViewModels"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon">
     <Application.Resources>
@@ -90,17 +88,17 @@
             <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
             <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
             
-            <ms:MaestroCommonViewModel x:Key="MaestroCommonViewModel"/>
+            <vm:MaestroCommonViewModel x:Key="MaestroCommonViewModel"/>
                 <!-- Maestros-->
-            <ms:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
-            <ms:MarcaViewModel             x:Key="marcaViewModel"/>
-            <ms:MarcaDataTableViewModel    x:Key="marcaDataTableViewModel"/>
-            <ms:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
-            <ms:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
-            <ms:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
+            <vm:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
+            <vm:MarcaViewModel             x:Key="marcaViewModel"/>
+            <vm:MarcaDataTableViewModel    x:Key="marcaDataTableViewModel"/>
+            <vm:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
+            <vm:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
+            <vm:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
             
             <!-- Configuracion-->
-            <cfg:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
+            <vm:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>
         
     </Application.Resources>

@@ -1,4 +1,10 @@
-﻿using KarveControls.UIObjects;
+﻿using System;
+using System.Collections.Generic;
+using KarveControls.UIObjects;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using KarveControls;
+using Prism.Commands;
 
 namespace MasterModule.UIObjects.CommissionAgents
 {
@@ -15,6 +21,12 @@ namespace MasterModule.UIObjects.CommissionAgents
         {
             ButtonImage = MasterModule.ImagePath;
         }
+        public delegate Task OnAssistQueryRequestHandlerDo(string assistTableName, string assistQuery);
+        public event OnAssistQueryRequestHandlerDo OnAssistQueryDo;
+        private ICommand _assistCommand;
+        private object _sourceView;
+        private object _assistProperties;
+
         /// <summary>
         /// UiDfSearch.
         /// </summary>
@@ -22,6 +34,32 @@ namespace MasterModule.UIObjects.CommissionAgents
         public UiDfSearch(string labelTxt) : base(labelTxt,"100")
         {
             ButtonImage = MasterModule.ImagePath;
+            _assistCommand = new DelegateCommand<object>(OnAssistCommand);
+        }
+        /// <summary>
+        /// Assist command.
+        /// </summary>
+        public new ICommand AssistCommand
+        {
+            get { return _assistCommand; }
+            set { _assistCommand = value; }
+        }
+
+        private void OnAssistCommand(object value)
+        {
+            IDictionary<string, string> valueDictionary = (Dictionary<string, string>)value;
+            string assistTable = "";
+            string assistQuery = "";
+
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE))
+            {
+                assistTable = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE] as string;
+            }
+            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY))
+            {
+                assistQuery = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY] as string;
+            }
+            OnAssistQueryDo?.Invoke(assistTable, assistQuery);
         }
         /// <summary>
         /// Source of the data.
@@ -31,7 +69,18 @@ namespace MasterModule.UIObjects.CommissionAgents
             set { _dataObject = value; }
             get { return _dataObject; }
         }
-         
+
+        public new object SourceView
+        {
+            set { _sourceView = value; RaisePropertyChanged(); }
+            get { return _sourceView;  }
+        }
+        public object AssistProperties
+        {
+            set { _assistProperties = value; RaisePropertyChanged(); }
+            get { return _assistProperties; }
+        }
+
     }
 
 

@@ -44,6 +44,9 @@ namespace MasterModule.ViewModels
         private DataSet _delegationSet;
         private string _delegationQuery = "";
         private ISupplierData _supplierData;
+
+        public ICommand ItemChangedCommand { set; get; }
+
         public DataTable DelegationTable
         {
             get
@@ -197,6 +200,10 @@ namespace MasterModule.ViewModels
         private ObservableCollection<IUiObject> _intractoCollection;
         private Visibility _visibility;
         private bool _isInsertion;
+        private DataTable _providerTableFirst;
+        private DataTable _providerTableSecond;
+        private DataSet _assistDS;
+        public ICommand AssistCommand { set; get; }
 
         public ObservableCollection<IUiObject> IntracoCollection
         {
@@ -220,11 +227,27 @@ namespace MasterModule.ViewModels
             DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangeRows);
             //ContactsChangedRowsCommand = new DelegateCommand<object>(ContactsChangedRows);
             DelegationStateBinding = false;
-            _visibility = Visibility.Collapsed;
-            EventManager.registerObserverSubsystem(MasterModule.ProviderSubsystemName, this);
+            IsVisible = Visibility.Visible;
+            ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
+            AssistCommand = new DelegateCommand<object>(OnAssistCommand);
+            EventManager.RegisterObserverSubsystem(MasterModule.ProviderSubsystemName, this);
         }
 
-        
+        private void OnAssistCommand(object param)
+        {
+            IDictionary<string, string> values = (Dictionary<string, string>)param;
+            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
+            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+            AssistQueryRequestHandler(assistTableName, assistQuery, _primaryKeyValue);
+        }
+
+        private void OnChangedField(object obj)
+        {
+            IDictionary<string, object> eventDictionary = (IDictionary<string, object>) obj;
+            OnChangedField(eventDictionary);
+        }
+
+
 
         /// <summary>
         ///  Handler for the delegation change rows
@@ -338,7 +361,6 @@ namespace MasterModule.ViewModels
                 {
 
 
-                    SetItemSourceTable(_currentDataSet, ref UpperPartObservableCollection);
                     SetItemSourceTable(_currentDataSet, ref _headerObservableCollection);
                     SetItemSourceTable(_currentDataSet, ref MiddlePartObservableCollection);
                     SetItemSourceTable(_currentDataSet, ref _accountRightCollection);
@@ -462,6 +484,14 @@ namespace MasterModule.ViewModels
             _primaryKeyValue = primaryKeyValue;
             _isInsertion = isInsertion;
             StartAndNotify();
+ 			if (currentDataSet != null)
+            {
+                SetItemSourceTable(currentDataSet, ref UpperPartObservableCollection);
+                SetItemSourceTable(currentDataSet, ref MiddlePartObservableCollection);
+            //   MessageBox.Show("Name");
+                 SetSourceViewTable(helper, ref UpperPartObservableCollection);
+                    SetSourceViewTable(helper, ref MiddlePartObservableCollection);
+            }
         }
 
 
@@ -541,6 +571,11 @@ namespace MasterModule.ViewModels
             get { return _visibility; }
         }
 
+        public string MagnifierButtonImage
+        {
+            get { return MasterModule.ImagePath; }
+        }
+
         // create an abstract method that loads everything is too loong.
         private async Task<IList<DataSet>> LoadDataValue(string primaryKeyValue, bool insert)
         {
@@ -558,12 +593,11 @@ namespace MasterModule.ViewModels
             {
                 dataSet = await services.GetAsyncSupplierInfo(_viewModelQueries);
             }
+            ProviderDataFirst = dataSet.Tables["PROVEE1"];
+            ProviderDataSecond = dataSet.Tables["PROVEE2"];
+
             fillViewModelAssistantQueries(UpperPartObservableCollection, dataSet, ref _viewModelAssitantQueries);
-
             fillViewModelAssistantQueries(MiddlePartObservableCollection, dataSet, ref _viewModelAssitantQueries);
-
-
-
             // replace with for.
             fillViewModelAssistantQueries(_accountRightCollection, dataSet, ref _viewModelAssitantQueries);
             fillViewModelAssistantQueries(_accountLeftCollection, dataSet, ref _viewModelAssitantQueries);
@@ -595,6 +629,7 @@ namespace MasterModule.ViewModels
             IList<DataSet> sets = new List<DataSet>();
             sets.Add(dataSet);
             sets.Add(assistDataSet);
+            AssistSet = assistDataSet;
             //loadTime.Stop();
             //MessageBox.Show(string.Format("{0}", loadTime.ElapsedMilliseconds));
 
@@ -609,7 +644,7 @@ namespace MasterModule.ViewModels
                 UpdateObsCollection(primaryKeyValue, ref UpperPartObservableCollection);
                 UpdateObsCollection(primaryKeyValue, ref MiddlePartObservableCollection);
             }
-            //           UpperValueCollection = _upperPartObservableCollection;
+            //UpperValueCollection = UpperPartObservableCollection;
             loadTime.Stop();
             //   MessageBox.Show(string.Format("{0}", loadTime.ElapsedMilliseconds));
 
@@ -617,12 +652,29 @@ namespace MasterModule.ViewModels
             return sets;
         }
 
+        public DataSet AssistSet
+        {
+            set { _assistDS = value; RaisePropertyChanged(); }
+            get { return _assistDS; }
+        }
         public string DelegationDataBaseTableName
         {
             get
             {
                 return ProviderConstants.DelegationDataBaseTable;
             }
+        }
+
+        public DataTable ProviderDataFirst
+        {
+            get { return _providerTableFirst; }
+            set { _providerTableFirst = value; RaisePropertyChanged(); }
+        }
+
+        public DataTable ProviderDataSecond
+        {
+            get { return _providerTableSecond; }
+            set { _providerTableSecond = value; RaisePropertyChanged(); }
         }
 
         public bool DelegationStateBinding
@@ -645,7 +697,7 @@ namespace MasterModule.ViewModels
                 IUiObject obj = obs[j];
                 if ((obj.DataField == primaryKey))
                 {
-                    DataTable table = obj.ItemSource;
+                    DataTable table = obj.ItemSource as DataTable;
                     table.Rows[0][obj.DataField] = primaryKey;
                     obj.ItemSource = table;
                     MiddlePartObservableCollection[j] = obj;
@@ -711,6 +763,7 @@ namespace MasterModule.ViewModels
             DataSet dataSetAssistant = await helperDataServices.GetAsyncHelper(assistQuery, assistTableName);
             if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
             {
+                AssistSet = dataSetAssistant;
                 UpdateSource(dataSetAssistant, primaryKey, ref UpperPartObservableCollection);
                 UpdateSource(dataSetAssistant, primaryKey, ref MiddlePartObservableCollection);
                 UpdateSource(dataSetAssistant, primaryKey, ref _accountRightCollection);
@@ -724,7 +777,7 @@ namespace MasterModule.ViewModels
                 UpdateSource(dataSetAssistant, primaryKey, ref _accountLeftCheckBoxes);
                 UpdateSource(dataSetAssistant, primaryKey, ref _accountRightCheckBoxes);
                 UpdateSource(dataSetAssistant, primaryKey, ref _intractoCollection);
-
+                
                 IntracoCollection = _intractoCollection;
                 BottomLeftDirection = _bottomLeftDirection;
                 TopRightDirection = _topRightDirection;
@@ -777,9 +830,7 @@ namespace MasterModule.ViewModels
                 payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
                 payLoad.DataDictionary = eventDictionary;
                 DataTable table = (DataTable)eventDictionary["DataTable"];
-                string colName = (string)eventDictionary["Field"];
-                object changedValue = eventDictionary["ChangedValue"];
-
+                
                 string tableName = table.TableName;
                 bool foundTable = false;
                 foreach (DataTable currentTable in _currentDataSet.Tables)
@@ -913,9 +964,9 @@ namespace MasterModule.ViewModels
          //   throw new NotImplementedException();
         }
 
+
         protected override void SetTable(DataTable table)
         {
-
            // throw new NotImplementedException();
         }
 

@@ -17,25 +17,33 @@ namespace KarveControls.UIObjects
         private UiDfObject _leftUiDfObject = new UiDfObject();
         private UiDfObject _rightDfObject = new UiDfObject();
         private bool _isVisible = false;
-
+        /// <summary>
+        /// Current description
+        /// </summary>
         public string Description
         {
             get { return _leftUiDfObject.Description; }
             set { _leftUiDfObject.Description = value; }
         }
-
-        public CommonControl.DataType DataAllowed
+        /// <summary>
+        ///  Data not allowed.
+        /// </summary>
+        public ControlExt.DataType DataAllowed
         {
             get { return _leftUiDfObject.DataAllowed; }
             set { _leftUiDfObject.DataAllowed = value; }
         }
-
+        /// <summary>
+        ///  Value empty allowed for the data
+        /// </summary>
         public bool AllowedEmpty
         {
             get { return _leftUiDfObject.AllowedEmpty; }
             set { _leftUiDfObject.AllowedEmpty = true; }
         }
-
+        /// <summary>
+        /// Handler for a change event.
+        /// </summary>
         public event UiDfObject.ChangedField OnChangedField
         {
             add
@@ -50,43 +58,57 @@ namespace KarveControls.UIObjects
             }
 
         }
-
+        /// <summary>
+        /// Text content
+        /// </summary>
         public string TextContent
         {
             get => _leftUiDfObject.TextContent;
             set => _leftUiDfObject.TextContent = value;
         }
-
+        /// <summary>
+        /// Uppercase of the content.
+        /// </summary>
         public bool UpperCase
         {
             get => _leftUiDfObject.UpperCase;
             set => _leftUiDfObject.UpperCase = value;
         }
-
+        /// <summary>
+        /// Label of the double field.
+        /// </summary>
         public string LabelText
         {
             get => _leftUiDfObject.LabelText;
             set => _leftUiDfObject.LabelText = value;
         }
-
+        /// <summary>
+        /// Label Text width.
+        /// </summary>
         public string LabelTextWidth
         {
             get => _leftUiDfObject.LabelTextWidth;
             set => _leftUiDfObject.LabelTextWidth = value;
         }
-
+        /// <summary>
+        /// Label visible or not visible.
+        /// </summary>
         public bool LabelVisible
         {
             get => _leftUiDfObject.LabelVisible;
             set => _leftUiDfObject.LabelVisible = value;
         }
-
+        /// <summary>
+        /// Is read only stuff.
+        /// </summary>
         public bool IsReadOnly
         {
             get => _leftUiDfObject.IsReadOnly;
             set => _leftUiDfObject.IsReadOnly = value;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string DataField
         {
             get => _leftUiDfObject.DataField;
@@ -119,7 +141,7 @@ namespace KarveControls.UIObjects
             }
         }
 
-        public DataTable ItemSource
+        public object ItemSource
         {
             get => _leftUiDfObject.ItemSource;
             set
@@ -128,7 +150,7 @@ namespace KarveControls.UIObjects
                 _rightDfObject.ItemSource = value;
             }
         }
-        public DataTable ItemSourceRight
+        public object ItemSourceRight
         {
             get => _rightDfObject.ItemSource;
             set

@@ -5,131 +5,61 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using static KarveControls.CommonControl;
 
 namespace KarveControls
 {
     /// <summary>
     /// Interaction logic for DataArea.xaml
     /// </summary>
-    public partial class DataArea : UserControl, INotifyPropertyChanged
+    public partial class DataArea : UserControl
     {
         private double _dataAreaWidth;
         private string _dataAreaLabel;
         private string _textValue;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected string _description;
-        protected DataType _dataAllowed;
-        protected bool _allowedEmpty;
-        protected bool _upperCase;
         private bool _dataAreaChanged = false;
-        protected DataTable _itemSource;
-        protected string _DataArea = string.Empty;
+        private object _itemSource;
+        private string _DataArea = string.Empty;
         protected string _tableName = string.Empty;
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #region Description
-        public static readonly DependencyProperty DescriptionDependencyProperty =
-            DependencyProperty.Register(
-                "Description",
-                typeof(string),
-                typeof(DataArea),
-                new PropertyMetadata(String.Empty));
-        #endregion
-        #region DataAllowed
-        public static readonly DependencyProperty DataAllowedDependencyProperty =
-            DependencyProperty.Register(
-                "DataAllowed",
-                typeof(DataType),
-                typeof(DataArea),
-                new PropertyMetadata(DataType.Any, OnDataAllowedChange));
-        public DataType DataAllowed
-        {
-            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
-            set { SetValue(DataAllowedDependencyProperty, value); }
-        }
-        private static void OnDataAllowedChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
-            {
-                control.OnPropertyChanged("DataAllowed");
-                control.OnDataAllowedChange(e);
-            }
-        }
-        protected virtual void OnDataAllowedChange(DependencyPropertyChangedEventArgs e)
-        {
-            DataType type = (DataType)Enum.Parse(typeof(DataType), e.NewValue.ToString());
-            DataAllowed = type;
-            _dataAllowed = type;
-        }
-        #endregion
+ 
         #region ItemSource
-
+        /// <summary>
+        ///  Item source dependency property.
+        /// </summary>
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
                 "ItemSource",
-                typeof(DataTable),
+                typeof(object),
                 typeof(DataArea),
-                new PropertyMetadata(new DataTable(), OnItemSourceChanged));
+                new PropertyMetadata(null, OnItemSourceChanged));
 
-        public DataTable ItemSource
+        /// <summary>
+        ///  Data source for the area.
+        /// </summary>
+        public object ItemSource
         {
-            get { return (DataTable)GetValue(ItemSourceDependencyProperty); }
+            get { return GetValue(ItemSourceDependencyProperty); }
             set { SetValue(ItemSourceDependencyProperty, value); }
         }
+
+
         private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("ItemSource");
                 control.OnItemSourceChanged(e);
             }
         }
-        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
+        private void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            DataTable table = e.NewValue as DataTable;
-            this._itemSource = table;
+            this._itemSource = e.NewValue;
         }
 
 
         #endregion
-        #region TableName
-        public static readonly DependencyProperty DBTableNameDependencyProperty =
-            DependencyProperty.Register(
-                "TableName",
-                typeof(string),
-                typeof(DataArea),
-                new PropertyMetadata(string.Empty, OnTableNameChange));
-        private static void OnTableNameChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
-            {
-                control.OnPropertyChanged("TableName");
-                control.OnTableNameChanged(e);
-            }
-        }
-        public string TableName
-        {
-            get { return (string)GetValue(DBTableNameDependencyProperty); }
-            set { SetValue(DBTableNameDependencyProperty, value); }
-        }
-        protected virtual void OnTableNameChanged(DependencyPropertyChangedEventArgs e)
-        {
-            _tableName = e.NewValue as string;
-        }
-        #endregion
+        
         #region DataAreaTitle
         public static readonly DependencyProperty DataAreaTitleDependencyProperty =
             DependencyProperty.Register(
@@ -142,55 +72,28 @@ namespace KarveControls
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("DateAreaTitle");
                 control.OnDateAreaTitleChanged(e);
             }
         }
+        /// <summary>
+        ///  Title of the data area.
+        /// </summary>
         public string DataAreaTitle
         {
             get { return (string)GetValue(DataAreaTitleDependencyProperty); }
             set { SetValue(DataAreaTitleDependencyProperty, value); }
         }
-        protected virtual void OnDateAreaTitleChanged(DependencyPropertyChangedEventArgs e)
+        private void OnDateAreaTitleChanged(DependencyPropertyChangedEventArgs e)
         {
             this.GBox.Header = e.NewValue;
         }
 
         #endregion
-        #region UpperCaseChange
-
-        public static readonly DependencyProperty UpperCaseDependencyProperty =
-            DependencyProperty.Register(
-                "UpperCase",
-                typeof(bool),
-                typeof(DataArea),
-                new PropertyMetadata(false, OnUpperCaseChange));
-
-        private static void OnUpperCaseChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
-            {
-                control.OnPropertyChanged("UpperCase");
-                control.OnUpperCaseChanged(e);
-            }
-        }
-        private void OnUpperCaseChanged(DependencyPropertyChangedEventArgs e)
-        {
-            bool value = Convert.ToBoolean(e.NewValue);
-            if (value)
-            {
-                EditorText.Text = EditorText.Text.ToUpper();
-            }
-        }
-        public bool UpperCase
-        {
-            get { return (bool)GetValue(UpperCaseDependencyProperty); }
-            set { SetValue(UpperCaseDependencyProperty, value); }
-        }
-        #endregion
+        
         #region IsReadOnly
-
+        /// <summary>
+        ///  Readonly dependency property for the control.
+        /// </summary>
         public static readonly DependencyProperty IsReadOnlyDependencyProperty =
             DependencyProperty.Register(
                 "IsReadOnly",
@@ -203,7 +106,6 @@ namespace KarveControls
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("IsReadOnly");
                 control.OnIsReadOnlyChanged(e);
             }
         }
@@ -216,7 +118,9 @@ namespace KarveControls
                 this.IsReadOnly=value;
             }
         }
-
+        /// <summary>
+        ///  It is a read only control.
+        /// </summary>
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
@@ -224,15 +128,20 @@ namespace KarveControls
         }
         #endregion
         #region DataArea
-
+        /// <summary>
+        ///  Path of the control.
+        /// </summary>
         public static DependencyProperty DataAreaDependencyProperty =
             DependencyProperty.Register(
-                "DataField",
+                "DataSourcePath",
                 typeof(string),
                 typeof(DataArea),
                 new PropertyMetadata(string.Empty, OnDataAreaChanged));
 
-        public string DataField
+        /// <summary>
+        ///  Path of an area to be binded.
+        /// </summary>
+        public string DataSourcePath
         {
             get { return (string)GetValue(DataAreaDependencyProperty); }
             set { SetValue(DataAreaDependencyProperty, value); }
@@ -242,7 +151,6 @@ namespace KarveControls
             DataArea controlDataArea = d as DataArea;
             if (controlDataArea != null)
             {
-                controlDataArea.OnPropertyChanged("DataField");
                 controlDataArea.OnDataAreaPropertyChanged(e);
             }
         }
@@ -252,13 +160,18 @@ namespace KarveControls
         }
         #endregion
         #region LabelText
+        /// <summary>
+        ///  Label text dependency property.
+        /// </summary>
         public static readonly DependencyProperty LabelTextDependencyProperty =
             DependencyProperty.Register(
                 "LabelText",
                 typeof(string),
                 typeof(DataArea),
                 new PropertyMetadata(string.Empty, OnLabelTextChange));
-
+        /// <summary>
+        ///  Label of the text.
+        /// </summary>
         public string LabelText
         {
             get { return (string)GetValue(LabelTextDependencyProperty); }
@@ -269,7 +182,6 @@ namespace KarveControls
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelText");
                 control.OnLabelTextChanged(e);
             }
         }
@@ -288,7 +200,9 @@ namespace KarveControls
                 typeof(string),
                 typeof(DataArea),
                 new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
-
+        /// <summary>
+        /// Width of text to be present in the area.
+        /// </summary>
         public string LabelTextWidth
         {
             get { return (string)GetValue(LabelTextWidthDependencyProperty); }
@@ -299,7 +213,6 @@ namespace KarveControls
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelTextWidth");
                 control.OnLabelTextWidthChanged(e);
             }
         }
@@ -311,14 +224,18 @@ namespace KarveControls
         }
         #endregion
         #region LabelVisible
-
+        /// <summary>
+        ///  Set if the label is visible or not.
+        /// </summary>
         public readonly static DependencyProperty LabelVisibleDependencyProperty =
             DependencyProperty.Register(
                 "LabelVisible",
                 typeof(bool),
                 typeof(DataArea),
                 new PropertyMetadata(true, OnLabelVisibleChange));
-
+        /// <summary>
+        /// Label is 
+        /// </summary>
         public bool LabelVisible
         {
             get { return (bool)GetValue(LabelVisibleDependencyProperty); }
@@ -330,7 +247,6 @@ namespace KarveControls
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("LabelVisible");
                 control.OnLabelVisibleChanged(e);
             }
         }
@@ -349,27 +265,10 @@ namespace KarveControls
         }
 
         #endregion
-        #region AllowedEmpty
-        public static readonly DependencyProperty AllowedEmptyDependencyProperty =
-            DependencyProperty.Register(
-                "AllowedEmpty",
-                typeof(bool),
-                typeof(DataArea),
-                new PropertyMetadata(false, OnAllowedEmptyChange));
-        public bool AllowedEmpty
-        {
-            get { return (bool)GetValue(AllowedEmptyDependencyProperty); }
-            set { SetValue(AllowedEmptyDependencyProperty, value); }
-        }
-        private static void OnAllowedEmptyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
-            {
-                control.OnPropertyChanged("AllowedEmpty");
-                control.OnAllowedEmptyChange(e);
-            }
-        }
+      
+        /// <summary>
+        ///  Text content dependency property
+        /// </summary>
         #region TextContent Property
         public static readonly DependencyProperty TextContentDependencyProperty =
             DependencyProperty.Register(
@@ -378,47 +277,22 @@ namespace KarveControls
                 typeof(DataArea),
                 new PropertyMetadata(string.Empty, OnTextContentChange));
 
+        /// <summary>
+        ///  Text content dependency property.
+        /// </summary>
         public string TextContent
         {
             get { return (string)GetValue(TextContentDependencyProperty); }
             set { SetValue(TextContentDependencyProperty, value); }
         }
-        protected virtual void OnAllowedEmptyChange(DependencyPropertyChangedEventArgs e)
-        {
-            _allowedEmpty = Convert.ToBoolean(e.NewValue);
 
-        }
-
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            /*
-            string field = DataField;
-            if (!string.IsNullOrEmpty(field))
-            {
-                Binding oBind = new Binding("Text");
-                oBind.Source = dta.Columns[field];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = true;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-               EditorText.DropDownWidth = dta.Columns[field].MaxLength;
-               EditorText.SetBinding(DataArea.TextContentDependencyProperty, oBind);
-            }
-            */
-        }
+        
 
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataArea control = d as DataArea;
             if (control != null)
             {
-                control.OnPropertyChanged("TextContent");
                 control.OnTextContentPropertyChanged(e);
             }
         }
@@ -430,13 +304,14 @@ namespace KarveControls
         }
         #endregion
 
-        #endregion
-
+        
+        /// <summary>
+        ///  Data area.
+        /// </summary>
         public DataArea()
         {
             InitializeComponent();
             this.DataAreaLayout.DataContext = this;
-         //   this.EditorText.TargetUpdated+=EditorTextOnDataContextChanged;
             this.EditorText.LostFocus +=EditorTextOnLostFocus;
             this.EditorText.GotFocus+=EditorTextOnGotFocus;
         }
@@ -457,9 +332,9 @@ namespace KarveControls
                     DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs();
                     ev.FieldData = EditorText.Text;
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-                    valueDictionary["TableName"] = TableName;
-                    valueDictionary["Field"] = DataField;
+                    valueDictionary["Field"] = DataSourcePath;
                     valueDictionary["DataTable"] = ItemSource;
+                    valueDictionary["DataObject"] = ItemSource;
                     valueDictionary["ChangedValue"] = EditorText.Text;
                     ev.ChangedValuesObjects = valueDictionary;
                     RaiseEvent(ev);
@@ -473,7 +348,9 @@ namespace KarveControls
             _dataAreaChanged = true;
             RaiseEvent(e);
         }
-     
+        /// <summary>
+        ///  Width do the data area.
+        /// </summary>
         public double DataAreaWidth
         {
             get { return _dataAreaWidth; }
@@ -483,7 +360,9 @@ namespace KarveControls
              EditorText.Width = _dataAreaWidth;
             }
         }
-
+        /// <summary>
+        ///  Label of the area
+        /// </summary>
         public string DataAreaLabel
         {
             get
@@ -496,8 +375,5 @@ namespace KarveControls
                  LabelComponent.Content = value;
             }
         }
-
-        
-       
     }
 }

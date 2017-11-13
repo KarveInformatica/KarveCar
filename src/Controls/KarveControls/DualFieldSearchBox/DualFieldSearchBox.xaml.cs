@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -11,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
 using KarveControls.KarveGrid.Events;
-using Telerik.WinControls.Data;
 using Telerik.WinControls.UI;
 using DataRow = System.Data.DataRow;
 using static KarveControls.DataField;
@@ -24,20 +25,20 @@ namespace KarveControls
     /// </summary>
     public partial class DualFieldSearchBox : UserControl
     {
-        
 
-       // most of the shared ones shall be moved as attached properties 
-     
-      /// <summary>
-      ///  Magnifier command dependency property.
-      /// </summary>
-      public static readonly DependencyProperty  MagnifierCommandProperty = DependencyProperty.Register("MagnifierCommand",
-          typeof(ICommand), typeof(DualFieldSearchBox));
+
+        // most of the shared ones shall be moved as attached properties 
+
+        /// <summary>
+        ///  Magnifier command dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MagnifierCommandProperty = DependencyProperty.Register("MagnifierCommand",
+            typeof(ICommand), typeof(DualFieldSearchBox));
         /// <summary>
         /// Command dependency property.
         /// </summary>  
-      public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
-            typeof(ICommand), typeof(DualFieldSearchBox));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
+              typeof(ICommand), typeof(DualFieldSearchBox));
 
         /// <summary>
         ///  Name of the assist table. The assist table is the table used to ref integrity with the previous table.
@@ -105,6 +106,43 @@ namespace KarveControls
                 "ButtonImage",
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnButtonImageChange));
+        /// <summary>
+        /// Data Object dependency properties.
+        /// </summary>
+        public static readonly DependencyProperty DataObjectDependencyProperty = DependencyProperty.Register("DataObject",
+                                                    typeof(object),
+                                                    typeof(DualFieldSearchBox), new PropertyMetadata(null, OnDataObjectChange));
+
+        private static void OnDataObjectChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DualFieldSearchBox searchBox = d as DualFieldSearchBox;
+            if (searchBox != null)
+            {
+                searchBox.OnDataObjectEvChange(e);
+            }
+        }
+
+
+        private void OnDataObjectEvChange(DependencyPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+            Type t = value.GetType();
+            PropertyInfo info = t.GetProperty(ValueStr);
+            object currentObjectValue = info.GetValue(value);
+            if (currentObjectValue != null)
+            {
+                Type myType = currentObjectValue.GetType();
+                PropertyInfo dataFieldFirst = myType.GetProperty(DataFieldFirst);
+                if (dataFieldFirst != null)
+                {
+                    object currentValue = dataFieldFirst.GetValue(currentObjectValue);
+                    // currentValue.
+
+
+                }
+
+            }
+        }
 
         /// <summary>
         ///  DataTable or data object to be associated with the search. Cross reference table.
@@ -136,11 +174,11 @@ namespace KarveControls
         /// <summary>
         /// Primary Key or first field to be associated with the table. It is a data table or a name of property.
         /// </summary>
-         public static DependencyProperty DataFieldFirstDependencyProperty =
-            DependencyProperty.Register(
-                "DataFieldFirst",
-                typeof(string),
-                typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnSearchTextBoxDataFieldFirstChanged));
+        public static DependencyProperty DataFieldFirstDependencyProperty =
+           DependencyProperty.Register(
+               "DataFieldFirst",
+               typeof(string),
+               typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnSearchTextBoxDataFieldFirstChanged));
 
 
         /// <summary>
@@ -167,8 +205,8 @@ namespace KarveControls
         public static DependencyProperty DataAllowedFirstDependencyProperty =
             DependencyProperty.Register(
                 "DataAllowedFirst",
-                typeof(CommonControl.DataType),
-                typeof(DualFieldSearchBox), new PropertyMetadata(CommonControl.DataType.Any, OnChangedDataAllowedFirst));
+                typeof(ControlExt.DataType),
+                typeof(DualFieldSearchBox), new PropertyMetadata(ControlExt.DataType.Any, OnChangedDataAllowedFirst));
 
         private static void OnChangedDataAllowedFirst(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -181,8 +219,8 @@ namespace KarveControls
 
         private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e, bool firstValue)
         {
-            CommonControl.DataType dataType;
-            dataType = (CommonControl.DataType)Enum.Parse(typeof(CommonControl.DataType), e.NewValue.ToString());
+            ControlExt.DataType dataType;
+            dataType = (ControlExt.DataType)Enum.Parse(typeof(ControlExt.DataType), e.NewValue.ToString());
             if (firstValue)
             {
                 _dataAllowedFirst = dataType;
@@ -198,8 +236,8 @@ namespace KarveControls
         public static DependencyProperty DataAllowedSecondDependencyProperty =
             DependencyProperty.Register(
                 "DataAllowedSecond",
-                typeof(CommonControl.DataType),
-                typeof(DualFieldSearchBox), new PropertyMetadata(CommonControl.DataType.Any, OnChangedDataAllowedSecond));
+                typeof(ControlExt.DataType),
+                typeof(DualFieldSearchBox), new PropertyMetadata(ControlExt.DataType.Any, OnChangedDataAllowedSecond));
 
         private static void OnChangedDataAllowedSecond(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -272,8 +310,7 @@ namespace KarveControls
 
         private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
+            if (d is DualFieldSearchBox control)
             {
                 control.OnLabelVisiblePropertyChanged(e);
             }
@@ -356,8 +393,14 @@ namespace KarveControls
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(DualFieldSearchBox));
-
-
+        /// <summary>
+        ///  Every time is changed a text box this event get raised.
+        /// </summary>
+        public event RoutedEventHandler DataSearchTextBoxChanged
+        {
+            add { AddHandler(DataSearchTextBoxChangedEvent, value); }
+            remove { RemoveHandler(DataSearchTextBoxChangedEvent, value); }
+        }
         // This is needed fro InvokeCommand Prism 
         /// <summary>
         ///  Get the event handler from the magnifier.
@@ -385,17 +428,17 @@ namespace KarveControls
         /// <summary>
         /// First data allowed.
         /// </summary>
-        public CommonControl.DataType DataAllowedFirst
+        public ControlExt.DataType DataAllowedFirst
         {
-            get { return (CommonControl.DataType)GetValue(DataAllowedFirstDependencyProperty); }
+            get { return (ControlExt.DataType)GetValue(DataAllowedFirstDependencyProperty); }
             set { SetValue(DataAllowedFirstDependencyProperty, value); }
         }
         /// <summary>
         ///  Second data allowed.
         /// </summary>
-        public CommonControl.DataType DataAllowedSecond
+        public ControlExt.DataType DataAllowedSecond
         {
-            get { return (CommonControl.DataType)GetValue(DataAllowedSecondDependencyProperty); }
+            get { return (ControlExt.DataType)GetValue(DataAllowedSecondDependencyProperty); }
             set { SetValue(DataAllowedSecondDependencyProperty, value); }
         }
 
@@ -517,6 +560,26 @@ namespace KarveControls
                 SetValue(AssistQueryDependencyProperty, value);
             }
         }
+
+        /// <summary>
+        /// Assist Query to be used.
+        /// </summary>
+        public static readonly DependencyProperty AssistPropertiesDependencyProperty =
+            DependencyProperty.Register(
+                "AssistProperties",
+                typeof(string),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(string.Empty));
+        
+        /// <summary>
+        /// AssistProperties. 
+        /// </summary>
+        public string AssistProperties
+        {
+            get { return (string) GetValue(AssistPropertiesDependencyProperty); }
+            set { SetValue(AssistPropertiesDependencyProperty, value);}
+        }
+      
         /// <summary>
         ///  Dependency property for the data object.
         /// </summary>
@@ -524,13 +587,13 @@ namespace KarveControls
             DependencyProperty.Register(
                 "DataSource",
                 typeof(object),
-                typeof(DualFieldSearchBox), new PropertyMetadata(null,OnDataSourceChanged));
+                typeof(DualFieldSearchBox), new PropertyMetadata(null, OnDataSourceChanged));
         /// <summary>
         ///  DataSource dependency property.
         /// </summary>
         public object DataSource
         {
-            get { return (string)GetValue(DataSourceDependencyProperty); }
+            get { return GetValue(DataSourceDependencyProperty); }
             set
             {
                 SetValue(DataSourceDependencyProperty, value);
@@ -549,25 +612,21 @@ namespace KarveControls
                 dualFieldSearchBox.OnDataSourceChanged(e);
             }
         }
-        /// <summary>
-        /// This handle the object data change.
-        /// </summary>
-        /// <param name="e"></param>
-        private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
+
+        private void HandleTableSourceView(object dataSource, object sourceView)
         {
-            object value = e.NewValue;
-            _dataSource = value;
-            DataRow[] filteredRows = null;
-            Type type = value.GetType();
+            Type type = dataSource.GetType();
             PropertyInfo info = type.GetProperty(DataFieldFirst);
+            DataRow[] filteredRows = null;
+            DataTable source = sourceView as DataTable;
             if (info != null)
             {
                 // ok we check if the second value is a data table.
                 var valueToFind = info.GetValue(_dataSource);
                 if (!System.DBNull.Value.Equals(valueToFind))
                 {
-                    string dataTypeName = value.GetType().FullName; 
-                     //   primaryItemSourceRow.Table.Columns[DataFieldFirst].DataType;
+                    string dataTypeName = dataSource.GetType().FullName;
+                    //   primaryItemSourceRow.Table.Columns[DataFieldFirst].DataType;
                     string fieldFormat = "";
                     if (dataTypeName != null)
                     {
@@ -579,7 +638,7 @@ namespace KarveControls
                         {
                             fieldFormat = string.Format("{0} = '{1}'", AssistDataFieldFirst, valueToFind);
                         }
-                        filteredRows = _sourceView.Select(fieldFormat);
+                        filteredRows = source.Select(fieldFormat);
                     }
                 }
                 if ((filteredRows != null) && (filteredRows.Length == 1))
@@ -588,6 +647,57 @@ namespace KarveControls
                     TextContentSecond = String.Format("{0}", filteredRows[0][AssistDataFieldSecond]);
                 }
             }
+
+        }
+        /// <summary>
+        /// This handle the object data change.
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+            _dataSource = value;
+
+            DataRow[] filteredRows = null;
+            Type type = value.GetType();
+            object tableSource = SourceView;
+            if (tableSource is DataTable)
+            {
+                HandleTableSourceView(_dataSource, _sourceView);
+            }
+            else
+
+            {
+
+                string codeFirst = AssistDataFieldFirst;
+                string codeSecond = "";
+                if (!string.IsNullOrEmpty(codeFirst))
+                {
+                    string[] fields = AssistProperties.Split(',');
+                    codeFirst = fields[0];
+                    codeSecond = fields[1];
+                }
+               var textDo = ComponentUtils.GetTextDo(value, DataFieldFirst, DataAllowedFirst);
+               var source = SourceView as IEnumerable;
+
+                if (source != null)
+                {
+                    // find the code in _sourceView
+                    foreach (var assistValue in source)
+                    {
+                       var firstValue = ComponentUtils.GetPropValue(assistValue, codeFirst);
+                       var secondValue = ComponentUtils.GetPropValue(assistValue, codeSecond);
+                       string textFirstValue = firstValue.ToString();
+
+                        if (textFirstValue == textDo)
+                        {
+                            TextContentFirst = textDo;
+                            TextContentSecond = secondValue.ToString();
+                        }
+                    }
+                }
+            }
+            
         }
 
         /// <summary>
@@ -613,6 +723,8 @@ namespace KarveControls
         /// </summary>
         public const int DefaultPageSize = 100;
 
+        private const string ValueStr = "Value";
+
         // data field first text box
         private string _dataFieldFirst = String.Empty;
         // data field second text box
@@ -621,14 +733,13 @@ namespace KarveControls
         private IList<string> _dataFields = new List<string>();
 
         // auxiliar data table
-        private DataTable _sourceView = new DataTable();
+        private object _sourceView = new DataTable();
         // data table for the data text
         private DataTable _dataTable = new DataTable();
-        private ComponentFiller _filler;
-        private static int _buttonManifierState;
-        
-        private CommonControl.DataType _dataAllowedFirst;
-        private CommonControl.DataType _dataAllowedSecond;
+        private static int _buttonManifierState = 0;
+
+        private ControlExt.DataType _dataAllowedFirst;
+        private ControlExt.DataType _dataAllowedSecond;
         private readonly ComponentFiller _componentFiller;
         private bool _firstSelection = true;
         /// <summary>
@@ -638,13 +749,12 @@ namespace KarveControls
         {
             InitializeComponent();
             LayoutRoot.DataContext = this;
-            _filler = new ComponentFiller();
             _componentFiller = new ComponentFiller();
             SearchTextFirst.KeyUp += SearchTextOnKeyDown;
             SearchTextFirst.TextChanged += SearchText_TextChanged;
-            SearchTextSecond.TextChanged+= SearchText_TextChanged;
+            SearchTextSecond.TextChanged += SearchText_TextChanged;
             MagnifierGrid.PageSize = DefaultPageSize;
-            MagnifierGrid.AllowEditRow= true;
+            MagnifierGrid.AllowEditRow = true;
             MagnifierGrid.DataSource = this.SourceView;
             MagnifierGrid.ReadOnly = true;
             RaiseMagnifierPressEvent();
@@ -652,6 +762,7 @@ namespace KarveControls
 
         private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
+            /*
             IDictionary<string, object> values = new Dictionary<string, object>();
             values["SearchText1"] = SearchTextFirst.Text;
             values["SearchText2"] = SearchTextSecond.Text;
@@ -667,7 +778,8 @@ namespace KarveControls
                 {
                     ItemChangedCommand.Execute(values);
                 }
-            }
+            }*/
+
         }
 
         private void SearchTextOnKeyDown(object sender, KeyEventArgs keyEventArgs)
@@ -692,7 +804,7 @@ namespace KarveControls
                 StringBuilder builder = new StringBuilder();
                 builder.Append("SELECT ");
                 builder.Append(AssistDataFieldFirst);
-                builder.Append(","); 
+                builder.Append(",");
                 builder.Append(AssistDataFieldSecond);
                 builder.Append(" FROM ");
                 builder.Append(AssistTableName);
@@ -703,10 +815,12 @@ namespace KarveControls
                         AssistDataFieldFirst);
                     builder.Append(clause);
                     string query = builder.ToString();
-                    MagnifierPressEventArgs assistParam = new MagnifierPressEventArgs(AssistQueryChangedEvent);
-                    assistParam.AssistQuery = query;
-                    assistParam.TableName = AssistTableName;
-                    RaiseEvent(assistParam);
+                    MagnifierPressEventArgs assistParam = new MagnifierPressEventArgs(AssistQueryChangedEvent)
+                    {
+                        AssistQuery = query,
+                        TableName = AssistTableName
+                    };
+                    //  RaiseEvent(assistParam);
                 }
             }
         }
@@ -769,14 +883,15 @@ namespace KarveControls
         /// <summary>
         ///  Assist data table to be referenced.
         /// </summary>
-        public DataTable SourceView
+        public object SourceView
         {
-            get { return (DataTable)GetValue(SourceViewDependencyProperty); }
+            get { return GetValue(SourceViewDependencyProperty); }
             set
             {
                 SetValue(SourceViewDependencyProperty, value);
-                if (_buttonManifierState == 0)
+                if (_buttonManifierState == 1)
                 {
+                   
                     Popup.IsOpen = true;
                 }
             }
@@ -819,12 +934,17 @@ namespace KarveControls
             get { return (bool)GetValue(IsReadOnlyProperty); }
             set { SetValue(IsReadOnlyProperty, value); }
         }
-
+        /// <summary>
+        ///  Set read only the first field of the search box
+        /// </summary>
         public bool IsReadOnlyFirst
         {
             get { return (bool)GetValue(IsReadOnlyFirstProperty); }
             set { SetValue(IsReadOnlyFirstProperty, value); }
         }
+        /// <summary>
+        ///  Set readonly the second field of the search box.
+        /// </summary>
         public bool IsReadOnlySecond
         {
             get { return (bool)GetValue(IsReadOnlySecondProperty); }
@@ -836,7 +956,7 @@ namespace KarveControls
             DualFieldSearchBox dualFieldSearchBox = d as DualFieldSearchBox;
             if (dualFieldSearchBox != null)
             {
-                 dualFieldSearchBox.OnReadOnlySet(e, true);                
+                dualFieldSearchBox.OnReadOnlySet(e, true);
             }
         }
         private static void OnIsReadOnlySecondProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -898,7 +1018,7 @@ namespace KarveControls
             if (primaryKeyCollection.Contains(dataFieldFirst))
             {
                 DataRow primaryItemSourceRow = itemSource.Rows[0];
-               // var valueToFind = primaryItemSourceRow[dataFieldFirst];
+                // var valueToFind = primaryItemSourceRow[dataFieldFirst];
                 Type dataType = primaryItemSourceRow.Table.Columns[dataFieldFirst].DataType;
                 if ((dataType.Name == "Int16") || (dataType.Name == "Int32"))
                 {
@@ -911,16 +1031,20 @@ namespace KarveControls
             }
             return fieldFormat;
         }
-
-        private void UpdateValues(DataTable sourceView, DataTable itemSource)
+        /// <summary>
+        /// This is the source view as table.
+        /// </summary>
+        /// <param name="currentView">Current view as table</param>
+        /// <param name="itemSource"></param>
+        private void HandleSourceViewAsTable(object currentView, DataTable itemSource)
         {
-            // not null input.
- 
-        if ((sourceView != null) && (sourceView.Rows.Count > 0))
+            DataTable sourceView = (DataTable)currentView;
+
+            if ((sourceView != null) && (sourceView.Rows.Count > 0))
             {
 
                 DataColumnCollection collection = sourceView.Columns;
-                if (itemSource.Rows.Count > 0) 
+                if (itemSource.Rows.Count > 0)
                 {
                     DataColumnCollection primaryKeyCollection = itemSource.Columns;
 
@@ -964,26 +1088,118 @@ namespace KarveControls
             }
         }
 
+        private void UpdateValues<Assist, Current>(Assist currentView, Current itemSource)
+        {
+            if ((currentView is DataTable) && (itemSource is DataTable))
+            {
+                DataTable table = itemSource as DataTable;
+                HandleSourceViewAsTable(currentView, table);
+            }
+            if (currentView is IEnumerable)
+            {
+                HandleSourceViewAsEnumerable(currentView, itemSource);
+            }
+        }
+        /// <summary>
+        ///  HandleSourceViewAsEnumerable.
+        /// </summary>
+        /// <param name="currentView"></param>
+        /// <param name="itemSource"></param>
+        private void HandleSourceViewAsEnumerable(object currentView, object itemSource)
+        {
+            IEnumerable currentEnumerable = (IEnumerable)currentView;
+            Type dataType = itemSource.GetType();
+            // Get the string Value of the object.
+            if (currentEnumerable == null)
+                return;
+
+            var textDo = ComponentUtils.GetTextDo(itemSource, DataFieldFirst, DataAllowedFirst);
+            foreach (var value in currentEnumerable)
+            {
+                var txt = ComponentUtils.GetPropValue(value, DataFieldFirst);
+                if ((string)txt == textDo)
+                {
+                    
+                }
+            }
+        /*
+            string fieldFormat = "";
+            object valueObject = null;
+            if (valuePropType != null)
+            {
+                valueObject = valuePropType.GetValue(itemSource);
+                Type dataKeyType = valueObject.GetType();
+                object currentValue = dataKeyType.GetProperty(DataFieldFirst);
+                if (currentValue != null)
+                {
+
+                    foreach (var value in currentEnumerable)
+                    {
+                        Type currentType = value.GetType();
+                        PropertyInfo info = currentType.GetProperty("Value");
+                        if (info != null)
+                        {
+                            object cValue = info.GetValue(value);
+                            if (cValue != null)
+                            {
+                                PropertyInfo cValuePropertyInfo = cValue.GetType().GetProperty(AssistDataFieldFirst);
+                                PropertyInfo cValuePropertyInfo1 = cValue.GetType().GetProperty(AssistDataFieldSecond);
+
+                                if (cValuePropertyInfo != null)
+                                {
+                                    object myCurrentValueFirst  = cValuePropertyInfo.GetValue(cValue);
+                                    object myCurrentValueSecond = cValuePropertyInfo1.GetValue(cValue);
+                                    if (myCurrentValueFirst == cValue)
+                                    {
+                                        TextContentFirst = string.Format("{0}", myCurrentValueFirst);
+                                        TextContentSecond = string.Format("{1}", myCurrentValueSecond);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            */
+        }
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             DataTable currentTable = null;
-           
+
             if (e.NewValue is DataTable)
             {
                 currentTable = e.NewValue as DataTable;
             }
-            if (e.NewValue is DataSet)
+            else if (e.NewValue is DataSet)
             {
                 string tableName = AssistTableName;
                 var currentDataSet = e.NewValue as DataSet;
                 currentTable = currentDataSet.Tables[tableName];
-               
+            }
+            IEnumerable enumerableValue = e.NewValue as IEnumerable;
+            if (enumerableValue != null)
+            {
+                this.MagnifierGrid.DataSource = enumerableValue;
+                if (_buttonManifierState == 1)
+                {
+                    _firstSelection = true;
+                    this.Popup.IsOpen = true;
+                    _buttonManifierState = 0;
+                    return;
+                }
+                /*
+                if ((enumerableValue!=null) && (this._dataSource!=null))
+                HandleSourceViewAsEnumerable(enumerableValue, DataSource);
+                */
+                //  UpdateValues<Assist, Current>(Assist currentView, Current itemSource)
+
             }
             if (currentTable != null)
             {
 
 
-                this.MagnifierGrid.DataSource = currentTable;
+                this.MagnifierGrid.SourceView = currentTable;
 
                 if (_buttonManifierState == 1)
                 {
@@ -994,9 +1210,8 @@ namespace KarveControls
                 }
                 UpdateValues(currentTable, ItemSource);
                 _sourceView = currentTable;
-
             }
-           
+
         }
 
         private static void OnButtonImageChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1019,14 +1234,37 @@ namespace KarveControls
         private void RaiseMagnifierPressEvent()
         {
             MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
-            if (!string.IsNullOrEmpty(this.AssistQuery))
+            if (string.IsNullOrEmpty(this.AssistQuery))
+            {
+                AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
+            }
+            if (!string.IsNullOrEmpty(AssistQuery))
             {
                 args.AssistQuery = this.AssistQuery;
                 args.TableName = AssistTableName;
+                args.AssistParameters.Add("AssistFieldFirst", AssistDataFieldFirst);
                 _buttonManifierState = 1;
                 RaiseEvent(args);
-
             }
+        }
+
+        private string ComputeAssistQuery(string assistDataFieldFirst, string assistDataFieldSecond, string tableName)
+        {
+            StringBuilder builder = new StringBuilder();
+            if ((string.IsNullOrEmpty(assistDataFieldFirst)) ||
+                (string.IsNullOrEmpty(assistDataFieldSecond)) ||
+                (string.IsNullOrEmpty(tableName)))
+            {
+                return "";
+            }
+      
+            builder.Append("SELECT ");
+            builder.Append(assistDataFieldFirst);
+            builder.Append(",");
+            builder.Append(assistDataFieldSecond);
+            builder.Append(" FROM ");
+            builder.Append(tableName);
+            return builder.ToString();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -1035,7 +1273,7 @@ namespace KarveControls
         }
 
         private void PopUpButton_OnClick(object sender, RoutedEventArgs e)
-        {        
+        {
             RaiseMagnifierPressEvent();
         }
         private static void OnLabelTextChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1054,7 +1292,7 @@ namespace KarveControls
                 control.OnLabelTextPropertyChanged(e);
             }
         }
-        
+
         private static void OnTextContentFirstChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DualFieldSearchBox control = d as DualFieldSearchBox;
@@ -1103,24 +1341,24 @@ namespace KarveControls
         private void OnTextContentFirstPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             this.SearchTextFirst.Text = Convert.ToString(e.NewValue);
-                if (!IsReadOnlyFirst)
+            if (!IsReadOnlyFirst)
+            {
+                if (!string.IsNullOrEmpty(DataFieldFirst))
                 {
-                    if (!string.IsNullOrEmpty(DataFieldFirst))
-                    {
-                        _componentFiller.FillTable(SearchTextFirst, DataFieldFirst, ref _dataTable);
-                    }
-                }            
+                    _componentFiller.FillTable(SearchTextFirst, DataFieldFirst, ref _dataTable);
+                }
+            }
         }
         private void OnTextContentSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             this.SearchTextSecond.Text = Convert.ToString(e.NewValue);
 
-            
+
             if (!string.IsNullOrEmpty(DataFieldSecond))
             {
                 _componentFiller.FillTable(SearchTextSecond, DataFieldSecond, ref _dataTable);
             }
-            
+
 
         }
         private void OnLabelTextPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -1141,30 +1379,80 @@ namespace KarveControls
             DataTable dt = e.NewValue as DataTable;
             _dataTable = dt;
             UpdateValues(_sourceView, _dataTable);
-             
+
 
         }
-        
+
+        private bool IsInvalidMagnifierValue(GridViewRowInfo row)
+        {
+            bool retValue = (row == null) || (row.DataBoundItem == null);
+            return retValue;
+        }
+
+        private void HandleObjectValue(object value)
+        {
+            object currentDto = value;
+            if (string.IsNullOrEmpty(AssistProperties))
+                return;
+            string[] fieldList = AssistProperties.Split(',');
+
+            object textContentFirst = ComponentUtils.GetPropValue(currentDto, fieldList[0]);
+            object textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]);
+            
+            if ((textContentFirst == null) || (textContentSecond == null))
+            {
+                return;
+            }
+            _componentFiller.FillDataObject(textContentFirst.ToString(), DataFieldFirst, ref _dataSource);
+
+            TextContentFirst = ComponentUtils.GetPropValue(currentDto, fieldList[0]).ToString();
+            TextContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]).ToString();
+            if (Popup.IsOpen)
+            {
+                DataFieldEventArgs ev = new DataFieldEventArgs(DataSearchTextBoxChangedEvent);
+                IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+                valueDictionary["TableName"] = TableName;
+                valueDictionary["AssitTableName"] = AssistTableName;
+                valueDictionary["DataFieldFirst"] = DataFieldFirst;
+                valueDictionary["DataFieldSecond"] = DataFieldSecond;
+                valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
+                valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+                valueDictionary["DataTable"] = ItemSource;
+                valueDictionary["DataObject"] = this.DataSource;
+                valueDictionary["AssistDataTable"] = SourceView;
+                valueDictionary["ChangedCode"] = TextContentFirst;
+                valueDictionary["ChangedValue"] = TextContentSecond;
+                if (MagnifierCommand != null)
+                {
+                    if (MagnifierCommand.CanExecute(valueDictionary))
+                    {
+                        MagnifierCommand.Execute(valueDictionary);
+                    }
+                }
+                ev.ChangedValuesObjects = valueDictionary;
+                RaiseEvent(ev);
+            }
+        }
         private void MagnifierGrid_OnSelectionRowChanged(object sender, RoutedEventArgs e)
         {
             GridViewSelectedCellsChangedEventArgs eventArgs = e as GridViewSelectedCellsChangedEventArgs;
             GridViewRowInfo currentRow = eventArgs?.CurrentRow;
-            if (currentRow == null)
+
+            if (IsInvalidMagnifierValue(currentRow))
             {
                 return;
             }
-            if (currentRow.DataBoundItem == null)
-            {
-                return;
-            }
+           
             if (_firstSelection)
             {
                 _firstSelection = false;
                 return;
             }
+
             DataRowView currentRowView = currentRow.DataBoundItem as DataRowView;
             if (currentRowView == null)
             {
+                HandleObjectValue(currentRow.DataBoundItem);
                 return;
             }
             DataRow row = currentRowView.Row;
@@ -1247,7 +1535,7 @@ namespace KarveControls
         private void OnDataFieldSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            this.DataFieldSecond= value;
+            this.DataFieldSecond = value;
         }
         private static void OnSearchTextBoxDataFields(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -1283,6 +1571,6 @@ namespace KarveControls
         private void OnIsReadOnlyPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             IsReadOnly = Convert.ToBoolean(e.NewValue);
-        }        
-    }    
+        }
+    }
 }

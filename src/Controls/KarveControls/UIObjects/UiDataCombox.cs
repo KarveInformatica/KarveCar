@@ -12,12 +12,9 @@ namespace KarveControls.UIObjects
     /// </summary>
     public class UiDataCombox: UiDfObject
     {
-        private ObservableCollection<string> _valuesCollection = new ObservableCollection<string>();
-
-        public ObservableCollection<string> Items
-        {
-            set { _valuesCollection = value; }
-            get { return _valuesCollection; }
-        }
+        /// <summary>
+        ///  Returns the collection item of an observable collection.
+        /// </summary>
+        public ObservableCollection<string> Items { set; get; } = new ObservableCollection<string>();
     }
 }

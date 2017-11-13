@@ -7,6 +7,7 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a CONTACTOS_COMI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("CONTACTOS_COMI")]
 	public class CONTACTOS_COMI 
 	{
 	

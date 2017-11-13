@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls.UIObjects;
 using KarveDataServices;
-using Microsoft.Practices.Unity;
-using Prism.Commands;
 using Prism.Regions;
 
 namespace MasterModule.Common
@@ -72,8 +65,16 @@ namespace MasterModule.Common
         protected IDataServices DataServices;
 
         protected MailBoxMessageHandler MessageHandlerMailBox;
+        /// <summary>
+        /// PrimaryKey field used from all view models.
+        /// </summary>
+        protected string PrimaryKey = "";
 
         private int _notifyState;
+
+        protected bool IsInsertion = false;
+
+
         /// <summary>
         /// Object to warrant the notifications.
         /// </summary>
@@ -119,6 +120,11 @@ namespace MasterModule.Common
             return codeTuple;
         }
         /// <summary>
+        /// Extended Data Table
+        /// </summary>
+        protected DataTable ExtendedDataTable;
+
+        /// <summary>
         ///  This starts the load of data from the lower data layer.
         /// </summary>
         public abstract void StartAndNotify();
@@ -148,18 +154,37 @@ namespace MasterModule.Common
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
                 // forward data to the current payload.
-                EventManager.notifyObserverSubsystem(MasterModule.ProviderSubsystemName, payLoad);
+                EventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
                 NewItem();
             }
         }
+
+        /// <summary>
+        /// Init a primary key.
+        /// </summary>
+        /// <param name="primaryKey">Primary Key</param>
+        /// <param name="value">Insert Value.</param>
+        protected void Init(string primaryKey, bool value)
+        {
+            // arriva el payload.
+            PrimaryKeyValue = primaryKey;
+            IsInsertion = value;
+            if (value)
+            {
+                StartAndNotify();
+            }
+        }
+
         /// <summary>
         ///  This is shall be used by the different view model to set the value of the table initialzed;
         /// </summary>
         /// <param name="table"></param>
         protected abstract void SetTable(DataTable table);
+        
+
         /// <summary>
         ///  This shall be used by different view models to set the registration payload.
         /// </summary>
@@ -202,12 +227,19 @@ namespace MasterModule.Common
         /// <param name="result">DataObject to be set.</param>
         protected abstract void SetDataObject(object result);
 
-        /// <summary>
-        /// This initializatin notifier for the data object
-        /// </summary>
-        /// <param name="sender">The sender is</param>
-        /// <param name="propertyChangedEventArgs"></param>
-        protected void InitializationNotifierOnPropertyChanged(object sender,
+        protected void RegisterToolBar()
+        {
+            // each module notify the toolbar.
+            DataPayLoad payLoad = new DataPayLoad();
+            SetRegistrationPayLoad(ref payLoad);
+            EventManager.NotifyToolBar(payLoad);
+        }
+    /// <summary>
+    /// This initializatin notifier for the data object
+    /// </summary>
+    /// <param name="sender">The sender is</param>
+    /// <param name="propertyChangedEventArgs"></param>
+    protected void InitializationNotifierOnPropertyChanged(object sender,
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
 
@@ -217,27 +249,18 @@ namespace MasterModule.Common
             {
                 if (InitializationNotifier.IsSuccessfullyCompleted)
                 {
-                    var result = InitializationNotifier.Task.Result;
-
                     SetTable(InitializationNotifier.Task.Result.Tables[0]);
                     /* ok the first load has been successfully i can do the second one while the UI Thread is refreshing*/
                     lock (_notifyStateObject)
                     {
                         NotifyState = 0;
                     }
-                    // each module notify the toolbar.
-                    DataPayLoad payLoad = new DataPayLoad();
-                    SetRegistrationPayLoad(ref payLoad);
-                    EventManager.NotifyToolBar(payLoad);
                 }
-                else
-                {
-                    MessageBox.Show("Error loading supplier data");
-                }
+                
 
             }
         }
-
+      
        
         // TODO Fix excessive depth of code.
         protected void
@@ -296,9 +319,9 @@ namespace MasterModule.Common
             if (uiDfObjects.Count == 0)
                 return;
             // now i have to check the uiDfObjects
-            foreach (IUiObject uiObject in uiDfObjects)
+            for(int i = 0; i < uiDfObjects.Count;++i)
             {
-
+                var uiObject = uiDfObjects[i];
                 if (tablesByNameDictionary.ContainsKey(uiObject.TableName))
                 {
                     DataTable table = null;
@@ -309,6 +332,7 @@ namespace MasterModule.Common
                         UiDoubleDfObject valDoubleDfObject = (UiDoubleDfObject) uiObject;
                         valDoubleDfObject.ItemSource = table;
                         valDoubleDfObject.ItemSourceRight = table;
+                        
                     }
                 }
                 if (uiObject is UiMultipleDfObject)
@@ -323,24 +347,11 @@ namespace MasterModule.Common
                         }
                     }
                 }
-            }
-        }
+                uiDfObjects.RemoveAt(i);
+                uiDfObjects.Insert(i, uiObject);
 
-        private void SetSourceOnMultipleItem(IDictionary<string, DataTable> tablesByNameDictionary, IUiObject uiObject)
-        {
-
-            if (uiObject is UiMultipleDfObject)
-            {
-                UiMultipleDfObject box = (UiMultipleDfObject)uiObject;
-                IList<string> tableNames = box.Tables;
-                if (tableNames != null)
-                {
-                    foreach (string tableName in tableNames)
-                    {
-                        box.SetItemSource(tablesByNameDictionary[tableName], tableName);
-                    }
-                }
             }
+           
         }
         /// <summary>
         ///  Navigation support.
@@ -386,6 +397,44 @@ namespace MasterModule.Common
             currentPayload.Registration = routedName;
             currentPayload.SetList = completeSummary;
             currentPayload.HasDataSetList = true;
+            if (queries != null)
+            {
+                currentPayload.Queries = queries;
+            }
+            return currentPayload;
+        }
+        /// <summary>
+        /// This function shows a payload data object
+        /// </summary>
+        /// <param name="name">Name of the module</param>
+        /// <returns></returns>
+        protected DataPayLoad BuildShowPayLoadDo(string name)
+        {
+            DataPayLoad currentPayload = new DataPayLoad();
+            string routedName = GetRouteName(name);
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            currentPayload.Registration = routedName;
+            return currentPayload;
+
+        }
+        /// <summary>
+        /// Makes a payload with a data object or a data transfer object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">Name of the form/tab</param>
+        /// <param name="Object">Object to be sent to the data</param>
+        /// <param name="queries">Queries optional to be sent to the info view.</param>
+        /// <returns></returns>
+        protected DataPayLoad BuildShowPayLoadDo<T>(string name, T Object, IDictionary<string, string> queries = null)
+        {
+            DataPayLoad currentPayload = new DataPayLoad();
+            // name that it is give from the subclass, it may be a master
+            string routedName = GetRouteName(name);
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            currentPayload.Registration = routedName;
+            currentPayload.HasDataObject = true;
+            currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            currentPayload.DataObject = Object;
             if (queries != null)
             {
                 currentPayload.Queries = queries;

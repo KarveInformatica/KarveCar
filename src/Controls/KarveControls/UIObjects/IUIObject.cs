@@ -7,11 +7,11 @@ namespace KarveControls.UIObjects
 {
     /// <summary>
     ///  Common interface for a collection of user object. An user object is a control abstraction to be 
-    /// binded to a data object or data table.
+    /// binded to a data object or data table. The responsability of an user object to allow a data template of 
+    /// our custom control within a collection view.
     /// </summary>
     public interface IUiObject
     {
-       
         /// <summary>
         ///  Description of the user object
         /// </summary>
@@ -19,7 +19,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         /// Data Type of the user object
         /// </summary>
-        CommonControl.DataType DataAllowed { set; get; }
+        ControlExt.DataType DataAllowed { set; get; }
         /// <summary>
         /// Is empty is allowed.
         /// </summary>
@@ -55,7 +55,10 @@ namespace KarveControls.UIObjects
         string TableName { set; get; }
         // Item source
 
-        DataTable ItemSource { set; get; }
+        /// <summary>
+        /// Source of a ui object
+        /// </summary>
+        object ItemSource { set; get; }
         /// <summary>
         ///  To SQL String
         /// </summary>
@@ -64,7 +67,6 @@ namespace KarveControls.UIObjects
         ///  PrimaryKey.
         /// </summary>
         string PrimaryKey { get; set; }
-      //  object DataObject { get; set; }
      
     }
 }

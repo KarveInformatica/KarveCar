@@ -16,7 +16,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         ///  Data Allowed
         /// </summary>
-        public CommonControl.DataType DataAllowed { get ; set ; }
+        public ControlExt.DataType DataAllowed { get ; set ; }
         /// <summary>
         ///  If it is allowed empty.
         /// </summary>
@@ -56,7 +56,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         ///  ItemSource.
         /// </summary>
-        public DataTable ItemSource { get ; set; }
+        public object ItemSource { get ; set; }
         /// <summary>
         ///  String of the query.
         /// </summary>

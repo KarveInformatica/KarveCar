@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
+using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using DesignByContract;
 using KarveDataServices;
@@ -12,19 +16,21 @@ namespace DataAccessLayer
     /// </summary>
     public class AbstractDataAccessLayer
     {
-        private ISqlQueryExecutor _queryExecutor;
+        private ISqlExecutor _executor;
         protected DataLoader _sqlFieldLoader = new DataLoader();
         protected StringBuilder _baseQuery = new StringBuilder();
         
         protected IDictionary<string, string> baseQueryDictionary = new Dictionary<string, string>();
+        protected IMapper Mapper;
+
         /// <summary>
         /// Ctr for all the abstract access layer.
         /// </summary>
-        /// <param name="queryExecutor"></param>
-        internal AbstractDataAccessLayer(ISqlQueryExecutor queryExecutor)
+        /// <param name="executor"></param>
+        internal AbstractDataAccessLayer(ISqlExecutor executor)
         {
-            Dbc.Requires(queryExecutor != null, "AbstractQuery query executor is null");
-            _queryExecutor = queryExecutor;
+            Dbc.Requires(executor != null, "AbstractQuery query executor is null");
+            _executor = executor;
            
         }
        /// <summary>
@@ -58,6 +64,8 @@ namespace DataAccessLayer
                     baseQueryDictionary.Add(table.Name, query);
                 }
             }
+            // now instance a map
+            Mapper = MapperField.GetMapper();
         }
         /// <summary>
         /// Build the where clause using the supplier id..
@@ -74,6 +82,37 @@ namespace DataAccessLayer
             builder.Append(clause);
             string query = builder.ToString();
             return query;
+        }
+
+        protected virtual bool UniqueId(string id)
+        {
+            return true;
+        }
+        /// <summary>
+        /// This generate an unique id.
+        /// </summary>
+        /// <returns>Returns an unique id.</returns>
+        protected string GenerateUniqueId()
+        {
+            string id = "";
+            do
+            {
+                byte[] data = new byte[8];
+                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+                {
+                    rngCsp.GetBytes(data);
+                }
+                string hex = BitConverter.ToUInt64(data, 0).ToString();
+                id = hex.Substring(0, 7);
+                // we shall complement this to 7.
+                if (UniqueId(id))
+                {
+                    break;
+                }
+
+            } while (true);
+
+            return id;
         }
         /// <summary>
         /// This delete data using a dataset.
@@ -92,7 +131,7 @@ namespace DataAccessLayer
             
             try
             {
-                _queryExecutor.BeginTransaction();
+                _executor.BeginTransaction();
                 foreach (DataTable table in supplierDataSet.Tables)
                 {
                     foreach (DataRow row in table.Rows)
@@ -100,13 +139,13 @@ namespace DataAccessLayer
                         row.Delete();
                     }
                 }
-                _queryExecutor.UpdateDataSet(query, ref supplierDataSet);
-                _queryExecutor.Commit();
+                _executor.UpdateDataSet(query, ref supplierDataSet);
+                _executor.Commit();
                 return true;
             }
             catch (System.Exception e)
             {
-                _queryExecutor.Rollback();
+                _executor.Rollback();
                 
             }
             return false;

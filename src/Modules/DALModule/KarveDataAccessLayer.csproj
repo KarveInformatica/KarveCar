@@ -35,7 +35,8 @@
       <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper-Async.1.03\lib\net45\Dapper.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
@@ -215,6 +216,7 @@
     <Compile Include="DataObjects\COMER_DISTRI.cs" />
     <Compile Include="DataObjects\COMER_MARCA.cs" />
     <Compile Include="DataObjects\COMER_UTILIZA.cs" />
+    <Compile Include="DataObjects\ComiDelegaPoco.cs" />
     <Compile Include="DataObjects\COMISIO.cs" />
     <Compile Include="DataObjects\COMISIONES_DTO.cs" />
     <Compile Include="DataObjects\COMISIO_GRUPO.cs" />
@@ -278,6 +280,7 @@
     <Compile Include="DataObjects\CONTACTOS_COMI.cs" />
     <Compile Include="DataObjects\CONTACTOS_CONTRA.cs" />
     <Compile Include="DataObjects\CONTACTOS_POTENCIALES.cs" />
+    <Compile Include="DataObjects\ContactsComiPoco.cs" />
     <Compile Include="DataObjects\ContactsData.cs" />
     <Compile Include="DataObjects\CONTAC_OBRA.cs" />
     <Compile Include="DataObjects\CONTA_LIPRESUP.cs" />
@@ -1020,15 +1023,11 @@
     <Compile Include="DataObjects\VIASPAGO.cs" />
     <Compile Include="DataObjects\VIASPEDIPRO.cs" />
     <Compile Include="DataObjects\Visitas.cs" />
+    <Compile Include="DataObjects\VisitasComiPoco.cs" />
     <Compile Include="DataObjects\VISITAS_COMI.cs" />
     <Compile Include="DataObjects\VISITAS_POTENCIALES.cs" />
     <Compile Include="DataObjects\VISITAS_PROV.cs" />
     <Compile Include="DataObjects\VUELOS.cs" />
-    <Compile Include="DataObjects\Wrapper\CommissionAgent.cs" />
-    <Compile Include="DataObjects\Wrapper\CommissionAgentDTO.cs" />
-    <Compile Include="DataObjects\Wrapper\DataLayerExecutionException.cs" />
-    <Compile Include="DataObjects\Wrapper\NullCommissionAgentTypeData.cs" />
-    <Compile Include="DataObjects\Wrapper\Vehicle.cs" />
     <Compile Include="DataObjects\X1_PERMACCES.cs" />
     <Compile Include="DataObjects\X1_PERMCONCEP.cs" />
     <Compile Include="DataObjects\XML_LOG.cs" />
@@ -1045,17 +1044,26 @@
     <Compile Include="Exception\CommissionAgentException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="GruposDAL.cs" />
+    <Compile Include="Logic\ComiDelegaConverter.cs" />
     <Compile Include="Logic\ErroresDAL.cs" />
     <Compile Include="Logic\GenericDAL.cs" />
     <Compile Include="HelperDataAccessLayer.cs" />
+    <Compile Include="Logic\MapperField.cs" />
     <Compile Include="MarcasDAL.cs" />
     <Compile Include="Logic\SQL_EditDAL.cs" />
-    <Compile Include="SQL\AbstractSqlQueryExecutor.cs" />
+    <Compile Include="Model\CommissionAgent.cs" />
+    <Compile Include="Model\DataLayerExecutionException.cs" />
+    <Compile Include="Model\DomainObject.cs" />
+    <Compile Include="Model\NullCommissionAgentTypeData.cs" />
+    <Compile Include="Model\Vehicle.cs" />
+    <Compile Include="Model\VehiclePoco.cs" />
+    <Compile Include="SQL\AbstractSqlExecutor.cs" />
     <Compile Include="SQL\DataDescription.cs" />
-    <Compile Include="SQL\OdbcQueryExecutor.cs" />
-    <Compile Include="SQL\OleDbQueryExecutor.cs" />
+    <Compile Include="SQL\OdbcExecutor.cs" />
+    <Compile Include="SQL\OleDbExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\RuleDAL.cs" />
+    <Compile Include="SQL\SQLExecutorException.cs" />
     <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="Exception\SupplierDataServiceAccessDeniedException.cs" />
     <Compile Include="Exception\SupplierDataServicesAccessModifiedException.cs" />
@@ -1086,17 +1094,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Auxiliares.xml" />
-    <Content Include="Banks.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="ChargeTypes.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="DataObjects\dataobjects.txt" />
     <Content Include="DataObjects\SupplierSummaryDataObject.cs.txt" />
     <Content Include="DataObjects\SupplierSummaryObject.cs.txt" />
-    <Content Include="Suppliers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />

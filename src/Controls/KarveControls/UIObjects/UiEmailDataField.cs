@@ -16,12 +16,17 @@ namespace KarveControls.UIObjects
 
         public event EmailCheckHandler EmailEventHandler;
         public ICommand EmailCommand { get; set; }
-
+        /// <summary>
+        ///  UiEmailData Field.
+        /// </summary>
         public UiEmailDataField()
         {
             this.EmailCommand = new DelegateCommand<object>(OnEmailOpen);
-            DataAllowed = CommonControl.DataType.Email;
+            DataAllowed = ControlExt.DataType.Email;
         }
+        /// <summary>
+        ///  TextContent. 
+        /// </summary>
         public new string TextContent
         {
             set

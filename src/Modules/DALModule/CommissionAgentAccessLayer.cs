@@ -4,10 +4,15 @@ using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using Model;
 using System;
+using System.Collections;
+using System.Linq;
 using System.Security.Cryptography;
 using AutoMapper;
-using DataAccessLayer.DataObjects.Wrapper;
+using Dapper;
+using DataAccessLayer.Model;
+
 
 namespace DataAccessLayer
 {
@@ -15,12 +20,12 @@ namespace DataAccessLayer
     /// CommissionAgentAccessLayer.
     /// This returns an abstact access layer.
     /// </summary>
-    public class CommissionAgentAccessLayer : AbstractDataAccessLayer, ICommissionAgentDataServices
+    internal class CommissionAgentAccessLayer : AbstractDataAccessLayer, ICommissionAgentDataServices
     {
         /// <summary>
         /// Sql query executor. This is the sql executor for ADO.NET
         /// </summary>
-        private readonly ISqlQueryExecutor _sqlQueryExecutor;
+        private readonly ISqlExecutor _sqlExecutor;
 
         private const string PrimaryKey = "NUM_COMI";
         private const string CommissionAgentTable = "COMISIO";
@@ -30,9 +35,9 @@ namespace DataAccessLayer
         /// CommissionAgentAccessLayer
         /// </summary>
         /// <param name="executor">Executro of a query</param>
-        public CommissionAgentAccessLayer(ISqlQueryExecutor executor): base(executor)
+        public CommissionAgentAccessLayer(ISqlExecutor executor): base(executor)
         {
-            _sqlQueryExecutor = executor;
+            _sqlExecutor = executor;
             base.InitData(CommissionAgentFile);
         }
         /// <summary>
@@ -52,7 +57,7 @@ namespace DataAccessLayer
             {
                 queries = queryDictionary;
             }
-            CommissionAgentFactory agentFactory = CommissionAgentFactory.GetFactory(_sqlQueryExecutor);
+            CommissionAgentFactory agentFactory = CommissionAgentFactory.GetFactory(_sqlExecutor);
             ICommissionAgent createdAgent =  await agentFactory.GetCommissionAgent(queries, commissionAgentId);
             return createdAgent;
         }
@@ -63,7 +68,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
         {
-            DataSet set = await _sqlQueryExecutor.AsyncDataSetLoadBatch(query);
+            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(query);
             return set;
         }
         /// <summary>
@@ -75,7 +80,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IList<ICommissionAgent>> GetCommissionAgentCollection(IDictionary<string,string> fields, int pageSize = 0, int startAt =0)
         {
-            CommissionAgentFactory commissionAgentFactory = CommissionAgentFactory.GetFactory(_sqlQueryExecutor);
+            CommissionAgentFactory commissionAgentFactory = CommissionAgentFactory.GetFactory(_sqlExecutor);
             IList<ICommissionAgent> commissionAgents = await commissionAgentFactory.CreateCommissionAgentList(fields, pageSize, startAt);
             return commissionAgents;
         }
@@ -88,7 +93,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0)
         {
-            DataSet dataset = await _sqlQueryExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery);
+            DataSet dataset = await _sqlExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery);
             return dataset;
         }
 
@@ -107,40 +112,32 @@ namespace DataAccessLayer
         /// <returns>Returns the commission agent.</returns>
         public ICommissionAgent GetNewCommissionAgentDo()
         {
-            CommissionAgentFactory factory = CommissionAgentFactory.GetFactory(_sqlQueryExecutor);
-            ICommissionAgent agent =  factory.NewCommissionAgent();
+            CommissionAgentFactory factory = CommissionAgentFactory.GetFactory(_sqlExecutor);
+            string id = GetNewId();
+            ICommissionAgent agent =  factory.NewCommissionAgent(id);
+            return agent;
+        }
+        /// <summary>
+        /// New commission agent
+        /// </summary>
+        /// <returns>Returns the commission agent.</returns>
+        public ICommissionAgent GetNewCommissionAgentDo(string id)
+        {
+            CommissionAgentFactory factory = CommissionAgentFactory.GetFactory(_sqlExecutor);
+            ICommissionAgent agent = factory.NewCommissionAgent(id);
             return agent;
         }
 
-        
-        /// <summary>
-        /// This generate an unique id.
-        /// </summary>
-        /// <returns>Returns an unique id.</returns>
-        private string GenerateUniqueId()
+        protected override bool UniqueId(string id)
         {
-            string id = "";
-            do
-            {
-                byte[] data = new byte[2];
-                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-                {
-                    rngCsp.GetBytes(data);
-                }
-                var tmpNumber = BitConverter.ToUInt16(data, 0);
-
-                id = tmpNumber.ToString();
-                string str = "SELECT NUM_COMI FROM COMISIO WHERE NUM_COMI='{0}'";
-                str = string.Format(str, id);
-                DataTable table = _sqlQueryExecutor.ExecuteSelectCommand(str, CommandType.Text);
-                if (table.Rows.Count == 0)
-                {
-                    break;
-                }
-            } while (true);
-
-            return id;
+            string str = "SELECT NUM_COMI FROM COMISIO WHERE NUM_COMI='{0}'";
+            str = string.Format(str, id);
+            IDbConnection connection = _sqlExecutor.Connection;
+            IEnumerable<string> strResult = connection.Query<string>(str);
+            bool unique = (!strResult.Any());
+            return unique;
         }
+        
         /// <summary>
         ///  This returns a commission agent dataset 
         /// </summary>
@@ -148,7 +145,7 @@ namespace DataAccessLayer
         /// <returns>Return a dataset with the new commission agent fields</returns>
         public async Task<DataSet> GetNewCommissionAgent(IDictionary<string, string> queryList)
         {
-            DataSet set = await _sqlQueryExecutor.AsyncDataSetLoadBatch(queryList);
+            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(queryList);
             string commissionAgentId = GenerateUniqueId();
             for (int i = 0; i < set.Tables.Count; ++i)
             {
@@ -187,7 +184,7 @@ namespace DataAccessLayer
         /// 
         public async Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList)
         {
-            DataSet summary = await _sqlQueryExecutor.AsyncDataSetLoadBatch(queryList);
+            DataSet summary = await _sqlExecutor.AsyncDataSetLoadBatch(queryList);
             return summary;
         }
         /// <summary>
@@ -218,7 +215,7 @@ namespace DataAccessLayer
         public async Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent)
         {
             bool value = false;
-            IDbConnection connection = _sqlQueryExecutor.Connection;
+            IDbConnection connection = _sqlExecutor.Connection;
             using (connection)
             {
                 if (connection.State != ConnectionState.Open)

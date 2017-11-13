@@ -33,17 +33,22 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<IList<ICommissionAgent>> GetCommissionAgentCollection(IDictionary<string, string> fields, int pageSize = 0,
             int startAt = 0);
-
         /// <summary>
         /// This returns the a new commission agent.
         /// </summary>
         /// <returns></returns>
         ICommissionAgent GetNewCommissionAgentDo();
         /// <summary>
-        /// This returns the dataset of the commisison agent.
+        /// This returns a new commission agent id.
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        /// 
+        ICommissionAgent GetNewCommissionAgentDo(string id);
+        /// <summary>
+        /// This returns a commmission agent dataset.
+        /// </summary>
+        /// <param name="queryList"></param>
+        /// <returns></returns>
         Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList);
         /// <summary>
         /// Save commission agent data services.

@@ -134,7 +134,7 @@ namespace KarveControls.KarveGrid.GridDefinition
                 dynamic saveSQL = BuildSqlSave();
                 DataSet saveDTS = new DataSet();
                 IList<DataColumn> deleteCols = new List<DataColumn>();
-                _gridView.EndEdit();
+               // _gridView.EndEdit();
 
                 string columns_extract = "";
                 saveDTS = dts.Copy();
@@ -196,10 +196,7 @@ namespace KarveControls.KarveGrid.GridDefinition
         private void BuildCols()
         {
            
-            _gridView.AutoGenerateColumns = false;
-            if (_gridView.RowsMark)
-                _gridView.Columns.Add(MarkColumn());
-
+         
             foreach (DataGridColumn col in _columns.Ordered())
             {
                 
@@ -426,8 +423,6 @@ namespace KarveControls.KarveGrid.GridDefinition
             if ((table != null)) {
                 filterTable = table.AliasTable;
             }
-            if (_gridView.RowsMark)
-                sMarcar = " CAST(0 AS BIT) " + ColMarkName + ", ";
             if (_pageSize == 0)
                 _pageSize = 100;
             if (_gridView.DataGridType == KarveGridView.GridType.Search)

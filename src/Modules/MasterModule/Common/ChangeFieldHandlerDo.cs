@@ -47,6 +47,7 @@ namespace MasterModule.Common
         {
             _eventManager = ev;
             _viewModelQueries = vmQueries;
+            _currentSubsystem = subSystem;
 
         }
         /// <summary>
@@ -58,20 +59,18 @@ namespace MasterModule.Common
         {
             payLoad.PayloadType = DataPayLoad.Type.Insert;
             payLoad.HasDataObject = true;
+        
             payLoad.Subsystem = Subsystem;
             payLoad.HasDictionary = true;
             payLoad.DataDictionary = evDictionary;
-            
-
             SqlBuilder.StripTop(ref _viewModelQueries);
             payLoad.Queries = _viewModelQueries;
             // this now contains an object.
             if (evDictionary.ContainsKey("DataObject"))
             {
                 _dataObject = (T) evDictionary["DataObject"];
-                DataSetUtilities.MergeObjectChanged<T>(_dataObject, AssistantDataSet);
-                payLoad.Set = AssistantDataSet;
-                payLoad.HasDataSet = true;
+                payLoad.DataObject = _dataObject;
+                payLoad.HasDataObject = true;
                 _eventManager.NotifyToolBar(payLoad);
             }
         }
@@ -85,14 +84,13 @@ namespace MasterModule.Common
         {
             payLoad.HasDataObject = true;
             payLoad.Subsystem = Subsystem;
+            payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.HasDictionary = true;
             payLoad.DataDictionary = evDictionary;
             if (evDictionary.ContainsKey("DataObject"))
             {
                 _dataObject = (T)evDictionary["DataObject"];
-               //   DataSetHelper.MergeObjectChanged<T>(_dataObject, AssistantDataSet);
-               //  payLoad.Set = AssistantDataSet;
-               // payLoad.HasDataSet = true;
+                payLoad.DataObject = _dataObject;
                 _eventManager.NotifyToolBar(payLoad);
             }
         }

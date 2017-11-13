@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="DataFieldItemsControl.DataFieldItemsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=DataField">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <Grid>
+        <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding ItemsCollection}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <karveControls:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="100"
+                                         LabelTextWidth="50"
+                                         LabelVisible="True"
+                                         IsReadOnly="False"
+                                         DataFieldHeight="40"
+                                         DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSource="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="DataFieldChanged">
+                                <mvvm:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </karveControls:DataField>
+                </DataTemplate>
+                
+            </ItemsControl.ItemTemplate>
+          
+        </ItemsControl>
+    </Grid>
+</UserControl>

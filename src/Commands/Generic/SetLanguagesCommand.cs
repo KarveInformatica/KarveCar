@@ -1,5 +1,5 @@
-﻿using KarveCar.ViewModel.GenericViewModel;
-using System;
+﻿using System;
+using KarveCar.ViewModels;
 using KarveCommon.Command;
 
 namespace KarveCar.Commands.Generic

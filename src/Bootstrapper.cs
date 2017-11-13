@@ -67,9 +67,9 @@ namespace KarveCar
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
                 InjectionConstructor injectionConstructorDB = new InjectionConstructor(currentValue);
-                Container.RegisterType<ISqlQueryExecutor, OleDbQueryExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
+                Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
                 object[] values = new object[2];
-                values[0] = Container.Resolve<ISqlQueryExecutor>();
+                values[0] = Container.Resolve<ISqlExecutor>();
                 values[1] = Container.Resolve<IConfigurationService>();
 
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);

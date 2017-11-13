@@ -1,43 +1,93 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices.DataObjects
 {
     /// <summary>
-    /// The commission interface
+    /// The commission interface. It is a wrapper over the pocos.
+    /// 
     /// </summary>
     public interface ICommissionAgent
     {
         /// <summary>
-        ///  This is valid.
+        ///   This is a property to verify if the domain object commission agent is correctly loaded.
         /// </summary>
         bool Valid { set; get; }
         /// <summary>
-        ///  This is the country of a commission agent
+        ///  Data transfer object for province
         /// </summary>
-        ICountryData Country { set; get; }
+        IEnumerable<ProvinciaDto> ProvinceDto { set; get; }
         /// <summary>
-        ///  This is the type of commission agent.
+        ///  Data transfer objects for contancts
         /// </summary>
-       ICommissionAgentTypeData Type { set;get;}
+        IEnumerable<ContactsDto> ContactsDto { set; get; }
         /// <summary>
-        ///  This is the province data of a commission agent.
+        ///  Data Transfer object for delegations.
         /// </summary>
-        IProvinceData ProvinceData { set; get; }
-        /// <summary>
-        ///  This is the contact list
-        /// </summary>
-        IEnumerable<IContactsData> Contacts { set; get; }
-        /// <summary>
-        ///  This is the list of the branches.
-        /// </summary>
-        IEnumerable<IBranchesData> Delegation { set; get; }
+        IEnumerable<BranchesDto> DelegationDto { set; get; }
         /// <summary>
         /// This return the underlying database object COMISIO.
         /// We use this for avoiding any extensive wrapping of the object COMISIO.
         /// The object COMISIO is generated directly from the table.
+        /// We dont use automapper or dto for the value of the table.
+        ///  </summary>
+        object Value { set; get; }
+        /// <summary>
+        /// Country Data Transfer Object
         /// </summary>
-        object Commission { set; get; }
+        IEnumerable<CountryDto> CountryDto { get; set; }
+        /// <summary>
+        /// Products Data Transfer Object
+        /// </summary>
+        IEnumerable<ProductsDto> ProductsDto { get; set; }
+        /// <summary>
+        ///  Language Data Transfer Object
+        /// </summary>
+        IEnumerable<LanguageDto> LanguageDto { get; set; }
+        /// <summary>
+        /// Commission Type Dtaa Transfer Object.
+        /// </summary>
+        IEnumerable<CommissionTypeDto> CommisionTypeDto { get; set; }
+        /// <summary>
+        /// Clients Data Transfer Object.
+        /// </summary>
+        
+        IEnumerable<VendedorDto> VendedorDto { get; set; }
+        /// <summary>
+        /// Mercado Data Transfer Object
+        /// </summary>
+        IEnumerable<MercadoDto> MercadoDto { get; set; }
+        /// <summary>
+        ///  Negocio Data Transfer Object
+        /// </summary>
+        IEnumerable<NegocioDto> NegocioDto { get; set; }
+        /// <summary>
+        ///  Canal Data Transfer Object
+        /// </summary>
+        IEnumerable<CanalDto> CanalDto { get; set; }
+        /// <summary>
+        ///  Clave Data Transfer Object
+        /// </summary>
+        IEnumerable<ClavePtoDto> ClavePptoDto { get; set; }
+        /// <summary>
+        /// Clientes data transfer object.
+        /// </summary>
+        IEnumerable<ClientesDto> ClientsDto { get; set; }
+
+        /// <summary>
+        /// Visits dataa trasnfer object.
+        /// </summary>
+        IEnumerable<VisitsDto> VisitsDto { get; set; }
+
+        /// <summary>
+        /// Origen data transfer object.
+        /// </summary>
+        IEnumerable<OrigenDto> OrigenDto { get; set; }
+        /// <summary>
+        /// Cliente data transfer object.
+        /// </summary>
+        IEnumerable<ZonaOfiDto> ZonaOfiDto { get; set; }
         /// <summary>
         ///  This load the value for the current commission agent.
         /// </summary>

@@ -2,11 +2,11 @@
 using System.Data;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.DataObjects.Wrapper;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+
 
 namespace DataAccessLayer
 {
@@ -26,28 +26,17 @@ namespace DataAccessLayer
         /// <summary>
         /// Vehicle data services. 
         /// </summary>
-        private IMapper _mapper;
         private readonly IVehicleDataServices _vehicleDataServices;
 
 
-        public DataServiceImplementation(ISqlQueryExecutor sqlQueryExecutor, 
+        public DataServiceImplementation(ISqlExecutor sqlExecutor, 
             IConfigurationService configurationService)
         {
             //_mapper = InitMapper();
-            _supplierDataServices = new SupplierDataAccessLayer(sqlQueryExecutor, configurationService);
-            _helperDataServices = new HelperDataAccessLayer(sqlQueryExecutor);
-            _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlQueryExecutor);
-            _vehicleDataServices = new VehiclesDataAccessLayer(sqlQueryExecutor);
-        }
-
-        private IMapper InitMapper()
-        {
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<CommissionDto, COMISIO>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            return mapper;
+            _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor, configurationService);
+            _helperDataServices = new HelperDataAccessLayer(sqlExecutor);
+            _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);
+            _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
         }
         
         /// <summary>

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MasterModule.Common
 {
@@ -41,7 +37,7 @@ namespace MasterModule.Common
 
         internal static void MergeObjectChanged<T>(T dataObject, DataSet assistantDataSet)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

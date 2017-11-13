@@ -112,7 +112,7 @@ namespace KarveCar.Logic
                 TabItem item = (TabItem) selectedItem;
                 string itemHeader = item.Header as string;
                 string[] value = itemHeader.Split('.');
-                return value[0];
+                return value[1];
             }
             return "";
         }

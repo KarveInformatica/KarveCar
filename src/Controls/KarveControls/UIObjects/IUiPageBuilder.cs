@@ -9,8 +9,12 @@ namespace KarveControls.UIObjects
     /// </summary>
     public interface IUiPageBuilder
     {
-        // Return the dictionary with each observable collection needed for each part of the page.
-        // The client know the value of the keys.
+        /// <summary>
+        /// Return the dictionary with each observable collection needed for each part of the page.
+        /// </summary>
+        /// <param name="assistQuery">Handler for the query of magnifier boxes</param>
+        /// <param name="changedField">Handler for any change.</param>
+        /// <returns></returns>
         IDictionary<string, ObservableCollection<IUiObject> > BuildPageObjects(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery,
             UiDfObject.ChangedField changedField);
     }

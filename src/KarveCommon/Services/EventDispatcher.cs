@@ -6,6 +6,10 @@ using KarveCommon.Services;
 
 namespace KarveCommon.Services
 {
+    /// <summary>
+    ///  Dispatcher of messages between different parts of the application.
+    /// This makes the application and communication between view models loosely coupled.
+    /// </summary>
     public class EventDispatcher : IEventManager
     {
 
@@ -17,13 +21,17 @@ namespace KarveCommon.Services
         IList<IEventObserver> _toolBar = new List<IEventObserver>();
         // This are direct events, each view module has a mailbox for receiving messages.
         private IDictionary<string, MailBoxMessageHandler> _mailBox = new ConcurrentDictionary<string, MailBoxMessageHandler>();
-
+        /// <summary>
+        ///  Send a message from a view module to another view module.
+        /// </summary>
+        /// <param name="viewModuleId">Identifier of the view model</param>
+        /// <param name="payLoad">Message to be sent directly to the view model</param>
         public void SendMessage(string viewModuleId, DataPayLoad payLoad)
         {
             MailBoxMessageHandler messageHandler = _mailBox[viewModuleId];
             messageHandler?.Invoke(payLoad);
         }
-        private void notifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
+        private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
             for (int i = 0; i < eoList.Count; ++i)
             {
@@ -32,51 +40,75 @@ namespace KarveCommon.Services
             }
             
         }
-        public void notifyObserver(DataPayLoad payload)
+        /// <summary>
+        ///  Notify all the global observer of a new message
+        /// </summary>
+        /// <param name="payload">Message to be send to all the system</param>
+        public void NotifyObserver(DataPayLoad payload)
         {
-            notifyObserver(payload, _observers);
+            NotifyObserver(payload, _observers);
         }
-        public void notifyObserverSubsystem(string v, DataPayLoad dataPayload)
+        /// <summary>
+        /// Notify Observer subsystem.
+        /// </summary>
+        /// <param name="id">Identifier of a subsystem</param>
+        /// <param name="dataPayload">Message to be sent to the subsystem</param>
+        public void NotifyObserverSubsystem(string id, DataPayLoad dataPayload)
         {
-            if (_subsystemObserver.ContainsKey(v))
+            if (_subsystemObserver.ContainsKey(id))
             {
                 IList<IEventObserver> value = null;
-                IList<IEventObserver> disabledItemList = null;
-                if (_subsystemObserver.TryGetValue(v, out value))
+                if (_subsystemObserver.TryGetValue(id, out value))
                 {
+                    IList<IEventObserver> disabledItemList = null;
                     // ok we get the disabled
-                    _notificationDisabled.TryGetValue(v, out disabledItemList);
+                    _notificationDisabled.TryGetValue(id, out disabledItemList);
                     if ((disabledItemList == null))
                     {
-                        notifyObserver(dataPayload, value);
+                        NotifyObserver(dataPayload, value);
                     }
                     else
                     {
                         // the item are not disabled.
-                        foreach (IEventObserver eo in value)
-                        {
-                            if (!disabledItemList.Contains(eo))
-                            {
-                                eo.incomingPayload(dataPayload);
-                            }
-                        }
+                       Notify(dataPayload, value, disabledItemList);
                     }
 
                 }
             }
         }
-
+        private void Notify(DataPayLoad dataPayLoad, IList<IEventObserver> values, IList<IEventObserver> disabled)
+        {
+            // the item are not disabled.
+            foreach (IEventObserver eo in values)
+            {
+                if (!disabled.Contains(eo))
+                {
+                    eo.incomingPayload(dataPayLoad);
+                }
+            }
+        }
+        /// <summary>
+        /// Notify the toolbar
+        /// </summary>
+        /// <param name="payload">Message to be sent</param>
         public void NotifyToolBar(DataPayLoad payload)
         {
-            notifyObserver(payload, _toolBar);
+            NotifyObserver(payload, _toolBar);
         }
-
-        public void registerObserver(IEventObserver obs)
+        /// <summary>
+        /// Register an observer
+        /// </summary>
+        /// <param name="obs">Observer</param>
+        public void RegisterObserver(IEventObserver obs)
         {
             _observers.Add(obs);
         }
-
-        public void registerObserverSubsystem(string id, IEventObserver obs)
+        /// <summary>
+        /// Register observer system.
+        /// </summary>
+        /// <param name="id">Identifier of the system.</param>
+        /// <param name="obs">Event observer to be registered.</param>
+        public void RegisterObserverSubsystem(string id, IEventObserver obs)
         {
             if (_subsystemObserver.ContainsKey(id))
             {
@@ -101,7 +133,7 @@ namespace KarveCommon.Services
             _toolBar.Add(obs);
         }
 
-        public void deleteObserverSubSystem(string id, IEventObserver obs)
+        public void DeleteObserverSubSystem(string id, IEventObserver obs)
         {
             if (_subsystemObserver.ContainsKey(id))
             {
@@ -114,7 +146,7 @@ namespace KarveCommon.Services
             }
         }
 
-        public void disableNotify(string id, IEventObserver obs)
+        public void DisableNotify(string id, IEventObserver obs)
         {
 
             if (_notificationDisabled.ContainsKey(id))
@@ -133,7 +165,7 @@ namespace KarveCommon.Services
                 _notificationDisabled[id] = value;
             }
         }
-        public void enableNotify(string id, IEventObserver obs)
+        public void EnableNotify(string id, IEventObserver obs)
         {
             if (_notificationDisabled.ContainsKey(id))
             {
@@ -153,6 +185,15 @@ namespace KarveCommon.Services
             if (!_mailBox.ContainsKey(id))
             {
                 _mailBox[id] = messageHandler;
+            }
+        }
+
+        public void DeleteMailBoxSubscription(string id)
+        {
+            
+            if (!_mailBox.ContainsKey(id))
+            {
+                _mailBox.Remove(id);
             }
         }
     }

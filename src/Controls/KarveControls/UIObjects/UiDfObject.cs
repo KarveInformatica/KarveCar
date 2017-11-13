@@ -16,23 +16,26 @@ namespace KarveControls.UIObjects
     /// UiDfObject is a user interface object that is able to be rendered as a data field.
     /// </summary>
     [Serializable]
-    public class UiDfObject : BindableBase,IUiObject
+    public class UiDfObject : BindableBase, IUiObject
     {
 
-     /// <summary>
-     ///  public delegate to detect a change in the datafiled
-     /// </summary>
-     /// <param name="eventDictionary"> Parameters returned from the datafield</param>
+        /// <summary>
+        ///  public delegate to detect a change in the datafiled
+        /// </summary>
+        /// <param name="eventDictionary"> Parameters returned from the datafield</param>
         public delegate void ChangedField(IDictionary<string, object> eventDictionary);
-
+        /// <summary>
+        ///  Field changed
+        /// </summary>
         public event ChangedField OnChangedField;
-
+        /// <summary>
+        /// Command related to the changed item.
+        /// </summary>
         [XmlIgnore]
         public ICommand ChangedItem { set; get; }
 
-     
         private string _description;
-        private CommonControl.DataType _dataAllowed;
+        private ControlExt.DataType _dataAllowed;
         private bool _allowedEmpty;
         private bool _upperCase;
         private string _labelText;
@@ -85,7 +88,7 @@ namespace KarveControls.UIObjects
         ///  Data allowed for having control validation rules.
         /// </summary>
         [XmlAttribute("DataAllowed")]
-        public CommonControl.DataType DataAllowed
+        public ControlExt.DataType DataAllowed
         {
             set { _dataAllowed = value; RaisePropertyChanged(); }
             get { return _dataAllowed; }
@@ -99,14 +102,18 @@ namespace KarveControls.UIObjects
             set { _allowedEmpty = value; RaisePropertyChanged(); }
             get { return _allowedEmpty; }
         }
-
+        /// <summary>
+        /// UpperCase property
+        /// </summary>
         [XmlAttribute("UpperCase")]
         public bool UpperCase
         {
             set { _upperCase = value; RaisePropertyChanged(); }
             get { return _upperCase; }
         }
-
+        /// <summary>
+        /// Label test property.
+        /// </summary>
         [XmlAttribute("LabelText")]
         public string LabelText
         {
@@ -114,7 +121,9 @@ namespace KarveControls.UIObjects
             get { return _labelText; }
 
         }
-
+        /// <summary>
+        ///  Label visi
+        /// </summary>
         [XmlAttribute("LabelVisible")]
         public bool LabelVisible
         {
@@ -163,11 +172,10 @@ namespace KarveControls.UIObjects
             set { _tableName = value; RaisePropertyChanged(); }
             get { return _tableName; }
         }
-
         [XmlIgnore]
-        public DataTable ItemSource
+        public object ItemSource
         {
-            set { _itemSource = value; RaisePropertyChanged(); }
+            set { _itemSource = (DataTable) value; RaisePropertyChanged(); }
             get { return _itemSource; }
 
         }
@@ -207,7 +215,9 @@ namespace KarveControls.UIObjects
             set { _primaryKey = value; RaisePropertyChanged(); }
         }
         [XmlElement("DataObject")]
-        public object DataObject { get { return _dataObject; }
+        public object DataObject
+        {
+            get { return _dataObject; }
             set
             {
                 _dataObject = value;

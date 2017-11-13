@@ -38,7 +38,25 @@ namespace KarveControls.Generic
             }
 
         }
-
+        /// <summary>
+        /// Fill the data object with a type
+        /// </summary>
+        /// <param name="textField">Field of the text.</param>
+        /// <param name="dataObject">Data object to be filled.</param>
+        /// <param name="dataField">Data field to be filled.</param>
+        public void FillDataObject(string textField, string dataField, ref object dataObject)
+        {
+                try
+                {
+                    ComponentUtils.SetPropValue(dataObject, "Value."+dataField.ToUpper(), textField);
+                    
+                }
+                catch (Exception e)
+                {
+                    string msg = e.Message;
+                }
+            
+        }
         /// <summary>
         ///  This method fills the checkbox value with the value of the itemsource.
         /// </summary>

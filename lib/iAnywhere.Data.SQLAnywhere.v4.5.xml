@@ -2651,7 +2651,7 @@ conn.Open();</code>
             The name of the source table to use for table mapping. 
         </param><param name="command">
             The SQL SELECT statement used to retrieve rows from the data source. 
-        </param><param name="behaviour">
+        </param><param name="behavior">
             One of the CommandBehavior values. 
         </param><returns>
         <para>The number of rows successfully added or refreshed in the <see cref="T:System.Data.DataSet"/>.</para>
@@ -4561,7 +4561,30 @@ parm.Value = SADefault.Value;</code>
             @internal
         </member>
         <member name="T:iAnywhere.SQLAnywhere.Server.SAServerSideConnection">
-            @internal
+            <summary>
+   <para>Represents a server-side connection to a SQL Anywhere database.</para>
+  </summary><remarks>
+   <para>This class supports the execution of server-side SQL from the CLR external environment. A CLR function or method called from the database server can call back into the server. A connection is already established to the server. It is not necessary to use SAConnection to establish a connection.</para>
+  </remarks>
+        </member>
+        <member name="P:iAnywhere.SQLAnywhere.Server.SAServerSideConnection.Connection">
+            <summary>
+   <para>Provides the SAConnection object required to execute SQL on the database server.</para>
+  </summary><remarks>
+   <para>The connection is already established to the server. It is not necessary to use SAConnection to establish a connection. Obtain the connection object using a statement similar to the following:</para>
+   <para>SAConnection _conn = SAServerSideConnection.Connection;</para>
+  </remarks><example>
+   <para>The following example obtains the SAConnection object and then executes a SQL statement to create a table.</para>
+   <code>using iAnywhere.Data.SQLAnywhere;
+using iAnywhere.SQLAnywhere.Server;
+
+SAConnection _conn = SAServerSideConnection.Connection;
+SACommand cmd = _conn.CreateCommand();
+cmd.CommandText = "CREATE TABLE Tab( c1 int, c2 char(128), c3 smallint, c4 double, c5 numeric(30,6) )";
+cmd.ExecuteNonQuery();
+cmd.Dispose();
+</code>
+  </example><seealso cref="T:iAnywhere.Data.SQLAnywhere.SAConnection"/>
         </member>
         <member name="T:iAnywhere.Data.SQLAnywhere.SATrace">
             @internal

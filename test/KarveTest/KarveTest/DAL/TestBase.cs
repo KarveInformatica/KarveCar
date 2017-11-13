@@ -15,9 +15,9 @@ namespace KarveTest.DAL
             return configurationService;
         }
 
-        protected ISqlQueryExecutor SetupSqlQueryExecutor()
+        protected ISqlExecutor SetupSqlQueryExecutor()
         {
-            ISqlQueryExecutor executor = new OleDbQueryExecutor(TestConnectionString);
+            ISqlExecutor executor = new OleDbExecutor(TestConnectionString);
             return executor;
         }
 

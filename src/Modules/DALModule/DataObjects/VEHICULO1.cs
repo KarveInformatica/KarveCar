@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a VEHICULO1.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class VEHICULO1 
+    /// <summary>
+    /// Represents a VEHICULO1.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("VEHICULO1")]
+    public class VEHICULO1 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIINT property.
     /// </summary>
-    
+        [Key]
 		public string CODIINT { get; set; }
  
 	/// <summary>

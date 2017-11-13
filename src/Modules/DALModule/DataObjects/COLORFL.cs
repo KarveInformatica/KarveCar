@@ -1,18 +1,21 @@
+using KarveDapper.Extensions;
 using System;
- 
+using System.Collections.Generic;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a COLORFL.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class COLORFL 
+    /// <summary>
+    /// Represents a COLORFL.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("COLORFL")]
+    public class COLORFL 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+       [Key]
 		public string CODIGO { get; set; }
  
 	/// <summary>

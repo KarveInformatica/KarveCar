@@ -1,7 +1,7 @@
-﻿using KarveCar.ViewModel.MaestrosViewModel;
-using KarveCommon.Command;
+﻿using KarveCommon.Command;
 using System;
 using System.Threading.Tasks;
+using KarveCar.ViewModels;
 
 namespace KarveCar.Commands.Generic
 {

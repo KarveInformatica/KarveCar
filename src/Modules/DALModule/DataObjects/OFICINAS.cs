@@ -1,5 +1,6 @@
 using System;
- 
+using System.ComponentModel;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
@@ -44,258 +45,251 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public string PROVINCIA { get; set; }
- 
-	/// <summary>
-    ///  Set or get the CP property.
-    /// </summary>
-    
-		public string CP { get; set; }
- 
-	/// <summary>
-    ///  Set or get the RESPONSA property.
-    /// </summary>
-    
-		public string RESPONSA { get; set; }
- 
-	/// <summary>
-    ///  Set or get the PROPIO property.
-    /// </summary>
-    
-		public string PROPIO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TELEFONO property.
-    /// </summary>
-    
-		public string TELEFONO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the MODEM property.
-    /// </summary>
-    
-		public string MODEM { get; set; }
+
+        /// <summary>
+        ///  Set or get the CP property.
+        /// </summary>
+       
+        public string CP { get; set; }
+
+        /// <summary>
+        ///  Set or get the RESPONSA property.
+        /// </summary>
+        public string RESPONSA { get; set; }
+
+        /// <summary>
+        ///  Set or get the PROPIO property.
+        /// </summary>
+        public string PROPIO { get; set; }
+
+        /// <summary>
+        ///  Set or get the TELEFONO property.
+        /// </summary>
+       
+        public string TELEFONO { get; set; }
+
+        /// <summary>
+        ///  Set or get the MODEM property.
+        /// </summary>
+        public string MODEM { get; set; }
  
 	/// <summary>
     ///  Set or get the FAX property.
     /// </summary>
     
 		public string FAX { get; set; }
- 
-	/// <summary>
-    ///  Set or get the OBS1 property.
-    /// </summary>
-    
-		public string OBS1 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the MULTAS property.
-    /// </summary>
-    
-		public string MULTAS { get; set; }
- 
-	/// <summary>
-    ///  Set or get the DNIMULTAS property.
-    /// </summary>
-    
-		public string DNIMULTAS { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TIPO1 property.
-    /// </summary>
-    
-		public string TIPO1 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TIPO2 property.
-    /// </summary>
-    
-		public string TIPO2 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TIPO3 property.
-    /// </summary>
-    
-		public string TIPO3 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TIPO4 property.
-    /// </summary>
-    
-		public string TIPO4 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ULTMODI property.
-    /// </summary>
-    
-		public string ULTMODI { get; set; }
- 
-	/// <summary>
-    ///  Set or get the USUARIO property.
-    /// </summary>
-    
-		public string USUARIO { get; set; }
+
+        /// <summary>
+        ///  Set or get the OBS1 property.
+        /// </summary>
+        public string OBS1 { get; set; }
+
+        /// <summary>
+        ///  Set or get the MULTAS property.
+        /// </summary>
+        public string MULTAS { get; set; }
+
+        /// <summary>
+        ///  Set or get the DNIMULTAS property.
+        /// </summary>
+        public string DNIMULTAS { get; set; }
+
+        /// <summary>
+        ///  Set or get the TIPO1 property.
+        /// </summary>
+        public string TIPO1 { get; set; }
+
+        /// <summary>
+        ///  Set or get the TIPO2 property.
+        /// </summary>
+        [Browsable(false)]
+        public string TIPO2 { get; set; }
+
+        /// <summary>
+        ///  Set or get the TIPO3 property.
+        /// </summary>
+        [Browsable(false)]
+        public string TIPO3 { get; set; }
+
+        /// <summary>
+        ///  Set or get the TIPO4 property.
+        /// </summary>
+        [Browsable(false)]
+        public string TIPO4 { get; set; }
+
+        /// <summary>
+        ///  Set or get the ULTMODI property.
+        /// </summary>
+        [Browsable(false)]
+        public string ULTMODI { get; set; }
+
+        /// <summary>
+        ///  Set or get the USUARIO property.
+        /// </summary>
+        [Browsable(false)]
+        public string USUARIO { get; set; }
  
 	/// <summary>
     ///  Set or get the NIF property.
     /// </summary>
     
 		public string NIF { get; set; }
- 
-	/// <summary>
-    ///  Set or get the OFI_RED property.
-    /// </summary>
-    
-		public string OFI_RED { get; set; }
- 
-	/// <summary>
-    ///  Set or get the FEC_ALTA property.
-    /// </summary>
-    
-		public DateTime? FEC_ALTA { get; set; }
+
+        /// <summary>
+        ///  Set or get the OFI_RED property.
+        /// </summary>
+        [Browsable(false)]
+        public string OFI_RED { get; set; }
+
+        /// <summary>
+        ///  Set or get the FEC_ALTA property.
+        /// </summary>
+        
+        public DateTime? FEC_ALTA { get; set; }
  
 	/// <summary>
     ///  Set or get the FEC_BAJA property.
     /// </summary>
     
 		public DateTime? FEC_BAJA { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HORARIO property.
-    /// </summary>
-    
-		public string HORARIO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the COMO_LLEGAR property.
-    /// </summary>
-    
-		public string COMO_LLEGAR { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ZONA_OF property.
-    /// </summary>
-    
-		public string ZONA_OF { get; set; }
- 
-	/// <summary>
-    ///  Set or get the N_EMPLEADOS_OF property.
-    /// </summary>
-    
-		public byte? N_EMPLEADOS_OF { get; set; }
- 
-	/// <summary>
-    ///  Set or get the DTOMAX property.
-    /// </summary>
-    
-		public Decimal? DTOMAX { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ZONAOFI property.
-    /// </summary>
-    
-		public string ZONAOFI { get; set; }
- 
-	/// <summary>
-    ///  Set or get the DiaIni_Temporada property.
-    /// </summary>
-    
-		public byte? DiaIni_Temporada { get; set; }
- 
-	/// <summary>
-    ///  Set or get the MesIni_Temporada property.
-    /// </summary>
-    
-		public byte? MesIni_Temporada { get; set; }
- 
-	/// <summary>
-    ///  Set or get the DiaFi_Temporada property.
-    /// </summary>
-    
-		public byte? DiaFi_Temporada { get; set; }
- 
-	/// <summary>
-    ///  Set or get the MesFi_Temporada property.
-    /// </summary>
-    
-		public byte? MesFi_Temporada { get; set; }
- 
-	/// <summary>
-    ///  Set or get the Recogida property.
-    /// </summary>
-    
-		public byte? Recogida { get; set; }
+
+        /// <summary>
+        ///  Set or get the HORARIO property.
+        /// </summary>
+        [Browsable(false)]
+        public string HORARIO { get; set; }
+
+        /// <summary>
+        ///  Set or get the COMO_LLEGAR property.
+        /// </summary>
+        [Browsable(false)]
+        public string COMO_LLEGAR { get; set; }
+
+        /// <summary>
+        ///  Set or get the ZONA_OF property.
+        /// </summary>
+        [Browsable(false)]
+        public string ZONA_OF { get; set; }
+
+        /// <summary>
+        ///  Set or get the N_EMPLEADOS_OF property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? N_EMPLEADOS_OF { get; set; }
+
+        /// <summary>
+        ///  Set or get the DTOMAX property.
+        /// </summary>
+        [Browsable(false)]
+        public Decimal? DTOMAX { get; set; }
+
+        /// <summary>
+        ///  Set or get the ZONAOFI property.
+        /// </summary>
+        [Browsable(false)]
+        public string ZONAOFI { get; set; }
+
+        /// <summary>
+        ///  Set or get the DiaIni_Temporada property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? DiaIni_Temporada { get; set; }
+
+        /// <summary>
+        ///  Set or get the MesIni_Temporada property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? MesIni_Temporada { get; set; }
+
+        /// <summary>
+        ///  Set or get the DiaFi_Temporada property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? DiaFi_Temporada { get; set; }
+
+        /// <summary>
+        ///  Set or get the MesFi_Temporada property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? MesFi_Temporada { get; set; }
+
+        /// <summary>
+        ///  Set or get the Recogida property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? Recogida { get; set; }
  
 	/// <summary>
     ///  Set or get the EMAIL_OFI property.
     /// </summary>
     
 		public string EMAIL_OFI { get; set; }
- 
-	/// <summary>
-    ///  Set or get the OFI_FLOTA property.
-    /// </summary>
-    
-		public string OFI_FLOTA { get; set; }
- 
-	/// <summary>
-    ///  Set or get the IVA_WEB property.
-    /// </summary>
-    
-		public Decimal? IVA_WEB { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_LUNES property.
-    /// </summary>
-    
-		public byte? HOR_LUNES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_MARTES property.
-    /// </summary>
-    
-		public byte? HOR_MARTES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_MIERCOLES property.
-    /// </summary>
-    
-		public byte? HOR_MIERCOLES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_JUEVES property.
-    /// </summary>
-    
-		public byte? HOR_JUEVES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_VIERNES property.
-    /// </summary>
-    
-		public byte? HOR_VIERNES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_SABADO property.
-    /// </summary>
-    
-		public byte? HOR_SABADO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the HOR_DOMINGO property.
-    /// </summary>
-    
-		public byte? HOR_DOMINGO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ABRE_MA_LUNES property.
-    /// </summary>
-    
-		public TimeSpan? ABRE_MA_LUNES { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ABRE_MA_MARTES property.
-    /// </summary>
-    
-		public TimeSpan? ABRE_MA_MARTES { get; set; }
+
+        /// <summary>
+        ///  Set or get the OFI_FLOTA property.
+        /// </summary>
+        [Browsable(false)]
+        public string OFI_FLOTA { get; set; }
+
+        /// <summary>
+        ///  Set or get the IVA_WEB property.
+        /// </summary>
+        [Browsable(false)]
+        public Decimal? IVA_WEB { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_LUNES property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_LUNES { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_MARTES property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_MARTES { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_MIERCOLES property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_MIERCOLES { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_JUEVES property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_JUEVES { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_VIERNES property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_VIERNES { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_SABADO property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_SABADO { get; set; }
+
+        /// <summary>
+        ///  Set or get the HOR_DOMINGO property.
+        /// </summary>
+        [Browsable(false)]
+        public byte? HOR_DOMINGO { get; set; }
+
+        /// <summary>
+        ///  Set or get the ABRE_MA_LUNES property.
+        /// </summary>
+        [Browsable(false)]
+        public TimeSpan? ABRE_MA_LUNES { get; set; }
+
+        /// <summary>
+        ///  Set or get the ABRE_MA_MARTES property.
+        /// </summary>
+        [Browsable(false)]
+        public TimeSpan? ABRE_MA_MARTES { get; set; }
  
 	/// <summary>
     ///  Set or get the ABRE_MA_MIERCOLES property.

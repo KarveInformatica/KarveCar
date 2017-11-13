@@ -4,6 +4,9 @@
     <Table type="DataAccessLayer.SQL.Table">
       <Name>COMISIO</Name>
       <DataFields>
+	      <Field type="DataAccessLayer.SQL.Field">
+          <Name>nombre</Name>
+        </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>cp</Name>
         </Field>
@@ -114,6 +117,30 @@
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>product_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>vende_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>mercado</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>negocio</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>canal</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>claveppto</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>origen_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>zonaofi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>claveppto</Name>
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>nif</Name>

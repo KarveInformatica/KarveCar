@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Windows;
 using DataAccessLayer.DataObjects;
 using KarveCar.Properties;
-using KarveCar.ViewModel.MaestrosViewModel;
 using KarveCar.Views;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices.DataObjects;
 using static KarveCommon.Generic.RecopilatorioEnumerations;
 using Color = System.Windows.Media.Color;
-using GrupoVehiculoDataObject = KarveCar.ViewModel.MaestrosViewModel.GrupoVehiculoDataObject;
-using MarcaDataObject = KarveCar.ViewModel.MaestrosViewModel.MarcaDataObject;
-using TipoVehiculo = KarveCar.ViewModel.MaestrosViewModel.TipoVehiculo;
+using GrupoVehiculoDataObject = KarveCar.ViewModels.GrupoVehiculoDataObject;
+using MarcaDataObject = KarveCar.ViewModels.MarcaDataObject;
+//using TipoVehiculo = KarveCar.ViewModels.MaestrosViewModel.TipoVehiculo;
 
 namespace KarveCar.Model.Generic
 {
@@ -164,7 +163,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
-            { EOpcion.rbtnMercados,           new TemplateInfoRibbonButton { propertiesresources = "lrbtnMercados",
+          /*  { EOpcion.rbtnMercados,           new TemplateInfoRibbonButton { propertiesresources = "lrbtnMercados",
                                                                              nombretabladb = "MERCADO",
                                                                              obj = new Mercado(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
@@ -204,6 +203,7 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
+                                                                                                                    */
             { EOpcion.rbtnOrigenClientes,     new TemplateInfoRibbonButton { propertiesresources = "lrbtnOrigenClientes",
                                                                              nombretabladb = "ORIGEN",
                                                                              obj = new OrigenCliente(),
@@ -687,9 +687,10 @@ namespace KarveCar.Model.Generic
                                                                                                                     nombrecolumnadb    = "USUARIO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcUsuario } } } },
+
             { EOpcion.rbtnProveedores,        new TemplateInfoRibbonButton { propertiesresources = "lrbtnProveedores",
                                                                              nombretabladb = string.Empty,
-                                                                             obj = new SupplierDataObject(),
+                                                                             obj = null,
                                                                              templateinfodb = new List<TemplateInfoDB>() {
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_PROVEE",

@@ -131,6 +131,19 @@ namespace DataAccessLayer.SQL
 
             return false;
         }
+
+        protected bool Equals(Table other)
+        {
+            return Equals(_dataFields, other._dataFields) && string.Equals(_name, other._name);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((_dataFields != null ? _dataFields.GetHashCode() : 0) * 397) ^ (_name != null ? _name.GetHashCode() : 0);
+            }
+        }
     }
     /// <summary>
     ///  A table has different fields.

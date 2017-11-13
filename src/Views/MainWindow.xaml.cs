@@ -1,5 +1,4 @@
 ﻿using KarveCar.Utility;
-using KarveCar.ViewModel.GenericViewModel;
 using Microsoft.Practices.Unity;
 using System.Windows.Controls.Ribbon;
 using System.Globalization;
@@ -7,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KarveCar.ViewModels;
 
 namespace KarveCar.Views
 {
@@ -33,7 +33,7 @@ namespace KarveCar.Views
         public new void Show()
         {
 
-            this.DataContext = new MainWindowViewModel(this._container);
+            //this.DataContext = new MainWindowViewModel(this._container);
             UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
 
             base.Show();    

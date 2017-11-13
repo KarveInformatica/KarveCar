@@ -5,7 +5,9 @@ using KarveDataServices.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Windows;
+using Prism.Commands;
 
 namespace ToolBarModule.Command
 {
@@ -22,9 +24,16 @@ namespace ToolBarModule.Command
         ///  The care keeper service will be used for doing do/undo
         /// </summary>
         private ICareKeeperService _careKeeperService;
-        private IEventManager _eventManager;
+        private readonly IEventManager _eventManager;
         private IConfigurationService _configurationService;
-        
+
+        private IDictionary<DataSubSystem, IDataPayLoadHandler> payLoadHandlers =
+            new Dictionary<DataSubSystem, IDataPayLoadHandler>()
+            {
+                { DataSubSystem.SupplierSubsystem, new SupplierDataPayload() },
+                { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()}
+            };
+
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
         /// allows the do undo of the saving.
@@ -36,14 +45,28 @@ namespace ToolBarModule.Command
             _dataServices = dataServices;
             _careKeeperService = careKeeperService;
             _configurationService = configurationService;
+            InitHandlers();
         }
-
+        /// <summary>
+        /// Save a data command for the configuration manager.
+        /// </summary>
+        /// <param name="dataServices"></param>
+        /// <param name="careKeeperService"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="configurationService"></param>
         public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager, IConfigurationService configurationService) : 
             this(dataServices, careKeeperService, configurationService)
         {
             _eventManager = eventManager;
+            InitHandlers();
         }
-
+        void InitHandlers()
+        {
+            foreach (var value in payLoadHandlers.Values)
+            {
+                value.OnErrorExecuting += HandlerOnOnErrorExecuting; 
+            }
+        }
         /// <summary>
         /// Execute the command and save to the careKeeper.
         /// </summary>
@@ -69,77 +92,37 @@ namespace ToolBarModule.Command
         }
         
         /// <summary>
-        ///  Execute the save command.
+        ///  This executes a payload that it is coming from the toolbar.
         /// </summary>
-        /// <param name="parameter">Data Payload that is composed of the table name and a observable collection</param>
+        /// <param name="parameter"></param>
         public override void Execute(object parameter)
         {
             if (parameter != null)
             {
                 if (parameter is DataPayLoad)
                 {
-                    DataPayLoad payLoad = (DataPayLoad)parameter;
-                    if (payLoad.PayloadType == DataPayLoad.Type.Update)
+                    DataPayLoad payLoad = (DataPayLoad) parameter;
+                    if (payLoadHandlers.ContainsKey(payLoad.Subsystem))
                     {
-                        // here we check the subsystem
-                        if (payLoad.Subsystem == DataSubSystem.SupplierSubsystem)
-                        {
-                            ISupplierDataServices supplierDataServices = _dataServices.GetSupplierDataServices();
-                            if (supplierDataServices != null)
-                            {
-                                // here we can update
-                                IDictionary<string, string> queries = payLoad.Queries;
-
-                                if (payLoad.HasDataSet)
-                                {
-                                    DataSet set = payLoad.Set;
-                                    if (set != null)
-                                    {
-                                        supplierDataServices.UpdateDataSet(queries, set);
-                                        payLoad.Sender = ToolBarModule.NAME;
-                                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                                        if (_eventManager != null)
-                                        {
-                                            _eventManager.SendMessage("ProvidersControlViewModel", payLoad);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("ToolBar showed null dataset");
-                                    }
-                                }
-                                if (payLoad.HasDataSetList)
-                                {
-                                    IList<DataSet> dataSetList = payLoad.SetList;
-                                    foreach (DataSet set in dataSetList)
-                                    {
-                                        try
-                                        {
-                                            supplierDataServices.UpdateDataSet(queries, set);
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            MessageBox.Show(e.Message);
-                                        }
-                                        DataPayLoad newSet = (DataPayLoad)payLoad.Clone();
-                                        newSet.HasDataSetList = false;
-                                        newSet.HasDataSet = true;
-                                        payLoad.Sender = ToolBarModule.NAME;
-                                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                                        if (_eventManager != null)
-                                        {
-                                            _eventManager.SendMessage("ProvidersControlViewModel", newSet);
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
+                        IDataPayLoadHandler handler = payLoadHandlers[payLoad.Subsystem];
+                        handler.ExecutePayload(_dataServices, _eventManager, payLoad);
                     }
-                        
+                    else
+                    {
+                        MessageBox.Show("Error unknwon subsystem");
+                    }
                 }
             }
         }
+        /// <summary>
+        ///  This handles the error. To see how to handle directly with xaml
+        /// </summary>
+        /// <param name="errorType"></param>
+        private void HandlerOnOnErrorExecuting(string errorType)
+        {
+            MessageBox.Show(errorType, "Error while saving", MessageBoxButton.OK);
+        }
+
         /// <summary>
         /// Unexecute the save command. In this case we no rollback.
         /// </summary>

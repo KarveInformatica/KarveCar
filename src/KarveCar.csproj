@@ -55,7 +55,8 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>rentcaricon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -193,22 +194,19 @@
     <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
     <Compile Include="Utility\ValidationRuleDataGrid.cs" />
+    <Compile Include="ViewModels\CintaOpcionesViewModel.cs" />
+    <Compile Include="ViewModels\CloseTabItemViewModel.cs" />
+    <Compile Include="ViewModels\CloseWindowViewModel.cs" />
+    <Compile Include="ViewModels\GrupoVehiculoDataObject.cs" />
+    <Compile Include="ViewModels\GrupoVehiculoViewModel.cs" />
+    <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ConfiguracionViewModel\CintaOpcionesViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\CloseTabItemViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\CloseWindowViewModel.cs" />
-    <Compile Include="ViewModel\GenericViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoDataObject.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\GrupoVehiculoViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MaestroCommonViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MarcaDataObject.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MarcaDataTableViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MarcaViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\MostrarAuxiliaresViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\PaymentResolverViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\ProvidersResolverViewModel.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\SupplierDataObject.cs" />
-    <Compile Include="ViewModel\MaestrosViewModel\TipoVehiculo.cs" />
+    <Compile Include="ViewModels\MarcaDataObject.cs" />
+    <Compile Include="ViewModels\MarcaDataTableViewModel.cs" />
+    <Compile Include="ViewModels\MarcaViewModel.cs" />
+    <Compile Include="ViewModels\MostrarAuxiliaresViewModel.cs" />
+    <Compile Include="ViewModels\PaymentResolverViewModel.cs" />
+    <Compile Include="ViewModels\ProvidersResolverViewModel.cs" />
     <Compile Include="Views\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
@@ -240,7 +238,6 @@
     <Compile Include="Views\ProveedorMarcaDataGridUserControl.xaml.cs">
       <DependentUpon>ProveedorMarcaDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StyledWindow.cs" />
     <Compile Include="Views\TabItemUserControl.xaml.cs">
       <DependentUpon>TabItemUserControl.xaml</DependentUpon>
     </Compile>
@@ -288,10 +285,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ProveedorMarcaDataGridUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StyledWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -491,9 +484,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\other.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="rentcaricon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\paymentTypes.png" />

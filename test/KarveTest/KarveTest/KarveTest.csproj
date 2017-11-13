@@ -34,8 +34,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.EF6, Version=16.0.0.20434, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.20434, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -66,9 +84,14 @@
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Sap.Data.SQLAnywhere.EF6, Version=17.0.7.33994, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\Sap.Data.SQLAnywhere.EF6.17.0.7.3399\lib\net45\Sap.Data.SQLAnywhere.EF6.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -90,13 +113,22 @@
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
     <Compile Include="DAL\TestBase.cs" />
+    <Compile Include="DAL\TestCommissionAgentDataServiceLayer.cs" />
+    <Compile Include="DAL\TestSqlExecutor.cs" />
+    <Compile Include="DAL\TestSQLQuery.cs" />
     <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />
+    <Compile Include="DAL\TestVehicleDataLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
     <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
+    <Compile Include="ViewModels\TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
+      <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
+      <Name>KarveDapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Controls\KarveControls\KarveControls.csproj">
       <Project>{183A9EC4-DC89-411D-975D-C67FA4C01747}</Project>
       <Name>KarveControls</Name>

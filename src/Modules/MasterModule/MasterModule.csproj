@@ -38,6 +38,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\..\..\lib\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
+    </Reference>
     <Reference Include="Dragablz">
       <HintPath>..\..\Dragablz.dll</HintPath>
     </Reference>
@@ -145,6 +154,8 @@
     <Compile Include="ViewModels\SupplierDataPayload.cs" />
     <Compile Include="ViewModels\UiCommissionAgentLeftPartBuilder.cs" />
     <Compile Include="ViewModels\UiCommissionAgentRightPartBuilder.cs" />
+    <Compile Include="ViewModels\UpperBarViewModel.cs" />
+    <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
     <Compile Include="ViewModels\VehiclesInfoViewModel.cs" />
     <Compile Include="Views\ClientsControlView.xaml.cs">
@@ -184,6 +195,12 @@
     </Compile>
     <Compile Include="Views\StarsControl.xaml.cs">
       <DependentUpon>StarsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpperBarView.xaml.cs">
+      <DependentUpon>UpperBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpperBarViewVehicle.xaml.cs">
+      <DependentUpon>UpperBarViewVehicle.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehiclePhoto.xaml.cs">
       <DependentUpon>VehiclePhoto.xaml</DependentUpon>
@@ -243,6 +260,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StarsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpperBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpperBarViewVehicle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,6 +344,10 @@
     <Resource Include="Images\pdficon.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
+      <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
+      <Name>KarveDapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Controls\KarveControls\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>
@@ -385,7 +414,7 @@
     <Resource Include="Images\disk.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Folder Include="DataTransferObject\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

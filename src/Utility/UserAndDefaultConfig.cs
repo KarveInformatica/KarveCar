@@ -1,7 +1,6 @@
 ﻿using KarveCar.Model.Sybase;
 using KarveCar.Properties;
 using KarveCar.View;
-using KarveCar.ViewModel.GenericViewModel;
 using System.Windows.Controls.Ribbon;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using KarveCar.ViewModels;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
 
 namespace KarveCar.Utility
@@ -220,6 +220,7 @@ namespace KarveCar.Utility
         /// <summary>
         /// Establece el idioma de la app según esté guardado en app.exe.config. 
         /// </summary>
+        /// TODO: fix the language support.
         public static void GetLanguage()
         {
             try
@@ -229,8 +230,8 @@ namespace KarveCar.Utility
                 if (!lang.Equals(string.Empty))
                 {
                     KarveCar.Views.MainWindow window = Application.Current.MainWindow as KarveCar.Views.MainWindow;
-                    MainWindowViewModel slvm = new MainWindowViewModel(window.UnityContainer);
-                    slvm.SetLanguages(lang);
+                ///    MainWindowViewModel slvm = new MainWindowViewModel(window.UnityContainer);
+                  //  slvm.SetLanguages(lang);
                 }
             }
             catch (Exception e)

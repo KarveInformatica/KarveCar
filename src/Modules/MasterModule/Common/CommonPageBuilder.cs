@@ -45,7 +45,7 @@ namespace MasterModule.Common
             dataDfObject.ButtonImage = MasterModule.EmailImagePath;
             dataDfObject.DataField = databaseFields["DataField"];
             dataDfObject.LabelText = databaseFields["Label"];
-            dataDfObject.DataAllowed = CommonControl.DataType.Email;
+            dataDfObject.DataAllowed = ControlExt.DataType.Email;
             dataDfObject.LabelVisible = true;
             dataDfObject.TextContentWidth = UiConstants.TextBoxWidthDefault;
             dataDfObject.Height = UiConstants.TextboxHeight;

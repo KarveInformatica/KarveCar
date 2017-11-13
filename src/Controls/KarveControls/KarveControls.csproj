@@ -136,14 +136,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonControl.cs" />
     <Compile Include="DataArea\DataArea.xaml.cs">
       <DependentUpon>DataArea.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataArea\DataAreaFieldEventsArgs.cs" />
-    <Compile Include="DataCheckBox\DataFieldCheckBox.xaml.cs">
-      <DependentUpon>DataFieldCheckBox.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DataCheckBox\DataFieldCheckBox.cs" />
+    <Compile Include="DataCheckBox\DataFieldCheckBoxEventArgs.cs" />
     <Compile Include="DataCombox\DataCombox.xaml.cs">
       <DependentUpon>DataCombox.xaml</DependentUpon>
     </Compile>
@@ -154,9 +152,6 @@
       <DependentUpon>DataField.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataField\DataFieldEventArgs.cs" />
-    <Compile Include="DataRadioGroup\DataRadioGroup.xaml.cs">
-      <DependentUpon>DataRadioGroup.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DataRadio\DataRadio.xaml.cs">
       <DependentUpon>DataRadio.xaml</DependentUpon>
     </Compile>
@@ -169,13 +164,12 @@
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
-    <Compile Include="Generic\ComponentEx.cs" />
-    <Compile Include="Generic\KarveProperties.cs" />
+    <Compile Include="Generic\ComponentHelper.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KarveExt.cs" />
+    <Compile Include="ControlExt.cs" />
     <Compile Include="KarveGrid\ColumnGroup\DataGridColumnGroup.cs" />
     <Compile Include="KarveGrid\ColumnGroup\DataGridColumnGroups.cs" />
     <Compile Include="KarveGrid\ColumnVirtual\DataGridColumnVirtual.cs" />
@@ -230,8 +224,12 @@
     <Compile Include="KarveGrid\Properties\Resources.Designer.cs" />
     <Compile Include="KarveGrid\Properties\Settings.Designer.cs" />
     <Compile Include="KarveGrid\QueryColumnsName.cs" />
+    <Compile Include="PhotoFrame\PhotoFrame.xaml.cs">
+      <DependentUpon>PhotoFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\TemplateSelector.cs" />
     <Compile Include="UIObjects\IUiPageBuilder.cs" />
+    <Compile Include="UIObjects\SQLBuilder.cs" />
     <Compile Include="UIObjects\TableName.cs" />
     <Compile Include="UIObjects\UiConstant.cs" />
     <Compile Include="UIObjects\UiDataCombox.cs" />
@@ -240,7 +238,6 @@
     <Compile Include="UIObjects\UiEmailDataField.cs" />
     <Compile Include="UIObjects\UiGroupBoxMultipleObject.cs" />
     <Compile Include="UIObjects\UiMultipleDfObject.cs" />
-    <Compile Include="UIObjects\SQLBuilder.cs" />
     <Compile Include="UIObjects\UiDataArea.cs" />
     <Compile Include="UIObjects\UiDoubleDfObject.cs" />
     <Compile Include="UIObjects\UiDualDfAfterSearchBoxObject.cs" />
@@ -259,10 +256,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DataCheckBox\DataFieldCheckBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DataCombox\DataCombox.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -272,10 +265,6 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="DataField\DataField.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DataRadioGroup\DataRadioGroup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -303,6 +292,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PhotoFrame\PhotoFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PhotoFrame\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Template\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,12 +312,7 @@
     <Resource Include="Images\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
-      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="PhotoFrame\PhotoControl.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveGrid\KarveGrid.csproj" />
     <Resource Include="KarveGrid\obj\Debug\KarveGrid.csproj.FileListAbsolute.txt" />
@@ -337,10 +329,17 @@
     <None Include="KarveGrid\obj\Debug\KarveGrid.csprojResolveAssemblyReference.cache" />
     <None Include="KarveGrid\Properties\Settings.settings" />
     <None Include="packages.config" />
+    <None Include="PhotoFrame\.vs\PhotoFrameSample\v15\.suo" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="KarveGrid\obj\Debug\KarveGrid.Properties.Resources.resources" />
     <EmbeddedResource Include="KarveGrid\Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
+      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
+      <Name>KarveCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,6 +43,7 @@ namespace MasterModule.ViewModels
             throw new NotImplementedException();
         }
 
+
         protected override void SetTable(DataTable table)
         {
             throw new NotImplementedException();

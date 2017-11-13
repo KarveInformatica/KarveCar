@@ -258,7 +258,7 @@ namespace MasterModule.UIObjects.Suppliers
 
 
             UiDfObject cuenta = new UiDfObject("Cuenta Bancaria", UiConstants.LabelTextWidthDefault);
-            cuenta.DataAllowed = CommonControl.DataType.BankAccount;
+            cuenta.DataAllowed = ControlExt.DataType.BankAccount;
             cuenta.DataField = "CC";
             cuenta.TableName = "PROVEE1";
             cuenta.ItemSource = new DataTable();
@@ -269,10 +269,10 @@ namespace MasterModule.UIObjects.Suppliers
             invoicingObjects.Add(cuenta);
 
             UiDfObject cuenta1 = new UiDfObject("IBAN", UiConstants.LabelTextWidthDefault);
-            cuenta1.DataAllowed = CommonControl.DataType.BankAccount;
+            cuenta1.DataAllowed = ControlExt.DataType.BankAccount;
             cuenta1.DataField = "IBAN";
             cuenta1.TableName = "PROVEE1";
-            cuenta1.DataAllowed = CommonControl.DataType.IbanField;
+            cuenta1.DataAllowed = ControlExt.DataType.IbanField;
             cuenta1.ItemSource = new DataTable();
             cuenta1.LabelVisible = true;
             cuenta1.Height = UiConstants.TextboxHeight;
@@ -305,7 +305,7 @@ namespace MasterModule.UIObjects.Suppliers
             uiDualDfSearch.OnAssistQuery += assistQuery;
             uiBancosDfObject.AddDataField(uiDualDfSearch);
             UiDfObject swifDfObject = new UiDfObject("SWIFT", UiConstants.LabelTextWidthDefault);
-            swifDfObject.DataAllowed = CommonControl.DataType.Swift;
+            swifDfObject.DataAllowed = ControlExt.DataType.Swift;
             swifDfObject.DataField = "SWIFT";
             swifDfObject.TableName = "PROVEE1";
             swifDfObject.ItemSource = new DataTable();

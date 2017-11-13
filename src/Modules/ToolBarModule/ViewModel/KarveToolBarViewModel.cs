@@ -4,19 +4,12 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using ToolBarModule.Command;
-using System;
-using System.Windows.Media.Imaging;
-using System.Net.Cache;
-using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
 using KarveCommon.Command;
 using KarveCommon.Generic;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 using ToolBarModule.Properties;
-using MessageBox = System.Windows.MessageBox;
 
 namespace ToolBarModule
 {
@@ -50,9 +43,7 @@ namespace ToolBarModule
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
         private bool Confirmed = false;
-
         private string confirmDelete = "Quieres borrar el registro?";
-
         private string confirmSave = "Quieres guardar el registro?";
         // this is useful for adding or removing item to the toolbar.
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
@@ -60,6 +51,14 @@ namespace ToolBarModule
 
         public ICommand SaveValueCommand { get; set; }
         private IRegionManager _regionManager;
+        /// <summary>
+        /// KarveToolBarViewModel is a view model to modle the toolbar behaviour.
+        /// </summary>
+        /// <param name="dataServices"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="careKeeper"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="configurationService"></param>
         public KarveToolBarViewModel(IDataServices dataServices,
                                  IEventManager eventManager,
                                  ICareKeeperService careKeeper,
@@ -129,46 +128,49 @@ namespace ToolBarModule
 
             SetInsertValidationChain();
         }
-        
+
         private void DoDeleteCommand()
         {
-            
+
             string value = _configurationService.GetPrimaryKeyValue();
+            _states = ToolbarStates.Delete;
+            DataPayLoad payLoad = new DataPayLoad();
+            payLoad.PayloadType = DataPayLoad.Type.Delete;
+            payLoad.PrimaryKeyValue = value;
             if (value.Length > 0)
             {
-                if (_activeSubSystem == DataSubSystem.SupplierSubsystem)
-                {
-                    // i have to delete the ficha.
-                    _states = ToolbarStates.Delete;
-                    DataPayLoad payLoad = new DataPayLoad();
-                    payLoad.PayloadType = DataPayLoad.Type.Delete;
-                    payLoad.PrimaryKeyValue = value;
-                    _eventManager.SendMessage("ProvidersControlViewModel", payLoad);
-                }
+                DeliverIncomingNotify(_activeSubSystem, payLoad);
             }
         }
 
         private void SetInsertValidationChain()
         {
-           // SqlValidationRule crossDomain = new CrossReferenceValidationRule();
+            // SqlValidationRule crossDomain = new CrossReferenceValidationRule();
             _validationRules = new RemoveDuplicateSqlValidationRule();
-           // _validationRules.SetSuccessor(crossDomain);
+            // _validationRules.SetSuccessor(crossDomain);
         }
         private void DoNewCommand()
         {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.PayloadType = DataPayLoad.Type.Insert;
-            _states = ToolbarStates.Insert;
-            if (_activeSubSystem == DataSubSystem.SupplierSubsystem)
+            if (_states != ToolbarStates.Insert)
             {
-                _eventManager.SendMessage("ProvidersControlViewModel", payLoad);
+                DataPayLoad payLoad = new DataPayLoad();
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
+                _states = ToolbarStates.Insert;
+                // this send a message to the current control view model.
+                DeliverIncomingNotify(_activeSubSystem, payLoad);
             }
         }
+        /// <summary>
+        /// Return true when is a new enabled.
+        /// </summary>
         public bool IsNewEnabled
         {
             get { return _isNewEnabled; }
             set { _isNewEnabled = value; RaisePropertyChanged("IsNewEnabled"); }
         }
+        /// <summary>
+        /// Return true when save is enabled
+        /// </summary>
         public bool IsSaveEnabled
         {
             get { return _buttonSaveEnabled; }
@@ -178,6 +180,9 @@ namespace ToolBarModule
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  Return true when a new is enabeled.
+        /// </summary>
         public bool ButtonEnabled
         {
             get { return _buttonEnabled; }
@@ -187,6 +192,9 @@ namespace ToolBarModule
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        /// Return curren 
+        /// </summary>
         public string CurrentSaveImagePath
         {
             get
@@ -203,8 +211,8 @@ namespace ToolBarModule
 
         private void DoSaveCommand()
         {
-            
-          
+
+
             if (this.IsSaveEnabled)
             {
                 this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
@@ -228,7 +236,26 @@ namespace ToolBarModule
             }
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
-           
+
+        }
+        /// <summary>
+        /// Delvier incoming notify.
+        /// TODO: try to unify data subsystem and event subsystem.
+        /// </summary>
+        /// <param name="subSystem">Current subsystem</param>
+        /// <param name="payLoad">Current datapayload</param>
+        private void DeliverIncomingNotify(DataSubSystem subSystem, DataPayLoad payLoad)
+        {
+            payLoad.Subsystem = subSystem;
+            if (subSystem == DataSubSystem.SupplierSubsystem)
+            {
+                _eventManager.SendMessage(EventSubsystem.SuppliersSummaryVm, payLoad);
+            }
+            if (subSystem == DataSubSystem.CommissionAgentSubystem)
+            {
+                _eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
+            }
+
         }
         /// <summary>
         ///  Each different subsytem call this method to notify a change in the system to the toolbar.
@@ -241,58 +268,52 @@ namespace ToolBarModule
             {
                 // a subsystem has opened a new window with data.
                 case DataPayLoad.Type.RegistrationPayload:
-                {
-                    _activeSubSystem = payload.Subsystem;
-                    IsNewEnabled = true;
-                    break;
-                }
-                case DataPayLoad.Type.Delete:
-                {
-                    string primaryKeyValue = payload.PrimaryKeyValue;
-                    _configurationService.CloseTab(primaryKeyValue);
-                   
-                    _states = ToolbarStates.None;
-                    DataPayLoad payLoad = new DataPayLoad(); 
-                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                    if (_activeSubSystem == DataSubSystem.SupplierSubsystem)
                     {
-                        _eventManager.SendMessage("ProvidersControlViewModel", payLoad);
+                        _activeSubSystem = payload.Subsystem;
+                        IsNewEnabled = true;
+                        break;
                     }
-                    break;
-                }
+                case DataPayLoad.Type.Delete:
+                    {
+                        string primaryKeyValue = payload.PrimaryKeyValue;
+                        _configurationService.CloseTab(primaryKeyValue);
+                        _activeSubSystem = payload.Subsystem;
+                        _states = ToolbarStates.None;
+                        DataPayLoad payLoad = new DataPayLoad();
+                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                        DeliverIncomingNotify(_activeSubSystem, payLoad);
+                        break;
+                    }
                 case DataPayLoad.Type.UpdateView:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
                 // a subsystem has updated a new window with data.
                 case DataPayLoad.Type.Insert:
                 case DataPayLoad.Type.Update:
-                {
-                    this.CurrentSaveImagePath = currentSaveImageModified;
-                    this.IsSaveEnabled = true;
-                    // this keeps the value for saving.
-                    _careKeeper.Schedule(payload);
-                    break;
-                }
+                    {
+                        this.CurrentSaveImagePath = currentSaveImageModified;
+                        this.IsSaveEnabled = true;
+                        // this keeps the value for saving.
+                        _careKeeper.Schedule(payload);
+                        break;
+                    }
             }
         }
-
-        public DelegateCommand EnableSaveCommand { set; get; }
-        public DelegateCommand DisableSaveCommand { set; get; }
-        public DelegateCommand DisableDeleteCommand { set; get; }
-        public DelegateCommand EnableDeleteCommand { set; get; }
-        public DelegateCommand UndoCommand { get; set; }
-        public DelegateCommand RedoCommand { get; set; }
+        /// <summary>
+        /// Save command current tab.
+        /// </summary>
         public DelegateCommand SaveCommand { set; get; }
-        public DelegateCommand EditCommand { set; get; }
-        public DelegateCommand ExitCommand { set; get; }
+        /// <summary>
+        ///  New command tab
+        /// </summary>
         public DelegateCommand NewCommand { set; get; }
+
+        /// <summary>
+        ///  Delete command view module.
+        /// </summary>
         public DelegateCommand DeleteCommand { set; get; }
-        public DelegateCommand CancelCommand { set; get; }
-        public DelegateCommand PrintCommand { set; get; }
-        public DelegateCommand SearchCommand { set; get; }
-
-
+        
     }
 
 }

@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Telerik.WinControls.UI;
-using static KarveControls.CommonControl;
+using static KarveControls.ControlExt;
 using Binding = System.Windows.Data.Binding;
 using TextBox = System.Windows.Controls.TextBox;
 using UserControl = System.Windows.Controls.UserControl;

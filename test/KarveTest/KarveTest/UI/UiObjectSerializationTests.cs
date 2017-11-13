@@ -15,7 +15,7 @@ namespace KarveTest.UI
     class UiObjectSerializationTests
     {
         [Test]
-        public void testUiDataFieldSerialization()
+        public void Should_DataField_Serialized()
         {
             UiDfObject prefixDfObject = new UiDfObject("Prefijo", "100");
             prefixDfObject.DataField = "PREFIJO";
@@ -31,7 +31,7 @@ namespace KarveTest.UI
         }
 
         [Test]
-        public void testUiMultipleDataFieldSerialization()
+        public void Should_UiMultipleDf_Serialized()
         {
             UiMultipleDfObject payementPlaces = new UiMultipleDfObject();
             UiDfObject dataDfObject = new UiDfObject();
@@ -76,7 +76,7 @@ namespace KarveTest.UI
         }
 
         [Test]
-        public void testUiObservableCollectionSerialization()
+        public void Should_ObservableCollectionSerialized()
         {
             ObservableCollection<IUiObject> obs = new ObservableCollection<IUiObject>();
             for (int i = 0; i < 10; i++)

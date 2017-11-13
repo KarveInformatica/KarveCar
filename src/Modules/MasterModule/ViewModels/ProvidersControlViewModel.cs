@@ -120,10 +120,8 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            EventManager.notifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
+            EventManager.NotifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
         }
-
-
         private async void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
@@ -135,7 +133,6 @@ namespace MasterModule.ViewModels
                 string tabName = supplierId + "." + name;
                 ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
-           
                 IList<IUiPageBuilder> list = new List<IUiPageBuilder>();
                 list.Add(new UIObjects.Suppliers.UiSuppliersUpperPartPageBuilder());
                 list.Add(new UIObjects.Suppliers.UiMiddlePartPageBuilder(null));
@@ -159,9 +156,8 @@ namespace MasterModule.ViewModels
                 DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);                
                 currentPayload.PrimaryKeyValue = supplierId;
                 currentPayload.Sender = PROVIDER_SUMMARY_VM;
-                EventManager.notifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
+                EventManager.NotifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
             }
-
         }
         // This override the notification and start for the v
         public override void StartAndNotify()
@@ -170,7 +166,6 @@ namespace MasterModule.ViewModels
             EventManager.RegisterMailBox(ProvidersControlViewModel.PROVIDER_SUMMARY_VM, MessageHandlerMailBox);
             ISupplierDataServices supplier = DataServices.GetSupplierDataServices();
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary(), InitializationNotifierOnPropertyChanged);
- //           InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
         }
 
         /// <summary>

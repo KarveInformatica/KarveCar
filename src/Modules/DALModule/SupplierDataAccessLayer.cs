@@ -16,7 +16,7 @@ namespace DataAccessLayer
     internal class SupplierDataAccessLayer : AbstractDataAccessLayer, ISupplierDataServices
     {
         private IConfigurationService _service;
-        private ISqlQueryExecutor _queryExecutor;
+        private ISqlExecutor _executor;
         private ISqlSession _session = null;
         public const string SupplierTable1 = "PROVEE1";
         public const string SupplierTable2 = "PROVEE2";
@@ -28,9 +28,9 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="mapper">The sql layer for the connection</param>
         /// <param name="service">The global configuration service</param>
-        public SupplierDataAccessLayer(ISqlQueryExecutor mapper, IConfigurationService service) :base(mapper)
+        public SupplierDataAccessLayer(ISqlExecutor mapper, IConfigurationService service) :base(mapper)
         {
-            this._queryExecutor = mapper;
+            this._executor = mapper;
             this._service = service;
         }
 
@@ -48,13 +48,13 @@ namespace DataAccessLayer
             if (!string.IsNullOrEmpty(supplierCode))
             {
                 supplierCodeQuery = string.Format(GenericSql.DelegationQuery, "'" + supplierCode + "'");
-                delegationDataSet = await _queryExecutor.AsyncDataSetLoad(supplierCodeQuery);
+                delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
 
             }
             else
             {
                 supplierCodeQuery = string.Format(GenericSql.DelegationGenericQuery);
-                delegationDataSet = await _queryExecutor.AsyncDataSetLoad(supplierCodeQuery);
+                delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
             }
             Tuple<string, DataSet> retValue = new Tuple<string, DataSet>(supplierCodeQuery, delegationDataSet);
             return retValue;
@@ -86,7 +86,7 @@ namespace DataAccessLayer
         public void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList)
         {
             StringBuilder queryStringBuilder = new StringBuilder();
-            _queryExecutor.BeginTransaction();
+            _executor.BeginTransaction();
 
             if (queries == null)
             {
@@ -106,10 +106,10 @@ namespace DataAccessLayer
                             queryStringBuilder.Append(";");
                         }
                     }
-                    _queryExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref tmp);
+                    _executor.UpdateDataSet(queryStringBuilder.ToString(), ref tmp);
                 }
             }
-            _queryExecutor.Commit();
+            _executor.Commit();
 
         }
 
@@ -144,9 +144,9 @@ namespace DataAccessLayer
                         queryStringBuilder.Append(";");
                     }
                 }
-                _queryExecutor.BeginTransaction();
-                _queryExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref set);
-                _queryExecutor.Commit();
+                _executor.BeginTransaction();
+                _executor.UpdateDataSet(queryStringBuilder.ToString(), ref set);
+                _executor.Commit();
             }
         }
 
@@ -166,7 +166,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList)
         {
-            DataSet set = await _queryExecutor.AsyncDataSetLoadBatch(queryList);
+            DataSet set = await _executor.AsyncDataSetLoadBatch(queryList);
             string supplierId = GetNewId();
             for (int i = 0; i < set.Tables.Count; ++i)
             {
@@ -192,8 +192,9 @@ namespace DataAccessLayer
         /// <summary>
         ///  This generate an uniqueId
         /// </summary>
+        /// TODO: avoid this. Use the same way of the commission agent.
         /// <returns></returns>
-        private string GenerateUniqueId()
+        private new string GenerateUniqueId()
         {
             string id = "";
             do
@@ -208,7 +209,7 @@ namespace DataAccessLayer
                 id = tmpNumber.ToString();
                 string str = "SELECT NUM_PROVEE FROM PROVEE1 WHERE NUM_PROVEE='{0}'";
                 str = string.Format(str, id);
-                DataTable table = _queryExecutor.ExecuteSelectCommand(str, CommandType.Text);
+                DataTable table = _executor.ExecuteSelectCommand(str, CommandType.Text);
                 if (table.Rows.Count == 0)
                 {
                     break;
@@ -224,7 +225,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetAsyncSuppliers()
         {
-            DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierQuery).ConfigureAwait(false);
+            DataSet summary = await _executor.AsyncDataSetLoad(GenericSql.SupplierQuery).ConfigureAwait(false);
             return summary;
         }
         /// <summary>
@@ -233,7 +234,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
-            DataSet summary = await _queryExecutor.AsyncDataSetLoad(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
+            DataSet summary = await _executor.AsyncDataSetLoad(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
             return summary;
         }
 
@@ -249,7 +250,7 @@ namespace DataAccessLayer
 
         public async Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList)
         {
-            DataSet summary = await _queryExecutor.AsyncDataSetLoadBatch(queryList);
+            DataSet summary = await _executor.AsyncDataSetLoadBatch(queryList);
             return summary;
         }
 
@@ -283,13 +284,13 @@ namespace DataAccessLayer
             }
             try
             {
-                _queryExecutor.BeginTransaction();
-                _queryExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref supplierDataSet);
-                _queryExecutor.Commit();
+                _executor.BeginTransaction();
+                _executor.UpdateDataSet(queryStringBuilder.ToString(), ref supplierDataSet);
+                _executor.Commit();
             }
             catch (System.Exception e)
             {
-                _queryExecutor.Rollback();
+                _executor.Rollback();
             }
 
             return true;

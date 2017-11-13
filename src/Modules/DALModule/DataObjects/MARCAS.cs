@@ -1,12 +1,14 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a MARCAS.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class MARCAS 
+    /// <summary>
+    /// Represents a MARCAS.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("MARCAS")]
+    public class MARCAS 
 	{
 	
 	/// <summary>

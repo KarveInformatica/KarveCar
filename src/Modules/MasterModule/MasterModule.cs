@@ -48,6 +48,8 @@ namespace MasterModule
             _container.RegisterType<object, ClientsControlView>("Clients");
             _container.RegisterType<object, ProvidersControl>("Suppliers");
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
+            _container.RegisterType<object, VehicleInfoView>();
+            _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
             //_container.RegisterType<object, >("");
 
 

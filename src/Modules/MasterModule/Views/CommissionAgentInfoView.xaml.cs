@@ -20,11 +20,10 @@ namespace MasterModule.Views
 
         public CommissionAgentInfoView()
         {
-            var obj = this.DataContext;
             InitializeComponent();
-           // Loaded += OnLoad;
-            FieldLoad += OnUpdate;
-
+            // Loaded += OnLoad;
+            //FieldLoad += OnUpdate;
+            /*
             LayoutUpdated += (o, e) =>
             {
                 if (!loaded && (this.ActualHeight > 0 || this.ActualWidth > 0))
@@ -33,7 +32,7 @@ namespace MasterModule.Views
                     loaded = true;
                     FieldLoad?.Invoke();
                 }
-            };
+            };*/
         }
         
     /// <summary>

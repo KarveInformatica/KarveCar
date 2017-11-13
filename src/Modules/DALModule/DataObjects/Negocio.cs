@@ -1,77 +1,37 @@
-﻿using KarveCar.Model.Generic;
-using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using System;
+using System.ComponentModel;
 
-namespace KarveDataAccessLayer.DataObjects
+namespace DataAccessLayer.DataObjects
 {
-    public class Negocio : GenericPropertyChanged, IDataGridRowChange
-    {
-        #region Constructores
-        public Negocio() { this.ControlCambio = EControlCambio.Null; }
-        public Negocio(string codigo, string definicion, string ultimamodificacion, string usuario)
-        {
-            this.codigo = codigo;
-            this.definicion = definicion;
-            this.ultimamodificacion = ultimamodificacion;
-            this.usuario = usuario;
-        }
-        #endregion
+	/// <summary>
+	/// Represents a NEGOCIO.
+	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
+	/// </summary>
+	public class NEGOCIO 
+	{
 
-        #region Propiedades
-        private string codigo;
-        public string Codigo
-        {
-            get { return codigo; }
-            set
-            {
-                codigo = value;
-                OnPropertyChanged("Codigo");
-            }
-        }
+        /// <summary>
+        ///  Set or get the USUARIO property.
+        /// </summary>
+        [Browsable(false)]
+        public string USUARIO { get; set; }
 
-        private string definicion;
-        public string Definicion
-        {
-            get { return definicion; }
-            set
-            {
-                definicion = value;
-                OnPropertyChanged("Definicion");
-            }
-        }
+        /// <summary>
+        ///  Set or get the CODIGO property.
+        /// </summary>
+       
+        public string CODIGO { get; set; }
 
-        private string ultimamodificacion;
-        public string UltimaModificacion
-        {
-            get { return ultimamodificacion; }
-            set
-            {
-                ultimamodificacion = value;
-                OnPropertyChanged("UltimaModificacion");
-            }
-        }
+        /// <summary>
+        ///  Set or get the ULTMODI property.
+        /// </summary>
+        [Browsable(false)]
+        public string ULTMODI { get; set; }
 
-        private string usuario;
-        public string Usuario
-        {
-            get { return usuario; }
-            set
-            {
-                usuario = value;
-                OnPropertyChanged("Usuario");
-            }
-        }
-
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
-        {
-            get { return controlcambiodatagrid; }
-            set
-            {
-                controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambioDataGrid");
-            }
-        }
-        #endregion
-    }
+        /// <summary>
+        ///  Set or get the NOMBRE property.
+        /// </summary>
+        [Browsable(false)]
+        public string NOMBRE { get; set; }
+	}
 }

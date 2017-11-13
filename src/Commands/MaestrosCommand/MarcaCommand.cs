@@ -1,5 +1,5 @@
 ﻿using System;
-using KarveCar.ViewModel.MaestrosViewModel;
+using KarveCar.ViewModels;
 using KarveCommon.Command;
 
 namespace KarveCar.Commands.MaestrosCommand

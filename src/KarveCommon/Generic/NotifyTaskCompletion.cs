@@ -219,6 +219,10 @@ namespace KarveCommon.Generic
                 if (task.IsCompleted)
                 {
                     TaskCompleted = _completedTaskValue;
+                    var propertyChanged = PropertyChanged;
+                    if (propertyChanged == null)
+                        return;
+                    propertyChanged(this, new PropertyChangedEventArgs("IsSuccessfullyCompleted"));
                     return;
                 }
 

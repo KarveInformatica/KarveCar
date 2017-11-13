@@ -1,6 +1,9 @@
 ﻿namespace KarveCommon.Generic
 {
     public enum EnvironmentConfig { OfficeConfiguration, CompanyConfiguration, KarveConfiguration };
+    /// <summary>
+    /// This clas provide some well known configuration variables.
+    /// </summary>
     public class EnvironmentVariables
     {
         public const string EmpresaPlanCuenta = "EMP_PLANCTA";

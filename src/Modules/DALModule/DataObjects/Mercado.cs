@@ -1,77 +1,36 @@
-﻿using KarveCar.Model.Generic;
-using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
-
-namespace KarveDataAccessLayer.DataObjects
+using System;
+ 
+namespace DataAccessLayer.DataObjects
 {
-    public class Mercado : GenericPropertyChanged, IDataGridRowChange
-    {
-        #region Constructores
-        public Mercado() { this.ControlCambio = EControlCambio.Null; }
-        public Mercado(string codigo, string definicion, string ultimamodificacion, string usuario)
-        {
-            this.codigo = codigo;
-            this.definicion = definicion;
-            this.ultimamodificacion = ultimamodificacion;
-            this.usuario = usuario;
-        }
-        #endregion
-
-        #region Propiedades
-        private string codigo;
-        public string Codigo
-        {
-            get { return codigo; }
-            set
-            {
-                codigo = value;
-                OnPropertyChanged("Codigo");
-            }
-        }
-
-        private string definicion;
-        public string Definicion
-        {
-            get { return definicion; }
-            set
-            {
-                definicion = value;
-                OnPropertyChanged("Definicion");
-            }
-        }
-
-        private string ultimamodificacion;
-        public string UltimaModificacion
-        {
-            get { return ultimamodificacion; }
-            set
-            {
-                ultimamodificacion = value;
-                OnPropertyChanged("UltimaModificacion");
-            }
-        }
-
-        private string usuario;
-        public string Usuario
-        {
-            get { return usuario; }
-            set
-            {
-                usuario = value;
-                OnPropertyChanged("Usuario");
-            }
-        }
-
-        private EControlCambio controlcambiodatagrid;
-        public EControlCambio ControlCambio
-        {
-            get { return controlcambiodatagrid; }
-            set
-            {
-                controlcambiodatagrid = value;
-                OnPropertyChanged("ControlCambio");
-            }
-        }
-        #endregion
-    }
+	/// <summary>
+	/// Represents a MERCADO.
+	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
+	/// </summary>
+	public class MERCADO 
+	{
+	
+	/// <summary>
+    ///  Set or get the USUARIO property.
+    /// </summary>
+    
+		public string USUARIO { get; set; }
+ 
+	/// <summary>
+    ///  Set or get the CODIGO property.
+    /// </summary>
+    
+		public string CODIGO { get; set; }
+ 
+	/// <summary>
+    ///  Set or get the ULTMODI property.
+    /// </summary>
+    
+		public string ULTMODI { get; set; }
+ 
+	/// <summary>
+    ///  Set or get the NOMBRE property.
+    /// </summary>
+    
+		public string NOMBRE { get; set; }
+	}
 }

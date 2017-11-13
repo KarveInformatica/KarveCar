@@ -76,7 +76,7 @@ namespace KarveControls.UIObjects
         }
         public string Description { get; set; }
         [XmlIgnore]
-        public CommonControl.DataType DataAllowed { get; set; }
+        public ControlExt.DataType DataAllowed { get; set; }
         [XmlIgnore]
         public bool AllowedEmpty { get; set; }
         [XmlIgnore]
@@ -98,7 +98,7 @@ namespace KarveControls.UIObjects
             set { _tableName = value; }
         }
         [XmlIgnore]
-        public DataTable ItemSource { get ; set; }
+        public object ItemSource { get ; set; }
 
         public string ToSQLString
         {

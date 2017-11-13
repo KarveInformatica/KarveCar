@@ -14,7 +14,7 @@ namespace DataAccessLayer.Logic
         private Boolean _IsNewReg = false;
         private String _ConnectionString = "";
         private String _sPk = "";
-        private ISqlQueryExecutor _DAL;
+        private ISqlExecutor _DAL;
         private List<Logic.SQL_EditDAL> _SQL = new List<Logic.SQL_EditDAL>();
 
         private List<Logic.RuleDAL> _RulesAdd = new List<Logic.RuleDAL>();
@@ -33,7 +33,7 @@ namespace DataAccessLayer.Logic
             {
             get => _ConnectionString;
 
-            set { _ConnectionString = value; _DAL = new OleDbQueryExecutor(_ConnectionString); }
+            set { _ConnectionString = value; _DAL = new OleDbExecutor(_ConnectionString); }
             }
 
         public List<Logic.SQL_EditDAL> SQL
@@ -78,7 +78,7 @@ namespace DataAccessLayer.Logic
 
         public GenericDAL()
         {
-            if (_ConnectionString != "") { _DAL = new OleDbQueryExecutor(_ConnectionString); }
+            if (_ConnectionString != "") { _DAL = new OleDbExecutor(_ConnectionString); }
                     
         }
 

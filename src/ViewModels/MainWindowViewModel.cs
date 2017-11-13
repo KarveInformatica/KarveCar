@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Dragablz;
 using KarveCommon.Generic;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
@@ -17,9 +18,11 @@ using Prism.Regions;
 
 namespace KarveCar.ViewModels
 {
-    class MainWindowViewModel
+    public class MainWindowViewModel
     {
         private readonly IRegionManager _regionManager;
+        private IUnityContainer _container;
+        
         public DelegateCommand<string> NavigateCommand { get; set; }
       
 
@@ -28,6 +31,14 @@ namespace KarveCar.ViewModels
             _regionManager = regionManager;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+        }
+
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager)
+        {
+            _container = container;
+            _regionManager = regionManager;
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+
         }
 
         void Navigate(string navigationPath)
@@ -164,6 +175,11 @@ namespace KarveCar.ViewModels
                 return parent;
 
             return FindParent<T>(parentObject);
+        }
+        // TODO: implement a set language support.
+        public void SetLanguages(object parameter)
+        {
+            
         }
     }
 

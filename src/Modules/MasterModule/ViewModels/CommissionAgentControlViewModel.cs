@@ -9,6 +9,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls.UIObjects;
 using KarveDataServices;
+using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.UIObjects.CommissionAgents;
@@ -24,14 +25,15 @@ namespace MasterModule.ViewModels
     {
         private const string ComiNameColumn = "Numero";
         private const string ComiColumnCode = "Nombre";
-        private UnityContainer _container;
+        private readonly UnityContainer _container;
+        private readonly IDataServices _dataServices;
+       
         /// <summary>
         ///  This is the region manager.
         /// </summary>
         private IRegionManager _regionManager;
 
-        private DataTable _extendedSupplierDataTable;
-        private const string CommissionAgentSummaryVm = "CommisionAgentSummaryVm";
+        private object _dataObject;
 
         /// <summary>
         /// This is the commission agent view model.
@@ -47,7 +49,7 @@ namespace MasterModule.ViewModels
         {
             _regionManager = regionManager;
             _container = container;
-            _extendedSupplierDataTable = new DataTable();
+            _dataServices = services;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
 
@@ -67,12 +69,16 @@ namespace MasterModule.ViewModels
         /// </summary>
         public DataTable SummaryView
         {
-            set { _extendedSupplierDataTable = value; RaisePropertyChanged(); }
-            get { return _extendedSupplierDataTable; }
+            set { ExtendedDataTable = value; RaisePropertyChanged(); }
+            get { return ExtendedDataTable; }
         }
-
+        /// <summary>
+        /// Init the view model.
+        /// </summary>
         private void InitViewModel()
         {
+            MessageHandlerMailBox += CommissionAgentMailBox;
+            EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
             StartAndNotify();
         }
 
@@ -87,40 +93,16 @@ namespace MasterModule.ViewModels
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, ComiNameColumn, ComiColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-                 //_regionManager.RequestNavigate("TabRegion", MasterModule.CommissionAgentInfoView);
-
+                ICommissionAgent agent = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(idNameTuple.Item2);
                 CommissionAgentInfoView view = _container.Resolve<CommissionAgentInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
-                // this builds the dimension of the page.
-                IList<IUiPageBuilder> builders = new List<IUiPageBuilder>();
-                builders.Add(new UiCommissionAgentUpperPartBuilder());
-                UiFirstPageBuilder generalPageBuilder = new UiFirstPageBuilder(builders);
-                IDictionary<string, ObservableCollection<IUiObject>> pageObjects =
-                    generalPageBuilder.BuildPageObjects(null, null);
-                ObservableCollection<IUiObject> upperPartObservableCollection = pageObjects[MasterModule.UiUpperPart];
-                IList<ObservableCollection<IUiObject>> obsList = new List<ObservableCollection<IUiObject>>();
-                obsList.Add(upperPartObservableCollection);
-                ObservableCollection<IUiObject> observableCollection = MergeList(obsList);
-                IDictionary<string, string> currentQueries =
-                   SqlBuilder.SqlBuildSelectFromUiObjects(observableCollection, idNameTuple.Item1, false);
-                /*
-                ICommissionAgentDataServices agentDataServices = DataServices.GetCommissionAgentDataServices();
-                DataSet currentSet = await agentDataServices.GetCommissionAgent(currentQueries);
-                IDictionary<string, object> componentDictionary =
-                    await SetComponentHelpers(currentSet, observableCollection);
-                DataSet assistDataSet = componentDictionary[MasterViewModuleBase.Dataset] as DataSet;
-                ObservableCollection<IUiObject> componentObjects =
-                    componentDictionary[MasterViewModuleBase.Collection] as ObservableCollection<IUiObject>;
-                    */
-                IList<DataSet> dataSet = new List<DataSet>();
-                //dataSet.Add(currentSet);
-                //dataSet.Add(assistDataSet);
-                DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
+
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
-                EventManager.notifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
-                
+                EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
             }
         }
+
         /// <summary>
         ///  Navigation support.
         /// </summary>
@@ -145,26 +127,52 @@ namespace MasterModule.ViewModels
 
         public void incomingPayload(DataPayLoad payload)
         {
-            //  throw new NotImplementedException();
         }
 
         public override void StartAndNotify()
         {
-            MessageHandlerMailBox +=CommissionAgentMailBox;
-            EventManager.RegisterMailBox(CommissionAgentControlViewModel.CommissionAgentSummaryVm, MessageHandlerMailBox);
             ICommissionAgentDataServices commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(commissionAgentDataServices.GetCommissionAgentSummary(), InitializationNotifierOnPropertyChanged);
-//            InitializationNotifier.PropertyChanged += InitializationNotifierOnPropertyChanged;
         }
-
+        /// <summary>
+        ///  Each viewmodel uses the event manager for handling messages and has unique id.
+        ///  Each viewmodel has a mailbox. This is the message handler for the mailbox.
+        ///  
+        /// </summary>
+        /// <param name="payLoad">Data payload that specifies the operation to be handled</param>
         private void CommissionAgentMailBox(DataPayLoad payLoad)
         {
-            throw new NotImplementedException();
+            if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
+            {
+                StartAndNotify();
+            }
+            if (payLoad.PayloadType == DataPayLoad.Type.Delete)
+            {
+                payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+                EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, payLoad);
+            }
+            if (payLoad.PayloadType == DataPayLoad.Type.Insert)
+            {
+                NewItem();
+            }
         }
-
+        /// <summary>
+        /// Create an instance a new view and its associated view model. 
+        /// It is a view first scenario.
+        /// </summary>
         public override void NewItem()
         {
-            throw new NotImplementedException();
+            string name = "NuevoCommisionista";
+            string codigo = "";
+            // move this to the configuration service.
+            ICommissionAgentView view = _container.Resolve<CommissionAgentInfoView>();
+            // TODO: use the navigation service.
+            ConfigurationService.AddMainTab(view, name);
+            DataPayLoad currentPayload = BuildShowPayLoadDo(name);
+            currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            currentPayload.PrimaryKeyValue = codigo;
+            EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
         }
 
         protected override void SetTable(DataTable table)
@@ -172,17 +180,28 @@ namespace MasterModule.ViewModels
             SummaryView = table;
         }
 
+        /// <summary>
+        /// Set the registation payload for the event manager and the toolbar module.
+        /// </summary>
+        /// <param name="payLoad"></param>
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
         }
-
+        /// <summary>
+        /// Set the current data object for the toolbar
+        /// </summary>
+        /// <param name="result"></param>
         protected override void SetDataObject(object result)
         {
-            throw new NotImplementedException();
+            _dataObject = result;
         }
-
+        /// <summary>
+        ///  Get the routed name for the toolbar.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         protected override string GetRouteName(string name)
         {
             return "CommisionAgentModule:" + name;

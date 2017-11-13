@@ -46,7 +46,7 @@ namespace KarveCommon.Generic
                                              "ccoMail as Email FROM ProContactos CC FULL OUTER JOIN ProDelega CD ON (CC.ccoIdCliente = CD.cldIdCliente AND " +
                                              "CC.ccoIdDelega = CD.cldIdDelega) WHERE ccoIdCliente={0} ORDER BY ccoIdDelega, ccoContacto";
         // codigo vehicles.
-        public const string VehiclesSummaryQuery = "select vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
+        public const string VehiclesSummaryQuery = "select vehiculo1.codiint As Numero, matricula as Matricula, marca as Marca, modelo as Modelo, grupo as Grupo, oficina as Oficina, VEHICULO2.KM as Kilometers FROM VEHICULO1 " +
                                                    "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
         // codigo vehicles summary paged.
         public const string VehiclesSummaryQueryPaged = "select TOP {0} START AT {1} vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
