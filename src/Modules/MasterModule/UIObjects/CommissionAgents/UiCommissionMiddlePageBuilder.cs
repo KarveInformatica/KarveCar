@@ -44,8 +44,8 @@ namespace MasterModule.UIObjects.CommissionAgents
         public IDictionary<string, ObservableCollection<IUiObject>> BuildPageObjects(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             IDictionary<string, ObservableCollection<IUiObject>> pageObjects = new Dictionary<string, ObservableCollection<IUiObject>>();
-            pageObjects[MasterModule.UiLeftPartPage] = BuildLeftPartCollection(assistQuery, changedField);
-            pageObjects[MasterModule.UiRightPartPage] = BuildRightPartObjects(assistQuery, changedField);
+            pageObjects[MasterModuleConstants.UiLeftPartPage] = BuildLeftPartCollection(assistQuery, changedField);
+            pageObjects[MasterModuleConstants.UiRightPartPage] = BuildRightPartObjects(assistQuery, changedField);
             return pageObjects;
         }
 
@@ -262,7 +262,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             UiDualDfSearchTextObject paisSearchTextObject = new UiDualDfSearchTextObject("Pais", UiConstants.LabelTextWidthDefault);
-            paisSearchTextObject.ButtonImage = MasterModule.ImagePath;
+            paisSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
             paisSearchTextObject.TableName = "NUM_COMI";
             paisSearchTextObject.PrimaryKey = "COMISIO";
             paisSearchTextObject.AssistTableName = "PAIS";
@@ -286,7 +286,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             UiDualDfSearchTextObject dualSearchTextObject1 =
                 new UiDualDfSearchTextObject(Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
                     UiConstants.LabelTextWidthDefault);
-            dualSearchTextObject1.ButtonImage = MasterModule.ImagePath;
+            dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = ProviderConstants.ZipKey;
             dualSearchTextObject1.AssistDataFieldSecond = ProviderConstants.ProvinceKey;
             dualSearchTextObject1.AssistTableName = ProviderConstants.ProvinceAssistTableName;

@@ -1,0 +1,1783 @@
+﻿<Window x:Class="KarveCar.Views.MainWindow" 
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:prism="http://prismlibrary.com/"
+                xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+                xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
+                xmlns:local="clr-namespace:KarveCar"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                xmlns:uc="clr-namespace:KarveCar.View"
+                xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
+                prism:ViewModelLocator.AutoWireViewModel="True"
+                mc:Ignorable="d"
+                Title="{Binding Title}" 
+                x:Name="Mainwindow" 
+                Icon="/KarveCar;component/Images/rentCarIcon.png"
+                HorizontalContentAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+                
+            </karvecm:KarveInterTabClient>
+            
+            
+            <!-- this is the style that is applied to the tree -->
+            <Style x:Key="SimpleFolders" TargetType="{x:Type TreeViewItem}">
+                <Style.Resources>
+                    <!-- override default brushes that show bad background colors -->
+                    <Brush x:Key="{x:Static SystemColors.HighlightBrushKey}">Transparent</Brush>
+                    <Brush x:Key="{x:Static SystemColors.ControlBrushKey}">Transparent</Brush>
+                </Style.Resources>
+                <Setter Property="HeaderTemplate" Value="{StaticResource CategoryTemplate}" />
+                <Style.Triggers>
+                </Style.Triggers>
+            </Style>
+
+            <!--A default style for treeview controls. This one will automatically
+                be applied as the custom tree's 'TreeStyle' property is not set.-->
+            <Style x:Key="SimpleTreeStyle" TargetType="{x:Type TreeView}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF" Offset="0.0" />
+                            <GradientStop Color="#AAA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderThickness" Value="4" />
+                <Setter Property="BorderBrush"     Value="#FFA6AAAB" />
+            </Style>
+            <Style x:Key="KarveTabItemStyle"  TargetType="TabItem">
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Header" Value="{Binding DataContext.Header,PresentationTraceSources.TraceLevel=High}" />
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                Margin="0,0,7,0" Content="{Binding}"/>
+                                <Button Grid.Column="1" Content="Press">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <views:CloseTabAction/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+
+                            </Grid>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+                <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
+
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                <Setter Property="HeaderMemberPath" Value="Header" />
+            
+                <Setter Property="Margin" Value="0 5 0 0" />
+            </Style>
+            
+            <!-- the context menu for the tree -->
+            <ContextMenu x:Key="CategoryMenu">
+                <MenuItem Header="Add Subcategory" Command="New">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Add.png" Width="16" Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Remove Category" Command="Delete">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Remove.png" Width="16" Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+
+            <!-- default text style -->
+            <Style TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+
+            <!-- the background of the main window -->
+            <LinearGradientBrush x:Key="WindowBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFFAFAFA" Offset="0.382" />
+                <GradientStop Color="#FF405159" Offset="0" />
+                <GradientStop Color="#FF2D3539" Offset="1" />
+                <GradientStop Color="#FFDBDDDD" Offset="0.592" />
+                <GradientStop Color="#FFA6AAAB" Offset="0.803" />
+            </LinearGradientBrush>
+
+            <!-- default style for hyperlinks -->
+            <Style TargetType="{x:Type Hyperlink}">
+                <Setter Property="Foreground" Value="#FFA72222" />
+                <Setter Property="TextDecorations" Value="None" />
+                <Setter Property="ToolTip" Value="Visit website" />
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <DockPanel x:Name="RibbonWindow">
+            <!--Permite hacer scroll entre las diferentes tabs de la ribbon-->
+            <!--StatusBar-->
+            <StatusBar DockPanel.Dock="Bottom" x:Name="stbrInicio">
+                <StatusBarItem>
+                    <TextBlock x:Name="stInicio"/>
+                </StatusBarItem>
+            </StatusBar>
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">-->
+            <StackPanel DockPanel.Dock="Top">
+            <Ribbon x:Name="rbInicio" DockPanel.Dock="Top" Title="Aquí ponemos algún texto, p.e.: KarveWin [Versión: 01/01/2000 00:00]         C1[PRUEBA, S.A]. USUARIO: JORDI">
+                <Ribbon.Resources>
+                    <!--Resource que permite hacer drag&drop entre los ribbongroups-->
+                    <Style TargetType="{x:Type RibbonGroup}">
+                        <Setter Property="AllowDrop" Value="True"/>
+                        <EventSetter Event="UIElement.PreviewMouseMove" Handler="RibbonGroup_PreviewMouseMove"/>
+                        <EventSetter Event="UIElement.Drop" Handler="RibbonGroup_Drop"/>
+                    </Style>
+
+                    <!--Resource que añade un ContextMenu personalizado a los items que deseemos-->
+                    <!--<RibbonContextMenu x:Key="AnadirAFavoritos" x:Name="rctmnAnadir">
+                        <RibbonMenuItem Header="Añadir a Favoritos" x:Name="rctmnitSalir" >
+                            <RibbonMenuItem.Icon>
+                                <Image Source="..\Images\new.png"/>
+                            </RibbonMenuItem.Icon>
+                        </RibbonMenuItem>
+                        <Separator/>
+                        <RibbonMenuItem Header="Item1" >
+                            <RibbonMenuItem.Icon>
+                                <Image Source="..\Images\cut.png"/>
+                            </RibbonMenuItem.Icon>
+                        </RibbonMenuItem>
+                        <RibbonMenuItem Header="Item2" Command="Copy">
+                            <RibbonMenuItem.Icon>
+                                <Image Source="..\Images\copy.png"/>
+                            </RibbonMenuItem.Icon>
+                        </RibbonMenuItem>
+                        <RibbonMenuItem Header="Item3" Command="Paste">
+                            <RibbonMenuItem.Icon>
+                                <Image Source="..\Images\paste.png"/>
+                            </RibbonMenuItem.Icon>
+                        </RibbonMenuItem>
+                    </RibbonContextMenu>-->
+                    <!--Resource que da formato a los RibbonGroup cuando se minimiza/collapse la pantalla-->
+                    <RibbonGroupSizeDefinitionBaseCollection x:Key="RibbonGroupLayoutLarge">
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                        <RibbonGroupSizeDefinition IsCollapsed="True"/>
+                    </RibbonGroupSizeDefinitionBaseCollection>
+                    <RibbonGroupSizeDefinitionBaseCollection x:Key="RibbonGroupLayoutSmall">
+                        <RibbonGroupSizeDefinition>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                            <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="True"/>
+                        </RibbonGroupSizeDefinition>
+                        <RibbonGroupSizeDefinition IsCollapsed="True"/>
+                    </RibbonGroupSizeDefinitionBaseCollection>
+                </Ribbon.Resources>
+
+                <!--ContextualTabGroups-->
+                <Ribbon.ContextualTabGroups>
+                    <RibbonContextualTabGroup Header="Karve" Visibility="Visible" Background="Coral"/>
+                    <RibbonContextualTabGroup Header="Acciones" Visibility="Visible" Background="Azure"/>
+                </Ribbon.ContextualTabGroups>
+
+                <!--QuickAccess-->
+                <!--<Ribbon.QuickAccessToolBar>
+                    <RibbonQuickAccessToolBar Visibility="Visible" >
+                        <RibbonButton x:Name="rbtntCortar" 
+                                    Label="Cortar" 
+                                    SmallImageSource="..\Images\copy.png" 
+                                    Command="Cut"/>
+                        <RibbonButton x:Name="rbtntCopiar" 
+                                    Label="Copiar" 
+                                    SmallImageSource="..\Images\copy.png" 
+                                    Command="Copy"/>
+                        <RibbonButton x:Name="rbtntPegar" 
+                                    Label="Pegar" 
+                                    SmallImageSource="..\Images\paste.png" 
+                                    Command="Paste"/>
+                        <RibbonButton x:Name="rbtnEliminar" 
+                                    Label="Eliminar" 
+                                    SmallImageSource="..\Images\delete.png" 
+                                    Command="Delete"/>
+                        <RibbonSplitButton x:Name="rbtnRehacer" 
+                                         Label="Rehacer" 
+                                         SmallImageSource="..\Images\redo.png" 
+                                         Command="Redo" >
+                            <RibbonSplitMenuItem Header="Redo 1"/>
+                            <RibbonSplitMenuItem Header="Redo 2"/>
+                        </RibbonSplitButton>
+                        <RibbonSplitButton x:Name="rbtntDeshacer" 
+                                         Label="Deshacer" 
+                                         SmallImageSource="..\Images\undo.png" 
+                                         Command="Undo" >
+                            <RibbonSplitMenuItem Header="Undo 1"/>
+                            <RibbonSplitMenuItem Header="Undo 2"/>
+                            <RibbonSplitMenuItem Header="Undo 3"/>
+                        </RibbonSplitButton>
+                        <RibbonButton x:Name="rbtntOpciones" 
+                                    Label="Opciones" 
+                                    SmallImageSource="..\Images\tools.png"/>
+                    </RibbonQuickAccessToolBar>
+                </Ribbon.QuickAccessToolBar>-->
+
+                <!--AplicationMenu-->
+                <Ribbon.ApplicationMenu >
+                    <RibbonApplicationMenu x:Name="rapmnInicio"  SmallImageSource="/KarveCar;component/Images/home.png" Label="{Binding lrapmnInicio, Source={StaticResource ResourceLanguage}}" KeyTip="H">
+                        <RibbonApplicationMenuItem x:Name="rapmnitAbrir" 
+                                                       Header="{Binding lrapmnitAbrir, Source={StaticResource ResourceLanguage}}"
+                                                       ImageSource="/KarveCar;component/Images/open.png" 
+                                                       Command="Open"/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitGuardar" 
+                                                       Header="{Binding lrapmnitGuardar, Source={StaticResource ResourceLanguage}}" 
+                                                       ImageSource="/KarveCar;component/Images/save.png" 
+                                                       Command="Save"/>
+                        <RibbonSeparator/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitRelogin" 
+                                                       Header="{Binding lrapmnitRelogin, Source={StaticResource ResourceLanguage}}" 
+                                                       ImageSource="/KarveCar;component/Images/login.png"/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitReconectar" 
+                                                       Header="{Binding lrapmnitReconectar, Source={StaticResource ResourceLanguage}}" 
+                                                       ImageSource="/KarveCar;component/Images/conect.png"/>
+                        <RibbonSeparator/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitIrAlquiler" 
+                                                       Header="{Binding lrapmnitIrAlquiler, Source={StaticResource ResourceLanguage}}"
+                                                       ImageSource="/KarveCar;component/Images/redirect.png"/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitIrContabilidad" 
+                                                       Header="{Binding lrapmnitIrContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                                       ImageSource="/KarveCar;component/Images/redirect.png"/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitIrTaller" 
+                                                       Header="{Binding lrapmnitIrTaller, Source={StaticResource ResourceLanguage}}"
+                                                       ImageSource="/KarveCar;component/Images/redirect.png"/>
+                        <RibbonSeparator/>
+                        <RibbonApplicationMenuItem x:Name="rapmnitSalir"
+                                                       Header="{Binding lrapmnitSalir, Source={StaticResource ResourceLanguage}}"
+                                                       ImageSource="/KarveCar;component/Images/exit.png"                                     
+                                                       DataContext="{StaticResource closeWindowViewModel}" >
+                            <RibbonApplicationMenuItem.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding CloseWindowCommand}" CommandParameter="Window"/>
+                                <KeyBinding Key="Enter"  Command="{Binding CloseWindowCommand}" CommandParameter="Window"/>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding CloseWindowCommand}" CommandParameter="Window"/>
+                            </RibbonApplicationMenuItem.InputBindings>
+                        </RibbonApplicationMenuItem>
+                    </RibbonApplicationMenu>
+                </Ribbon.ApplicationMenu>
+
+                <!--HelpPaneContent-->
+                <Ribbon.HelpPaneContent>
+                    <RibbonButton x:Name="rbtnHelp" 
+                                    SmallImageSource="/KarveCar;component/Images/help.png" 
+                                    Click="btnHelp_Click" 
+                                    ToolTipTitle="{Binding lrbtnHelpTitle, Source={StaticResource ResourceLanguage}}"
+                                    ToolTipDescription="{Binding lrbtnHelpDescr, Source={StaticResource ResourceLanguage}}"
+                                    ToolTipFooterTitle="{Binding lrbtnHelpFooterTitle, Source={StaticResource ResourceLanguage}}" 
+                                    ToolTipFooterDescription="{Binding lrbtnHelpFooterDescr, Source={StaticResource ResourceLanguage}}" 
+                                    ToolTipService.ShowDuration="10000"/>
+                </Ribbon.HelpPaneContent>
+
+                <!--Tab Maestros-->
+                <RibbonTab x:Name="rbtbMaestros"
+                             Header="{Binding lrbtbMaestros, Source={StaticResource ResourceLanguage}}"
+                             KeyTip="M"
+                             GroupSizeReductionOrder="rgrMaestrosCentrosAlquiler, rgrMaestrosComisionistas">
+                    <RibbonGroup x:Name="rgrMaestrosCentrosAlquiler" Header="{Binding lrgrCentrosAlquiler, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" >
+                        <RibbonButton x:Name="rbtnEmpresas" 
+                                        Label="{Binding lrbtnEmpresas, Source={StaticResource ResourceLanguage}}"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnOficinas"
+                                        Label="{Binding lrbtnOficinas, Source={StaticResource ResourceLanguage}}"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnZonasOficina"
+                                        Label="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                            <RibbonButton.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                            </RibbonButton.InputBindings>
+                        </RibbonButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosClientes" Header="{Binding lrgrMaestrosClientes, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosClientes" Label="{Binding lrmnbtnMaestrosClientes, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/clients.png" KeyTip="C" >
+                            <RibbonButton x:Name="rbtnBancosClientes" 
+                                            Label="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"
+                                            AutomationProperties.AutomationId ="AuxBanksClients"
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnBloqueFacturacion" 
+                                            Label="{Binding lrbtnBloqueFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                        
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCambioCodigoCliente" 
+                                            Label="{Binding lrbtnCambioCodigoCliente, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCanales" 
+                                            Label="{Binding lrbtnCanales, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"  
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCargosPersonal" 
+                                            Label="{Binding lrbtnCargosPersonal, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCCAA" 
+                                            Label="{Binding lrbtnCCAA, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnClavesPresupuesto" 
+                                            Label="{Binding lrbtnClavesPresupuesto, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnClientes" 
+                                            Label="{Binding lrbtnClientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnEntradaRapida" 
+                                            Label="{Binding lrbtnEntradaRapida, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnFormasCobroClientes" 
+                                            Label="{Binding lrbtnFormasCobroClientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/paymentTypes.png" 
+                                            DataContext="{StaticResource paymentResolverViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding ShowPaymentCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding ShowPaymentCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowPaymentCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMercados" 
+                                            Label="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnNegocios" 
+                                            Label="{Binding lrbtnNegocios, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnOrigenClientes" 
+                                            Label="{Binding lrbtnOrigenClientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnPaises" 
+                                            Label="{Binding lrbtnPaises, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnPoblaciones" 
+                                            Label="{Binding lrbtnPoblaciones, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnProvincias" 
+                                            Label="{Binding lrbtnProvincias, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnSectoresActividad" 
+                                            Label="{Binding lrbtnSectoresActividad, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTarjetasCredito" 
+                                            Label="{Binding lrbtnTarjetasCredito, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTarjetasEmpresa" 
+                                            Label="{Binding lrbtnTarjetasEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposCliente" 
+                                            Label="{Binding lrbtnTiposCliente, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposContacto" 
+                                            Label="{Binding lrbtnTiposContacto, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposVisita" 
+                                            Label="{Binding lrbtnTiposVisita, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnUsoAlquiler" 
+                                            Label="{Binding lrbtnUsoAlquiler, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnVendedores" 
+                                            Label="{Binding lrbtnVendedores, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnZonasCliente" 
+                                            Label="{Binding lrbtnZonasCliente, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                        
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosComisionistas" Header="{Binding lrgrMaestrosComisionistas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
+                        <!--</RibbonMenuButton>-->
+                            <RibbonMenuButton x:Name="rmnbtnMaestrosComisionistas" Label="Comisionista" LargeImageSource="/KarveCar;component/Images/cagent.png" KeyTip="M" >
+                                <RibbonButton x:Name="rbtnComisionistas"
+                                        Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        Command="{Binding NavigateCommand}" 
+                                        CommandParameter="CommissionAgent" 
+                                        
+                                        SmallImageSource="/KarveCar;component/Images/cagent.png"/>
+                        <RibbonButton x:Name="rbtnEmpleadosAgencia"
+                                        Label="{Binding lrbtnEmpleadosAgencia, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnTipoComisionista"                                            
+                                        Label="{Binding lrbtnTipoComisionista, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                            <RibbonButton.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                            </RibbonButton.InputBindings>
+                        </RibbonButton>
+                               </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosContratos" Header="{Binding lrgrMaestrosContratos, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosContratos" Label="{Binding lrmnbtnMaestrosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/contract.png" KeyTip="N" >
+                            <RibbonButton x:Name="rbtnAccesorios" 
+                                        Label="{Binding lrbtnAccesorios, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnLugaresEntrega" 
+                                        Label="{Binding lrbtnLugaresEntrega, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnMotivosAnulacionContratos" 
+                                        Label="{Binding lrbtnMotivosAnulacionContratos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMotivosCambioVehiculo" 
+                                        Label="{Binding lrbtnMotivosCambioVehiculo, Source={StaticResource ResourceLanguage}}"                                         
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMotivosCancelacion" 
+                                        Label="{Binding lrbtnMotivosCancelacion, Source={StaticResource ResourceLanguage}}"                                         
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMotivosImproductivo" 
+                                        Label="{Binding lrbtnMotivosImproductivo, Source={StaticResource ResourceLanguage}}"                                        
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTipoImpresoContrato" 
+                                        Label="{Binding lrbtnTipoImpresoContrato, Source={StaticResource ResourceLanguage}}"                                         
+                                        SmallImageSource="/KarveCar;component/Images/new.png" 
+                                        DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosIncidencias" Header="{Binding lrgrMaestrosIncidencias, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosIncidencias" Label="{Binding lrmnbtnMaestrosIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/incident.png" KeyTip="I" >
+                            <RibbonButton x:Name="rbtnTiposIncidenciasClientes" 
+                                            Label="{Binding lrbtnTiposIncidenciasClientes, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposIncidenciasContratos" 
+                                            Label="{Binding lrbtnTiposIncidenciasContratos, Source={StaticResource ResourceLanguage}}"                                             
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposIncidenciasProveedores" 
+                                            Label="{Binding lrbtnTiposIncidenciasProveedores, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposIncidenciasReservas" 
+                                            Label="{Binding lrbtnTiposIncidenciasReservas, Source={StaticResource ResourceLanguage}}"                                           
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosProveedores" Header="{Binding lrgrMaestrosProveedores, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosProveedores" Label="{Binding lrmnbtnMaestrosProveedores, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/supplier.png" KeyTip="P" >
+                            <RibbonButton x:Name="rbtnDivisas" 
+                                            Label="{Binding lrbtnDivisas, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnFormaPagoProveedor"                                        
+                                            Label="{Binding lrbtnFormaPagoProveedor, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnProveedores"
+                                            Label="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}"
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/supplier.png"
+                                          Command="{Binding NavigateCommand}" 
+                                          CommandParameter="Suppliers">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposProveedores" 
+                                            Label="{Binding lrbtnTiposProveedores, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosReservas" Header="{Binding lrgrMaestrosReservas, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosReservas" Label="{Binding lrmnbtnMaestrosReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/booking.png" KeyTip="R" >
+                            <RibbonButton x:Name="rbtnClavesFee" 
+                                            Label="{Binding lrbtnClavesFee, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMediosRecepcion" 
+                                            Label="{Binding lrbtnMediosRecepcion, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMotivosAnulacionReservas" 
+                                            Label="{Binding lrbtnMotivosAnulacionReservas, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMotivosNoServicio" 
+                                            Label="{Binding lrbtnMotivosNoServicio, Source={StaticResource ResourceLanguage}}"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosTarifas" Header="{Binding lrgrMaestrosTarifas, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosTarifas" Label="{Binding lrmnbtnMaestrosTarifas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/fare.png" KeyTip="T" >
+                            <RibbonButton x:Name="rbtnCambioCodigoTarifas" 
+                                            Label="{Binding lrbtnCambioCodigoTarifas, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnConceptosFacturacion" 
+                                            Label="{Binding lrbtnConceptosFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCrearTarifaDesdeOtraTarifa" 
+                                            Label="{Binding lrbtnCrearTarifaDesdeOtraTarifa, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnGruposTarifa"
+                                            Label="{Binding lrbtnGruposTarifa, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}">
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnIncrementoPrecios" 
+                                            Label="{Binding lrbtnIncrementoPrecios, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTarifas" 
+                                            Label="{Binding lrbtnTarifas, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTarifaCliente" 
+                                            Label="{Binding lrbtnTarifaCliente, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTarifasComisionista" 
+                                            Label="{Binding lrbtnTarifasComisionista, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnVerTarifa" 
+                                            Label="{Binding lrbtnVerTarifa, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnVincularClienteTarifa" 
+                                            Label="{Binding lrbtnVincularClienteTarifa, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosVehiculos" Header="{Binding lrgrMaestrosVehiculos, Source={StaticResource ResourceLanguage}}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosVehiculos" Label="{Binding lrmnbtnMaestrosVehiculos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/cars.png" KeyTip="V">
+                            <RibbonButton x:Name="rbtnAccesoriosVehiculos" 
+                                            Label="{Binding lrbtnAccesoriosVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnActividadesVehiculos" 
+                                            Label="{Binding lrbtnActividadesVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCambioCodigoVehiculo" 
+                                            Label="{Binding lrbtnCambioCodigoVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCodigosInmovilizacion" 
+                                            Label="{Binding lrbtnCodigosInmovilizacion, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"     
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCodigosMantenimiento" 
+                                            Label="{Binding lrbtnCodigosMantenimiento, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnColores" 
+                                            Label="{Binding lrbtnColores, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnExtras" 
+                                            Label="{Binding lrbtnExtras, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnFormasTraslado" 
+                                            Label="{Binding lrbtnFormasTraslado, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnGruposVehiculos" 
+                                            Label="{Binding lrbtnGruposVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource grupoVehiculoViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding GrupoVehiculoCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding GrupoVehiculoCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding GrupoVehiculoCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnMarcas" 
+                                            Label="{Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource marcaViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MarcaCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MarcaCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MarcaCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnModelos" 
+                                            Label="{Binding lrbtnModelos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource marcaDataTableViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MarcaDataTableCommand}" CommandParameter="rbtnMarcas"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MarcaDataTableCommand}" CommandParameter="rbtnMarcas"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MarcaDataTableCommand}" CommandParameter="rbtnMarcas"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnModificacionMasivaAux" 
+                                            Label="{Binding lrbtnModificacionMasivaAux, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnMotivosRepostaje" 
+                                            Label="{Binding lrbtnMotivosRepostaje, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnPropietarios" 
+                                            Label="{Binding lrbtnPropietarios, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnRecalculoMantenimiento" 
+                                            Label="{Binding lrbtnRecalculoMantenimiento, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTiposVehiculos" 
+                                            Label="{Binding lrbtnTiposVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnVehiculos" 
+                                            Label="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Vehicles" 
+                                            SmallImageSource="/KarveCar;component/Images/cars.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrMaestrosVarios" Header="{Binding lrgrMaestrosVarios, Source={StaticResource ResourceLanguage}}"  GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonMenuButton x:Name="rmnbtnMaestrosVarios" Label="{Binding lrmnbtnMaestrosVarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/other.png" KeyTip="A" >
+                            <RibbonButton x:Name="rbtnCategoriasPersonal" 
+                                            Label="{Binding lrbtnCategoriasPersonal, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnConceptosSalidaCaja" 
+                                            Label="{Binding lrbtnConceptosSalidaCaja, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTextosEstandars" 
+                                            Label="{Binding lrbtnTextosEstandars, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTipoContactoPotencial" 
+                                            Label="{Binding lrbtnTipoContactoPotencial, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnTiposDocumentos" 
+                                            Label="{Binding lrbtnTiposDocumentos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                         
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnTipoImpresoFactura" 
+                                            Label="{Binding lrbtnTipoImpresoFactura, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"                                   
+                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Contratos-->
+                <RibbonTab x:Name="rbtbContratos" 
+                             Header="{Binding lrbtbContratos, Source={StaticResource ResourceLanguage}}" 
+                             KeyTip="C" 
+                             GroupSizeReductionOrder="rgrContratos, rgrCambiosContratos, rgrVariosContratos" >
+                    <RibbonGroup x:Name="rgrContratos" Header="{Binding lrgrContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnAbrirContrato" 
+                                        Label="{Binding lrbtnAbrirContrato, Source={StaticResource ResourceLanguage}}"                                     
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnAnularContrato" 
+                                        Label="{Binding lrbtnAnularContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnCerrarContrato" 
+                                        Label="{Binding lrbtnCerrarContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnConcultarContrato" 
+                                        Label="{Binding lrbtnConcultarContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnReAbrirContrato" 
+                                        Label="{Binding lrbtnReAbrirContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrCambiosContratos" Header="{Binding lrgrCambiosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnCambioConductor" 
+                                        Label="{Binding lrbtnCambioConductor, Source={StaticResource ResourceLanguage}}"                                     
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnCambioNumeroContrato" 
+                                        Label="{Binding lrbtnCambioNumeroContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnCambioOficinaContrato" 
+                                        Label="{Binding lrbtnCambioOficinaContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnCambioVehiculo" 
+                                        Label="{Binding lrbtnCambioVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrVariosContratos" Header="{Binding lrgrVariosContratos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnEntregaContratosOficina" 
+                                        Label="{Binding lrbtnCategoriasPersonal, Source={StaticResource ResourceLanguage}}"                                     
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnImpresionBloqueContratos" 
+                                        Label="{Binding lrbtnImpresionBloqueContratos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnPlantilla" 
+                                        Label="{Binding lrbtnPlantilla, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnProcesoCierreContratos" 
+                                        Label="{Binding lrbtnProcesoCierreContratos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnProlongacionAutomaticaContratos" 
+                                        Label="{Binding lrbtnProlongacionAutomaticaContratos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Reservas-->
+                <RibbonTab x:Name="rbtbReservas" 
+                             Header="{Binding lrbtbReservas, Source={StaticResource ResourceLanguage}}" 
+                             KeyTip="R">
+                    <RibbonGroup x:Name="rgrReservas" Header="{Binding lrgrReservas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnReservas" 
+                                        Label="{Binding lrbtnReservas, Source={StaticResource ResourceLanguage}}"                                    
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnAnularReserva"
+                                        Label="{Binding lrbtnAnularReserva, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnConvertirReservaContrato" 
+                                        Label="{Binding lrbtnConvertirReservaContrato, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnCotizacionComparada" 
+                                        Label="{Binding lrbtnCotizacionComparada, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnEliminarReservasNoShow" 
+                                        Label="{Binding lrbtnEliminarReservasNoShow, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnPeticiones" 
+                                        Label="{Binding lrbtnPeticiones, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Atípicos-->
+                <RibbonTab x:Name="rbtbAtipicos" 
+                             Header="{Binding lrbtbAtipicos, Source={StaticResource ResourceLanguage}}" 
+                             KeyTip="A" >
+                    <RibbonGroup x:Name="rgrAtipicos" Header="{Binding lrgrAtipicos, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnAlquilerBicicletas" 
+                                        Label="{Binding lrbtnAlquilerBicicletas, Source={StaticResource ResourceLanguage}}"                                    
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnFacturasAtipicas" 
+                                        Label="{Binding lrbtnFacturasAtipicas, Source={StaticResource ResourceLanguage}}"                                    
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnImpresionBloque" 
+                                        Label="{Binding lrbtnImpresionBloque, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnSalidaCaja" 
+                                        Label="{Binding lrbtnSalidaCaja, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnSeriesAtipicos" 
+                                        Label="{Binding lrbtnSeriesAtipicos, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Comercial-->
+                <RibbonTab x:Name="rbtbComercial" 
+                         Header="{Binding lrbtbComercial, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="O" >
+                    <RibbonGroup x:Name="rgrComercial" Header="{Binding lrgrComercial, Source={StaticResource ResourceLanguage}}" KeyTip="P" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnCustomerService" 
+                                    Label="{Binding lrbtnCustomerService, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEntregaBonos" 
+                                    Label="{Binding lrbtnEntregaBonos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEMailingClientes" 
+                                    Label="{Binding lrbtnEMailingClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtneEMailingPotenciales" 
+                                    Label="{Binding lrbtneEMailingPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnPotenciales" 
+                                    Label="{Binding lrbtnPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Facturación-->
+                <RibbonTab x:Name="rbtbFacturacion" 
+                         Header="{Binding lrbtbFacturacion, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="F" 
+                         GroupSizeReductionOrder="rgrExportacion, rgrImpresion" >
+                    <RibbonGroup x:Name="rgrFacturacion" Header="{Binding lrgrFacturacion, Source={StaticResource ResourceLanguage}}" >
+                        <RibbonMenuButton x:Name="rmnbtnFacturas" Label="{Binding rmnbtnFacturas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="C" >
+                            <RibbonButton x:Name="rbtnAbonarFactura" 
+                                            Label="{Binding lrbtnAbonarFactura, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnBorrarFacturasPeriodo" 
+                                            Label="{Binding lrbtnBorrarFacturasPeriodo, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCambioNumeroFactura" 
+                                            Label="{Binding lrbtnCambioNumeroFactura, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCambioVendedorFacturas" 
+                                            Label="{Binding lrbtnCambioVendedorFacturas, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCartaPendientes" 
+                                            Label="{Binding lrbtnCartaPendientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"   
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnConsultaModificacion" 
+                                            Label="{Binding lrbtnConsultaModificacion, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnModificarEmpresaOficinaFactura" 
+                                            Label="{Binding lrbtnModificarEmpresaOficinaFactura, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnModificarFacturaContrato" 
+                                            Label="{Binding lrbtnModificarFacturaContrato, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnProcesoFacturacion" 
+                                        Label="{Binding lrbtnProcesoFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrRecibosCartera" Header="{Binding lrgrRecibosCartera, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
+                        <RibbonMenuButton x:Name="rmnbtnRecibosCartera" Label="{Binding lrmnbtnRecibosCartera, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="R" >
+                            <RibbonButton x:Name="rbtnRecibos" 
+                                        Label="{Binding lrbtnRecibos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnCobrosIndividuales" 
+                                        Label="{Binding lrbtnCobrosIndividuales, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnGestionImpagados" 
+                                        Label="{Binding lrbtnGestionImpagados, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnRefundirRecibosNoCobrados" 
+                                        Label="{Binding lrbtnRefundirRecibosNoCobrados, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrRemesas" Header="{Binding lrgrRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <RibbonMenuButton x:Name="rmnbtnRemesas" Label="{Binding lrmnbtnRemesas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="M" >
+                            <RibbonButton x:Name="rbtnRemesas" 
+                                        Label="{Binding lrbtnRemesas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnAnulacionPaseRemesaContabilidad" 
+                                        Label="{Binding lrbtnAnulacionPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnBancosRemesas" 
+                                        Label="{Binding lrbtnBancosRemesas, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseSoporteMagnetico" 
+                                        Label="{Binding lrbtnPaseSoporteMagnetico, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseRemesaContabilidad" 
+                                        Label="{Binding rbtnPaseRemesaContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrEnlacesContables" Header="{Binding lrgrEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <RibbonMenuButton x:Name="rmnbtnEnlacesContables" Label="{Binding lrmnbtnEnlacesContables, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="E" >
+                            <RibbonButton x:Name="rbtnAnulacionPase" 
+                                        Label="{Binding lrbtnAnulacionPase, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseCobrosRecibos"
+                                        Label="{Binding lrbtnPaseCobrosRecibos, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseFacturas" 
+                                        Label="{Binding lrbtnPaseFacturas, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseFacturasAtipicas" 
+                                        Label="{Binding lrbtnPaseFacturasAtipicas, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPaseTesoreriaCaja" 
+                                        Label="{Binding lrbtnPaseTesoreriaCaja, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrExportacion" Header="{Binding lrgrExportacion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnExportacionFichero340" 
+                                    Label="{Binding lrbtnExportacionFichero340, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnExportacionFichero347" 
+                                    Label="{Binding lrbtnExportacionFichero347, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrImpresion" Header="{Binding lrgrImpresion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnImpresionBloqueFacturas" 
+                                    Label="{Binding lrbtnImpresionBloqueFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnImpresionBloqueRecibos" 
+                                    Label="{Binding lrbtnImpresionBloqueRecibos, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrEstadisticasFacturas" Header="{Binding lrgrEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <RibbonButton x:Name="rbtnGeneradorEstadisticasFacturas" 
+                                    Label="{Binding lrbtnGeneradorEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Flota-->
+                <RibbonTab x:Name="rbtbFlota" 
+                         Header="{Binding lrbtbFlota, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="T" 
+                         GroupSizeReductionOrder="rgrInmovilizaciones, rgrUtilidades, rgrVarios">
+                    <RibbonGroup x:Name="rgrInmovilizaciones" Header="{Binding lrgrInmovilizaciones, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnInmovilizaciones" 
+                                    Label="{Binding lrbtnInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEntradaGastosVehiculo" 
+                                    Label="{Binding lrbtnEntradaGastosVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnGeneradorEstadisticasInmovilizaciones" 
+                                    Label="{Binding lrbtnGeneradorEstadisticasInmovilizaciones, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrUtilidades" Header="{Binding lrgrUtilidades, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnActualizarVtoITV" 
+                                    Label="{Binding lrbtnActualizarVtoITV, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnBastidorRadioLlave" 
+                                    Label="{Binding lrbtnBastidorRadioLlave, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnCambioFechaBajaVehiculo" 
+                                    Label="{Binding lrbtnCambioFechaBajaVehiculo, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnCambioUbicacionKMSituacion" 
+                                    Label="{Binding lrbtnCambioUbicacionKMSituacion, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnDatosSeguros" 
+                                    Label="{Binding lrbtnDatosSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnFlotaVtoRecibosSeguros" 
+                                    Label="{Binding lrbtnFlotaVtoRecibosSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnModificacionMasivaFlota" 
+                                    Label="{Binding lrbtnModificacionMasivaFlota, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnTraslados" 
+                                    Label="{Binding lrbtnTraslados, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrVariosFlota" Header="{Binding lrgrVariosFlota, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutSmall}">
+                        <RibbonButton x:Name="rbtnCambioEmpresa" 
+                                    Label="{Binding lrbtnCambioEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnCambioUbicacion" 
+                                    Label="{Binding lrbtnCambioUbicacion, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnHistoricoSeguros" 
+                                    Label="{Binding lrbtnHistoricoSeguros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnImpresionLlaveros" 
+                                    Label="{Binding lrbtnImpresionLlaveros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnPrevisionEntradas" 
+                                    Label="{Binding lrbtnPrevisionEntradas, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnRecalculoSituación" 
+                                    Label="{Binding lrbtnRecalculoSituación, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnRepostaje" 
+                                    Label="{Binding lrbtnRepostaje, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnSiniestros" 
+                                    Label="{Binding lrbtnSiniestros, Source={StaticResource ResourceLanguage}}" 
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Incidencias-->
+                <RibbonTab x:Name="rbtbIncidencias" 
+                         Header="{Binding lrbtbIncidencias, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="I"
+                         GroupSizeReductionOrder="rgrIncidencias, rgrtiposIncidencias">
+                    <RibbonGroup x:Name="rgrIncidencias" Header="{Binding lrgrIncidencias, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnIncidenciasClientes" 
+                                    Label="{Binding lrbtnIncidenciasClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnIncidenciasContratos" 
+                                    Label="{Binding lrbtnIncidenciasContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnIncidenciasProveedores" 
+                                    Label="{Binding lrbtnIncidenciasProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnIncidenciasReservas" 
+                                    Label="{Binding lrbtnIncidenciasReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnIncidenciasVehiculos" 
+                                    Label="{Binding lrbtnIncidenciasVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Estadísticas-->
+                <RibbonTab x:Name="rbtbEstadisticas" 
+                         Header="{Binding lrbtbEstadisticas, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="E">
+                    <RibbonGroup x:Name="rgrEstadisticas" Header="{Binding lrgrEstadisticas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnEstadisticasAnaliticas" 
+                                    Label="{Binding lrbtnEstadisticasAnaliticas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasClientes" 
+                                        Label="{Binding lrbtnEstadisticasClientes, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasContratos" 
+                                    Label="{Binding lrbtnEstadisticasContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasFacturas"
+                                    Label="{Binding lrbtnEstadisticasFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasPeticiones" 
+                                    Label="{Binding lrbtnEstadisticasPeticiones, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasProveedores" 
+                                    Label="{Binding lrbtnEstadisticasProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasReservas" 
+                                    Label="{Binding lrbtnEstadisticasReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasUtilitarios"
+                                    Label="{Binding lrbtnEstadisticasUtilitarios, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnEstadisticasVehiculos" 
+                                    Label="{Binding lrbtnEstadisticasVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Listados-->
+                <RibbonTab x:Name="rbtbListados" 
+                         Header="{Binding lrbtbListados, Source={StaticResource ResourceLanguage}}" 
+                         KeyTip="L">
+                    <RibbonGroup x:Name="rgrListados" Header="{Binding lrgrListados, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnListadosClientes" 
+                                    Label="{Binding lrbtnListadosClientes, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosComisionistas" 
+                                    Label="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosContratos" 
+                                    Label="{Binding lrbtnListadosContratos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosFicherosAuxiliares" 
+                                    Label="{Binding lrbtnListadosFicherosAuxiliares, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosFacturas"
+                                    Label="{Binding lrbtnListadosFacturas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosPeticiones" 
+                                    Label="{Binding lrbtnListadosPeticiones, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosPotenciales"
+                                    Label="{Binding lrbtnListadosPotenciales, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosProveedores" 
+                                    Label="{Binding lrbtnListadosProveedores, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosReservas" 
+                                    Label="{Binding lrbtnListadosReservas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                        <RibbonButton x:Name="rbtnListadosVehiculos" 
+                                    Label="{Binding lrbtnListadosVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="..\Images\new.png"
+                                    SmallImageSource="..\Images\new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+
+                <!--Tab Servicios-->
+                <RibbonTab x:Name="rbtbServicios" 
+                             Header="{Binding lrbtbServicios, Source={StaticResource ResourceLanguage}}" 
+                             KeyTip="S">
+                    <RibbonGroup x:Name="rgrServicios" Header="{Binding lrgrServicios, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnDescargarMultas" 
+                                        Label="{Binding lrbtnDescargarMultas, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnMantenimientoServicios" 
+                                        Label="{Binding lrbtnMantenimientoServicios, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnMultas"
+                                        Label="{Binding lrbtnMultas, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnNeumaticos" 
+                                        Label="{Binding lrbtnNeumaticos, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnTarjetaCombustible" 
+                                        Label="{Binding lrbtnTarjetaCombustible, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnVehiculoSustitucion" 
+                                        Label="{Binding lrbtnVehiculoSustitucion, Source={StaticResource ResourceLanguage}}" 
+                                        LargeImageSource="/KarveCar;component/Images/new.png"
+                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Tab Configuración-->
+                <RibbonTab x:Name="rbtbConfiguracion"
+                             Header="{Binding lrbtbConfiguracion, Source={StaticResource ResourceLanguage}}" 
+                             KeyTip="G" 
+                             GroupSizeReductionOrder="rgrConfiguracion, rgrPersonal, rgrVariosconfiguracion">
+                    <RibbonGroup x:Name="rgrConfiguracion" Header="{Binding lrgrConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonMenuButton x:Name="rmnbtnConfiguracion" Label="{Binding lrmnbtnConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" KeyTip="C" >
+                            <RibbonButton x:Name="rbtnCinta" 
+                                            Label="{Binding lrbtnCinta, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="..\Images\new.png"
+                                            DataContext="{StaticResource cintaOpcionesViewModel}" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding CintaOpcionesCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding CintaOpcionesCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding CintaOpcionesCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnCodigosIniciales" 
+                                        Label="{Binding lrbtnCodigosIniciales, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnEmpresa" 
+                                        Label="{Binding lrbtnEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnEnlaceContabilidad" 
+                                        Label="{Binding lrbtnEnlaceContabilidad, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnEquipo" 
+                                        Label="{Binding lrbtnEquipo, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnFacturacion" 
+                                        Label="{Binding lrbtnFacturacion, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnbiImpresion" 
+                                        Label="{Binding lrbtnbiImpresion, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnKarve" 
+                                        Label="{Binding lrbtnKarve, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnMaestros" 
+                                        Label="{Binding lrbtnMaestros, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnOficina" 
+                                        Label="{Binding lrbtnOficina, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnOperaciones" 
+                                        Label="{Binding lrbtnOperaciones, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnOtros" 
+                                        Label="{Binding lrbtnOtros, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                        <RibbonMenuButton x:Name="rmnbtnPermisos" Label="{Binding lrmnbtnPermisos, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="P" >
+                            <RibbonButton x:Name="rbtnInformes" 
+                                        Label="{Binding lrbtnInformes, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                            <RibbonButton x:Name="rbtnPrograma" 
+                                        Label="{Binding lrbtnPrograma, Source={StaticResource ResourceLanguage}}" 
+                                        SmallImageSource="..\Images\new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrIdiomas" Header="{Binding lrgrIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
+                        <RibbonMenuButton x:Name="rmnbtnIdiomas" Label="{Binding lrmnbtnIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="I" >
+                            <RibbonButton x:Name="rbtnIdiomaESES"
+                                        Label="{Binding lrbtnIdiomaESES, Source={StaticResource ResourceLanguage}}"                                             
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\es-es.png" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnIdiomaCAES"
+                                        Label="{Binding lrbtnIdiomaCAES, Source={StaticResource ResourceLanguage}}" 
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\ca-es.png" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                            <RibbonButton x:Name="rbtnIdiomaENGB"
+                                        Label="{Binding lrbtnIdiomaENGB, Source={StaticResource ResourceLanguage}}"  
+                                        HorizontalAlignment="Left" 
+                                        SmallImageSource="..\Images\en-gb.png" >
+                                <RibbonButton.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
+                                    <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
+                                    <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
+                                </RibbonButton.InputBindings>
+                            </RibbonButton>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrPersonal" Header="{Binding lrgrPersonal, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnMailingPersonal" 
+                                    Label="{Binding lrbtnMailingPersonal, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="/KarveCar;component/Images/new.png"
+                                    SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnPersonal" 
+                                    Label="{Binding lrbtnPersonal, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="/KarveCar;component/Images/new.png"
+                                    SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrUtilitarios" Header="{Binding lrgrUtilitarios, Source={StaticResource ResourceLanguage}}" >
+                        <RibbonMenuButton x:Name="rmnbtnUtilitarios" Label="{Binding lrmnbtnUtilitarios, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="U" >
+                            <RibbonButton x:Name="rbtnBorrarFicherosEnvioEmail" 
+                                            Label="{Binding lrbtnBorrarFicherosEnvioEmail, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnCambiarIVA" 
+                                            Label="{Binding lrbtnCambiarIVA, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnComunicacionPolicia" 
+                                            Label="{Binding lrbtnComunicacionPolicia, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnConsultaSQL" 
+                                            Label="{Binding lrbtnConsultaSQL, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnDesbloquearContratosFacturando" 
+                                            Label="{Binding lrbtnDesbloquearContratosFacturando, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnDeteccionHuecos" 
+                                            Label="{Binding lrbtnDeteccionHuecos, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnDeteccionInconsistencias" 
+                                            Label="{Binding lrbtnDeteccionInconsistencias, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnDesvincularContratosReservas" 
+                                            Label="{Binding lrbtnDesvincularContratosReservas, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnLimpiarInformacionAntigua" 
+                                            Label="{Binding lrbtnLimpiarInformacionAntigua, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnLimpiarCodigosReserva" 
+                                            Label="{Binding lrbtnLimpiarCodigosReserva, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnRecalcularMantenimientos" 
+                                            Label="{Binding lrbtnRecalcularMantenimientos, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnRecalcularPendientes" 
+                                            Label="{Binding lrbtnRecalcularPendientes, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnRehacerIndices" 
+                                            Label="{Binding lrbtnRehacerIndices, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnRelojesActivos" 
+                                            Label="{Binding lrbtnRelojesActivos, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnVincularContratosReservas" 
+                                            Label="{Binding lrbtnVincularContratosReservas, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnVincularContratosReservasNoVinculadas" 
+                                            Label="{Binding lrbtnVincularContratosReservasNoVinculadas, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrVariosConfiguracion" Header="{Binding lrgrVariosConfiguracion, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
+                        <RibbonButton x:Name="rbtnCambiarContrasenyas" 
+                                    Label="{Binding lrbtnCambiarContrasenyas, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="/KarveCar;component/Images/new.png"
+                                    SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnPreciosCombustible" 
+                                    Label="{Binding lrbtnPreciosCombustible, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="/KarveCar;component/Images/new.png"
+                                    SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        <RibbonButton x:Name="rbtnUsuarios" 
+                                    Label="{Binding lrbtnUsuarios, Source={StaticResource ResourceLanguage}}" 
+                                    LargeImageSource="/KarveCar;component/Images/new.png"
+                                    SmallImageSource="/KarveCar;component/Images/new.png"/>
+                    </RibbonGroup>
+                    <RibbonGroup x:Name="rgrKarve" Header="{Binding lrgrKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" >
+                        <RibbonMenuButton x:Name="rmnbtnKarve" Label="{Binding lrmnbtnKarve, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="K" >
+                            <RibbonButton x:Name="rbtnAcercaDe" 
+                                            Label="{Binding lrbtnAcercaDe, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnContrasenyasKarve" 
+                                            Label="{Binding lrbtnContrasenyasKarve, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnDescargarActualizacion" 
+                                            Label="{Binding lrbtnDescargarActualizacion, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnMensajeEntrada" 
+                                            Label="{Binding lrbtnMensajeEntrada, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                            <RibbonButton x:Name="rbtnNovedades" 
+                                            Label="{Binding lrbtnNovedades, Source={StaticResource ResourceLanguage}}" 
+                                            SmallImageSource="/KarveCar;component/Images/new.png"/>
+                        </RibbonMenuButton>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <!--Buttons ReservasWeb - Validar-->
+                <RibbonButton x:Name="rbtnReservasWeb"
+                                Label="{Binding lrbtnReservasWeb, Source={StaticResource ResourceLanguage}}" 
+                                SmallImageSource="..\Images\tools.png"/>
+
+                <RibbonButton x:Name="rbtnValidar" 
+                                Label="{Binding lrbtnValidar, Source={StaticResource ResourceLanguage}}"/>
+            </Ribbon>
+            <!--</ScrollViewer>-->
+        <!--<ScrollViewer>-->
+                <ContentControl  prism:RegionManager.RegionName="KarveToolBar"/>
+            
+            </StackPanel>
+                        <!--<dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" ClosingItemCallback="{Binding ClosingTabItemHandler}" mvvm1:RegionManager.RegionName="TabRegion">
+                            <dragablz:TabablzControl.InterTabController>
+                                <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
+                            </dragablz:TabablzControl.InterTabController>
+                        </dragablz:TabablzControl>-->
+            
+
+                <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" prism:RegionManager.RegionName="TabRegion" ClosingItemCallback="{Binding ClosingTabItemHandler}">
+                    <dragablz:TabablzControl.InterTabController>
+                        <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
+                    </dragablz:TabablzControl.InterTabController>
+            </dragablz:TabablzControl>
+            
+
+
+        </DockPanel>
+
+    </Grid>
+        
+</Window>

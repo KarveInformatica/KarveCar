@@ -145,12 +145,14 @@ namespace KarveControls
         #endregion
 
         #region LabelVisible
-
+        /// <summary>
+        /// Label visible dependency property. Its default is true. 
+        /// </summary>
         public static readonly DependencyProperty LabelVisibleDependencyProperty =
             DependencyProperty.Register("LabelVisible",
                 typeof(bool),
                 typeof(DataDatePicker),
-                new PropertyMetadata(false, OnLabelVisibleChange));
+                new PropertyMetadata(true, OnLabelVisibleChange));
         /// <summary>
         ///  Label visible
         /// </summary>
@@ -185,7 +187,9 @@ namespace KarveControls
         #endregion
 
         #region LabelText
-
+        /// <summary>
+        ///  Label text dependency property.
+        /// </summary>
         public static readonly DependencyProperty LabelTextDependencyProperty =
             DependencyProperty.Register(
                 "LabelText",
@@ -193,6 +197,9 @@ namespace KarveControls
                 typeof(DataDatePicker),
                 new PropertyMetadata(string.Empty, OnLabelTextChange));
 
+        /// <summary>
+        ///  Label associated to the data picker
+        /// </summary>
         public string LabelText
         {
             get { return (string) GetValue(LabelTextDependencyProperty); }
@@ -328,6 +335,8 @@ namespace KarveControls
         public DataDatePicker()
         {
             InitializeComponent();
+            // right default
+            LabelField.Visibility = Visibility.Visible;
             DataPickerContext.DataContext = this;
         }
 

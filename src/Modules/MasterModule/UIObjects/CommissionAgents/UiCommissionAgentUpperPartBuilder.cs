@@ -23,7 +23,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             private IUiObject BuildUiCommissionTypeObject(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
             {
                 UiDualDfSearchTextObject dfSearchTextObject = new UiDualDfSearchTextObject("Tipo.Comissionista", UiConstants.LabelTextWidthDefault);
-                dfSearchTextObject.ButtonImage = MasterModule.ImagePath;
+                dfSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
                 dfSearchTextObject.TableName = Properties.Resources.CommissionAgentModule_Table1;
                 dfSearchTextObject.PrimaryKey = CommissionAgentConstants.PrimaryKey;
                 dfSearchTextObject.AssistTableName = CommissionAgentConstants.TipoAssistTableName;
@@ -87,7 +87,7 @@ namespace MasterModule.UIObjects.CommissionAgents
                 }
                 IUiObject objectType = BuildUiCommissionTypeObject(assistQuery, changedField);
                 observableCollection.Add(objectType);
-                collect.Add(MasterModule.UiUpperPart, observableCollection);
+                collect.Add(MasterModuleConstants.UiUpperPart, observableCollection);
                 return collect;
             }
         }

@@ -134,5 +134,257 @@
       <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\app.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\applications.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ball_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ball_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ball_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\booking.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_apply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_backward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_eject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_skip_backward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_skip_forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bt_stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ca-es.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cagent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\calculator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clients.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\collapse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\computer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\computer_group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\conect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contact.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\contract.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\data.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diagnostic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\en-gb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\es-es.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\favorits.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\files.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\incident.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\modified.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\notes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\other.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\paymentTypes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\redirect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rentCarIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save_toolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\supplier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\undo_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\video.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -261,7 +261,7 @@ namespace ToolBarModule
         ///  Each different subsytem call this method to notify a change in the system to the toolbar.
         /// </summary>
         /// <param name="payload"></param>
-        public void incomingPayload(DataPayLoad payload)
+        public void IncomingPayload(DataPayLoad payload)
         {
             IsNewEnabled = true;
             switch (payload.PayloadType)

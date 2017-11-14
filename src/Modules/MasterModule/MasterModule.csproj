@@ -112,11 +112,80 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.DataGrid">
-      <HintPath>lib\Xceed.Wpf.DataGrid.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>lib\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.MetroAccent, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.AvalonDock.Themes.MetroAccent.3.5.17430.11120\lib\net40\Xceed.Wpf.AvalonDock.Themes.MetroAccent.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Office2007, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.AvalonDock.Themes.Office2007.3.5.17430.11120\lib\net40\Xceed.Wpf.AvalonDock.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Windows10, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.AvalonDock.Themes.Windows10.3.5.17430.11120\lib\net40\Xceed.Wpf.AvalonDock.Themes.Windows10.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Themes.Metro, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.DataGrid.Themes.Metro.3.5.17430.11120\lib\net40\Xceed.Wpf.DataGrid.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Themes.Office2007, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.DataGrid.Themes.Office2007.3.5.17430.11120\lib\net40\Xceed.Wpf.DataGrid.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Themes.Windows10, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.DataGrid.Themes.Windows10.3.5.17430.11120\lib\net40\Xceed.Wpf.DataGrid.Themes.Windows10.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox.Themes.LiveExplorer, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.Themes.LiveExplorer.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.Themes.LiveExplorer.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox.Themes.Metro, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.Themes.Metro.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox.Themes.Office2007, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.Themes.Office2007.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox.Themes.Windows10, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.Themes.Windows10.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.Themes.Windows10.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.ListBox.Themes.WMP11, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.ListBox.Themes.WMP11.3.5.17430.11120\lib\net40\Xceed.Wpf.ListBox.Themes.WMP11.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Themes, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Themes.3.5.17430.11120\lib\net40\Xceed.Wpf.Themes.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Themes.Metro, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Themes.Metro.3.5.17430.11120\lib\net40\Xceed.Wpf.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Themes.Office2007, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Themes.Office2007.3.5.17430.11120\lib\net40\Xceed.Wpf.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Themes.Windows10, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Themes.Windows10.3.5.17430.11120\lib\net40\Xceed.Wpf.Themes.Windows10.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit.Themes.Metro, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Toolkit.Themes.Metro.3.5.17430.11120\lib\net40\Xceed.Wpf.Toolkit.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit.Themes.Office2007, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Toolkit.Themes.Office2007.3.5.17430.11120\lib\net40\Xceed.Wpf.Toolkit.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit.Themes.Windows10, Version=3.5.17430.11120, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xceed.Wpf.Toolkit.Themes.Windows10.3.5.17430.11120\lib\net40\Xceed.Wpf.Toolkit.Themes.Windows10.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +196,7 @@
     <Compile Include="Common\DataSetUtilities.cs" />
     <Compile Include="Common\IChangeHandler.cs" />
     <Compile Include="Common\IRegionManagerAware.cs" />
+    <Compile Include="Common\MasterModuleConstants.cs" />
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\RegionManagerBehavior.cs" />
@@ -157,7 +227,7 @@
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
-    <Compile Include="ViewModels\VehiclesInfoViewModel.cs" />
+    <Compile Include="ViewModels\VehicleInfoViewModel.cs" />
     <Compile Include="Views\ClientsControlView.xaml.cs">
       <DependentUpon>ClientsControlView.xaml</DependentUpon>
     </Compile>
@@ -202,15 +272,28 @@
     <Compile Include="Views\UpperBarViewVehicle.xaml.cs">
       <DependentUpon>UpperBarViewVehicle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VehiclePhoto.xaml.cs">
+    <Compile Include="Views\VehiControls\GeneralAssurance.xaml.cs">
+      <DependentUpon>GeneralAssurance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehiControls\RoadTaxes.xaml.cs">
+      <DependentUpon>RoadTaxes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehiControls\VehiclePhoto.xaml.cs">
       <DependentUpon>VehiclePhoto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VehiclesInfoView.xaml.cs">
-      <DependentUpon>VehiclesInfoView.xaml</DependentUpon>
+    <Compile Include="Views\VehicleInfoView.xaml.cs">
+      <DependentUpon>VehicleInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehiclesControlView.xaml.cs">
       <DependentUpon>VehiclesControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VehiControls\VehicleBuying.xaml.cs">
+      <DependentUpon>VehicleBuying.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehiControls\VehicleLeasing.xaml.cs">
+      <DependentUpon>VehicleLeasing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehiControls\VehiExt.cs" />
     <Page Include="Generic\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -271,15 +354,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VehiclePhoto.xaml">
+    <Page Include="Views\VehiControls\GeneralAssurance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VehiclesInfoView.xaml">
+    <Page Include="Views\VehiControls\RoadTaxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehiControls\VehiclePhoto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehicleInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VehiclesControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehiControls\VehicleBuying.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehiControls\VehicleLeasing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -415,6 +514,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTransferObject\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copycool.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

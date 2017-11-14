@@ -120,7 +120,7 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            EventManager.NotifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
         }
         private async void OpenCurrentItem(object currentItem)
         {
@@ -138,8 +138,8 @@ namespace MasterModule.ViewModels
                 list.Add(new UIObjects.Suppliers.UiMiddlePartPageBuilder(null));
                 UiFirstPageBuilder generalPageBuilder = new UiFirstPageBuilder();
                 IDictionary<string, ObservableCollection<IUiObject>> pageObjects = generalPageBuilder.BuildPageObjects(null, null);
-                ObservableCollection<IUiObject> upperPartObservableCollection = pageObjects[MasterModule.UiUpperPart];
-                ObservableCollection<IUiObject> middlePageObservableCollection = pageObjects[MasterModule.UiMiddlePartPage];
+                ObservableCollection<IUiObject> upperPartObservableCollection = pageObjects[MasterModuleConstants.UiUpperPart];
+                ObservableCollection<IUiObject> middlePageObservableCollection = pageObjects[MasterModuleConstants.UiMiddlePartPage];
                 IList<ObservableCollection<IUiObject>> obsList = new List<ObservableCollection<IUiObject>>();
                 obsList.Add(upperPartObservableCollection);
                 obsList.Add(middlePageObservableCollection);
@@ -156,7 +156,7 @@ namespace MasterModule.ViewModels
                 DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);                
                 currentPayload.PrimaryKeyValue = supplierId;
                 currentPayload.Sender = PROVIDER_SUMMARY_VM;
-                EventManager.NotifyObserverSubsystem(MasterModule.ProviderSubsystemName, currentPayload);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
             }
         }
         // This override the notification and start for the v

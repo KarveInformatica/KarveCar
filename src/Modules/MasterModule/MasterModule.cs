@@ -18,20 +18,6 @@ namespace MasterModule
         private IRegionManager _regionManager;
         public const string NAME = "MasterModule";
 
-        internal const string ProviderSubsystemName = "ProviderSystem";
-        internal const string ImagePath = "/MasterModule;component/Images/search.png";
-        internal const string EmailImagePath = "/MasterModule;component/Images/email.png";
-        internal const string UiUpperPart = "UpperPartPageBuilder";
-        internal const string UiMiddlePartPage = "UiMiddlePartPageBuilder";
-        internal const string UiLeftPartPage = "UiLeftPartPageBuilder";
-        internal const string UiRightPartPage = "UiRightPartPageBuilder";
-        internal const string CommissionAgentSystemName = "CommissionAgentSystem";
-        internal const string CommissionAgentInfoView = "CommissionAgentInfoView";
-        internal const string VehiclesSystemName = "VehiclesSystemName";
-        internal const string VehiclesSystemInfoView = "CommissionAgentInfoView";
-        internal const string FareSystemName = "VehiclesSystemName";
-        internal const string FareSystemInfoView = "CommissionAgentInfoView";
-
 
         public MasterModule(IUnityContainer container, IRegionManager regionManager)
         {
@@ -50,7 +36,7 @@ namespace MasterModule
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
             _container.RegisterType<object, VehicleInfoView>();
             _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
-            //_container.RegisterType<object, >("");
+            
 
 
         }

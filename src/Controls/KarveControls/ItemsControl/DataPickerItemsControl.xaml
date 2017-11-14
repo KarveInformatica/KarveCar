@@ -3,14 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KarveControls.DataPickerItemsControl"
+             xmlns:local="clr-namespace:KarveControls.ItemsControl"
              xmlns:karveControls="clr-namespace:KarveControls"
-             xmlns:mmvn="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:interactivity="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-    </UserControl.Resources>
     <Grid>
         <ItemsControl x:Name="DataControl" ItemsSource="{Binding ItemsCollection}">
             <ItemsControl.ItemsPanel>
@@ -22,14 +20,14 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <karveControls:DataDatePicker LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                   karveControls:ControlExt.DataSource="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   karveControls:ControlExt.DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                   DataDatePickerHeight="40"
-                                   LabelVisible="True">
-                        
-                            <i:Interaction.Triggers>
+                                                  karveControls:ControlExt.DataSource="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  karveControls:ControlExt.DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataDatePickerHeight="40"
+                                                  LabelVisible="True">
+
+                        <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataDatePickerChanged">
-                                <mmvn:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 

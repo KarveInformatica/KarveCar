@@ -1205,9 +1205,10 @@ namespace KarveCar.Model.Generic
         /// Dictionary que recopila la información de los RibbonTab (el RibbonTab, sus correspondientes RibbonGroups, el CheckBox de la opción CintaOpciones)
         /// Key=ERibbonTab, Value=DatosInfoRibbonTabAndGroup(RibbonTab ribbontab, string checkbox, List<RibbonGroup> ribbongroup)
         /// </summary>
-        public static Dictionary<ERibbonTab, TemplateInfoRibbonTabAndGroup> ribbontabdictionary = new Dictionary<ERibbonTab, TemplateInfoRibbonTabAndGroup> ()
-        {
-            { ERibbonTab.rbtbMaestros,      new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbMaestros,
+
+        public static Dictionary<ERibbonTab, TemplateInfoRibbonTabAndGroup> ribbontabdictionary = new Dictionary<ERibbonTab, TemplateInfoRibbonTabAndGroup>();
+        
+         /*   { ERibbonTab.rbtbMaestros,      new TemplateInfoRibbonTabAndGroup { ribbontab = ((MainWindow)Application.Current.MainWindow).rbtbMaestros,
                                                                               checkbox  = "ckbCintaOpcionesMaestros",
                                                                               ribbongroup = new List<RibbonGroup>() {
                                                                                             ((MainWindow)Application.Current.MainWindow).rgrMaestrosCentrosAlquiler ,
@@ -1287,24 +1288,14 @@ namespace KarveCar.Model.Generic
                                                                                             ((MainWindow)Application.Current.MainWindow).rgrVariosConfiguracion,
                                                                                             ((MainWindow)Application.Current.MainWindow).rgrKarve } } }
         };
+        */
 
 
         /// <summary>
         /// List que recopila los RibbonTab
         /// </summary>
-        public static List<RibbonTab> ribbontablist = new List<RibbonTab>()
-        {
-            ((MainWindow)Application.Current.MainWindow).rbtbMaestros,
-            ((MainWindow)Application.Current.MainWindow).rbtbContratos,
-            ((MainWindow)Application.Current.MainWindow).rbtbReservas,
-            ((MainWindow)Application.Current.MainWindow).rbtbAtipicos,
-            ((MainWindow)Application.Current.MainWindow).rbtbComercial,
-            ((MainWindow)Application.Current.MainWindow).rbtbFacturacion,
-            ((MainWindow)Application.Current.MainWindow).rbtbFlota,
-            ((MainWindow)Application.Current.MainWindow).rbtbIncidencias,
-            ((MainWindow)Application.Current.MainWindow).rbtbListados,
-            ((MainWindow)Application.Current.MainWindow).rbtbServicios,
-            ((MainWindow)Application.Current.MainWindow).rbtbConfiguracion
-        };
+        public static List<RibbonTab> ribbontablist = new List<RibbonTab>();
+ 
+       
     }
 }

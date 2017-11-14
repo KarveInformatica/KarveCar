@@ -269,8 +269,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MarcaDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

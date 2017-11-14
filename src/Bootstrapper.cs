@@ -111,8 +111,11 @@ namespace KarveCar
             {
                 IConfigurationService shell = Container.Resolve<IConfigurationService>();
                 shell.Shell = Application.Current.MainWindow;
-                KarveCar.Views.MainWindow window = Application.Current.MainWindow as KarveCar.Views.MainWindow;
-                window.UnityContainer = Container;
+                PropertyInfo info = shell.Shell.GetType().GetProperty("UnityContainer");
+                if (info != null)
+                {
+                    info.SetValue(shell.Shell, Container);
+                }
                 Application.Current.MainWindow.Show();
             } catch (Exception e)
             {

@@ -230,7 +230,7 @@ namespace MasterModule.ViewModels
             IsVisible = Visibility.Visible;
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
-            EventManager.RegisterObserverSubsystem(MasterModule.ProviderSubsystemName, this);
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, this);
         }
 
         private void OnAssistCommand(object param)
@@ -435,10 +435,10 @@ namespace MasterModule.ViewModels
 
             firstPageBuilder.EmailCheckHandler = EmailLookupRequestHandler;
             IDictionary<string, ObservableCollection<IUiObject>> pageObjects = firstPageBuilder.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
-            UpperPartObservableCollection = pageObjects[MasterModule.UiUpperPart];
-            MiddlePartObservableCollection = pageObjects[MasterModule.UiMiddlePartPage];
+            UpperPartObservableCollection = pageObjects[MasterModuleConstants.UiUpperPart];
+            MiddlePartObservableCollection = pageObjects[MasterModuleConstants.UiMiddlePartPage];
             pageObjects = headerPageBuilder.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
-            _headerObservableCollection = pageObjects[MasterModule.UiUpperPart];
+            _headerObservableCollection = pageObjects[MasterModuleConstants.UiUpperPart];
             pageObjects = invoicingBuilder.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
             _accountRightCollection = pageObjects[ProviderConstants.UiInvocingAccounts];
             _intractoCollection = pageObjects[ProviderConstants.UiIntracoAccount];
@@ -573,7 +573,7 @@ namespace MasterModule.ViewModels
 
         public string MagnifierButtonImage
         {
-            get { return MasterModule.ImagePath; }
+            get { return MasterModuleConstants.ImagePath; }
         }
 
         // create an abstract method that loads everything is too loong.
@@ -899,7 +899,7 @@ namespace MasterModule.ViewModels
         public DataTable SupplierSummaryTable { get; private set; }
 
 
-        public void incomingPayload(DataPayLoad dataPayLoad)
+        public void IncomingPayload(DataPayLoad dataPayLoad)
         {
             DataPayLoad payload = dataPayLoad;
            

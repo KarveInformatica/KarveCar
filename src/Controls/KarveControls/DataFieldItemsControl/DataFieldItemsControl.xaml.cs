@@ -7,8 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System;
+using KarveControls.Generic;
 
-namespace DataFieldItemsControl
+namespace KarveControls.DataFieldItemsControl
 {
 
     /// <summary>
@@ -17,7 +18,9 @@ namespace DataFieldItemsControl
     public partial class DataFieldItemsControl : UserControl
     {
         private DelegateCommand<object> _localCommand;
-
+        /// <summary>
+        ///  Command for detecting a change. It comes triggered when it changes.
+        /// </summary>
         public static DependencyProperty ChangeActionDependencyProperty
         = DependencyProperty.Register(
             "ChangeActionCommand",
@@ -55,7 +58,7 @@ namespace DataFieldItemsControl
             if (localizationStrings != null)
             {
                 ComponentFiller filler = new ComponentFiller();
-                List<UiMetaObject> listOfObjects = filler.GetCollectionProperties(DataSource) as List<UiMetaObject>;
+                List<ComponentFiller.UiMetaObject> listOfObjects = filler.GetCollectionProperties(DataSource);
                 
                 for (int i = 0; i < localizationStrings.Count; i++)
                 {
@@ -114,8 +117,8 @@ namespace DataFieldItemsControl
         {
             object value = e.NewValue;
             ComponentFiller filler = new ComponentFiller();
-            List<UiMetaObject> listOfObjects = filler.GetCollectionProperties(value) as List<UiMetaObject>;
-            int count = listOfObjects.Count<UiMetaObject>();
+            List<ComponentFiller.UiMetaObject> listOfObjects = filler.GetCollectionProperties(value);
+            int count = listOfObjects.Count<ComponentFiller.UiMetaObject>();
             IList<string> localizationStrings = Localization as List<string>;
             int secondCount = localizationStrings.Count<string>();
             // i am sure that the component filler gives us a list of objects.
@@ -133,7 +136,10 @@ namespace DataFieldItemsControl
             this.TextBoxCollection.ItemsSource = listOfObjects;
         }
        
-           
+        /// <summary>
+        /// Data Field items control. 
+        /// It is an user control that allow us to put different items together with the same object.
+        /// </summary>
         public DataFieldItemsControl()
         {
             _localCommand = new DelegateCommand<object>(OnChangeField);

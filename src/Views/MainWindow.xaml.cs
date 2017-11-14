@@ -1,32 +1,37 @@
-﻿using KarveCar.Utility;
-using Microsoft.Practices.Unity;
-using System.Windows.Controls.Ribbon;
+﻿using Microsoft.Practices.Unity;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
-using KarveCar.ViewModels;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using KarveCar.Utility;
+
 
 namespace KarveCar.Views
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
-
-        /// <summary>
-        ///  The main waindow will contain a reference to the UnityContainer.
-        /// </summary>
-        private IUnityContainer _container;
-      
         public MainWindow()
         {
-            InitializeComponent();            
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
 
+            InitializeComponent();
         }
+        private IUnityContainer _container;
+
         /// <summary>
         ///  Overrides the base window show to inject unity in the main view model.
         /// </summary>
@@ -36,7 +41,7 @@ namespace KarveCar.Views
             //this.DataContext = new MainWindowViewModel(this._container);
             UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
 
-            base.Show();    
+            base.Show();
         }
         public IUnityContainer UnityContainer
         {
@@ -64,10 +69,5 @@ namespace KarveCar.Views
         }
         #endregion
 
-        private void tbControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // this has to be done currently by the configuration service.
-            //ToolBarLogic.EnabledDisabledToolBarButtonsByEOpcion();
-        }
     }
 }

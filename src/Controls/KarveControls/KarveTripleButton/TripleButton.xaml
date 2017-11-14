@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="KarveControls.KarveTripleButton.TripleButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.KarveTripleButton"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="300">
+    <Grid Name="TripleCommandLayout">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="Save" Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="SaveText" Text="Save  "></TextBlock>
+                    <Image Source="/KarveCommon;component/Images/save.png" Height="20"/>
+                </StackPanel>
+            </Button>
+            <Button Name="Reset" Command="{Binding ResetCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="ResetText" Text="Reset  "></TextBlock>
+                    <Image  Source="/KarveCommon;component/Images/undo_red.png" Height="20"/>
+                </StackPanel>
+            </Button>
+            <Button Name="Delete" Command="{Binding DeleteCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Name="DeleteText" Text="Delete "></TextBlock>
+                    <Image  Source="/KarveCommon;component/Images/bt_delete.png" Height="20"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

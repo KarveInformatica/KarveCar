@@ -5,6 +5,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace KarveControls
 {
@@ -15,21 +16,54 @@ namespace KarveControls
     {
         private double _dataAreaWidth;
         private string _dataAreaLabel;
-        private string _textValue;
-        public event PropertyChangedEventHandler PropertyChanged;
-
+       
         private bool _dataAreaChanged = false;
         private object _itemSource;
         private string _DataArea = string.Empty;
-        protected string _tableName = string.Empty;
- 
+
+
+
+        /// <summary>
+        /// Routed Event fired when any change in data field happen.
+        /// </summary>
+        public static readonly RoutedEvent DataAreaChangedEvent =
+            EventManager.RegisterRoutedEvent(
+                "DataAreaChanged",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(DataArea));
+
+        /// <summary>
+        ///  
+        /// </summary>
+        public static DependencyProperty ItemChangedCommandDependencyProperty = DependencyProperty.
+            Register("ItemChangedCommand", 
+            typeof(ICommand), 
+            typeof(DataArea));
+
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
+        public ICommand ItemChangedCommand
+        {
+            get { return (ICommand) GetValue(ItemChangedCommandDependencyProperty); }
+            set { SetValue(ItemChangedCommandDependencyProperty, value); }
+        }
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
+        public event RoutedEventHandler DataAreaChanged
+        {
+            add { AddHandler(DataAreaChangedEvent, value); }
+            remove { RemoveHandler(DataAreaChangedEvent, value); }
+        }
         #region ItemSource
         /// <summary>
         ///  Item source dependency property.
         /// </summary>
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
-                "ItemSource",
+                "DataSource",
                 typeof(object),
                 typeof(DataArea),
                 new PropertyMetadata(null, OnItemSourceChanged));
@@ -37,7 +71,7 @@ namespace KarveControls
         /// <summary>
         ///  Data source for the area.
         /// </summary>
-        public object ItemSource
+        public object DataSource
         {
             get { return GetValue(ItemSourceDependencyProperty); }
             set { SetValue(ItemSourceDependencyProperty, value); }
@@ -296,15 +330,12 @@ namespace KarveControls
                 control.OnTextContentPropertyChanged(e);
             }
         }
-
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
             this.EditorText.Text = value;
         }
         #endregion
-
-        
         /// <summary>
         ///  Data area.
         /// </summary>
@@ -333,10 +364,19 @@ namespace KarveControls
                     ev.FieldData = EditorText.Text;
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
                     valueDictionary["Field"] = DataSourcePath;
-                    valueDictionary["DataTable"] = ItemSource;
-                    valueDictionary["DataObject"] = ItemSource;
+                    valueDictionary["DataTable"] = DataSource;
+                    valueDictionary["DataObject"] = DataSource;
                     valueDictionary["ChangedValue"] = EditorText.Text;
                     ev.ChangedValuesObjects = valueDictionary;
+
+                    if (ItemChangedCommand!=null)
+                    {
+                        ICommand ex = ItemChangedCommand;
+                        if (ex.CanExecute(ev))
+                        {
+                            ex.Execute(ev);
+                        }
+                    }
                     RaiseEvent(ev);
                     _dataAreaChanged = false;
                 }

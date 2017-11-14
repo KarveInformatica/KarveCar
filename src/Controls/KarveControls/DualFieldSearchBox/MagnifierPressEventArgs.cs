@@ -1,3 +1,4 @@
+using KarveControls.Generic;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -8,7 +9,7 @@ namespace KarveControls
         /// <summary>
         /// MagnifierPressEventArgs. This is the event pressed when
         /// </summary>
-        public class MagnifierPressEventArgs : RoutedEventArgs
+        public class MagnifierPressEventArgs : KarveRoutedEventsArgs
         {
             /// <summary>
             /// Constant to access to the tableName in the parameters of the event
@@ -43,11 +44,6 @@ namespace KarveControls
                     return dictionary;
                 }
             }
-
-            /// <summary>
-            /// PageSize of the assist table. The assist table can be paged. 
-            /// This value specify the default value in case of paging.
-            /// </summary>
         
             /// <summary>
             /// Set or Get the query.

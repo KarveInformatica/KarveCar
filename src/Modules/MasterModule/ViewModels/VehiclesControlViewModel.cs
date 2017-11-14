@@ -59,7 +59,7 @@ namespace MasterModule.ViewModels
                 ConfigurationService.AddMainTab(view, tabName);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
-                EventManager.NotifyObserverSubsystem(MasterModule.VehiclesSystemName, currentPayload);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
             }
         }
 
@@ -78,7 +78,7 @@ namespace MasterModule.ViewModels
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
                 payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
-                EventManager.NotifyObserverSubsystem(MasterModule.VehiclesSystemName, payLoad);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
@@ -112,7 +112,7 @@ namespace MasterModule.ViewModels
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
                 // forward data to the current payload.
-                EventManager.NotifyObserverSubsystem(MasterModule.VehiclesSystemName, payLoad);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
@@ -140,7 +140,7 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            EventManager.NotifyObserverSubsystem(MasterModule.VehiclesSystemName, currentPayload);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
         }
         /// <summary>
         ///  This method is called after the notification from the base class to set the table after the load summary mechanism 
@@ -177,7 +177,7 @@ namespace MasterModule.ViewModels
         ///  Message incoming from different 
         /// </summary>
         /// <param name="payload">Kind of payload coming from the diffent view model</param>
-        public void incomingPayload(DataPayLoad payload)
+        public void IncomingPayload(DataPayLoad payload)
         {
         }
         

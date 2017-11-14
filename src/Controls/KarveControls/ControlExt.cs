@@ -6,6 +6,7 @@ using KarveControls.Generic;
 using KarveControls;
 using Telerik.Charting.Styles;
 using System.Data;
+using System.Windows.Input;
 
 namespace KarveControls
 {
@@ -67,6 +68,10 @@ namespace KarveControls
                 typeof(ControlExt),
                 new PropertyMetadata(String.Empty));
         #endregion
+
+
+
+
         #region DataAllowed
         /// <summary>
         ///  This is the kind of data allowd.
@@ -123,14 +128,41 @@ namespace KarveControls
                 }
             }
         }
+        /// <summary>
+        /// CheckAndAssignDate
+        /// </summary>
+        /// <param name="dataDatePicker">DataDatePicker component</param>
+        /// <param name="sourceNew">Object to be assigned</param>
+        /// <param name="path">Path of the date</param>
+        private static void CheckAndAssignDate(DataDatePicker dataDatePicker, object sourceNew, string path)
+        {
+            var propValue = ComponentUtils.GetPropValue(sourceNew, path);
+            DateTime timeValue = DateTime.Now;
+            if (propValue != null)
+            {
+
+                if (propValue is string)
+                {
+                    try
+                    {
+                        timeValue = DateTime.Parse(propValue as string);
+                    } catch (Exception e)
+                    {
+                        timeValue = DateTime.Now;
+                    }
+                }
+                dataDatePicker.DateContent = timeValue;
+            }
+        }
         private static void DataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             object sourceNew = e.NewValue;
+            string path = GetDataSourcePath(d);
+
             if (d is DataFieldCheckBox)
             {
                 DataFieldCheckBox dataFieldCheckBox = (DataFieldCheckBox) d;
                 dataFieldCheckBox.DataObject = sourceNew;
-                string path = GetDataSourcePath(d);
                 if (!string.IsNullOrEmpty(path))
                 {
                     CheckAndAssign(dataFieldCheckBox, sourceNew, path);
@@ -140,8 +172,15 @@ namespace KarveControls
             if (d is DataArea)
             {
                 DataArea dataArea = (DataArea)d;
-                dataArea.ItemSource = e.NewValue;
+                dataArea.DataSource = e.NewValue;
+                           }
+            if (d is DataDatePicker)
+            {
+                DataDatePicker dataPicker = (DataDatePicker)d;
+                CheckAndAssignDate(dataPicker, sourceNew, path);
+                
             }
+            
         }
         /// <summary>
         ///  Get DataSource 

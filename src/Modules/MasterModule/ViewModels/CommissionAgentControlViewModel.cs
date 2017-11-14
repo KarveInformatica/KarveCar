@@ -99,7 +99,7 @@ namespace MasterModule.ViewModels
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
 
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
-                EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
             }
         }
 
@@ -125,7 +125,7 @@ namespace MasterModule.ViewModels
 
         }
 
-        public void incomingPayload(DataPayLoad payload)
+        public void IncomingPayload(DataPayLoad payload)
         {
         }
 
@@ -149,7 +149,7 @@ namespace MasterModule.ViewModels
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
                 payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
-                EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, payLoad);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
@@ -172,7 +172,7 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            EventManager.NotifyObserverSubsystem(MasterModule.CommissionAgentSystemName, currentPayload);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
         }
 
         protected override void SetTable(DataTable table)

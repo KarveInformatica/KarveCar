@@ -239,7 +239,7 @@ namespace MasterModule.ViewModels
             AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
             ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
-            EventManager.RegisterObserverSubsystem(MasterModule.CommissionAgentSystemName, this);
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangedRow);
             LoadUserInterfaceObjects();
@@ -456,13 +456,13 @@ namespace MasterModule.ViewModels
         {
             UiCommissionAgentUpperPartBuilder builderUpperPart = new UiCommissionAgentUpperPartBuilder();
             IDictionary<string, ObservableCollection<IUiObject>> collection = builderUpperPart.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
-            if (collection.ContainsKey(MasterModule.UiUpperPart))
+            if (collection.ContainsKey(MasterModuleConstants.UiUpperPart))
             {
-                UpperValueCollection = collection[MasterModule.UiUpperPart];
+                UpperValueCollection = collection[MasterModuleConstants.UiUpperPart];
             }
-            if (collection.ContainsKey(MasterModule.UiRightPartPage))
+            if (collection.ContainsKey(MasterModuleConstants.UiRightPartPage))
             {
-                RightValueCollection = collection[MasterModule.UiRightPartPage];
+                RightValueCollection = collection[MasterModuleConstants.UiRightPartPage];
             }
             // here we handle all the stuff.
             for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
@@ -525,7 +525,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public string MagnifierButtonImage
         {
-            get { return MasterModule.ImagePath; }
+            get { return MasterModuleConstants.ImagePath; }
         }
         /// <summary>
         ///  Command to be associated to on change.
@@ -581,7 +581,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public string EmailButtonImage
         {
-            get { return MasterModule.EmailImagePath; }
+            get { return MasterModuleConstants.EmailImagePath; }
         }
         /// <summary>
         /// This notify the toobar for a tab change.
@@ -771,7 +771,7 @@ namespace MasterModule.ViewModels
         /// Data Primary Key.
         /// </summary>
         /// <param name="dataPayLoad">Payload.</param>
-        public void incomingPayload(DataPayLoad dataPayLoad)
+        public void IncomingPayload(DataPayLoad dataPayLoad)
         {
             DataPayLoad payload = dataPayLoad;
             if (payload != null)

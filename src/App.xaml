@@ -5,7 +5,8 @@
              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
              xmlns:vm="clr-namespace:KarveCar.ViewModels"
              xmlns:mainwindow="clr-namespace:KarveCar.ViewModels"
-             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon">
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,12 +14,14 @@
                     <ResourceDictionary>
                         <!-- include your primary palette -->
                         <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Indigo.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                         </ResourceDictionary.MergedDictionaries>
                         <!--
                             include three hues from the primary palette (and the associated forecolours).
                             Do not rename, keep in sequence; light to dark.
                         -->
+                        
+                        
                         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary100}"/>
                         <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary100Foreground}"/>
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary500}"/>
@@ -38,11 +41,25 @@
                         <SolidColorBrush x:Key="SecondaryAccentBrush" Color="{StaticResource Accent200}"/>
                         <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="{StaticResource Accent200Foreground}"/>
                     </ResourceDictionary>
-
+                    
                     <!-- Include the Dragablz Material Design style -->
                     <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
 
                 <ResourceDictionary>
+
+                    <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+                        <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
+
+                        </Setter>
+                    </Style>
+                    <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                        <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                        <Setter Property="HeaderMemberPath" Value="Header" />
+
+                        <Setter Property="Margin" Value="0 5 0 0" />
+                    </Style>
                     <Style x:Key="MyWindowStyle" TargetType="Window">
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="FontFamily" Value="Arial" />
@@ -62,6 +79,20 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
+                    <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type lang:ChangeLanguageLogic}" 
+                                MethodName="GetResourceLanguage">
+                    </ObjectDataProvider>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+
+                    </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
@@ -79,26 +110,6 @@
             
             
             <!--ViewModels-->
-            <!-- Generic -->
-            <ObjectDataProvider x:Key="ResourceLanguage" 
-                                ObjectType="{x:Type lang:ChangeLanguageLogic}" 
-                                MethodName="GetResourceLanguage">
-            </ObjectDataProvider>
-
-            <vm:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
-            <vm:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
-            
-            <vm:MaestroCommonViewModel x:Key="MaestroCommonViewModel"/>
-                <!-- Maestros-->
-            <vm:GrupoVehiculoViewModel     x:Key="grupoVehiculoViewModel"/>
-            <vm:MarcaViewModel             x:Key="marcaViewModel"/>
-            <vm:MarcaDataTableViewModel    x:Key="marcaDataTableViewModel"/>
-            <vm:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
-            <vm:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
-            <vm:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
-            
-            <!-- Configuracion-->
-            <vm:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>
         
     </Application.Resources>

@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     
     <Grid x:Name="DataPickerContext">
-        <StackPanel Orientation="Horizontal">
+        <WrapPanel Orientation="Horizontal">
         <TextBlock x:Name="LabelField" Text="{Binding Path=LabelText}" Width="{Binding Path=LabelTextWidth}" Visibility="Hidden"/>
         <DatePicker x:Name="DatePicker"  
                     Height="50"
@@ -18,6 +18,6 @@
                     VerticalAlignment="Top"
                     Margin="10,10,0,0">
         </DatePicker>
-        </StackPanel>
+        </WrapPanel>
     </Grid>
 </UserControl>

@@ -83,7 +83,6 @@ namespace KarveControls
                 );
         #endregion
 
-        
         /// <summary>
         /// Data object dependency properties.
         /// </summary>
@@ -690,9 +689,12 @@ namespace KarveControls
         {
             if ((TextField.Text.Length > 0) && (_textContentChanged))
             {
-                DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent);
-                ev.FieldData = TextField.Text;
+                DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent)
+                {
+                    FieldData = TextField.Text
+                };
                 IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+
                 valueDictionary[TABLENAME] = TableName;
                 valueDictionary[FIELD] = DataSourcePath;
                 valueDictionary[DATATABLE] = ItemSource;

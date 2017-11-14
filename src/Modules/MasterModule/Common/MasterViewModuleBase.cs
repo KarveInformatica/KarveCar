@@ -30,7 +30,7 @@ namespace MasterModule.Common
         ///  list of view model queries.
         /// </summary>
         protected IDictionary<string, string> ViewModelQueries;
-        protected string PrimaryKeyValue;
+        protected string PrimaryKeyValue = "";
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected INotifyTaskCompletion InitializationNotifierDo;

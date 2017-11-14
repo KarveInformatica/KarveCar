@@ -76,12 +76,13 @@ namespace KarveCar.Utility
         public static bool GetDefaultRibbonTabConfig(RibbonTab ribbontab)
         {
             bool result = false;
+            /*
             try
             { 
                 if (ribbontab.Items.Count > 0)
                 {   //Vacía los items del RibbonTab pasado por params. Este paso es necesario antes de añadir los RibbonGroups con el nuevo orden
                     ribbontab.Items.Clear();
-
+                    
                     //Se recuperan los RibbonGroups del Ribbontab pasado por params
                     List<RibbonGroup> ribbontabdic = ribbontabdictionary.Where(r => r.Key.ToString() == ribbontab.Name.ToString()).FirstOrDefault().Value.ribbongroup;
 
@@ -104,6 +105,7 @@ namespace KarveCar.Utility
             {                
                 ErrorsGeneric.MessageError(e);
             }
+            */
             return result;
         }
 
@@ -229,7 +231,7 @@ namespace KarveCar.Utility
                 string lang = GetSetting("Language");
                 if (!lang.Equals(string.Empty))
                 {
-                    KarveCar.Views.MainWindow window = Application.Current.MainWindow as KarveCar.Views.MainWindow;
+              //      KarveCar.Views.MainWindow window = Application.Current.MainWindow as KarveCar.Views.MainWindow;
                 ///    MainWindowViewModel slvm = new MainWindowViewModel(window.UnityContainer);
                   //  slvm.SetLanguages(lang);
                 }

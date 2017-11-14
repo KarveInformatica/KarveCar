@@ -40,6 +40,9 @@ namespace KarveControls
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
               typeof(ICommand), typeof(DualFieldSearchBox));
 
+
+
+
         /// <summary>
         ///  Name of the assist table. The assist table is the table used to ref integrity with the previous table.
         /// </summary>
@@ -929,6 +932,9 @@ namespace KarveControls
             SearchLabel.Width = value;
         }
         #endregion
+        /// <summary>
+        ///  Read only both fields
+        /// </summary>
         public bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
@@ -987,11 +993,11 @@ namespace KarveControls
                 SearchTextSecond.IsReadOnly = value;
                 if (value)
                 {
-                    SearchTextFirst.Background = Brushes.CadetBlue;
+                    SearchTextSecond.Background = Brushes.CadetBlue;
                 }
                 else
                 {
-                    SearchTextFirst.Background = Brushes.White;
+                    SearchTextSecond.Background = Brushes.White;
                 }
             }
         }

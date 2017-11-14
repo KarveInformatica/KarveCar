@@ -4,8 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              >
+    <UserControl.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+    </UserControl.Resources>
     <StackPanel Name="DataFieldContent" Orientation="Horizontal" Visibility="Visible">
         <StackPanel.Resources>
             <Style TargetType="{x:Type TextBox}" >
@@ -17,10 +26,11 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            
         </StackPanel.Resources>
         <TextBlock x:Name="LabelField" Text="{Binding Path=LabelContent}" Width="{Binding Path=LabelTextWidth}" Visibility="Collapsed" Margin="10,0,0,0">
         </TextBlock>
-        <TextBox x:Name="TextField" Text="{Binding Path=TextContent, Mode=TwoWay}" Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
+        <TextBox x:Name="TextField" Text="{Binding Path=TextContent, Mode=TwoWay}" materialDesign:HintAssist.Hint="{Binding Path=LabelContent}" Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
         </TextBox>
     </StackPanel>
 </UserControl>

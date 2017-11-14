@@ -36,7 +36,7 @@ namespace KarveCommon.Services
             for (int i = 0; i < eoList.Count; ++i)
             {
                 IEventObserver eo = eoList[i];
-                eo.incomingPayload(payload);
+                eo.IncomingPayload(payload);
             }
             
         }
@@ -57,8 +57,7 @@ namespace KarveCommon.Services
         {
             if (_subsystemObserver.ContainsKey(id))
             {
-                IList<IEventObserver> value = null;
-                if (_subsystemObserver.TryGetValue(id, out value))
+                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
                 {
                     IList<IEventObserver> disabledItemList = null;
                     // ok we get the disabled
@@ -70,7 +69,7 @@ namespace KarveCommon.Services
                     else
                     {
                         // the item are not disabled.
-                       Notify(dataPayload, value, disabledItemList);
+                        Notify(dataPayload, value, disabledItemList);
                     }
 
                 }
@@ -83,7 +82,7 @@ namespace KarveCommon.Services
             {
                 if (!disabled.Contains(eo))
                 {
-                    eo.incomingPayload(dataPayLoad);
+                    eo.IncomingPayload(dataPayLoad);
                 }
             }
         }
@@ -112,8 +111,7 @@ namespace KarveCommon.Services
         {
             if (_subsystemObserver.ContainsKey(id))
             {
-                IList<IEventObserver> value = null;
-                if (_subsystemObserver.TryGetValue(id, out value))
+                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
                 {
                     value.Add(obs);
                     _subsystemObserver[id] = value;
@@ -121,8 +119,10 @@ namespace KarveCommon.Services
             }
             else
             {
-                IList<IEventObserver> value = new List<IEventObserver>();
-                value.Add(obs);
+                IList<IEventObserver> value = new List<IEventObserver>
+                {
+                    obs
+                };
                 _subsystemObserver[id] = value;
             }
 

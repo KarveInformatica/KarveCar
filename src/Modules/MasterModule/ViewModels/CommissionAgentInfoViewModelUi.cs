@@ -33,7 +33,7 @@ namespace MasterModule.ViewModels
                 AssistProperties = "Numero,Nombre",
                 SourceView =  new DataTable(),
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlyFirst = true
             } ,
             new UiDfSearch("Mercado")
@@ -49,7 +49,7 @@ namespace MasterModule.ViewModels
                 SourceView = new object(),
                 DataSource = new object(),
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlySecond = true
             },
             new UiDfSearch("Negocio")
@@ -65,7 +65,7 @@ namespace MasterModule.ViewModels
                 TextContentFirstWidth = "50",
                 TextContentSecondWidth = "350",
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlyFirst = true
             },
             new UiDfSearch("Canal")
@@ -81,7 +81,7 @@ namespace MasterModule.ViewModels
                 SourceView = new DataTable(),
                 DataSource = new object(),
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlySecond = true
             },
             new UiDfSearch("Clave.Ppto")
@@ -97,7 +97,7 @@ namespace MasterModule.ViewModels
                 SourceView = new DataTable(),
                 DataSource = new object(),
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlySecond = true
             },
             new UiDfSearch("Origen")
@@ -113,7 +113,7 @@ namespace MasterModule.ViewModels
                 SourceView =  new DataTable(),
                 DataSource = new object(),
                 LabelVisible = true,
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 IsReadOnlySecond = true
             },
             new UiDfSearch("ZonaOfi")
@@ -127,7 +127,7 @@ namespace MasterModule.ViewModels
                 AssistProperties = "Codigo,Nombre",
                 SourceView = new DataTable(),
                 DataSource = new object(),
-                ButtonImage = MasterModule.ImagePath,
+                ButtonImage = MasterModuleConstants.ImagePath,
                 LabelVisible = true,
                 IsReadOnlySecond = true
             }

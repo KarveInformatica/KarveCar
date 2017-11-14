@@ -72,8 +72,19 @@ namespace MasterModule.Views
 
         private void OnViewSourceChanged(DependencyPropertyChangedEventArgs d)
         {
-          //  this.Marca.SourceView = d;
-          //  this.Modelo.SourceView = d;
+          IEnumerable<object> value =  d.NewValue as IEnumerable<object>;
+            
+          if (value != null)
+          {
+              var v = value as object[] ?? value.ToArray();
+              if (v.Count() != 3)
+              {
+                  return;
+              }
+              this.Colore.SourceView = v.ElementAt(0);
+              this.Marca.SourceView = v.ElementAt(1);
+              this.Modelo.SourceView = v.ElementAt(2);
+          }
         }
 
         /// <summary>

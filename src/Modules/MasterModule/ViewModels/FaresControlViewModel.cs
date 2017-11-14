@@ -64,7 +64,7 @@ namespace MasterModule.ViewModels
             throw new NotImplementedException();
         }
 
-        public void incomingPayload(DataPayLoad payload)
+        public void IncomingPayload(DataPayLoad payload)
         {
             throw new NotImplementedException();
         }

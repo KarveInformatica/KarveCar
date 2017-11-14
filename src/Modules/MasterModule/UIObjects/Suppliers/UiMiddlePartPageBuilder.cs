@@ -38,7 +38,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiDualDfSearchTextObject dualSearchTextObject1 =
                 new UiDualDfSearchTextObject(Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
                     UiConstants.LabelTextWidthDefault);
-            dualSearchTextObject1.ButtonImage = MasterModule.ImagePath;
+            dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = ProviderConstants.ZipKey;
             dualSearchTextObject1.AssistDataFieldSecond = ProviderConstants.ProvinceKey;
             dualSearchTextObject1.AssistTableName = ProviderConstants.ProvinceAssistTableName;
@@ -65,7 +65,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiDualDfSearchTextObject dualSearchTextObject1 =
                 new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
                     UiConstants.LabelTextWidthDefault);
-            dualSearchTextObject1.ButtonImage = MasterModule.ImagePath;
+            dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = "CODIGO";
             dualSearchTextObject1.AssistDataFieldSecond = "NOMBRE";
             dualSearchTextObject1.AssistTableName = "SUBLICEN";
@@ -90,7 +90,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiDualDfSearchTextObject dualSearchTextObject2 =
                 new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
                     UiConstants.LabelTextWidthDefault);
-            dualSearchTextObject2.ButtonImage = MasterModule.ImagePath;
+            dualSearchTextObject2.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject2.AssistDataFieldFirst = "CODIGO";
             dualSearchTextObject2.AssistDataFieldSecond = "NOMBRE";
             dualSearchTextObject2.AssistTableName = "OFICINAS";
@@ -177,7 +177,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             UiDualDfSearchTextObject paisSearchTextObject = new UiDualDfSearchTextObject("Pais", UiConstants.LabelTextWidthDefault);
-            paisSearchTextObject.ButtonImage = MasterModule.ImagePath;
+            paisSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
             paisSearchTextObject.TableName = "PROVEE1";
             paisSearchTextObject.PrimaryKey = "NUM_PROVEE";
             paisSearchTextObject.AssistTableName = "PAIS";
@@ -327,7 +327,7 @@ namespace MasterModule.UIObjects.Suppliers
             currentField = BuildDataArea(changedField, MiddlePartsFields[19], ProviderConstants.LeftPartLabel[19]);
             observableCollection.Add(currentField);
             
-            dictionary.Add(MasterModule.UiMiddlePartPage, observableCollection);
+            dictionary.Add(MasterModuleConstants.UiMiddlePartPage, observableCollection);
             return dictionary;
 
         }

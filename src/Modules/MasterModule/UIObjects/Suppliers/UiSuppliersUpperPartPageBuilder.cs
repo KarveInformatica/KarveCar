@@ -17,7 +17,7 @@ namespace MasterModule.UIObjects.Suppliers
         private IUiObject BuildUiSupplierTypeObject(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             UiDualDfSearchTextObject dfSearchTextObject = new UiDualDfSearchTextObject("Tipo.Prove", UiConstants.LabelTextWidthDefault);
-            dfSearchTextObject.ButtonImage = MasterModule.ImagePath;
+            dfSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
             dfSearchTextObject.TableName = Properties.Resources.ProviderModule_Table1;
             dfSearchTextObject.PrimaryKey = ProviderConstants.PrimaryKey;
             dfSearchTextObject.AssistTableName = ProviderConstants.TipoProveAssistTableName;
@@ -77,7 +77,7 @@ namespace MasterModule.UIObjects.Suppliers
             }
             IUiObject objectType = BuildUiSupplierTypeObject(assistQuery, changedField);
             observableCollection.Add(objectType);
-            collect.Add(MasterModule.UiUpperPart, observableCollection);
+            collect.Add(MasterModuleConstants.UiUpperPart, observableCollection);
             return collect;
         }
     }

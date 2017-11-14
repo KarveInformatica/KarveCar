@@ -42,7 +42,7 @@ namespace MasterModule.Common
             UiEmailDataField dataDfObject = new UiEmailDataField();
             DataTable table = new DataTable();
             dataDfObject.ItemSource = table;
-            dataDfObject.ButtonImage = MasterModule.EmailImagePath;
+            dataDfObject.ButtonImage = MasterModuleConstants.EmailImagePath;
             dataDfObject.DataField = databaseFields["DataField"];
             dataDfObject.LabelText = databaseFields["Label"];
             dataDfObject.DataAllowed = ControlExt.DataType.Email;

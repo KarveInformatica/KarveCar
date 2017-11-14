@@ -149,6 +149,14 @@
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\MasterModule\MasterModule.csproj">
+      <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
+      <Name>MasterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\ToolBarModule\ToolBarModule.csproj">
+      <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
+      <Name>ToolBarModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -159,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="UI\KarveControls\TripleButtonTest\" />
+    <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

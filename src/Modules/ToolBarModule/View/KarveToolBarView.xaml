@@ -7,7 +7,7 @@
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-             xmlns:local="clr-namespace:ToolBarModule">
+             xmlns:local="clr-namespace:ToolBarModule" >
     <UserControl.Resources>
         <Style x:Key="ImageEnabled" TargetType="Image">
             <Style.Triggers>

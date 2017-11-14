@@ -22,9 +22,14 @@ namespace KarveCar.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
-        
+        private const string _title = "KarveWin 0.9";
+
         public DelegateCommand<string> NavigateCommand { get; set; }
       
+        public string Title
+        {
+            get { return _title; }
+        }
 
         public MainWindowViewModel(IRegionManager regionManager)
         {

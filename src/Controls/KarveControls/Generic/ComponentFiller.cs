@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,9 +18,28 @@ namespace KarveControls.Generic
     /// <summary>
     /// This class has the reponsability of filling an image source
     /// </summary>
-    internal class ComponentFiller
+    /// TODO: create unit testing for the component filler.
+    public class ComponentFiller
     {
 
+        /// <summary>
+        ///  Class for unpacking the object to a value.
+        /// </summary>
+        public class UiMetaObject : BindableBase
+        {
+            private string labelText = string.Empty;
+            public DelegateCommand<object> ChangedItem { set; get; }
+            // source
+            public object DataSource { set; get; }
+            // path of the object
+            public string DataSourcePath { set; get; }
+            //
+            public string LabelText
+            {
+                set { labelText = value; }
+                get { return labelText; }
+            }
+        }
         /// <summary>
         /// Fills an image from a bytearray 
         /// </summary>
@@ -57,6 +78,27 @@ namespace KarveControls.Generic
                 }
             
         }
+        /// <summary>
+        /// GetCollectionProperties returns a a list of data obects.
+        /// </summary>
+        /// <param name="itemSource"></param>
+        /// <returns></returns>
+        public List<UiMetaObject> GetCollectionProperties(object itemSource)
+        {
+            Type type = itemSource.GetType();
+            PropertyInfo[] infos = type.GetProperties();
+            List<UiMetaObject> metaObjects = new List<UiMetaObject>();
+            for (int i = 0; i < infos.Length; ++i)
+            {
+                UiMetaObject metaObject = new UiMetaObject();
+                metaObject.LabelText = infos[i].Name;
+                metaObject.DataSourcePath = infos[i].Name;
+                metaObject.DataSource = itemSource;
+                metaObjects.Add(metaObject);
+            }
+            return metaObjects;
+        }
+
         /// <summary>
         ///  This method fills the checkbox value with the value of the itemsource.
         /// </summary>
@@ -171,7 +213,13 @@ namespace KarveControls.Generic
             }
             return value;
         }
-
+        /// <summary>
+        /// Fill a textbox with the content of a data table 
+        /// </summary>
+        /// <param name="table">Table to be filled</param>
+        /// <param name="fieldName">Field in the table</param>
+        /// <param name="textFilledBox">Test to be complete</param>
+        /// <returns></returns>
         public bool FillTextBox(DataTable table, string fieldName, ref TextBox textFilledBox)
         {
             if (string.IsNullOrEmpty(fieldName))
@@ -188,7 +236,13 @@ namespace KarveControls.Generic
             }
             return false;
         }
-
+        /// <summary>
+        ///  Fill a table with the content of a textbox doing type conversion
+        /// </summary>
+        /// <param name="textFilledBox">Textbox to be used</param>
+        /// <param name="fieldName">Field to be filled</param>
+        /// <param name="table">Table field</param>
+        /// <returns></returns>
         public bool FillTable(TextBox textFilledBox, string fieldName, ref DataTable table)
         {
             string value = textFilledBox.Text;

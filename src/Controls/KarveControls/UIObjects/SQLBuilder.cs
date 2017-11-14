@@ -737,10 +737,10 @@ namespace KarveControls.UIObjects
                     }
                     else
                     {
-                        if (child.GetType() == typeof(ItemsControl))
+                        if (child.GetType() == typeof(System.Windows.Controls.ItemsControl))
                         {
                             Tuple<string, string> currentTemp; 
-                            ItemsControl currentControl = (ItemsControl) child;
+                            System.Windows.Controls.ItemsControl currentControl = (System.Windows.Controls.ItemsControl) child;
                             foreach (IUiObject control in currentControl.ItemsSource)
                             {
                                 resultchild.Add(control.DataField);
@@ -751,7 +751,7 @@ namespace KarveControls.UIObjects
                         if (child.GetType() == typeof(ListView))
                         {
                             Tuple<string, string> currentTemp;
-                            ItemsControl currentControl = (ItemsControl)child;
+                            System.Windows.Controls.ItemsControl currentControl = (System.Windows.Controls.ItemsControl)child;
                             foreach (IUiObject control in currentControl.ItemsSource)
                             {
                                 resultchild.Add(control.DataField);

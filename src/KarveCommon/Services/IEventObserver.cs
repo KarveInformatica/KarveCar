@@ -2,6 +2,6 @@
 {
     public interface IEventObserver
     {
-        void incomingPayload(DataPayLoad payload);
+        void IncomingPayload(DataPayLoad payload);
     }
 }

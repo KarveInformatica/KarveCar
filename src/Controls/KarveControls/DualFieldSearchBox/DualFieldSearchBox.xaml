@@ -18,9 +18,9 @@
             <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, PresentationTraceSources.TraceLevel=High}"></TextBox>
             <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, PresentationTraceSources.TraceLevel=High}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
             <StackPanel>
-                <ToggleButton Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
+                <Button Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
                     <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
-                </ToggleButton>
+                </Button>
                 <Popup Name="Popup">
                     <Grid>
                         <Grid.RowDefinitions>

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("KarveDataServices")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Data Services for Data Access Layer.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Karve Informatica S.L.")]
 [assembly: AssemblyProduct("KarveDataServices")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright ©  2017 Karve Informatica S.L.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

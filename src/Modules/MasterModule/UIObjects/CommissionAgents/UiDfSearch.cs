@@ -4,6 +4,7 @@ using KarveControls.UIObjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using KarveControls;
+using MasterModule.Common;
 using Prism.Commands;
 
 namespace MasterModule.UIObjects.CommissionAgents
@@ -19,7 +20,7 @@ namespace MasterModule.UIObjects.CommissionAgents
         /// </summary>
         public UiDfSearch(): base()
         {
-            ButtonImage = MasterModule.ImagePath;
+            ButtonImage = MasterModuleConstants.ImagePath;
         }
         public delegate Task OnAssistQueryRequestHandlerDo(string assistTableName, string assistQuery);
         public event OnAssistQueryRequestHandlerDo OnAssistQueryDo;
@@ -33,7 +34,7 @@ namespace MasterModule.UIObjects.CommissionAgents
         /// <param name="labelTxt">Label to be configured.</param>
         public UiDfSearch(string labelTxt) : base(labelTxt,"100")
         {
-            ButtonImage = MasterModule.ImagePath;
+            ButtonImage = MasterModuleConstants.ImagePath;
             _assistCommand = new DelegateCommand<object>(OnAssistCommand);
         }
         /// <summary>

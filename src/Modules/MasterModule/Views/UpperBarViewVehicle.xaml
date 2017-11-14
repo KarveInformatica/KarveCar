@@ -9,11 +9,11 @@
              xmlns:interactivity="http://prismlibrary.com/"
 	     interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700">
     <Grid>
         <WrapPanel Name="ContextLayout" Orientation="Horizontal">
-            <karveControls:DataField x:Name="Codigo"  TextContentWidth="60" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="CODIINT" LabelTextWidth="70" LabelText="Codigo" LabelVisible="True">
+            <karveControls:DataField x:Name="Codigo"  TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="Codigo" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler, PresentationTraceSources.TraceLevel=High}" 
@@ -23,7 +23,7 @@
 
             </karveControls:DataField>
             <karveControls:DataField x:Name="Matricula" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="matricula" LabelTextWidth="50" LabelText="Matricula" LabelVisible="True">
+                                     DataSourcePath="matricula" LabelTextWidth="60" LabelText="Matricula" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler, PresentationTraceSources.TraceLevel=High}" 
@@ -34,10 +34,11 @@
             <karveControls:DualFieldSearchBox x:Name="Colore" 
                                               DataFieldFirst="COLOR"
                                               AssistTableName="COLORFL"
-                                              LabelTextWidth="100"
+                                              LabelTextWidth="50"
                                               LabelText="Color"
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="100"
+                                              IsReadOnlySecond="True"
                                               AssistDataFieldFirst="codigo"
                                               AssistDataFieldSecond="nombre" 
                                               AssistProperties="Codigo,Nombre"
@@ -63,11 +64,12 @@
            
             <karveControls:DualFieldSearchBox x:Name="Marca"
                                               TextContentFirstWidth="50"
-                                              TextContentSecondWidth="100"
-                                              LabelTextWidth="100"
+                                              TextContentSecondWidth="150"
+                                              LabelTextWidth="50"
                                               LabelText="Marca"
                                               AssistProperties="Codigo,Nombre"
                                               AssistTableName="MARCAS"
+                                              IsReadOnlySecond="True"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding DataObject.BrandDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="Mar"
@@ -92,11 +94,12 @@
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
-            <karveControls:DualFieldSearchBox x:Name="Modelo"
-                                              TextContentFirstWidth="100"
-                                              TextContentSecondWidth="200"
-                                              LabelTextWidth="100"
-                                              LabelText="Modelo"
+            <karveControls:DualFieldSearchBox x:Name="Grupo"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="198"
+                                              LabelTextWidth="50"
+                                              LabelText="Grupo"
+                                              IsReadOnlySecond="True"
                                               AssistProperties="Codigo,Nombre"
                                               AssistTableName="MODELO"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -123,6 +126,43 @@
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
+            <karveControls:DualFieldSearchBox x:Name="Modelo"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="150"
+                                              LabelTextWidth="50"
+                                              LabelText="Modelo"
+                                              IsReadOnlySecond="True"
+                                              AssistProperties="Codigo,Nombre"
+                                              AssistTableName="MODELO"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding DataObject.ModelDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="Mar"
+                                              AssistDataFieldSecond="NOMBRE"
+                                              AssistDataFieldFirst="CODIGO"
+                                              ButtonImage="/MasterModule;component/Images/search.png">
+
+                <i:Interaction.Triggers>
+
+                    <i:EventTrigger EventName="MagnifierPress">
+
+                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                           TriggerParameterPath="AssistParameters" />
+
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                                                           TriggerParameterPath="ChangedValuesObjects"/>
+                    </i:EventTrigger>
+
+                </i:Interaction.Triggers>
+
+            </karveControls:DualFieldSearchBox>
+            <karveControls:DataField LabelText="Bastidor" LabelTextWidth="50"  TextContentWidth="200"   
+                                                  DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataSourcePath="BASTIDOR">
+                
+            </karveControls:DataField>
         </WrapPanel>
     </Grid>
 </UserControl>

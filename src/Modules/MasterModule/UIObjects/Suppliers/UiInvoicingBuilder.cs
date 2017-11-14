@@ -88,7 +88,7 @@ namespace MasterModule.UIObjects.Suppliers
             paymentSearchBox.ItemSource = new DataTable();
             paymentSearchBox.PrimaryKey = "NUM_PROVEE";
             paymentSearchBox.OnChangedField += changedField;
-            paymentSearchBox.ButtonImage = MasterModule.ImagePath;
+            paymentSearchBox.ButtonImage = MasterModuleConstants.ImagePath;
             paymentSearchBox.DataField = "FORPA";
             paymentSearchBox.OnAssistQuery += assistQuery;
             invoicingObjects.Add(paymentSearchBox);
@@ -231,7 +231,7 @@ namespace MasterModule.UIObjects.Suppliers
             vacationMonth1.ItemSource = new DataTable();
             vacationMonth1.PrimaryKey = "NUM_PROVEE";
             vacationMonth1.OnChangedField += changedField;
-            vacationMonth1.ButtonImage = MasterModule.ImagePath;
+            vacationMonth1.ButtonImage = MasterModuleConstants.ImagePath;
             vacationMonth1.DataField = "MESVACA";
             vacationMonth1.OnAssistQuery += assistQuery;
             vacationMonth1.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
@@ -250,7 +250,7 @@ namespace MasterModule.UIObjects.Suppliers
             vacationMonth2.ItemSource = new DataTable();
             vacationMonth2.PrimaryKey = "NUM_PROVEE";
             vacationMonth2.OnChangedField += changedField;
-            vacationMonth2.ButtonImage = MasterModule.ImagePath;
+            vacationMonth2.ButtonImage = MasterModuleConstants.ImagePath;
             vacationMonth2.DataField = "MESVACA2";
             vacationMonth2.OnAssistQuery += assistQuery;
             vacaciones.AddDataField(vacationMonth2);
@@ -283,7 +283,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiMultipleDfObject uiBancosDfObject = new UiMultipleDfObject();
 
             UiDualDfSearchTextObject uiDualDfSearch = new UiDualDfSearchTextObject("Banco",UiConstants.LabelTextWidthDefault);
-            uiDualDfSearch.ButtonImage = MasterModule.ImagePath;
+            uiDualDfSearch.ButtonImage = MasterModuleConstants.ImagePath;
             uiDualDfSearch.AssistDataFieldFirst = "CODBAN";
             uiDualDfSearch.AssistDataFieldSecond = "NOMBRE";
             uiDualDfSearch.AssistTableName = "BANCO";
@@ -318,7 +318,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiMultipleDfObject uiIdiomaDivisDfObject = new UiMultipleDfObject();
 
             UiDualDfSearchTextObject uiIdioma = new UiDualDfSearchTextObject("Idioma", UiConstants.LabelTextWidthDefault);
-            uiIdioma.ButtonImage = MasterModule.ImagePath;
+            uiIdioma.ButtonImage = MasterModuleConstants.ImagePath;
             uiIdioma.AssistDataFieldFirst = "CODIGO";
             uiIdioma.AssistDataFieldSecond = "NOMBRE";
             uiIdioma.AssistTableName = "IDIOMAS";
@@ -340,7 +340,7 @@ namespace MasterModule.UIObjects.Suppliers
             uiIdioma.TextContentSecondWidth = UiConstants.TextBoxWidthDefault;
             uiIdiomaDivisDfObject.AddDataField(uiIdioma);
             UiDualDfSearchTextObject uiDivisa = new UiDualDfSearchTextObject("Divisa", UiConstants.LabelTextWidthDefault);
-            uiDivisa.ButtonImage = MasterModule.ImagePath;
+            uiDivisa.ButtonImage = MasterModuleConstants.ImagePath;
             uiDivisa.AssistDataFieldFirst = "CODIGO";
             uiDivisa.AssistDataFieldSecond = "NOMBRE";
             uiDivisa.AssistTableName = "DIVISAS";
@@ -382,7 +382,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaCp.ItemSource = new DataTable();
             cuentaCp.PrimaryKey = "NUM_PROVEE";
             cuentaCp.OnChangedField += changedField;
-            cuentaCp.ButtonImage = MasterModule.ImagePath;
+            cuentaCp.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaCp.DataField = "CTACP";
             cuentaCp.OnAssistQuery += assistQuery;
             //leasingBoxMultipleObject.AddDataField(cuentaCp);
@@ -400,7 +400,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaLp.ItemSource = new DataTable();
             cuentaLp.PrimaryKey = "NUM_PROVEE";
             cuentaLp.OnChangedField += changedField;
-            cuentaLp.ButtonImage = MasterModule.ImagePath;
+            cuentaLp.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaLp.DataField = "CTALP";
             cuentaLp.OnAssistQuery += assistQuery;
             observableCollection.Add(cuentaLp);
@@ -440,7 +440,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaSoportado.ItemSource = new DataTable();
             cuentaSoportado.PrimaryKey = "NUM_PROVEE";
             cuentaSoportado.OnChangedField += changedField;
-            cuentaSoportado.ButtonImage = MasterModule.ImagePath;
+            cuentaSoportado.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaSoportado.DataField = "CTAINTRACOP";
             cuentaSoportado.OnAssistQuery += assistQuery;
             observableCollection.Add(cuentaSoportado);            
@@ -459,7 +459,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaRepercutido.ItemSource = new DataTable();
             cuentaRepercutido.PrimaryKey = "NUM_PROVEE";
             cuentaRepercutido.OnChangedField += changedField;
-            cuentaRepercutido.ButtonImage = MasterModule.ImagePath;
+            cuentaRepercutido.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaRepercutido.DataField = "CTAINTRACOPREP";
             cuentaRepercutido.OnAssistQuery += assistQuery;
             observableCollection.Add(cuentaRepercutido);
@@ -507,7 +507,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaContable.ItemSource = new DataTable();
             cuentaContable.PrimaryKey = "NUM_PROVEE";
             cuentaContable.OnChangedField += changedField;
-            cuentaContable.ButtonImage = MasterModule.ImagePath;
+            cuentaContable.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaContable.DataField = "CONTABLE";
             cuentaContable.OnAssistQuery += assistQuery;
             accountDfObject1.AddDataField(cuentaContable);
@@ -526,7 +526,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaGasto.ItemSource = new DataTable();
             cuentaGasto.PrimaryKey = "NUM_PROVEE";
             cuentaGasto.OnChangedField += changedField;
-            cuentaGasto.ButtonImage = MasterModule.ImagePath;
+            cuentaGasto.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaGasto.DataField = "CONTABLE";
             cuentaGasto.OnAssistQuery += assistQuery;
             observableCollection.Add(cuentaGasto);
@@ -544,7 +544,7 @@ namespace MasterModule.UIObjects.Suppliers
             retentionAccount.ItemSource = new DataTable();
             retentionAccount.PrimaryKey = "NUM_PROVEE";
             retentionAccount.OnChangedField += changedField;
-            retentionAccount.ButtonImage = MasterModule.ImagePath;
+            retentionAccount.ButtonImage = MasterModuleConstants.ImagePath;
             retentionAccount.DataField = "CONTABLE";
             retentionAccount.OnAssistQuery += assistQuery;
             observableCollection.Add(retentionAccount);
@@ -562,7 +562,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaPago.ItemSource = new DataTable();
             cuentaPago.PrimaryKey = "NUM_PROVEE";
             cuentaPago.OnChangedField += changedField;
-            cuentaPago.ButtonImage = MasterModule.ImagePath;
+            cuentaPago.ButtonImage = MasterModuleConstants.ImagePath;
             cuentaPago.DataField = "CTAPAGO";
             cuentaPago.OnAssistQuery += assistQuery;
             observableCollection.Add(cuentaPago);
