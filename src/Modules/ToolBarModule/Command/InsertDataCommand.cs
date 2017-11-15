@@ -17,7 +17,7 @@ namespace ToolBarModule
         private ICareKeeperService _careKeeper;
         private IEventManager _eventManager;
         private IConfigurationService _configurationService;
-        private SqlValidationRule _sqlValidationRule;
+        private SqlValidationRule<DataPayLoad> _sqlValidationRule;
 
         private IDictionary<DataSubSystem, IDataPayLoadHandler> payLoadHandlers =
             new Dictionary<DataSubSystem, IDataPayLoadHandler>()
@@ -41,7 +41,7 @@ namespace ToolBarModule
             InitHandlers();
         }
 
-        public SqlValidationRule ValidationRules
+        public SqlValidationRule<DataPayLoad> ValidationRules
             {
             get
             {

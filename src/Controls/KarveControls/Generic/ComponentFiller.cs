@@ -28,12 +28,21 @@ namespace KarveControls.Generic
         public class UiMetaObject : BindableBase
         {
             private string labelText = string.Empty;
+            /// <summary>
+            /// Delegate to be assigned in a item
+            /// </summary>
             public DelegateCommand<object> ChangedItem { set; get; }
-            // source
+            /// <summary>
+            /// DataSource to be used
+            /// </summary>
             public object DataSource { set; get; }
-            // path of the object
+            /// <summary>
+            /// Data Source Path to be used
+            /// </summary>
             public string DataSourcePath { set; get; }
-            //
+            /// <summary>
+            /// Label text to be used.
+            /// </summary>
             public string LabelText
             {
                 set { labelText = value; }
@@ -115,24 +124,34 @@ namespace KarveControls.Generic
                 DataRow primaryItemSourceRow = itemSource.Rows[0];
                 if (dataFieldCollection.Contains(fieldName))
                 {
+
+
                     object currentValue = primaryItemSourceRow[fieldName];
-                    if (!DBNull.Value.Equals(currentValue))
-                    {
-                        if (currentValue is Int16)
-                        {
-                            Int16 value = (Int16)currentValue;
-                            isEnabled = value != 0;
+                    isEnabled = isCheckBoxEnabled(currentValue);
 
-
-                        }
-                        if (currentValue is Int32)
-                        {
-                            Int32 value = (Int32)currentValue;
-                            isEnabled = value != 0;
-                        }
-                    }
                 }
 
+            }
+            return isEnabled;
+        }
+
+        private bool isCheckBoxEnabled(object currentValue)
+        {
+            bool isEnabled = false;
+            if (!DBNull.Value.Equals(currentValue))
+            {
+                if (currentValue is Int16)
+                {
+                    Int16 value = (Int16)currentValue;
+                    isEnabled = value != 0;
+
+
+                }
+                if (currentValue is Int32)
+                {
+                    Int32 value = (Int32)currentValue;
+                    isEnabled = value != 0;
+                }
             }
             return isEnabled;
         }

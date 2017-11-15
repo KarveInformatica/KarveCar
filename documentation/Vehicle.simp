@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sim-project version="11.20" multi-file="no" uid="simp8d1ff563b6b54c789ada2d1fea8b9d03">
+  <meta>
+    <name>Project</name>
+    <authors> </authors>
+    <description />
+  </meta>
+  <counters models="1">
+    <entity-names>
+      <counter>
+        <item-type stereotype="component" type-id="component" type="UmlComponent" />
+        <value>8</value>
+      </counter>
+      <counter>
+        <item-type type-id="" type="DrawingItem" />
+        <value>1</value>
+      </counter>
+    </entity-names>
+    <entity-ids>
+      <counter>
+        <item-type type-id="" type="AbstractElementGroup" />
+        <value>29</value>
+      </counter>
+      <counter>
+        <item-type type-id="component" type="UmlComponent" />
+        <value>9</value>
+      </counter>
+      <counter>
+        <item-type type-id="universal-connector" type="UniversalConnector" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="shape" type="AbstractShapeItem" />
+        <value>2</value>
+      </counter>
+    </entity-ids>
+    <diagrams>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.Diagrams.UmlDiagrams.UmlComponentDiagram</type>
+        <value>1</value>
+      </counter>
+    </diagrams>
+    <fields />
+  </counters>
+  <alias-groups />
+  <management uid="md-ca2a9c9156124ba181ff55adf33aa30e" name="" task-id-sequence="0">
+    <persons>
+      <person id="P5e2cdb2f41d245909350ca1f09521cd9">
+        <first-name />
+        <last-name />
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
+      </person>
+    </persons>
+    <teams />
+    <sprints />
+    <projects />
+    <modules />
+    <tasks />
+    <to-dos />
+  </management>
+  <glossary id="glsr-1d1f04372486470e947e6d0680278327" />
+  <types default="UML">
+    <type-sets>
+      <type-set file="UmlTypes.xml" />
+    </type-sets>
+    <custom-types />
+  </types>
+  <items />
+  <models>
+    <model id="p995e33b8158c4e95b9066eeb4e5c3890_437756100" name="Model1" namespace="" order-index="1">
+      <meta>
+        <authors>
+          <author> </author>
+        </authors>
+        <description />
+        <creation-date>11/15/2017 09:11:52</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-component" id="p2f0b21c588524ead9bb2152ab3473594_777170181" name="ComponentDiagram1" order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="0,-100">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>11/15/2017 09:11:52</creation-date>
+          <change-date>11/15/2017 09:15:32</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="di317604225808967266" cid="CPT001" type="component" name="CommissionAgent" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:12:07">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di513426172741322461" cid="CPT002" type="component" name="Provider" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:12:45">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di269247378642145498" cid="CPT003" type="component" name="Vehiculos" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:13:02">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di680889789443791574" cid="CPT004" type="component" name="DataServices" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:13:36">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di808825180642969403" cid="CPT005" type="component" name="CommissionAgentViewModel" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:14:04">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di654947719590751526" cid="CPT006" type="component" name="ProviderViewModel" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:14:18">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+          <item id="di945605442917889754" cid="CPT007" type="component" name="VehicleViewModel" style-class="" visibility="package" change-tracking-state="added" creator="P5e2cdb2f41d245909350ca1f09521cd9" creation-date="11/15/2017 09:14:29">
+            <stereotypes>
+              <stereotype name="component" />
+            </stereotypes>
+            <style class="default" />
+            <component />
+          </item>
+        </abstract-items>
+        <layer id="ed095c2e3b2145538818a983e05d1b29" name="Default" visible="true" enabled="true" locked="false">
+          <item id="di317604225808967266" iid="549f5055f3d24c05bf1fa725480cbcd1" show-fields="false" creation-date="11/15/2017 09:12:07" order-index="0" type="entity">
+            <layout ax="1016" ay="-5" awidth="187" aheight="118" x="1016" y="-5" width="187" height="118" />
+          </item>
+          <item id="di513426172741322461" iid="b19a179ece894230ac1eda86cbc43c8e" show-fields="false" creation-date="11/15/2017 09:12:45" order-index="1" type="entity">
+            <layout ax="1016" ay="125" awidth="187" aheight="118" x="1016" y="125" width="187" height="118" />
+          </item>
+          <item id="di269247378642145498" iid="9c240b52827e419b8a1ed7efdd567c30" show-fields="false" creation-date="11/15/2017 09:13:02" order-index="2" type="entity">
+            <layout ax="1255" ay="-24" awidth="140" aheight="105" x="1255" y="-24" width="140" height="105" />
+          </item>
+          <item id="di680889789443791574" iid="79eba2ab33ca4e05b18e5b8fb9a59301" show-fields="false" creation-date="11/15/2017 09:13:36" order-index="3" type="entity">
+            <layout ax="1022" ay="356" awidth="140" aheight="118" x="1022" y="356" width="140" height="118" />
+          </item>
+          <item id="di808825180642969403" iid="6b91c950948440b490cea6b08feaf752" show-fields="false" creation-date="11/15/2017 09:14:04" order-index="4" type="entity">
+            <layout ax="665" ay="-5" awidth="140" aheight="160" x="665" y="-5" width="140" height="160" />
+          </item>
+          <item id="di654947719590751526" iid="b53d2f9cdadf490c860a1ba59d09ecff" show-fields="false" creation-date="11/15/2017 09:14:18" order-index="5" type="entity">
+            <layout ax="665" ay="196" awidth="140" aheight="160" x="665" y="196" width="140" height="160" />
+          </item>
+          <item id="di945605442917889754" iid="892c8bcb71204c199a7b688027ef2a78" show-fields="false" creation-date="11/15/2017 09:14:29" order-index="6" type="entity">
+            <layout ax="665" ay="426" awidth="140" aheight="160" x="665" y="426" width="140" height="160" />
+          </item>
+        </layer>
+      </diagram>
+    </model>
+  </models>
+</sim-project>

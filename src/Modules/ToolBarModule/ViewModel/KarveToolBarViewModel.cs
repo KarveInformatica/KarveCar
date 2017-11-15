@@ -39,7 +39,7 @@ namespace ToolBarModule
         private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
         private string _currentSaveImage = null;
         private bool _buttonSaveEnabled = true;
-        private SqlValidationRule _validationRules;
+        private SqlValidationRule<DataPayLoad> _validationRules;
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
         private bool Confirmed = false;

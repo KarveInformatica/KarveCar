@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterModule", "Modules\Mas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDapper", "..\KarveDapper\KarveDapper.csproj", "{082CB8C5-29D4-4D51-BE0A-06DEB8D7F871}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{3A055495-C606-4A54-8BBC-87629C7182B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,11 +100,12 @@ Global
 		{769174BC-9025-4AAF-9846-B06A619ABF05} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{59B99363-3561-4B1F-94FB-136BECBAA675} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{082CB8C5-29D4-4D51-BE0A-06DEB8D7F871} = {31310D87-8201-43E3-A023-DC5B6999B02C}
+		{3A055495-C606-4A54-8BBC-87629C7182B6} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
-		RESX_DuplicateKeyHandling = Fail
-		RESX_NeutralResourcesLanguage = es-ES
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
 	EndGlobalSection
 EndGlobal
