@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="700">
     <Grid>
+        <GroupBox Header="Dato Generales">
         <WrapPanel Name="ContextLayout" Orientation="Horizontal">
             <karveControls:DataField x:Name="Codigo"  TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="Codigo" LabelVisible="True">
@@ -164,5 +165,6 @@
                 
             </karveControls:DataField>
         </WrapPanel>
+            </GroupBox>
     </Grid>
 </UserControl>

@@ -89,6 +89,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <WrapPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" i:Grid.ColumnSpan="2" Margin="0,0,0,81.665">
+                            
                             <GroupBox Header="Dato Generales">
                                 <WrapPanel Orientation="Vertical">
 
@@ -211,6 +212,11 @@
 
                                 </WrapPanel>
                             </GroupBox>
+                            <StackPanel HorizontalAlignment="Right">
+                            <kctb:TripleButton SaveCommand="{Binding SaveList}"
+                               ResetCommand="{Binding ResetCommand}"
+                               DeleteCommand="{Binding DeleteCommand}"></kctb:TripleButton>
+                            </StackPanel>
                         </WrapPanel>
                         <WrapPanel Orientation="Vertical" Grid.Row="0" i:Grid.Column="2" Margin="0,0,0,81.665">
                             <GroupBox Header="Foto">
@@ -278,9 +284,7 @@
                 </TabItem>
                </TabControl> 
        
-            <kctb:TripleButton SaveCommand="{Binding SaveList}"
-                               ResetCommand="{Binding ResetCommand}"
-                               DeleteCommand="{Binding DeleteCommand}"></kctb:TripleButton>
+           
         </StackPanel>
     </Grid>
 </UserControl>

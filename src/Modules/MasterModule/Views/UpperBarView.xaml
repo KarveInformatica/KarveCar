@@ -10,8 +10,9 @@
              mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="600">
     <Grid>
-      
+        <GroupBox Header="Dato Generales">
         <StackPanel Name="ContextLayout" Orientation="Horizontal">
+            
             <karveControls:DataField x:Name="NumeroComi" TextContentWidth="60" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_COMI" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
@@ -69,5 +70,6 @@
             </karveControls:DualFieldSearchBox>
             
         </StackPanel>
+        </GroupBox>
     </Grid>
 </UserControl>

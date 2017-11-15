@@ -21,11 +21,7 @@
 
         <ResourceDictionary>
 
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                
-            </ResourceDictionary.MergedDictionaries>
-          
+            
             <DataTemplate x:Key="DataFieldDataTemplate">
                 <karveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContent="{Binding TextContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -293,7 +289,14 @@
 
             </Style>
             -->
-            
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                <Setter Property="HeaderMemberPath" Value="Header" />
+
+                <Setter Property="Margin" Value="0 5 0 0" />
+            </Style>
 
             <Style x:Key="PdfCheckBox" 
                TargetType="{x:Type CheckBox}">
