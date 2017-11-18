@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="MasterModule.Views.VehicleSelling.VehicleBuying"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:common="clr-namespace:MasterModule.Views.VehicleSelling"
+             xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleSelling.MockViewModels"
+             xmlns:local="clr-namespace:VehicleSelling"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="1000"
+             d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.Resources>
+
+        </Grid.Resources>
+        <GroupBox Grid.Row="0" Header="Compra Veichulo">
+            <WrapPanel>
+                <kc:DualFieldSearchBox LabelText="Proveedor" 
+                                   LabelTextWidth="100"
+                                   TextContentFirstWidth="50"
+                                   TextContentSecondWidth="150"
+                                   IsReadOnlySecond="True"
+                                   DataFieldFirst="proveeedor"
+                                   AssistTableName="provee1"
+                                   AssistQuery="{Binding SupplierAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   AssistDataFieldFirst="num_provee"
+                                   AssistDataFieldSecond="nombre"
+                                   Margin="5,0,0,0"
+                                   Height="25"
+                                   AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                                   ButtonImage="{x:Static common:VehicleConstants.ImagePath}"/>
+                <kc:DataField TextContentWidth="150" 
+                              LabelTextWidth="100"
+                              LabelText="Matricula Anterior"
+                              LabelVisible="True"
+                              Margin="5,0,0,0"
+                              DataSourcePath="matri2"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              DataFieldHeight="25"/>
+                <kc:DualFieldSearchBox LabelText="Forma de Pago" 
+                                   LabelTextWidth="100"
+                                   TextContentFirstWidth="50"
+                                   TextContentSecondWidth="150"
+                                   IsReadOnlySecond="True"
+                                   DataFieldFirst="forpagoco"
+                                   AssistTableName="formas"
+                                   AssistDataFieldFirst="num_provee"
+                                   AssistDataFieldSecond="nombre"
+                                   Margin="5,0,0,0"
+                                   Height="25"
+                                   TableName="formas"
+                                   AssistProperties="Numero, Nombre"
+                                   ButtonImage="{x:Static common:VehicleConstants.ImagePath}"/>
+                <kc:DataDatePicker DataDatePickerHeight="25"
+                                   LabelText="Fecha Matricula Anterior"
+                                   LabelVisible="True"
+                                   Margin="10,0,0,0"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FMATRI"
+                                   />
+                <kc:DataDatePicker DataDatePickerHeight="25"
+                                   LabelText="Fecha Compra"
+                                   LabelVisible="True"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FECCOMPRA"
+                                   />
+                    <!-- item control-->
+
+                <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="100"
+                                         LabelTextWidth="120"
+                                         LabelVisible="True"
+                                         IsReadOnly="False"
+                                         DataFieldHeight="25"
+                                         DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DataFieldChanged">
+                                        <prism:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </kc:DataField>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </WrapPanel>
+        </GroupBox>
+
+        </Grid>
+</UserControl>

@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="MasterModule.Views.VehicleAssurance.ExpireAssuranceDataControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:common="clr-namespace:MasterModule.Views.VehicleAssurance"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
+             d:DesignHeight="900" d:DesignWidth="1200"
+             d:DataContext="{d:DesignInstance Type=mockViewModels:VehicleAssuranceMockViewModel, IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.Resources>
+        </Grid.Resources>
+        <ListBox x:Name="AssuranceDataListBox" ItemsSource="{Binding MetaDataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Vertical">
+                        <kc:DataDatePicker kc:ControlExt.DataSource="{Binding MetaDataObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       kc:ControlExt.DataSourcePath="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       DataDatePickerHeight="25"
+                                       LabelText="Vencimiento"
+                                       LabelTextWidth="100"
+                                       LabelVisible="True">
+                        </kc:DataDatePicker>
+                        
+                    <kc:DataField DataObject="{Binding MetaDataObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  LabelVisible="True"
+                                  LabelText="{Binding StringConstants.Amount}"
+                                  LabelTextWidth="100"
+                                  TextContentWidth="100"
+                                  DataSourcePath="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                       
+                    </kc:DataField>
+                    <TextBlock Text="Pagado"></TextBlock>
+                    <ToggleButton
+	                    Content="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+	                    IsChecked="True" Style="{StaticResource MaterialDesignActionLightToggleButton}" ToolTip="Pagado" />
+                </StackPanel>
+            </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox> 
+    </Grid>
+</UserControl>

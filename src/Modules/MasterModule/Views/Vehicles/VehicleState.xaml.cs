@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views.VehiControls
+namespace VehicleAssurance
 {
     /// <summary>
-    /// Interaction logic for VehicleBuying.xaml
+    /// Interaction logic for VehicleState.xaml
     /// </summary>
-    public partial class VehicleBuying : UserControl
+    public partial class VehicleState : UserControl
     {
-        public VehicleBuying()
+        public VehicleState()
         {
             InitializeComponent();
         }

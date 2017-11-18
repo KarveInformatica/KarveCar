@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="MasterModule.Views.VehicleSelling.VehicleSell"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views.VehiControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
+             xmlns:common="clr-namespace:MasterModule.Views.VehicleSelling"
+             xmlns:commonMock="MasterModule.Views.VehicleSelling.MockViewModels"
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleSelling.MockViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="900">
+    <Grid d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
+        <Grid.Resources>
+
+        </Grid.Resources>
+
+
+        <GroupBox Grid.Row="0" Header="{x:Static common:VehicleConstants.SellVehicles}">
+            <WrapPanel>
+                <kc:DualFieldSearchBox LabelText="{x:Static common:VehicleConstants.Buyer}" 
+                                       LabelTextWidth="100"
+                                       TextContentFirstWidth="50"
+                                       TextContentSecondWidth="150"
+                                       IsReadOnlySecond="True"
+                                       DataFieldFirst="comprador"
+                                       AssistTableName="clientes1"
+                                       AssistQuery="{Binding BuyerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       AssistDataFieldFirst="numero_cli"
+                                       AssistDataFieldSecond="nombre"
+                                       Margin="5,0,0,0"
+                                       Height="25"
+                                       AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                                       ButtonImage=""/>
+                <kc:DataField TextContentWidth="150" 
+                              LabelTextWidth="50"
+                              LabelText="{x:Static common:VehicleConstants.Price}"
+                              LabelVisible="True"
+                              Margin="5,0,0,0"
+                              DataSourcePath="precio"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              DataFieldHeight="25"/>
+                <kc:DataField LabelText="{x:Static common:VehicleConstants.BillNumber}" 
+                              TextContentWidth="100"
+                              DataSourcePath="FRAVEN"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DataFieldHeight="25"
+                              Margin="5,5,5,0"/>
+                <kc:DataDatePicker DataDatePickerHeight="25"
+                                   LabelText="{x:Static common:VehicleConstants.BillingDate}"
+                                   LabelVisible="True"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FFRA"
+                />
+                <kc:DataField LabelText="{x:Static common:VehicleConstants.StretPrice}"
+                              TextContentWidth="150"   
+                              DataSourcePath="PVP"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DataFieldHeight="25"
+                              Margin="10,0,0,0"/>
+                <kc:DualFieldSearchBox
+                    LabelText="{x:Static common:VehicleConstants.Reseller}" 
+                    LabelTextWidth="100"
+                    TextContentFirstWidth="50"
+                    TextContentSecondWidth="150"
+                    IsReadOnlySecond="True"
+                    DataFieldFirst="VENDEDOR_VTA"
+                    AssistTableName="vendedor"
+                    AssistQuery="{Binding SellerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    AssistDataFieldFirst="num_vende"
+                    AssistDataFieldSecond="nombre"
+                    AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                    ButtonImage="{x:Static common:VehicleConstants.ImagePath}" Height="25"/>
+                <GroupBox>
+                    <WrapPanel>
+                        <kc:DataDatePicker DataDatePickerHeight="25" 
+                                           LabelText="{x:Static common:VehicleConstants.TrafficRenounce}"
+                                           LabelVisible="True"
+                                           kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           kc:ControlExt.DataSourcePath="FTRAFB"       />
+                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.AssuranceRenount}" 
+                                           DataDatePickerHeight="25"
+                                           LabelVisible="True"
+                                           kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           kc:ControlExt.DataSourcePath=""/>
+                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.BankTransfer}" DataDatePickerHeight="25"
+                                           LabelVisible="True"
+                                           kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           kc:ControlExt.DataSourcePath="FTRANS"/>
+                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.DeliveringDate}" DataDatePickerHeight="25"  
+                                           LabelVisible="True"
+                                           kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           kc:ControlExt.DataSourcePath="FENTREGA_VEHI"/>
+                    </WrapPanel>
+                </GroupBox>
+
+            </WrapPanel>
+        </GroupBox>
+
+    </Grid>
+
+</UserControl>
+
+
+

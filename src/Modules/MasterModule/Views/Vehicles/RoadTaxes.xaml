@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MasterModule.Views.VehiControls.RoadTaxes"
+﻿<UserControl x:Class="MasterModule.Views.VehicleSelling.RoadTaxes"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,27 +7,30 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mvvm="http://prismlibrary.com/"
              mc:Ignorable="d" 
-             xmlns:master="clr-namespace:MasterModule.Common"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:common="clr-namespace:MasterModule.Views.VehicleSelling"
              xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             d:DesignHeight="200" d:DesignWidth="900">
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleSelling.MockViewModels"
+             d:DesignHeight="200" d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
     <Grid x:Name="GridTaxLayout">
-        <GroupBox Header="Impuesto de circulacion">
+        <GroupBox Header="Impuesto de circulacion" d:IsLocked="True">
             <StackPanel>
-            <WrapPanel>
-                
-                <kc:DataDatePicker LabelText="Fecha Alta"
+                <WrapPanel>
+
+                    <kc:DataDatePicker LabelText="Fecha Alta"
                                    DataDatePickerHeight="25"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FEC_CIRC_V1"/>
-                <kc:DataField  LabelText="Importe"
+                                   kc:ControlExt.DataSourcePath="FEC_CIRC_V1" d:IsLocked="True"/>
+                    <kc:DataField  LabelText="Importe"
                                LabelTextWidth="80"
                                TextContentWidth="190"
                                LabelVisible="True"
                                DataFieldHeight="25"
                                DataSourcePath="IMP_CIRC_V1"
-                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                
+                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:IsLocked="True"/>
+
                     <kc:DataFieldCheckBox Content="Facturar"
                                       Margin="10,0,10,0"
                                         kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -44,10 +47,10 @@
                                         DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataFieldFirst="CP"
                                         AssistProperties="Numero, Poblacion, Codigo, Pais"
-                                        ButtonImage="{x:Static master:MasterModuleConstants.ImagePath}"
-                                        Height="25"/>
-                
-                <kc:DualFieldSearchBox LabelText="Zona"
+                                        ButtonImage="{x:Static common:VehicleConstants.ImagePath}"
+                                        Height="25" d:IsLocked="True"/>
+
+                    <kc:DualFieldSearchBox LabelText="Zona"
                                         LabelTextWidth="80"
                                         TextContentFirstWidth="60"
                                         TextContentSecondWidth="120"
@@ -57,45 +60,16 @@
                                         AssistProperties="Nome, Zona"
                                         AssistDataFieldSecond="NOM_ZONA"
                                         AssistQuery="{Binding AssitQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                        ButtonImage="{x:Static master:MasterModuleConstants.ImagePath}"
-                                        Height="25"/>
-                    <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding ItemsCollection}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContentWidth="100"
-                                         LabelTextWidth="50"
-                                         LabelVisible="True"
-                                         IsReadOnly="False"
-                                         DataFieldHeight="25"
-                                         DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         >
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="DataFieldChanged">
-                                        <mvvm:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
+                                        ButtonImage=""
+                                        Height="25" d:IsLocked="True"/>
 
-                            </kc:DataField>
-                        </DataTemplate>
-
-                    </ItemsControl.ItemTemplate>
-
-                </ItemsControl>
-
-            </WrapPanel>
-            <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30">
-                <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Copy Vehiculo"></TextBlock>
-                       
+                </WrapPanel>
+                <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30" d:IsLocked="True">
+                    <StackPanel Orientation="Horizontal" d:IsLocked="True">
+                        <TextBlock Text="Copia Vehiculo" d:IsLocked="True"></TextBlock>
+                        <Image Source="{x:Static common:VehicleConstants.ImagePath}" d:IsLocked="True"></Image>
                     </StackPanel>
-            </Button>
+                </Button>
             </StackPanel>
         </GroupBox>
     </Grid>

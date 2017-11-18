@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using KarveControls.Generic;
 using Prism.Commands;
 
-namespace MasterModule.Views.VehiControls
+namespace MasterModule.Views.VehicleSelling
 {
     /// <summary>
     /// Interaction logic for RoadTaxes.xaml
@@ -99,7 +99,7 @@ namespace MasterModule.Views.VehiControls
                     }
             };
             this.GridTaxLayout.DataContext = this;
-            this.TextBoxCollection.ItemsSource = list;
+           // this.TextBoxCollection.ItemsSource = list;
 
         }
 
