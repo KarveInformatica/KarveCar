@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using KarveDataServices.DataTransferObject;
+using MasterModule.Views.VehicleAssurance;
 
-namespace MasterModule.Views.VehicleAssurance.MockViewModels
+namespace MasterModule.Views.Vehicles.MockViewModels
 {
     /// <summary>
     ///  VehicleAsssurance.
     /// </summary>
     public class VehicleAssuranceMockViewModel
     {
-        private VehicleDto vehicleDto = new VehicleDto();
+        private VehicleDto _vehicleDto = new VehicleDto();
         /// <summary>
         ///  mock assit command
         /// </summary>
@@ -28,11 +24,11 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
         public object DataObject {
             set
             {
-               vehicleDto = (VehicleDto)value;
+               _vehicleDto = (VehicleDto)value;
             }
             get
             {
-                return vehicleDto;
+                return _vehicleDto;
             }
         }
         /// <summary>

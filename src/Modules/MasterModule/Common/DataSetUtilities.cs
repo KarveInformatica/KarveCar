@@ -35,9 +35,6 @@ namespace MasterModule.Common
             }
         }
 
-        internal static void MergeObjectChanged<T>(T dataObject, DataSet assistantDataSet)
-        {
-            
-        }
+        
     }
 }

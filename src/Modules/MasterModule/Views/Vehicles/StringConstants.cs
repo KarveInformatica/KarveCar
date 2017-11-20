@@ -1,18 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace MasterModule.Views.VehicleAssurance
+namespace MasterModule.Views.Vehicles
 {
     /// <summary>
     /// </summary>
     public sealed class StringConstants
     {
-        // Image value 
-        private const string ImageValue =
-                  @"C:\Users\Usuario\Documents\CompraVenta\VehicleSelling\VehicleSelling\Images\search.png";
+
+
+        private const string BuyerValue = "Comprador";
+        private const string PriceValue = "Precio";
+        private const string BillNumberValue = "Numero Factura";
+        private const string ResellerValue = "Vendedor";
+        private const string BillingDateValue = "Fecha Factura";
+        private const string StretPriceValue = "Precio Para Venta";
+        private const string TrafficRenounceValue = "Baja Trafico";
+        private const string AssuranceRenountValue = "Baja Seguro";
+        private const string BankTransferValue = "Transferencia";
+        private const string DeliveringDateValue = "Fecha Entrega";
+        private const string SellVehiclesValue = "Venta Vehiculo";
+        private const string VehicleBuyingValue = "Compra Vehiculo";
+        private const string SupplierValue = "Proveedor";
+        private const string PreviousRegisterNumberValue = "Matricula anterior";
+        private const string PaymentWayValue = "Forma de Pago";
+        private const string RegisterDateValue = "Fecha matriculacion";
+        private const string BuyingDateValue = "Fecha compra";
+        private const string VehicleCopyValue = "Copia Vehiculo";
+        private const string SummaryValue = "Importe";
         /// <summary>
         /// import value
         /// </summary>
@@ -76,18 +90,101 @@ namespace MasterModule.Views.VehicleAssurance
 
         private const string PrimaValue = "Prima";
 
+        private static List<string> LocalizationList = new List<string>()
+        {
+            "Tarjeta de Transporte",
+            "Precio de Fabricacion",
+            "ImpuestoMatriculacion",
+            "Num.Factura",
+            "Precio",
+            "Bonifica"
+        };
+
+        /// <summary>
+        ///  Vehicule buyer
+        /// </summary>
+        public string Buyer => BuyerValue;
+        /// <summary>
+        ///  Vehicle price
+        /// </summary>
+        public string Price => PriceValue;
+        /// <summary>
+        ///  Vehicle bill number
+        /// </summary>
+        public string BillNumber => BillNumberValue;
+        /// <summary>
+        ///  Vehicle reseller
+        /// </summary>
+        public string Reseller => ResellerValue;
+        /// <summary>
+        ///  Vehicle billing date
+        /// </summary>
+        public string BillingDate => BillingDateValue;
+        /// <summary>
+        ///  Vehicle stree price
+        /// </summary>
+        public  string StretPrice => StretPriceValue;
+        /// <summary>
+        ///  Vehilce renounce
+        /// </summary>
+        public string TrafficRenounce => TrafficRenounceValue;
+        /// <summary>
+        ///  Vehicle assurance
+        /// </summary>
+        public  string AssuranceRenount => AssuranceRenountValue;
+        /// <summary>
+        ///  Vehicle bank transfer
+        /// </summary>
+        public  string BankTransfer => BankTransferValue;
+        /// <sumary>
+        ///  Vehicle delivering date
+        /// </summary>
+        public string DeliveringDate => DeliveringDateValue;
+        /// <summary>
+        ///  Vehicle selling
+        /// </summary>
+        public string SellVehicles => SellVehiclesValue;
+        /// <summary>
+        ///  Veihicle buying header
+        /// </summary>
+        public string VehicleBuying => VehicleBuyingValue;
+        /// <summary>
+        ///  Supplier value
+        /// </summary>
+        public string Supplier => SupplierValue;
+        /// <summary>
+        ///  Previous car register number
+        /// </summary>
+        public string PreviousRegisterNumber => PreviousRegisterNumberValue;
+        /// <summary>
+        ///  Previous payment way
+        /// </summary>
+        public string PaymentWay => PaymentWayValue;
+        /// <summary>
+        ///  Previous register date
+        /// </summary>
+        public string RegisterDate => RegisterDateValue;
+        /// <summary>
+        ///  Previous buying date
+        /// </summary>
+        public string BuyingDate => BuyingDateValue;
+        /// <summary>
+        ///  Summary 
+        /// </summary>
+        public string Summary => SummaryValue;
+        /// <summary>
+        ///  VehicleCopy
+        /// </summary>
+        public string VehicleCopy => VehicleCopyValue;
+
         /// <summary>
         ///  Agent
         /// </summary>
-        public string Agent =>  AgentValue;
-        /// <summary>
-        ///  Image path
-        /// </summary>
-        public string Image => ImageValue;
+        public string Agent => AgentValue;
         /// <summary>
         ///  Import 
         /// </summary>
-        public  string Import => ImportValue;
+        public string Import => ImportValue;
         /// <summary>
         ///  Assurance company.
         /// </summary>

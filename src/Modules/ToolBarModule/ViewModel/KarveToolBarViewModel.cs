@@ -39,7 +39,7 @@ namespace ToolBarModule
         private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
         private string _currentSaveImage = null;
         private bool _buttonSaveEnabled = true;
-        private SqlValidationRule<DataPayLoad> _validationRules;
+        private ISqlValidationRule<DataPayLoad> _validationRules;
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
         private bool Confirmed = false;
@@ -81,9 +81,11 @@ namespace ToolBarModule
             _regionManager = regionManager;
             _states = ToolbarStates.None;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
-            Confirmation request = new Confirmation();
-            request.Title = "Confirmacion";
-            request.Content = confirmDelete;
+            Confirmation request = new Confirmation
+            {
+                Title = "Confirmacion",
+                Content = confirmDelete
+            };
             Confirmed = false;
             ConfirmationCommand = new DelegateCommand(() =>
             {
@@ -91,10 +93,11 @@ namespace ToolBarModule
                 if (string.IsNullOrEmpty(noActiveValue))
                 {
                     InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
-                    Notification nt = new Notification();
-                    //  nt.Content= Resources.KarveToolBarViewModel_KarveToolBarViewModel_NoPuedoBorrarFichaDeConsulta
-                    nt.Content = "No puedo borrar la ficha de consulta";
-                    nt.Title = "Error";
+                    Notification nt = new Notification
+                    {
+                        Content = "No puedo borrar la ficha de consulta",
+                        Title = "Error"
+                    };
                     ir.Raise(nt);
                 }
                 else
@@ -134,9 +137,11 @@ namespace ToolBarModule
 
             string value = _configurationService.GetPrimaryKeyValue();
             _states = ToolbarStates.Delete;
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.PayloadType = DataPayLoad.Type.Delete;
-            payLoad.PrimaryKeyValue = value;
+            DataPayLoad payLoad = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.Delete,
+                PrimaryKeyValue = value
+            };
             if (value.Length > 0)
             {
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
@@ -153,8 +158,10 @@ namespace ToolBarModule
         {
             if (_states != ToolbarStates.Insert)
             {
-                DataPayLoad payLoad = new DataPayLoad();
-                payLoad.PayloadType = DataPayLoad.Type.Insert;
+                DataPayLoad payLoad = new DataPayLoad
+                {
+                    PayloadType = DataPayLoad.Type.Insert
+                };
                 _states = ToolbarStates.Insert;
                 // this send a message to the current control view model.
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
@@ -222,8 +229,10 @@ namespace ToolBarModule
                     InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
                         this._careKeeper,
                         this._eventManager,
-                        this._configurationService);
-                    dataCommand.ValidationRules = this._validationRules;
+                        this._configurationService)
+                    {
+                        ValidationRules = this._validationRules
+                    };
                     _careKeeper.Do(new CommandWrapper(dataCommand));
                     _states = ToolbarStates.None;
                 }
@@ -279,8 +288,10 @@ namespace ToolBarModule
                         _configurationService.CloseTab(primaryKeyValue);
                         _activeSubSystem = payload.Subsystem;
                         _states = ToolbarStates.None;
-                        DataPayLoad payLoad = new DataPayLoad();
-                        payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                        DataPayLoad payLoad = new DataPayLoad
+                        {
+                            PayloadType = DataPayLoad.Type.UpdateView
+                        };
                         DeliverIncomingNotify(_activeSubSystem, payLoad);
                         break;
                     }

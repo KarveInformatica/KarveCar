@@ -3,7 +3,7 @@
     /// <summary>
     ///  Rule of validation.
     /// </summary>
-    public interface SqlValidationRule<T>
+    public interface ISqlValidationRule<T>
     {
         bool Validate(T request);
     } 

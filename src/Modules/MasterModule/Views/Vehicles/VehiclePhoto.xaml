@@ -18,8 +18,9 @@
             <Button Content="Limpia Image.." HorizontalAlignment="Left" Margin="25,120,0,0" VerticalAlignment="Top" Width="95" RenderTransformOrigin="-0.133,0.752" Height="35"/>
         </StackPanel>
         <WrapPanel Orientation="Vertical" Grid.Column="1">
+            <!--
             <Image x:Name="ImageSource" Height="400" Width="400" karve:ComponentEx.DataField="IMAGE" karve:ComponentEx.DataSource="{Binding DataSource}"/>
-            
+            -->
         </WrapPanel>
     </Grid>
 </UserControl>

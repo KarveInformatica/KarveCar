@@ -7,7 +7,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System.Windows.Input;
 
-namespace MasterModule.Views.VehicleAssurance
+namespace MasterModule.Views.Vehicles
 {
 
     /// <summary>

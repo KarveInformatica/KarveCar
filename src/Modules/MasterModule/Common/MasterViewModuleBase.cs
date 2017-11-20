@@ -14,6 +14,9 @@ using Prism.Regions;
 
 namespace MasterModule.Common
 {
+    /// <summary>
+    ///  Base class for the view model.
+    /// </summary>
     public abstract  class MasterViewModuleBase : BindableBase, INavigationAware
     {
         protected const string Dataset = "dataset";
@@ -212,9 +215,11 @@ namespace MasterModule.Common
                     {
                         NotifyState = 0;
                     }
-                    DataPayLoad payLoad = new DataPayLoad();
-                    payLoad.HasDataObject = true;
-                    payLoad.DataObject = result;
+                    DataPayLoad payLoad = new DataPayLoad
+                    {
+                        HasDataObject = true,
+                        DataObject = result
+                    };
                     SetRegistrationPayLoad(ref payLoad);
                     EventManager.NotifyToolBar(payLoad);
                 }
@@ -478,9 +483,11 @@ namespace MasterModule.Common
             FillViewModelAssistantQueries(currentComponents, currentSet, ref assistQueries);
             DataSet assitDataSet = await DataServices.GetHelperDataServices().GetAsyncHelper(assistQueries);
             SetSourceViewTable(assitDataSet, ref currentComponents);
-            IDictionary<string, object> currentDictionary = new Dictionary<string, object>();
-            currentDictionary[Dataset] = assitDataSet;
-            currentDictionary[Collection] = currentComponents;
+            IDictionary<string, object> currentDictionary = new Dictionary<string, object>
+            {
+                [Dataset] = assitDataSet,
+                [Collection] = currentComponents
+            };
             return currentDictionary;
         }
 

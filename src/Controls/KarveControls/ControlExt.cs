@@ -7,7 +7,7 @@ using KarveControls;
 using Telerik.Charting.Styles;
 using System.Data;
 using System.Windows.Input;
-
+using System.Diagnostics.Contracts;
 namespace KarveControls
 {
     /// <summary>
@@ -15,6 +15,10 @@ namespace KarveControls
     /// </summary>
     public class ControlExt: DependencyObject
     {
+        /// <summary>
+        ///  Email data type
+        /// </summary>
+        public static DataType EmailDataType = DataType.Email;
         /// <summary>
         ///  DataType to be allowed.
         /// </summary>
@@ -45,7 +49,11 @@ namespace KarveControls
             /// </summary>
             Email,
             /// <summary>
-            ///  Bank Account field of the control.
+            ///  Phone field of the control.
+            /// </summary>
+            Phone,
+            /// <summary>
+            /// Bank Account of the control.
             /// </summary>
             BankAccount,
             /// <summary>
@@ -101,7 +109,7 @@ namespace KarveControls
                 "DataSource",
                 typeof(object),
                 typeof(ControlExt),
-                new UIPropertyMetadata(null, DataSourceChanged));
+                new UIPropertyMetadata(new object(), DataSourceChanged));
         /// <summary>
         /// CheckAndAssign
         /// </summary>
@@ -110,6 +118,11 @@ namespace KarveControls
         /// <param name="path"></param>
         private static void CheckAndAssign(DataFieldCheckBox dataFieldCheckBox, object sourceNew, string path)
         {
+            Contract.Requires((dataFieldCheckBox != null) &&
+                              (sourceNew != null) &&
+                              !string.IsNullOrEmpty(path));
+
+           
             var propValue = ComponentUtils.GetPropValue(sourceNew, path);
             int value = 0;
             if (propValue != null)
@@ -136,10 +149,21 @@ namespace KarveControls
         /// <param name="path">Path of the date</param>
         private static void CheckAndAssignDate(DataDatePicker dataDatePicker, object sourceNew, string path)
         {
+            Contract.Requires((dataDatePicker != null) &&
+                              (sourceNew != null) &&
+                              !string.IsNullOrEmpty(path));
+
+            if ((dataDatePicker == null) || 
+                (sourceNew == null) ||   
+                (string.IsNullOrEmpty(path)))
+            {
+                return;
+            }
             var propValue = ComponentUtils.GetPropValue(sourceNew, path);
             DateTime timeValue = DateTime.Now;
             if (propValue != null)
             {
+
 
                 if (propValue is string)
                 {
@@ -151,22 +175,35 @@ namespace KarveControls
                         timeValue = DateTime.Now;
                     }
                 }
-                dataDatePicker.DateContent = timeValue;
+                if (timeValue != null)
+                {
+                    dataDatePicker.DateContent = timeValue;
+                }
+                else
+                {
+                    dataDatePicker.DateContent = DateTime.Now;
+                }
             }
         }
         private static void DataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             object sourceNew = e.NewValue;
             string path = GetDataSourcePath(d);
-
-            if (d is DataFieldCheckBox)
+            if (sourceNew == null)
             {
-                DataFieldCheckBox dataFieldCheckBox = (DataFieldCheckBox) d;
+                return;
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+            if (d is DataFieldCheckBox dataFieldCheckBox)
+            {
                 dataFieldCheckBox.DataObject = sourceNew;
                 if (!string.IsNullOrEmpty(path))
                 {
                     CheckAndAssign(dataFieldCheckBox, sourceNew, path);
-                    
+
                 }
             }
             if (d is DataArea)
@@ -174,13 +211,14 @@ namespace KarveControls
                 DataArea dataArea = (DataArea)d;
                 dataArea.DataSource = e.NewValue;
                            }
-            if (d is DataDatePicker)
+            if (d is DataDatePicker dataPicker)
             {
-                DataDatePicker dataPicker = (DataDatePicker)d;
-                CheckAndAssignDate(dataPicker, sourceNew, path);
-                
+                if (dataPicker != null)
+                {
+                    CheckAndAssignDate(dataPicker, sourceNew, path);
+                }
             }
-            
+
         }
         /// <summary>
         ///  Get DataSource 
@@ -247,7 +285,10 @@ namespace KarveControls
                 else
                 {
                     var propValue = ComponentUtils.GetPropValue(value, path);
-                    ComponentUtils.SetPropValue(value, path, propValue);
+                    if (propValue != null)
+                    {
+                        ComponentUtils.SetPropValue(value, path, propValue);
+                    }
                 }
             }
         }

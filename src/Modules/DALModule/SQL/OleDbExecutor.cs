@@ -73,7 +73,7 @@ namespace DataAccessLayer.SQL
             catch (System.Exception ex)
             {
                 string msg = "Error during opening a connection. Reason:" +ex.Message;
-                throw new SQLExecutorException(msg);
+                throw new SqlExecutorException(msg);
             }
             return connection;
         }

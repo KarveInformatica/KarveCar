@@ -16,12 +16,14 @@ using System.Windows.Shapes;
 using KarveControls.UIObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
+using Prism.Regions;
+
 namespace MasterModule.Views
 {
     /// <summary>
     /// Interaction logic for ProviderInfoView.xaml
     /// </summary>
-    public partial class ProviderInfoView : UserControl, ISupplierInfoView
+    public partial class ProviderInfoView : UserControl, ISupplierInfoView, INavigationAware
     {
         public ProviderInfoView()
         {
@@ -32,8 +34,22 @@ namespace MasterModule.Views
         public string Header
         { set; get; }
 
-        
 
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Header = navigationContext.Parameters[ScopedRegionNavigationContentLoader.DefaultViewName] as string;
+
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+           
+        }
     }
     
     

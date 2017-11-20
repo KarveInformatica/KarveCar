@@ -7,21 +7,31 @@ namespace DataAccessLayer.SQL
     /// This allow the bubbling of the exception. 
     /// </summary>
     [Serializable]
-    internal class SQLExecutorException : System.Exception
+    internal class SqlExecutorException : System.Exception
     {
-        public SQLExecutorException()
+        /// <summary>
+        /// Exception in  the sql executor
+        /// </summary>
+        public SqlExecutorException()
+        {
+        }
+        /// <summary>
+        /// Exception in the sql executor
+        /// </summary>
+        /// <param name="message">Message of the exception</param>
+        public SqlExecutorException(string message) : base(message)
+        {
+        }
+        /// <summary>
+        /// Exception in the sql executor
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        public SqlExecutorException(string message, System.Exception innerException) : base(message, innerException)
         {
         }
 
-        public SQLExecutorException(string message) : base(message)
-        {
-        }
-
-        public SQLExecutorException(string message, System.Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected SQLExecutorException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected SqlExecutorException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

@@ -31,7 +31,8 @@ namespace ToolBarModule.Command
             new Dictionary<DataSubSystem, IDataPayLoadHandler>()
             {
                 { DataSubSystem.SupplierSubsystem, new SupplierDataPayload() },
-                { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()}
+                { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
+                { DataSubSystem.VehicleSubsystem, new VehicleDataPayload() }
             };
 
         /// <summary>

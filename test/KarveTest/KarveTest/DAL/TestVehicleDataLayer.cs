@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -270,13 +268,12 @@ namespace KarveTest.DAL
             }
             catch (Exception e)
             {
-              //  Assert.Fail(e.Message);
+               Assert.Fail(e.Message);
             }
         }
         [Test]
         public async Task Should_Fail_Insert_Empty_Vehicle()
         {
-            string vehicleNewId = "0000005";
             bool value = false;
             try
             {

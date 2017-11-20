@@ -69,10 +69,11 @@
         <dragablz:TabablzControl Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
             <dragablz:TabablzControl.ItemContainerStyle>
                 <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
-                    <Setter Property="Width" Value="100" />
+                  <Setter Property="Width" Value="100" />
                     <Setter Property="Height" Value="40" />
                     <Setter Property="FontFamily" Value="Arial"/>
-                    <Setter Property="Background" Value="MediumPurple" ></Setter>
+                        <Setter Property="Background" Value="Blue"></Setter>
+                    
                 </Style>
             </dragablz:TabablzControl.ItemContainerStyle>
             <dragablz:TabablzControl.InterTabController>

@@ -12,13 +12,15 @@ using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
+using Prism.Commands;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
     ///  This represent the detailed class for the view model in case of each car.
     /// </summary>
-    class VehicleInfoViewModel: MasterViewModuleBase, IEventObserver, IDataErrorInfo
+    partial class VehicleInfoViewModel: MasterViewModuleBase, IEventObserver, IDataErrorInfo
     {
         /// <summary>
         ///  This the private basic data template selector.
@@ -33,7 +35,7 @@ namespace MasterModule.ViewModels
         private object _deleteNotifyTaskCompletion;
         private readonly PropertyChangedEventHandler _deleteEventHandler;
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
-
+        private DelegateCommand<object> _changedCommand;
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -44,6 +46,7 @@ namespace MasterModule.ViewModels
             base(configurationService, eventManager, services)
         {
             _vehicleDataServices = services.GetVehicleDataServices();
+            ItemChangedCommand = new DelegateCommand<object>(ChangeUnpack);
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             
         }
@@ -93,8 +96,16 @@ namespace MasterModule.ViewModels
                 DataObject = vehicle;
             }
         }
+        public ICommand ItemChangedCommand { set; get; }
 
-
+        private void ChangeUnpack(object value)
+        {
+            IDictionary<string,object> changedItem = value as IDictionary<string,object>;
+            if (changedItem != null)
+            {
+                OnChangedField(changedItem);
+            }
+        }
         /// <summary>
         ///  OnChangedField. This method shall be changed.
         /// </summary>
@@ -102,14 +113,18 @@ namespace MasterModule.ViewModels
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad();
+            payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
                 payLoad.PayloadType = DataPayLoad.Type.Update;
             }
-            if (eventDictionary["DataObject"] == null)
+            if (eventDictionary.ContainsKey("DataObject"))
             {
-                MessageBox.Show("DataObject is null.");
+                if (eventDictionary["DataObject"] == null)
+                {
+                    MessageBox.Show("DataObject is null.");
+                }
             }
             ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(EventManager,
                 ViewModelQueries,
@@ -146,16 +161,15 @@ namespace MasterModule.ViewModels
             else
             {
                 vehicle = await _vehicleDataServices.GetVehicleDo(primaryKeyValue);
+                DataObject = vehicle;
+                
             }
             return vehicle;
         }
 
         public override void NewItem()
         {
-           // throw new NotImplementedException();
         }
-
-
         protected override void SetTable(DataTable table)
         {
            
@@ -168,12 +182,11 @@ namespace MasterModule.ViewModels
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
         }
-
         protected override void SetDataObject(object result)
         {
-                   }
+        }
 
         /// <summary>
         ///  This give usa the routing name of a vehicle module.
@@ -196,6 +209,7 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 _vehicleDo = (IVehicleData) payload.DataObject;
+                DataObject = _vehicleDo;
                 EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
                 RegisterToolBar();
             }

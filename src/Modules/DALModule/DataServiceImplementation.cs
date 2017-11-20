@@ -28,11 +28,14 @@ namespace DataAccessLayer
         /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
 
-
+        /// <summary>
+        /// DataService Implementation
+        /// </summary>
+        /// <param name="sqlExecutor">Sql executor</param>
+        /// <param name="configurationService">Configuration service. Global services for the application</param>
         public DataServiceImplementation(ISqlExecutor sqlExecutor, 
             IConfigurationService configurationService)
         {
-            //_mapper = InitMapper();
             _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor, configurationService);
             _helperDataServices = new HelperDataAccessLayer(sqlExecutor);
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);

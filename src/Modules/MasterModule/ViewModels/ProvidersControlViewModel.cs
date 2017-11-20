@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Windows.Input;
 using KarveDataServices;
 using KarveCommon.Services;
@@ -13,6 +14,8 @@ using KarveCommon.Generic;
 using KarveControls.UIObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
+using MasterModule.Views;
+using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
@@ -31,6 +34,7 @@ namespace MasterModule.ViewModels
         private static string PROVIDER_SUMMARY_VM = "ProvidersControlViewModel";
         private DataTable _extendedSupplierDataTable;
         private ICommand _pagedItemCommand;
+        private IRegionManager _regionManager;
         private Stopwatch _timing = new Stopwatch();
 
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
@@ -38,9 +42,11 @@ namespace MasterModule.ViewModels
         public ProvidersControlViewModel(IConfigurationService configurationService,
             IUnityContainer container,
             IDataServices services,
+            IRegionManager regionManager,
             IEventManager eventManager) : base(configurationService, eventManager, services)
         {
             _container = container;
+            _regionManager = regionManager;
             _extendedSupplierDataTable = new DataTable();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
@@ -122,7 +128,7 @@ namespace MasterModule.ViewModels
             currentPayload.PrimaryKeyValue = codigo;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
         }
-        private async void OpenCurrentItem(object currentItem)
+        private void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
             if (rowView != null)
@@ -131,9 +137,15 @@ namespace MasterModule.ViewModels
                 string name = row[ProviderNameColumn] as string;
                 string supplierId = row[ProviderColumnCode] as string;
                 string tabName = supplierId + "." + name;
-                ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
-                ConfigurationService.AddMainTab(view, tabName);
-                IList<IUiPageBuilder> list = new List<IUiPageBuilder>();
+                var navigationParameters = new NavigationParameters();
+                navigationParameters.Add("supplierId", supplierId);
+                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                var uri = new Uri(typeof(ProviderInfoView).FullName+navigationParameters,UriKind.Relative);
+                _regionManager.RequestNavigate("TabRegion", uri);
+                //ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
+               // ConfigurationService.AddMainTab(view, tabName);
+               // _regionManager.RequestNavigate();
+                /*IList<IUiPageBuilder> list = new List<IUiPageBuilder>();
                 list.Add(new UIObjects.Suppliers.UiSuppliersUpperPartPageBuilder());
                 list.Add(new UIObjects.Suppliers.UiMiddlePartPageBuilder(null));
                 UiFirstPageBuilder generalPageBuilder = new UiFirstPageBuilder();
@@ -149,10 +161,11 @@ namespace MasterModule.ViewModels
                 IDictionary<string, string> assistQueries = new Dictionary<string, string>();
                 FillViewModelAssistantQueries(observableCollection, currentSet, ref assistQueries);
                 DataSet assitDataSet = await DataServices.GetHelperDataServices().GetAsyncHelper(assistQueries);
+                  */
                 IList<DataSet> dataSet = new List<DataSet>();
-                             
-                dataSet.Add(currentSet);
-                dataSet.Add(assitDataSet);
+
+                //dataSet.Add(currentSet);
+               // dataSet.Add(assitDataSet);
                 DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);                
                 currentPayload.PrimaryKeyValue = supplierId;
                 currentPayload.Sender = PROVIDER_SUMMARY_VM;

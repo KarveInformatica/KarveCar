@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
+using MasterModule.Views.VehicleAssurance.MockViewModels;
 using Prism.Mvvm;
 
-namespace MasterModule.Views.VehicleAssurance.MockViewModels
+namespace MasterModule.Views.Vehicles.MockViewModels
 {
     public class RevisionMaintenanceMockViewModel: BindableBase
     {
-        private VehicleDto vehicleDto = new VehicleDto();
-        List<UiComposedMetaObject> _dataFieldCollection;
-
-        private List<UiComposedMetaObject> dataFieldCollection = new List<UiComposedMetaObject>
+        private readonly VehicleDto _vehicleDto = new VehicleDto();
+        private List<UiComposedFieldObject> _dataFieldCollection;
+        private readonly List<UiComposedFieldObject> _defaultDataFieldCollection = new List<UiComposedFieldObject>
         {
-                new UiComposedMetaObject()
+                new UiComposedFieldObject()
                 {
                     LabelSource="I.T.V", 
                     DataSourcePath1="FITV",
                     DataSourcePath2="FITV2",
                     DataSourcePath3="OBS_ITV"
                 },
-                new UiComposedMetaObject()
+                new UiComposedFieldObject()
                {
                     LabelSource="Fecha Caducidad Transporte",
                     DataSourcePath1="ULT_TT",
                     DataSourcePath2="FCTARTRA",
                     DataSourcePath3="OBS_TT"
                },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="ADR",
                   DataSourcePath1="ULT_ADR",
@@ -37,14 +34,14 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
                   DataSourcePath3="OBS_ADR"
 
               },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="Vtp ATP",
                   DataSourcePath1="ULT_ATP",
                   DataSourcePath2="VTO_ATP",
                   DataSourcePath3="OBS_ATP"
               },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="Extintor",
                   DataSourcePath1="FEXTINTOR",
@@ -52,7 +49,7 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
                   DataSourcePath3="OBS_EXT"
 
               },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="Tacografo",
                   DataSourcePath1="ULT_TAC",
@@ -60,14 +57,14 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
                   DataSourcePath3="OBS_TAC"
 
               },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="Termografo",
                   DataSourcePath1="ULT_TEMR",
                   DataSourcePath2="FREVTERM",
                   DataSourcePath3="OBS_TERM"
               },
-              new UiComposedMetaObject()
+              new UiComposedFieldObject()
               {
                   LabelSource="Fugas frio",
                   DataSourcePath1="ULT_FF",
@@ -77,40 +74,43 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
         };
         public RevisionMaintenanceMockViewModel()
         {
-            vehicleDto.FITV = DateTime.Now;
-            vehicleDto.FITV2 = DateTime.Now;
-            vehicleDto.OBS_ITV = "ItvObserva";
-            vehicleDto.ULT_TT = DateTime.Now;
-            vehicleDto.FCTARTRA = DateTime.Now;
-            vehicleDto.OBS_TT = "Observa";
-            vehicleDto.ULT_ADR = DateTime.Now;
-            vehicleDto.VTO_ADR = DateTime.Now;
-            vehicleDto.OBS_ADR = "Observa adr";
-            vehicleDto.ULT_ATP = DateTime.Now;
-            vehicleDto.VTO_ADR = DateTime.Now;
-            vehicleDto.OBS_ATP = "observa atp";
-            vehicleDto.FEXTINTOR = DateTime.Now;
-            vehicleDto.FEXTINTORCAD = DateTime.Now;
-            vehicleDto.OBS_EXT = "observa ext";
-            vehicleDto.ULT_TAC = DateTime.Now;
-            vehicleDto.FREVITACO = DateTime.Now;
-            vehicleDto.OBS_TAC = "observa taco";
-            vehicleDto.ULT_TEMR = DateTime.Now;
-            vehicleDto.FREVTERM = DateTime.Now;
-            vehicleDto.OBS_TERM = "observa term";
-            vehicleDto.ULT_FF = DateTime.Now;
-            vehicleDto.VTO_FF = DateTime.Now;
-            vehicleDto.OBS_FF = "observa ff";
-            for (int i = 0; i < dataFieldCollection.Count; ++i)
+            _vehicleDto.FITV = DateTime.Now;
+            _vehicleDto.FITV2 = DateTime.Now;
+            _vehicleDto.OBS_ITV = "ItvObserva";
+            _vehicleDto.ULT_TT = DateTime.Now;
+            _vehicleDto.FCTARTRA = DateTime.Now;
+            _vehicleDto.OBS_TT = "Observa";
+            _vehicleDto.ULT_ADR = DateTime.Now;
+            _vehicleDto.VTO_ADR = DateTime.Now;
+            _vehicleDto.OBS_ADR = "Observa adr";
+            _vehicleDto.ULT_ATP = DateTime.Now;
+            _vehicleDto.VTO_ADR = DateTime.Now;
+            _vehicleDto.OBS_ATP = "observa atp";
+            _vehicleDto.FEXTINTOR = DateTime.Now;
+            _vehicleDto.FEXTINTORCAD = DateTime.Now;
+            _vehicleDto.OBS_EXT = "observa ext";
+            _vehicleDto.ULT_TAC = DateTime.Now;
+            _vehicleDto.FREVITACO = DateTime.Now;
+            _vehicleDto.OBS_TAC = "observa taco";
+            _vehicleDto.ULT_TEMR = DateTime.Now;
+            _vehicleDto.FREVTERM = DateTime.Now;
+            _vehicleDto.OBS_TERM = "observa term";
+            _vehicleDto.ULT_FF = DateTime.Now;
+            _vehicleDto.VTO_FF = DateTime.Now;
+            _vehicleDto.OBS_FF = "observa ff";
+            for (int i = 0; i < _dataFieldCollection.Count; ++i)
             {
-                dataFieldCollection[i].DataSource = vehicleDto;
+                _dataFieldCollection[i].DataSource = _vehicleDto;
             }
         }
+        /// <summary>
+        ///  filed object for the list of revision.
+        /// </summary>
         public object MetaObject
         {
             set
             {
-                _dataFieldCollection = dataFieldCollection;
+                _dataFieldCollection = _defaultDataFieldCollection;
                 RaisePropertyChanged();
             }
             get

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using KarveCommon.Generic;
+using KarveCommonInterfaces;
 using MasterModule.ViewModels;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
@@ -14,6 +16,7 @@ namespace MasterModule.Common
 {
     public class ScopedRegionNavigationContentLoader: IRegionNavigationContentLoader
     {
+        public const string DefaultViewName = "ViewName";
         private readonly IServiceLocator serviceLocator;
         private HashSet<string> tabNames = new HashSet<string>(); 
 
@@ -73,17 +76,59 @@ namespace MasterModule.Common
 
 
             var view = acceptingCandidates.FirstOrDefault();
-
+            PropertyInfo currentProperty = null;
+            string viewName = "";
+            viewName = navigationContext.Parameters[DefaultViewName] as string;
+            IViewsCollection collection = region.Views;
+            bool oldView = false;
             if (view != null)
+            {
+                Type currentType = view.GetType();
+                currentProperty = currentType.GetProperty("Header");
+                if (currentProperty != null)
+                {
+                    string value = currentProperty.GetValue(view) as string;
+                    if (value != null)
+                    {
+                        oldView = viewName == value;
+                    }
+                }
+            }
+
+            if (oldView)
             {
                 return view;
             }
 
            // string viewName = navigationContext.Parameters["ViewType"] as string;
             view = this.CreateNewRegionItem(candidateTargetContract);
-            object value = view.GetType().GetProperty("Header").GetValue(view, null);
-            string viewName = value as string;
+            if (currentProperty != null)
+            {
+                viewName = currentProperty.GetValue(view, null) as string;
+                if (string.IsNullOrEmpty(viewName))
+                {
+                    Type currentType = view.GetType();
+                    PropertyInfo context = currentType.GetProperty("DataContext");
+                    if (context != null)
+                    {
+                        var dataContext = context.GetValue(view);
+                        PropertyInfo info = dataContext.GetType().GetProperty("Header");
+                        if (info != null)
+                        {
+                            info.SetValue(dataContext, viewName);
+                        }
 
+                    }
+
+                }
+            }
+
+            if (string.IsNullOrEmpty(viewName))
+            {
+                viewName = "Unknown View";
+            }
+            //object value = view.GetType().GetProperty("Header").GetValue(view, null);
+         
             /*
             if (view != null)
             {
@@ -91,7 +136,7 @@ namespace MasterModule.Common
                 TabViewModelBase tbvm = control.DataContext as TabViewModelBase;
                 tbvm.Header = navigationContext.Parameters["SearchType"] as string;
 
-            }*/
+            }
 
             bool isAlreadyATab = region.Views.Any(v =>
             {

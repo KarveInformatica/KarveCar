@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataCollection type="DataAccessLayer.SQL.DataCollection">
+  <Tables>
+    <Table type="DataAccessLayer.SQL.Table">
+      <Name>PROVEE1</Name>
+      <DataFields>
+	<Field type="DataAccessLayer.SQL.Field">
+          <Name>NUM_PROVEE</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>NIF</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>TIPO</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>NOMBRE</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>direccion</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cp</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>poblacion</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>prov</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>nacioper</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>telefono</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>fax</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>movil</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>internet</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>email</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>persona</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>sublicen</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>oficina</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>falta</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>fbaja</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>notas</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>observa</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>ctapago</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>tipoiva</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>mesvaca</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>mesvaca2</Name>
+        </Field>
+      <Field type="DataAccessLayer.SQL.Field">
+          <Name>cc</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>iban</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>banco</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>swift</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>idoma_pr1</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>gestion_iva_importa</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>noautomargen</Name>
+        </Field>
+<Field type="DataAccessLayer.SQL.Field">
+          <Name>PROALB_COSTE_TRANSP</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>por_subcontra</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>imp_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>num_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>ref_a_cli</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cliente</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>product_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>vende_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>mercado</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>negocio</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>canal</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>claveppto</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>origen_comi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>zonaofi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>claveppto</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>nif</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>email</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>tipocomi</Name>
+        </Field>
+      </DataFields>
+    </Table>
+    <Table type="DataAccessLayer.SQL.Table">
+      <Name>COMI_DELEGA</Name>
+      <DataFields>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldIdDelega</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldDelegacion</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldDireccion1</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldDireccion2</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldCP</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldPoblacion</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldTelefono1</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldTelefono2</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldFax</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldEmail</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>cldMovil</Name>
+        </Field>
+      </DataFields>
+    </Table>
+    <Table type="DataAccessLayer.SQL.Table">
+      <Name>TIPOCOMI</Name>
+      <DataFields>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>num_ticomi</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>nombre</Name>
+        </Field>
+      </DataFields>
+    </Table>
+  </Tables>
+</DataCollection>

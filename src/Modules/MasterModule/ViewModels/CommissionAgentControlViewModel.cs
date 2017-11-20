@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveControls.UIObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;

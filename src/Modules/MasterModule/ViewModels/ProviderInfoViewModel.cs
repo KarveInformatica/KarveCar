@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using KarveControls.UIObjects;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.UIObjects.Suppliers;
 using Prism.Commands;
+using Prism.Regions;
 using GridParams = KarveControls.KarveGrid.KarveGridView.ChangedGridViewEventArgs.EventParams;
 using GridOperation = KarveControls.KarveGrid.KarveGridView.ChangedGridViewEventArgs.Operation;
 
@@ -83,7 +85,9 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged("DelegationTable");
             }
         }
+
         #region Properties
+
         /// <summary>
         ///  To many observable collection.
         /// </summary>
@@ -91,12 +95,21 @@ namespace MasterModule.ViewModels
         public ObservableCollection<IUiObject> AccountRightCheckBoxes
         {
             get { return _accountRightCheckBoxes; }
-            set { _accountRightCheckBoxes = value; RaisePropertyChanged(); }
+            set
+            {
+                _accountRightCheckBoxes = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> AccountLeftCheckBoxes
         {
             get { return _accountLeftCheckBoxes; }
-            set { _accountLeftCheckBoxes = value; RaisePropertyChanged(); }
+            set
+            {
+                _accountLeftCheckBoxes = value;
+                RaisePropertyChanged();
+            }
         }
 
         public ObservableCollection<IUiObject> HeaderValueCollection
@@ -108,6 +121,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
         public ObservableCollection<IUiObject> MiddleValueCollection
         {
             get { return MiddlePartObservableCollection; }
@@ -127,6 +141,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
         public ObservableCollection<IUiObject> AccountRightCollection
         {
             get { return _accountRightCollection; }
@@ -136,49 +151,99 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
         public ObservableCollection<IUiObject> RightCheckBoxesCollection
         {
             get { return _accountRightCheckBoxes; }
-            set { _accountRightCheckBoxes = value; RaisePropertyChanged(); }
+            set
+            {
+                _accountRightCheckBoxes = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> LeasingCollection
         {
             get { return _leasingCollection; }
-            set { _leasingCollection = value; RaisePropertyChanged(); }
+            set
+            {
+                _leasingCollection = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> LeftCheckBoxesCollection
         {
             get { return _accountLeftCheckBoxes; }
-            set { _accountRightCheckBoxes = value; RaisePropertyChanged(); }
+            set
+            {
+                _accountRightCheckBoxes = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> TopLeftDirection
         {
             get { return _topLeftDirection; }
-            set { _topLeftDirection = value; RaisePropertyChanged(); }
+            set
+            {
+                _topLeftDirection = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> TopRightDirection
         {
             get { return _topRightDirection; }
-            set { _topRightDirection = value; RaisePropertyChanged(); }
+            set
+            {
+                _topRightDirection = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> BottomLeftDirection
         {
             get { return _bottomLeftDirection; }
-            set { _bottomLeftDirection = value; RaisePropertyChanged(); }
+            set
+            {
+                _bottomLeftDirection = value;
+                RaisePropertyChanged();
+            }
         }
+
         public ObservableCollection<IUiObject> BottomRightDirection
         {
             get { return _bottomRightDirection; }
-            set { _bottomRightDirection = value; RaisePropertyChanged(); }
+            set
+            {
+                _bottomRightDirection = value;
+                RaisePropertyChanged();
+            }
         }
+
         #endregion
 
 
         private const string ProviderInfoVm = "ProviderInfoViewModel";
 
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
 
-        // This is the event manager for communicating with the toolbar and other view modules inside the provider Module.
-       
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
+        }
+
+        public override  void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
+        }
+
+    // This is the event manager for communicating with the toolbar and other view modules inside the provider Module.
+
         // current dataset for this view module.
 
         private DataSet _currentDataSet = new DataSet();
@@ -203,6 +268,7 @@ namespace MasterModule.ViewModels
         private DataTable _providerTableFirst;
         private DataTable _providerTableSecond;
         private DataSet _assistDS;
+        private string _header;
         public ICommand AssistCommand { set; get; }
 
         public ObservableCollection<IUiObject> IntracoCollection
@@ -216,7 +282,15 @@ namespace MasterModule.ViewModels
             get { return UpperPartObservableCollection; }
         }
 
-
+        public string Header {
+            set { _header = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _header;
+            }
+        }
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
             IDataServices dataServices): base(configurationService, eventManager, dataServices)
         {

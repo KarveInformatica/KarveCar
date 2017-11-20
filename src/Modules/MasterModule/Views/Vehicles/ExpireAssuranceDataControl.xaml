@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MasterModule.Views.VehicleAssurance.ExpireAssuranceDataControl"
+﻿<UserControl x:Class="MasterModule.Views.Vehicles.ExpireAssuranceDataControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,34 +8,50 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
+             xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              d:DesignHeight="900" d:DesignWidth="1200"
-             d:DataContext="{d:DesignInstance Type=mockViewModels:VehicleAssuranceMockViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=mockViewModels1:ExpireDataMockViewModel, IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.Resources>
+            <ResourceDictionary>
+
+                <ResourceDictionary.MergedDictionaries>
+
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+
+                </ResourceDictionary.MergedDictionaries>
+
+                <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+           
+            </ResourceDictionary>
+            
+
         </Grid.Resources>
         <ListBox x:Name="AssuranceDataListBox" ItemsSource="{Binding MetaDataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
                         <kc:DataDatePicker kc:ControlExt.DataSource="{Binding MetaDataObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       kc:ControlExt.DataSourcePath="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       kc:ControlExt.DataSourcePath="{Binding MetaDataObject.DataSourcePath1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        DataDatePickerHeight="25"
-                                       LabelText="Vencimiento"
+                                       LabelText="{Binding StringConstants.ExpirationDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        LabelTextWidth="100"
                                        LabelVisible="True">
                         </kc:DataDatePicker>
-                        
+                       
                     <kc:DataField DataObject="{Binding MetaDataObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                   LabelVisible="True"
-                                  LabelText="{Binding StringConstants.Amount}"
+                                  LabelText="Importe"
                                   LabelTextWidth="100"
                                   TextContentWidth="100"
-                                  DataSourcePath="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                  Margin="0,5,5,0"
+                                  DataSourcePath="{Binding MetaDataObject.DataSourcePath2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                        
                     </kc:DataField>
                     <TextBlock Text="Pagado"></TextBlock>
                     <ToggleButton
-	                    Content="{Binding MetaDataObject.DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+	                    Content="{Binding MetaDataObject.DataSourcePath3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 	                    IsChecked="True" Style="{StaticResource MaterialDesignActionLightToggleButton}" ToolTip="Pagado" />
                 </StackPanel>
             </DataTemplate>

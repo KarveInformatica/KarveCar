@@ -526,25 +526,6 @@ public partial class DataRadio : UserControl, INotifyPropertyChanged
             }
         }
 
-        public void SetDynamicBinding(ref DataTable dta, IList<ValidationRule> rules)
-        {
-            string field = _dataField.ToUpper();
-            if (!string.IsNullOrEmpty(field))
-            {
-                Binding oBind = new Binding("IsChecked");
-                oBind.Source = dta.Columns[field];
-                oBind.Mode = BindingMode.TwoWay;
-                oBind.ValidatesOnDataErrors = true;
-                oBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                if (rules != null)
-                {
-                    foreach (ValidationRule rule in rules)
-                    {
-                        oBind.ValidationRules.Add(rule);
-                    }
-                }
-                SetBinding(IsCheckedCommandDependencyProperty, oBind);
-            }
-        }
+       
     }
 }

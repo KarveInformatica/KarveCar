@@ -8,9 +8,11 @@
              xmlns:KarveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
-             xmlns:mvvm="http://www.codeplex.com/prism" x:Class="VehicleAssurance.Mantainence"
+             xmlns:mvvm="http://www.codeplex.com/prism"
+             xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
+             x:Class="VehicleAssurance.Mantainence"
              mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1000"
-             d:DataContext="{d:DesignInstance Type=mockViewModels:VehicleMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=mockViewModels1:VehicleMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
    
           
     <Grid>

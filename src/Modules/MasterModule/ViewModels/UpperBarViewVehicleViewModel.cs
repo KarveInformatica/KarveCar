@@ -26,7 +26,9 @@ namespace MasterModule.ViewModels
         private MailBoxMessageHandler MailBoxHandler;
         public const string Name = "MasterModule.UpperBarViewVehicleViewModel";
         private const string AssistQuery = "AssistQuery";
-        private object _dataObject = null;
+        private IVehicleData _dataObject = null;
+
+        
         private object _sourceView = new object();
         private DataSubSystem _subsystem;
         private IVehicleData _currentVehicleData;
@@ -35,13 +37,18 @@ namespace MasterModule.ViewModels
         private const string VehicleModel = "SELECT CODIGO, NOMBRE, VARIANTE FROM MODELO WHERE CODIGO='{0}'";
         private const string VehicleColor = "SELECT CODIGO, NOMBRE FROM MARCAS WHERE CODIGO='{0}'";
 
+        public IEnumerable<ColorDto> Color { get; private set; }
+
 
         /// <summary>
         ///  Data Object
         /// </summary>
-        public object DataObject
+        public IVehicleData DataObject
         {
-            set { _dataObject = value; RaisePropertyChanged(); }
+            set { _dataObject = (IVehicleData) value;
+                Color = _dataObject.ColorDtos;
+                
+                RaisePropertyChanged(); }
             get { return _dataObject; }
         }
        
@@ -98,24 +105,30 @@ namespace MasterModule.ViewModels
             {
                 cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
                 {
-                    var vehicle = new ModelVehicleDto();
-                    vehicle.Codigo = src.CODIGO;
-                    vehicle.Variante = src.VARIANTE;
-                    vehicle.Nombre = src.NOMBRE;
+                    var vehicle = new ModelVehicleDto
+                    {
+                        Codigo = src.CODIGO,
+                        Variante = src.VARIANTE,
+                        Nombre = src.NOMBRE
+                    };
                     return vehicle;
                 });
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src=>
                 {
-                    var marcas = new BrandVehicleDto();
-                    marcas.Codigo = src.CODIGO;
-                    marcas.Nombre = src.NOMBRE;
+                    var marcas = new BrandVehicleDto
+                    {
+                        Codigo = src.CODIGO,
+                        Nombre = src.NOMBRE
+                    };
                     return marcas;
                 });
                 cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
                 {
-                    var color = new ColorDto();
-                    color.Codigo = src.CODIGO;
-                    color.Nombre = src.NOMBRE;
+                    var color = new ColorDto
+                    {
+                        Codigo = src.CODIGO,
+                        Nombre = src.NOMBRE
+                    };
                     return color;
                 });
             });
@@ -128,7 +141,7 @@ namespace MasterModule.ViewModels
         {
             if (payLoad.HasDataObject)
             {
-                DataObject = payLoad.DataObject;
+                DataObject = payLoad.DataObject as IVehicleData;
                 _subsystem = payLoad.Subsystem;
                 NotifyTaskCompletion.Create(HandleVehicleUpperBar(DataObject));
             }
@@ -195,8 +208,8 @@ namespace MasterModule.ViewModels
         {
             var currentData = data;
             DataPayLoad payLoad = new DataPayLoad();
-            payLoad.DataObject = currentData;
-            DataObject = currentData;
+            payLoad.DataObject = currentData as IVehicleData;
+            DataObject = currentData as IVehicleData;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.HasDataObject = true;
             payLoad.Subsystem = _subsystem;
@@ -209,8 +222,19 @@ namespace MasterModule.ViewModels
             if (currentData != null)
             {
                 string assistQuery = currentData[AssistQuery] as string;
-                string tableName = currentData["TableName"] as string;
-                await HandleAssist(assistQuery, tableName);
+                string tableName = "";
+                if (currentData.ContainsKey("TableName"))
+                {
+                   tableName = currentData["TableName"] as string;
+                }
+                if (!string.IsNullOrEmpty(tableName))
+                {
+                    await HandleAssist(assistQuery, tableName);
+                }
+                else
+                {
+                    await Task.Delay(1);
+                }
             }
 
         }

@@ -208,6 +208,15 @@ namespace DataAccessLayer.Model
                     marcas.NOMBRE = src.Nombre;
                     return marcas;
                 });
+                // _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src=> 
+                { 
+                    var marcas = new BrandVehicleDto();
+                    marcas.Codigo = src.CODIGO;
+                    marcas.Nombre = src.NOMBRE;
+                    return marcas;
+                });
+                cfg.CreateMap<PICTURES, PictureDto>();
                 cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
                     {
                         var color = new COLORFL();
@@ -378,6 +387,7 @@ namespace DataAccessLayer.Model
         {
             Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO1"]));
             Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO2"]));
+            Dbc.Requires(_vehicleMapper != null);
 
             string fieldsValue = fields["VEHICULO1"] + "," + fields["VEHICULO2"];
             string vehicleQuery = string.Format(VehicleQueryFormat, fieldsValue, codeVehicle);
@@ -394,10 +404,10 @@ namespace DataAccessLayer.Model
                     // now we look for aux tables.
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);
-                    BrandDtos = Mapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
+                    BrandDtos = _vehicleMapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
                     var queryPicture = string.Format(PhotoByValue, _vehicleValue.CODIINT);
                     var pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
-                    PictureDtos = Mapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
+                    PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
                     Valid =true;
                 }
                 catch (System.Exception e)

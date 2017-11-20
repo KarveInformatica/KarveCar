@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views.VehicleSelling
+namespace MasterModule.Views.Vehicles
 {
     /// <summary>
     /// Interaction logic for VehicleBuying2.xaml

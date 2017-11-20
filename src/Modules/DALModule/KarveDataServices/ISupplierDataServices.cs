@@ -97,6 +97,10 @@ namespace KarveDataServices
         /// <param name="currentDataSet"></param>
         /// <returns></returns>
         bool DeleteSupplier(IDictionary<string, string> queries,  DataSet currentDataSet);
+        /// <summary>
+        ///  This returns a new identifier.
+        /// </summary>
+        /// <returns></returns>
         string GetNewId();
 
 

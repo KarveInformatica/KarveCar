@@ -11,7 +11,7 @@ namespace KarveCommon.Generic
     /// <summary>
     ///  This is a validation rule that avoid duplicates
     /// </summary>
-    public class RemoveDuplicateSqlValidationRule: SqlValidationRule<DataPayLoad>
+    public class RemoveDuplicateSqlValidationRule: ISqlValidationRule<DataPayLoad>
     {
         public bool Validate(DataPayLoad request)
         {

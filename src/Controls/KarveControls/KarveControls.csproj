@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\KarveControls.xml</DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,25 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\KarveControls.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
@@ -194,7 +214,7 @@
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
-    <Compile Include="Generic\ComponentHelper.cs" />
+    <Compile Include="Generic\ComponentUtils.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
@@ -357,6 +377,7 @@
     <Resource Include="Images\search.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="KarveCommon.csproj" />
     <Content Include="PhotoFrame\PhotoControl.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveGrid\KarveGrid.csproj" />

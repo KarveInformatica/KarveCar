@@ -78,13 +78,17 @@ namespace KarveControls
         private void OnSelectedItemCommand(object obj)
         {
             // in this case we shall prepare an event an raise up to the view model.
-            DataComboxEventArgs ev = new DataComboxEventArgs(DataComboxChangedEvent);
-            ev.FieldData = obj;
-            IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-            valueDictionary["TableName"] = TableName;
-            valueDictionary["Field"] = DataField;
-            valueDictionary["DataTable"] = ItemSource;
-            valueDictionary["ChangedValue"] = obj;
+            DataComboxEventArgs ev = new DataComboxEventArgs(DataComboxChangedEvent)
+            {
+                FieldData = obj
+            };
+            IDictionary<string, object> valueDictionary = new Dictionary<string, object>
+            {
+                ["TableName"] = TableName,
+                ["Field"] = DataField,
+                ["DataTable"] = ItemSource,
+                ["ChangedValue"] = obj
+            };
             ev.ChangedValuesObjects = valueDictionary;
             RaiseEvent(ev);
         }
@@ -123,8 +127,7 @@ namespace KarveControls
         }
         private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataCombox control = d as DataCombox;
-            if (control != null)
+            if (d is DataCombox control)
             {
                 control.OnPropertyChanged("ItemSource");
                 control.OnItemSourceChanged(e);
@@ -192,8 +195,7 @@ namespace KarveControls
         }
         private static void OnDataFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataCombox controlDataRadio = d as DataCombox;
-            if (controlDataRadio != null)
+            if (d is DataCombox controlDataRadio)
             {
                 controlDataRadio.OnPropertyChanged("DataField");
                 controlDataRadio.OnDataFieldPropertyChanged(e);

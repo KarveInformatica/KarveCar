@@ -34,13 +34,16 @@ namespace KarveControls.DataFieldItemsControl
             get { return (ICommand)GetValue(ChangeActionDependencyProperty); }
             set { SetValue(ChangeActionDependencyProperty, (ICommand)value); }
         }
+
         private void OnChangeField(object obj)
         {
             ICommand value = ChangeActionCommand;
             if (value!=null)
             value.Execute(obj);
         }
-
+        /// <summary>
+        ///  Localization strings for the lablels.
+        /// </summary>
         public static DependencyProperty LabelEnumerable = DependencyProperty.Register("Localization",
             typeof(IEnumerable<string>),
             typeof(DataFieldItemsControl), 

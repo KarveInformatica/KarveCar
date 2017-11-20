@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KarveControls.Generic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,7 +21,7 @@ namespace KarveControls
         private bool _dataAreaChanged = false;
         private object _itemSource;
         private string _DataArea = string.Empty;
-
+        private string _previousDataArea = string.Empty;
 
 
         /// <summary>
@@ -345,6 +346,7 @@ namespace KarveControls
             this.DataAreaLayout.DataContext = this;
             this.EditorText.LostFocus +=EditorTextOnLostFocus;
             this.EditorText.GotFocus+=EditorTextOnGotFocus;
+            
         }
 
         private void EditorTextOnGotFocus(object sender, RoutedEventArgs routedEventArgs)
@@ -356,25 +358,40 @@ namespace KarveControls
 
         private void EditorTextOnLostFocus(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(_previousDataArea) && (string.IsNullOrEmpty(this._DataArea)))
+                return;
+            // ok 
+            _dataAreaChanged = _previousDataArea != EditorText.Text;
+            
             if (_dataAreaChanged)
             {
+                _previousDataArea = _DataArea;
+                _DataArea = EditorText.Text;
                 if (EditorText.Text != null)
                 {
-                    DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs();
+                    DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs(DataAreaChangedEvent);
                     ev.FieldData = EditorText.Text;
+                    ComponentFiller filler = new ComponentFiller();
+                    var dataObject=DataSource;
+
+                    filler.FillDataObject(EditorText.Text, DataSourcePath, ref dataObject);
+                    DataSource = dataObject;
+
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+
                     valueDictionary["Field"] = DataSourcePath;
                     valueDictionary["DataTable"] = DataSource;
                     valueDictionary["DataObject"] = DataSource;
                     valueDictionary["ChangedValue"] = EditorText.Text;
+                    
                     ev.ChangedValuesObjects = valueDictionary;
 
                     if (ItemChangedCommand!=null)
                     {
                         ICommand ex = ItemChangedCommand;
-                        if (ex.CanExecute(ev))
+                        if (ex.CanExecute(valueDictionary))
                         {
-                            ex.Execute(ev);
+                            ex.Execute(valueDictionary);
                         }
                     }
                     RaiseEvent(ev);

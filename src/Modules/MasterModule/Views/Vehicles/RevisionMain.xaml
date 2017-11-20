@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VehicleAssurance"
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
-             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" x:Class="VehicleAssurance.RevisionMain"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:mockvm="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
+             x:Class="VehicleAssurance.RevisionMain"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=mockViewModels:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         
@@ -22,15 +23,15 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding MetaObject.LabelSource}"></TextBlock>
-                        <KarveControls:DataDatePicker Height="25" 
-                                                      KarveControls:ControlExt.DataSource="{Binding  MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      KarveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath1, Mode=OneWay}"/>
-                        <KarveControls:DataDatePicker Height="25"
-                                                      KarveControls:ControlExt.DataSource="{Binding MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      KarveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath2, Mode=OneWay}"/>
-                        <KarveControls:DataArea       Height="25" 
-                                                      KarveControls:ControlExt.DataSource="{Binding MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      KarveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath3, Mode=OneWay}"/>
+                        <karveControls:DataDatePicker Height="25" 
+                                                      karveControls:ControlExt.DataSource="{Binding  MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath1, Mode=OneWay}"/>
+                        <karveControls:DataDatePicker Height="25"
+                                                      karveControls:ControlExt.DataSource="{Binding MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath2, Mode=OneWay}"/>
+                        <karveControls:DataArea       Height="25" 
+                                                      karveControls:ControlExt.DataSource="{Binding MetaObject.DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding MetaObject.DataSourcePath3, Mode=OneWay}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -9,9 +9,9 @@
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:common="clr-namespace:MasterModule.Views.VehicleSelling"
+             xmlns:common="clr-namespace:MasterModule.Common"
              xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleSelling.MockViewModels"
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              d:DesignHeight="200" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
     <Grid x:Name="GridTaxLayout">
@@ -47,7 +47,7 @@
                                         DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataFieldFirst="CP"
                                         AssistProperties="Numero, Poblacion, Codigo, Pais"
-                                        ButtonImage="{x:Static common:VehicleConstants.ImagePath}"
+                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
                     <kc:DualFieldSearchBox LabelText="Zona"
@@ -60,14 +60,14 @@
                                         AssistProperties="Nome, Zona"
                                         AssistDataFieldSecond="NOM_ZONA"
                                         AssistQuery="{Binding AssitQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                        ButtonImage=""
+                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
                 </WrapPanel>
                 <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30" d:IsLocked="True">
                     <StackPanel Orientation="Horizontal" d:IsLocked="True">
                         <TextBlock Text="Copia Vehiculo" d:IsLocked="True"></TextBlock>
-                        <Image Source="{x:Static common:VehicleConstants.ImagePath}" d:IsLocked="True"></Image>
+                        <Image Source="{x:Static common:MasterModuleConstants.CopyPath}" d:IsLocked="True"></Image>
                     </StackPanel>
                 </Button>
             </StackPanel>

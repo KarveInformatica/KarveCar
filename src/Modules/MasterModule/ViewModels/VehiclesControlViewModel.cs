@@ -10,6 +10,7 @@ using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -53,12 +54,13 @@ namespace MasterModule.ViewModels
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, VehicleNameColumn, VehicleColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-                IVehicleData agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item2);
+                IVehicleData agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
                 // replace this with navigation.
                 VehicleInfoView view = _container.Resolve<VehicleInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
+                currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
             }
         }

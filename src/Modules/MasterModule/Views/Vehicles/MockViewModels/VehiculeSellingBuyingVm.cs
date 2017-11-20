@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using KarveDataServices.DataTransferObject;
-using Prism.Mvvm;
-using Prism.Commands;
 using System.Windows.Input;
+using KarveDataServices.DataTransferObject;
+using Prism.Commands;
+using Prism.Mvvm;
 
-namespace MasterModule.Views.VehicleSelling.MockViewModels
+namespace MasterModule.Views.Vehicles.MockViewModels
 {
     public class VehiculeSellingBuyingVm : BindableBase
     {
@@ -16,7 +16,7 @@ namespace MasterModule.Views.VehicleSelling.MockViewModels
         private string _supplierAssistQuery = "";
         private DelegateCommand<object> _delegateCommand;
         private List<UiMetaObject> _dataFieldCollection;
-
+        private StringConstants _stringConstants = new StringConstants();
         /// <summary>
         /// Vehicle DataObject.
         /// </summary>
@@ -26,19 +26,12 @@ namespace MasterModule.Views.VehicleSelling.MockViewModels
             InitalizeDto();
 
         }
-
-        /*
-         
-             IsInDesignMode property could be placed in your view model base class - if you have one - and looks like this:
-
-DesignerProperties.GetIsInDesignMode(new DependencyObject());
-             */
         /// <summary>
         ///  DataObject
         /// </summary>
         public object DataObject
         {
-            get { return _vehicleDto; }
+            get => _vehicleDto;
             set { _vehicleDto = (VehicleDto)value; RaisePropertyChanged(); }
         }
         /// <summary>
@@ -46,8 +39,8 @@ DesignerProperties.GetIsInDesignMode(new DependencyObject());
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            get { return _delegateCommand; }
-            set { _delegateCommand = (DelegateCommand<object>)value; }
+            get => _delegateCommand;
+            set => _delegateCommand = (DelegateCommand<object>)value;
         }
         /// <summary>
         ///  Item changed.
@@ -93,6 +86,18 @@ DesignerProperties.GetIsInDesignMode(new DependencyObject());
                 RaisePropertyChanged();
             }
             get { return _dataFieldCollection; }
+        }
+        public object StringConstants
+        {
+            set
+            {
+                _stringConstants = (StringConstants) value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _stringConstants;
+            }
         }
         /// <summary>
         /// Initialize DTO.
@@ -174,6 +179,7 @@ DesignerProperties.GetIsInDesignMode(new DependencyObject());
               }
         };
             DataFieldCollection = dataFieldCollection;
+            StringConstants = _stringConstants;
         }
     }
 }

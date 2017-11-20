@@ -78,7 +78,7 @@ namespace KarveControls.Generic
         {
                 try
                 {
-                    ComponentUtils.SetPropValue(dataObject, "Value."+dataField.ToUpper(), textField);
+                    ComponentUtils.SetPropValue(dataObject, "Value."+dataField.ToUpper(), textField, true);
                     
                 }
                 catch (Exception e)

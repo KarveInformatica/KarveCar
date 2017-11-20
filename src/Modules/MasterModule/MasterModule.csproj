@@ -37,6 +37,24 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
@@ -59,6 +77,9 @@
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps, Version=0.0.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaterialDesignThemes.MahApps.0.0.11\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
@@ -226,6 +247,7 @@
     <Compile Include="ViewModels\UiCommissionAgentRightPartBuilder.cs" />
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />
+    <Compile Include="ViewModels\VehicleInfoViewModelUi.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
     <Compile Include="ViewModels\VehicleInfoViewModel.cs" />
     <Compile Include="Views\ClientsControlView.xaml.cs">
@@ -233,6 +255,9 @@
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DirectionInfo.xaml.cs">
+      <DependentUpon>DirectionInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FareUserControl.xaml.cs">
       <DependentUpon>FareUserControl.xaml</DependentUpon>
@@ -269,31 +294,58 @@
     <Compile Include="Views\UpperBarView.xaml.cs">
       <DependentUpon>UpperBarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UpperBarViewVehicle.xaml.cs">
-      <DependentUpon>UpperBarViewVehicle.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VehiControls\GeneralAssurance.xaml.cs">
-      <DependentUpon>GeneralAssurance.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VehiControls\RoadTaxes.xaml.cs">
-      <DependentUpon>RoadTaxes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VehiControls\VehiclePhoto.xaml.cs">
-      <DependentUpon>VehiclePhoto.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\VehicleInfoView.xaml.cs">
       <DependentUpon>VehicleInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehiclesControlView.xaml.cs">
       <DependentUpon>VehiclesControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VehiControls\VehicleBuying.xaml.cs">
+    <Compile Include="Views\Vehicles\ExpireAssuranceDataControl.xaml.cs">
+      <DependentUpon>ExpireAssuranceDataControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\GeneralAssurance.xaml.cs">
+      <DependentUpon>GeneralAssurance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\Mantainence.xaml.cs">
+      <DependentUpon>Mantainence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\MockViewModels\ExpireDataMockViewModel.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\RevisionMaintenanceMockViewModel.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\VehicleAssuranceMockViewModel.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\VehicleGeneralMockViewModel.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\VehicleMaintenanceMockViewModel.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\VehicleMockBase.cs" />
+    <Compile Include="Views\Vehicles\MockViewModels\VehiculeSellingBuyingVm.cs" />
+    <Compile Include="Views\Vehicles\RevisionMain.xaml.cs">
+      <DependentUpon>RevisionMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\RoadTaxes.xaml.cs">
+      <DependentUpon>RoadTaxes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\SeguroAddicional.xaml.cs">
+      <DependentUpon>SeguroAddicional.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\StringConstants.cs" />
+    <Compile Include="Views\Vehicles\UiComposedFieldObject.cs" />
+    <Compile Include="Views\Vehicles\UiComposedObject.cs" />
+    <Compile Include="Views\Vehicles\UiMetaObject.cs" />
+    <Compile Include="Views\Vehicles\UpperBarViewVehicle.xaml.cs">
+      <DependentUpon>UpperBarViewVehicle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\VehicleBuying.xaml.cs">
       <DependentUpon>VehicleBuying.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VehiControls\VehicleLeasing.xaml.cs">
-      <DependentUpon>VehicleLeasing.xaml</DependentUpon>
+    <Compile Include="Views\Vehicles\VehicleConstants.cs" />
+    <Compile Include="Views\Vehicles\VehiclePhoto.xaml.cs">
+      <DependentUpon>VehiclePhoto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VehiControls\VehiExt.cs" />
+    <Compile Include="Views\Vehicles\VehicleSell.xaml.cs">
+      <DependentUpon>VehicleSell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\VehicleState.xaml.cs">
+      <DependentUpon>VehicleState.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vehicles\VehiExt.cs" />
     <Page Include="Generic\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CumulativeSummaryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DirectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,22 +406,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UpperBarViewVehicle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VehiControls\GeneralAssurance.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VehiControls\RoadTaxes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VehiControls\VehiclePhoto.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\VehicleInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -374,13 +414,49 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VehiControls\VehicleBuying.xaml">
+    <Page Include="Views\Vehicles\ExpireAssuranceDataControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\GeneralAssurance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\Mantainence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\RevisionMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\RoadTaxes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\SeguroAddicional.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VehiControls\VehicleLeasing.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Vehicles\UpperBarViewVehicle.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\VehicleBuying.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\VehiclePhoto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\VehicleSell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\VehicleState.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +527,10 @@
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
@@ -511,9 +591,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\disk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataTransferObject\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\copycool.png" />

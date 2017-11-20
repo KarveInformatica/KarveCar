@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -22,6 +25,18 @@ namespace DataAccessLayer
         public const string SupplierTable2 = "PROVEE2";
         public const string PrimaryKey = "NUM_PROVEE";
 
+        internal const string SupplierQuery = "SELECT NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,CP," +
+                                              "PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3," +
+                                              "PROVEE2.DIA,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO" +
+                                              "POBLACION,PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA," +
+                                              "SUBLICEN,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA," +
+                                              "MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN," +
+                                              "PROALB_COSTE_TRANSP,EXENCIONES_INT,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO," +
+                                              "CP_PAGO,PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO," +
+                                              "DIR2_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO, DIR_RECLAMA,DIR2_RECLAMA," +
+                                              "CP_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6," +
+                                              "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
+
         private object _currentMerge = new object();
         /// <summary>
         /// This a supplier data access layer constructor
@@ -35,6 +50,26 @@ namespace DataAccessLayer
         }
 
 
+        public async Task<DataObjects.SupplierPoco> GetSupplierDo(string supplierId)
+        {
+            SupplierPoco ret;
+            
+            using (IDbConnection connection = this._executor.OpenNewDbConnection())
+            {
+                var query = string.Format(SupplierQuery, supplierId);
+                var result = await connection.QueryAsync<DataObjects.SupplierPoco>(query);
+                ret = result.FirstOrDefault();
+            }
+            if (ret == null)
+            {
+                ret = new SupplierPoco();
+            }
+            return ret;
+
+
+        }
+
+
         /// <summary>
         /// Return the dataset of the delegations given a supplier.
         /// </summary>
@@ -45,15 +80,15 @@ namespace DataAccessLayer
             string supplierCodeQuery = "";
             DataSet delegationDataSet;
 
-            if (!string.IsNullOrEmpty(supplierCode))
+            if (!String.IsNullOrEmpty(supplierCode))
             {
-                supplierCodeQuery = string.Format(GenericSql.DelegationQuery, "'" + supplierCode + "'");
+                supplierCodeQuery = String.Format(GenericSql.DelegationQuery, "'" + supplierCode + "'");
                 delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
 
             }
             else
             {
-                supplierCodeQuery = string.Format(GenericSql.DelegationGenericQuery);
+                supplierCodeQuery = String.Format(GenericSql.DelegationGenericQuery);
                 delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
             }
             Tuple<string, DataSet> retValue = new Tuple<string, DataSet>(supplierCodeQuery, delegationDataSet);
@@ -208,7 +243,7 @@ namespace DataAccessLayer
 
                 id = tmpNumber.ToString();
                 string str = "SELECT NUM_PROVEE FROM PROVEE1 WHERE NUM_PROVEE='{0}'";
-                str = string.Format(str, id);
+                str = String.Format(str, id);
                 DataTable table = _executor.ExecuteSelectCommand(str, CommandType.Text);
                 if (table.Rows.Count == 0)
                 {
@@ -297,7 +332,5 @@ namespace DataAccessLayer
 
 
         }
-
-        
     }
 }

@@ -86,7 +86,7 @@ namespace KarveControls
         /// <summary>
         /// Data object dependency properties.
         /// </summary>
-        public static DependencyProperty DataObjectDependencyProperty =
+        public static readonly DependencyProperty DataObjectDependencyProperty =
             DependencyProperty.Register("DataObject", typeof(object), typeof(DataField), new PropertyMetadata(null, OnItemSourceDoChanged));
         /// <summary>
         ///  This returns a data object.
@@ -100,8 +100,31 @@ namespace KarveControls
         /// <summary>
         /// Data object dependency properties.
         /// </summary>
-        public static DependencyProperty DataAllowedDependencyProperty =
-            DependencyProperty.Register("DataAllowed", typeof(ControlExt.DataType), typeof(DataField));
+        public static readonly DependencyProperty DataAllowedDependencyProperty =
+            DependencyProperty.Register("DataAllowed", typeof(ControlExt.DataType), typeof(DataField), new PropertyMetadata(ControlExt.DataType.Any, OnDataAllowedChanged));
+
+        private static void OnDataAllowedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField data = d as DataField;
+            data?.OnDataAllowedChanged(e);
+        }
+
+        private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            ControlExt.DataType dataType = (ControlExt.DataType)e.NewValue;
+            if (dataType == ControlExt.DataType.Phone)
+            {
+                this.Hint.Kind = MaterialDesignThemes.Wpf.PackIconKind.Phone;
+                this.Hint.Visibility = Visibility.Visible;
+            }
+            if (dataType == ControlExt.DataType.Email)
+            {
+                this.Hint.Kind = MaterialDesignThemes.Wpf.PackIconKind.Email;
+                this.Hint.Visibility = Visibility.Visible;
+
+            }
+
+        }
 
         #region
         /// <summary>
@@ -262,7 +285,7 @@ namespace KarveControls
         /// <summary>
         /// Command associated to the changed of a property. It gets triggered when a change happens.
         /// </summary>
-        public static DependencyProperty ItemChangedCommandDependencyProperty =
+        public static readonly DependencyProperty ItemChangedCommandDependencyProperty =
             DependencyProperty.Register(
                 "ItemChangedCommand",
                 typeof(ICommand),
@@ -669,7 +692,11 @@ namespace KarveControls
         /// </summary>
         public DataField()
         {
+            
             InitializeComponent();
+            this.TextContentWidth = "100";
+            this.LabelTextWidth = "50";
+            this.Height = 25;
             LabelVisible = true;
             TextField.IsReadOnly = false;
             TextField.TextChanged += TextField_TextChanged;
@@ -693,12 +720,13 @@ namespace KarveControls
                 {
                     FieldData = TextField.Text
                 };
-                IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-
-                valueDictionary[TABLENAME] = TableName;
-                valueDictionary[FIELD] = DataSourcePath;
-                valueDictionary[DATATABLE] = ItemSource;
-                valueDictionary[CHANGED_VALUE] = TextField.Text;
+                IDictionary<string, object> valueDictionary = new Dictionary<string, object>
+                {
+                    [TABLENAME] = TableName,
+                    [FIELD] = DataSourcePath,
+                    [DATATABLE] = ItemSource,
+                    [CHANGED_VALUE] = TextField.Text
+                };
                 _filler.FillDataObject(TextField.Text, DataSourcePath, ref _dataObject);
                 DataObject = _dataObject;
                 valueDictionary[DATAOBJECT] = DataObject;

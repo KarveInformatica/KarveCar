@@ -10,6 +10,14 @@
              mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="600">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+
+        </Grid.Resources>
         <GroupBox Header="Dato Generales">
         <StackPanel Name="ContextLayout" Orientation="Horizontal">
             

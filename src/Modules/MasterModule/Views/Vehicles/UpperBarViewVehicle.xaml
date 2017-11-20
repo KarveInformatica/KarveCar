@@ -45,7 +45,7 @@
                                               AssistProperties="Codigo,Nombre"
                                               ButtonImage="/MasterModule;component/Images/search.png"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
+                                              SourceView="{Binding Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
                 <i:Interaction.Triggers>
 
                     <i:EventTrigger EventName="MagnifierPress">
@@ -136,7 +136,7 @@
                                               AssistProperties="Codigo,Nombre"
                                               AssistTableName="MODELO"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding DataObject.ModelDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding DataObject.ModelDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="Mar"
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"

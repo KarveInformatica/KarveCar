@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MasterModule.Views.VehicleAssurance.MockViewModels
+﻿namespace MasterModule.Views.Vehicles.MockViewModels
 {
     /// <summary>
     /// Mock Maintenance View Model. 

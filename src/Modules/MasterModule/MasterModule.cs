@@ -29,7 +29,7 @@ namespace MasterModule
         protected void RegisterViewsAndServices()
         {
             _container.RegisterType<object, CommissionAgentInfoView>();
-            _container.RegisterType<ISupplierInfoView, ProviderInfoView>();
+            _container.RegisterType<object, ProviderInfoView>(typeof(ProviderInfoView).FullName);
             _container.RegisterType<object, CommissionAgentControlView>("CommissionAgent");
             _container.RegisterType<object, ClientsControlView>("Clients");
             _container.RegisterType<object, ProvidersControl>("Suppliers");

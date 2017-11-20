@@ -59,9 +59,8 @@ namespace KarveCommon.Services
             {
                 if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
                 {
-                    IList<IEventObserver> disabledItemList = null;
                     // ok we get the disabled
-                    _notificationDisabled.TryGetValue(id, out disabledItemList);
+                    _notificationDisabled.TryGetValue(id, out IList<IEventObserver> disabledItemList);
                     if ((disabledItemList == null))
                     {
                         NotifyObserver(dataPayload, value);
@@ -137,11 +136,10 @@ namespace KarveCommon.Services
         {
             if (_subsystemObserver.ContainsKey(id))
             {
-                IList<IEventObserver> value = null;
-                if (_subsystemObserver.TryGetValue(id, out value))
+                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
                 {
                     value.Remove(obs);
-                    
+
                 }
             }
         }
@@ -160,8 +158,10 @@ namespace KarveCommon.Services
             }
             else
             {
-                IList<IEventObserver> value = new List<IEventObserver>();
-                value.Add(obs);
+                IList<IEventObserver> value = new List<IEventObserver>
+                {
+                    obs
+                };
                 _notificationDisabled[id] = value;
             }
         }

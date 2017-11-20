@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
@@ -71,8 +89,6 @@
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
-    <Compile Include="Generic\IAsyncInitialization.cs" />
-    <Compile Include="Generic\ILinqToTree.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
     <Compile Include="Generic\LinqToTreeEnumerableExtensions.cs" />
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
@@ -97,7 +113,6 @@
     <Compile Include="Converter\NullLongConverter.cs" />
     <Compile Include="Converter\NullShortConverter.cs" />
     <Compile Include="Converter\SqlInjectionConverter.cs" />
-    <Compile Include="Generic\ICreateRegionManagerScope.cs" />
     <Compile Include="Generic\IDataGridRowChange.cs" />
     <Compile Include="Generic\KarveIntertTabClient.cs" />
     <Compile Include="Validation\Iban.cs" />
@@ -129,6 +144,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\DALModule\KarveDataServices\KarveDataServices.csproj">
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>

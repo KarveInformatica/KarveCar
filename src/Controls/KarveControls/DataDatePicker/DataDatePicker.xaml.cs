@@ -99,7 +99,10 @@ namespace KarveControls
                 if (!string.IsNullOrEmpty(value))
                 {
                     var obj = ComponentUtils.GetPropValue(control, value);
-                    control.DateContent = Convert.ToDateTime(obj);
+                    if (obj != null)
+                    {
+                        control.DateContent = Convert.ToDateTime(obj);
+                    }
                 }
             }
         }
@@ -126,17 +129,27 @@ namespace KarveControls
         private static void OnDateContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataDatePicker control = d as DataDatePicker;
+            if (e.NewValue == null)
+            {
+                return;
+            }
             if (control != null)
             {
 
                 var value = ControlExt.GetDataSourcePath(control);
-                var obj = ControlExt.GetDataSource(control);
-                if (!string.IsNullOrEmpty(value))
+                if (value != null)
                 {
-                    var date = e.NewValue;
-                    if (date is DateTime)
+                    var obj = ControlExt.GetDataSource(control);
+                    if (obj != null)
                     {
-                        ComponentUtils.SetPropValue(obj, value, date);
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            var date = e.NewValue;
+                            if (date is DateTime)
+                            {
+                                ComponentUtils.SetPropValue(obj, value, date);
+                            }
+                        }
                     }
                 }
             }
@@ -342,16 +355,25 @@ namespace KarveControls
 
         private void DatePicker_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var value = ControlExt.GetDataSourcePath(this);
+            var dataObject = ControlExt.GetDataSource(this);
+            DataObject = dataObject;
             if (DatePicker.SelectedDate != null)
             {
-                DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent);
-                ev.FieldData = DatePicker.SelectedDate.Value;
-                IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-                valueDictionary["DataObject"] = DataObject;
-                valueDictionary["ChangedValue"] = DatePicker.SelectedDate.Value;
-                ev.ChangedValuesObjects = valueDictionary;
-                RaiseEvent(ev);
+                DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
+                {
+                    FieldData = DatePicker.SelectedDate.Value
+                };
+                if (ev.FieldData!=null)
+                {
+                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>
+                    {
+                        ["DataObject"] = DataObject,
+                        ["ChangedValue"] = DatePicker.SelectedDate.Value
+                    };
+                    ev.ChangedValuesObjects = valueDictionary;
+                    RaiseEvent(ev);
+                }
             }
         }
     }

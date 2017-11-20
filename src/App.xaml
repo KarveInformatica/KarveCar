@@ -18,7 +18,7 @@
 
 
                     <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Blue.Primary.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Indigo.Primary.xaml" />
                     
                     </ResourceDictionary.MergedDictionaries>
 
@@ -34,7 +34,7 @@
                     <ResourceDictionary>
                         <!-- include your secondary pallette -->
                         <ResourceDictionary.MergedDictionaries>
-                                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.LightBlue.Accent.xaml">
+                                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.DeepOrange.Accent.xaml">
                                 </ResourceDictionary>
                             </ResourceDictionary.MergedDictionaries>
 
@@ -74,21 +74,26 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
+                   
                     <ObjectDataProvider x:Key="ResourceLanguage" 
                                 ObjectType="{x:Type lang:ChangeLanguageLogic}" 
                                 MethodName="GetResourceLanguage">
                     </ObjectDataProvider>
+                   
                 </ResourceDictionary>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
-
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
+                    <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                    <!-- Accent and AppTheme setting -->
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+               </ResourceDictionary>
+                
+       
             </ResourceDictionary.MergedDictionaries>
 
             <!--Converters-->

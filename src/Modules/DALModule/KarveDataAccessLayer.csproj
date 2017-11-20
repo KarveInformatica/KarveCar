@@ -30,6 +30,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
@@ -53,6 +71,10 @@
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.20434, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
       <HintPath>..\..\packages\iAnywhere.Data.SQLAnywhere.v4.5.16.0.0.20433\lib\net45\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
+    <Reference Include="KarveDapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\KarveDapper\bin\Debug\KarveDapper.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\Controls\KarveControls\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -75,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
+    <Compile Include="DataAccessLayer\DataObjects\SupplierPoco.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -1080,10 +1103,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
-      <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
-      <Name>KarveDapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
@@ -1097,6 +1116,8 @@
     <Content Include="DataObjects\dataobjects.txt" />
     <Content Include="DataObjects\SupplierSummaryDataObject.cs.txt" />
     <Content Include="DataObjects\SupplierSummaryObject.cs.txt" />
+    <Content Include="Data\CommissionAgentFields.xml" />
+    <Content Include="Data\VehicleFields.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MasterModule.Views.VehicleSelling.VehicleSell"
+﻿<UserControl x:Class="MasterModule.Views.Vehicles.VehicleSell"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,9 +8,8 @@
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             xmlns:common="clr-namespace:MasterModule.Views.VehicleSelling"
-             xmlns:commonMock="MasterModule.Views.VehicleSelling.MockViewModels"
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleSelling.MockViewModels"
+             xmlns:common="clr-namespace:MasterModule.Common"
+             xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="900">
     <Grid d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
@@ -19,9 +18,9 @@
         </Grid.Resources>
 
 
-        <GroupBox Grid.Row="0" Header="{x:Static common:VehicleConstants.SellVehicles}">
+        <GroupBox Grid.Row="0" Header="{Binding StringConstants.SellVehicles}">
             <WrapPanel>
-                <kc:DualFieldSearchBox LabelText="{x:Static common:VehicleConstants.Buyer}" 
+                <kc:DualFieldSearchBox LabelText="{Binding StringConstants.Buyer}" 
                                        LabelTextWidth="100"
                                        TextContentFirstWidth="50"
                                        TextContentSecondWidth="150"
@@ -34,37 +33,39 @@
                                        Margin="5,0,0,0"
                                        Height="25"
                                        AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
-                                       ButtonImage=""/>
+                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                 <kc:DataField TextContentWidth="150" 
                               LabelTextWidth="50"
-                              LabelText="{x:Static common:VehicleConstants.Price}"
+                              LabelText="{Binding StringConstants.Price}"
                               LabelVisible="True"
                               Margin="5,0,0,0"
                               DataSourcePath="precio"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                               DataFieldHeight="25"/>
-                <kc:DataField LabelText="{x:Static common:VehicleConstants.BillNumber}" 
+                <kc:DataField LabelText="{Binding StringConstants.BillNumber}" 
                               TextContentWidth="100"
+                              LabelTextWidth="110"
                               DataSourcePath="FRAVEN"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DataFieldHeight="25"
                               Margin="5,5,5,0"/>
                 <kc:DataDatePicker DataDatePickerHeight="25"
-                                   LabelText="{x:Static common:VehicleConstants.BillingDate}"
+                                   LabelText="{Binding StringConstants.BillingDate}"
                                    LabelVisible="True"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="FFRA"
                 />
-                <kc:DataField LabelText="{x:Static common:VehicleConstants.StretPrice}"
-                              TextContentWidth="150"   
+                <kc:DataField LabelText="{Binding StringConstants.StretPrice}"
+                              TextContentWidth="150" 
+                              LabelTextWidth="120"
                               DataSourcePath="PVP"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DataFieldHeight="25"
                               Margin="10,0,0,0"/>
                 <kc:DualFieldSearchBox
-                    LabelText="{x:Static common:VehicleConstants.Reseller}" 
-                    LabelTextWidth="100"
+                    LabelText="{Binding StringConstants.Reseller}" 
+                    LabelTextWidth="80"
                     TextContentFirstWidth="50"
                     TextContentSecondWidth="150"
                     IsReadOnlySecond="True"
@@ -74,24 +75,24 @@
                     AssistDataFieldFirst="num_vende"
                     AssistDataFieldSecond="nombre"
                     AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
-                    ButtonImage="{x:Static common:VehicleConstants.ImagePath}" Height="25"/>
+                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}" Height="25"/>
                 <GroupBox>
                     <WrapPanel>
                         <kc:DataDatePicker DataDatePickerHeight="25" 
-                                           LabelText="{x:Static common:VehicleConstants.TrafficRenounce}"
+                                           LabelText="{Binding StringConstants.TrafficRenounce}"
                                            LabelVisible="True"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FTRAFB"       />
-                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.AssuranceRenount}" 
+                        <kc:DataDatePicker LabelText="{Binding StringConstants.AssuranceRenount}" 
                                            DataDatePickerHeight="25"
                                            LabelVisible="True"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath=""/>
-                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.BankTransfer}" DataDatePickerHeight="25"
+                        <kc:DataDatePicker LabelText="{Binding StringConstants.BankTransfer}" DataDatePickerHeight="25"
                                            LabelVisible="True"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FTRANS"/>
-                        <kc:DataDatePicker LabelText="{x:Static common:VehicleConstants.DeliveringDate}" DataDatePickerHeight="25"  
+                        <kc:DataDatePicker LabelText="{Binding StringConstants.DeliveringDate}" DataDatePickerHeight="25"  
                                            LabelVisible="True"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FENTREGA_VEHI"/>

@@ -981,7 +981,7 @@ namespace KarveControls
                 SearchTextFirst.IsReadOnly = value;
                 if (value)
                 {
-                    SearchTextFirst.Background = Brushes.CadetBlue;
+                    SearchTextFirst.Background = Brushes.LightCyan;
                 }
                 else
                 {
@@ -993,7 +993,7 @@ namespace KarveControls
                 SearchTextSecond.IsReadOnly = value;
                 if (value)
                 {
-                    SearchTextSecond.Background = Brushes.CadetBlue;
+                    SearchTextSecond.Background = Brushes.LightCyan;
                 }
                 else
                 {
