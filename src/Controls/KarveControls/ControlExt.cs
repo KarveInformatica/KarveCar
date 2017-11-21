@@ -80,6 +80,46 @@ namespace KarveControls
 
 
 
+        #region ItemChangedCommand
+        /// <summary>
+        ///  This is the kind of data allowd.
+        /// </summary>
+        public static readonly DependencyProperty ItemChangedCommandDependencyProperty =
+            DependencyProperty.RegisterAttached(
+                "ItemChangedCommand",
+                typeof(DataType),
+                typeof(ControlExt),
+                new PropertyMetadata(DataType.Any));
+        /// <summary>
+        ///  Kind of data allowed for this component.
+        /// </summary>
+        public ICommand ItemChangedCommand
+        {
+            get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
+            set { SetValue(ItemChangedCommandDependencyProperty, value); }
+        }
+        /// <summary>
+        ///  Set the item changed command
+        /// </summary>
+        /// <param name="d">Depedency property</param>
+        /// <param name="e">Value</param>
+        public static void SetItemChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(ItemChangedCommandDependencyProperty, e);
+        }
+        /// <summary>
+        ///  Get item changed command.
+        /// </summary>
+        /// <param name="d">Dependency Properties</param>
+        /// <param name="e">Value</param>
+        /// <returns></returns>
+        public static ICommand GetItemChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return (ICommand) d.GetValue(ItemChangedCommandDependencyProperty);
+        }
+
+        #endregion
+
         #region DataAllowed
         /// <summary>
         ///  This is the kind of data allowd.
@@ -225,6 +265,7 @@ namespace KarveControls
         /// </summary>
         /// <param name="ds">Data Source</param>
         /// <returns></returns>
+        
         public static object GetDataSource(DependencyObject ds)
         {
            return ds.GetValue(DataSourceDependencyProperty);

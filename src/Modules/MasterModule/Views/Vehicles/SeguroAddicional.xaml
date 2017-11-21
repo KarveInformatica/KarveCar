@@ -16,8 +16,8 @@
             LabelText="Poliza" 
             Height="25" 
             Margin="0,5,0,0"
-            TextContentWidth="150" 
-            LabelTextWidth="100"/>
+            TextContentWidth="100" 
+            LabelTextWidth="50"/>
         <KarveControls:DualFieldSearchBox LabelText="Compañía" 
                                           Height="25" 
                                           AssistDataFieldFirst=""

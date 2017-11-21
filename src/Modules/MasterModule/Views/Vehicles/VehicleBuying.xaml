@@ -80,7 +80,7 @@
                         <DataTemplate>
                             <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="120"
-                                         LabelTextWidth="140"
+                                         LabelTextWidth="130"
                                          LabelVisible="True"
                                          IsReadOnly="False"
                                          DataFieldHeight="25"

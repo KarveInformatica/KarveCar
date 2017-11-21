@@ -134,6 +134,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
                     DataSourcePath = "IMPUESTO" ,
                     ChangedItem=ItemChangedCommand,
                     LabelText = "Impuesto  Matricula"
+                    
                 },
                new UiMetaObject()
                {

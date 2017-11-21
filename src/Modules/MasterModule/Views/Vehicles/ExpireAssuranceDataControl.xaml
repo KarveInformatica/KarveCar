@@ -10,8 +10,8 @@
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
              xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              d:DesignHeight="900" d:DesignWidth="1200"
-             d:DataContext="{d:DesignInstance Type=mockViewModels1:ExpireDataMockViewModel, IsDesignTimeCreatable=True}">
-    <Grid>
+             >
+    <Grid d:DataContext="{d:DesignInstance Type=mockViewModels1:ExpireDataMockViewModel, IsDesignTimeCreatable=True}">
         <Grid.Resources>
             <ResourceDictionary>
 

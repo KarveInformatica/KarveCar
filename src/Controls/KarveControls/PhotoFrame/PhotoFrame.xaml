@@ -4,33 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" ClipToBounds="True"
-             d:DesignHeight="477" d:DesignWidth="740" HorizontalAlignment="Center" VerticalAlignment="Center">
-	<UserControl.Resources>
-		<Storyboard x:Key="MoveStoryboard">
-            <!-- The TargetName for the animations will be modified from code -->
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)" Storyboard.TargetName="c_image1" x:Name="moveX" From="0"/>
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.Y)" Storyboard.TargetName="c_image1" x:Name="moveY" From="0"/>
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleX)" Storyboard.TargetName="c_image1" x:Name="scaleX" From="1" />
-            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleY)" Storyboard.TargetName="c_image1" x:Name="scaleY" From="1"/>
-        </Storyboard>
-	</UserControl.Resources>
-    <Grid>
-        <Image x:Name="c_image1" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5" >
-			<Image.RenderTransform>
-				<TransformGroup>
-					<TranslateTransform />
-                    <ScaleTransform />
-                </TransformGroup>
-			</Image.RenderTransform>
-		</Image>
-		<Image x:Name="c_image2" Stretch="UniformToFill" RenderTransformOrigin="0.5,0.5">
-			<Image.RenderTransform>
-				<TransformGroup>
-					<TranslateTransform />
-                    <ScaleTransform />
-                </TransformGroup>
-			</Image.RenderTransform>
-		</Image>
-        <TextBlock TextWrapping="Wrap" x:Name="c_errorText" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" Visibility="Collapsed" Text="The specified folder does not exist" FontSize="20" />
+             xmlns:local="clr-namespace:KarveControls.PhotoFrame;assembly=PhotoFrameControl"
+             d:DesignHeight="477" d:DesignWidth="740" HorizontalAlignment="Center" VerticalAlignment="Center"
+             >
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <Grid x:Name="GridLayout">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+            <GroupBox Header="Foto" Grid.Row="0">
+            <Button x:Name="ImageButton" Background="White" Command="{Binding ImageChanging, Mode=OneWay}">
+                <Image x:Name="ImageFile">
+                </Image>
+            </Button>
+        </GroupBox>
+        <Slider  Grid.Row="1" x:Name="ImageSlider" TickPlacement="BottomRight" Orientation="Horizontal"></Slider>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Carpeta "></TextBlock>
+            <TextBox Name="ImageText" Height="20" Width="300"></TextBox>
+        </StackPanel>
     </Grid>
 </UserControl>
+

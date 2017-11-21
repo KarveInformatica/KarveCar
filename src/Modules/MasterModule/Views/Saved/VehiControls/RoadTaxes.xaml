@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="MasterModule.Views.VehiControls.RoadTaxes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views.VehiControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             xmlns:master="clr-namespace:MasterModule.Common"
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
+             d:DesignHeight="200" d:DesignWidth="900">
+    <Grid x:Name="GridTaxLayout">
+        <GroupBox Header="Impuesto de circulacion">
+            <StackPanel>
+            <WrapPanel>
+                
+                <kc:DataDatePicker LabelText="Fecha Alta"
+                                   DataDatePickerHeight="25"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FEC_CIRC_V1"/>
+                <kc:DataField  LabelText="Importe"
+                               LabelTextWidth="80"
+                               TextContentWidth="190"
+                               LabelVisible="True"
+                               DataFieldHeight="25"
+                               DataSourcePath="IMP_CIRC_V1"
+                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                    <kc:DataFieldCheckBox Content="Facturar"
+                                      Margin="10,0,10,0"
+                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        kc:ControlExt.DataSourcePath="ImpCircuCliente"
+                                      />
+                    <kc:DualFieldSearchBox  LabelText="Poblacion"
+                                        LabelTextWidth="100"
+                                        TextContentFirstWidth="60"
+                                        TextContentSecondWidth="120"
+                                        LabelVisible="True"
+                                        AssistDataFieldFirst="CP"
+                                        AssistDataFieldSecond="POBLA"
+                                        AssistQuery="{Binding AssistQueryPoblacion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        DataFieldFirst="CP"
+                                        AssistProperties="Numero, Poblacion, Codigo, Pais"
+                                        ButtonImage="{x:Static master:MasterModuleConstants.ImagePath}"
+                                        Height="25"/>
+                
+                <kc:DualFieldSearchBox LabelText="Zona"
+                                        LabelTextWidth="80"
+                                        TextContentFirstWidth="60"
+                                        TextContentSecondWidth="120"
+                                        LabelVisible="True"
+                                        DataFieldFirst="ZONA_IMP"
+                                        AssistDataFieldFirst="COD_ZONAOFI"
+                                        AssistProperties="Nome, Zona"
+                                        AssistDataFieldSecond="NOM_ZONA"
+                                        AssistQuery="{Binding AssitQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        ButtonImage="{x:Static master:MasterModuleConstants.ImagePath}"
+                                        Height="25"/>
+                    <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding ItemsCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="100"
+                                         LabelTextWidth="50"
+                                         LabelVisible="True"
+                                         IsReadOnly="False"
+                                         DataFieldHeight="25"
+                                         DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DataFieldChanged">
+                                        <mvvm:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                            </kc:DataField>
+                        </DataTemplate>
+
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+            </WrapPanel>
+            <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30">
+                <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Copy Vehiculo"></TextBlock>
+                       
+                    </StackPanel>
+            </Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

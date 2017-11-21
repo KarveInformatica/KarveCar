@@ -1,0 +1,24 @@
+﻿<Window x:Class="TestPhotoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestPhotoApp"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:photoFrame1="clr-namespace:KarveControls.PhotoFrame;assembly=PhotoFrameControl"
+        mc:Ignorable="d"
+        Title="TestPhotoApplication" Height="350" Width="525">
+    <Window.Resources>
+     <ResourceDictionary>
+            <local:PhotoImageViewModel x:Key="ViewModelKey">
+                
+            </local:PhotoImageViewModel>
+        </ResourceDictionary>   
+    </Window.Resources>
+    <Grid>
+        <photoFrame1:PhotoFrame
+            ImageArray="{Binding Image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+        </photoFrame1:PhotoFrame>
+    </Grid>
+</Window>

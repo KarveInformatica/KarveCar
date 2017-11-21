@@ -65,6 +65,9 @@
       <HintPath>..\..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -277,6 +280,9 @@
     <Compile Include="KarveTripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapControl\MapControl.xaml.cs">
+      <DependentUpon>MapControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PhotoFrame\PhotoFrame.xaml.cs">
       <DependentUpon>PhotoFrame.xaml</DependentUpon>
     </Compile>
@@ -357,6 +363,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MapControl\MapControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PhotoFrame\PhotoFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -378,6 +388,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="KarveCommon.csproj" />
+    <Content Include="MapControl\MapControl.csproj" />
     <Content Include="PhotoFrame\PhotoControl.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveGrid\KarveGrid.csproj" />

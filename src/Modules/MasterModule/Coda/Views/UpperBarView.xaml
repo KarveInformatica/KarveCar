@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="MasterModule.Views.UpperBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             d:DesignHeight="30" d:DesignWidth="600">
+    <Grid>
+        <GroupBox Header="Dato Generales">
+        <StackPanel Name="ContextLayout" Orientation="Horizontal">
+            
+            <karveControls:DataField x:Name="NumeroComi" TextContentWidth="60" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_COMI" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DataFieldChanged">
+                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                                               TriggerParameterPath="ChangedValuesObjects"/>
+                </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+            </karveControls:DataField>
+            <karveControls:DataField x:Name="Persona" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="PERSONA" LabelTextWidth="50" LabelText="Persona" LabelVisible="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DataFieldChanged">
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                                                   TriggerParameterPath="ChangedValuesObjects"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </karveControls:DataField>
+            <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="Nif" LabelVisible="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DataFieldChanged">
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                                                   TriggerParameterPath="ChangedValuesObjects"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </karveControls:DataField>
+            <karveControls:DualFieldSearchBox x:Name="TipoComiSearch" TextContentFirstWidth="100"
+                                              TextContentSecondWidth="200"
+                                              LabelTextWidth="100" 
+                                              LabelText="Tipo.Comissionista" 
+                                              LabelVisible="True"
+                                              AssistProperties="Codigo,Nombre"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="TIPOCOMI"
+                                              AssistTableName="TIPOCOMI"
+                                              AssistDataFieldFirst="NUM_TICOMI"
+                                              AssistDataFieldSecond="NOMBRE"
+                                              ButtonImage="/MasterModule;component/Images/search.png">
+                <i:Interaction.Triggers>
+                    
+                    <i:EventTrigger EventName="MagnifierPress">
+
+                        <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                   TriggerParameterPath="AssistParameters" />
+
+                    </i:EventTrigger>
+                    
+                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                                                   TriggerParameterPath="ChangedValuesObjects"/>
+                    </i:EventTrigger>
+                   
+                </i:Interaction.Triggers>
+
+            </karveControls:DualFieldSearchBox>
+            
+        </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>
