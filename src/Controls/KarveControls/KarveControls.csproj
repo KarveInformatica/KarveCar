@@ -71,6 +71,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -201,6 +204,9 @@
       <DependentUpon>DataField.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataField\DataFieldEventArgs.cs" />
+    <Compile Include="DualDatePicker\DualDatePicker.xaml.cs">
+      <DependentUpon>DualDatePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
@@ -307,7 +313,6 @@
     <Compile Include="UIObjects\UiDfObject.cs" />
     <Compile Include="UIObjects\UiDualDfObject.cs" />
     <Compile Include="UIObjects\UiObjectsLoader.cs" />
-    <Compile Include="UIObjects\UiWpfCheckBox.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +335,10 @@
     <Page Include="DataField\DataField.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DualDatePicker\DualDatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>

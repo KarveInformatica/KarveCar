@@ -13,11 +13,13 @@
     <Grid>
         <GroupBox Header="Dato Generales">
         <WrapPanel Name="ContextLayout" Orientation="Horizontal">
-            <karveControls:DataField x:Name="Codigo"  TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <karveControls:DataField x:Name="Codigo"  
+                                     IsReadOnly="True"
+                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                      DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="Codigo" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler, PresentationTraceSources.TraceLevel=High}" 
+                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -45,18 +47,18 @@
                                               AssistProperties="Codigo,Nombre"
                                               ButtonImage="/MasterModule;component/Images/search.png"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
+                                              SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
 
                     <i:EventTrigger EventName="MagnifierPress">
 
-                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand}" 
                                                            TriggerParameterPath="AssistParameters" />
 
                     </i:EventTrigger>
 
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler, PresentationTraceSources.TraceLevel=High}" 
+                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
                                                            TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
 
@@ -72,23 +74,24 @@
                                               AssistTableName="MARCAS"
                                               IsReadOnlySecond="True"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding DataObject.BrandDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=DataObject.BrandDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="Mar"
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"
+                                              
                                               ButtonImage="/MasterModule;component/Images/search.png">
                 
                 <i:Interaction.Triggers>
 
                     <i:EventTrigger EventName="MagnifierPress">
 
-                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand}" 
                                                    TriggerParameterPath="AssistParameters" />
 
                     </i:EventTrigger>
 
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                            <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
 
@@ -102,10 +105,10 @@
                                               LabelText="Grupo"
                                               IsReadOnlySecond="True"
                                               AssistProperties="Codigo,Nombre"
-                                              AssistTableName="MODELO"
+                                              AssistTableName="GRUPOS"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding DataObject.ModelDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataFieldFirst="Mar"
+                                              SourceView="{Binding Path=DataObject.VehicleGroupDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="GRUPO"
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"
                                               ButtonImage="/MasterModule;component/Images/search.png">
@@ -114,52 +117,39 @@
 
                     <i:EventTrigger EventName="MagnifierPress">
 
-                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                            TriggerParameterPath="AssistParameters" />
 
                     </i:EventTrigger>
 
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                            <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
                                                            TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
 
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
-            <karveControls:DualFieldSearchBox x:Name="Modelo"
-                                              TextContentFirstWidth="50"
-                                              TextContentSecondWidth="150"
+            <karveControls:DataField x:Name="Modelo"
+                                              TextContent="100"
                                               LabelTextWidth="50"
                                               LabelText="Modelo"
-                                              IsReadOnlySecond="True"
-                                              AssistProperties="Codigo,Nombre"
-                                              AssistTableName="MODELO"
-                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding DataObject.ModelDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataFieldFirst="Mar"
-                                              AssistDataFieldSecond="NOMBRE"
-                                              AssistDataFieldFirst="CODIGO"
-                                              ButtonImage="/MasterModule;component/Images/search.png">
+                                              ItemChangedCommand="{Binding ItemChangedHandler}"
+                                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSourcePath="MODELO">
 
-                <i:Interaction.Triggers>
+                    <i:Interaction.Triggers>
 
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                           TriggerParameterPath="AssistParameters" />
-
-                    </i:EventTrigger>
-
-                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                            <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
                                                            TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
 
                 </i:Interaction.Triggers>
 
-            </karveControls:DualFieldSearchBox>
-            <karveControls:DataField LabelText="Bastidor" LabelTextWidth="50"  TextContentWidth="200"   
+            </karveControls:DataField>
+            <karveControls:DataField LabelText="Bastidor" LabelTextWidth="50"  TextContentWidth="200" 
+                                                  ItemChangedCommand="{Binding ItemChangedHandler}"
                                                   DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSourcePath="BASTIDOR">
                 

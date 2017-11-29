@@ -625,13 +625,15 @@ namespace KarveControls.KarveGrid
         /// </summary>
         public KarveGridView() : base()
         {
+            ThemeResolutionService.ApplicationThemeName = "Breeze";
             System.Windows.Forms.Application.EnableVisualStyles();
             _currentView.EnablePaging = true;
             _currentView.PageSize = CurrentViewPageSize;
             _currentView.Width = (int)this.Width;
             _currentView.Height = (int) this.Height;
             _currentView.EnableFiltering = true;
-            _currentView.ThemeName = "Desert";
+            _currentView.EnableTheming = true;
+            _currentView.ThemeName = "Breeze";
             _currentView.MasterTemplate.BestFitColumns(BestFitColumnMode.DisplayedCells);
             _currentView.MasterTemplate.Refresh();
             System.Windows.Forms.Integration.WindowsFormsHost host = new System.Windows.Forms.Integration.WindowsFormsHost();

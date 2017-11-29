@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using KarveDataServices.DataTransferObject;
@@ -14,18 +15,28 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         private string _buyerAssist = "";
         private string _sellerAssit = "";
         private string _supplierAssistQuery = "";
-        private DelegateCommand<object> _delegateCommand;
-        private List<UiMetaObject> _dataFieldCollection;
+        private ICommand _delegateCommand;
+        private ICommand _assistCommand;
+        private ObservableCollection<UiMetaObject> _dataFieldCollection;
         private StringConstants _stringConstants = new StringConstants();
+        private string _assistQueryZonas;
+
         /// <summary>
         /// Vehicle DataObject.
         /// </summary>
         public VehiculeSellingBuyingVm()
         {
             _delegateCommand = new DelegateCommand<object>(ItemIsChanged);
+            _assistCommand = new DelegateCommand<object>(GotANewAssist);
             InitalizeDto();
 
         }
+
+        private void GotANewAssist(object obj)
+        {
+            MessageBox.Show("Got a new assist");
+        }
+
         /// <summary>
         ///  DataObject
         /// </summary>
@@ -58,6 +69,30 @@ namespace MasterModule.Views.Vehicles.MockViewModels
             get { return _buyerAssist; }
             set { _buyerAssist = value; }
         }
+        /// Poblacion and pais assit query
+        public string AssistQueryPoblacion
+        {
+            get { return _buyerAssist; }
+            set { _buyerAssist = value; }
+        }
+        public string AssistQueryZonas
+        {
+            get
+            {
+                return _assistQueryZonas;
+            }
+            set
+            {
+                _assistQueryZonas = value;
+            }
+        }
+        /// Poblacion and pais assit query
+        public ICommand AssistCommand
+        {
+            get { return _assistCommand; }
+            set { _assistCommand = (ICommand) value; }
+        }
+
         /// <summary>
         /// Seller Assist Query
         /// </summary>
@@ -78,7 +113,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         /// <summary>
         ///  Data field collection.
         /// </summary>
-        public List<UiMetaObject> DataFieldCollection
+        public ObservableCollection<UiMetaObject> DataFieldCollection
         {
             set
             {
@@ -179,7 +214,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
                   LabelText = "Bonifica"
               }
         };
-            DataFieldCollection = dataFieldCollection;
+           // DataFieldCollection = dataFieldCollection;
             StringConstants = _stringConstants;
         }
     }

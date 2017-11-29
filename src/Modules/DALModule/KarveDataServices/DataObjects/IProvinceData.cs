@@ -9,6 +9,6 @@
         // name of the province
         string Name { get; set; }
         // country code of the province.
-        string CountryCode { get; set; }
+        string Country { get; set; }
     }
 }

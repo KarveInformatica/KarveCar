@@ -42,7 +42,8 @@ namespace KarveControls.Generic
                 // ok we get the field to be used and changed
                 if (info != null)
                 {
-                    value = info.GetValue(valueObject) as string;
+                    object tmpValue = info.GetValue(valueObject);
+                    value = (tmpValue != null) ? tmpValue.ToString() : "" ;
                     // since internally we have problems with email. 
                     if ((value != null) && (dataAllowed == ControlExt.DataType.Email))
                     {
@@ -52,6 +53,7 @@ namespace KarveControls.Generic
             }
             return value;
         }
+       
         /// <summary>
         ///  GetPropertiesValue.
         /// </summary>
@@ -151,6 +153,23 @@ namespace KarveControls.Generic
                         {
                             currentValue = Convert.ToInt16(currentValue);
                         }
+                        if (info.PropertyType.FullName.Contains("Decimal"))
+                        {
+                            currentValue = Convert.ToDecimal(currentValue);
+                        }
+                        if (info.PropertyType.FullName.Contains("DateTime"))
+                        {
+                            currentValue = Convert.ToDateTime(value);
+                        }
+                        if (info.PropertyType.FullName.Contains("Double"))
+                        {
+                            currentValue = Convert.ToDouble(currentValue);
+                        }
+                        if (info.PropertyType.FullName.Contains("Single"))
+                        {
+                            currentValue = Convert.ToSingle(currentValue);
+                        }
+
                         if (info != null)
                         {
                             info.SetValue(obj, currentValue);

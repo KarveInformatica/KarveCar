@@ -1,0 +1,212 @@
+﻿<UserControl x:Class="MasterModule.Views.CommunicationOrder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
+              xmlns:mvvm1="http://prismlibrary.com/"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:uiObjects="clr-namespace:KarveControls.UIObjects;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+            <WrapPanel Orientation="Vertical">
+
+            <karveControls:DualFieldSearchBox
+                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                AssistDataFieldFirst="CODIGO"
+                AssistDataFieldSecond="NOMBRE"
+                AssistTableName="VIASPEDIPRO"
+                ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
+                LabelText="Via"
+                AssistProperties="Numero, Nombre"
+                IsReadOnlySecond="True"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"   
+                MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                LabelTextWidth="100"
+                TextContentFirstWidth="50"
+                TextContentSecondWidth="150"
+                SourceView="{Binding Path=DataObject.ViaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                DataFieldFirst="VIA">
+            </karveControls:DualFieldSearchBox>
+            <StackPanel Orientation="Horizontal">
+                <karveControls:DataField x:Name="EmailField"
+                                              LabelText="Email"
+                                              LabelTextWidth="100"
+                                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              DataSourcePath="km" 
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                              TextContentWidth="200"
+                                              Height="25"/>
+
+                <Button x:Name="ButtonName"  Command="{Binding EmailCommand}" 
+                        CommandParameter="{Binding TextContent, ElementName=EmailField}">
+                    <Image Source="/MasterModule;component/Images/email.png" Height="25" Width="19"/>
+                </Button>
+            </StackPanel>
+            <karveControls:DualFieldSearchBox
+                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                AssistDataFieldFirst="CODIGO"
+                AssistDataFieldSecond="NOMBRE"
+                AssistTableName="FORMAS_PEDENT"
+                ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
+                LabelText="Forma Entrega"
+                AssistProperties="Numero, Nombre"
+                IsReadOnlySecond="True"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
+                LabelTextWidth="100"
+                TextContentFirstWidth="50"
+                TextContentSecondWidth="150"
+                MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                SourceView="{Binding Path=DataObject.FormasDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                DataFieldFirst="FORMA_ENVIO">
+            </karveControls:DualFieldSearchBox>
+            <karveControls:DualFieldSearchBox
+                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                AssistDataFieldFirst="CODIGO"
+                AssistDataFieldSecond="NOMBRE"
+                AssistTableName="TL_CONDICION_PRECIO"
+                ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
+                LabelText="Condicion Venta"
+                AssistProperties="Numero, Nombre"
+                IsReadOnlySecond="True"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
+                LabelTextWidth="100"
+                TextContentFirstWidth="50"
+                TextContentSecondWidth="150"
+                MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                SourceView="{Binding Path=DataObject.FormasDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                DataFieldFirst="CONDICION_VENTA">
+            </karveControls:DualFieldSearchBox>
+            <karveControls:DataArea
+                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                karveControls:ControlExt.DataSourcePath="DIRENVIO6"
+                DataAreaTitle="Lugares de Entrega"
+                LabelTextWidth="120"
+                LabelVisible="True"
+                DataAreaWidth="120"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+               >
+            </karveControls:DataArea>
+
+            <!--
+             ObservableCollection
+            <IUiObject>collection = new ObservableCollection
+                <IUiObject>();
+            UiDualDfSearchTextObject viaDfSearch = new UiDualDfSearchTextObject(Resources.UiDirectionPageBuilder_OrderCommunicationWay_Via,UiConstants.LabelTextWidthDefault);
+            viaDfSearch.DataFieldFirst = "VIA";
+            viaDfSearch.TableName = "PROVEE1";
+            viaDfSearch.AssistDataFieldFirst = "NOMBRE";
+            viaDfSearch.AssistDataFieldSecond = "CODIGO";
+            viaDfSearch.AssistTableName = "VIASPEDIPRO";
+            viaDfSearch.ButtonImage = UiConstants.ImagePath;
+            viaDfSearch.Height = UiConstants.TextboxHeight;
+            viaDfSearch.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
+            viaDfSearch.TextContentSecondWidth = UiConstants.TextBoxWidthLarge;
+            viaDfSearch.SourceView = new DataTable();
+            viaDfSearch.ItemSource = new DataTable();
+            viaDfSearch.PrimaryKey = "NUM_PROVEE";
+            viaDfSearch.OnChangedField += changedField;
+            viaDfSearch.OnAssistQuery += assistQuery;
+            // UiDfObject direccionDePago = new UiDfObject(title, UiConstants.LabelTextWidthDefault);
+            collection.Add(viaDfSearch);
+            UiEmailDataField emailDfSearch = new UiEmailDataField();
+            emailDfSearch.LabelText = "Email";
+            emailDfSearch.LabelTextWidth = UiConstants.LabelTextWidthDefault;
+            emailDfSearch.TextContentWidth = UiConstants.TextBoxWidthDefault;
+            emailDfSearch.DataField = "EMAIL";
+            emailDfSearch.ButtonImage = UiConstants.EmailImagePath;
+            emailDfSearch.TableName = "PROVEE1";
+            emailDfSearch.Height = UiConstants.TextboxHeight;
+            emailDfSearch.ItemSource = new DataTable();
+            emailDfSearch.PrimaryKey = "NUM_PROVEE";
+            emailDfSearch.OnChangedField += changedField;
+            emailDfSearch.EmailEventHandler += _emailCheckHandler;
+            collection.Add(emailDfSearch);
+
+            UiDualDfSearchTextObject fechaEntregaDfSearch = new UiDualDfSearchTextObject("F.Entrega", UiConstants.LabelTextWidthDefault);
+            fechaEntregaDfSearch.DataFieldFirst = "FORMA_ENVIO";
+            fechaEntregaDfSearch.ButtonImage = UiConstants.ImagePath;
+            fechaEntregaDfSearch.TableName = "PROVEE1";
+            fechaEntregaDfSearch.AssistDataFieldFirst = "NOMBRE";
+            fechaEntregaDfSearch.AssistDataFieldSecond = "CODIGO";
+            fechaEntregaDfSearch.AssistTableName = "FORMAS_PEDENT";
+            fechaEntregaDfSearch.Height = UiConstants.TextboxHeight;
+        
+            fechaEntregaDfSearch.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
+            fechaEntregaDfSearch.TextContentSecondWidth = UiConstants.TextBoxWidthLarge;
+            fechaEntregaDfSearch.SourceView = new DataTable();
+            fechaEntregaDfSearch.ItemSource = new DataTable();
+            fechaEntregaDfSearch.PrimaryKey = "NUM_PROVEE";
+            fechaEntregaDfSearch.OnChangedField += changedField;
+            fechaEntregaDfSearch.OnAssistQuery += assistQuery;
+            // UiDfObject direccionDePago = new UiDfObject(title, UiConstants.LabelTextWidthDefault);
+            collection.Add(fechaEntregaDfSearch);
+
+            UiDualDfSearchTextObject sellConditionDfSearch = new UiDualDfSearchTextObject("Condición Venta", UiConstants.LabelTextWidthDefault);
+            sellConditionDfSearch.DataFieldFirst = "CONDICION_VENTA";
+            sellConditionDfSearch.ButtonImage = UiConstants.ImagePath;
+            sellConditionDfSearch.TableName = "PROVEE1";
+            sellConditionDfSearch.AssistDataFieldFirst = "NOMBRE";
+            sellConditionDfSearch.AssistDataFieldSecond = "CODIGO";
+            sellConditionDfSearch.AssistTableName = "TL_CONDICION_PRECIO";
+            sellConditionDfSearch.Height = UiConstants.TextboxHeight;
+            sellConditionDfSearch.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
+            sellConditionDfSearch.TextContentSecondWidth = UiConstants.TextBoxWidthLarge;
+            sellConditionDfSearch.SourceView = new DataTable();
+            sellConditionDfSearch.ItemSource = new DataTable();
+            sellConditionDfSearch.PrimaryKey = "NUM_PROVEE";
+            sellConditionDfSearch.OnChangedField += changedField;
+            sellConditionDfSearch.OnAssistQuery += assistQuery;
+            // UiDfObject direccionDePago = new UiDfObject(title, UiConstants.LabelTextWidthDefault);
+            collection.Add(sellConditionDfSearch);
+            UiDataArea deliveringArea = new UiDataArea();
+            deliveringArea.LabelVisible = true;
+            deliveringArea.LabelTextWidth = UiConstants.LabelTextWidthWide;
+            deliveringArea.PrimaryKey = ProviderConstants.PrimaryKey;
+            deliveringArea.ItemSource = new DataTable();
+            deliveringArea.LabelText = "Lugares de Entrega";
+            deliveringArea.DataField = "DIRENVIO6";
+            deliveringArea.TableName = "PROVEE1";
+            deliveringArea.Height = UiConstants.TextboxHeight;
+            deliveringArea.TextContentWidth = UiConstants.TextBoxWidthDefault;
+            collection.Add(deliveringArea);
+            return collection;
+
+            */
+            
+            
+            <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
+                <materialDesign:PackIcon
+		Margin="0,0,8,0"
+                    Height="25"
+		Foreground="{Binding ElementName=TextBox, Path=BorderBrush}"
+		Kind="Directions"/>
+                <TextBox
+		x:Name="DirectionTextBox"
+		Width="172"
+        Text="{Binding Path=DataObject.}"
+        materialDesign:HintAssist.Hint="Direccion"
+		materialDesign:TransitionAssist.DisableTransitions="True" />
+
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
+                <materialDesign:PackIcon
+                    Height="25"
+		Margin="0,0,8,0"
+		Foreground="{Binding ElementName=DirectionTextBox2, Path=BorderBrush}"
+		Kind="Directions"/>
+                <TextBox
+		x:Name="DirectionTextBox2"
+		Width="172"
+        materialDesign:HintAssist.Hint="Direccion"
+		materialDesign:TransitionAssist.DisableTransitions="True" />
+
+            </StackPanel>
+            -->
+            </WrapPanel>
+    </Grid>
+</UserControl>

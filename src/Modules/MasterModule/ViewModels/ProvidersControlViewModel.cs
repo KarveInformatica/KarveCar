@@ -12,10 +12,12 @@ using System.Diagnostics;
 using System.Windows;
 using KarveCommon.Generic;
 using KarveControls.UIObjects;
+using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.Views;
 using Prism.Regions;
+using KarveDataServices.DataTransferObject;
 
 namespace MasterModule.ViewModels
 {
@@ -36,6 +38,7 @@ namespace MasterModule.ViewModels
         private ICommand _pagedItemCommand;
         private IRegionManager _regionManager;
         private Stopwatch _timing = new Stopwatch();
+        private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
 
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
 
@@ -50,6 +53,16 @@ namespace MasterModule.ViewModels
             _extendedSupplierDataTable = new DataTable();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
+        }
+
+        public IEnumerable<SupplierSummaryDto> SummaryCollection
+        {
+            set
+            {
+                _summaryCollection = value;
+                RaisePropertyChanged();
+            }
+            get => _summaryCollection;
         }
 
         private void InitViewModel()
@@ -128,7 +141,7 @@ namespace MasterModule.ViewModels
             currentPayload.PrimaryKeyValue = codigo;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
         }
-        private void OpenCurrentItem(object currentItem)
+        private async void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
             if (rowView != null)
@@ -142,31 +155,8 @@ namespace MasterModule.ViewModels
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
                 var uri = new Uri(typeof(ProviderInfoView).FullName+navigationParameters,UriKind.Relative);
                 _regionManager.RequestNavigate("TabRegion", uri);
-                //ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
-               // ConfigurationService.AddMainTab(view, tabName);
-               // _regionManager.RequestNavigate();
-                /*IList<IUiPageBuilder> list = new List<IUiPageBuilder>();
-                list.Add(new UIObjects.Suppliers.UiSuppliersUpperPartPageBuilder());
-                list.Add(new UIObjects.Suppliers.UiMiddlePartPageBuilder(null));
-                UiFirstPageBuilder generalPageBuilder = new UiFirstPageBuilder();
-                IDictionary<string, ObservableCollection<IUiObject>> pageObjects = generalPageBuilder.BuildPageObjects(null, null);
-                ObservableCollection<IUiObject> upperPartObservableCollection = pageObjects[MasterModuleConstants.UiUpperPart];
-                ObservableCollection<IUiObject> middlePageObservableCollection = pageObjects[MasterModuleConstants.UiMiddlePartPage];
-                IList<ObservableCollection<IUiObject>> obsList = new List<ObservableCollection<IUiObject>>();
-                obsList.Add(upperPartObservableCollection);
-                obsList.Add(middlePageObservableCollection);
-                ObservableCollection<IUiObject> observableCollection = MergeList(obsList);
-                IDictionary<string, string> current = SqlBuilder.SqlBuildSelectFromUiObjects(observableCollection, supplierId, false);
-                DataSet currentSet = await DataServices.GetSupplierDataServices().GetAsyncSupplierInfo(current);
-                IDictionary<string, string> assistQueries = new Dictionary<string, string>();
-                FillViewModelAssistantQueries(observableCollection, currentSet, ref assistQueries);
-                DataSet assitDataSet = await DataServices.GetHelperDataServices().GetAsyncHelper(assistQueries);
-                  */
-                IList<DataSet> dataSet = new List<DataSet>();
-
-                //dataSet.Add(currentSet);
-               // dataSet.Add(assitDataSet);
-                DataPayLoad currentPayload = BuildShowPayLoad(tabName, dataSet);                
+                ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);                
                 currentPayload.PrimaryKeyValue = supplierId;
                 currentPayload.Sender = PROVIDER_SUMMARY_VM;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
@@ -185,8 +175,6 @@ namespace MasterModule.ViewModels
         ///  Command to be triggeed from the control to support paging
         /// </summary>
         public ICommand PageChangedCommand { set; get; }
-      
-
-
+        
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices.DataObjects
 {
@@ -7,40 +10,89 @@ namespace KarveDataServices.DataObjects
     /// </summary>
     /// 
     public interface ISupplierData
-    { 
-        ISupplierTypeData Type { set; get; }
-        ISupplierAccountObjectInfo Account { set; get; }
-        //ISupplierBranchesData  Delegation 
+    {
+        /// <summary>
+        ///  This delete all data in async way 
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteAsyncData();
 
-    string Name { set; get; }
-        string Surname1 { set; get; }
-        string Surname2 { set; get; }
-        string Direction { set; get; }
-        string CountryCode { set; get; }
-        string City { set; get; }
-        string ProvinceCode { set; get; }
-        string Phone { set; get; }
-        string Fax { set; get; }
-        string WebSite { set; get; }
-        string Notes { set; get; }
-        string Persona { set; get; }
-        string DeliveringPeriod { set; get; }
-        string DischargeDate  { set; get; }
-        string LeavingDate { set; get; }
-        string Country { set; get; }
-        string Province { set; get; }
-        string Email { set; get; }
-        string Observation { set; get; }
-        string Nif { set; get; }
-        string Code { set; get; }
-        string Number { set; get; }
-        string MapDirection { set;  get; }
-        string MobilePhone { set; get; }
-        string CommercialName { set; get; }
-        object Zip { set; get; }
-        string LastChange { set; get; }
-        string ChangedByUser { set; get; }
-       
+        /// <summary>
+        /// Save the supplierData .
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> Save();
+
+        /// <summary>
+        ///  Save all updates in the vehicle
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> SaveChanges();
+
+        /// <summary>
+        /// Load valed
+        /// </summary>
+        /// <param name="fields">Dictionary of the fields</param>
+        /// <param name="cCodiint">Vehicle code primary key</param>
+        /// <returns></returns>
+        Task<bool> LoadValue(IDictionary<string, string> fields, string cCodiint);
+
+        /// <summary>
+        /// Vehicle Data.
+        /// </summary>
+        SupplierDto Value { set; get; }
+
+        /// <summary>
+        ///  This tells us if the data is valid or not.
+        /// </summary>
+        bool Valid { get; set; }
+
+        IEnumerable<ISupplierTypeData> Type { set; get; }
+
+        /// <summary>
+        //  Brand data trasnfer object.
+        /// </summary>
+        IEnumerable<AccountDto> AccountDtos { get; set; }
+
+        /// <summary>
+        /// Model data transfer object.
+        /// </summary>
+        IEnumerable<ProvinciaDto> ProvinciaDtos { get; set; }
+
+        /// <summary>
+        ///  Color data transfer object.
+        /// </summary>
+        IEnumerable<BanksDto> BanksDtos { get; set; }
+
+        // paises of the proveedor.
+        IEnumerable<CountryDto> CountryDtos { get; set; }
+
+        /// <summary>
+        ///  ViasDto
+        /// </summary>
+        IEnumerable<ViaDto> ViasDtos { get; set; }
+
+        /// <summary>
+        ///  Branches
+        /// </summary>
+        IEnumerable<BranchesDto> BranchesDtos { set; get; }
+
+        /// <summary>
+        ///  Contacts
+        /// </summary>
+        IEnumerable<ContactsDto> ContactsDtos { set; get; }
+
+        /// <summary>
+        ///  Months dto.
+        /// </summary>
+        IEnumerable<MonthsDto> MonthsDtos { set; get; }
+        // PaymentDto.
+
+        IEnumerable<PaymentFormDto> PaymentDtos { set; get; }
+        IEnumerable<VisitsDto> VisitsDtos { get; set; }
+        IEnumerable<LanguageDto> LanguageDtos { get; set; }
+        IEnumerable<CurrencyDto> CurrencyDtos { get; set; }
+
 
     }
 }

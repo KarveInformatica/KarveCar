@@ -48,5 +48,9 @@ namespace KarveDataServices.DataObjects
         ///  Color data transfer object.
         /// </summary>
         IEnumerable<ColorDto> ColorDtos { get; set; }
+        /// <summary>
+        ///  Vehicle group dto.
+        /// </summary>
+        IEnumerable<DataTransferObject.VehicleGroupDto> VehicleGroupDtos { get; set; }
     }
 }

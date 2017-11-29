@@ -14,9 +14,10 @@
         
         
         <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
-            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, PresentationTraceSources.TraceLevel=High}" Width="50" Margin="10,0,0,0"></TextBlock>
-            <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, PresentationTraceSources.TraceLevel=High}"></TextBox>
-            <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, PresentationTraceSources.TraceLevel=High}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
+            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="10,0,0,0"></TextBlock>
+            <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
+            
             <StackPanel>
                 <Button Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
                     <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
@@ -28,31 +29,16 @@
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
 
-
-                        <karveGrid:KarveGridView x:Name="MagnifierGrid" TableName="{Binding Tables}"  Height="400" Width="400" ColumnWidth="200" 
+                        <karveGrid:KarveGridView x:Name="MagnifierGrid" Height="400" Width="400" ColumnWidth="200" 
                                                  SourceView="{Binding SourceView}" SelectionRowChanged="MagnifierGrid_OnSelectionRowChanged">
                            
 
                         </karveGrid:KarveGridView>
-                        <!--
-                        <xcdg:DataGridControl x:Name="MagnifierGrid" AllowDrag="True" SelectionMode="Single" 
-                                              ReadOnly="True" SelectionUnit="Row" Height="400"
-                                              NavigationBehavior="RowOnly" SelectionChanged="MagnifierGrid_OnSelectionChanged">
-
-                        </xcdg:DataGridControl>
-                        -->
-                        <!-- <extendedGridControl:ExtendedDataGrid Grid.Row="0" Height="400" VerticalAlignment="Top" 
-                                                              x:Name="MagnificerGrid" 
-                                                              ItemsSource="{Binding MagnificerDataTable}" 
-                                                              SelectionChanged="MagnificerGeneric_OnSelectionChanged"
-                                                              SelectionMode="Extended" 
-                                                              SelectionUnit="FullRow" >
-                        </extendedGridControl:ExtendedDataGrid>
-                        -->
                         <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>
                     </Grid>
                 </Popup>
             </StackPanel>
+           
         </StackPanel>
     </Grid>
 </UserControl>

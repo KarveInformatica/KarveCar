@@ -28,9 +28,8 @@ namespace MasterModule.Common
         internal const string FareSystemName = "VehiclesSystemName";
         internal const string FareSystemInfoView = "CommissionAgentInfoView";
 
-        public  static string ImagePath => _imagePath;
+        public static string ImagePath => _imagePath;
         public static string CopyPath => _copyCool;
-
         public static string EmailImagePath => emailImagePath;
     }
 }

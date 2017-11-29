@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -74,11 +75,9 @@ namespace MasterModule.Common
                         return navigationAware == null || navigationAware.IsNavigationTarget(navigationContext);
                     });
 
-
             var view = acceptingCandidates.FirstOrDefault();
             PropertyInfo currentProperty = null;
-            string viewName = "";
-            viewName = navigationContext.Parameters[DefaultViewName] as string;
+            string viewName = navigationContext.Parameters[DefaultViewName] as string;
             IViewsCollection collection = region.Views;
             bool oldView = false;
             if (view != null)
@@ -100,14 +99,25 @@ namespace MasterModule.Common
                 return view;
             }
 
-           // string viewName = navigationContext.Parameters["ViewType"] as string;
+            // string viewName = navigationContext.Parameters["ViewType"] as string;
+            Stopwatch valueStopwatch = new Stopwatch();
+            valueStopwatch.Start();
+
             view = this.CreateNewRegionItem(candidateTargetContract);
-            if (currentProperty != null)
+            valueStopwatch.Stop();
+            var milliseconds = valueStopwatch.ElapsedMilliseconds;
+
+            if (!string.IsNullOrEmpty(viewName))
             {
-                viewName = currentProperty.GetValue(view, null) as string;
-                if (string.IsNullOrEmpty(viewName))
+                if (view != null)
                 {
                     Type currentType = view.GetType();
+                    
+                    currentProperty = currentType.GetProperty("Header");
+                    if (currentProperty != null)
+                    {
+                       currentProperty.SetValue(view, viewName);
+                    }
                     PropertyInfo context = currentType.GetProperty("DataContext");
                     if (context != null)
                     {
@@ -123,10 +133,7 @@ namespace MasterModule.Common
                 }
             }
 
-            if (string.IsNullOrEmpty(viewName))
-            {
-                viewName = "Unknown View";
-            }
+
             //object value = view.GetType().GetProperty("Header").GetValue(view, null);
          
             /*
@@ -148,13 +155,19 @@ namespace MasterModule.Common
            /*
             if (!isAlreadyATab)
             */
-            
-            region.Add(view, viewName);
 
+            if (string.IsNullOrEmpty(viewName))
+            {
+                region.Add(view);
+            }
+            else
+            {
+             region.Add(view, viewName);
+            }
 
             if (view is UserControl)
             {
-                ((UserControl) view).Focus();
+           //     ((UserControl) view).Focus();
             }
            
             return view;

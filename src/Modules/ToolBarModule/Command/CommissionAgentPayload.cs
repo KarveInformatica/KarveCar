@@ -11,37 +11,30 @@ namespace ToolBarModule.Command
     /// <summary>
     /// Internal class to handle the payload from the commission handler.
     /// </summary>
-    internal class CommissionAgentPayload: IDataPayLoadHandler
+    internal class CommissionAgentPayload: ToolbarDataPayload
     {
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
         private readonly PropertyChangedEventHandler _onExecutedPayload;
         private ICommissionAgentDataServices _commissionAgentDataServices;
-        private IEventManager _eventManager;
-        public CommissionAgentPayload()
-        {
-            _onExecutedPayload+=OnExecutedPayload;
-        }
-
-        private void OnExecutedPayload(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            DataPayLoad payLoad = _payload;
-            
-            NotifyEventManager(_eventManager, payLoad);
-        }
-
+       
         /// <summary>
-        /// 
+        ///  This execute a payload.
         /// </summary>
         /// <param name="services">Data services to be used for executing the payload</param>
         /// <param name="manager">Manager to be used for sending messages to the view model</param>
         /// <param name="payLoad">Payload to be used for sending it.</param>
-        public void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad)
+        public override void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad)
         {
             _commissionAgentDataServices = services.GetCommissionAgentDataServices();
             _payload = payLoad;
-            _eventManager = manager;
+            EventManager = manager;
             _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleCommissionAgentSave(_payload), _onExecutedPayload);
+        }
+
+        protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
+        {
+            return await HandleCommissionAgentSave(payLoad);
         }
 
         private void NotifyEventManager(IEventManager eventManager, DataPayLoad payLoad)

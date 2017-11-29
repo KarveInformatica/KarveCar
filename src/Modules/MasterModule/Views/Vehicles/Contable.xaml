@@ -1,0 +1,250 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:mockvm="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
+             xmlns:common="clr-namespace:MasterModule.Common"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" 
+             x:Class="MasterModule.Views.Vehicles.Contable"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <KarveControls:DualFieldSearchBox 
+            AssistDataFieldFirst=""
+                TextContentFirstWidth="50"
+                TextContentSecondWidth="150"
+            LabelText="Codigo Elemento"
+            LabelTextWidth="150"
+            DataFieldFirst=""
+            TableName=""
+                ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+            AssistProperties="Numero, Element"/>
+            <GroupBox Header="Amortizacion" >
+                <StackPanel Orientation="Vertical">
+                <WrapPanel Orientation="Vertical">
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                                    LabelText="Inmovilizado"
+                                       IsReadOnlySecond="True"
+                                    ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    LabelTextWidth="150"
+                                    TextContentFirstWidth="50"
+                                    TextContentSecondWidth="150"
+                                    DataFieldFirst="eleIdCu1Inmo"
+                                    TableName="CU1"
+                                    AssistProperties="Codigo, Nombre"
+                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+                    
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             
+                        LabelText="Amortizacion Acumulada"
+                                    LabelTextWidth="150"
+                                    TextContentFirstWidth="50"
+                                    TextContentSecondWidth="150"
+                                       IsReadOnlySecond="True"
+                                    
+                        DataFieldFirst="eleIdCu1Amort"
+                                    TableName="CU1"
+                                    AssistProperties="Codigo, Description"
+                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+                    <KarveControls:DualFieldSearchBox LabelText="Gasto" 
+                                         AssistDataFieldFirst="CODIGO"
+                                         AssistDataFieldSecond="DESCRIP"
+                                         TextContentFirstWidth="50"
+                                         TextContentSecondWidth="150"
+                                         LabelTextWidth="100"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 
+                                                      IsReadOnlySecond="True"
+                                       DataFieldFirst="eleIdCu1Gasto"
+                                       AssistTableName="CU1"
+                                       AssistQuery="{Binding BuyerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Margin="5,0,0,0"
+                                       Height="25"
+                                       AssistProperties="Codigo, Description"
+                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+                        <KarveControls:DualFieldSearchBox LabelText="Gasto Anterior" 
+                                         AssistDataFieldFirst="CODIGO"
+                                         AssistDataFieldSecond="DESCRIP"
+                                         TextContentFirstWidth="50"
+                                         TextContentSecondWidth="150"
+                                         LabelTextWidth="100"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 
+                                                          IsReadOnlySecond="True"
+                                       DataFieldFirst="eleIdCu1GastoAcu"
+                                       AssistTableName="CU1"
+                                       AssistQuery="{Binding BuyerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       Margin="5,0,0,0"
+                                       Height="25"
+                                       AssistProperties="Codigo, Description"
+                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+                        
+                </WrapPanel>
+                <WrapPanel>
+                    <KarveControls:DataField
+                          LabelText="% Amort Actual"
+                          TextContentWidth="100"
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 
+                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       DataSourcePath=""  
+                        LabelTextWidth="100">
+                    </KarveControls:DataField>
+                    <KarveControls:DataField
+                          LabelText="Numero Meses"
+                          TextContentWidth="100"
+                          DataSourcePath=""
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 
+                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          LabelTextWidth="100">
+                    </KarveControls:DataField>
+                </WrapPanel>
+                </StackPanel>
+            </GroupBox >
+            <GroupBox Header="Leasing">
+                <WrapPanel Orientation="Vertical">
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             
+                        LabelText="Capital C/P"
+                                    LabelTextWidth="150"
+                                    TextContentFirstWidth="100"
+                                    TableName="CU1"
+                        
+                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="eleCTADERECHO"/>
+
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             
+                        LabelText="Pago"
+                                    LabelTextWidth="150"
+                                    TextContentFirstWidth="100"
+                                    TableName="CU1"
+                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="eleIdCu1Pago"/>
+
+                        <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                                    LabelText="Gastos Intern.Diff"
+                                    LabelTextWidth="150"
+                               ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         
+                            TextContentFirstWidth="100"
+                                    TableName="CU1"
+                            ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="electaIntDifCP"/>
+
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="DESCRIP"
+                           ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    MagnifierCommand="{Binding AssistCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             
+                        LabelText="Capital L/P"
+                                    LabelTextWidth="150"
+                                    TextContentFirstWidth="100"
+                                    TableName="CU1"
+                            ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="electaIntDifCP"/>
+
+                </WrapPanel>
+            </GroupBox>
+                <DockPanel>
+
+              
+                    <GroupBox Header="Datos Amortizacion" DockPanel.Dock="Left">
+                    <WrapPanel Orientation="Vertical">
+                        <KarveControls:DataField
+                            DataSourcePath=""
+                               ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 
+                            DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        LabelText="Valor Adquisicion" 
+                            LabelTextWidth="150"/>
+
+
+                        <KarveControls:DataField
+                        LabelTextWidth="150"
+                        DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        DataSourcePath=""
+                        LabelText="Amortization Acomulada">
+                            </KarveControls:DataField>
+                            <KarveControls:DataField
+                         DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        DataSourcePath=""
+                       
+                                LabelTextWidth="150"
+                        LabelText="Valor Neto Contable">
+                            </KarveControls:DataField>
+                    <KarveControls:DataField
+                         LabelTextWidth="150"
+                        LabelText="Valor Analitica"></KarveControls:DataField>
+                        <KarveControls:DataField
+                         DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        DataSourcePath=""
+                       
+                                LabelTextWidth="150"
+                        LabelText="Valor Neto Contable">
+                        </KarveControls:DataField>
+                    </WrapPanel>
+                </GroupBox>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                        <GroupBox Header="Imprimir">
+                            <StackPanel Orientation="Vertical">
+                            <Button Content="Analitica Contable" Command="{Binding AnaliticPrintCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+                                
+                            </Button>
+                            <Button Content="Ficha Elemento" Command="{Binding ElementFicha, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                            </Button>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </DockPanel>
+           
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

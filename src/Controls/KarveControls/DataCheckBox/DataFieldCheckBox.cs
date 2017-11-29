@@ -112,7 +112,8 @@ namespace KarveControls
                 var path = ControlExt.GetDataSourcePath(this);
                 if (path != null)
                 {
-                    var tmp = DataObject;
+                    var tmp = ControlExt.GetDataSource(this);
+
                     ComponentUtils.SetPropValue(tmp, path, _isChecked);
                     DataObject = tmp;
                 }

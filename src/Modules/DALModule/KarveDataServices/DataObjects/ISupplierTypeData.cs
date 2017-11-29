@@ -9,7 +9,7 @@ namespace KarveDataServices.DataObjects
     public interface ISupplierTypeData
     {
         string User { get; set; }
-        string EmergencyAccount { get; set; }
+        string Account { get; set; }
         string LastModification { get; set; }
         string Name { get; set; }
         object Number { get; set; }

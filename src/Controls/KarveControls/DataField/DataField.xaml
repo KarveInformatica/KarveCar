@@ -4,16 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              >
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+     
     </UserControl.Resources>
     <StackPanel Name="DataFieldContent" Orientation="Horizontal" Visibility="Visible">
         <StackPanel.Resources>
@@ -29,10 +23,9 @@
             
         </StackPanel.Resources>
         
-        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelContent}" Width="{Binding Path=LabelTextWidth}" Visibility="Collapsed" Margin="10,0,0,0">
+        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelText}" Width="{Binding Path=LabelTextWidth}" Visibility="Collapsed" Margin="10,0,0,0">
         </TextBlock>
-        <materialDesign:PackIcon x:Name="Hint"  Visibility="Collapsed"  />
-        <TextBox x:Name="TextField" Text="{Binding Path=TextContent, Mode=TwoWay}" Visibility="{Binding Path=IsVisible}" IsReadOnly="{Binding Path=IsReadOnly}">
+        <TextBox x:Name="TextField" Text="{Binding Path=TextContent, Mode=TwoWay}" IsReadOnly="{Binding Path=IsReadOnly}">
         </TextBox>
     </StackPanel>
 </UserControl>

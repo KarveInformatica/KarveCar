@@ -72,7 +72,7 @@ namespace DataAccessLayer.Logic
             branchesDto.Branch = source.cldDelegacion;
             branchesDto.Province.Code = source.PROV.SIGLAS;
             branchesDto.Province.Name = source.PROV.PROV;
-            branchesDto.Province.CountryCode = source.PROV.PAIS;
+            branchesDto.Province.Country = source.PROV.PAIS;
             branchesDto.Address = source.cldDireccion1;
             branchesDto.Address2 = source.cldDireccion2;
             branchesDto.Phone = source.cldTelefono1;
@@ -327,8 +327,17 @@ namespace DataAccessLayer.Logic
         }
     }
 
-    
+    public class ActivityConverter : ITypeConverter<ACTIVI, ActividadDto>
+    {
+        public ActividadDto Convert(ACTIVI source, ActividadDto destination, ResolutionContext context)
+        {
+            ActividadDto actividad = new ActividadDto();
+            actividad.Codigo = source.NUM_ACTIVI;
+            actividad.Nombre = source.NOMBRE;
+            return actividad;
 
+        }
+    }
 
     public static class MapperField
     {
@@ -355,6 +364,19 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
+                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+
+                cfg.CreateMap<FORMAS, PaymentFormDto>().ConvertUsing(src =>
+                {
+                    var model = new PaymentFormDto();
+                    model.Codigo = src.CODIGO;
+                    model.Nombre = src.NOMBRE;
+                    model.Cuenta = src.CUENTA;
+                    return model;
+                });
+                ///  cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new OwnerConverter());
+
+                //  cfg.CreateMap<AGENTES, AgentDto>().ConvertUsing(new AgentConverter());
 
             });
             if (Instance == null)

@@ -49,7 +49,7 @@ namespace MasterModule.Views
                 this.Colore.DataSource = e.NewValue;
                 this.Marca.DataSource = e.NewValue;
                 this.Matricula.DataObject = e.NewValue;
-                this.Modelo.DataSource = e.NewValue;  
+                this.Modelo.DataObject= e.NewValue;  
             }
         }
         /// <summary>
@@ -83,7 +83,7 @@ namespace MasterModule.Views
               }
               this.Colore.SourceView = v.ElementAt(0);
               this.Marca.SourceView = v.ElementAt(1);
-              this.Modelo.SourceView = v.ElementAt(2);
+             // this.Modelo.So = v.ElementAt(2);
           }
         }
 

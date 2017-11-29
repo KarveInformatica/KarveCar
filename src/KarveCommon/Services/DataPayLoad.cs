@@ -23,6 +23,7 @@ namespace KarveCommon.Services
         None = 5,
     };
 
+
     /// <summary>
     ///  TODO: add support for generics.
     /// </summary>
@@ -35,7 +36,8 @@ namespace KarveCommon.Services
         {
             Insert = 0, Delete = 1, Update = 2,
             RegistrationPayload = 3, Show = 4, UpdateView = 5,
-            Any = 6
+            UpdateData = 6,
+            Any = 7
         };
 
         private Type _payLoadType = Type.Insert;
@@ -124,6 +126,13 @@ namespace KarveCommon.Services
                 payLoad = (DataPayLoad)formatter.Deserialize(stream);
             }
             return payLoad;
+        }
+    }
+    // just a null payload.
+    public class NullDataPayload : DataPayLoad
+    {
+        public NullDataPayload() : base()
+        { 
         }
     }
 }

@@ -8,8 +8,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     
     <Grid x:Name="DataPickerContext">
-        <WrapPanel Orientation="Horizontal">
-        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelText}" Width="{Binding Path=LabelTextWidth}" Visibility="Hidden"/>
+        <StackPanel Orientation="Horizontal">
+        <TextBlock x:Name="LabelField" Text="{Binding Path=LabelText}" Visibility="Hidden"/>
         <DatePicker x:Name="DatePicker"  
                     Height="50"
                     SelectedDate="{Binding DateContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -18,6 +18,6 @@
                     VerticalAlignment="Top"
                     Margin="10,10,0,0">
         </DatePicker>
-        </WrapPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

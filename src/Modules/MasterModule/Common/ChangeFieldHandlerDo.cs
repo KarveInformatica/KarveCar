@@ -4,7 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using KarveCommon.Services;
+using KarveControls.Generic;
 using KarveControls.UIObjects;
 
 namespace MasterModule.Common
@@ -12,30 +14,49 @@ namespace MasterModule.Common
     /// <summary>
     /// This handles the change field data object
     /// </summary>
-    internal class ChangeFieldHandlerDo<T>:IChangeHandler
+    public class ChangeFieldHandlerDo<T> : IChangeHandler
     {
         private DataSet _assistantDataSet;
         private DataSubSystem _currentSubsystem;
         private T _dataObject;
-        private IDictionary<string,string> _viewModelQueries;
+        private IDictionary<string, string> _viewModelQueries;
         private IEventManager _eventManager;
 
         /// <summary>
         /// DataObject to be merged in case of an update
         /// </summary>
-        public T DataObject { get => _dataObject; set => _dataObject = value; }
+        public T DataObject
+        {
+            get => _dataObject;
+            set => _dataObject = value;
+        }
+
         /// <summary>
         /// AssistantDataSet to be used.
         /// </summary>
-        public DataSet AssistantDataSet { get => _assistantDataSet; set => _assistantDataSet = value; }
+        public DataSet AssistantDataSet
+        {
+            get => _assistantDataSet;
+            set => _assistantDataSet = value;
+        }
+
         /// <summary>
         /// The current subsystem.
         /// </summary>
-        public DataSubSystem Subsystem { get => _currentSubsystem; set => _currentSubsystem = value; }
+        public DataSubSystem Subsystem
+        {
+            get => _currentSubsystem;
+            set => _currentSubsystem = value;
+        }
+
         /// <summary>
         /// View model queries.
         /// </summary>
-        public IDictionary<string,string> ViewModelQueries { get => _viewModelQueries; set => _viewModelQueries = value; }
+        public IDictionary<string, string> ViewModelQueries
+        {
+            get => _viewModelQueries;
+            set => _viewModelQueries = value;
+        }
 
         /// <summary>
         /// Change field handler do.
@@ -50,6 +71,7 @@ namespace MasterModule.Common
             _currentSubsystem = subSystem;
 
         }
+
         /// <summary>
         /// The action to handle a changed payload on insert
         /// </summary>
@@ -59,7 +81,7 @@ namespace MasterModule.Common
         {
             payLoad.PayloadType = DataPayLoad.Type.Insert;
             payLoad.HasDataObject = true;
-        
+
             payLoad.Subsystem = Subsystem;
             payLoad.HasDictionary = true;
             payLoad.DataDictionary = evDictionary;
@@ -75,7 +97,23 @@ namespace MasterModule.Common
             }
         }
 
-        /// <summary>
+        private void EnforceChange(IDictionary<string, object> evDictionary, ref T dataObject)
+        {
+            string path = "";
+            if (evDictionary.ContainsKey("Field"))
+            {
+                path = evDictionary["Field"] as string;
+                if (evDictionary.ContainsKey("ChangedValue"))
+                {
+                    var changedValue = evDictionary["ChangedValue"];
+                    ComponentUtils.SetPropValue(dataObject, path, changedValue);
+
+                }
+            }
+
+        }
+
+    /// <summary>
         /// The action to handle a payload.
         /// </summary>
         /// <param name="payLoad">DataPayload to be saved.</param>
@@ -89,7 +127,9 @@ namespace MasterModule.Common
             payLoad.DataDictionary = evDictionary;
             if (evDictionary.ContainsKey("DataObject"))
             {
+              
                 _dataObject = (T)evDictionary["DataObject"];
+            //    EnforceChange(evDictionary, ref _dataObject);
                 payLoad.DataObject = _dataObject;
                 _eventManager.NotifyToolBar(payLoad);
             }

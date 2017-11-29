@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views
+namespace MasterModule.Views.Vehicles
 {
     /// <summary>
-    /// Lógica de interacción para VehiclePhoto.xaml
+    /// Interaction logic for ColdPlatform.xaml
     /// </summary>
-    public partial class VehiclePhoto : UserControl
+    public partial class ColdPlatform : UserControl
     {
-        public VehiclePhoto()
+        public ColdPlatform()
         {
             InitializeComponent();
         }

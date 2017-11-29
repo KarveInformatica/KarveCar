@@ -7,9 +7,9 @@
              xmlns:mockvm="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              x:Class="MasterModule.Views.Vehicles.RevisionMain"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}"
+    
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
         
         <ListBox>
             <ListBox.ItemTemplate>

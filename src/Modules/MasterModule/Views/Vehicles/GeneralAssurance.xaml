@@ -22,61 +22,73 @@
             AssistDataFieldFirst="NUM_PROVEE"
             AssistDataFieldSecond="NOMBRE"
             DataFieldFirst="ciasegu"
-            AssistProperties="Numero, Nombre, Direccion, Poblacion, Pais, Mail"
+            AssistProperties="Codigo, Nombre, Direccion, Poblacion, Pais, Mail"
             MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
-            AssistQuery="{Binding AssuranceQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-            AssistTableName="PROVEE1"
+            AssistTableName="ASSURANCE"
+            SourceView="{Binding AssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
             Height="25" />
             <kc:DualFieldSearchBox                                               
             LabelText="{Binding StringConstants.Agent}"
             LabelTextWidth="100"
-            AssistDataFieldFirst="NUM_PROVEE"
+            AssistDataFieldFirst="NUM_AG"
             AssistDataFieldSecond="NOMBRE"
             DataFieldFirst="agente"
-            AssistProperties="Numero, Nombre, Direccion, Poblacion, Pais, Mail"
+            AssistProperties="Codigo, Nombre, Direccion, Poblacion, Pais, Mail"
             AssistQuery="{Binding AgentQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             IsReadOnlySecond="True"
             TextContentFirstWidth="50"
             TextContentSecondWidth="150"
+            AssistTableName="ASSURANCE_AGENT"
+            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Height="25"
+            SourceView="{Binding AssuranceAgentDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+            
             <kc:DataArea                                               
             DataAreaTitle="Tipo Seguro"
             DataAreaWidth="200"
             kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            kc:ControlExt.DataSourcePath="tiposegu"
+            kc:ControlExt.DataSourcePath="Value.tiposegu"
+            ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
+        
             />
             <kc:DataField 
                 LabelText="Carta Verde"
                 LabelTextWidth="100" 
                 TextContentWidth="150"
                 DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                          
                 DataSourcePath="CARTAVERDE"
                 DataFieldHeight="25"/>
-            
             <kc:DataArea                                               
             DataAreaTitle="Observacion Seguro"
             DataAreaWidth="200"
             kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            kc:ControlExt.DataSourcePath="OBS_SEGURO"
+            kc:ControlExt.DataSourcePath="Value.OBS_SEGURO"
+            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             />
             <kc:DataFieldCheckBox Content="Todo riesgo" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  kc:ControlExt.DataSourcePath="SEGU_TODORIESGO"></kc:DataFieldCheckBox>
+                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  kc:ControlExt.DataSourcePath="Value.SEGU_TODORIESGO"></kc:DataFieldCheckBox>
             <kc:DataFieldCheckBox Content="Seguro Internacional" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  kc:ControlExt.DataSourcePath="SEGU_INTERNACIONAL"></kc:DataFieldCheckBox>
+                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  kc:ControlExt.DataSourcePath="Value.SEGU_INTERNACIONAL"></kc:DataFieldCheckBox>
 
             <kc:DataFieldCheckBox Content="Recibo" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  kc:ControlExt.DataSourcePath="RECIBO_V1"></kc:DataFieldCheckBox>
+                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  kc:ControlExt.DataSourcePath="Value.RECIBO_V1"></kc:DataFieldCheckBox>
             <kc:DataFieldCheckBox Content="En el vehiculo" Margin="0,0,0,5"
-                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  kc:ControlExt.DataSourcePath="SEGURO_EN_VEHI"></kc:DataFieldCheckBox>
+                                  kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  kc:ControlExt.DataSourcePath="Value.SEGURO_EN_VEHI"></kc:DataFieldCheckBox>
 
             <GroupBox Header="Poliza">
             <WrapPanel>
@@ -84,34 +96,40 @@
                                   DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"        
                                   DataSourcePath="TIPOREV"                  
                                   LabelText="{Binding StringConstants.InsurancePolicy}"
+                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
                                   LabelTextWidth="100"
                                   LabelVisible="True"
                                   TextContentWidth="100"
                                   DataFieldHeight="25"
-                                              
-                                              />
+                                  />
                     <kc:DataDatePicker DataDatePickerHeight="25" 
                                                   x:Name="FechaAlta" 
                                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  kc:ControlExt.DataSourcePath="ALTASEGU"
+                                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  kc:ControlExt.DataSourcePath="Value.ALTASEGU"
                                                   LabelText="{Binding StringConstants.EntryDate}"/>
                     <kc:DataDatePicker 
                         DataDatePickerHeight="25"
                         x:Name="FechaBaja"
                         kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        kc:ControlExt.DataSourcePath="FBAJA_Segu"
+                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        kc:ControlExt.DataSourcePath="Value.FBAJA_Segu"
 
                        LabelText="Fecha Baja"/>
                     <kc:DataDatePicker
                         DataDatePickerHeight="25"
                         x:Name="Vencimiento" 
                         kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        kc:ControlExt.DataSourcePath="VTO_Segu"
+                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        kc:ControlExt.DataSourcePath="Value.VTO_Segu"
                         LabelText="{Binding StringConstants.ExpirationDate}"/>
-
+                
                     <kc:DataField DataFieldHeight="25"
                                              LabelTextWidth="80"
                                              LabelText="Franquicia"
+                                             DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="franquicia"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
                                              TextContentWidth="150"
                                              LabelVisible="True"
                                      />
@@ -130,29 +148,23 @@
                     DataFieldHeight="25" 
                     LabelTextWidth="80"
                     LabelText="Extorno"
-                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    kc:ControlExt.DataSourcePath="FBAJA_Segu"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
-                    TextContentWidth="150"
-                    />
-                    <kc:DataField 
-                    DataFieldHeight="25" 
-                    LabelTextWidth="80"
-                    LabelText="Pendiente"
+                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    DataSourcePath="EXTORNO"
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
                     TextContentWidth="150"
-                    Margin="0,5,0,0"
                     />
                     <kc:DataField 
                     DataFieldHeight="25" 
                     LabelTextWidth="100"
                     LabelText="Valor para Seguro"
+                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    DataSourcePath="VALOR_PARASEGURO"
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
                     TextContentWidth="200"
                     />
                 </WrapPanel>
 
             </GroupBox>
-                   </WrapPanel>
+          </WrapPanel>
     </Grid>
 </UserControl>

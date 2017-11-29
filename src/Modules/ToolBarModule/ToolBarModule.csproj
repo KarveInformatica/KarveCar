@@ -105,6 +105,7 @@
     <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\SupplierDataPayload.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />
+    <Compile Include="Command\ToolbarDataPayload.cs" />
     <Compile Include="Command\VehicleDataPayload.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="IToolBarView.cs" />

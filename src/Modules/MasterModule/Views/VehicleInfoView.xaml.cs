@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,17 @@ namespace MasterModule.Views
     /// </summary>
     public partial class VehicleInfoView : UserControl
     {
+        private string _header = string.Empty;
         public VehicleInfoView()
         {
+            Stopwatch initCStopwatch = new Stopwatch();
+            initCStopwatch.Start();
             InitializeComponent();
+            initCStopwatch.Stop();
+            var value = initCStopwatch.ElapsedMilliseconds;
+            var name = "";
         }
+
+        public string Header { set { _header = value; } get { return _header; } }
     }
 }

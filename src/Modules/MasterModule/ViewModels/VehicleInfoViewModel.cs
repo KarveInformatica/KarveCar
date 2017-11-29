@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,13 @@ using MasterModule.Common;
 using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using AutoMapper;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.Logic;
+using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 
 namespace MasterModule.ViewModels
@@ -23,10 +29,6 @@ namespace MasterModule.ViewModels
     partial class VehicleInfoViewModel: MasterViewModuleBase, IEventObserver, IDataErrorInfo
     {
         /// <summary>
-        ///  This the private basic data template selector.
-        /// </summary>
-        private DataTemplateSelector _dataTemplateSelector;
-        /// <summary>
         ///  Vehicle Data Services.
         /// </summary>
         private IVehicleDataServices _vehicleDataServices;
@@ -36,6 +38,108 @@ namespace MasterModule.ViewModels
         private readonly PropertyChangedEventHandler _deleteEventHandler;
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
         private DelegateCommand<object> _changedCommand;
+        public ICommand AssistCommand { set; get; }
+        private string _header;
+        private string _assistQueryOwner;
+        private ObservableCollection<ActividadDto> _activity;
+        private ObservableCollection<AgentDto> _agents;
+        private ObservableCollection<OwnerDto> _owner;
+        private ObservableCollection<SupplierSummaryDto> _supplier;
+        private ObservableCollection<PaymentFormDto> _paymentFormDto;
+        private ObservableCollection<ClientsSummaryDto> _clients;
+        private ObservableCollection<VendedorDto> _vendedor;
+        private ObservableCollection<ClientsSummaryDto> _clientDto;
+        private ObservableCollection<SupplierSummaryDto> _assuranceCompany;
+        private ObservableCollection<SupplierSummaryDto> _assuranceAgent;
+
+        // This returns the list of activity when asked.
+        public ObservableCollection<ActividadDto> ActivityDtos
+        {
+            get
+            {
+                return _activity;
+            }
+            set
+            {
+                _activity= value;
+                RaisePropertyChanged();
+            }
+            
+        }
+
+        public ObservableCollection<VendedorDto> VendedorDtos
+        {
+            get { return _vendedor; }
+            set { _vendedor = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AgentDto> AgentDtos
+        {
+            get
+            {
+                return _agents;
+            }
+            set
+            {
+                _agents = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  This returns the list of owners.
+        /// </summary>
+        public ObservableCollection<OwnerDto> OwnerDtos
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// </summary>
+        public ObservableCollection<SupplierSummaryDto> AssuranceDtos
+        {
+            get
+            {
+                return _assuranceCompany;
+            }
+            set
+            {
+                _assuranceCompany = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<SupplierSummaryDto> AssuranceAgentDtos
+        {
+            get
+            {
+                return _assuranceAgent;
+            }
+            set
+            {
+                _assuranceAgent = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<ClientsSummaryDto> ClientesDtos
+        {
+            get
+            {
+                return _clients;
+            }
+            set {
+                _clients = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -45,30 +149,134 @@ namespace MasterModule.ViewModels
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services) : 
             base(configurationService, eventManager, services)
         {
+ 			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();
             ItemChangedCommand = new DelegateCommand<object>(ChangeUnpack);
+            // In this tow cases i would use a collection of items with an itemscontrol.
+            MetaDataObject = InitAssuranceObject();
+            DataFieldCollection = InitDataField();
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
-            
+            AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
         }
-        /// <summary>
-        ///  This return a basic template selector for each item colletion.
-        /// </summary>
-        public DataTemplateSelector BasicTemplateSelector
+
+        private async void AssistCommandHelper(object param)
         {
-            
-            get { return _dataTemplateSelector; }
-            set { _dataTemplateSelector = value; RaisePropertyChanged(); }
+            IDictionary<string, string> values = param as Dictionary<string, string>;
+            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"]  : null;
+            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"]  : null;
+            /*  ok now i have to handle the assist helper.
+             *  The smartest thing is to detect the table from the query.
+             */
+            IMapper mapper = MapperField.GetMapper();
+            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
+            assistTableName = assistTableName.ToUpper();
+
+            switch (assistTableName)
+            {
+                case "ACTIVI":
+                {
+                    var actividades = await helperDataServices.GetAsyncHelper<ACTIVI>(assistQuery);
+                    var act = mapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividades);
+                    ActivityDtos = new ObservableCollection<ActividadDto>(act);
+                    break;
+                }
+                case "PROPIE":
+                {
+                    var propie = await helperDataServices.GetAsyncHelper<OwnerDto>(assistQuery);
+                    ObservableCollection<OwnerDto> ownerDtos = new ObservableCollection<OwnerDto>(propie);
+                    OwnerDtos = ownerDtos;
+                    break;
+                }
+                case "AGENTES":
+                {
+                   
+                    var agents = await helperDataServices.GetAsyncHelper<AgentDto>(assistQuery);
+                    ObservableCollection<AgentDto> agentDtos = new ObservableCollection<AgentDto>(agents);   
+                    AgentDtos = agentDtos;
+                    break;
+                }
+                case "ASSURANCE":
+                {
+                    var provee =
+                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+                    AssuranceDtos = new ObservableCollection<SupplierSummaryDto>(provee);
+                    break;
+                }
+                case "ASSURANCE_AGENT":
+                {
+                    var provee =
+                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+                    AssuranceAgentDtos = new ObservableCollection<SupplierSummaryDto>(provee);
+                    break;
+
+                }
+                case "PROVEE1":
+                {
+                    var provee =
+                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+                    ProveeDto = new ObservableCollection<SupplierSummaryDto>(provee);
+                    break;
+                }
+                case "PROVEE2":
+                {
+                    var provee =
+                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+                    ProveeDto2 = new ObservableCollection<SupplierSummaryDto>(provee);
+                    break;
+                }
+                case "FORMAS":
+                {
+                    var formas = await helperDataServices.GetAsyncHelper<FORMAS>(assistQuery);
+                    var paymentFrom = mapper.Map<IEnumerable<FORMAS>,IEnumerable<PaymentFormDto>>(formas);
+                    PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentFrom);
+                    break;
+                }
+                case "CLIENTES1":
+                {
+                    var clientes = await helperDataServices.GetAsyncHelper<ClientsSummaryDto>(GenericSql.SupplierSummaryQuery);
+                    ClientsDto = new ObservableCollection<ClientsSummaryDto>(clientes);
+                    break;
+                   
+                }
+                case "VENDEDOR":
+                {
+                    var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
+                    IEnumerable<VendedorDto> cli = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<VendedorDto>>
+                        (vendedor);
+                    VendedorDtos = new ObservableCollection<VendedorDto>(cli);
+                    break;
+                }
+            }
+        }
+
+        public ObservableCollection<SupplierSummaryDto> ProveeDto
+        {
+            get { return _supplier; }
+            set { _supplier = value; RaisePropertyChanged(); }
+        }
+        public ObservableCollection<SupplierSummaryDto> ProveeDto2
+        {
+            get { return _supplier; }
+            set { _supplier = value; RaisePropertyChanged(); }
         }
 
         public object DataObject
         {
             get { return _dataObject; }
             set { _dataObject = value;
+                MetaDataObject = InitAssuranceObject();
+                DataFieldCollection = InitDataField();
                 RaisePropertyChanged();
             }
         }
-
-
+        /// <summary>
+        ///  Header 
+        /// </summary>
+        public string Header
+        {
+            set { _header = value; RaisePropertyChanged(); }
+            get { return _header; }
+        }
         private void ActiveSubSystem()
         {
             // change the active subsystem in the toolbar state.
@@ -85,7 +293,7 @@ namespace MasterModule.ViewModels
         {
             _initializationTable =
                 NotifyTaskCompletion.Create<IVehicleData>(LoadDataValue(PrimaryKeyValue, IsInsertion), InitializationDataObjectOnPropertyChanged);
-            throw new NotImplementedException();
+            
         }
 
         private void InitializationDataObjectOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -166,6 +374,44 @@ namespace MasterModule.ViewModels
             }
             return vehicle;
         }
+        /// <summary>
+        ///  assist owner
+        /// </summary>
+        public string AssistQueryOwner
+        {
+            get { return _assistQueryOwner; }
+            set { _assistQueryOwner = value; }
+        }
+        /// <summary>
+        ///  BuyerAssistQuery.
+        /// </summary>
+        public string BuyerAssistQuery
+        {
+            get { return GenericSql.ClientsSummaryQuery;  }
+        }
+        /// <summary>
+        ///  name.
+        /// </summary>
+        public string LeasingSupplierQuery
+        {
+            get { return GenericSql.SupplierSummaryQuery; }
+        }
+            
+            public ObservableCollection<PaymentFormDto> PaymentFormDto {
+            get { return _paymentFormDto; }
+            private set { _paymentFormDto = value; RaisePropertyChanged();}
+        }
+
+        public ObservableCollection<ClientsSummaryDto> ClientsDto
+        {
+            get { return _clientDto; }
+            set
+            {
+                _clientDto = value;
+                RaisePropertyChanged();
+            }
+            
+        }
 
         public override void NewItem()
         {
@@ -206,13 +452,20 @@ namespace MasterModule.ViewModels
         /// <param name="insertable">Is an insert operation</param>
         private void Init(string primaryKeyValue, DataPayLoad payload, bool insertable)
         {
+            Stopwatch srStopwatch = new Stopwatch();
+            srStopwatch.Start();
             if (payload.HasDataObject)
             {
                 _vehicleDo = (IVehicleData) payload.DataObject;
+              
                 DataObject = _vehicleDo;
+
                 EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
-                RegisterToolBar();
+                ActiveSubSystem();
             }
+            srStopwatch.Stop();
+            var value = srStopwatch.ElapsedMilliseconds;
+
         }
         /// <summary>
         /// Primary key payload.
@@ -278,6 +531,15 @@ namespace MasterModule.ViewModels
                 // here i can fix the primary key
                 switch (payload.PayloadType)
                 {
+                    case DataPayLoad.Type.UpdateData:
+                    {
+                        if (payload.HasDataObject)
+                        {
+                          DataObject = MergeDataObject(DataObject, payload.DataObject);
+                      //    DataObject = payload.DataObject;
+                        }
+                        break;
+                    }
                     case DataPayLoad.Type.UpdateView:
                     case DataPayLoad.Type.Show:
                     {
@@ -305,6 +567,11 @@ namespace MasterModule.ViewModels
                 }
             }
 
+        }
+
+        private object MergeDataObject(object dataObject, object payloadDataObject)
+        {
+            return dataObject;
         }
     }
 }

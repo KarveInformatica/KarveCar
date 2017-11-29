@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using KarveControls.Generic;
-using KarveControls;
-using Telerik.Charting.Styles;
 using System.Data;
-using System.Windows.Input;
 using System.Diagnostics.Contracts;
+using ICommand = System.Windows.Input.ICommand;
+
 namespace KarveControls
 {
     /// <summary>
@@ -15,6 +14,8 @@ namespace KarveControls
     /// </summary>
     public class ControlExt: DependencyObject
     {
+
+        private static string lastTextBoxValue = "";
         /// <summary>
         ///  Email data type
         /// </summary>
@@ -87,19 +88,101 @@ namespace KarveControls
         public static readonly DependencyProperty ItemChangedCommandDependencyProperty =
             DependencyProperty.RegisterAttached(
                 "ItemChangedCommand",
-                typeof(DataType),
+                typeof(ICommand),
                 typeof(ControlExt),
-                new PropertyMetadata(DataType.Any));
+                new PropertyMetadata(null, PropertyChangedCb));
+       
         /// <summary>
-        ///  Kind of data allowed for this component.
+        ///  This is a property changed util.
         /// </summary>
-        public ICommand ItemChangedCommand
+        /// <param name="dependencyObject"></param>
+        /// <param name="eventArgs"></param>
+        public static void PropertyChangedCb(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
-            get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
-            set { SetValue(ItemChangedCommandDependencyProperty, value); }
+            if (dependencyObject is DataDatePicker)
+            {
+                DataDatePicker dataDatePicker = dependencyObject as DataDatePicker;
+                dataDatePicker.DataDatePickerChanged += DataDatePicker_DataDatePickerChanged;
+
+            }
+            if (dependencyObject is TextBox)
+            {
+                TextBox box = dependencyObject as TextBox;
+                box.TextChanged += TextBox_ChangedBehaviour;
+            }
+            if (dependencyObject is DataFieldCheckBox)
+            {
+                DataFieldCheckBox checkBox = dependencyObject as DataFieldCheckBox;
+                checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
+            }
+            if (dependencyObject is ComboBox)
+            {
+                ComboBox comboBox = dependencyObject as ComboBox;
+                if (comboBox != null)
+                {
+                    // here we do the combox box.
+                    comboBox.SelectionChanged += ComboBox_SelectionChanged;
+
+                }
+            }
         }
         /// <summary>
-        ///  Set the item changed command
+        ///  SelectionChanged. This event get triggered when the selection change in a property
+        /// </summary>
+        /// <param name="sender">The sender of the call</param>
+        /// <param name="e"> Event args</param>
+        private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                var command = comboBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    object dataObject = GetDataSource(comboBox);
+                    if (dataObject != null)
+                    {
+                        string dataPath = GetDataSourcePath(comboBox);
+                        if (string.IsNullOrEmpty(dataPath))
+                        {
+                            int selectedIndex = comboBox.SelectedIndex;
+                            ComponentUtils.SetPropValue(dataObject, dataPath, selectedIndex);
+                            objectName["ChangedIndex"] = selectedIndex;
+                            objectName["ChangedValue"] =  comboBox.SelectedValue;
+                        }
+                        objectName["DataObject"] = GetDataSource(comboBox);
+                        objectName["DataSourcePath"] = GetDataSourcePath(comboBox);
+                    }
+                    command.Execute(objectName);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  DataFieldCheckBoxChanged.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void CheckBox_DataFieldCheckBoxChanged(object sender, RoutedEventArgs e)
+        {
+            var dataFieldCheckBox = sender as DataFieldCheckBox;
+            if (dataFieldCheckBox != null)
+            {
+                var command = dataFieldCheckBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["DataObject"] = GetDataSource(dataFieldCheckBox);
+                    objectName["DataSourcePath"] = GetDataSourcePath(dataFieldCheckBox);
+                    objectName["ChangedValue"] = dataFieldCheckBox.IsChecked;
+                    command.Execute(objectName);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  Set the item changed command, Attached behaviour for the component.
         /// </summary>
         /// <param name="d">Depedency property</param>
         /// <param name="e">Value</param>
@@ -107,6 +190,39 @@ namespace KarveControls
         {
             d.SetValue(ItemChangedCommandDependencyProperty, e);
         }
+        private static void TextBox_ChangedBehaviour(object sender, RoutedEventArgs args)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                var command = textBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["DataObject"] = GetDataSource(textBox);
+                    objectName["DataSourcePath"] = GetDataSourcePath(textBox);
+                    objectName["ChangedValue"] = textBox.Text;
+                    objectName["PreviousValue"] = lastTextBoxValue;
+                    lastTextBoxValue = textBox.Text;
+                    command.Execute(objectName);
+                }
+            }
+        }
+        private static void DataDatePicker_DataDatePickerChanged(object sender, RoutedEventArgs e)
+        {
+            DataDatePicker.DataDatePickerEventArgs args = (DataDatePicker.DataDatePickerEventArgs) e;
+            DataDatePicker picker = sender as DataDatePicker;
+            if (picker != null)
+            {
+                ICommand changedCommand =  picker.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                IDictionary<string, object> evArgs = args.ChangedValuesObjects;
+                if (changedCommand!=null)
+                {
+                    changedCommand.Execute(evArgs);
+                }
+            }
+        }
+
         /// <summary>
         ///  Get item changed command.
         /// </summary>
@@ -181,6 +297,21 @@ namespace KarveControls
                 }
             }
         }
+
+        /// <summary>
+        /// CheckAndAssignText.
+        /// </summary>
+        /// <param name="dataAreaFiled"></param>
+        /// <param name="sourceNew"></param>
+        /// <param name="path"></param>
+        private static void CheckAndAssignText(DataArea dataAreaFiled, object sourceNew, string path)
+        {
+            string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
+            if (!string.IsNullOrEmpty(propValue))
+            {
+                dataAreaFiled.EditorText.Text = propValue;
+            }
+        }
         /// <summary>
         /// CheckAndAssignDate
         /// </summary>
@@ -204,16 +335,21 @@ namespace KarveControls
             if (propValue != null)
             {
 
-
                 if (propValue is string)
                 {
                     try
                     {
                         timeValue = DateTime.Parse(propValue as string);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         timeValue = DateTime.Now;
                     }
+                }
+                else
+                {
+                    timeValue = (DateTime)propValue;
+
                 }
                 if (timeValue != null)
                 {
@@ -246,11 +382,23 @@ namespace KarveControls
 
                 }
             }
-            if (d is DataArea)
+
+            if(d is DataArea)
             {
                 DataArea dataArea = (DataArea)d;
+                CheckAndAssignText(dataArea, sourceNew, path);
                 dataArea.DataSource = e.NewValue;
-                           }
+               // dataArea.DataSourcePath = path;
+            }
+            if (d is TextBox)
+            {
+                TextBox box = (TextBox) d;
+                string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
+                if (propValue != null)
+                {
+                    box.Text = propValue;
+                }
+            }
             if (d is DataDatePicker dataPicker)
             {
                 if (dataPicker != null)

@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-
+using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
 
 namespace DataAccessLayer
@@ -50,14 +52,14 @@ namespace DataAccessLayer
         }
 
 
-        public async Task<DataObjects.SupplierPoco> GetSupplierDo(string supplierId)
+        public async Task<SupplierPoco> GetSupplierDo(string supplierId)
         {
             SupplierPoco ret;
             
             using (IDbConnection connection = this._executor.OpenNewDbConnection())
             {
                 var query = string.Format(SupplierQuery, supplierId);
-                var result = await connection.QueryAsync<DataObjects.SupplierPoco>(query);
+                var result = await connection.QueryAsync<SupplierPoco>(query);
                 ret = result.FirstOrDefault();
             }
             if (ret == null)
@@ -185,6 +187,11 @@ namespace DataAccessLayer
             }
         }
 
+        public Task<bool> Save(ISupplierData data)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  This function simply generates a new identifier.
         /// </summary>
@@ -194,6 +201,38 @@ namespace DataAccessLayer
             string name = GenerateUniqueId();
             return name;
         }
+
+        public Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ISupplierData> GetAsyncSupplierDo(string validSupplierCode)
+        {
+            Supplier supplier = new Supplier(_executor);
+            bool loaded = await supplier.LoadValue(null, validSupplierCode);
+            if (loaded)
+            {
+                return supplier;
+            }
+            return supplier;
+        }
+
+        public Task<bool> DeleteAsyncSupplierDo(ISupplierData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISupplierData GetNewSupplierDo(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveChanges(ISupplierData supplierData)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// This returns a new supplier.
         /// </summary>
@@ -331,6 +370,11 @@ namespace DataAccessLayer
             return true;
 
 
+        }
+
+        public Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
+        {
+            throw new NotImplementedException();
         }
     }
 }

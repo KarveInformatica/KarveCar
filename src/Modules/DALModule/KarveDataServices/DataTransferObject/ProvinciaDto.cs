@@ -12,6 +12,6 @@ namespace KarveDataServices.DataTransferObject
         /// Name
         /// </summary>
         public string Name { get; set; }
-        public string CountryCode { get; set; }
+        public string Country { get; set; }
     }
 }

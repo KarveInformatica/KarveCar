@@ -43,6 +43,7 @@
     <Compile Include="IAsyncInitialization.cs" />
     <Compile Include="ICreateRegionManagerScope.cs" />
     <Compile Include="ILinqToTree.cs" />
+    <Compile Include="IMagnifierHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

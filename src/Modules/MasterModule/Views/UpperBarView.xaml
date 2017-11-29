@@ -8,12 +8,12 @@
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
-             d:DesignHeight="30" d:DesignWidth="600">
+             d:DesignHeight="200" d:DesignWidth="900">
     <Grid>
         <Grid.Resources>
-            <ResourceDictionary>            <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary>            
+                <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
 
@@ -46,10 +46,12 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-            <karveControls:DualFieldSearchBox x:Name="TipoComiSearch" TextContentFirstWidth="100"
-                                              TextContentSecondWidth="200"
+            <karveControls:DualFieldSearchBox x:Name="TipoComiSearch" 
+                                              TextContentSecondWidth="100"
+                                              TextContentFirstWidth="50"
                                               LabelTextWidth="100" 
                                               LabelText="Tipo.Comissionista" 
+                                              Height="25"
                                               LabelVisible="True"
                                               AssistProperties="Codigo,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

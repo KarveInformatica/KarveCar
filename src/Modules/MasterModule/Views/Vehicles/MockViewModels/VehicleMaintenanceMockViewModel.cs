@@ -1,4 +1,8 @@
-﻿namespace MasterModule.Views.Vehicles.MockViewModels
+﻿using System.Collections;
+using System.Windows.Input;
+using KarveDataServices.DataTransferObject;
+
+namespace MasterModule.Views.Vehicles.MockViewModels
 {
     /// <summary>
     /// Mock Maintenance View Model.
@@ -34,8 +38,24 @@
 
      */
     /// </summary>
+    
     public class VehicleMaintenanceMockViewModel
     {
+        /// <summary>
+        ///  Open item.
+        /// </summary>
+        public ICommand OpenItem { set; get; }
+        /// <summary>
+        ///  Delegation changed rows command
+        /// </summary>
+        public ICommand DelegationChangedRowsCommand { set; get; }
+        /// <summary>
+        ///  Data Object
+        /// </summary>
+        public object DataObject { set; get; }
+        /// <summary>
+        ///  List of the objects.
+        /// </summary>    
 
     }
 }

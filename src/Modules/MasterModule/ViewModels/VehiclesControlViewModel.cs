@@ -55,11 +55,20 @@ namespace MasterModule.ViewModels
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, VehicleNameColumn, VehicleColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
                 IVehicleData agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
+
+               
+                var navigationParameters = new NavigationParameters();
+                navigationParameters.Add("id",  idNameTuple.Item1);
+                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                var uri = new Uri(typeof(VehicleInfoView).FullName+navigationParameters,UriKind.Relative);
+                _regionManager.RequestNavigate("TabRegion", uri);
+                 
                 // replace this with navigation.
-                VehicleInfoView view = _container.Resolve<VehicleInfoView>();
+                /*VehicleInfoView view = _container.Resolve<VehicleInfoView>();
                 ConfigurationService.AddMainTab(view, tabName);
+                */
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
-                currentPayload.PrimaryKeyValue = idNameTuple.Item2;
+                currentPayload.PrimaryKeyValue = idNameTuple.Item1;
                 currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
             }
@@ -161,7 +170,7 @@ namespace MasterModule.ViewModels
         /// <param name="result">This is the data object for this screen</param>
         protected override void SetDataObject(object result)
         {
-         //   throw new NotImplementedException();
+            //_dataObject = result;
         }
 
         /// <summary>

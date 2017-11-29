@@ -130,13 +130,24 @@ namespace MasterModule.ViewModels
         }
         private void OnChangedItem(object data)
         {
-            var currentData = data;
+            object currentObject = data;
+            if (data is IDictionary<string, object>)
+            {
+
+
+                IDictionary<string, object> currentData = data as IDictionary<string, object>;
+                if (currentData == null)
+                    return;
+                currentObject = currentData["DataObject"];
+            }
+            object dataObject = data;
             DataPayLoad payLoad = new DataPayLoad();
-            payLoad.DataObject = currentData;
-            DataObject = currentData;
+            payLoad.DataObject = currentObject;
+            DataObject = currentObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.HasDataObject = true;
             payLoad.Subsystem = _subsystem;
+            // send message to the main view model to any item.
             _eventManager.NotifyToolBar(payLoad);
         }
 

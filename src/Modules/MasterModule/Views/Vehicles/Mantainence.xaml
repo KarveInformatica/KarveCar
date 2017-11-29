@@ -12,15 +12,15 @@
              xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              x:Class="MasterModule.Views.Vehicles.Mantainence"
              mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1000"
-             d:DataContext="{d:DesignInstance Type=mockViewModels1:VehicleMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
-   
-          
-    <Grid>
+            >
+
+
+    <Grid d:DataContext="{d:DesignInstance Type=mockViewModels1:VehicleMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
         <StackPanel Orientation="Vertical">
             <WrapPanel Orientation="Horizontal">
                 <KarveControls:DataDatePicker LabelText="Fin Garantia" Height="35"
                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              KarveControls:ControlExt.DataSourcePath="FinGaran"/>
+                                              KarveControls:ControlExt.DataSourcePath="Value.FinGaran"/>
                 <Button Content="Calcola Mantenimiento" Height="25" Width="330.437"/>
                 <KarveControls:DataField LabelText="Km Actuales"
                                          LabelTextWidth="80"

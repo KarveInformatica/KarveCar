@@ -31,6 +31,39 @@
         <Field type="DataAccessLayer.SQL.Field">
           <Name>bastidor</Name>
         </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>danos</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>lextras</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>ACCESORIOS_VH</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>aviso</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>ref</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>actividad</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>PROPIE</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>kmresta</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>FCAMBIO_KM</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>numplazas</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>NUMPUERTAS</Name>
+        </Field>
       </DataFields>
     </Table>
     <Table type="DataAccessLayer.SQL.Table">
@@ -44,6 +77,24 @@
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>saldo</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>proximante</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>kmmax</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>riesgo</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>combus</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>llave</Name>
+        </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>llave2</Name>
         </Field>
       </DataFields>
     </Table>

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using KarveControls.Generic;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace KarveControls
 {
@@ -21,6 +24,7 @@ namespace KarveControls
                 typeof(RoutedEventHandler),
                 typeof(DataDatePicker));
 
+        private bool initState = true;
         /// <summary>
         /// Event class of the event picker.
         /// </summary>
@@ -70,7 +74,13 @@ namespace KarveControls
             add { AddHandler(DataDatePickerChangedEvent, value); }
             remove { RemoveHandler(DataDatePickerChangedEvent, value); }
         }
-
+        /*
+        public DateTime DateValue
+        {
+            set { DateContent = value; }
+            get { return DateValue; }
+        }
+        */
         /// <summary>
         /// Data Object dependency property.
         /// </summary>
@@ -96,9 +106,10 @@ namespace KarveControls
             if (control != null)
             {
                 var value = ControlExt.GetDataSourcePath(control);
+                var dataObject = ControlExt.GetDataSource(control);
                 if (!string.IsNullOrEmpty(value))
                 {
-                    var obj = ComponentUtils.GetPropValue(control, value);
+                    var obj = ComponentUtils.GetPropValue(dataObject, value);
                     if (obj != null)
                     {
                         control.DateContent = Convert.ToDateTime(obj);
@@ -115,7 +126,7 @@ namespace KarveControls
                 "DateContent",
                 typeof(DateTime),
                 typeof(DataDatePicker),
-                new PropertyMetadata(DateTime.Now, OnDateContentChange));
+                new PropertyMetadata(DateTime.MinValue, OnDateContentChange));
 
         /// <summary>
         /// DateContent content of the date.
@@ -129,7 +140,8 @@ namespace KarveControls
         private static void OnDateContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataDatePicker control = d as DataDatePicker;
-            if (e.NewValue == null)
+            DateTime currentValue = (DateTime) e.NewValue;
+            if (currentValue == DateTime.MinValue)
             {
                 return;
             }
@@ -147,12 +159,18 @@ namespace KarveControls
                             var date = e.NewValue;
                             if (date is DateTime)
                             {
-                                ComponentUtils.SetPropValue(obj, value, date);
+                              ComponentUtils.SetPropValue(obj, value, date);
+                              //  control.SetDate((DateTime)date);
                             }
                         }
                     }
                 }
             }
+        }
+
+        private void SetDate(DateTime date)
+        {
+           DatePicker.SelectedDate = date;
         }
 
         #endregion
@@ -268,6 +286,7 @@ namespace KarveControls
             LabelField.Width = value;
         }
 
+
         #endregion
 
         #region TextContentWidth
@@ -315,7 +334,7 @@ namespace KarveControls
                 "DataDatePickerHeight",
                 typeof(string),
                 typeof(DataDatePicker),
-                new PropertyMetadata("40", OnDataDatePickerHeightChange));
+                new PropertyMetadata("25", OnDataDatePickerHeightChange));
 
         /// <summary>
         ///  Height of the picker
@@ -342,30 +361,47 @@ namespace KarveControls
             DatePicker.Height = value;
         }
 
+        private static int times = 0;
         /// <summary>
         ///  Constructor for the picker.
         /// </summary>
         public DataDatePicker()
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             InitializeComponent();
+            watch.Stop();
+            var value = watch.ElapsedMilliseconds;
+
             // right default
             LabelField.Visibility = Visibility.Visible;
             DataPickerContext.DataContext = this;
+           
         }
 
         private void DatePicker_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             var value = ControlExt.GetDataSourcePath(this);
             var dataObject = ControlExt.GetDataSource(this);
-            DataObject = dataObject;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+            if (this.initState)
+            {
+                times++;
+            }
             if (DatePicker.SelectedDate != null)
             {
+                ComponentUtils.SetPropValue(dataObject, value, DatePicker.SelectedDate.Value);
+
+                DataObject = dataObject;
+
                 DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
                 {
                     FieldData = DatePicker.SelectedDate.Value
                 };
-                if (ev.FieldData!=null)
-                {
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>
                     {
                         ["DataObject"] = DataObject,
@@ -376,5 +412,4 @@ namespace KarveControls
                 }
             }
         }
-    }
 }

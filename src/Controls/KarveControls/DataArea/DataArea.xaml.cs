@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -90,6 +91,7 @@ namespace KarveControls
         private void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
         {
             this._itemSource = e.NewValue;
+            CheckAndAssignText(DataSource, DataSourcePath);
         }
 
 
@@ -189,9 +191,28 @@ namespace KarveControls
                 controlDataArea.OnDataAreaPropertyChanged(e);
             }
         }
+        /// <summary>
+        /// CheckAndAssignText.
+        /// </summary>
+        /// <param name="sourceNew"></param>
+        /// <param name="path"></param>
+        private void CheckAndAssignText(object sourceNew, string path)
+        {
+            path = "Value." + path;
+            string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
+            if (!string.IsNullOrEmpty(propValue))
+            {
+              TextContent = propValue;
+            }
+        }
         private void OnDataAreaPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            _DataArea = e.NewValue as string;
+
+            string path = e.NewValue as string;
+            if (!string.IsNullOrEmpty(path))
+            {
+                CheckAndAssignText(DataSource, path);
+            }
         }
         #endregion
         #region LabelText
@@ -335,6 +356,7 @@ namespace KarveControls
         {
             string value = e.NewValue as string;
             this.EditorText.Text = value;
+            _DataArea = EditorText.Text;
         }
         #endregion
         /// <summary>
@@ -342,11 +364,15 @@ namespace KarveControls
         /// </summary>
         public DataArea()
         {
+            Stopwatch startStopwatch = new Stopwatch();
+            startStopwatch.Start();
             InitializeComponent();
             this.DataAreaLayout.DataContext = this;
             this.EditorText.LostFocus +=EditorTextOnLostFocus;
             this.EditorText.GotFocus+=EditorTextOnGotFocus;
-            
+            startStopwatch.Stop();
+            long console = startStopwatch.ElapsedMilliseconds;
+         //   Console.WriteLine(console);
         }
 
         private void EditorTextOnGotFocus(object sender, RoutedEventArgs routedEventArgs)

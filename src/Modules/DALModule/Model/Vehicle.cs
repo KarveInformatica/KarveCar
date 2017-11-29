@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -150,6 +151,19 @@ namespace DataAccessLayer.Model
                                             "and filename = rutafoto " +
                                             "where (cod_asociado  is not null) and (codiint='{0}')";
 
+        private const string ActividadByVehicle = "select num_activi, nombre from activi where num_activi='{0}'";
+
+        private const string OwnersByVehicle = "select NUM_PROPIE as Codigo, " +
+                                               "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
+                                               "PROPIE.CP as CP, PROVINCIA.PROV as Provincia, " +
+                                               "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from PROPIE " +
+                                               "INNER JOIN PROVINCIA ON PROPIE.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_PROPIE='{0}'";
+
+        private const string AgentByVehicule = "select NUM_AG as Codigo, " +
+                                               "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
+                                               "AGENTES.CP as CP, PROVINCIA.PROV as Provincia, " +
+                                               "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from AGENTES " +
+                                               "INNER JOIN PROVINCIA ON AGENTES.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_AG='{0}'";
         #endregion
 
         private bool _isValid = false;
@@ -174,6 +188,13 @@ namespace DataAccessLayer.Model
         private IEnumerable<MARCAS> _marcas;
         private IEnumerable<MODELO> _modelos;
         private IEnumerable<COLORFL> _colorfl;
+        private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
+        private IEnumerable<ActividadDto> _actividadDtos;
+        private IEnumerable<OwnerDto> _ownerDtos;
+        private IEnumerable<AgentDto> _agentDtos;
+        
+        private string _assistQueryOwner;
+        private string _agentQuery;
 
         #endregion
 
@@ -225,7 +246,15 @@ namespace DataAccessLayer.Model
                         return color;
                     }
                 );
-                cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
+                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(src =>
+                    {
+                        var color = new ActividadDto();
+                        color.Codigo = src.NUM_ACTIVI;
+                        color.Nombre = src.NOMBRE;
+                        return color;
+                    }
+                );
+                    cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
                     {
                         var model = new MODELO();
                         model.CODIGO = src.Codigo;
@@ -266,11 +295,27 @@ namespace DataAccessLayer.Model
         }
         // This data transfer object to be used in the grid when using the lookup.
         public IEnumerable<BrandVehicleDto> BrandDtos { get { return _brandDtos; }  set { _brandDtos = value;  RaisePropertyChanged();} }
+        /// <summary>
+        ///  Model Dto
+        /// </summary>
         public IEnumerable<ModelVehicleDto> ModelDtos { get { return _modelDtos;  } set { _modelDtos = value; RaisePropertyChanged();} }
         public IEnumerable<ColorDto> ColorDtos { get { return _colorDtos; } set { _colorDtos = value; RaisePropertyChanged(); } }
         public IEnumerable<PictureDto> PictureDtos { get { return _pictureDtos; } set { _pictureDtos = value; RaisePropertyChanged(); } }
+        public IEnumerable<ActividadDto> ActividadDtos {  get { return _actividadDtos; } set { _actividadDtos = value; RaisePropertyChanged(); } }
+        public IEnumerable<OwnerDto> OwnerDtos { get { return _ownerDtos; } set { _ownerDtos = value; RaisePropertyChanged(); } }
+        public IEnumerable<AgentDto> AgentDtos { get { return _agentDtos; } set { _agentDtos = value; RaisePropertyChanged(); } }
 
-       
+        /// <summary>
+        ///  Dto for the vehiclegroup.
+        /// </summary>
+        public IEnumerable<VehicleGroupDto> VehicleGroupDtos
+        {
+            get { return _vehicleGroupDtos; }
+            set { _vehicleGroupDtos = value;
+                RaisePropertyChanged();}
+        }
+
+
         /// <summary>
         ///  Delete asynchronous data. For now it doesnt do nothing.
         /// </summary>
@@ -279,6 +324,15 @@ namespace DataAccessLayer.Model
         {
             await Task.Delay(1);
             return true;
+        }
+
+        /// <summary>
+        ///  This returns an assist query.
+        /// </summary>
+        public string AssistQueryOwner
+        {
+            get { return _assistQueryOwner; }
+            private set { _assistQueryOwner = value; }
         }
 
         /// <summary>
@@ -292,8 +346,6 @@ namespace DataAccessLayer.Model
             vehiculo2.CODIINT = vehiculo1.CODIINT;
             Dbc.Requires(vehiculo1.CODIINT != null, "Null PrimaryKey before Saving");
             Dbc.Requires(vehiculo2.CODIINT != null, "Null PrimaryKey before Saving");
-
-
             bool retValue = false;
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -385,6 +437,9 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public async Task<bool> LoadValue(IDictionary<string, string> fields, string codeVehicle)
         {
+            Stopwatch stopwatch= new Stopwatch();
+            stopwatch.Start();
+            
             Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO1"]));
             Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO2"]));
             Dbc.Requires(_vehicleMapper != null);
@@ -401,13 +456,25 @@ namespace DataAccessLayer.Model
                     {
                         return false;
                     }
-                    // now we look for aux tables.
+
+                    /*
+                     *  See if for the lookup tables. we can avoid mapping.
+                     */
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);
                     BrandDtos = _vehicleMapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
                     var queryPicture = string.Format(PhotoByValue, _vehicleValue.CODIINT);
                     var pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
                     PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
+                    var queryActivi = string.Format(ActividadByVehicle, _vehicleValue.ACTIVIDAD);
+                    var actividad = await connection.QueryAsync<ACTIVI>(queryActivi);
+                    ActividadDtos = _vehicleMapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividad);
+                    // this is the owner. Just in this case i sue the dto.
+                    string queryOwner = string.Format(OwnersByVehicle, _vehicleValue.PROPIE);
+                    AssistQueryOwner = queryOwner;
+                    OwnerDtos = await connection.QueryAsync<OwnerDto>(queryOwner);
+                    VehicleAgentQuery = string.Format(AgentByVehicule, _vehicleValue.AGENTE);
+                    AgentDtos = await connection.QueryAsync<AgentDto>(VehicleAgentQuery);
                     Valid =true;
                 }
                 catch (System.Exception e)
@@ -416,8 +483,17 @@ namespace DataAccessLayer.Model
                     throw new DataLayerExecutionException(message);
                 }
             }
+            stopwatch.Stop();
+            // around 100 ms/ 90 ms just to load the vehicle.
+            long value = stopwatch.ElapsedMilliseconds;
             return true;
         }
+
+        public string VehicleAgentQuery {
+            get { return _agentQuery; }
+            set { _agentQuery = value;  RaisePropertyChanged();}
+        }
+
         /// <summary>
         ///  Converter for the the new vehiculo2.
         /// </summary>

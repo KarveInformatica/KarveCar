@@ -10,7 +10,7 @@
     <Grid>
         <m:Map CredentialsProvider="AkU3CEVw9g_drP3e8Adjek2AeVzcm-YG9xXs4I10pd3SFbDZvyQQNnizU_aW0TSb" 
                Mode="Road"
-               ZoomLevel="16.000" AnimationLevel="None"
+               ZoomLevel="20.000" AnimationLevel="None"
                x:Name="KarveMap" />
     </Grid>
 </UserControl>

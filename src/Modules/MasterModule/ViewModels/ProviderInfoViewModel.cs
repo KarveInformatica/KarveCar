@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.Suppliers;
 using Prism.Commands;
@@ -28,7 +29,7 @@ namespace MasterModule.ViewModels
     ///  TODO This object violate SOLID. has too much responsabilities. We need to move all the data to a SupplierDataWrapper
     ///  which it will manage the dataset and dataobject indiependently.
     /// </summary>
-    class ProviderInfoViewModel : MasterViewModuleBase, IEventObserver
+    public class ProviderInfoViewModel : MasterViewModuleBase, IEventObserver
     {
 
         private ObservableCollection<IUiObject> _headerObservableCollection = new ObservableCollection<IUiObject>();
@@ -48,7 +49,7 @@ namespace MasterModule.ViewModels
         private ISupplierData _supplierData;
 
         public ICommand ItemChangedCommand { set; get; }
-
+        public ICommand ClickSearchWebAddressCommand { set; get; }
         public DataTable DelegationTable
         {
             get
@@ -255,6 +256,8 @@ namespace MasterModule.ViewModels
 
         private INotifyTaskCompletion<IList<DataSet>> _initializationTable;
 
+        private object _currentDataObject;
+
         // payload received. State of the view.
 
      
@@ -295,7 +298,7 @@ namespace MasterModule.ViewModels
             IDataServices dataServices): base(configurationService, eventManager, dataServices)
         {
           // assign params.
-            LoadUserInterfaceObjects();
+       //     LoadUserInterfaceObjects();
             ConfigurationService = configurationService;  
             MailBoxHandler += MessageHandler;
             DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangeRows);
@@ -320,9 +323,6 @@ namespace MasterModule.ViewModels
             IDictionary<string, object> eventDictionary = (IDictionary<string, object>) obj;
             OnChangedField(eventDictionary);
         }
-
-
-
         /// <summary>
         ///  Handler for the delegation change rows
         ///  It handles the update, delete, insert
@@ -359,6 +359,19 @@ namespace MasterModule.ViewModels
                 payLoad.PayloadType = payLoadType;
                 EventManager.NotifyToolBar(payLoad);
             }
+        }
+
+        /// <summary>
+        ///  Data object.
+        /// </summary>
+        public object DataObject
+        {
+            set
+            {
+                _currentDataObject = value;   
+                RaisePropertyChanged();
+            }
+            get { return _currentDataObject; }
         }
         /// <summary>
         /// 
@@ -549,14 +562,30 @@ namespace MasterModule.ViewModels
        /// <param name="isInsertion"></param>
        /// <param name="currentDataSet"></param>
        /// <param name="helper"></param>
-        private void Init(string primaryKeyValue, bool isInsertion, DataSet currentDataSet = null, DataSet helper = null)
+        private void Init(string primaryKeyValue, bool isInsertion, DataPayLoad payLoad = null, 
+            DataSet currentDataSet = null, DataSet helper = null)
         {
+
+
+            _isInsertion = isInsertion;
+            if (payLoad != null)
+            {
+
+                if (payLoad.HasDataObject)
+                {
+                    _supplierData = (ISupplierData) payLoad.DataObject;
+                    DataObject = _supplierData;
+
+                   // EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
+                    RegisterToolBar();
+                }
+            }
+            /*
 
             ObservableCollection<IUiObject> obsValue = MergeInOneCpCollection(_componentsList);
             
             _viewModelQueries = SqlBuilder.SqlBuildSelectFromUiObjects(obsValue, primaryKeyValue, isInsertion);
             _primaryKeyValue = primaryKeyValue;
-            _isInsertion = isInsertion;
             StartAndNotify();
  			if (currentDataSet != null)
             {
@@ -566,6 +595,7 @@ namespace MasterModule.ViewModels
                  SetSourceViewTable(helper, ref UpperPartObservableCollection);
                     SetSourceViewTable(helper, ref MiddlePartObservableCollection);
             }
+            */
         }
 
 
@@ -971,7 +1001,9 @@ namespace MasterModule.ViewModels
             }
         }
         public DataTable SupplierSummaryTable { get; private set; }
-
+        public IEnumerable<BranchesDto> DelegationCollection { get; set; }
+        public IEnumerable<VisitsDto> VisitCollection { get; set; }
+        public IEnumerable<ContactsDto> ContactsCollection { get; set; }
 
         public void IncomingPayload(DataPayLoad dataPayLoad)
         {
@@ -989,7 +1021,7 @@ namespace MasterModule.ViewModels
             {
                 if (!string.IsNullOrEmpty(_primaryKeyValue))
                 {
-                    Init(_primaryKeyValue, false);
+                    Init(_primaryKeyValue, false, payload);
                     CurrentOperationalState = DataPayLoad.Type.Show;
                 }
                 else

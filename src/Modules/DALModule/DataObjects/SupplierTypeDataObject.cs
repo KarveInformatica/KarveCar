@@ -26,7 +26,7 @@ namespace KarveDataAccessLayer.DataObjects
                 OnPropertyChanged("User");
             }
              }
-        public string EmergencyAccount
+        public string Account
         {
             get
             {

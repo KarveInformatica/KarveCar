@@ -66,8 +66,8 @@
                 </i:Interaction.Triggers>
             </local:UpperBarView>
 
-        <dragablz:TabablzControl Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
-            <dragablz:TabablzControl.ItemContainerStyle>
+        <TabControl Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
+         <!--   <dragablz:TabablzControl.ItemContainerStyle>
                 <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
                   <Setter Property="Width" Value="100" />
                     <Setter Property="Height" Value="40" />
@@ -79,6 +79,7 @@
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>
+            -->
             <TabItem Name="General"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                 <ScrollViewer>
                     <Grid ShowGridLines="False">
@@ -993,7 +994,7 @@
                 </ScrollViewer>
             </TabItem>
             -->
-        </dragablz:TabablzControl>
+        </TabControl>
         </StackPanel>    
         </Grid>
 </UserControl>

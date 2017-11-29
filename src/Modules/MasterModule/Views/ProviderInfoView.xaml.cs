@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,12 @@ namespace MasterModule.Views
     {
         public ProviderInfoView()
         {
+            Stopwatch startStopwatch = new Stopwatch();
+            startStopwatch.Start();
             InitializeComponent();
+            startStopwatch.Stop();
+            long width = startStopwatch.ElapsedMilliseconds;
+            
             Header = "";
         }
 

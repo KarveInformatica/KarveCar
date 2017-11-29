@@ -28,8 +28,11 @@ namespace KarveCommon.Services
         /// <param name="payLoad">Message to be sent directly to the view model</param>
         public void SendMessage(string viewModuleId, DataPayLoad payLoad)
         {
-            MailBoxMessageHandler messageHandler = _mailBox[viewModuleId];
-            messageHandler?.Invoke(payLoad);
+            if (_mailBox.ContainsKey(viewModuleId))
+            {
+                MailBoxMessageHandler messageHandler = _mailBox[viewModuleId];
+                messageHandler?.Invoke(payLoad);
+            }
         }
         private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
@@ -191,7 +194,7 @@ namespace KarveCommon.Services
         public void DeleteMailBoxSubscription(string id)
         {
             
-            if (!_mailBox.ContainsKey(id))
+            if (_mailBox.ContainsKey(id))
             {
                 _mailBox.Remove(id);
             }

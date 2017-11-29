@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MasterModule.Views.Vehicles
 {
     /// <summary>
-    /// Interaction logic for SeguroAddicional.xaml
+    /// Interaction logic for Contaable.xaml
     /// </summary>
-    public partial class SeguroAddicional : UserControl
+    public partial class Contable : UserControl
     {
-        public SeguroAddicional()
+        public Contable()
         {
             InitializeComponent();
         }

@@ -273,6 +273,7 @@ namespace ToolBarModule
         public void IncomingPayload(DataPayLoad payload)
         {
             IsNewEnabled = true;
+            CurrentPayLoad = payload;
             switch (payload.PayloadType)
             {
                 // a subsystem has opened a new window with data.
@@ -303,10 +304,12 @@ namespace ToolBarModule
                 case DataPayLoad.Type.Insert:
                 case DataPayLoad.Type.Update:
                     {
+                        
                         this.CurrentSaveImagePath = currentSaveImageModified;
                         this.IsSaveEnabled = true;
                         // this keeps the value for saving.
                         _careKeeper.Schedule(payload);
+
                         break;
                     }
             }
@@ -324,7 +327,10 @@ namespace ToolBarModule
         ///  Delete command view module.
         /// </summary>
         public DelegateCommand DeleteCommand { set; get; }
-        
+        /// <summary>
+        ///  Returns the currenct active payload in the toolbar if any
+        /// </summary>
+        public DataPayLoad CurrentPayLoad { get; set; }
     }
 
 }

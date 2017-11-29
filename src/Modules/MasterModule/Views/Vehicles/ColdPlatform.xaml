@@ -1,0 +1,146 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:MasterModule.Common"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views.Vehicles"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" x:Class="MasterModule.Views.Vehicles.ColdPlatform"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+            <DataTemplate x:Key="DualDatePicker">
+                    <WrapPanel>
+                    <KarveControls:DataDatePicker
+                            LabelText="Desde"
+                            DataDatePickerHeight="25"
+                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="{Binding DataSource1, Mode=TwoWay}"/>
+                    <KarveControls:DataDatePicker 
+                            LabelText="Hasta"    
+                            DataDatePickerHeight="25"
+                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="{Binding DataSource2, Mode=TwoWay}"    
+                        />
+                    </WrapPanel>
+                </DataTemplate>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <DockPanel>
+            <GroupBox Header="Equipo de Frio" DockPanel.Dock="Left">
+                <StackPanel>
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="NOMBRE"
+                                    LabelText="Marca"
+                                    LabelTextWidth="80"
+                                    TextContentFirstWidth="40"
+                                    TextContentSecondWidth="100"
+                                    TableName="MARCAS"
+                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="electaIntDifCP"/>
+                    <KarveControls:DataField 
+                        DataSourcePath="EQFRIO_MARCA"
+                        LabelText="Modelo"
+                        LabelTextWidth="80"
+                        TextContentWidth="161"
+                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <KarveControls:DataField 
+                        DataSourcePath="EQFRIO_MODELO"
+                        LabelText="Numero Serie"
+                        LabelTextWidth="80"
+                        TextContentWidth="161"
+                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <KarveControls:DataDatePicker
+                            LabelText="Fabrica"
+                            DataDatePickerHeight="25"
+                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="EQFRIO_FFABRICA"/>
+
+                    <GroupBox Header="Garantia">
+                        <WrapPanel Orientation="Horizontal">
+
+                            <KarveControls:DataDatePicker
+                            LabelText="Desde"
+                            DataDatePickerHeight="25"
+                                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="EQFRIO_GARAN1"/>
+                            <KarveControls:DataDatePicker 
+                             DataDatePickerHeight="25"
+                                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="EQFRIO_GARAN2"
+                        />
+                        </WrapPanel>
+                    </GroupBox>
+                </StackPanel>
+                
+            </GroupBox>
+            <GroupBox Header="Plataforma" DockPanel.Dock="Right">
+                <StackPanel>
+                    <KarveControls:DualFieldSearchBox 
+                                    AssistDataFieldFirst="CODIGO"
+                                    AssistDataFieldSecond="NOMBRE"
+                                    LabelText="Marca"
+                                    LabelTextWidth="80"
+                                    TextContentFirstWidth="40"
+                                    TextContentSecondWidth="100"
+                                    TableName="MARCAS"
+                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                    DataFieldFirst="electaIntDifCP"/>
+                    <KarveControls:DataField 
+                        DataSourcePath="EQFRIO_MARCA"
+                        LabelText="Modelo"
+                        LabelTextWidth="80"
+                        TextContentWidth="161"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <KarveControls:DataField 
+                        DataSourcePath="EQFRIO_MODELO"
+                        LabelText="Numero Serie"
+                        LabelTextWidth="80"
+                        TextContentWidth="161"
+                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+ 
+                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <KarveControls:DataDatePicker
+                            LabelText="Fabrica"
+                            DataDatePickerHeight="25" 
+                       
+                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="EQFRIO_FFABRICA"/>
+
+                    <GroupBox Header="Garantia">
+                        <WrapPanel Orientation="Horizontal">
+                            <KarveControls:DataDatePicker
+                            LabelText="Desde"
+                            DataDatePickerHeight="25"
+                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        
+                                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="PLATAF_GARAN1"/>
+                            <KarveControls:DataDatePicker
+                            LabelText="Hasta"
+                            DataDatePickerHeight="25"
+                                KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
+                                                                      Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        
+                                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="PLATAF_GARAN2"
+                        />
+                        </WrapPanel>
+                    </GroupBox>
+                    
+                    
+                </StackPanel>
+
+                            </GroupBox>
+        </DockPanel>
+
+
+    </Grid>
+</UserControl>

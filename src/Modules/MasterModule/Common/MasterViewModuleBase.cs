@@ -226,6 +226,7 @@ namespace MasterModule.Common
             }
         }
 
+
         /// <summary>
         /// SetDataObject. 
         /// </summary>
@@ -560,6 +561,8 @@ namespace MasterModule.Common
 
             }
         }
+
+       // protected string MasterModuleErrorMessage { set; get; }
         /// <summary>
         ///  This builds a dictionary of the tables that are present in a dataset.
         /// </summary>

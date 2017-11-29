@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -112,18 +113,7 @@ namespace KarveControls
         private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e)
         {
             ControlExt.DataType dataType = (ControlExt.DataType)e.NewValue;
-            if (dataType == ControlExt.DataType.Phone)
-            {
-                this.Hint.Kind = MaterialDesignThemes.Wpf.PackIconKind.Phone;
-                this.Hint.Visibility = Visibility.Visible;
-            }
-            if (dataType == ControlExt.DataType.Email)
-            {
-                this.Hint.Kind = MaterialDesignThemes.Wpf.PackIconKind.Email;
-                this.Hint.Visibility = Visibility.Visible;
-
-            }
-
+           
         }
 
         #region
@@ -183,31 +173,43 @@ namespace KarveControls
         /// <param name="e"></param>
         private void OnItemSourceDoChanged(DependencyPropertyChangedEventArgs e)
         {
+            if (e.NewValue == null)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(_dataField))
+                return;
+
             _dataObject = e.NewValue;
+           
             Type dataType = _dataObject.GetType();
             object valueObject = dataType.GetProperty("Value");
             if (valueObject != null)
             {
-                string currentValue = "Value."+DataSourcePath.ToUpper();
+                string currentValue = "Value." + DataSourcePath.ToUpper();
                 object value = ComponentUtils.GetPropValue(_dataObject, currentValue);
-                string objectValue = value as string;
-                if ((objectValue != null) && (DataAllowed == ControlExt.DataType.Email))
+                if (value != null)
                 {
-                    objectValue = objectValue.Replace("#", "@");
-                }
-                if (!string.IsNullOrEmpty(objectValue))
+                    string objectValue = value.ToString();
+                    if (DataAllowed == ControlExt.DataType.Email)
                     {
-                        TextContent = value as string;
+                        objectValue = objectValue.Replace("#", "@");
+                    }
+                    if (!string.IsNullOrEmpty(objectValue))
+                    {
+                        TextContent = objectValue;
                     }
                     if (IsReadOnly)
                     {
-                        TextField.Background = Brushes.CadetBlue;
+                        TextField.Background = Brushes.LightCyan;
                     }
                     else
                     {
                         TextField.Background = Brushes.White;
                     }
-                
+
+                }
+
             }
         }
 
@@ -393,6 +395,8 @@ namespace KarveControls
             get { return (string)GetValue(DataFieldDependencyProperty); }
             set { SetValue(DataFieldDependencyProperty, value); }
         }
+
+       
 
         /// <summary>
         /// This data field property.
@@ -692,7 +696,9 @@ namespace KarveControls
         /// </summary>
         public DataField()
         {
-            
+
+            Stopwatch startStopWatch = new Stopwatch();
+            startStopWatch.Start();
             InitializeComponent();
             this.TextContentWidth = "100";
             this.LabelTextWidth = "50";
@@ -704,6 +710,8 @@ namespace KarveControls
             GotFocus += DataField_GotFocus;
             LostFocus += DataField_LostFocus;
             DataFieldContent.DataContext = this;
+            startStopWatch.Stop();
+            long value = startStopWatch.ElapsedMilliseconds;
         }
 
         private void TextField_TextChanged(object sender, TextChangedEventArgs e)

@@ -141,7 +141,9 @@ namespace KarveControls.PhotoFrame
                 return (List<ImageSource>) GetValue(ImageArrayDependencyProperty);
             }
         }
-
+        /// <summary>
+        /// PhotoName
+        /// </summary>
         public string PhotoName
         {
             get { return "Photo"; }
@@ -279,8 +281,10 @@ namespace KarveControls.PhotoFrame
         {
             var value = e.NewValue;
             int currentIdx = Convert.ToInt32(value);
-            this.ImageFile.Source = _sourceImages[currentIdx];
-           
+            if (currentIdx < _sourceImages.Count)
+            {
+                this.ImageFile.Source = _sourceImages[currentIdx];
+            }
         }
 
         /// <summary>
