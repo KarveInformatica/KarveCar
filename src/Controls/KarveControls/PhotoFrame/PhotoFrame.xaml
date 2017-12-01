@@ -16,12 +16,21 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
             <GroupBox Header="Foto" Grid.Row="0">
-            <Button x:Name="ImageButton" Background="White" Command="{Binding ImageChanging, Mode=OneWay}">
+                <!-- 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                -->
+            <Button x:Name="ImageButton" Background="White" MinHeight="200"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" Command="{Binding ImageChanging, Mode=OneWay}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Text, Mode=OneWay}" Visibility="Collapsed">
+                    </TextBlock>
                 <Image x:Name="ImageFile">
                 </Image>
+                    </StackPanel>
             </Button>
         </GroupBox>
-        <Slider  Grid.Row="1" x:Name="ImageSlider" TickPlacement="BottomRight" Orientation="Horizontal"></Slider>
+       
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Carpeta "></TextBlock>
             <TextBox Name="ImageText" Height="20" Width="300"></TextBox>

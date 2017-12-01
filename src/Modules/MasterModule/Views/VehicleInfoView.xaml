@@ -454,22 +454,23 @@
 
                                 <vehicleViews:ExpireAssuranceDataControl/>
                             </i:GroupBox>
+                            
+                            
                             <i:GroupBox Header="Forma de Pago" i:Grid.Column="1">
                                     <i:StackPanel>
-                                        <ComboBox  kc:ControlExt.ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
+                                        <ComboBox  Width="180"
+                                                   HorizontalAlignment="Left"
+                                                   kc:ControlExt.ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                   kc:ControlExt.DataSourcePath="FPAGOSEGURO">
+                                                   kc:ControlExt.DataSourcePath="Value.FPAGOSEGURO">
                                             <ComboBoxItem Content="No definido" IsSelected="True">
-
                                             </ComboBoxItem>
                                             <ComboBoxItem Content="Emite y Paga Empresa" IsSelected="True">
-
                                             </ComboBoxItem>
                                             <ComboBoxItem Content="Emite Empresa y Paga Clientes" IsSelected="True">
 
                                             </ComboBoxItem>
                                             <ComboBoxItem Content="Emite y Paga Clientes" IsSelected="True">
-
                                             </ComboBoxItem>
                                         </ComboBox>
 
@@ -484,34 +485,52 @@
                                                              AssurancePolicyPath="ADA3"
                                                              AssuranceAmountPath="IMPADA3"
                                                              AssuranceCompanyPath="CIAADA3"
-                                                             AssuranceCompanyList="{Binding AdditionalSecurityCompany}">
+                                                             AssuranceEntryDatePath ="Value.ALTAADA3"
+                                                             AssuranceLeavingDatePath="Value.VTOADA3"
+                                                             AssuranceKind="ASSURANCE_2"
+                                                             AssistQuery="{Binding LeasingSupplierQuery}"
+                                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             AssuranceCompanyList="{Binding  AdditionalAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                             
                         </vehicleViews:AssuranceInfoComponent>
                         </GroupBox>
                         <GroupBox Header="Assistencia">
                             <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  AssurancePolicyPath="ADA"
+                                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 AssistQuery="{Binding LeasingSupplierQuery}"
+                                                                 AssuranceKind="ASSURANCE_3"
                                                                  AssuranceCompanyPath="CIAADA"
                                                                  AssuranceAmountPath="IMPADA"
-                                                                 AssuranceCompanyList="{Binding AssuranceAssitanceCompany}"
+                                                                 AssuranceEntryDatePath ="Value.ALTAADA"
+                                                                 AssuranceLeavingDatePath="Value.VTOADA"
+                                                                 AssuranceCompanyList="{Binding AssistanceAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             ></vehicleViews:AssuranceInfoComponent>
                         </GroupBox>
                         <GroupBox Header="Poliza assistencia addicional">
                             <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  AssurancePolicyPath="ADA2"
                                                                  AssuranceCompanyPath="CIAADA2"
                                                                  AssuranceAmountPath="IMPADA2"
-                                                                 AssuranceCompanyList="{Binding AssuranceAdditionalAssistance}"
-                            ></vehicleViews:AssuranceInfoComponent>
+                                                                 AssuranceKind="ASSURANCE_1"
+                                                                 AssistQuery="{Binding LeasingSupplierQuery}"
+                                                                 AssuranceEntryDatePath ="Value.ALTAADA2"
+                                                                 AssuranceLeavingDatePath="Value.VTOADA2"
+                                                                 AssuranceCompanyList="{Binding AssistancePolicyAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                
+                            </vehicleViews:AssuranceInfoComponent>
                         </GroupBox>
 
 
                         </i:StackPanel>
                 </i:TabItem>
-                         <!--
                
                          <i:TabItem x:Name="Otros">
-                    <WrapPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
                             
                         <GroupBox Header="Empresa">
                             <WrapPanel>
@@ -577,6 +596,7 @@
                                                    SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </WrapPanel>
                         </GroupBox>
+                        
                         <GroupBox Header="Situacion actual">
                             <WrapPanel>
                         <kc:DualFieldSearchBox HorizontalAlignment="Left"
@@ -727,10 +747,11 @@
                                 
                             </WrapPanel>
                         </GroupBox>
-                    </WrapPanel>
+                    </StackPanel>
                    
                                    </i:TabItem>
-                <i:TabItem x:Name="Acomulado"  Header="Acumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                
+                         <i:TabItem x:Name="Acomulado"  Header="Acumulados" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     
                 </i:TabItem>
                 <i:TabItem x:Name="Mantainance"  Header="Mantenimiento" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -740,13 +761,16 @@
                 </i:TabItem>
                 <i:TabItem x:Name="Revision"  Header="Revisiones" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                   
+                   <vehicleViews:Revision></vehicleViews:Revision>
                 </i:TabItem>
                 <i:TabItem x:Name="Photo" Header="Foto">
-                    <photoFrame:PhotoFrame kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           kc:ControlExt.DataSourcePath=""></photoFrame:PhotoFrame>
 
-                </i:TabItem>
+                        <photoFrame:PhotoFrame 
+                                           kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           kc:ControlExt.DataSourcePath="">
+                            
+                        </photoFrame:PhotoFrame>
+                    </i:TabItem>
                 <i:TabItem x:Name="ActualState" Header="Estado actual" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
@@ -758,37 +782,38 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="0" 
-                                             
-                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               kc:ControlExt.DataSourcePath=""></photoFrame:PhotoFrame>
+                            <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="0"
+                                                   ImageBinarySource="{Binding DataObject.PictureRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                
+                            </photoFrame:PhotoFrame>
                         <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="1"
-                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               kc:ControlExt.DataSourcePath=""></photoFrame:PhotoFrame>
-                        <photoFrame:PhotoFrame Grid.Row="1" Grid.Column="0"
                                                
-                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               kc:ControlExt.DataSourcePath=""></photoFrame:PhotoFrame>
+                                               ImageBinarySource="{Binding DataObject.PictureFront, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            
+                        </photoFrame:PhotoFrame>
+                        <photoFrame:PhotoFrame Grid.Row="1" Grid.Column="0"
+                                               ImageBinarySource="{Binding DataObject.PictureFront, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
                         <photoFrame:PhotoFrame Grid.Row="1" 
                                                Grid.Column="1"
-                                               
-                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               kc:ControlExt.DataSourcePath=""></photoFrame:PhotoFrame>
+                                               ImageBinarySource="{Binding DataObject.PictureLeft, 
+                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
                     </Grid>
                 </i:TabItem>
                 <i:TabItem x:Name="Contable"  Header="Contable" 
                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <vehicleViews:Contable></vehicleViews:Contable>
                 </i:TabItem>
-
+<!--
                 <i:TabItem x:Name="Damage"  Header="Daños" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                 
                 </i:TabItem>
-
+      
                 <i:TabItem x:Name="Cooling"  Header="Frio/Plataforma" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <vehicleViews:ColdPlatform></vehicleViews:ColdPlatform>     
                 </i:TabItem>
-                -->
+  -->             
             </i:TabControl>
 
         </StackPanel>

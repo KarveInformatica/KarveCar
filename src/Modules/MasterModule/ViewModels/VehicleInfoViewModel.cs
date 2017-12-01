@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using KarveCommon.Services;
 using KarveDataServices;
 using MasterModule.Common;
@@ -19,6 +16,7 @@ using AutoMapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveDataServices.DataTransferObject;
+using MasterModule.Views.Vehicles;
 using Prism.Commands;
 
 namespace MasterModule.ViewModels
@@ -35,9 +33,7 @@ namespace MasterModule.ViewModels
         private IVehicleData _vehicleDo;
         private object _dataObject;
         private object _deleteNotifyTaskCompletion;
-        private readonly PropertyChangedEventHandler _deleteEventHandler;
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
-        private DelegateCommand<object> _changedCommand;
         public ICommand AssistCommand { set; get; }
         private string _header;
         private string _assistQueryOwner;
@@ -51,6 +47,29 @@ namespace MasterModule.ViewModels
         private ObservableCollection<ClientsSummaryDto> _clientDto;
         private ObservableCollection<SupplierSummaryDto> _assuranceCompany;
         private ObservableCollection<SupplierSummaryDto> _assuranceAgent;
+        private ObservableCollection<SupplierSummaryDto> _assuranceAdditionalCompany;
+        private ObservableCollection<SupplierSummaryDto> _assistanceAssuranceCompany;
+        private ObservableCollection<SupplierSummaryDto> _assistancePolicyAssuranceCompany;
+        private ObservableCollection<MaintainanceDto> _maintenaince = new ObservableCollection<MaintainanceDto>();
+
+        private INotifyTaskCompletion<ObservableCollection<ElementDto>> _elementLoadNotifyTaskCompletion;
+
+        // this is in the vehicle stuff.
+        private PropertyChangedEventHandler _deleteEventHandler;
+        /// <summary>
+        ///  vehicle revision
+        /// </summary>
+        private ObservableCollection<UiComposedFieldObject> _vehicleRevision;
+        /// <summary>
+        ///  account stuff.
+        /// </summary>
+        private ObservableCollection<AccountDto> _accountDto;
+        private ObservableCollection<ElementDto> _elementDto;
+        private ObservableCollection<AccountDto> _accountPreviousRepaymentDto;
+        private ObservableCollection<AccountDto> _accountImmobilizedDto;
+        private ObservableCollection<AccountDto> _accountDtoPaymentAccountDto;
+        private ObservableCollection<AccountDto> _accountDtoCapitalCp;
+        private ObservableCollection<AccountDto> _accomulatedRepayment;
 
         // This returns the list of activity when asked.
         public ObservableCollection<ActividadDto> ActivityDtos
@@ -72,6 +91,106 @@ namespace MasterModule.ViewModels
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
         }
+
+
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AccountDto> AccountDtos
+        {
+            get
+            {
+                return _accountDto;
+            }
+            set
+            {
+                _accountDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AccountDto> AccountDtosImmobilized
+        {
+            get
+            {
+                return _accountImmobilizedDto;
+            }
+            set
+            {
+                _accountImmobilizedDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AccountDto> AccountDtoPreviousRepayment
+        {
+            get
+            {
+                return _accountPreviousRepaymentDto;
+            }
+            set
+            {
+                _accountPreviousRepaymentDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AccountDto> AccountDtoPaymentAccount
+        {
+            get
+            {
+                return _accountDtoPaymentAccountDto;
+            }
+            set
+            {
+                _accountDtoPaymentAccountDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<AccountDto> AccountDtoCapitalCp
+        {
+            get
+            {
+                return _accountDtoCapitalCp;
+            }
+            set
+            {
+                _accountDtoCapitalCp = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///  This returns the list of agents.
+        /// </summary>
+        public ObservableCollection<ElementDto> ElementDtos
+        {
+            get
+            {
+                return _elementDto;
+            }
+            set
+            {
+                _elementDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
@@ -103,6 +222,7 @@ namespace MasterModule.ViewModels
             }
         }
 
+        
         /// </summary>
         public ObservableCollection<SupplierSummaryDto> AssuranceDtos
         {
@@ -116,6 +236,72 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public ObservableCollection<SupplierSummaryDto> AdditionalAssuranceDtos
+        {
+            get
+            {
+                return _assuranceAdditionalCompany;
+            }
+            set
+            {
+                _assuranceAdditionalCompany = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<SupplierSummaryDto> AssistanceAssuranceDtos
+        {
+            get
+            {
+                return _assistanceAssuranceCompany;
+            }
+            set
+            {
+                _assistanceAssuranceCompany = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<SupplierSummaryDto> AssistancePolicyAssuranceDtos
+        {
+            get
+            {
+                return _assistancePolicyAssuranceCompany;
+            }
+            set
+            {
+                _assistancePolicyAssuranceCompany = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  This returns a maintenance collection 
+        /// </summary>
+        public ObservableCollection<MaintainanceDto> MaintenanceCollection
+        {
+            get
+            {
+                return _maintenaince;
+            }
+            set
+            {
+                _maintenaince = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public ObservableCollection<AccountDto> AccountDtoAccmulatedRepayment
+        {
+            get { return _accomulatedRepayment; }
+            set
+            {
+                _accomulatedRepayment = value; RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///  This is an assurance agent dtos.
+        /// </summary>
         public ObservableCollection<SupplierSummaryDto> AssuranceAgentDtos
         {
             get
@@ -128,6 +314,9 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  This returns a client dtpo.
+        /// </summary>
         public ObservableCollection<ClientsSummaryDto> ClientesDtos
         {
             get
@@ -139,7 +328,6 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -155,10 +343,23 @@ namespace MasterModule.ViewModels
             // In this tow cases i would use a collection of items with an itemscontrol.
             MetaDataObject = InitAssuranceObject();
             DataFieldCollection = InitDataField();
+            RevisionObject = InitRevisionComposedFieldObjects();
+            MaintenanceCollection = _maintenaince;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
+            ActiveSubSystem();
         }
 
+        private async Task<ObservableCollection<ElementDto>> InitElements()
+        {
+            IEnumerable<ElementDto> value = await DataServices.GetHelperDataServices().GetAsyncHelper<ElementDto>(GenericSql.ElementsSummaryQuery);
+            return new ObservableCollection<ElementDto>(value);
+        }
+        public ObservableCollection<UiComposedFieldObject> RevisionObject
+        {
+             get { return _vehicleRevision; }
+            set { _vehicleRevision = value; RaisePropertyChanged(); }
+        }
         private async void AssistCommandHelper(object param)
         {
             IDictionary<string, string> values = param as Dictionary<string, string>;
@@ -202,19 +403,30 @@ namespace MasterModule.ViewModels
                     AssuranceDtos = new ObservableCollection<SupplierSummaryDto>(provee);
                     break;
                 }
+                case "ASSURANCE_1":
+                {
+                    AssistancePolicyAssuranceDtos = await FetchSupplierCollection();
+                    break;
+                }
+                case "ASSURANCE_2":
+                {
+
+                    AdditionalAssuranceDtos = await FetchSupplierCollection();
+                    break;
+                }
+                case "ASSURANCE_3":
+                {
+                    AssistanceAssuranceDtos = await FetchSupplierCollection();
+                    break;
+                }
                 case "ASSURANCE_AGENT":
                 {
-                    var provee =
-                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
-                    AssuranceAgentDtos = new ObservableCollection<SupplierSummaryDto>(provee);
+                    AssuranceAgentDtos = await FetchSupplierCollection();
                     break;
-
                 }
                 case "PROVEE1":
                 {
-                    var provee =
-                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
-                    ProveeDto = new ObservableCollection<SupplierSummaryDto>(provee);
+                    ProveeDto = await FetchSupplierCollection();
                     break;
                 }
                 case "PROVEE2":
@@ -222,6 +434,13 @@ namespace MasterModule.ViewModels
                     var provee =
                         await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
                     ProveeDto2 = new ObservableCollection<SupplierSummaryDto>(provee);
+                    break;
+                }
+                  
+                case "CU1":
+                {
+                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                    AccountDtos = new ObservableCollection<AccountDto>(contable);
                     break;
                 }
                 case "FORMAS":
@@ -236,7 +455,30 @@ namespace MasterModule.ViewModels
                     var clientes = await helperDataServices.GetAsyncHelper<ClientsSummaryDto>(GenericSql.SupplierSummaryQuery);
                     ClientsDto = new ObservableCollection<ClientsSummaryDto>(clientes);
                     break;
-                   
+                }
+                case "ACCOUNT_INMOVILIZADO":
+                {
+                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                    AccountDtosImmobilized= new ObservableCollection<AccountDto>(contable);
+                    break;
+                }
+                case "ACCOUNT_PAYMENT_ACCOUNT":
+                {
+                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                    AccountDtoPaymentAccount = new ObservableCollection<AccountDto>(contable);
+                    break;
+                }
+                case "ACCOUNT_PREVIUOS_PAYMENT":
+                {
+                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                    AccountDtoPreviousRepayment = new ObservableCollection<AccountDto>(contable);
+                    break;
+                }
+                case "ACCOUNT_ACCUMULATED_REPAYMENT":
+                {
+                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                    AccountDtoAccmulatedRepayment = new ObservableCollection<AccountDto>(contable);
+                    break;
                 }
                 case "VENDEDOR":
                 {
@@ -248,7 +490,13 @@ namespace MasterModule.ViewModels
                 }
             }
         }
-
+        private async Task<ObservableCollection<SupplierSummaryDto>> FetchSupplierCollection()
+        {
+            var provee =
+                await DataServices.GetHelperDataServices().GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+            var collection = new ObservableCollection<SupplierSummaryDto>(provee);
+            return collection;
+        }
         public ObservableCollection<SupplierSummaryDto> ProveeDto
         {
             get { return _supplier; }
@@ -294,6 +542,23 @@ namespace MasterModule.ViewModels
             _initializationTable =
                 NotifyTaskCompletion.Create<IVehicleData>(LoadDataValue(PrimaryKeyValue, IsInsertion), InitializationDataObjectOnPropertyChanged);
             
+        }
+        /// <summary>
+        /// Load element account.
+        /// </summary>
+        private void LoadElementAccounts()
+        {
+            _elementLoadNotifyTaskCompletion =
+                NotifyTaskCompletion.Create<ObservableCollection<ElementDto>>(InitElements(), InitializationElementDto);
+        }
+
+        private void InitializationElementDto(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is ObservableCollection<ElementDto>)
+            {
+                ElementDtos = (ObservableCollection<ElementDto>) sender;
+
+            }
         }
 
         private void InitializationDataObjectOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -459,7 +724,11 @@ namespace MasterModule.ViewModels
                 _vehicleDo = (IVehicleData) payload.DataObject;
               
                 DataObject = _vehicleDo;
-
+                if (_vehicleDo.MaintenanceHistory != null)
+                {
+                    MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
+                }
+                RevisionObject = InitRevisionComposedFieldObjects();
                 EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
                 ActiveSubSystem();
             }
@@ -508,6 +777,9 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
+
+        public string UniqueId { get; set; }
+
         /// <summary>
         /// Incoming payload
         /// </summary>
@@ -523,9 +795,12 @@ namespace MasterModule.ViewModels
                 {
                     PrimaryKeyValue = payload.PrimaryKeyValue;
                     string mailboxName = "Vehicles." + PrimaryKeyValue;
-                    if (MailBoxHandler != null)
+                    if (!string.IsNullOrEmpty(PrimaryKeyValue))
                     {
-                        EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
+                        if (MailBoxHandler != null)
+                        {
+                            EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
+                        }
                     }
                 }
                 // here i can fix the primary key
@@ -535,8 +810,7 @@ namespace MasterModule.ViewModels
                     {
                         if (payload.HasDataObject)
                         {
-                          DataObject = MergeDataObject(DataObject, payload.DataObject);
-                      //    DataObject = payload.DataObject;
+                          DataObject = payload.DataObject;
                         }
                         break;
                     }
@@ -558,7 +832,6 @@ namespace MasterModule.ViewModels
                         }
                         break;
                     }
-
                     case DataPayLoad.Type.Delete:
                     {
                         DeleteItem(payload.PrimaryKeyValue);
@@ -567,11 +840,6 @@ namespace MasterModule.ViewModels
                 }
             }
 
-        }
-
-        private object MergeDataObject(object dataObject, object payloadDataObject)
-        {
-            return dataObject;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace KarveDataServices.DataTransferObject
 {
     public class PictureDto
     {
+
         /// <summary>
         ///  Set or get the CODIGO property.
         /// </summary>

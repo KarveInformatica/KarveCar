@@ -5,7 +5,9 @@ using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Data;
 using System.Diagnostics.Contracts;
+using System.Windows.Interactivity;
 using ICommand = System.Windows.Input.ICommand;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace KarveControls
 {
@@ -79,7 +81,7 @@ namespace KarveControls
         #endregion
 
 
-
+        private static bool changedValue = false;
 
         #region ItemChangedCommand
         /// <summary>
@@ -99,6 +101,21 @@ namespace KarveControls
         /// <param name="eventArgs"></param>
         public static void PropertyChangedCb(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
+
+            if (dependencyObject is Behavior<SfDataGrid>)
+            {
+                // it is a chnaged that is coming fom the grid.
+
+                Behavior<SfDataGrid> changedBehavior = dependencyObject as Behavior<SfDataGrid>;
+                /*
+            
+            Dictionary<string, object> objectName = new Dictionary<string, object>();
+
+                objectName["DataObject"] = GetDataSource(dependencyObject);
+                objectName["ChangedValue"] = textBox.Text;
+                objectName["PreviousValue"] = lastTextBoxValue;
+                */
+            }
             if (dependencyObject is DataDatePicker)
             {
                 DataDatePicker dataDatePicker = dependencyObject as DataDatePicker;
@@ -109,6 +126,7 @@ namespace KarveControls
             {
                 TextBox box = dependencyObject as TextBox;
                 box.TextChanged += TextBox_ChangedBehaviour;
+                box.LostFocus += Box_LostFocus;
             }
             if (dependencyObject is DataFieldCheckBox)
             {
@@ -126,12 +144,33 @@ namespace KarveControls
                 }
             }
         }
+
+        private static void Box_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                changedValue = false;
+                var command = textBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["DataObject"] = GetDataSource(textBox);
+                    objectName["DataSourcePath"] = GetDataSourcePath(textBox);
+                    objectName["ChangedValue"] = textBox.Text;
+                    objectName["PreviousValue"] = lastTextBoxValue;
+                    lastTextBoxValue = textBox.Text;
+                    command.Execute(objectName);
+                }
+            }
+        }
+
         /// <summary>
         ///  SelectionChanged. This event get triggered when the selection change in a property
         /// </summary>
         /// <param name="sender">The sender of the call</param>
         /// <param name="e"> Event args</param>
-        private static void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private static void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
             if (comboBox != null)
@@ -192,21 +231,8 @@ namespace KarveControls
         }
         private static void TextBox_ChangedBehaviour(object sender, RoutedEventArgs args)
         {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var command = textBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
-                if (command != null)
-                {
-                    IDictionary<string, object> objectName = new Dictionary<string, object>();
-                    objectName["DataObject"] = GetDataSource(textBox);
-                    objectName["DataSourcePath"] = GetDataSourcePath(textBox);
-                    objectName["ChangedValue"] = textBox.Text;
-                    objectName["PreviousValue"] = lastTextBoxValue;
-                    lastTextBoxValue = textBox.Text;
-                    command.Execute(objectName);
-                }
-            }
+            changedValue = true;
+            
         }
         private static void DataDatePicker_DataDatePickerChanged(object sender, RoutedEventArgs e)
         {

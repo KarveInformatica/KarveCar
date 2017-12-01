@@ -92,6 +92,10 @@ namespace KarveTest.DAL
                 vehicleData.Value.KM = 15000;
                 vehicleData.Value.COLOR = "BL";
                 vehicleData.Value.MARCA = "FERRARI";
+                vehicleData.Value.MAR = "FE";
+                vehicleData.Value.DANOS = "Lado anterior danado";
+                vehicleData.Value.OBS_EXT = "Observaciones extra";
+
                 _vehicleDataServices.SaveVehicle(vehicleData);
                 IVehicleData vehicleData1 = _vehicleDataServices.GetNewVehicleDo(vehicle);
                 Assert.True(vehicleData1.Valid);
@@ -100,6 +104,8 @@ namespace KarveTest.DAL
                 Assert.AreEqual(vehicleData1.Value.MARCA, vehicleData.Value.MARCA);
             }
         }
+        
+            
         /// <summary>
         ///  This load the commission agent using xml.
         /// </summary>

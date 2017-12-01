@@ -4,6 +4,12 @@ using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices.DataObjects
 {
+    /// <summary>
+    ///  This inteface specifies the interface to a model wrapper 
+    ///  that allows to write, save, load all the entities related 
+    ///  to a model domain element.
+    ///  In this case the vehicle. 
+    /// </summary>
     public interface IVehicleData
     {
         /// <summary>
@@ -29,7 +35,8 @@ namespace KarveDataServices.DataObjects
         /// <returns></returns>
         Task<bool> LoadValue(IDictionary<string, string> fields, string cCodiint);
         /// <summary>
-        /// Vehicle Data.
+        /// Vehicle Entity properties. 
+        /// This hides all the entity of the model inside a VehicleDto.
         /// </summary>
         VehicleDto Value { set; get; }
         /// <summary>
@@ -37,11 +44,11 @@ namespace KarveDataServices.DataObjects
         /// </summary>
         bool Valid { get; set; }
         /// <summary>
-        //  Brand data trasnfer object.
+        //  Brand data trasnfer object. Usually a vehicle has just one brand.
         /// </summary>
         IEnumerable<BrandVehicleDto> BrandDtos { get; set; }
         /// <summary>
-        /// Model data transfer object.
+        /// Model data transfer object. Usually a vehicle has just one model/
         /// </summary>
         IEnumerable<ModelVehicleDto> ModelDtos { get; set; }
         /// <summary>
@@ -52,5 +59,9 @@ namespace KarveDataServices.DataObjects
         ///  Vehicle group dto.
         /// </summary>
         IEnumerable<DataTransferObject.VehicleGroupDto> VehicleGroupDtos { get; set; }
+        /// <summary>
+        ///  History of the maintenance of the vehicle.
+        /// </summary>
+        IEnumerable<MaintainanceDto> MaintenanceHistory { get; set; }
     }
 }

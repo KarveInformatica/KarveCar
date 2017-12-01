@@ -249,7 +249,7 @@ namespace MasterModule.Common
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
 
-            string propertyName = propertyChangedEventArgs.PropertyName;
+             string propertyName = propertyChangedEventArgs.PropertyName;
 
             if (propertyName.Equals("Status"))
             {

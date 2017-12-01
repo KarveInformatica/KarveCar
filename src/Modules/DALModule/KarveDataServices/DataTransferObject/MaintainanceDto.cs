@@ -7,6 +7,25 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class MaintainanceDto
     {
+
+        public MaintainanceDto()
+        {
+            
+        }
+        public MaintainanceDto(MaintainanceDto lastChangedObject)
+        {
+            if (lastChangedObject != null)
+            {
+                MaintananceName = lastChangedObject.MaintananceName;
+                MaintananceCode = lastChangedObject.MaintananceCode;
+                LastMaintananceDate = lastChangedObject.LastMaintananceDate;
+                LastMaintananceKMs = lastChangedObject.LastMaintananceKMs;
+                NextMaintananceKMs = lastChangedObject.NextMaintananceKMs;
+                NextMaintananceDate = lastChangedObject.NextMaintananceDate;
+                Observation = lastChangedObject.Observation;
+            }
+        }
+
         /// <summary>
         ///  Code of mantianance
         /// </summary>

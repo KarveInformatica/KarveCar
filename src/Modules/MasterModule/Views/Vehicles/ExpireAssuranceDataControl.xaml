@@ -4,10 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:common="clr-namespace:MasterModule.Views.VehicleAssurance"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
              xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              d:DesignHeight="900" d:DesignWidth="1200"
              >

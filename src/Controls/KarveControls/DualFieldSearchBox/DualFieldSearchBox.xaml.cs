@@ -842,6 +842,10 @@ namespace KarveControls
                 }
             }
         }
+
+
+
+        
         /// <summary>
         ///  Label Width
         /// </summary>
@@ -1437,6 +1441,7 @@ namespace KarveControls
 
             TextContentFirst = textContentFirst.ToString();
             TextContentSecond = textContentSecond.ToString();
+           
             if (Popup.IsOpen)
             {
                 DataFieldEventArgs ev = new DataFieldEventArgs(DataSearchTextBoxChangedEvent);

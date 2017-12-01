@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using KarveDataServices.DataTransferObject;
-using MasterModule.Views.VehicleAssurance;
 
 namespace MasterModule.Views.Vehicles.MockViewModels
 {

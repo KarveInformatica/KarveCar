@@ -20,6 +20,9 @@ namespace MasterModule.ViewModels
     {
         private UnityContainer _container;
         private IRegionManager _regionManager;
+
+        public string UniqueId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         /// <summary>
         ///  This is the fares control view model.
         /// </summary>

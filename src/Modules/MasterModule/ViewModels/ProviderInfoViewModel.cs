@@ -12,6 +12,7 @@ using System.Text;
 using KarveControls.UIObjects;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
@@ -912,7 +913,7 @@ namespace MasterModule.ViewModels
                 payLoad.HasDataSetList = true;
                 payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
 
-                DataTable table = (DataTable)eventDictionary["DataTable"];
+                DataTable table = (DataTable) eventDictionary["DataTable"];
                 MergeTableChanged(table, ref _currentDataSet);
                 MergeTableChanged(table, ref _assistantDataSet);
                 //   MergeTableChanged(table, ref _delegationSet);
@@ -933,31 +934,17 @@ namespace MasterModule.ViewModels
                 payLoad.HasDictionary = true;
                 payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
                 payLoad.DataDictionary = eventDictionary;
-                DataTable table = (DataTable)eventDictionary["DataTable"];
-                
+                DataTable table = (DataTable) eventDictionary["DataTable"];
+                if (table == null)
+                {
+                    
+                }
                 string tableName = table.TableName;
-                bool foundTable = false;
-                foreach (DataTable currentTable in _currentDataSet.Tables)
-                {
-                    if (currentTable.TableName == tableName)
-                    {
-                        foundTable = true;
-                        break;
-                    }
-                }
-                if (foundTable)
-                {
-                    _currentDataSet.Tables[tableName].Merge(table);
-                    DataRowState state = _currentDataSet.Tables[tableName].Rows[0].RowState;
-                    payLoad.HasDataSet = true;
-                    payLoad.Set = _currentDataSet;
-                    EventManager.NotifyToolBar(payLoad);
-                    payLoad.Queries = _viewModelQueries;
-                }
-                else
+                if (string.IsNullOrEmpty(tableName))
                 {
 
-                    foreach (DataTable currentTable in _assistantDataSet.Tables)
+                    bool foundTable = false;
+                    foreach (DataTable currentTable in _currentDataSet.Tables)
                     {
                         if (currentTable.TableName == tableName)
                         {
@@ -967,10 +954,31 @@ namespace MasterModule.ViewModels
                     }
                     if (foundTable)
                     {
-                        _assistantDataSet.Tables[tableName].Merge(table);
-                        payLoad.Set = _assistantDataSet;
-                        payLoad.Queries = _viewModelAssitantQueries;
+                        _currentDataSet.Tables[tableName].Merge(table);
+                        DataRowState state = _currentDataSet.Tables[tableName].Rows[0].RowState;
+                        payLoad.HasDataSet = true;
+                        payLoad.Set = _currentDataSet;
                         EventManager.NotifyToolBar(payLoad);
+                        payLoad.Queries = _viewModelQueries;
+                    }
+                    else
+                    {
+
+                        foreach (DataTable currentTable in _assistantDataSet.Tables)
+                        {
+                            if (currentTable.TableName == tableName)
+                            {
+                                foundTable = true;
+                                break;
+                            }
+                        }
+                        if (foundTable)
+                        {
+                            _assistantDataSet.Tables[tableName].Merge(table);
+                            payLoad.Set = _assistantDataSet;
+                            payLoad.Queries = _viewModelAssitantQueries;
+                            EventManager.NotifyToolBar(payLoad);
+                        }
                     }
                 }
             }
@@ -1004,6 +1012,7 @@ namespace MasterModule.ViewModels
         public IEnumerable<BranchesDto> DelegationCollection { get; set; }
         public IEnumerable<VisitsDto> VisitCollection { get; set; }
         public IEnumerable<ContactsDto> ContactsCollection { get; set; }
+        public string UniqueId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void IncomingPayload(DataPayLoad dataPayLoad)
         {

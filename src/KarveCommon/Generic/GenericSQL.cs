@@ -13,6 +13,10 @@ namespace KarveCommon.Generic
         public static string DATATABLE = "DataTable";
         public static string TABLENAME = "TableName";
 
+        public const string ElementsSummaryQuery = "select * from elementos where eleIdCodigo='{0}'";
+
+        public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";
+
         public const string SupplierSummaryQuery =
             "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF , TIPOPROVE.NOMBRE as Provvedor, COMERCIAL as Comercial, " +
             "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION,F_AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +

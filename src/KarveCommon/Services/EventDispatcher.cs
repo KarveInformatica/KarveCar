@@ -39,7 +39,9 @@ namespace KarveCommon.Services
             for (int i = 0; i < eoList.Count; ++i)
             {
                 IEventObserver eo = eoList[i];
-                eo.IncomingPayload(payload);
+               
+                    eo.IncomingPayload(payload);
+                
             }
             
         }
@@ -82,9 +84,15 @@ namespace KarveCommon.Services
             // the item are not disabled.
             foreach (IEventObserver eo in values)
             {
-                if (!disabled.Contains(eo))
+                // i dont send the message to myself.
+                if (!string.IsNullOrEmpty(dataPayLoad.Sender))
                 {
-                    eo.IncomingPayload(dataPayLoad);
+                   string  sender = dataPayLoad.Sender;
+                        if (!disabled.Contains(eo))
+                        {
+                            eo.IncomingPayload(dataPayLoad);
+                        }
+                    
                 }
             }
         }

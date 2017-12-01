@@ -5,82 +5,94 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views.Vehicles"
              xmlns:common="clr-namespace:MasterModule.Common"
-             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" 
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls" 
              x:Class="MasterModule.Views.Vehicles.AssuranceInfoComponent"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid x:Name="AssuranceInfoLayout">
         <WrapPanel>
-
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Poliza" Width="50" Margin="5,5,5,0"></TextBlock>
-                <TextBox Width="100" Height="25"
-                         KarveControls:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         KarveControls:ControlExt.DataSourcePath="{Binding AssurancePolicePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBlock  Text="Poliza" Width="50" Margin="5,5,5,0"></TextBlock>
+                <TextBox x:Name="PolizaBox" Width="100" Height="25"
+                         kc:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         kc:ControlExt.DataSourcePath="{Binding AssurancePolicyPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 </TextBox>
             </StackPanel>
-            
-            <KarveControls:DualFieldSearchBox LabelText="Compañía" 
+
+<!--
+
+            <kc:DualFieldSearchBox x:Name="AssuranceCompany" 
+                                              DataFieldFirst="COLOR"
+                                              AssistTableName="COLORFL"
+                                              LabelTextWidth="50"
+                                              LabelText="Color"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="100"
+                                              IsReadOnlySecond="True"
+                                              AssistDataFieldFirst="codigo"
+                                              AssistDataFieldSecond="nombre" 
+                                              AssistProperties="Codigo,Nombre"
+                                              ButtonImage="/MasterModule;component/Images/search.png"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                </kc:DualFieldSearchBox>
+            -->
+                <kc:DualFieldSearchBox x:Name="AssuranceCompany" LabelText="Compañía" 
                                           Height="25" 
                                           Margin="0,5,0,0"
                                           AssistDataFieldFirst="NUM_PROVEE"
                                           AssistDataFieldSecond="NOMBRE"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          AssistProperties="Codigo, Nombre, Direccion, Poblacion, Pais, Mail"
-                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          MagnifierCommand="{Binding MagnifierChangedCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding Path=ItemChangedCommand}"
+                                          MagnifierCommand="{Binding Path=MagnifierCommand}" 
                                           DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssurancyCompanyList, Mode=OneWay}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="80"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}">
-            
-        </KarveControls:DualFieldSearchBox>
+
+            </kc:DualFieldSearchBox>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Importe" Width="50" Margin="5,5,5,0"></TextBlock>
-                <TextBox Width="100" Height="25"
-                         KarveControls:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         KarveControls:ControlExt.DataSourcePath="{Binding AmountPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox x:Name="Amount" Width="100" Height="25"
+                         kc:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       
+                         kc:ControlExt.DataSourcePath="{Binding AssuranceAmountPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 </TextBox>
             </StackPanel>
-            
-            
-            <!--
-            <KarveControls:DataField
-                                 LabelText="Telefono Assistencia "
-                                 LabelTextWidth="110"
-                                 DataAllowed="Phone"
-                                 LabelVisible="True"
-                                 TextContentWidth="150"
-                                 Margin="0,5,0,0"
-                                 Height="25"
-                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 KarveControls:ControlExt.DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 KarveControls:ControlExt.DataSourcePath="{Binding AssurancyAssistancePhone, Mode=OneWay}"/>
-            -->
-            <KarveControls:DataDatePicker HorizontalAlignment="Left" 
-                                      LabelText="Fecha alta"
-                                      KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      KarveControls:ControlExt.DataSourcePath="{Binding AssuranceEntryDatePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Margin="5,5,0,0"
-                                      Height="35"/>
-            <KarveControls:DataDatePicker HorizontalAlignment="Left" 
+
+            <kc:DataDatePicker x:Name="EntryDate" HorizontalAlignment="Left" 
+                               Height="35"
+                               LabelText="Fecha Alta"
+                               Margin="5,5,0,0"
+                               kc:ControlExt.DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       
+                               kc:ControlExt.DataSourcePath="{Binding AssuranceEntryDatePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+            <kc:DataDatePicker x:Name="LeavingDate" HorizontalAlignment="Left" 
                                       Height="35"
                                       LabelText="Fecha Baja"
                                       Margin="5,5,0,0"
-                                      KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      KarveControls:ControlExt.DataSourcePath="{Binding AssuranceLeavingDatePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                      />
-            
-        
+                                      kc:ControlExt.DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       
+                                      kc:ControlExt.DataSourcePath="{Binding AssuranceLeavingDatePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
 
-</WrapPanel>
+
+        </WrapPanel>
     </Grid>
 </UserControl>
+
+
+
+
 
 
 

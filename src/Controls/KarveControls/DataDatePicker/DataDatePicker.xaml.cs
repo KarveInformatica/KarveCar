@@ -14,6 +14,9 @@ namespace KarveControls
     /// </summary>
     public partial class DataDatePicker : UserControl
     {
+
+        private DateTime? previousDate = DateTime.Now;
+
         /// <summary>
         /// DatePicker changed event
         /// </summary>
@@ -361,7 +364,7 @@ namespace KarveControls
             DatePicker.Height = value;
         }
 
-        private static int times = 0;
+        private int times = 0;
         /// <summary>
         ///  Constructor for the picker.
         /// </summary>
@@ -371,8 +374,8 @@ namespace KarveControls
             watch.Start();
             InitializeComponent();
             watch.Stop();
+            initState = true;
             var value = watch.ElapsedMilliseconds;
-
             // right default
             LabelField.Visibility = Visibility.Visible;
             DataPickerContext.DataContext = this;
@@ -384,20 +387,36 @@ namespace KarveControls
             var value = ControlExt.GetDataSourcePath(this);
             var dataObject = ControlExt.GetDataSource(this);
 
+            
             if (string.IsNullOrEmpty(value))
             {
                 return;
             }
+            // This doesnt do nothing.
+
+            
+            if (previousDate == DatePicker.SelectedDate)
+            {
+                return;
+            }
+            previousDate = DatePicker.SelectedDate;
+
+           // vetoes the event.
             if (this.initState)
             {
-                times++;
+                initState = false;
+                return;
             }
+           
             if (DatePicker.SelectedDate != null)
             {
                 ComponentUtils.SetPropValue(dataObject, value, DatePicker.SelectedDate.Value);
 
                 DataObject = dataObject;
-
+                if (DatePicker.SelectedDate != null)
+                {
+                    previousDate = DatePicker.SelectedDate;
+                }
                 DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
                 {
                     FieldData = DatePicker.SelectedDate.Value

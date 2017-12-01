@@ -142,9 +142,16 @@
     <Compile Include="DAL\TestVehicleDataLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
+    <Compile Include="TestBootStrapper.cs" />
     <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
+    <Compile Include="UI\VehicleUITests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
+    <Compile Include="ViewModels\TestKarveToolbarViewModel.cs" />
+    <Compile Include="ViewModels\TestProviderControlViewModel.cs" />
+    <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestVehicleUpperBarViewModel.cs" />
+    <Compile Include="ViewModels\TestVehiculoDatosGeneral.cs" />
     <Compile Include="Views\MasterModule\MockViewModelExpireAssuranceDataControl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
+    <Folder Include="KarveDataServices\DataTransferObject\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />
   </ItemGroup>

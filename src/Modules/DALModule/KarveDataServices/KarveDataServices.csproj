@@ -95,6 +95,7 @@
     <Compile Include="DataTransferObject\ContactsSummaryDto.cs" />
     <Compile Include="DataTransferObject\CountryDto.cs" />
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
+    <Compile Include="DataTransferObject\ElementDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\MaintainanceDto.cs" />
     <Compile Include="DataTransferObject\MercadoDto.cs" />

@@ -12,7 +12,7 @@ namespace KarveTest.UI
 {
     [TestFixture]
 
-    public class GUITests
+    public class GuiTests
     {
 
         private string applicationPath = @"C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\src\bin\Debug\";
@@ -35,7 +35,7 @@ namespace KarveTest.UI
             Application application = Application.Launch(applicationPath);
             application.Close();
         }
-
+        
         [Test]
         public void Should_Start_And_Show_Banks_Correctly()
         {
@@ -77,6 +77,7 @@ namespace KarveTest.UI
         [Test]
         public void Should_ToolBarDeleteButton_Enabled_AfterAnInsertion()
         {
+
         }
         [Test]
         public void Should_ToolBarNewButton_Enabled_AfterShowingATab()

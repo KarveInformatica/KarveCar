@@ -29,7 +29,7 @@ namespace MasterModule.ViewModels
     /// This view model is the commission agent view model
     /// </summary>
     /// CommissionAgentInfoViewModel
-    public partial class CommissionAgentInfoViewModel : MasterViewModuleBase,  IDataErrorInfo
+    public partial class CommissionAgentInfoViewModel : MasterViewModuleBase,  IDataErrorInfo, IEventObserver
     {
         private const string TableNameComisio = "COMISIO";
         private Visibility _visibility;
@@ -64,8 +64,8 @@ namespace MasterModule.ViewModels
         private IEnumerable<ZonaOfiDto> _officies = new List<ZonaOfiDto>();
         private IEnumerable<ClavePtoDto> _clavePto = new List<ClavePtoDto>();
         private IEnumerable<LanguageDto> _language = new List<LanguageDto>();
-        private IEnumerable<BranchesDto> _branchesDto;
-
+        private IEnumerable<BranchesDto> _branchesDto = new ObservableCollection<BranchesDto>();
+        private string _uniqueId = "";
         /// <summary>
         ///  Data Transfer Objects for mercados
         /// </summary>
@@ -740,7 +740,7 @@ namespace MasterModule.ViewModels
 
         protected override void SetTable(DataTable table)
         {
-            throw new NotImplementedException();
+        
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ namespace MasterModule.ViewModels
 
         protected override void SetDataObject(object result)
         {
-            throw new NotImplementedException();
+          
         }
 
         /// <summary>
@@ -890,5 +890,13 @@ namespace MasterModule.ViewModels
         }
 
         public string Error { get; }
+
+        /// <summary>
+        ///  UniqueId.
+        /// </summary>
+        public string UniqueId
+        {
+            get => _uniqueId; set => _uniqueId = value;
+        }
     }
 }

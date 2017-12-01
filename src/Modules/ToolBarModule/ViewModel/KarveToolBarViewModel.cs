@@ -1,4 +1,5 @@
-﻿using KarveCommon.Services;
+﻿using System;
+using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -37,6 +38,7 @@ namespace ToolBarModule
         private IEventManager _eventManager;
         private const string currentSaveImage = @"/KarveCar;component/Images/save_toolbar.png";
         private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
+        private const string ObserverName = "KarveToolBarViewModel.";
         private string _currentSaveImage = null;
         private bool _buttonSaveEnabled = true;
         private ISqlValidationRule<DataPayLoad> _validationRules;
@@ -45,6 +47,8 @@ namespace ToolBarModule
         private bool Confirmed = false;
         private string confirmDelete = "Quieres borrar el registro?";
         private string confirmSave = "Quieres guardar el registro?";
+
+        private string _uniqueId;
         // this is useful for adding or removing item to the toolbar.
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; set; }
         public ICommand ConfirmationCommand { get; set; }
@@ -130,6 +134,7 @@ namespace ToolBarModule
             });
 
             SetInsertValidationChain();
+            _uniqueId = ObserverName + Guid.NewGuid();
         }
 
         private void DoDeleteCommand()
@@ -165,6 +170,7 @@ namespace ToolBarModule
                 _states = ToolbarStates.Insert;
                 // this send a message to the current control view model.
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
+              
             }
         }
         /// <summary>
@@ -247,6 +253,7 @@ namespace ToolBarModule
             this.IsSaveEnabled = false;
 
         }
+
         /// <summary>
         /// Delvier incoming notify.
         /// TODO: try to unify data subsystem and event subsystem.
@@ -264,8 +271,22 @@ namespace ToolBarModule
             {
                 _eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
             }
-
+            if (subSystem == DataSubSystem.VehicleSubsystem)
+            {
+                _eventManager.SendMessage(EventSubsystem.VehichleSummaryVm, payLoad);
+            }
         }
+        
+        /// <summary>
+        /// Return the subscription uniqueId.
+        /// </summary>
+        public string UniqueId
+        {
+
+            get { return _uniqueId; }
+            set { _uniqueId = value; }
+        }
+
         /// <summary>
         ///  Each different subsytem call this method to notify a change in the system to the toolbar.
         /// </summary>

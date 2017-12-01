@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using Prism;
 using Prism.Commands;
 using KarveControls;
+using Image = System.Drawing.Image;
 
 namespace KarveControls.PhotoFrame
 {
@@ -22,6 +23,12 @@ namespace KarveControls.PhotoFrame
     /// </summary>
     public partial class PhotoFrame : UserControl
     {
+
+        private string currentFile;
+        private MemoryStream _imageSource= new MemoryStream();
+        /// <summary>
+        ///  Public class for press algorithms.
+        /// </summary>
         public class PhotoFramePressEventArgs : RoutedEventArgs
         {
             /// <summary>
@@ -66,19 +73,119 @@ namespace KarveControls.PhotoFrame
 
 
         private List<ImageSource> _sourceImages = new List<ImageSource>();
+
+        private enum ComponentStates
+        {
+            InitState,
+            ImageModifiedState
+        };
+
+        /// <summary>
+        ///  Private componentstates.
+        /// </summary>
+        private ComponentStates _componentState = ComponentStates.InitState;
         
-       
 
         #region Dependency Properties
-        
-        public static readonly  DependencyProperty ImageChangedDependencyProperty = DependencyProperty.Register("ImageChanging",
-            typeof(ICommand), typeof(PhotoFrame));
 
+        /// <summary>
+        /// ImageBinarySourceDependencyProperty.
+        /// </summary>
+        public static readonly  DependencyProperty ImageBinarySourceDependencyProperty = DependencyProperty.Register("ImageBinarySource", 
+            typeof(MemoryStream), 
+            typeof(PhotoFrame), 
+            new PropertyMetadata(null, ImageBinarySourceCallback));
+
+        /// <summary>
+        /// ImageBinarySource dependency properties.
+        /// </summary>
+        public MemoryStream ImageBinarySource
+        {
+            get { return (MemoryStream)GetValue(ImageBinarySourceDependencyProperty); }
+            set
+            {
+                SetValue(ImageBinarySourceDependencyProperty, value);
+            }
+        }
+        private static void ImageBinarySourceCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // here we have the callback for the image binary source.
+            PhotoFrame pf = d as PhotoFrame;
+            pf.UpdateImageBinarySource(e);
+        }
+
+        /// <summary>
+        ///  Update Image Binary source.
+        /// </summary>
+        /// <param name="d"></param>
+        private void UpdateImageBinarySource(DependencyPropertyChangedEventArgs d)
+        {
+            // load an image from a memory stream.
+            MemoryStream ms = d.NewValue as MemoryStream;
+            if (ms!=null)
+            {
+              ImageFile.Source = ByteToArrayImage(ms.ToArray());
+            }
+        }
+
+        /// <summary>
+        ///  This put just an image changed dependnecy property.
+        /// </summary>
+        public static readonly  DependencyProperty ImageChangedDependencyProperty = DependencyProperty.Register("ImageChanged",
+            typeof(ICommand), typeof(PhotoFrame), new PropertyMetadata(null, ChangedImageCallback));
+
+        private static void ChangedImageCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            PhotoFrame pf = d as PhotoFrame;
+            if (pf != null)
+            {
+                pf.RegisterImageCallback(e);
+            }
+        }
+
+        private void RegisterImageCallback(DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            this.ImageFile.Loaded += ImageFile_Loaded;
+        }
+
+        private void ImageFile_Loaded(object sender, RoutedEventArgs e)
+        {
+          // here i load the image.
+            if (_componentState == ComponentStates.ImageModifiedState)
+            {
+                // ok here i have to change the image.
+                IDictionary<string, object> dictionary = new Dictionary<string, object>();
+                dictionary.Add("ImageLabel", ImageLabel);
+                dictionary.Add("ImageSource", _imageSource);
+                if (ImageCommandChanged != null)
+                {
+                    
+                }
+                ///ImageChanging.Execute(dictionary);
+            }
+        }
+
+        /// <summary>
+        ///  This is a readonly dependency property.
+        /// </summary>
         public static readonly DependencyProperty IsReadOnlyDependencyProperty = DependencyProperty.Register("IsReadOnly",
             typeof(bool), typeof(PhotoFrame), new PropertyMetadata(false, OnReadOnlyCallback));
-
-
-
+        /// <summary>
+        ///  Label of the image.
+        /// </summary>
+        public static readonly DependencyProperty ImageLabelDependencyProperty = DependencyProperty.Register("ImageLabel", 
+                                                                                    typeof(string), typeof(PhotoFrame), new PropertyMetadata(string.Empty));
+        /// <summary>
+        ///  ImageLabel dependency property.
+        /// </summary>
+        public string ImageLabel
+        {
+            get { return (string) GetValue(ImageLabelDependencyProperty); }
+            set { SetValue(ImageLabelDependencyProperty, value);}
+        }
+        /// <summary>
+        ///  IsReadOnly stuff.
+        /// </summary>
         public bool IsReadOnly
         {
             get
@@ -148,8 +255,7 @@ namespace KarveControls.PhotoFrame
         {
             get { return "Photo"; }
         }
-        public DelegateCommand<object> ImageChanging { get; }
-
+       
         private static void HandleImageArray(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             PhotoFrame photoFrame = d as PhotoFrame;
@@ -165,7 +271,7 @@ namespace KarveControls.PhotoFrame
             if (_sourceImages != null)
             {
                 this.ImageFile.Source = _sourceImages[0];
-                this.ImageSlider.Maximum = _sourceImages.Count -1;
+              
             }
         }
         
@@ -173,6 +279,34 @@ namespace KarveControls.PhotoFrame
 
         private List<ImageSource> _images = new List<ImageSource>();
 
+
+        /// <summary>
+        /// Save the image in a byte for the image.
+        /// </summary>
+        /// <returns></returns>
+        private bool SaveImage(out byte[] byteValue)
+        {
+            bool retValue = false;
+            byteValue = new byte[1];
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            MemoryStream ms = new MemoryStream();
+            if (_images.Count > 0)
+            {
+                BitmapSource bitmapSource =_images[0] as BitmapSource;
+                if (bitmapSource != null)
+                {
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+                    using (var stream = new MemoryStream())
+                    {
+                        encoder.Save(stream);
+                        byteValue = stream.ToArray();
+                        retValue = true;
+                    }
+                }
+            }
+            return retValue;
+        }
         /// <summary>
         ///  Returns a byte to array image
         /// </summary>
@@ -215,39 +349,39 @@ namespace KarveControls.PhotoFrame
 		{
 			InitializeComponent();
 		    this.GridLayout.DataContext = this;
-		    this.ImageSlider.Maximum = 1;
-            this.ImageSlider.ValueChanged += ImageSlider_ValueChanged;
 		    this.ImageFile.Width = this.GridLayout.Width - 10;
             this.ImageButton.Click += ImageButton_Click;
-            ImageChanging = new DelegateCommand<object>(OnChangingImage);  
-		}
+     	}
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            string openImageFile = "Open File";
-           // PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_ImageFiles;
+            string openImageFile = "Abres File";
             openFileDialog.Filter = openImageFile+"(*.bmp, *.jpg, *.png) | *.bmp; *.jpg;*.png";
             openFileDialog.Title = "Nueva imagen";
-               // PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_AñadeUnaNuevaImagen;
             try
             {
                 if (openFileDialog.ShowDialog() == true)
                 {
                     if (File.Exists(openFileDialog.FileName))
                     {
+                        currentFile = openFileDialog.FileName;
+                        this.ImageText.Text = currentFile;
                         ImageSource source = CreateImageSource(openFileDialog.FileName, true);
-                        _sourceImages.Add(source);
-                       
-                        ImageArray = _sourceImages;
-                        ImageSlider.Maximum = _sourceImages.Count - 1;
+                        if (source != null)
+                        {
+                            _sourceImages.Clear();
+                            _sourceImages.Add(source);
+                            ImageArray = _sourceImages;
+                        }
                     }
 
                 }
             }
             catch (Exception cException)
             {
+                MessageBox.Show("No se puede abrir el fichero");
 
-               // MessageBox.Show(PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_NoSePuedeAbrirElFichero + openFileDialog.FileName+ PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_Motivacion+ cException.Message);
+                // MessageBox.Show(PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_NoSePuedeAbrirElFichero + openFileDialog.FileName+ PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_Motivacion+ cException.Message);
             }
             
         }
@@ -277,15 +411,6 @@ namespace KarveControls.PhotoFrame
             }
         }
 
-        private void ImageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            var value = e.NewValue;
-            int currentIdx = Convert.ToInt32(value);
-            if (currentIdx < _sourceImages.Count)
-            {
-                this.ImageFile.Source = _sourceImages[currentIdx];
-            }
-        }
 
         /// <summary>
         ///  This execute the command provider from the view model.

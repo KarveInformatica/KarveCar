@@ -11,16 +11,8 @@
         <item-type stereotype="component" type-id="component" type="UmlComponent" />
         <value>8</value>
       </counter>
-      <counter>
-        <item-type type-id="" type="DrawingItem" />
-        <value>1</value>
-      </counter>
     </entity-names>
     <entity-ids>
-      <counter>
-        <item-type type-id="" type="AbstractElementGroup" />
-        <value>29</value>
-      </counter>
       <counter>
         <item-type type-id="component" type="UmlComponent" />
         <value>9</value>
@@ -33,6 +25,10 @@
         <item-type type-id="shape" type="AbstractShapeItem" />
         <value>2</value>
       </counter>
+      <counter>
+        <item-type type-id="" type="AbstractElementGroup" />
+        <value>4</value>
+      </counter>
     </entity-ids>
     <diagrams>
       <counter>
@@ -44,6 +40,7 @@
   </counters>
   <alias-groups />
   <management uid="md-ca2a9c9156124ba181ff55adf33aa30e" name="" task-id-sequence="0">
+    <working-schedule uid="ws-6b7e5d91f53943af98f415868cd2a386" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
     <persons>
       <person id="P5e2cdb2f41d245909350ca1f09521cd9">
         <first-name />
@@ -53,6 +50,7 @@
         <phone-number />
         <description />
         <color>#00000000</color>
+        <working-schedule uid="ws-a44239da62824c3ca8c5eb60fb516911" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
       </person>
     </persons>
     <teams />

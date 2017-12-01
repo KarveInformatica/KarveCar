@@ -65,6 +65,81 @@ namespace MasterModule.ViewModels
             return metaObjects;
         }
 
+        private ObservableCollection<UiComposedFieldObject> RevisionCollection = new ObservableCollection<UiComposedFieldObject>()
+        {
+            new UiComposedFieldObject()
+            {
+                LabelSource="I.T.V",
+                DataSourcePath1="FITV",
+                DataSourcePath2="FITV2",
+                DataSourcePath3="OBS_ITV",
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Fecha Caducidad Transporte",
+                DataSourcePath1="ULT_TT",
+                DataSourcePath2="FCTARTRA",
+                DataSourcePath3="OBS_TT"
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="ADR",
+                DataSourcePath1="ULT_ADR",
+                DataSourcePath2="VTO_ADR",
+                DataSourcePath3="OBS_ADR"
+
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Vtp ATP",
+                DataSourcePath1="ULT_ATP",
+                DataSourcePath2="VTO_ATP",
+                DataSourcePath3="OBS_ATP"
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Extintor",
+                DataSourcePath1="FEXTINTOR",
+                DataSourcePath2="FEXTINTORCAD",
+                DataSourcePath3="OBS_EXT"
+
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Tacografo",
+                DataSourcePath1="ULT_TAC",
+                DataSourcePath2="FREVITACO",
+                DataSourcePath3="OBS_TAC"
+
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Termografo",
+                DataSourcePath1="ULT_TEMR",
+                DataSourcePath2="FREVTERM",
+                DataSourcePath3="OBS_TERM"
+            },
+            new UiComposedFieldObject()
+            {
+                LabelSource="Fugas frio",
+                DataSourcePath1="ULT_FF",
+                DataSourcePath2="VTO_FF",
+                DataSourcePath3="OBS_FF"
+            }
+        };
+
+
+
+
+        public ObservableCollection<UiComposedFieldObject> InitRevisionComposedFieldObjects()
+        {
+            for (int i = 0; i < RevisionCollection.Count; ++i)
+            {
+                RevisionCollection[i].ItemChangedCommand = ItemChangedCommand;
+                RevisionCollection[i].DataSource = DataObject;
+            }
+            return RevisionCollection;
+        }
         public ObservableCollection<UiMetaObject> InitDataField()
         {
             ObservableCollection<UiMetaObject> dataFieldCollection = new ObservableCollection<UiMetaObject>()

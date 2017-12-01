@@ -214,5 +214,14 @@ namespace MasterModule.ViewModels
                 return true;
             }
         }
+        private string _uniqueValue = "CommissionAgentControlViewModel." + Guid.NewGuid().ToString();
+        /// <summary>
+        ///  UniqueId. Unique Identifier.
+        /// </summary>
+        public string UniqueId
+        {
+            get => _uniqueValue;
+            set => _uniqueValue = value;
+        }
     }
 }

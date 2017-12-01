@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KarveControls;
+using Xceed.Wpf.Toolkit.Core.Converters;
 
 namespace MasterModule.Views.Vehicles
 {
@@ -12,7 +15,8 @@ namespace MasterModule.Views.Vehicles
     /// </summary>
     public partial class AssuranceInfoComponent : UserControl
     {
-
+        private bool changedText = false;
+        private bool changedPolizaText = false;
 
         /// <summary>
         ///  Dependency preoperty for the assurance policy
@@ -21,13 +25,77 @@ namespace MasterModule.Views.Vehicles
             DependencyProperty.Register(
                 "ItemChangedCommand",
                 typeof(ICommand),
-                typeof(AssuranceInfoComponent), new PropertyMetadata(null, ItemChangedCommandCb));
+                typeof(AssuranceInfoComponent), new PropertyMetadata(null, ChangedPropertyCb));
 
-        private static void ItemChangedCommandCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void ChangedPropertyCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            ICommand value = e.NewValue as ICommand;
+            AssuranceInfoComponent component = d as AssuranceInfoComponent;
+            if (component != null)
+            {
+                component.UpdateValue(value);
+            }
+
         }
 
+        private void UpdateValue(ICommand component)
+        {
+            if (component != null)
+            {
+               AssuranceCompany.ItemChangedCommand = component;
+               
+            }
+        }
+        /// <summary>
+        ///  ItemChangedCommand. Command to be changed.
+        /// </summary>
+        public ICommand ItemChangedCommand
+        {
+            get { return (ICommand) GetValue(ItemChangedDependencyProperty); }
+            set
+            {
+                SetValue(ItemChangedDependencyProperty, value);
+            }
+        }
+        
+        /// <summary>
+        ///  Dependency preoperty for the assurance policy
+        /// </summary>
+        public static readonly DependencyProperty MagnifierCommandDependencyProperty =
+            DependencyProperty.Register(
+                "MagnifierCommand",
+                typeof(ICommand),
+                typeof(AssuranceInfoComponent), new PropertyMetadata(null, ChangedMagnifierCb));
+
+        private static void ChangedMagnifierCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ICommand value = e.NewValue as ICommand;
+            AssuranceInfoComponent component = d as AssuranceInfoComponent;
+            if (component != null)
+            {
+                component.UpdateMagnifierValue(value);
+            }
+
+        }
+        private void UpdateMagnifierValue(ICommand command)
+        {
+            this.AssuranceCompany.MagnifierCommand = command;
+            if (DataObjectValue != null)
+            {
+                this.AssuranceCompany.DataSource = DataObjectValue;
+            }
+        }
+        /// <summary>
+        ///  MagnifierCommand. it is a command for raising a magnifier.
+        /// </summary>
+        public ICommand MagnifierCommand
+        {
+            get { return (ICommand)GetValue(MagnifierCommandDependencyProperty); }
+            set
+            {
+                SetValue(MagnifierCommandDependencyProperty, value);
+            }
+        }
         /// <summary>
         ///  Dependency preoperty for the assurance policy
         /// </summary>
@@ -42,6 +110,15 @@ namespace MasterModule.Views.Vehicles
         public static readonly DependencyProperty AssuranceCompanyDependencyProperty =
             DependencyProperty.Register(
                 "AssuranceCompanyPath",
+                typeof(string),
+                typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        ///  Dependency properties for tha assurance company path
+        /// </summary>
+        public static readonly DependencyProperty AssuranceKindDependencyProperty =
+            DependencyProperty.Register(
+                "AssuranceKind",
                 typeof(string),
                 typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty));
         /// <summary>
@@ -77,8 +154,31 @@ namespace MasterModule.Views.Vehicles
             DependencyProperty.Register(
                 "DataObjectValue",
                 typeof(object),
-                typeof(AssuranceInfoComponent), new PropertyMetadata(null));
+                typeof(AssuranceInfoComponent), new PropertyMetadata(null, DataSourceCallCb));
 
+        private static void DataSourceCallCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AssuranceInfoComponent info = d as AssuranceInfoComponent;
+            info?.UpdateDo(e);
+        }
+
+        private void UpdateDo(DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var value = dependencyPropertyChangedEventArgs.NewValue;
+            if (value != null)
+            {
+                AssuranceCompany.DataSource = value;
+                ControlExt.SetDataSource(EntryDate, value);
+                ControlExt.SetDataSource(LeavingDate, value);
+
+                ControlExt.SetDataSource(Amount, value);
+                ControlExt.SetDataSource(PolizaBox, value);
+            }
+        }
+
+
+        public static readonly DependencyProperty AssistQueryDependencyProperty = DependencyProperty.Register(
+            "AssistQuery", typeof(string), typeof(AssuranceInfoComponent));
 
         /// <summary>
         ///  Dependnecy property for the assurance amount
@@ -97,7 +197,17 @@ namespace MasterModule.Views.Vehicles
             DependencyProperty.Register(
                 "AssuranceEntryDatePath",
                 typeof(object),
-                typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty));
+                typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty, EntryDateCallback));
+
+        private static void EntryDateCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AssuranceInfoComponent comp = d as AssuranceInfoComponent;
+            if (comp != null)
+            {
+                string value = e.NewValue as string;
+                ControlExt.SetDataSourcePath(comp.EntryDate, value);
+            }
+        }
 
 
         // <summary>
@@ -107,7 +217,28 @@ namespace MasterModule.Views.Vehicles
             DependencyProperty.Register(
                 "AssuranceLeavingDatePath",
                 typeof(object),
-                typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty));
+                typeof(AssuranceInfoComponent), new PropertyMetadata(string.Empty, LeavingDateCallback));
+
+        private static void LeavingDateCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AssuranceInfoComponent comp = d as AssuranceInfoComponent;
+            if (comp != null)
+            {
+                string value = e.NewValue as string;
+                ControlExt.SetDataSourcePath(comp.LeavingDate, value);
+            }
+        }
+
+
+
+        /// <summary>
+        ///  Set or Get the assurance company path in the data object
+        /// </summary>
+        public string AssuranceKind
+        {
+            get { return (string)GetValue(AssuranceKindDependencyProperty); }
+            set { SetValue(AssuranceKindDependencyProperty, value); }
+        }
         /// <summary>
         ///  Set or Get the assurance company path in the data object
         /// </summary>
@@ -166,17 +297,83 @@ namespace MasterModule.Views.Vehicles
             get { return (string)GetValue(AssuranceEntryDatePathDependencyProperty); }
             set { SetValue(AssuranceEntryDatePathDependencyProperty, value); }
         }
-
+        /// <summary>
+        ///  Set por Get the assurance leaving path 
+        /// </summary>
         public string AssuranceLeavingDatePath
         {
             get { return (string)GetValue(AssuranceLeavingDatePathDependencyProperty); }
             set { SetValue(AssuranceLeavingDatePathDependencyProperty, value); }
         }
 
+        public string AssistQuery
+        {
+            get { return (string) GetValue(AssistQueryDependencyProperty); }
+            set {  SetValue(AssistQueryDependencyProperty, value);}
+        }
+        /// <summary>
+        ///  Get or Get the assurance info component.
+        /// </summary>
         public AssuranceInfoComponent()
         {
             InitializeComponent();
+            EntryDate.DataDatePickerChanged += EntryDate_DataDatePickerChanged;
+            Amount.TextChanged += Amount_TextChanged;
+            Amount.LostFocus += Amount_LostFocus;
+            PolizaBox.TextChanged += PolizaBox_TextChanged;
+            PolizaBox.LostFocus += PolizaBox_LostFocus;
+            AssuranceCompany.ItemChangedCommand = ItemChangedCommand;
+            AssuranceCompany.MagnifierCommand = MagnifierCommand;
             AssuranceInfoLayout.DataContext = this;
+        }
+
+        private void PolizaBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((changedPolizaText) && (ItemChangedCommand != null))
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["DataObject"] = ControlExt.GetDataSource(this.Amount);
+                objectName["DataSourcePath"] = ControlExt.GetDataSourcePath(this.Amount);
+                objectName["ChangedValue"] = this.Amount.Text;
+                ItemChangedCommand.Execute(objectName);
+                changedText = false;
+            }
+        }
+        private void PolizaBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            changedPolizaText = true;           
+        }
+
+        private void Amount_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((changedText) && (ItemChangedCommand != null))
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["DataObject"] = ControlExt.GetDataSource(this.Amount);
+                objectName["DataSourcePath"] = ControlExt.GetDataSourcePath(this.Amount);
+                objectName["ChangedValue"] = this.Amount.Text;
+                ItemChangedCommand.Execute(objectName);
+                changedText = false;
+            }
+        }
+
+        private void Amount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            changedText = true;
+        }
+        private void EntryDate_DataDatePickerChanged(object sender, RoutedEventArgs e)
+        {
+            IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+            DataDatePicker.DataDatePickerEventArgs ev = e as DataDatePicker.DataDatePickerEventArgs;
+            if (ev != null)
+            {
+                valueDictionary = ev.ChangedValuesObjects;
+                valueDictionary["DataSourcePath"] = ControlExt.GetDataSourcePath(EntryDate);
+                if (ItemChangedCommand != null)
+                {
+                    this.ItemChangedCommand.Execute(valueDictionary);
+                }
+            }
         }
     }
 }

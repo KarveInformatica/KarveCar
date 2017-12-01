@@ -94,6 +94,11 @@ namespace MasterModule.ViewModels
         /// </summary>
         public IEnumerable<BrandVehicleDto> BrandVehicleDto { get; set; }
 
+        private string _uniqueValue = "UpperBarViewVehicle."+ Guid.NewGuid().ToString();
+        public string UniqueId { get => _uniqueValue;
+            set => _uniqueValue = value;
+        }
+
         public UpperBarViewVehicleViewModel()
         {
             

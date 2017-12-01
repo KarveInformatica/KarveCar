@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace MasterModule.Views.VehicleAssurance.MockViewModels
+using System.Windows.Input;
+namespace MasterModule.Views.Vehicles
 {
     /// <summary>
     ///  UiComposedMetaObject
@@ -32,6 +32,8 @@ namespace MasterModule.Views.VehicleAssurance.MockViewModels
         ///  DataSource 2
         /// </summary>
         public string DataSourcePath3 { set; get; }
+
+        public ICommand ItemChangedCommand { set; get; }
         
     }
 }

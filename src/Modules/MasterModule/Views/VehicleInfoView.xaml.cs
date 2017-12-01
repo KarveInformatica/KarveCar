@@ -28,8 +28,6 @@ namespace MasterModule.Views
             initCStopwatch.Start();
             InitializeComponent();
             initCStopwatch.Stop();
-            var value = initCStopwatch.ElapsedMilliseconds;
-            var name = "";
         }
 
         public string Header { set { _header = value; } get { return _header; } }

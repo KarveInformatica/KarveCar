@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -164,6 +165,17 @@ namespace DataAccessLayer.Model
                                                "AGENTES.CP as CP, PROVINCIA.PROV as Provincia, " +
                                                "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from AGENTES " +
                                                "INNER JOIN PROVINCIA ON AGENTES.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_AG='{0}'";
+
+        private const string MaintenanceQuery = "select CODIGO_MAN as MaintananceCode," +
+                                                " NOMBRE_MAN as MaintananceName, " +
+                                                "ULT_FEC_MV as LastMaintenenceDate, " +
+                                                "ULT_KM_MV as  LastMaintananceKMs, " +
+                                                "PROX_FEC_MV as NextMaintenenceDate, " +
+                                                "PROX_KM_MV as  NextMaintananceKMs, " +
+                                                "OBSERVACIONES_MAN as Observation " +
+                                                "from MANTENIMIENTO_VEHICULO " +
+                                                "LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV " +
+                                                "WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)";
         #endregion
 
         private bool _isValid = false;
@@ -177,28 +189,28 @@ namespace DataAccessLayer.Model
         // data transfer object.
 
         #region  Data Transfer Object
-        private IEnumerable<BrandVehicleDto> _brandDtos;
-        private IEnumerable<ModelVehicleDto> _modelDtos;
-        private IEnumerable<ColorDto> _colorDtos;
-        private IEnumerable<PictureDto> _pictureDtos;
+        private IEnumerable<BrandVehicleDto> _brandDtos = new ObservableCollection<BrandVehicleDto>();
+        private IEnumerable<ModelVehicleDto> _modelDtos = new ObservableCollection<ModelVehicleDto>();
+        private IEnumerable<ColorDto> _colorDtos = new ObservableCollection<ColorDto>();
+        private IEnumerable<PictureDto> _pictureDtos = new ObservableCollection<PictureDto>();
         #endregion
 
         #region Fields to related data.
-        private IEnumerable<PICTURES> _pictures;
-        private IEnumerable<MARCAS> _marcas;
-        private IEnumerable<MODELO> _modelos;
-        private IEnumerable<COLORFL> _colorfl;
-        private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
-        private IEnumerable<ActividadDto> _actividadDtos;
-        private IEnumerable<OwnerDto> _ownerDtos;
-        private IEnumerable<AgentDto> _agentDtos;
+        private IEnumerable<PICTURES> _pictures = new ObservableCollection<PICTURES>();
+        private IEnumerable<MARCAS> _marcas = new ObservableCollection<MARCAS>();
+        private IEnumerable<MODELO> _modelos = new ObservableCollection<MODELO>();
+        private IEnumerable<COLORFL> _colorfl = new ObservableCollection<COLORFL>();
+        private IEnumerable<VehicleGroupDto> _vehicleGroupDtos = new ObservableCollection<VehicleGroupDto>();
+        private IEnumerable<ActividadDto> _actividadDtos = new ObservableCollection<ActividadDto>();
+        private IEnumerable<OwnerDto> _ownerDtos  = new ObservableCollection<OwnerDto>();
+        private IEnumerable<AgentDto> _agentDtos = new ObservableCollection<AgentDto>();
         
         private string _assistQueryOwner;
         private string _agentQuery;
+        private IEnumerable<MaintainanceDto> _maintenanceDto = new ObservableCollection<MaintainanceDto>();
+        private PictureDto _pictureDto = new PictureDto();
 
         #endregion
-
-
 
         /// <summary>
         /// Vehicle data. 
@@ -299,12 +311,16 @@ namespace DataAccessLayer.Model
         ///  Model Dto
         /// </summary>
         public IEnumerable<ModelVehicleDto> ModelDtos { get { return _modelDtos;  } set { _modelDtos = value; RaisePropertyChanged();} }
+        // each vehicle has a model.
         public IEnumerable<ColorDto> ColorDtos { get { return _colorDtos; } set { _colorDtos = value; RaisePropertyChanged(); } }
         public IEnumerable<PictureDto> PictureDtos { get { return _pictureDtos; } set { _pictureDtos = value; RaisePropertyChanged(); } }
         public IEnumerable<ActividadDto> ActividadDtos {  get { return _actividadDtos; } set { _actividadDtos = value; RaisePropertyChanged(); } }
         public IEnumerable<OwnerDto> OwnerDtos { get { return _ownerDtos; } set { _ownerDtos = value; RaisePropertyChanged(); } }
         public IEnumerable<AgentDto> AgentDtos { get { return _agentDtos; } set { _agentDtos = value; RaisePropertyChanged(); } }
-
+        // List of the mantainance.  This is a property of the domain model.
+        public IEnumerable<MaintainanceDto> MaintenanceDtos {  get { return _maintenanceDto; }
+                                                               set { _maintenanceDto= value;  RaisePropertyChanged(); }
+        }
         /// <summary>
         ///  Dto for the vehiclegroup.
         /// </summary>
@@ -314,6 +330,8 @@ namespace DataAccessLayer.Model
             set { _vehicleGroupDtos = value;
                 RaisePropertyChanged();}
         }
+
+        public IEnumerable<MaintainanceDto> MaintenanceHistory { get; set; }
 
 
         /// <summary>
@@ -428,7 +446,14 @@ namespace DataAccessLayer.Model
             }
             return retValue;
         }
-
+        /// <summary>
+        ///  Picture of the vehicle.
+        /// </summary>
+        public PictureDto Picture
+        {
+            get { return _pictureDto; }
+            set { _pictureDto = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         /// This load asynchronously a vehicle.
         /// </summary>
@@ -463,6 +488,8 @@ namespace DataAccessLayer.Model
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);
                     BrandDtos = _vehicleMapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
+                  
+
                     var queryPicture = string.Format(PhotoByValue, _vehicleValue.CODIINT);
                     var pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
                     PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
@@ -475,6 +502,8 @@ namespace DataAccessLayer.Model
                     OwnerDtos = await connection.QueryAsync<OwnerDto>(queryOwner);
                     VehicleAgentQuery = string.Format(AgentByVehicule, _vehicleValue.AGENTE);
                     AgentDtos = await connection.QueryAsync<AgentDto>(VehicleAgentQuery);
+                    var maintananceQuery = string.Format(MaintenanceQuery, _vehicleValue.CODIINT);
+                    MaintenanceDtos = await connection.QueryAsync<MaintainanceDto>(maintananceQuery);
                     Valid =true;
                 }
                 catch (System.Exception e)
@@ -540,6 +569,4 @@ namespace DataAccessLayer.Model
             }
         }
     }
-
-
 }

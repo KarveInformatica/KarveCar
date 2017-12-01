@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using KarveDataServices.DataTransferObject;
-using MasterModule.Views.VehicleAssurance.MockViewModels;
 using Prism.Mvvm;
+using MasterModule.Views.Vehicles;
 
 namespace MasterModule.Views.Vehicles.MockViewModels
 {

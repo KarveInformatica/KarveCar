@@ -71,6 +71,7 @@ namespace MasterModule.ViewModels
                 currentPayload.PrimaryKeyValue = idNameTuple.Item1;
                 currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
+                RegisterToolBar();
             }
         }
 
@@ -105,10 +106,11 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             // the message handler is resposible to receive messages from the different view models.
-            MessageHandlerMailBox += VehicleMessageHandler;
-            EventManager.RegisterMailBox(VehiclesControlViewModel.VehiclesAgentSummaryVm, MessageHandlerMailBox);
+       //     MessageHandlerMailBox += VehicleMessageHandler;
+            EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             _vehicleDataServices = DataServices.GetVehicleDataServices();
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0,0), InitializationNotifierOnPropertyChanged);
+
           }
         protected void VehicleMessageHandler(DataPayLoad payLoad)
         {
@@ -144,13 +146,15 @@ namespace MasterModule.ViewModels
         public override void NewItem()
         {
             string name = "NuevoVehiculo";
-            string codigo = "";
+            string codigo = DataServices.GetVehicleDataServices().GetNewId();
             VehicleInfoView view = _container.Resolve<VehicleInfoView>();
-            ConfigurationService.AddMainTab(view, name);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(name);
+            string viewNameValue = name + "." + codigo;
+            ConfigurationService.AddMainTab(view, viewNameValue);
+            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = codigo;
+            currentPayload.PrimaryKeyValue = "";
+            currentPayload.Sender = EventSubsystem.VehichleSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
         }
         /// <summary>
@@ -184,6 +188,9 @@ namespace MasterModule.ViewModels
             return routedName;
 
         }
+
+        public string UniqueId { get; set; }
+
         /// <summary>
         ///  Message incoming from different 
         /// </summary>

@@ -3,34 +3,259 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VehicleAssurance"
-             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:KarveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
+             xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.VehicleAssurance.MockViewModels"
              xmlns:mvvm="http://www.codeplex.com/prism"
              xmlns:mockViewModels1="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:common="clr-namespace:MasterModule.Common"
              x:Class="MasterModule.Views.Vehicles.Mantainence"
              mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1000"
             >
-
+    
 
     <Grid d:DataContext="{d:DesignInstance Type=mockViewModels1:VehicleMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
+        <Grid.Resources>
+            <ResourceDictionary>
+            <ObjectDataProvider x:Key="FilterMode"
+                                MethodName="GetValues"
+                                ObjectType="{x:Type system:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="syncfusion:FilterMode" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+                
+            <Style x:Key="MaintenanceCodeStyle" TargetType="syncfusion:GridFilterControl">
+                <Setter Property="FilterMode" Value="Both" />
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
         <StackPanel Orientation="Vertical">
             <WrapPanel Orientation="Horizontal">
-                <KarveControls:DataDatePicker LabelText="Fin Garantia" Height="35"
-                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              KarveControls:ControlExt.DataSourcePath="Value.FinGaran"/>
+                <kc:DataDatePicker LabelText="Fin Garantia" Height="35"
+                                              kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              kc:ControlExt.DataSourcePath="Value.FinGaran"
+                                              kc:ControlExt.ItemChangedCommand="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Content="Calcola Mantenimiento" Height="25" Width="330.437"/>
-                <KarveControls:DataField LabelText="Km Actuales"
+                <kc:DataField LabelText="Km Actuales"
                                          LabelTextWidth="80"
                                          TextContentWidth="200"
                                          Height="25"
-                                         DataObject="{Binding DataObject}"
-                                         DataSourcePath="{Binding DataSourcePath}">
-                </KarveControls:DataField>
+                                         TextContent="3839">
+                </kc:DataField>
             </WrapPanel>
            
+                        <syncfusion:SfDataGrid x:Name="sfGrid"
+                                               ColumnSizer="Star"
+                                               AllowDraggingColumns="True"
+                                               AllowEditing="True"
+                                               AllowFiltering="True"
+                                               AllowResizingColumns="True"
+                                               AllowSorting="True"
+                                               AllowGrouping="True"
+                                               NavigationMode="Row"
+                                               AddNewRowPosition="Top"
+                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                               ItemsSource="{Binding MaintenanceCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               AutoGenerateColumns="False"
+                                              >
+                           
+
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                            <Style TargetType="syncfusion:AddNewRowControl">
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="Foreground" Value="#FF808080" />
+                                <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="syncfusion:AddNewRowControl">
+                                            <Grid>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="AddNewRowStates">
+                                                        <VisualState x:Name="Normal" />
+                                                        <VisualState x:Name="Edit">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                            <Visibility>Collapsed</Visibility>
+                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                    </DiscreteObjectKeyFrame>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="HasError">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                            <Visibility>Collapsed</Visibility>
+                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                    </DiscreteObjectKeyFrame>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="NoError">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                            <Visibility>Collapsed</Visibility>
+                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                    </DiscreteObjectKeyFrame>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                    <VisualStateGroup x:Name="BorderStates">
+                                                        <VisualState x:Name="NormalRow" />
+                                                        <VisualState x:Name="FooterRow">
+                                                            <Storyboard BeginTime="0">
+                                                                <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                  Duration="1"
+                                                                                                  Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                  Storyboard.TargetProperty="BorderThickness">
+                                                                    <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                                </ThicknessAnimationUsingKeyFrames>
+                                                                <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                  Duration="1"
+                                                                                                  Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                  Storyboard.TargetProperty="Margin">
+                                                                    <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                                </ThicknessAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                        Clip="{TemplateBinding SelectionBorderClipRect}"
+                                                        Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                                                <Border x:Name="PART_InValidBorder"
+                                                        Margin="0,0,1,1"
+                                                        Background="Transparent"
+                                                        BorderBrush="Red"
+                                                        BorderThickness="1"
+                                                        Visibility="Collapsed" />
+                                                <Border x:Name="PART_AddNewRowBorder"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter />
+                                                </Border>
+                                                <Border x:Name="PART_AddNewRowTextBorder"
+                                                        Background="#FFE5E5E5"
+                                                        BorderBrush="Transparent"
+                                                        BorderThickness="0,0,1,1"
+                                                        Clip="{TemplateBinding TextBorderClip}"
+                                                        IsHitTestVisible="False">
+                                                    <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                      HorizontalAlignment="Left"
+                                                                      VerticalAlignment="Center"
+                                                                      Content="{TemplateBinding AddNewRowText}" />
+                                                </Border>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+
+               
+                            <syncfusion:SfDataGrid.Columns>
+                                <!-- 
+                                
+                                AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterOrderID},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforOrderID}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
+                                                   MappingName="OrderID"
+                                -->
+                   
+                        <syncfusion:GridTextColumn HeaderText="Codigo Mantenimiento" 
+                                                           MappingName="MaintananceCode" 
+                                                           TextAlignment="Left"
+                                                           AllowFiltering="True"
+                                                   
+                                                           FilterPopupStyle="{StaticResource MaintenanceCodeStyle}"
+                                                           AllowEditing="True"
+                                                           AllowGrouping="True"/>
+                    <syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="MaintananceName"
+                                                       FilterPopupStyle="{StaticResource MaintenanceCodeStyle}">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontStyle="Italic"
+                                               FontWeight="SemiBold"
+                                               Padding="2,0"
+                                               Text="{Binding MaintananceName}" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                            <syncfusion:GridTemplateColumn.EditTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          FocusManager.FocusedElement="{Binding ElementName=textBox}">
+                                        <TextBox x:Name="textBox"
+                                                 FontStyle="Italic"
+                                                 FontWeight="SemiBold"
+                                                 Padding="2,0"
+                                                 Text="{Binding MaintananceName,
+                                                                Mode=TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.EditTemplate>
+                        </syncfusion:GridTemplateColumn>
+                                
+                                <syncfusion:GridDateTimeColumn HeaderText="Ult.Fecha Mantenimiento" MappingName="LastMaintananceDate"/>
+                                <syncfusion:GridTextColumn HeaderText="Kms Ult.Mantenimiento" MappingName="LastMaintananceKMs"/>
+                                <syncfusion:GridDateTimeColumn HeaderText="Prox.Fecha Mantenimiento" MappingName="NextMaintananceDate"/>
+                                <syncfusion:GridTextColumn HeaderText="Prox.Kms Mantenimento" MappingName="NextMaintananceKMs"/>
+                                <syncfusion:GridTextColumn HeaderText="Observaciones" MappingName="Observation"/>
+                            </syncfusion:SfDataGrid.Columns>
+                <i:Interaction.Behaviors>
+                    <common:MaintenanceValidationBehavior />
+                </i:Interaction.Behaviors>
+            </syncfusion:SfDataGrid>
+            <!--
+                <Syncfusion:SfDataGrid x:Name="MaintenanceGrid"
+                                       AllowDraggingColumns="True"
+                                       AllowEditing="True"
+                                       AllowFiltering="True"
+                                       AllowGrouping="True"
+                                       NavigationMode="Row"
+                                       ItemsSource="{Binding MaintenanceCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       ShowGroupDropArea="True">
+                <Syncfusion:SfDataGrid.Columns>
+                    <Syncfusion:GridTextColumn HeaderText="EmployeeID"
+                                               MappingName="EmployeeID"
+                                               TextAlignment="Left" />
+                    <Syncfusion:GridTextColumn HeaderText="Name" MappingName="Name" />
+                    <Syncfusion:GridTextColumn MappingName="Title" MinimumWidth="240" />
+                    <Syncfusion:GridTextColumn HeaderText="Gender" MappingName="Gender" />
+                    <Syncfusion:GridTextColumn DisplayBinding="{Binding Path=Salary,
+                                                                            StringFormat='{}{0:C}'}"
+                                               HeaderText="Salary"
+                                               TextAlignment="Right" />
+                </Syncfusion:SfDataGrid.Columns>
+            </Syncfusion:SfDataGrid>
+      -->     
+            <!--
             <KarveGrid:KarveGridView Grid.Row="1" x:Name="Mantienance" PageSize="25"
                                              TableName="{Binding MaintenanceTableName}" ReadOnly="False" 
                                                          SourceView="{Binding MaintenanceCollection}">
@@ -44,6 +269,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </KarveGrid:KarveGridView>
+            -->
         </StackPanel>
 
     </Grid>
