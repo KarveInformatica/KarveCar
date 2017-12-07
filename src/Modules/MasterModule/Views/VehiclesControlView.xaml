@@ -29,8 +29,7 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <!--
-        <syncfusion:SfDataGrid x:Name="Vehicle"
+        <syncfusion:SfDataGrid x:Name="VehicleSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -38,12 +37,19 @@
                                AllowResizingColumns="True"
                                AllowSorting="True"
                                AllowGrouping="True"
+                               ShowGroupDropArea="True"
                                NavigationMode="Row"
-                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehicleSummary, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
+            
 
             <syncfusion:SfDataGrid.Resources>
                 <ResourceDictionary>
@@ -81,8 +87,8 @@
             </syncfusion:SfDataGrid.Columns>
          
         </syncfusion:SfDataGrid>
-        -->
-        
+       
+        <!--
         <karveGrid:KarveGridView x:Name="VehiclesSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                    ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
             <i:Interaction.Triggers>
@@ -91,6 +97,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </karveGrid:KarveGridView>
-       
+       -->
     </Grid>
 </UserControl>

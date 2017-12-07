@@ -49,6 +49,7 @@ namespace MasterModule.ViewModels
         }
         private async void OpenCurrentItem(object currentItem)
         {
+        
             DataRowView rowView = currentItem as DataRowView;
             if (rowView != null)
             {

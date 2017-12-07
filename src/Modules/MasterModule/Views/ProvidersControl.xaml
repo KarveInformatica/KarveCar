@@ -10,6 +10,7 @@
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="SupplierControl">
 
@@ -22,8 +23,67 @@
 
 
     <Grid>
-      
-                <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" Grid.IsSharedSizeScope="True"
+
+        <Syncfusion:SfDataGrid x:Name="SupplierSummary"
+                               ColumnSizer="Star"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="False">
+
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=SupplierSummary, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+
+
+            <Syncfusion:SfDataGrid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Syncfusion:SfDataGrid.Resources>
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn HeaderText="Numero" 
+                                           MappingName="Numero" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                <Syncfusion:GridTemplateColumn HeaderText="Matricula" MappingName="Matricula"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock FontStyle="Italic"
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Matricula}" />
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+
+                </Syncfusion:GridTemplateColumn>
+
+                <Syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+            </Syncfusion:SfDataGrid.Columns>
+
+        </Syncfusion:SfDataGrid>
+        <!--
+        <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                                  ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="RowMouseDoubleClick">
@@ -33,7 +93,7 @@
 
                 
                 </karveGrid:KarveGridView>
-       
+       -->
     </Grid>
 
 </UserControl>
