@@ -1,0 +1,44 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:mockvm="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
+             x:Class="MasterModule.Views.Vehicles.Revision"
+             mc:Ignorable="d" 
+    
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
+        <GroupBox Header="Revisiones">
+        <ListBox ItemsSource="{Binding RevisionObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding LabelSource}" Width="120"></TextBlock>
+                        <karveControls:DataDatePicker Height="30" 
+                                                      Margin="5,0,0,5"
+                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSource="{Binding  DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath1, Mode=OneWay}"/>
+                        <karveControls:DataDatePicker Height="35"
+                                                      Margin="5,0,0,5"
+                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath2, Mode=OneWay}"/>
+                        <karveControls:DataArea       Height="25"
+                                                      Margin="5,0,0,5"
+                                                      LabelTextWidth="200"
+                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath3, Mode=OneWay}"/>
+                      </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            
+        </ListBox>
+        </GroupBox>
+    </Grid>
+</UserControl>
