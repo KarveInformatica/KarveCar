@@ -10,6 +10,7 @@ using KarveCommon.Services;
 using KarveControls;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 using MasterModule.ViewModels;
 using Model;
 using Moq;
@@ -83,10 +84,10 @@ namespace KarveTest.ViewModels
             assistColor.Execute(ev);
             IVehicleData vehicleData = _upperBarViewModel.DataObject as IVehicleData;
 
-            IEnumerable<KarveDataServices.DataTransferObject.ColorDto> colorsColorDtos = vehicleData.ColorDtos;
+            IEnumerable<ColorDto> colorsColorDtos = vehicleData.ColorDtos;
 
             // assert.
-            KarveDataServices.DataTransferObject.ColorDto[] dto = colorsColorDtos.ToArray();
+            ColorDto[] dto = colorsColorDtos.ToArray();
             Assert.Greater(dto.Length,0);
             Assert.AreSame(dto.Length, 4);
             Assert.AreSame(dto[0].Codigo, "A");
@@ -112,11 +113,11 @@ namespace KarveTest.ViewModels
             assistColor.Execute(ev);
             IVehicleData vehicleData = _upperBarViewModel.DataObject as IVehicleData;
 
-            IEnumerable<KarveDataServices.DataTransferObject.BrandVehicleDto> brandVehicleDtos = vehicleData.BrandDtos;
+            IEnumerable<BrandVehicleDto> brandVehicleDtos = vehicleData.BrandDtos;
 
             // assert.
           //  IEnumerable<KarveDataServices.DataTransferObject.BrandVehicleDto> brandVehicleDtos = _upperBarViewModel.BrandVehicleDto;
-            KarveDataServices.DataTransferObject.BrandVehicleDto[] dto = brandVehicleDtos.ToArray();
+            BrandVehicleDto[] dto = brandVehicleDtos.ToArray();
             Assert.Greater(dto.Length, 0);
             Assert.AreSame(dto.Length, 4);
             Assert.AreSame(dto[0].Codigo, "A");
@@ -139,8 +140,8 @@ namespace KarveTest.ViewModels
             // this is the click form the component.
             ICommand assistColor = _upperBarViewModel.AssistCommand;
             assistColor.Execute(ev);
-            IEnumerable<KarveDataServices.DataTransferObject.VehicleGroupDto> vehicleGroup = _upperBarViewModel.GroupVehicleDto;
-            KarveDataServices.DataTransferObject.VehicleGroupDto[] dto = vehicleGroup.ToArray();
+            IEnumerable<VehicleGroupDto> vehicleGroup = _upperBarViewModel.GroupVehicleDto;
+            VehicleGroupDto[] dto = vehicleGroup.ToArray();
             Assert.AreEqual(dto.Length, 2);
             Assert.AreSame(dto[0].Codigo, "09");
             Assert.AreSame(dto[0].Nombre, "9 PLAZA");

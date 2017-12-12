@@ -140,6 +140,7 @@
     <Compile Include="DAL\TestSQLQuery.cs" />
     <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />
     <Compile Include="DAL\TestVehicleDataLayer.cs" />
+    <Compile Include="KarveDataServices\Assist\AssistTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
     <Compile Include="TestBootStrapper.cs" />

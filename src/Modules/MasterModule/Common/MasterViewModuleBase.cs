@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Windows.Input;
+using DataAccessLayer.Assist;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls.UIObjects;
@@ -33,7 +34,7 @@ namespace MasterModule.Common
         ///  list of view model queries.
         /// </summary>
         protected IDictionary<string, string> ViewModelQueries;
-        protected string PrimaryKeyValue = "";
+      //  protected string PrimaryKeyValue = "";
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected INotifyTaskCompletion InitializationNotifierDo;
@@ -66,13 +67,36 @@ namespace MasterModule.Common
         ///  The data services allows any view model to communicate with the database via dataset or via dapper/dataobjects
         /// </summary>
         protected IDataServices DataServices;
-
+        /// <summary>
+        ///  Mailbox where each view model can receive a message from other view models.
+        /// </summary>
         protected MailBoxMessageHandler MessageHandlerMailBox;
+
+        /// <summary>
+        ///  This is a registry of an assit handlers.
+        /// </summary>
+        protected AssistHandlerRegistry AssistHandlerRegistry = new AssistHandlerRegistry();
+
         /// <summary>
         /// PrimaryKey field used from all view models.
         /// </summary>
-        protected string PrimaryKey = "";
+        private string _primaryKey = "";
+        /// <summary>
+        ///  PrimaryKey field used from all view models.
+        /// </summary>
+        private string _primaryKeyValue = "";
+        // Primary Key.
+        public string PrimaryKeyValue
+        {
+            set { _primaryKeyValue = value; }
+            get { return _primaryKeyValue; }
+        }
 
+        protected string PrimaryKey
+        {
+            set { _primaryKey = value; }
+            get { return _primaryKey; }
+        }
         private int _notifyState;
 
         protected bool IsInsertion = false;
@@ -173,7 +197,7 @@ namespace MasterModule.Common
         protected void Init(string primaryKey, bool value)
         {
             // arriva el payload.
-            PrimaryKeyValue = primaryKey;
+            _primaryKey = primaryKey;
             IsInsertion = value;
             if (value)
             {
@@ -233,6 +257,22 @@ namespace MasterModule.Common
         /// <param name="result">DataObject to be set.</param>
         protected abstract void SetDataObject(object result);
 
+        protected void RegisterMailBox(string mailboxName)
+        {
+          
+            if (!string.IsNullOrEmpty(PrimaryKeyValue))
+            {
+                if (MailBoxHandler != null)
+                {
+                    EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
+                }
+            }
+        }
+        protected void ActiveSubSystem()
+        {
+            // change the active subsystem in the toolbar state.
+            RegisterToolBar();
+        }
         protected void RegisterToolBar()
         {
             // each module notify the toolbar.
@@ -385,7 +425,7 @@ namespace MasterModule.Common
         /// <summary>
         /// GetRouteName
         /// </summary>
-        /// <param name="name">This is the route name.</param>
+        /// <param name="name">This is the route name. An unique name for the view model.</param>
         /// <returns></returns>
         protected  abstract string GetRouteName(string name);
         /// <summary>

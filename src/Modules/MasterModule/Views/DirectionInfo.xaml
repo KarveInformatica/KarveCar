@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
-              xmlns:mvvm1="http://prismlibrary.com/"
-               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
@@ -21,6 +21,7 @@
 		Kind="Directions"/>
                 <TextBox
 		x:Name="DirectionTextBox"
+        Text="{Binding Direction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 		Width="172"
         materialDesign:HintAssist.Hint="Direccion"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
@@ -34,61 +35,60 @@
 		Kind="Directions"/>
                 <TextBox
 		x:Name="DirectionTextBox2"
+                    Text="{Binding Direction2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+	
 		Width="172"
         materialDesign:HintAssist.Hint="Direccion"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
             </StackPanel>
-            <karveControls:DualFieldSearchBox DataFieldFirst="{Binding SourcePath0}"
-                                                          AssistTableName="CP"
-                                                          AssistDataFieldFirst="SIGLAS"
-                                                          AssistDataFieldSecond="PROVINCIA"
-                                                          AssistProperties="Numero,Nombre"
+            <karveControls:DualFieldSearchBox 
+                x:Name="CitySearchBox"
+                DataFieldFirst="{Binding Path=City, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          AssistTableName="POBLACIONES"
+                                                          AssistDataFieldFirst="CP"
+                                                          AssistDataFieldSecond="POBLA"
+                                                          AssistProperties="Codigo,Poblacion"
                                                           LabelVisible="False"
-                                                         LabelText="Pobl."
+                                                          LabelText="Pobl."
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="30"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="50"
                                                           TextContentSecondWidth="200"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding PoblacionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <mvvm1:InvokeCommandAction Command="{Binding AssCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                               TriggerParameterPath="AssistParameters" />
-                    </i:EventTrigger>
+                 
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
 
-            <karveControls:DualFieldSearchBox DataFieldFirst="{Binding SourcePath1}"
+            <karveControls:DualFieldSearchBox x:Name="ProvinceSearchBox" 
+                                                          DataFieldFirst="{Binding Path=Provincia, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
                                                           AssistTableName="PROVINCIA"
                                                           AssistDataFieldFirst="SIGLAS"
-                                                          AssistDataFieldSecond="PAIS"
-                                                          AssistProperties="Numero,Nombre"
+                                                          AssistDataFieldSecond="PROV"
+                                                          AssistProperties="Code,Name"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                                           LabelVisible="False"
-                                                         LabelText="Prov."
+                                                          LabelText="Prov."
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="30"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="50"
-                                                          TextContentSecondWidth="200"
+                                                          TextContentSecondWidth="200"            
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                           SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <mvvm1:InvokeCommandAction Command="{Binding AssCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                               TriggerParameterPath="AssistParameters" />
-                    </i:EventTrigger>
+                   
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
                         <mvvm1:InvokeCommandAction Command="{Binding ChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                TriggerParameterPath="ChangedValuesObjects"/>
@@ -97,15 +97,18 @@
 
             </karveControls:DualFieldSearchBox>
 
-            <karveControls:DualFieldSearchBox DataFieldFirst="{Binding SourcePath2}"
+            <karveControls:DualFieldSearchBox x:Name="CountrySearchBox"
+                DataFieldFirst="{Binding Path=Country, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
                                                           AssistTableName="PAIS"
                                                           AssistDataFieldFirst="SIGLAS"
                                                           AssistDataFieldSecond="PAIS"
-                                                          AssistProperties="Numero,Nombre"
+                                                         
                                                           LabelVisible="False"
+                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                               Height="25"           
                                               LabelText="Pais"
                                                           Margin="0,5,0,0"
+                                                          AssistProperties="Code,CountryName"
                                                           LabelTextWidth="30"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="50"
@@ -114,11 +117,7 @@
                                                           SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <mvvm1:InvokeCommandAction Command="{Binding AssCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                               TriggerParameterPath="AssistParameters" />
-                    </i:EventTrigger>
+                   
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
                         <mvvm1:InvokeCommandAction Command="{Binding ChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                TriggerParameterPath="ChangedValuesObjects"/>
@@ -135,6 +134,7 @@
 		x:Name="PhoneTextBox"
                     Height="25"
 		Width="272"
+                    Text="{Binding Path=Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 		    materialDesign:HintAssist.Hint="Telefono"
 	
                     materialDesign:TransitionAssist.DisableTransitions="True"/>
@@ -148,8 +148,9 @@
 		Kind="Fax" />
                 <TextBox
 		x:Name="FaxTextBox"
-		            Text="{Binding SourcePath3}"
+		            Text="{Binding Fax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Width="272"
+                    
 		 materialDesign:HintAssist.Hint="Fax"
 	
                     materialDesign:TransitionAssist.DisableTransitions="True" />
@@ -165,7 +166,7 @@
             <TextBox
 		x:Name="EmailTextBox"
 		Width="272"
-                Text="{Binding SourcePath4}"
+                Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
             </StackPanel>

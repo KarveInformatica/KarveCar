@@ -12,6 +12,6 @@ namespace KarveDataServices.DataObjects
         string Account { get; set; }
         string LastModification { get; set; }
         string Name { get; set; }
-        object Number { get; set; }
+        short Number { get; set; }
     }
 }

@@ -209,6 +209,7 @@ namespace DataAccessLayer.Model
         private string _agentQuery;
         private IEnumerable<MaintainanceDto> _maintenanceDto = new ObservableCollection<MaintainanceDto>();
         private PictureDto _pictureDto = new PictureDto();
+        private IEnumerable<PICTURES> _pictureResult;
 
         #endregion
 
@@ -340,10 +341,37 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public async Task<bool> DeleteAsyncData()
         {
-            await Task.Delay(1);
-            return true;
+            bool retValue = true;
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                using (TransactionScope transactionScope =
+                    new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        // delete all pictures.
+                        PICTURES pic = _pictureResult.FirstOrDefault();
+                        if (pic != null)
+                        {
+                            retValue = await connection.DeleteAsync<PICTURES>(pic);
+                        }
+                        VEHICULO1 vehiculo1 = _vehicleMapper.Map<VehiclePoco, VEHICULO1>(_vehicleValue);
+                        VEHICULO2 vehiculo2 = _vehicleMapper.Map<VehiclePoco, VEHICULO2>(_vehicleValue);
+                        retValue = await connection.DeleteAsync<VEHICULO1>(vehiculo1);
+                        if (retValue)
+                        {
+                            retValue = await connection.DeleteAsync<VEHICULO2>(vehiculo2);
+                        }
+                        transactionScope.Complete();
+                    }
+                    catch (System.Exception e)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return retValue;
         }
-
         /// <summary>
         ///  This returns an assist query.
         /// </summary>
@@ -488,11 +516,9 @@ namespace DataAccessLayer.Model
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);
                     BrandDtos = _vehicleMapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
-                  
-
                     var queryPicture = string.Format(PhotoByValue, _vehicleValue.CODIINT);
-                    var pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
-                    PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
+                     _pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
+                    PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(_pictureResult);
                     var queryActivi = string.Format(ActividadByVehicle, _vehicleValue.ACTIVIDAD);
                     var actividad = await connection.QueryAsync<ACTIVI>(queryActivi);
                     ActividadDtos = _vehicleMapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividad);

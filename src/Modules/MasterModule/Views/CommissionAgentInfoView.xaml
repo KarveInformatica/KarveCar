@@ -8,7 +8,6 @@
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -931,6 +930,7 @@
                         <RowDefinition Height="4*"></RowDefinition>
                         <RowDefinition Height="96*"></RowDefinition>
                     </Grid.RowDefinitions>
+                    <!--
                             <karveGrid:KarveGridView Grid.Row="1"
                                              x:Name="DelegationSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                              MinHeight="400"  ReadOnly="False" ColumnWidth="100" SourceView="{Binding DataObject.DelegationDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -942,7 +942,7 @@
                                 </i:Interaction.Triggers>
                             </karveGrid:KarveGridView>
                                              
-                                
+                        -->        
                 </Grid>
                     </ScrollViewer>
             </TabItem>
@@ -952,9 +952,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="96*"></RowDefinition>
                 </Grid.RowDefinitions>
+                    <!--
                 <karveGrid:KarveGridView Grid.Row="0"  
                                          x:Name="ContactsSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                          MinHeight="400"  ReadOnly="False" ColumnWidth="100" SourceView="{Binding DataObject.ContactsDto}"/>
+                    -->
                  </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -964,10 +966,11 @@
                     <Grid.RowDefinitions>
                     <RowDefinition Height="96*"></RowDefinition>
                 </Grid.RowDefinitions>
-                    
+                    <!--
                     <karveGrid:KarveGridView Grid.Row="0"  
                         x:Name="VisitSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                              MinHeight="400"  ReadOnly="True" ColumnWidth="100" SourceView="{Binding Path=DataObject.VisitDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    -->
                </Grid>
                 </ScrollViewer>
             </TabItem>

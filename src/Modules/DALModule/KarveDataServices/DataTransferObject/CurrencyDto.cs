@@ -12,13 +12,13 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the CODIGO property.
         /// </summary>
 
-        public string CODIGO { get; set; }
+        public string Codigo { get; set; }
 
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
 
-        public string NOMBRE { get; set; }
+        public string Nombre { get; set; }
 
         /// <summary>
         ///  Set or get the VENTA property.

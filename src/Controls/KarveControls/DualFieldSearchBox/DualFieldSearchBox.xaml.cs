@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
 using KarveControls.KarveGrid.Events;
+//using KarveControls.KarveGrid.Events;
 using Telerik.WinControls.UI;
 using DataRow = System.Data.DataRow;
 using static KarveControls.DataField;
@@ -771,10 +772,10 @@ namespace KarveControls
             SearchTextFirst.KeyUp += SearchTextOnKeyDown;
             SearchTextFirst.TextChanged += SearchText_TextChanged;
             SearchTextSecond.TextChanged += SearchText_TextChanged;
-            MagnifierGrid.PageSize = DefaultPageSize;
-            MagnifierGrid.AllowEditRow = true;
-            MagnifierGrid.DataSource = this.SourceView;
-            MagnifierGrid.ReadOnly = true;
+           // MagnifierGrid.PageSize = DefaultPageSize;
+          //  MagnifierGrid.AllowEditRow = true;
+          //  MagnifierGrid.DataSource = this.SourceView;
+          //  MagnifierGrid.ReadOnly = true;
             RaiseMagnifierPressEvent();   
         }
 
@@ -1196,7 +1197,7 @@ namespace KarveControls
             IEnumerable enumerableValue = e.NewValue as IEnumerable;
             if (enumerableValue != null)
             {
-                this.MagnifierGrid.DataSource = enumerableValue;
+               // this.MagnifierGrid.DataSource = enumerableValue;
                 if (_buttonManifierState == 1)
                 {
                     _firstSelection = true;
@@ -1219,7 +1220,7 @@ namespace KarveControls
             {
 
 
-                this.MagnifierGrid.SourceView = currentTable;
+              //  this.MagnifierGrid.SourceView = currentTable;
 
                 if (_buttonManifierState == 1)
                 {
@@ -1264,15 +1265,17 @@ namespace KarveControls
                 args.TableName = AssistTableName;
                 args.AssistParameters.Add("AssistFieldFirst", AssistDataFieldFirst);
                 _buttonManifierState = 1;
+                IDictionary<string, string> valueDictionary = new Dictionary<string,string>();
+                valueDictionary["AssistTable"] = AssistTableName;
+                valueDictionary["DataFieldFirst"] = DataFieldFirst;
+                valueDictionary["DataFieldSecond"] = DataFieldSecond;
+                valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
+                valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+                valueDictionary["AssistQuery"] = AssistQuery;
+               // args.ChangedValuesObjects = valueDictionary;
                 if (MagnifierCommand != null)
                 {
-                    IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
-                    valueDictionary["AssistTable"] = AssistTableName;
-                    valueDictionary["DataFieldFirst"] = DataFieldFirst;
-                    valueDictionary["DataFieldSecond"] = DataFieldSecond;
-                    valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
-                    valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
-                    valueDictionary["AssistQuery"] = AssistQuery;
+                  
                     MagnifierCommand.Execute(valueDictionary);
                 }
                 else
@@ -1544,6 +1547,7 @@ namespace KarveControls
                     RaiseEvent(ev);
                 }
             }
+           
         }
         private static void OnSearchTextBoxDataFieldFirstChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -10,14 +10,18 @@ using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveDataServices.DataTransferObject;
+using MasterModule.Views;
 using MasterModule.Views.Vehicles;
 using Prism.Commands;
+using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
@@ -26,6 +30,8 @@ namespace MasterModule.ViewModels
     /// </summary>
     partial class VehicleInfoViewModel: MasterViewModuleBase, IEventObserver, IDataErrorInfo
     {
+        private const string DefaultViewInfoRegionName = "TabRegion";
+
         /// <summary>
         ///  Vehicle Data Services.
         /// </summary>
@@ -70,6 +76,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<AccountDto> _accountDtoPaymentAccountDto;
         private ObservableCollection<AccountDto> _accountDtoCapitalCp;
         private ObservableCollection<AccountDto> _accomulatedRepayment;
+        private IRegionManager _regionManager;
 
         // This returns the list of activity when asked.
         public ObservableCollection<ActividadDto> ActivityDtos
@@ -334,7 +341,8 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">This is the configurartion service</param>
         /// <param name="eventManager"> The event manager for sending/recieving messages from the view model</param>
         /// <param name="services">Data access layer interface</param>
-        public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services) : 
+        public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
+            IDataServices services, IRegionManager regionManager) : 
             base(configurationService, eventManager, services)
         {
  			MailBoxHandler += MessageHandler;
@@ -345,9 +353,16 @@ namespace MasterModule.ViewModels
             DataFieldCollection = InitDataField();
             RevisionObject = InitRevisionComposedFieldObjects();
             MaintenanceCollection = _maintenaince;
+            _regionManager = regionManager;
+            _deleteEventHandler+=DeleteEventHandler;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
             ActiveSubSystem();
+        }
+
+        private void DeleteEventHandler(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+           
         }
 
         private async Task<ObservableCollection<ElementDto>> InitElements()
@@ -749,10 +764,22 @@ namespace MasterModule.ViewModels
                 dataPayload.HasDataObject = true;
                 dataPayload.PrimaryKeyValue = PrimaryKeyValue;
                 _deleteNotifyTaskCompletion = NotifyTaskCompletion.Create<DataPayLoad>(HandleDeleteItem(dataPayload), _deleteEventHandler);
-                PrimaryKeyValue = "";
+                
+              
             }
         }
-
+        
+        private void DeleteRegion(string primaryKeyValue)
+        {
+            // get the active tab.
+            var activeRegion = _regionManager.Regions[DefaultViewInfoRegionName].ActiveViews.FirstOrDefault();
+            if (activeRegion is VehicleInfoView)
+            {
+                var vehicleInfo = activeRegion as VehicleInfoView;
+                _regionManager.Regions[DefaultViewInfoRegionName].Remove(vehicleInfo);
+                
+            }
+        }
         /// <summary>
         /// Delete a commission agent.
         /// </summary>
@@ -765,6 +792,7 @@ namespace MasterModule.ViewModels
             if (vehicle.Valid)
             {
                 bool returnValue = await _vehicleDataServices.DeleteVehicleDo(vehicle);
+              
                 if (returnValue)
                 {
                     payload.Subsystem = DataSubSystem.VehicleSubsystem;
@@ -774,6 +802,8 @@ namespace MasterModule.ViewModels
                     PrimaryKeyValue = "";
                     _vehicleDo = null;
                 }
+                DeleteRegion(payload.PrimaryKeyValue);
+
             }
             return payload;
         }

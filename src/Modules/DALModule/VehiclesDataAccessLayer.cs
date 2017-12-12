@@ -162,15 +162,7 @@ namespace DataAccessLayer
         public async Task<bool> DeleteVehicleData(IVehicleData vehicleData)
         {
             bool value = false;
-            IDbConnection connection = _sqlExecutor.Connection;
-            using (connection)
-            {
-                if (connection.State != ConnectionState.Open)
-                {
-                    connection.Open();
-                }
-                value = await vehicleData.DeleteAsyncData();
-            }
+            value = await vehicleData.DeleteAsyncData();
             return value;
         }
         /// <summary>
@@ -189,16 +181,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> DeleteVehicleDo(IVehicleData vehicleData)
         {
-            bool value = false;
-            IDbConnection connection = _sqlExecutor.Connection;
-            using (connection)
-            {
-                if (connection.State != ConnectionState.Open)
-                {
-                    connection.Open();
-                }
-                value = await vehicleData.DeleteAsyncData();
-            }
+            bool value = await vehicleData.DeleteAsyncData();
             return value;
         }
         /// <summary>

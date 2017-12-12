@@ -1,18 +1,14 @@
-﻿using System;
-using System.Data;
-using AutoMapper;
-using DataAccessLayer.DataObjects;
-using KarveCommon.Generic;
-using KarveCommon.Services;
+﻿using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataObjects;
 
 
 namespace DataAccessLayer
 {
     /// <summary>
-    ///  Implementation of the the IDataService interface to provide the stairway pattern.
-    /// 
+    /// Implementation of the the IDataService interface to provide the stairway pattern.
+    /// Stairway pattern is against the entourage pattern. 
+    /// The Interface assembly shall be sepatated from the implementation. This allow to avoid the infernal dll hell,
+    /// and provide a way to load different assemblies following a give implementation.
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
@@ -22,11 +18,12 @@ namespace DataAccessLayer
         private readonly IHelperDataServices _helperDataServices;
         // private commission agent access layer.
         private readonly ICommissionAgentDataServices _commissionAgentDataServices;
-
         /// <summary>
         /// Vehicle data services. 
         /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
+        private ISqlExecutor _executor;
+        private object _serviceConf;
 
         /// <summary>
         /// DataService Implementation
@@ -41,9 +38,22 @@ namespace DataAccessLayer
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
         }
-        
+        /* this looks like a smell
+         * 
         /// <summary>
-        ///  Get the vehicles data services that represent all veihicles.
+        /// This is the data service implmentation 
+        /// </summary>
+        /// <param name="executor">SqlExecutor that implements the execution </param>
+        /// <param name="serviceConf">Configuration of the service</param>
+        public DataServiceImplementation(ISqlExecutor executor, object serviceConf)
+        {
+            _executor = executor;
+            _serviceConf = serviceConf;
+        }
+        */
+
+        /// <summary>
+        ///  Get the vehicles data services that represent all vehicles.
         /// </summary>
         /// <returns></returns>
         public IVehicleDataServices GetVehicleDataServices()

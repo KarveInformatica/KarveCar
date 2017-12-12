@@ -98,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
+    <Compile Include="Assist\Assist.cs" />
+    <Compile Include="Assist\AssistResponseBase.cs" />
+    <Compile Include="Assist\AssistResult.cs" />
+    <Compile Include="Assist\AssistHandlerRegistry.cs" />
+    <Compile Include="Assist\AssistResponse.cs" />
+    <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />

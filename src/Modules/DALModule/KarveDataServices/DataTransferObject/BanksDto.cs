@@ -12,25 +12,25 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the CODBAN property.
             /// </summary>
 
-            public string CODBAN { get; set; }
+            public string Codigo { get; set; }
 
             /// <summary>
             ///  Set or get the ULTMODI property.
             /// </summary>
 
-            public string ULTMODI { get; set; }
+            public string UltimaModification { get; set; }
 
             /// <summary>
             ///  Set or get the USUARIO property.
             /// </summary>
 
-            public string USUARIO { get; set; }
+            public string Usuario { get; set; }
 
             /// <summary>
             ///  Set or get the NOMBRE property.
             /// </summary>
 
-            public string NOMBRE { get; set; }
+            public string Nombre { get; set; }
 
             /// <summary>
             ///  Set or get the GESTIONAR property.
@@ -42,7 +42,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the SWIFT property.
             /// </summary>
 
-            public string SWIFT { get; set; }
+            public string Swift { get; set; }
 
             /// <summary>
             ///  Set or get the CTAPAGO_ASOCIA property.

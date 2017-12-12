@@ -1,4 +1,4 @@
-﻿<Window x:Class="KarveCar.Views.MainWindow"
+﻿<Controls:MetroWindow x:Class="KarveCar.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,9 +14,9 @@
         xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:uc="clr-namespace:KarveCar.View"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
         xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignCardBackground}"
@@ -1704,4 +1704,4 @@
         </DockPanel>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

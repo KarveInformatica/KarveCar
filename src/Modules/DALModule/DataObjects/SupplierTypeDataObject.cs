@@ -14,7 +14,7 @@ namespace KarveDataAccessLayer.DataObjects
         private string _emergencyAccount;
         private string _lastModification;
         private string _name;
-        private object _number;
+        private short _number;
         
         public string User {
             get {
@@ -62,7 +62,7 @@ namespace KarveDataAccessLayer.DataObjects
                 OnPropertyChanged("Name");
             }
         }
-        public object Number
+        public short Number
         {
             get
             {

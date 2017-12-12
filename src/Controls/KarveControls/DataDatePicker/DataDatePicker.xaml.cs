@@ -129,7 +129,7 @@ namespace KarveControls
                 "DateContent",
                 typeof(DateTime),
                 typeof(DataDatePicker),
-                new PropertyMetadata(DateTime.MinValue, OnDateContentChange));
+                new PropertyMetadata(DateTime.Now, OnDateContentChange));
 
         /// <summary>
         /// DateContent content of the date.

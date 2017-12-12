@@ -21,7 +21,7 @@ using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
 using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
-using static KarveControls.KarveGrid.KarveGridView.ChangedGridViewEventArgs;
+using Prism.Regions;
 
 namespace MasterModule.ViewModels
 {
@@ -215,6 +215,7 @@ namespace MasterModule.ViewModels
         }
         public ICommand DelegationChangedRowsCommand { set; get; }
 
+        private IRegionManager _regionManager; 
         //
         // A part of the ui is made up different objects inserted in a observable collection.
         //
@@ -226,7 +227,9 @@ namespace MasterModule.ViewModels
         /// <param name="services">Services to be used</param>
 
         public CommissionAgentInfoViewModel(IConfigurationService configurationService,
-                                            IEventManager eventManager, IDataServices services) : base(configurationService, eventManager, services)
+                                            IEventManager eventManager, 
+                                            IDataServices services, 
+                                            IRegionManager regionManager) : base(configurationService, eventManager, services)
         {
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
@@ -242,25 +245,27 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangedRow);
+            _regionManager = regionManager;
             LoadUserInterfaceObjects();
         }
 
         private void DelegationChangedRow(object parm)
         {
-            Dictionary<EventParams, object> dictionary = parm as  Dictionary<EventParams, object>;
-            Operation operation =
-                (Operation) dictionary[EventParams.Operation];
-            if (operation == Operation.Insert)
+            
+            Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object> dictionary = parm as  Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object>;
+            KarveGridView.ChangedGridViewEventArgs.Operation operation =
+                (KarveGridView.ChangedGridViewEventArgs.Operation) dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.Operation];
+            if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Insert)
             {
-                IEnumerable<BranchesDto> param = (IEnumerable<BranchesDto>)dictionary[EventParams.DataSource];
+                IEnumerable<BranchesDto> param = (IEnumerable<BranchesDto>)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.DataSource];
                 _commissionAgentDo.DelegationDto = _commissionAgentDo.DelegationDto.Union(param);
                 
             }
-            else if (operation == Operation.Update)
+            else if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Update)
             {
                 // Yeah it is just one at time.
                 // we shall merge this to 
-                IEnumerable<BranchesDto> currentBranches = (IEnumerable<BranchesDto>)dictionary[EventParams.DataSource];
+                IEnumerable<BranchesDto> currentBranches = (IEnumerable<BranchesDto>)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.DataSource];
                 BranchesDto changedDto = currentBranches.FirstOrDefault();
                 if (changedDto != null)
                 {

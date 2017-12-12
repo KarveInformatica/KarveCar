@@ -4,9 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KarveControlsTest"
+        xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
         mc:Ignorable="d"
         Title="TestWindow" Height="300" Width="300">
     <Grid>
-        
+        <Grid.Resources>
+           
+        </Grid.Resources>
+
+        <StackPanel>
+            <kc:DataField LabelTextWidth="100" TextContentWidth="50"  LabelText="Name" LabelVisible="True" Height="25"/>
+            <kc:DataField LabelTextWidth="100" TextContentWidth="100"  LabelText="Surname" LabelVisible="True" Height="25"/>
+
+        </StackPanel>
     </Grid>
 </Window>

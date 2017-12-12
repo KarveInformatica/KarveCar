@@ -8,7 +8,7 @@
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="900">
+             d:DesignHeight="100" d:DesignWidth="900">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>            
@@ -21,7 +21,10 @@
         <GroupBox Header="Dato Generales">
         <StackPanel Name="ContextLayout" Orientation="Horizontal">
             
-            <karveControls:DataField x:Name="NumeroComi" TextContentWidth="60" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_COMI" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
+            <karveControls:DataField x:Name="Numero" TextContentWidth="100"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     DataSourcePath="{Binding PathCode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                     <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -30,7 +33,9 @@
                     </i:Interaction.Triggers>
 
             </karveControls:DataField>
-            <karveControls:DataField x:Name="Persona" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="PERSONA" LabelTextWidth="50" LabelText="Persona" LabelVisible="True">
+            <karveControls:DataField x:Name="Persona" TextContentWidth="150" DataObject="{Binding DataObject, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="{Binding PathPerson, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     LabelTextWidth="50" LabelText="Nombre" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -38,7 +43,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-            <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="Nif" LabelVisible="True">
+            <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="Nif" 
+                                      LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -46,20 +52,21 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-            <karveControls:DualFieldSearchBox x:Name="TipoComiSearch" 
-                                              TextContentSecondWidth="100"
-                                              TextContentFirstWidth="50"
+            <karveControls:DualFieldSearchBox x:Name="Tipo" 
+                                              TextContentSecondWidth="200"
+                                              TextContentFirstWidth="100"
+                                              IsReadOnlySecond="True"
                                               LabelTextWidth="100" 
-                                              LabelText="Tipo.Comissionista" 
-                                              Height="25"
+                                              LabelText="{Binding LabelTypeSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              
                                               LabelVisible="True"
                                               AssistProperties="Codigo,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataFieldFirst="TIPOCOMI"
-                                              AssistTableName="TIPOCOMI"
-                                              AssistDataFieldFirst="NUM_TICOMI"
-                                              AssistDataFieldSecond="NOMBRE"
+                                              DataFieldFirst="{Binding DataFieldSearch, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              AssistTableName="{Binding AssistTable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              AssistDataFieldFirst="{Binding AssistDataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              AssistDataFieldSecond="{Binding AssistDataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ButtonImage="/MasterModule;component/Images/search.png">
                 <i:Interaction.Triggers>
                     

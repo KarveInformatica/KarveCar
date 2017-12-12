@@ -167,7 +167,7 @@ namespace MasterModule.Common
 
             if (view is UserControl)
             {
-           //     ((UserControl) view).Focus();
+              ((UserControl) view).Focus();
             }
            
             return view;

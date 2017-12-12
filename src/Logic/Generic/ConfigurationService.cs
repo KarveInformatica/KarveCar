@@ -114,6 +114,21 @@ namespace KarveCar.Logic
                 string[] value = itemHeader.Split('.');
                 return value[1];
             }
+            if (selectedItem is UserControl)
+            {
+                UserControl item = selectedItem as UserControl;
+                var context = item.DataContext;
+               var propertyInfo =  context.GetType().GetProperty("PrimaryKeyValue");
+                if (propertyInfo != null)
+                {
+                    var primaryKey = propertyInfo.GetValue(context) as string;
+                    if (!string.IsNullOrEmpty(primaryKey))
+                    {
+                        return primaryKey;
+                    }
+                }
+          
+            }
             return "";
         }
 

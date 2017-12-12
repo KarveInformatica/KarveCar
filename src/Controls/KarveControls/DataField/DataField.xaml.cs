@@ -16,7 +16,7 @@ namespace KarveControls
     /// <summary>
     /// DataField Control definitions.
     /// </summary>
-    public partial class DataField : UserControl
+    public partial class DataField : TextBox
     {
         /// <summary>
         /// Routed Event fired when any change in data field happen.

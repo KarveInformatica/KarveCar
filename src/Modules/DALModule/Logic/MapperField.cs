@@ -349,6 +349,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<TIPOCOMISION, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
                 cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
+                cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing( new ZonaOfiConverter());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
@@ -365,7 +366,38 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
-
+                cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
+                {
+                    var model = new CompanyDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.CommercialName = src.NOMCOMER;
+                    model.Poblacion = src.POBLACION;
+                    model.Nif = src.NIF;
+                    return model;
+                });
+                cfg.CreateMap<DIVISAS, CurrencyDto>().ConvertUsing(src =>
+                {
+                    var model = new CurrencyDto();
+                    model.Codigo = src.CODIGO;
+                    model.Nombre = src.NOMBRE;
+                    return model;
+                });
+                cfg.CreateMap<MESES, MonthsDto>().ConstructUsing(src =>
+                {
+                    var model = new MonthsDto();
+                    model.MES = src.MES;
+                    model.NUMERO_MES = src.NUMERO_MES;
+                    return model;
+                });
+                cfg.CreateMap<BANCO, BanksDto>().ConstructUsing(src =>
+                {
+                    var model = new BanksDto();
+                    model.Codigo= src.CODBAN;
+                    model.Nombre = src.NOMBRE;
+                    model.Swift = src.SWIFT;
+                    return model;
+                });
                 cfg.CreateMap<FORMAS, PaymentFormDto>().ConvertUsing(src =>
                 {
                     var model = new PaymentFormDto();
@@ -374,7 +406,23 @@ namespace DataAccessLayer.Logic
                     model.Cuenta = src.CUENTA;
                     return model;
                 });
-                ///  cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new OwnerConverter());
+                cfg.CreateMap<POBLACIONES, CityDto>().ConvertUsing(src =>
+                {
+                    var model = new CityDto();
+                    model.Codigo = src.CP;
+                    model.Poblacion = src.POBLA;
+                    model.Pais = src.PAIS;
+                    return model;
+                });
+                cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
+                {
+                    var model = new AccountDto();
+                    model.Codigo = src.CODIGO;
+                    model.Description = src.DESCRIP;
+                    model.Cuenta = src.CC;
+                    return model;
+                });
+
 
                 //  cfg.CreateMap<AGENTES, AgentDto>().ConvertUsing(new AgentConverter());
 
@@ -387,7 +435,16 @@ namespace DataAccessLayer.Logic
         }
     }
 
-    
+    public class OfficeConverter : ITypeConverter<OFICINAS, OfficeDtos>
+    {
+        public OfficeDtos Convert(OFICINAS source, OfficeDtos destination, ResolutionContext context)
+        {
+            OfficeDtos office = new OfficeDtos();
+            office.Codigo = source.CODIGO;
+            office.Nombre = source.NOMBRE;
+            return office;
+        }
+    }
 }
 
     

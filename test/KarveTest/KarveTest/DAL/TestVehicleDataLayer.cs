@@ -214,7 +214,7 @@ namespace KarveTest.DAL
             }
             catch (Exception e)
             {
-                
+              Assert.Fail(e.Message);  
             }
         }
 
@@ -256,7 +256,7 @@ namespace KarveTest.DAL
             }
             catch (Exception e)
             {
-                Assert.False(innerData);
+                Assert.Fail(e.Message);
             }
         }
 
@@ -290,7 +290,7 @@ namespace KarveTest.DAL
             catch (Exception e)
             {
                 value = true;
-                Assert.True(value);
+                Assert.True(value, e.Message);
             }
         }
     }

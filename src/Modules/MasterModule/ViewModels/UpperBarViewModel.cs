@@ -14,90 +14,120 @@ using AutoMapper;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using MasterModule.Common;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
     ///  UpperBarView model.
     /// </summary>
-    public class UpperBarViewModel : BindableBase, IDisposable
+    public class UpperBarViewModel : UpperBarViewModelBase, IDisposable
     {
-        private IDataServices _dataServices;
-        private IEventManager _eventManager;
-        private MailBoxMessageHandler MailBoxHandler;
         public const string Name = "MasterModule.UpperBarViewModel";
-        private const string AssistQuery = "AssistQuery";
-        private object _dataObject = null;
         private IEnumerable<TIPOCOMI> _tipocomis = new List<TIPOCOMI>();
-        private object _sourceView = new object();
-        private DataSubSystem _subsystem;
-        //private string[] Tipo = 
+        private string _pathType = "";
+        private string _pathPerson = "";
+        private string _labelType = "";
+        private string _dataFieldSearch = "";
+        private string _assistDataFieldFirst = "";
+        private string _assistDataFieldSecond = "";
+        private string _assistTable = "";
 
-       
-        /// <summary>
-        ///  Data Object
-        /// </summary>
-        public object DataObject
-        {
-            set { _dataObject = value; RaisePropertyChanged(); }
-            get { return _dataObject; }
-        }
-        private enum UpperBarViewModelState {
-            Init, Loaded
-        };
-
-        private UpperBarViewModelState _status;
-        /// <summary>
-        ///  Changed item
-        /// </summary>
-        public ICommand ChangedItem { set; get; }
-        /// <summary>
-        ///  Assist Command
-        /// </summary>
-        public ICommand AssistCommand { set; get; }
-        /// <summary>
-        ///  SourceView
-        /// </summary>
-        public object SourceView {
-            set
-            {
-                _sourceView = value;
-                RaisePropertyChanged();
-            }
-            get { return _sourceView; } }
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
         /// </summary>
         /// <param name="manager"></param>
         /// <param name="services"></param>
         public UpperBarViewModel(IEventManager manager,
-            IDataServices services)
+            IDataServices services) : base(manager, services)
         {
-            _dataServices = services;
-            _eventManager = manager;
+
             ChangedItem = new DelegateCommand<object>(OnChangedItem);
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             MailBoxHandler += MailBoxHandlerMethod;
-            _eventManager.RegisterMailBox(Name, MailBoxHandler);
+            EventManager.RegisterMailBox(Name, MailBoxHandler);
             // initialize the mapper to the automap for the upper view model.
             InitMapping();
         }
+
         /// <summary>
         /// Init the mapping.
         /// </summary>
         private void InitMapping()
         {
             Mapper.Initialize(cfg =>
-                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
             {
-                var tipoComi = new CommissionTypeDto();
-                tipoComi.Codigo = src.NUM_TICOMI;
-                tipoComi.Nombre = src.NOMBRE;
-                return tipoComi;
-            })
-                );
-            _status=UpperBarViewModelState.Init;
+                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
+                {
+                    var tipoComi = new CommissionTypeDto();
+                    tipoComi.Codigo = src.NUM_TICOMI;
+                    tipoComi.Nombre = src.NOMBRE;
+                    return tipoComi;
+                });
+                cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
+                {
+                    var tipoComi = new SupplierTypeDto();
+                    tipoComi.Codigo = src.NUM_TIPROVE;
+                    tipoComi.Nombre = src.NOMBRE;
+                    return tipoComi;
+                });
+
+            });            
+            _status = UpperBarViewModelState.Init;
         }
+        /// <summary>
+        ///  PathType
+        /// </summary>
+        public string PathCode
+        {
+            set { _pathType = value;  RaisePropertyChanged();}
+            get { return _pathType; }
+        }
+
+        public string PathPerson
+        {
+            set { _pathPerson = value; RaisePropertyChanged();}
+            get { return _pathPerson; }
+        }
+
+        public string LabelTypeSearch {
+            get { return _labelType; }
+            set { _labelType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string DataFieldSearch
+        {
+            get { return _dataFieldSearch; }
+            set { _dataFieldSearch = value; RaisePropertyChanged();}
+        }
+   
+
+        public string AssistDataFieldFirst {
+            get
+            {
+                return _assistDataFieldFirst; 
+                
+            }
+            set { _assistDataFieldFirst = value; }
+          }
+        public string AssistDataFieldSecond
+        {
+            get
+            {
+                return _assistDataFieldSecond;
+
+            }
+            set { _assistDataFieldSecond = value; RaisePropertyChanged(); }
+        }
+
+        public string AssistTable
+        {
+            get { return _assistTable; }
+            set { _assistTable = value; RaisePropertyChanged(); }
+        }
+
         /// <summary>
         ///  Each view model has a correct mailbox handler to receive the data form other forms.
         /// </summary>
@@ -108,68 +138,96 @@ namespace MasterModule.ViewModels
             {
                 DataObject = payLoad.DataObject;
                 _subsystem = payLoad.Subsystem;
-                NotifyTaskCompletion.Create(HandleCommission(DataObject));
+                if (DataObject is ICommissionAgent)
+                {
+                    NotifyTaskCompletion.Create(HandleCommission(DataObject));
+                }
+                else if (DataObject is ISupplierData)
+                {
+                    NotifyTaskCompletion.Create(HandleSupplier(DataObject));
+                }
             }
         }
-
-   
+        /// <summary>
+        ///  This is a supplier handler.
+        /// </summary>
+        /// <param name="dataObject">Data Object as supplier</param>
+        /// <returns></returns>
+        private async Task HandleSupplier(object dataObject)
+        {
+            ISupplierData supplier = dataObject as ISupplierData;
+            DataObject = supplier;
+            PathCode = "NUM_PROVEE";
+            PathPerson = "COMERCIAL";
+            LabelTypeSearch = "Tipo.Proveedor";
+            DataFieldSearch = "TIPOPROVE";
+            AssistDataFieldFirst = "NUM_TIPROVE";
+            AssistDataFieldSecond = "NOMBRE";
+            AssistTable = "TIPOPROVE";
+            var supplierValue = supplier.Type.FirstOrDefault().Number;
+            string value = string.Format("SELECT NUM_TIPROVE, NOMBRE FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'", supplierValue);
+            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
+            var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
+            SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
+            
+        }
+        /// <summary>
+        ///  This is a commission handler
+        /// </summary>
+        /// <param name="dataObject">Commission handler as commision</param>
+        /// <returns></returns>
         private async Task HandleCommission(object dataObject)
         {
             ICommissionAgent agent = dataObject as ICommissionAgent;
-            IHelperDataServices helperDataServices = _dataServices.GetHelperDataServices();
+            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
+            DataObject = agent;
+            PathCode = "NUM_COMI";
+            PathPerson = "NOMBRE";
+            LabelTypeSearch = "Tipo.Comm.";
+            DataFieldSearch = "TIPOCOMI";
+            AssistDataFieldFirst = "NUM_TICOMI";
+            AssistDataFieldSecond = "NOMBRE";
+            AssistTable = "TIPOCOMI";
             var agentValue = agent.CommisionTypeDto.FirstOrDefault().Codigo;
             if (agentValue != null)
             {
 
                 string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",agentValue);
                 var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(value);
-                 SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
-                //_status = UpperBarViewModelState.Loaded;
+                SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
             }
   
         }
-        private void OnChangedItem(object data)
-        {
-            object currentObject = data;
-            if (data is IDictionary<string, object>)
-            {
-
-
-                IDictionary<string, object> currentData = data as IDictionary<string, object>;
-                if (currentData == null)
-                    return;
-                currentObject = currentData["DataObject"];
-            }
-            object dataObject = data;
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.DataObject = currentObject;
-            DataObject = currentObject;
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.HasDataObject = true;
-            payLoad.Subsystem = _subsystem;
-            // send message to the main view model to any item.
-            _eventManager.NotifyToolBar(payLoad);
-        }
+     
 
         private async void OnAssistCommand(object assistData)
         {
-                IHelperDataServices helperDataServices = _dataServices.GetHelperDataServices();
+                IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
                 IDictionary<string, string> currentData = assistData as Dictionary<string, string>;
                 if (currentData != null)
                 {
-                  
                     string assistQuery = currentData[AssistQuery] as string;
-                    var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(assistQuery);
-                    SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                    // TODO: replace conditional with polymorphism. Introduce an assistSmasher delegate.
+                     if (assistQuery.Contains("TIPOCOMI"))
+                    {
+                        var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(assistQuery);
+                        SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                    }
+                    else if (assistQuery.Contains("TIPOPROVE"))
+                    {
+                        var tipoProve = await helperDataServices.GetAsyncHelper<TIPOPROVE>(assistQuery);
+                        SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(tipoProve);
+                }
                     _status = UpperBarViewModelState.Loaded;
-
                 }
             
         }
-
+        /// <summary>
+        ///  This dispose the mailbox subscription.
+        /// </summary>
         public void Dispose()
         {
-            _eventManager.DeleteMailBoxSubscription(UpperBarViewModel.Name);
+            EventManager.DeleteMailBoxSubscription(UpperBarViewModel.Name);
         }
     }
 }

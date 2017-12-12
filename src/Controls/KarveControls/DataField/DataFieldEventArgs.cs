@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace KarveControls
 {
-    public partial class DataField : UserControl
+    public partial class DataField : TextBox
     {
         /// <summary>
         ///  Event args

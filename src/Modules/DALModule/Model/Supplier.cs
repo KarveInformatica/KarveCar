@@ -16,6 +16,7 @@ using KarveDataServices;
 using Model;
 using AutoMapper;
 using DataAccessLayer.DataObjects.Wrapper;
+using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveDapper.Extensions;
 
@@ -89,8 +90,12 @@ namespace DataAccessLayer.Model
                                                "USER as Account, " +
                                                "ULTMODI as LastModification FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'";
         private const string ProvinciaSelect = "SELECT SIGLAS, PROV, PAIS  FROM PROVINCIA WHERE SIGLAS='{0}'";
-        private const string OficinasSelect = " SELECT CODIGO, NOMBRE FROM SUBLICEN WHERE CODIGO='{0}'";
+        private const string CompanySelect = " SELECT CODIGO, NOMBRE FROM SUBLICEN WHERE CODIGO='{0}'";
+
+        private const string OfficeSelect =
+            " select CODIGO, NOMBRE, SUBLICEN, DIRECCION, POBLACION from oficinas WHERE CODIGO='{0}' AND SUBLICEN='{1}'";
         private const string PaisSelect = "SELECT SIGLAS, PAIS FROM PAIS WHERE SIGLAS='{0}'";
+        
         private const string BankSelect = "SELECT CODBAN, NOMBRE FROM BANCO WHERE CODBAN='{0}'";
         private const string AccountSelect = "SELECT CODIGO, DESCRIP FROM CU1";
         private const string PaymentFormSelect = "SELECT CODIGO, NOMBRE FROM FORMAS";
@@ -128,6 +133,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<CurrencyDto> _currencyDto;
         private IEnumerable<CompanyDto> _companyDtos;
         private IEnumerable<OfficeDtos> _officeDtos;
+        
 
         public Supplier(ISqlExecutor executor)
         {
@@ -234,9 +240,11 @@ namespace DataAccessLayer.Model
     }
 
 
-        public Task<bool> DeleteAsyncData()
+        public async Task<bool> DeleteAsyncData()
         {
-            throw new NotImplementedException();
+          //  throw new NotImplementedException();
+            await Task.Delay(1);
+            return true;
         }
 
         public async Task<bool> Save()
@@ -263,13 +271,13 @@ namespace DataAccessLayer.Model
                     }
                     catch (TransactionException ex)
                     {
-                        string message = "Transaction Scope Exception in Vehicle Insertion. Reason: " + ex.Message;
+                        string message = "Transaction Scope Exception in Supplier Insertion. Reason: " + ex.Message;
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;
                     }
                     catch (System.Exception other)
                     {
-                        string message = "Error in a Vehicle Insertion. Reason: " + other.Message;
+                        string message = "Error in a Vehicle Supplier. Reason: " + other.Message;
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;
                     }
@@ -384,6 +392,9 @@ namespace DataAccessLayer.Model
                     PaymentDtos = _supplierMapper.Map<IEnumerable<FORMAS>, IEnumerable<PaymentFormDto>>(paymentForms);
                     var currency = await connection.QueryAsync<DIVISAS>(CurrencySelect);
                     CurrencyDtos = _supplierMapper.Map<IEnumerable<DIVISAS>, IEnumerable<CurrencyDto>>(currency);
+                    string query = string.Format(OfficeSelect, _supplierValue.OFICINA, _supplierValue.SUBLICEN);
+                    var office = await connection.QueryAsync<OFICINAS>(query);
+                    OfficeDtos = MapperField.GetMapper().Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office);
                     Value = _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue); 
                     Valid = true;
                 }

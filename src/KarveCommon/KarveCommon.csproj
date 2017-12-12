@@ -86,7 +86,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter\AddNewRowConverter.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />

@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractSqlExecutor.cs" />
+    <Compile Include="Assist\IAssist.cs" />
+    <Compile Include="Assist\IAssistHandler.cs" />
+    <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="DataLayerException.cs" />
     <Compile Include="DataObjects\IBranchesData.cs" />
     <Compile Include="DataObjects\ICommissionAgent.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="DataTransferObject\BranchesDto.cs" />
     <Compile Include="DataTransferObject\BrandVehicleDto.cs" />
     <Compile Include="DataTransferObject\CanalDto.cs" />
+    <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
     <Compile Include="DataTransferObject\ClientesDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
     <Compile Include="DataTransferObject\SupplierDto.cs" />
     <Compile Include="DataTransferObject\SupplierSummaryDto.cs" />
+    <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
     <Compile Include="SqlValidationRule.cs" />

@@ -7,6 +7,7 @@ using DataAccessLayer;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 using MasterModule.ViewModels;
 using Moq;
 using NUnit.Framework.Internal;
@@ -41,7 +42,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Shall_Update_The_View_with_a_new_payload()
         {
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
@@ -61,7 +62,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Update_View_Item()
         {
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
@@ -76,7 +77,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Insert_A_New_Item()
         {
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
@@ -94,7 +95,7 @@ namespace KarveTest.ViewModels
         {
 
             // arrange
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
@@ -155,10 +156,10 @@ namespace KarveTest.ViewModels
             infoViewModel.IncomingPayload(payLoad);
 
         }
-
+        [Test]
         private async Task<ISupplierData> ArrangeInfoViewModelTest()
         {
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);

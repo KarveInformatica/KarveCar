@@ -18,19 +18,19 @@ using Prism.Commands;
 namespace MasterModule.Views
 {
 
-
-    
-
     /// <summary>
     /// Interaction logic for UpperBarView.xaml
     /// </summary>
     public partial class UpperBarView : UserControl
     {
+
+      
         public static readonly DependencyProperty DataSourceDependencyProperty =
             DependencyProperty.Register(
                 "DataSource",
                 typeof(object),
                 typeof(UpperBarView), new PropertyMetadata(null, OnDataSourceChanged));
+
 
         public static readonly DependencyProperty SourceViewDependencyProperty =
             DependencyProperty.Register(
@@ -53,7 +53,7 @@ namespace MasterModule.Views
         }
         private void OnViewSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.TipoComiSearch.SourceView = e.NewValue;
+            this.Tipo.SourceView = e.NewValue;
         }
 
         /// <summary>
@@ -116,9 +116,9 @@ namespace MasterModule.Views
             if (e.NewValue != null)
             {
                 this.Nif.DataObject = e.NewValue;
-                this.NumeroComi.DataObject = e.NewValue;
+                this.Numero.DataObject = e.NewValue;
                 this.Persona.DataObject = e.NewValue;
-                this.TipoComiSearch.DataSource = e.NewValue;
+                this.Tipo.DataSource = e.NewValue;
             }
         }
 

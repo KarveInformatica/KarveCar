@@ -15,7 +15,6 @@
              xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:photoFrame="clr-namespace:KarveControls.PhotoFrame;assembly=KarveControls"
              xmlns:itemsControl="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             xmlns:masterModule="clr-namespace:MasterModule.Views.VehiControls;assembly=MasterModule"
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              xmlns:vehicleViews="clr-namespace:MasterModule.Views.Vehicles"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"

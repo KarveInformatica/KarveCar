@@ -113,16 +113,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KarveControls.csproj">
-      <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
-      <Name>KarveControls</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KarveControls.csproj">
+      <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
+      <Name>KarveControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

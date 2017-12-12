@@ -60,6 +60,11 @@ namespace KarveCommon.Services
         /// <param name="dataPayload">Message to be sent to the subsystem</param>
         public void NotifyObserverSubsystem(string id, DataPayLoad dataPayload)
         {
+
+            if (id == null)
+            {
+                return;
+            }
             if (_subsystemObserver.ContainsKey(id))
             {
                 if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))

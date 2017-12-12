@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Prism.Mvvm;
 namespace KarveCommon.Generic
 {
+    /// <summary>
+    /// View model base.
+    /// </summary>
     public class KarveViewModelBase: BindableBase
     {
         private string _sqlQuery;

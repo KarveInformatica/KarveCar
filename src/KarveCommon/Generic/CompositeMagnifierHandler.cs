@@ -8,12 +8,15 @@ using KarveCommonInterfaces;
 
 namespace KarveCommon.Generic
 {
+    /// <summary>
+    /// This composite magnifier allows to aggregate handlers for each kind.
+    /// </summary>
     public class CompositeMagnifier: IMagnifierHandler
     {
         
         private IDictionary<string, IMagnifierHandler> _handlerList = new Dictionary<string, IMagnifierHandler>();
         /// <summary>
-        /// Handle assist 
+        /// Add a handler and its name.
         /// </summary>
         /// <param name="paramDictionary">Dictionary.</param>
         public void AddHandler(string name, IMagnifierHandler ev)
@@ -27,6 +30,12 @@ namespace KarveCommon.Generic
 
         public void HandleAssist(string assistQuery, string tableName)
         {
+            if (_handlerList.ContainsKey(tableName))
+            {
+                IMagnifierHandler magnifier = _handlerList[tableName];
+                magnifier.HandleAssist(assistQuery, tableName);
+
+            }
         }
     }
 }

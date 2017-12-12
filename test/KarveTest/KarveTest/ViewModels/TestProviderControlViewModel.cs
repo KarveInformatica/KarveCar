@@ -90,7 +90,7 @@ namespace KarveTest.ViewModels
             _supplierMock.Setup(c => c.GetSupplierAsyncSummaryDo()).ReturnsAsync(summary);
             _dataServices.Setup(ds => ds.GetSupplierDataServices()).Returns(_supplierMock.Object);
             _providersControlViewModel.StartAndNotify();
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> collection = _providersControlViewModel.SummaryCollection;
+            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryCollection;
             Assert.GreaterOrEqual(collection.Distinct().Count(),1);
         }
 

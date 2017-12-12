@@ -244,13 +244,8 @@
       <DependentUpon>DataFieldItemsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataFieldItemsControl\KarveExt.cs" />
-    <Compile Include="DataField\DataField.xaml.cs">
-      <DependentUpon>DataField.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DataField\DataField.cs" />
     <Compile Include="DataField\DataFieldEventArgs.cs" />
-    <Compile Include="DualDatePicker\DualDatePicker.xaml.cs">
-      <DependentUpon>DualDatePicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
@@ -295,6 +290,8 @@
     <Compile Include="KarveGrid\Column\Types\DefaultColors.cs" />
     <Compile Include="KarveGrid\Column\Types\MDataBaseExtension.cs" />
     <Compile Include="KarveGrid\Events\ChangeFilterEvent.cs" />
+    <Compile Include="KarveGrid\Events\GridRowModifiedCellEventArgs.cs" />
+    <Compile Include="KarveGrid\Events\GridViewSelectedCellsChangedEventArgs.cs" />
     <Compile Include="KarveGrid\Events\PageChangingEventArgs.cs" />
     <Compile Include="KarveGrid\Events\QueryDataTableEventArgs.cs" />
     <Compile Include="KarveGrid\Events\UpdateQueryEventArgs.cs" />
@@ -308,11 +305,9 @@
     <Compile Include="KarveGrid\GridFilters\TextFilter.cs" />
     <Compile Include="KarveGrid\GridOrder\DataGridOrderedColumn.cs" />
     <Compile Include="KarveGrid\GridOrder\DataGridOrderedColumns.cs" />
-    <Compile Include="KarveGrid\Events\GridRowModifiedCellEventArgs.cs" />
     <Compile Include="KarveGrid\GridTable\DataGridTable.cs" />
     <Compile Include="KarveGrid\GridTable\DataGridTables.cs" />
     <Compile Include="KarveGrid\GridTraduccion\MyTraducRadGrid.cs" />
-    <Compile Include="KarveGrid\Events\GridViewSelectedCellsChangedEventArgs.cs" />
     <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
     <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
     <Compile Include="KarveGrid\KarveGridView.cs" />
@@ -323,9 +318,6 @@
     <Compile Include="KarveGrid\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="KarveGrid\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="KarveGrid\obj\Debug\UserControl1.g.i.cs" />
-    <Compile Include="KarveGrid\Properties\AssemblyInfo.cs" />
-    <Compile Include="KarveGrid\Properties\Resources.Designer.cs" />
-    <Compile Include="KarveGrid\Properties\Settings.Designer.cs" />
     <Compile Include="KarveGrid\QueryColumnsName.cs" />
     <Compile Include="KarveTripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
@@ -336,6 +328,7 @@
     <Compile Include="PhotoFrame\PhotoFrame.xaml.cs">
       <DependentUpon>PhotoFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Template\TemplateSelector.cs" />
     <Compile Include="UIObjects\IUiPageBuilder.cs" />
     <Compile Include="UIObjects\SQLBuilder.cs" />
@@ -375,14 +368,6 @@
     <Page Include="DataFieldItemsControl\DataFieldItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="DataField\DataField.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DualDatePicker\DualDatePicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>
@@ -434,15 +419,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <EmbeddedResource Include="KarveGrid\obj\Debug\KarveGrid.Properties.Resources.resources" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\search.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Content Include="KarveCommon.csproj" />
-    <Content Include="MapControl\MapControl.csproj" />
-    <Content Include="PhotoFrame\PhotoControl.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveGrid\KarveGrid.csproj" />
     <Resource Include="KarveGrid\obj\Debug\KarveGrid.csproj.FileListAbsolute.txt" />
@@ -450,6 +437,8 @@
     <Content Include="KarveGrid\obj\Debug\KarveGrid.pdb" />
     <Content Include="KarveGrid\obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
     <Resource Include="KarveGrid\Themes\Generic.xml" />
+    <Content Include="MapControl\MapControl.csproj" />
+    <Content Include="PhotoFrame\PhotoControl.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -457,21 +446,20 @@
     <None Include="KarveGrid\obj\Debug\CoreCompileInputs.cache" />
     <None Include="KarveGrid\obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
     <None Include="KarveGrid\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="KarveGrid\obj\Debug\KarveGrid.csproj.CoreCompileInputs.cache" />
     <None Include="KarveGrid\obj\Debug\KarveGrid.csproj.GenerateResource.Cache" />
     <None Include="KarveGrid\obj\Debug\KarveGrid.csprojResolveAssemblyReference.cache" />
-    <None Include="KarveGrid\Properties\Settings.settings" />
     <None Include="packages.config" />
     <None Include="PhotoFrame\.vs\PhotoFrameSample\v15\.suo" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="KarveGrid\obj\Debug\KarveGrid.Properties.Resources.resources" />
-    <EmbeddedResource Include="KarveGrid\Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KarveGrid\bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

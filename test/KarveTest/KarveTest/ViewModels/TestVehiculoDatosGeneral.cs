@@ -9,6 +9,7 @@ using KarveDataServices.DataObjects;
 using Moq;
 using NUnit.Framework;
 using MasterModule.ViewModels;
+using Prism.Regions;
 
 namespace KarveTest.ViewModels
 {
@@ -18,6 +19,7 @@ namespace KarveTest.ViewModels
         private Mock<IConfigurationService> _mockConfigurationService = new Mock<IConfigurationService>();
         private Mock<IDataServices> _mockDataServices = new Mock<IDataServices>();
         private Mock<IEventManager> _mockEventManager = new Mock<IEventManager>();
+        private Mock<IRegionManager> _mockRegionManager = new Mock<IRegionManager>();
 
         [OneTimeSetUp]
         public void SetUp()
@@ -32,7 +34,7 @@ namespace KarveTest.ViewModels
         public void Should_Point_Not_Correct_Subsystem()
         {
             VehicleInfoViewModel vehicleInfoView = new VehicleInfoViewModel(_mockConfigurationService.Object,
-                _mockEventManager.Object, _mockDataServices.Object);
+                _mockEventManager.Object, _mockDataServices.Object, _mockRegionManager.Object);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.PayloadType = DataPayLoad.Type.Show;
@@ -47,7 +49,7 @@ namespace KarveTest.ViewModels
         public void Should_Discard_Invalid_Payload()
         {
             VehicleInfoViewModel vehicleInfoView = new VehicleInfoViewModel(_mockConfigurationService.Object,
-                _mockEventManager.Object, _mockDataServices.Object);
+                _mockEventManager.Object, _mockDataServices.Object, _mockRegionManager.Object);
             DataPayLoad payLoad = null;
             vehicleInfoView.IncomingPayload(payLoad);
             Assert.Null(payLoad);
@@ -58,7 +60,7 @@ namespace KarveTest.ViewModels
         public void Shall_ShowCorrectly_TheVehicle()
         {
             VehicleInfoViewModel vehicleInfoView = new VehicleInfoViewModel(_mockConfigurationService.Object,
-                _mockEventManager.Object, _mockDataServices.Object);
+                _mockEventManager.Object, _mockDataServices.Object, _mockRegionManager.Object);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;

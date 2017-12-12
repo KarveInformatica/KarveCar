@@ -9,12 +9,13 @@
              xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
-             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="SupplierControl">
 
     <UserControl.Resources>
+        
      </UserControl.Resources>
 
 <!--
@@ -23,7 +24,21 @@
 
 
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ObjectDataProvider x:Key="FilterMode"
+                                    MethodName="GetValues"
+                                    ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="Syncfusion:FilterMode" />
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
 
+                <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
+                    <Setter Property="FilterMode" Value="Both" />
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
@@ -55,30 +70,35 @@
             </Syncfusion:SfDataGrid.Resources>
             <Syncfusion:SfDataGrid.Columns>
                 <Syncfusion:GridTextColumn HeaderText="Numero" 
-                                           MappingName="Numero" 
+                                           MappingName="Codigo" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
 
-                <Syncfusion:GridTemplateColumn HeaderText="Matricula" MappingName="Matricula"
+                <Syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="Nombre"
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock FontStyle="Italic"
                                        FontWeight="SemiBold"
                                        Padding="2,0"
-                                       Text="{Binding Matricula}" />
+                                       Text="{Binding Nombre}" />
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
 
                 </Syncfusion:GridTemplateColumn>
 
-                <Syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="NIF" MappingName="NIF" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Proveedor" MappingName="Proveedor" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Comercial" MappingName="Comercial" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Telefono" MappingName="Telefono" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Direccion" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="CP" MappingName="CP" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Poblacion" MappingName="POBLACION" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="AEAT" MappingName="F_AEAT" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="Contable" MappingName="Contable" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
             </Syncfusion:SfDataGrid.Columns>
 
         </Syncfusion:SfDataGrid>

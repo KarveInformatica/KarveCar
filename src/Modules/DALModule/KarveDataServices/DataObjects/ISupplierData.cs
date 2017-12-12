@@ -92,7 +92,6 @@ namespace KarveDataServices.DataObjects
         IEnumerable<VisitsDto> VisitsDtos { get; set; }
         IEnumerable<LanguageDto> LanguageDtos { get; set; }
         IEnumerable<CurrencyDto> CurrencyDtos { get; set; }
-
-
+        IEnumerable<OfficeDtos> OfficeDtos { get; set; }
     }
 }

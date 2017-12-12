@@ -63,7 +63,7 @@ namespace KarveTest.DAL
                 regionManager.Object,
                 eventManager.Object);
             providersControlViewModel.StartAndNotify();
-            IEnumerable<KarveDataServices.DataTransferObject.SupplierSummaryDto> collection = providersControlViewModel.SummaryCollection;
+            IEnumerable<SupplierSummaryDto> collection = providersControlViewModel.SummaryCollection;
             Assert.GreaterOrEqual(collection.Distinct().Count(), 1);
         }
         [Test]

@@ -65,12 +65,17 @@
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz">
       <HintPath>..\..\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid, Version=4.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\ExtendedGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -159,7 +164,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -203,6 +208,7 @@
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\RegionManagerBehavior.cs" />
+    <Compile Include="Common\UpperBarViewModelBase.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentUpperPartBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionMiddlePageBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiDfSearch.cs" />
@@ -228,6 +234,7 @@
     <Compile Include="ViewModels\UiCommissionAgentLeftPartBuilder.cs" />
     <Compile Include="ViewModels\UiCommissionAgentRightPartBuilder.cs" />
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
+    <Compile Include="ViewModels\UpperBarViewSupplierViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />
     <Compile Include="ViewModels\VehicleInfoViewModelUi.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
@@ -237,6 +244,9 @@
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpperBarViewSupplier.xaml.cs">
+      <DependentUpon>UpperBarViewSupplier.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Vehicles\ColdPlatform.xaml.cs">
       <DependentUpon>ColdPlatform.xaml</DependentUpon>
@@ -334,7 +344,6 @@
     <Compile Include="Views\Vehicles\VehicleSell.xaml.cs">
       <DependentUpon>VehicleSell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Vehicles\VehiExt.cs" />
     <Page Include="Generic\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,6 +361,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CompaniesControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpperBarViewSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -591,6 +604,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\copycool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KarveDataServices\DataTransferObject\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

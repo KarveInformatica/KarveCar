@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
-             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:column="clr-namespace:KarveControls.KarveGrid.Column"
+             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -34,6 +33,7 @@
                            
 
                         </karveGrid:KarveGridView>
+                        
                         <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>
                     </Grid>
                 </Popup>
