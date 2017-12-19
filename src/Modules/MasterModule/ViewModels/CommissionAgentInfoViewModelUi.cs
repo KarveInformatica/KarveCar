@@ -15,7 +15,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// CommissionAgentInfoViewModel
     /// </summary>
-    public partial class CommissionAgentInfoViewModel : MasterViewModuleBase, IEventObserver
+    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
 
         private ObservableCollection<UiDfSearch> _leftSideDualDfSearchBoxes = new ObservableCollection<UiDfSearch>()

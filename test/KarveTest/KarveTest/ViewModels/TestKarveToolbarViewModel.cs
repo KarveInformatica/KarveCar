@@ -16,13 +16,6 @@ using ToolBarModule;
 
 namespace KarveTest.ViewModels
 {
-    /*
-     *       public KarveToolBarViewModel(IDataServices dataServices,
-                                 IEventManager eventManager,
-                                 ICareKeeperService careKeeper,
-                                 IRegionManager regionManager,
-                                 IConfigurationService configurationService)
-     */
     public class TestKarveToolbarViewModel
     {
         private Mock<IEventManager> _eventManager = new Mock<IEventManager>();

@@ -1,18 +1,10 @@
-﻿using System;
-using KarveCommon.Services;
+﻿using KarveCommon.Services;
 using KarveDataServices;
-using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
-using KarveControls.UIObjects;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using AutoMapper;
 using DataAccessLayer.Assist;
@@ -23,16 +15,14 @@ using KarveDataServices.Assist;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
-using MasterModule.UIObjects.Suppliers;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
-using Syncfusion.Windows.Shared;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
     /// </summary>
-    public class ProviderInfoViewModel : MasterViewModuleBase, IEventObserver
+    public class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
         private bool _isInsertion;
         private string _header;
@@ -49,7 +39,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<OfficeDtos> _officeDtos;
         private IEnumerable<CountryDto> _countryDtos;
         private IEnumerable<CompanyDto> _companyDto;
-        private PropertyChangedEventHandler _deleteEventHandler;
+       
         public ICommand ItemChangedCommand { set; get; }
         public ICommand ClickSearchWebAddressCommand { set; get; }
         private IMapper mapper;
@@ -196,8 +186,15 @@ namespace MasterModule.ViewModels
                 return _header;
             }
         }
+        /// <summary>
+        /// ProviderInfoViewModel. 
+        /// </summary>
+        /// <param name="eventManager"></param>
+        /// <param name="configurationService"></param>
+        /// <param name="dataServices"></param>
+        /// <param name="manager"></param>
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
-            IDataServices dataServices) : base(configurationService, eventManager, dataServices)
+            IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
         {
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
@@ -209,21 +206,24 @@ namespace MasterModule.ViewModels
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(OnChangedField);
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
             AccountAssistQuery = _accountAssistQuery;
-            _deleteEventHandler += DeleteEventHandler;
+            //_deleteEventHandler += DeleteEventHandler;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, this);
             // TODO: all the mapping shall be isolated.
             mapper = MapperField.GetMapper();
         }
-
+        /*
         private void DeleteEventHandler(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
             payLoad.PrimaryKeyValue = PrimaryKeyValue;
             payLoad.PayloadType = DataPayLoad.Type.Delete;
             EventManager.NotifyToolBar(payLoad);
             PrimaryKeyValue = "";
         }
+        */
+       
 
         // This register the different assist types.
 
@@ -371,8 +371,13 @@ namespace MasterModule.ViewModels
                 if (payLoad.HasDataObject)
                 {
                     _supplierData = (ISupplierData)payLoad.DataObject;
-                    DataObject = _supplierData;
+                    if (!string.IsNullOrEmpty(PrimaryKeyValue))
+                    {
+                        _supplierData.Value.NUM_PROVEE = this.PrimaryKeyValue;
+                    }
+                  DataObject = _supplierData;
                     payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+                    payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
                     EventManager.SendMessage(UpperBarViewSupplierViewModel.Name, payLoad);
                     RegisterToolBar();
                 }
@@ -631,6 +636,8 @@ namespace MasterModule.ViewModels
         {
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
+
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
@@ -833,11 +840,13 @@ namespace MasterModule.ViewModels
         {
             if (payload.HasDataObject)
             {
+                DataObject = null;
                 _supplierData = (ISupplierData)payload.DataObject;
                 DataObject = _supplierData;
                 ProvinceDto = _supplierData.ProvinciaDtos;
                 PaymentFormDto = _supplierData.PaymentDtos;
                 OfficeDtos = _supplierData.OfficeDtos;
+          
                 EventManager.SendMessage(UpperBarViewSupplierViewModel.Name, payload);
                 ActiveSubSystem();
             }
@@ -864,6 +873,7 @@ namespace MasterModule.ViewModels
                         {
                             if (payload.HasDataObject)
                             {
+                                DataObject = null;
                                 DataObject = payload.DataObject;
                             }
                             break;
@@ -877,64 +887,40 @@ namespace MasterModule.ViewModels
                         }
                     case DataPayLoad.Type.Insert:
                         {
+
+                            CurrentOperationalState = DataPayLoad.Type.Insert;
                             if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
-                                CurrentOperationalState = DataPayLoad.Type.Insert;
                                 PrimaryKeyValue =
                                     DataServices.GetSupplierDataServices().GetNewId();
-                                Init(PrimaryKeyValue, true);
+                              
                             }
+                            Init(PrimaryKeyValue, payload, true);
                             break;
                         }
                     case DataPayLoad.Type.Delete:
                         {
-                            DeleteItem(payload.PrimaryKeyValue);
+                            if (payload.PrimaryKeyValue == PrimaryKeyValue)
+                            {
+                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.SupplierSubsystem, MasterModuleConstants.ProviderSubsystemName);
+                               // DeleteRegion(payload.PrimaryKeyValue);
+                                PrimaryKeyValue = "";
+                            }
                             break;
                         }
                 }
             }
 
         }
-
-        private void DeleteItem(string primaryKeyValue)
-        {
-            string primaryKey = primaryKeyValue;
-            if (primaryKey == PrimaryKeyValue)
-            {
-                _deleteInitializationTable = NotifyTaskCompletion.Create<bool>(DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(_supplierData),
-                    _deleteEventHandler);
-
-            }
-        }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
         }
-        public override void StartAndNotify()
-        {
-            IsVisible = Visibility.Visible;
-            // _initializationTable = NotifyTaskCompletion.Create<IList<DataSet>>(LoadDataValue(_primaryKeyValue, _isInsertion), InitializationTableOnPropertyChanged);
-            //  _initializationTable.PropertyChanged += InitializationTableOnPropertyChanged;
-        }
-        public override void NewItem()
-        {
-            //   throw new NotImplementedException();
-        }
-
-
-        protected override void SetTable(DataTable table)
-        {
-            // throw new NotImplementedException();
-        }
-
-
-
         protected override string GetRouteName(string name)
         {
             return "ProviderModule:" + name;
         }
-
         protected override void SetDataObject(object result)
         {
             _supplierData = (ISupplierData)result;

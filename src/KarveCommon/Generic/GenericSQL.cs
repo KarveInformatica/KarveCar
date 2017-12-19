@@ -29,6 +29,12 @@ namespace KarveCommon.Generic
             "PROVEE1.MESVACA as MesVacaciones, PROVEE1.MESVACA2 as MesVacaciones2, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
             "PROVEE2 WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE";
 
+        public const string ClientsQuery = "SELECT CLIENTES1.NUMERO_CLI as Numero, NOMBRE as Nombre, NIF, DIRECCION as Direccion, " +
+                                           "POBLACION as POBLACION, PROVINCIA.PROV as Provincia, PAIS.PAIS as Pais, " +
+                                           "TELEFONO, FAX, MOVIL, ALTA as FechaAlta FROM CLIENTES1 INNER JOIN CLIENTES2 " +
+                                           "ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI LEFT OUTER JOIN PROVINCIA " +
+                                           "ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA LEFT OUTER JOIN PAIS ON PAIS.SIGLAS = NACIOPER";
+                                           
         public const string DelegationQuery = "SELECT cldIdDelega, cldDelegacion,  " +
             "cldDireccion1, " +
             "cldDireccion2, " +
@@ -58,7 +64,7 @@ namespace KarveCommon.Generic
 
         public const string ClientsSummaryQuery = "select NUMERO_CLI as Codigo, " +
                                                    "NOMBRE as Nombre, " +
-                                                   "NIF as Nif," +
+                                                   "NIF as Nif," + 
                                                    "DIRECCION as Direccion, " +
                                                    "POBLACION as Poblacion, " +
                                                    "PROVINCIA.PROV as Provincia, " +

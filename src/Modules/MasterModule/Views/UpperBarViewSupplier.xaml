@@ -22,7 +22,8 @@
         <GroupBox Header="Dato Generales">
             <StackPanel Name="ContextLayout" Orientation="Horizontal">
 
-                <karveControls:DataField x:Name="NumeroSupplier" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
+                <karveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
+                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
                             <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 

@@ -18,17 +18,28 @@ using MasterModule.Interfaces;
 using MasterModule.Views;
 using Prism.Regions;
 using KarveDataServices.DataTransferObject;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
-    /// This is the view model for suppliers.
+    /// This is the control view model for the suppliers.
+    /// It shows the summary of the suppliers that are present in the system and on a click from the view fires a info view model.
+    /// In the current system there are two type of view model:
+    /// 1. ControlViewModels. This kind of view model is responsible for: 
+    /// a. fire up all the tabs needed foreach item.
+    /// b. delete  
+    ///     It exposes a summary data trasnsfer object 
+    /// 
+    /// 2. InfoViewModels. This kind of view model is responsible for show the value of each specific item.
     /// </summary>
     public class ProvidersControlViewModel : MasterViewModuleBase, IProvidersViewModel
     {
         private const string ProviderNameColumn = "Nombre";
         private const string ProviderColumnCode = "Codigo";
         private const string ProviderModuleRoutePrefix = "ProviderModule:";
+        private const int GridIdentifier = 1; 
         /// <summary>
         ///  Type of payment data services.
         /// </summary>
@@ -40,13 +51,15 @@ namespace MasterModule.ViewModels
         private Stopwatch _timing = new Stopwatch();
         private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
 
+        private ISettingsDataService _settings;
+
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
 
         public ProvidersControlViewModel(IConfigurationService configurationService,
             IUnityContainer container,
             IDataServices services,
             IRegionManager regionManager,
-            IEventManager eventManager) : base(configurationService, eventManager, services)
+            IEventManager eventManager) : base(configurationService, eventManager, services, regionManager)
         {
             _container = container;
             _regionManager = regionManager;
@@ -67,6 +80,8 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
+            MagnifierGridName = PROVIDER_SUMMARY_VM;
+            GridId = 1;
             StartAndNotify();
         }
         /// <summary>
@@ -82,19 +97,34 @@ namespace MasterModule.ViewModels
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
+            LoadMagnifierSettings();
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
         }
+        /// <summary>
+        ///  This returns a long value.
+        /// </summary>
+        public override long GridId { get; set; }
+        /// <summary>
+        ///  This returns a grid name.
+        /// </summary>
+        public override string MagnifierGridName { get; set; }
 
         protected override void SetDataObject(object result)
         {
-           /// throw new System.NotImplementedException();
+            // we dont use here any data object.
         }
 
+        public void LoadMagnifierSettings()
+        {
+            _settings = DataServices.GetSettingsDataService();
+             MagnifierInitializationNotifier =
+                NotifyTaskCompletion.Create<IMagnifierSettings>(_settings.GetMagnifierSettings(GridId),InitializationNotifierOnSettingsChanged);
 
+        }
         /// <summary>
         ///  Return the selected columns summary view for the suppliers. It might be paged.
         /// </summary>
@@ -125,21 +155,20 @@ namespace MasterModule.ViewModels
         public override void NewItem()
         {
             string name = Properties.Resources.ProvidersControlViewModel_OpenNewItem_NewSupplier;
-            string codigo = "";
-
-            // move this to the configuration service.
-            ISupplierInfoView view = _container.Resolve<ISupplierInfoView>();
-            // TODO: use the navigation service.
-            ConfigurationService.AddMainTab(view, name);
-            IList<DataSet> dataSet = new List<DataSet>();
-            dataSet.Add(new DataSet());
-            dataSet.Add(new DataSet());
-            DataPayLoad currentPayload = BuildShowPayLoad(name, dataSet);
-            currentPayload.SubsystemViewModel = "ProvidersControlViewModel";
+            string codigo = DataServices.GetSupplierDataServices().GetNewId();
+            ProviderInfoView view = _container.Resolve<ProviderInfoView>();
+            string viewNameValue = name + "." + codigo;
+            // here shall be added to the region.
+            ConfigurationService.AddMainTab(view, viewNameValue);
+            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
+            currentPayload.DataObject = DataServices.GetSupplierDataServices().GetNewSupplierDo(codigo);
+            currentPayload.HasDataObject = true;
+            currentPayload.Sender = EventSubsystem.SuppliersSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
+
         }
         private async void OpenCurrentItem(object currentItem)
         {
@@ -169,12 +198,25 @@ namespace MasterModule.ViewModels
             EventManager.RegisterMailBox(ProvidersControlViewModel.PROVIDER_SUMMARY_VM, MessageHandlerMailBox);
             ISupplierDataServices supplier = DataServices.GetSupplierDataServices();
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary(), InitializationNotifierOnPropertyChanged);
+          
         }
 
+       
+
+        public override async Task<bool> DeleteAsync(string supplierId, DataPayLoad payLoad)
+        {
+            ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
+            bool retValue = await DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(provider);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, payLoad);
+                      return retValue;
+        }
+       
+        
+        
         /// <summary>
         ///  Command to be triggeed from the control to support paging
         /// </summary>
         public ICommand PageChangedCommand { set; get; }
-        
+       
     }
 }

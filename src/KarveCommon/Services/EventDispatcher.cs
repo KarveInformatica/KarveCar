@@ -28,10 +28,21 @@ namespace KarveCommon.Services
         /// <param name="payLoad">Message to be sent directly to the view model</param>
         public void SendMessage(string viewModuleId, DataPayLoad payLoad)
         {
+         
             if (_mailBox.ContainsKey(viewModuleId))
             {
                 MailBoxMessageHandler messageHandler = _mailBox[viewModuleId];
                 messageHandler?.Invoke(payLoad);
+            }
+            else
+            {
+                // second chance
+                string primaryKeyValue = viewModuleId + "." + payLoad.PrimaryKeyValue;
+                if (_mailBox.ContainsKey(primaryKeyValue))
+                {
+                    MailBoxMessageHandler messageHandler = _mailBox[primaryKeyValue];
+                    messageHandler?.Invoke(payLoad);
+                }
             }
         }
         private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)

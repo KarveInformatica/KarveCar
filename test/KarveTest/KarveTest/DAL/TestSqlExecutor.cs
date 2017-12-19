@@ -36,6 +36,7 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
+        
 
         [Test]
         public void Should_Open_Working_WithIn_Transaction_Scope_Working()

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveCommon.Services;
 
 namespace MasterModule.ViewModels
 {
@@ -221,6 +222,7 @@ namespace MasterModule.ViewModels
 
             //    StringConstants = _stringConstants;
         }
+
         // fields for the expiration control.
         private ObservableCollection<UiComposedObject> expirationAssurance =
             new ObservableCollection<UiComposedObject>()

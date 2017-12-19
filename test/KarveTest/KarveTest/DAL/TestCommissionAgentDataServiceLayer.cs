@@ -46,7 +46,7 @@ namespace KarveTest.DAL
             try
             {
                 _sqlExecutor = SetupSqlQueryExecutor();
-                _dataServices = new DataServiceImplementation(_sqlExecutor, _serviceConf);
+                _dataServices = new DataServiceImplementation(_sqlExecutor);
                 _commissionAgentDataServices = _dataServices.GetCommissionAgentDataServices();
                 Assert.NotNull(_commissionAgentDataServices);
             }

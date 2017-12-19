@@ -5,6 +5,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.Windows;
+using NLog;
 
 namespace ToolBarModule
 {
@@ -13,6 +14,7 @@ namespace ToolBarModule
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
         public static string NAME = "ToolBarModule";
+
         public ToolBarModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;

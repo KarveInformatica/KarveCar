@@ -102,6 +102,12 @@
     <Compile Include="Services\IEventManager.cs" />
     <Compile Include="Services\IEventObserver.cs" />
     <Compile Include="Services\IUserAccessControlList.cs" />
+    <Compile Include="Services\IUserSettings.cs" />
+    <Compile Include="Services\IUserSettingsLoader.cs" />
+    <Compile Include="Services\IUserSettingsSaver.cs" />
+    <Compile Include="Services\UserSettings.cs" />
+    <Compile Include="Services\UserSettingsLoader.cs" />
+    <Compile Include="Services\UserSettingsSaver.cs" />
     <Compile Include="Validation\CountryCodeValidationRule.cs" />
     <Compile Include="Validation\EmailValidationRule.cs" />
     <Compile Include="Converter\SqlInjectionCodigoConverter.cs" />

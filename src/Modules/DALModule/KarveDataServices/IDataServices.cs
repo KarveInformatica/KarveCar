@@ -21,6 +21,8 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Supplier data service subsystem</returns>
         ISupplierDataServices GetSupplierDataServices();
+        ISettingsDataService GetSettingsDataService();
+
         /// <summary>
         /// Returns the Helper data services. Helper data services all other services that might be used as helper 
         /// </summary>

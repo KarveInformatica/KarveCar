@@ -9,7 +9,7 @@ using Prism.Mvvm;
 namespace MasterModule.Common
 {
 
-    public class UpperBarViewModelBase: BindableBase
+    public abstract class UpperBarViewModelBase: BindableBase
     {
         private object _sourceView= new object();
         private object _dataObject = new object();
@@ -18,7 +18,7 @@ namespace MasterModule.Common
         protected DataSubSystem _subsystem;
         protected const string AssistQuery = "AssistQuery";
         protected MailBoxMessageHandler MailBoxHandler;
-
+        protected string PrimaryKeyValue = "";
 
         protected enum UpperBarViewModelState
         {
@@ -57,23 +57,23 @@ namespace MasterModule.Common
             object dataObject = data;
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.DataObject = currentObject;
-            DataObject = currentObject;
+
+
+            UpdateDataObject(currentObject);
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.HasDataObject = true;
+            // it is important for following updates.
+            payLoad.PrimaryKeyValue = PrimaryKeyValue;
+            // both are very important for the event manager.
             payLoad.Subsystem = _subsystem;
+            payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
             // send message to the main view model to any item.
             EventManager.NotifyToolBar(payLoad);
         }
-    
-        /// <summary>
-        ///  Data Object
-        /// </summary>
-        public object DataObject
-        {
-            set { _dataObject = value
-                    ; RaisePropertyChanged(); }
-            get { return _dataObject; }
-        }
+
+        protected abstract void UpdateDataObject(object currentObject);
+        
+
 
         /// <summary>
         ///  Changed item

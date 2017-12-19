@@ -14,7 +14,7 @@ namespace MasterModule.Common
 {
 
         public class MaintenanceValidationBehavior : Behavior<SfDataGrid>
-        {
+    {
 
             private MaintainanceDto lastChangedObject = null;
 

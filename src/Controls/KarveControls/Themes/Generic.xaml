@@ -4,6 +4,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:local="clr-namespace:KarveControls"
+  xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
   mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
@@ -19,77 +20,218 @@
   </LinearGradientBrush>
   <SolidColorBrush x:Key="DataField_LabelTextColor" Color="Gray" />
 
-  <Style TargetType="{x:Type local:DataField}">
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type local:DataField}">
-          <Grid x:Name="ControlLayout">
-            <Border x:Name="Border"
+    <Style TargetType="ListBoxItem"
+           x:Key="SuggestionItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="ContentBorder"
+                            Background="White">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    TargetName="ContentBorder"
+                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                            <Setter Property="IsSelected"
+                                    Value="True" />
+                        </Trigger>
+                        <Trigger Property="IsSelected"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    TargetName="ContentBorder"
+                                    Value="{x:Static SystemColors.HighlightBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}"
+           x:Key="TransparentTextBoxStyle">
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Background="Transparent"
+                                      Focusable="True"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:DataField}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DataField}">
+                    <Grid x:Name="ControlLayout">
+                        <Border x:Name="Border"
                     Padding="2"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
-              <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
-                <ScrollViewer x:Name="PART_ContentHost"/>
-                <TextBlock x:Name="PART_LabelField"
+                            <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                <TextBlock x:Name="PART_LabelField"
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=LabelTextWidth}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
                            Padding="2,0,0,0"
                            FontStyle="Italic" />
-                <Border x:Name="PART_DataFieldBorder"
+                                <Border x:Name="PART_DataFieldBorder"
                         BorderThickness="1"
                         Padding="1"
                         VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        
-                >
-                  <TextBox x:Name="PART_TextField"
+                        HorizontalAlignment="Stretch">
+                                    <TextBox x:Name="PART_TextField"
                             
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=TextContentWidth}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContent, Mode=TwoWay}"
                            IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsReadOnly}">
-                  </TextBox>
-                </Border>
-              </StackPanel>
+                                    </TextBox>
+                                </Border>
+                            </StackPanel>
 
-            </Border>
-          </Grid>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-    <!--
-<Style TargetType="{x:Type local:DualFieldSearchBox}">
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type local:DualFieldSearchBox}">
-    <Grid>
-        <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
-            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="10,0,0,0"></TextBlock>
-            <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
-            
-            <StackPanel>
-                <Button Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
-                    <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
-                </Button>
-                <Popup Name="Popup">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>
+                        </Border>
                     </Grid>
-                </Popup>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
-        </ControlTemplate>
+                </ControlTemplate>
             </Setter.Value>
-</Setter>
-</Style>
-    -->
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type local:AutoCompleteSearchBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AutoCompleteSearchBox}">
+                    <Grid x:Name="ControlLayout">
+                        <Border x:Name="Border"
+                                Padding="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel Orientation="Horizontal">
+                               
+                                <TextBlock x:Name="PART_SearchLabel" Text="{Binding Path=Label, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" Width="50" Margin="10,0,0,0"></TextBlock>
+                                <Syncfusion:SfTextBoxExt
+                                    x:Name="PART_SearchTextFirst"
+                                    Text="{Binding Path=TextContentFirst, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" 
+                                    SearchItemPath="{Binding Path=SearchPathFirst}"
+                                    AutoCompleteMode="SuggestAppend"
+                                    AutoCompleteSource="{Binding SourceView}" 
+                                />
+                                <Syncfusion:SfTextBoxExt
+                                    x:Name="PART_SearchTextSecond"
+                                    Text="{Binding Path=TextContentSecond, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" 
+                                    SearchItemPath="{Binding Path=SearchPathFirst}"
+                                    AutoCompleteMode="SuggestAppend"
+                                    AutoCompleteSource="{Binding Path=SourceView, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}" 
+                                />
+                                <StackPanel>
+                                    <Button x:Name="PART_PopUpButton" HorizontalAlignment="Left" Background="Lavender">
+                                        <Image x:Name="PART_PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
+                                    </Button>
+                                    <Popup x:Name="PART_Popup_Magnifier">
+                                        <Grid>
+                                            <DockPanel>
+                                                <Syncfusion:SfDataGrid DockPanel.Dock="Top" x:Name="PART_MagnifierGrid"
+                                                                   AllowFiltering="True"
+                                                                   AutoGenerateColumns="True"
+                                                                   ColumnSizer="Star"
+                                                                   ItemsSource="{Binding SourceView}"
+                                                                   NavigationMode="Row">
+                                                </Syncfusion:SfDataGrid>
+                                                <Button x:Name="PART_ButtonName" DockPanel.Dock="Bottom" Margin="10">Close</Button>
+                                            </DockPanel>
+                                        </Grid>
+                                    </Popup>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
+                  			<!--
+			
+                        <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
+                            <TextBlock x:Name="SearchLabel" Text="{Binding Path=LabelText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="10,0,0,0"></TextBlock>
+                            <TextBox x:Name="SearchTextFirst" Text="{Binding Path=TextContentFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <TextBox x:Name="SearchTextSecond" Text="{Binding Path=TextContentSecond, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Path=IsReadOnly}"></TextBox>
+
+                            <StackPanel>
+                                <Button Name="PopUpButton" Click="PopUpButton_OnClick" HorizontalAlignment="Left" Background="Lavender">
+                                    <Image Name="PopUpButtonImage" Source="{Binding Path=ButtonImage, PresentationTraceSources.TraceLevel=High}" Height="18"/>
+                                </Button>
+                                <Popup Name="Popup">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Syncfusion:SfDataGrid x:Name="GridButton"
+                                                         AllowFiltering="True"
+                                                         AutoGenerateColumns="True"
+                                                         ColumnSizer="Star"
+                                                         ItemsSource="{Binding SourceView}"
+                                                         NavigationMode="Row">
+                                        </Syncfusion:SfDataGrid>
+                                        <Button Grid.Row="1" Margin="10" Click="ButtonBase_OnClick">Close</Button>
+                                    </Grid>
+                                </Popup>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    -->
+<!--
+    <Style TargetType="{x:Type local:DualFieldSearchBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DualFieldSearchBox}">
+                    <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                            </Grid.Resources>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel Orientation="Horizontal" x:Name="LayoutRoot">
+                                <TextBlock x:Name="PART_LabelField" Text="{Binding Path=LabelText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="10,0,0,0"></TextBlock>
+                                <TextBox x:Name="PART_TextField_Code" Text="{Binding Path=TextContentFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                <TextBox x:Name="PART_TextField_Value" Text="{Binding Path=TextContentSecond, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding Path=IsReadOnly}" Margin="0,0,0,10"></TextBox>
+                                <StackPanel x:Name="PART_ButtonImage">
+                                    <Button x:Name="PART_Button" HorizontalAlignment="Left" Background="Lavender">
+                                     <Image x:Name="PART_Image" Source="{Binding Path=ButtonImage}" Height="18"/>
+                                </Button>
+                            </StackPanel>
+                            </StackPanel>
+                        </Border>
+                            </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    -->
+    

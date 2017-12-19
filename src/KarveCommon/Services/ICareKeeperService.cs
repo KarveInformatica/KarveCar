@@ -11,5 +11,6 @@ namespace KarveCommon.Services
         void Undo();
         void Schedule(DataPayLoad payload);
         DataPayLoad.Type GetScheduledPayloadType();
+        DataPayLoad GetScheduledPayload();
     }
 }

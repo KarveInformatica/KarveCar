@@ -14,10 +14,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
 using KarveControls.KarveGrid.Events;
+using Syncfusion.UI.Xaml.Grid;
 //using KarveControls.KarveGrid.Events;
 using Telerik.WinControls.UI;
 using DataRow = System.Data.DataRow;
 using static KarveControls.DataField;
+using DataColumn = System.Data.DataColumn;
 
 namespace KarveControls
 {
@@ -29,6 +31,7 @@ namespace KarveControls
     {
 
 
+        // private SfDataGrid MagnifierGrid = new SfDataGrid();
         // most of the shared ones shall be moved as attached properties 
 
         /// <summary>
@@ -618,6 +621,34 @@ namespace KarveControls
             }
         }
 
+        private string CheckTheValueInSourceView(string value)
+        {
+            var source = SourceView as IEnumerable;
+            if (source != null)
+            {
+
+
+                foreach (var assistValue in source)
+                {
+                    var firstValue = ComponentUtils.GetPropValue(assistValue, _codeFirst);
+                    var secondValue = ComponentUtils.GetPropValue(assistValue, _codeSecond);
+                    if ((firstValue != null) && (secondValue != null))
+                    {
+                        if ((!string.IsNullOrEmpty(firstValue.ToString())) 
+                            && (!string.IsNullOrEmpty(secondValue.ToString())))
+                        {
+
+                            if (firstValue.ToString() == value)
+                            {
+                                return secondValue.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
         private void HandleTableSourceView(object dataSource, object sourceView)
         {
             Type type = dataSource.GetType();
@@ -678,15 +709,15 @@ namespace KarveControls
 
             {
 
-                string codeFirst = AssistDataFieldFirst;
-                string codeSecond = "";
-                if (!string.IsNullOrEmpty(codeFirst))
+                _codeFirst = AssistDataFieldFirst;
+                _codeSecond = "";
+                if (!string.IsNullOrEmpty(_codeFirst))
                 {
                     string[] fields = AssistProperties.Split(',');
                     if (fields.Length >= 2)
                     {
-                        codeFirst = fields[0];
-                        codeSecond = fields[1];
+                        _codeFirst = fields[0];
+                        _codeSecond = fields[1];
                     }
                 }
                var textDo = ComponentUtils.GetTextDo(value, DataFieldFirst, DataAllowedFirst);
@@ -697,8 +728,8 @@ namespace KarveControls
                     // find the code in _sourceView
                     foreach (var assistValue in source)
                     {
-                        var firstValue = ComponentUtils.GetPropValue(assistValue, codeFirst);
-                        var secondValue = ComponentUtils.GetPropValue(assistValue, codeSecond);
+                        var firstValue = ComponentUtils.GetPropValue(assistValue, _codeFirst);
+                        var secondValue = ComponentUtils.GetPropValue(assistValue, _codeSecond);
                         if ((firstValue!=null) && (secondValue!=null))
                         {
                             string textFirstValue = firstValue.ToString();
@@ -757,6 +788,8 @@ namespace KarveControls
         private ControlExt.DataType _dataAllowedSecond;
         private readonly ComponentFiller _componentFiller;
         private bool _firstSelection = true;
+
+        private bool _textMode = false;
         /// <summary>
         /// This is a component with a grid table associated.
         /// </summary>
@@ -769,7 +802,8 @@ namespace KarveControls
            // Debug.WriteLine("Debug value in ms " +watch.ElapsedMilliseconds);
             LayoutRoot.DataContext = this;
             _componentFiller = new ComponentFiller();
-            SearchTextFirst.KeyUp += SearchTextOnKeyDown;
+            SearchTextFirst.KeyUp += SearchTextOnKeyUp;
+            SearchTextFirst.KeyDown+= SearchTextOnKeyDown;
             SearchTextFirst.TextChanged += SearchText_TextChanged;
             SearchTextSecond.TextChanged += SearchText_TextChanged;
            // MagnifierGrid.PageSize = DefaultPageSize;
@@ -779,8 +813,40 @@ namespace KarveControls
             RaiseMagnifierPressEvent();   
         }
 
+        private void SearchTextOnKeyDown(object sender, KeyEventArgs e)
+        {
+           
+        }
+        private void SearchTextOnKeyUp(object sender, KeyEventArgs e)
+        {
+            
+        }
         private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string searchTxtFirst = SearchTextFirst.Text;
+            string currentValueSecond = CheckTheValueInSourceView(searchTxtFirst);
+            if (string.IsNullOrEmpty(currentValueSecond))
+            {
+                _textMode = true;
+                RaiseKeyAssist();
+                TextContentSecond = "";
+            }
+            else
+            {
+                TextContentSecond = currentValueSecond;
+            }
+            /*
+            string value = CheckTheValueInSourceView(searchTxtFirst);
+            _textMode = true;
+            if (string.IsNullOrEmpty(value))
+            {
+                RaiseKeyAssist();
+            }
+            else
+            {
+                  TextContentSecond = value;
+            }
+
             /*
             IDictionary<string, object> values = new Dictionary<string, object>();
             values["SearchText1"] = SearchTextFirst.Text;
@@ -801,6 +867,7 @@ namespace KarveControls
 
         }
 
+        /*
         private void SearchTextOnKeyDown(object sender, KeyEventArgs keyEventArgs)
         {
             bool IsNotANumber = false;
@@ -844,7 +911,7 @@ namespace KarveControls
             }
         }
 
-
+        */
 
         
         /// <summary>
@@ -929,6 +996,9 @@ namespace KarveControls
                 typeof(string),
                 typeof(DualFieldSearchBox),
                 new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+        private string _codeFirst;
+        private string _codeSecond;
+
         /// <summary>
         ///  Label text width
         /// </summary>
@@ -1138,7 +1208,9 @@ namespace KarveControls
             // Get the string Value of the object.
             if (currentEnumerable == null)
                 return;
-
+            // in case a text changed from the keyboard.
+            if (_textMode)
+                return;
             var itemToFind = ComponentUtils.GetTextDo(itemSource, DataFieldFirst, DataAllowedFirst);
             bool objectFound = false;
             string textContentFirst = "";
@@ -1184,6 +1256,11 @@ namespace KarveControls
         {
             DataTable currentTable = null;
             var data = DataSource;
+            if (_textMode)
+            {
+                _textMode = false;
+                return;
+            }
             if (e.NewValue is DataTable)
             {
                 currentTable = e.NewValue as DataTable;
@@ -1197,7 +1274,7 @@ namespace KarveControls
             IEnumerable enumerableValue = e.NewValue as IEnumerable;
             if (enumerableValue != null)
             {
-               // this.MagnifierGrid.DataSource = enumerableValue;
+                this.MagnifierGrid.SourceView= enumerableValue;
                 if (_buttonManifierState == 1)
                 {
                     _firstSelection = true;
@@ -1220,7 +1297,7 @@ namespace KarveControls
             {
 
 
-              //  this.MagnifierGrid.SourceView = currentTable;
+               this.MagnifierGrid.SourceView= currentTable;
 
                 if (_buttonManifierState == 1)
                 {
@@ -1250,6 +1327,34 @@ namespace KarveControls
             {
                 Uri uriSource = new Uri(value, UriKind.Relative);
                 this.PopUpButtonImage.Source = new BitmapImage(uriSource);
+            }
+        }
+
+        private void RaiseKeyAssist()
+        {
+            if (string.IsNullOrEmpty(this.AssistQuery))
+            {
+                AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
+            }
+            IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
+            valueDictionary["AssistTable"] = AssistTableName;
+            valueDictionary["DataFieldFirst"] = DataFieldFirst;
+            valueDictionary["DataFieldSecond"] = DataFieldSecond;
+            valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
+            valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+            valueDictionary["AssistQuery"] = AssistQuery;
+            if (MagnifierCommand != null)
+            {
+                MagnifierCommand.Execute(valueDictionary);
+            }
+            else
+            {
+                MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
+                args.AssistQuery = AssistQuery;
+                args.TableName = AssistTableName;
+                args.AssistParameters.Add("AssistFieldFirst", AssistDataFieldFirst);
+                RaiseEvent(args);
+               
             }
         }
         private void RaiseMagnifierPressEvent()

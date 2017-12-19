@@ -34,6 +34,10 @@ namespace KarveCommon.Services
         {
             _history.Redo();
         }
+        public DataPayLoad GetScheduledPayload()
+        {
+            return _payLoad;
+        }
 
         public DataPayLoad.Type GetScheduledPayloadType()
         {

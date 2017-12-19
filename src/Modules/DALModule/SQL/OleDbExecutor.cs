@@ -41,6 +41,7 @@ namespace DataAccessLayer.SQL
         public OleDbExecutor()
         {
             _connectionString = _defaultConnectionString;
+            Logger.Info("Connection string "+_connectionString);
         }
         public OleDbExecutor(string connectionString)
         {
@@ -49,6 +50,7 @@ namespace DataAccessLayer.SQL
         }
         public override void BeginTransaction()
         {
+            Logger.Info("Begin transaction " + _connectionString);
             if (_currentState != ConnectionState.Open) Open();
             _transaction = _connection.BeginTransaction();
         }
@@ -73,6 +75,7 @@ namespace DataAccessLayer.SQL
             catch (System.Exception ex)
             {
                 string msg = "Error during opening a connection. Reason:" +ex.Message;
+                Logger.Info(msg);
                 throw new SqlExecutorException(msg);
             }
             return connection;
@@ -103,6 +106,7 @@ namespace DataAccessLayer.SQL
             }
             catch (System.Exception e)
             {
+                Logger.Info(e.Message);
                 return false;
             }
             return true;
@@ -159,6 +163,7 @@ namespace DataAccessLayer.SQL
                     _transaction.Rollback();
                 }
                 string msg = "Loading dataset error :" + e.Message;
+                Logger.Info(msg);
                 throw new System.Exception(msg);
             }
             finally
@@ -247,6 +252,7 @@ namespace DataAccessLayer.SQL
             DataSet set = new DataSet();
             DataTable table = new DataTable();
             set = await AsyncDataSetLoad(sqlQuery);
+            Logger.Info("Executing query: "+ sqlQuery);
             lock (cloneTableLock)
             {
                 table = set.Tables[0].Clone();
@@ -386,6 +392,7 @@ namespace DataAccessLayer.SQL
             }
             catch (System.Exception ex)
             {
+                Logger.Info("Executing query: " + ex.Message);
                 throw ex;
             }
             finally
@@ -439,6 +446,7 @@ namespace DataAccessLayer.SQL
             }
             catch (System.Exception ex)
             {
+                Logger.Info("Executing query: " + ex.Message);
                 throw ex;
             }
             finally
@@ -507,6 +515,7 @@ namespace DataAccessLayer.SQL
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Info("Executing query Fill AsyncSchema: " + ex.Message);
                     result.SetException(ex);
                 }
             }
@@ -531,6 +540,7 @@ namespace DataAccessLayer.SQL
                 }
                 catch (System.Exception ex)
                 {
+                    Logger.Info("FillAsync. Executing query: " + ex.Message);
                     result.SetException(ex);
                 }
             }
@@ -565,6 +575,7 @@ namespace DataAccessLayer.SQL
                     {
                         _transaction.Rollback();
                     }
+                    Logger.Info("CreateData Adapter.Executing query: " + e.Message);
                     string msg = "Loading dataset error :" + e.Message;
                     throw new System.Exception(msg);
                 }
@@ -598,6 +609,7 @@ namespace DataAccessLayer.SQL
                         _transaction.Rollback();
                     }
                     string msg = "Loading dataset error :" + e.Message;
+                    Logger.Info("Executing query: " + e.Message);
                     throw new System.Exception(msg);
                 }
                 finally

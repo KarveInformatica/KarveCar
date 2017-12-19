@@ -119,6 +119,9 @@
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
+    <Compile Include="IMagnifier.cs" />
+    <Compile Include="IMagnifierColumns.cs" />
+    <Compile Include="ISettingsDataService.cs" />
     <Compile Include="SqlValidationRule.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />
     <Compile Include="DataTransferObject\VendedorDto.cs" />

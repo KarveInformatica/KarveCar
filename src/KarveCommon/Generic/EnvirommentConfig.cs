@@ -27,5 +27,6 @@
         public const string Tipproconce = "TIPPRO_CONCE";
         public const string Mercedes = "MERCEDES";
         public const string PrefijoProve = "PrefijoProve";
+        public const string DataBaseConnectionString = "DataBaseConfiguration";
     }
 }

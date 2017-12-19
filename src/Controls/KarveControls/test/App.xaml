@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:KarveControlsTest"
              StartupUri="TestWindow.xaml">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

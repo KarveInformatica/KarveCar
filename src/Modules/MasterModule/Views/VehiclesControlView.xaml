@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:grid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
@@ -29,7 +30,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <syncfusion:SfDataGrid x:Name="VehicleSummary"
-                               ColumnSizer="Star"
+                               ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -38,6 +39,8 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               grid:KarveGridExt.DefaultColumnsSize="{Binding DefaultColumnsSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               grid:KarveGridExt.ResizeColumnCommand="{Binding GridResizeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"   
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

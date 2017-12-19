@@ -161,17 +161,15 @@ namespace ToolBarModule
         }
         private void DoNewCommand()
         {
-            if (_states != ToolbarStates.Insert)
-            {
-                DataPayLoad payLoad = new DataPayLoad
-                {
-                    PayloadType = DataPayLoad.Type.Insert
-                };
+           DataPayLoad payLoad = new DataPayLoad
+           {
+                PayloadType = DataPayLoad.Type.Insert
+             };
                 _states = ToolbarStates.Insert;
                 // this send a message to the current control view model.
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
-              
-            }
+            
+
         }
         /// <summary>
         /// Return true when is a new enabled.
@@ -230,6 +228,7 @@ namespace ToolBarModule
             {
                 this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
                 this.IsSaveEnabled = false;
+                DataPayLoad payLoad = _careKeeper.GetScheduledPayload();
                 if ((_careKeeper.GetScheduledPayloadType() == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
                 {
                     InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
@@ -247,11 +246,15 @@ namespace ToolBarModule
                     SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
                         this._eventManager, this._configurationService);
                     _careKeeper.Do(new CommandWrapper(dataCommand));
+                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                    _eventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
+                    //DeliverIncomingNotify(payLoad.Subsystem, payLoad);
                 }
+
             }
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
-
+            
         }
 
         /// <summary>
@@ -269,6 +272,7 @@ namespace ToolBarModule
             }
             if (subSystem == DataSubSystem.CommissionAgentSubystem)
             {
+                
                 _eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
             }
             if (subSystem == DataSubSystem.VehicleSubsystem)

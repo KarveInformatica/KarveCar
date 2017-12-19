@@ -44,6 +44,18 @@ namespace KarveCommon.Services
         /// </summary>
         /// <returns></returns>
         IUserAccessControlList GetAccountManagement();
+
+        /// <summary>
+        ///  Get User Settings. 
+        /// </summary>
+        /// <returns></returns>
+        IUserSettings GetUserSettings();
+        /// <summary>
+        ///  Set user settings.
+        /// </summary>
+        /// <param name="settings"></param>
+        void SetUserSettings(IUserSettings settings);
+
         void CloseTab(string primaryKeyValue);
     }
 }

@@ -3,7 +3,7 @@ using KarveDapper.Extensions;
 
 namespace DataAccessLayer.DataObjects
 {
-
+    [Table("CONTACTOS_COMI")]
     public class ContactsComiPoco
     {
         /// <summary>

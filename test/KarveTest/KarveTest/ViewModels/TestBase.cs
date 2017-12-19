@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.SQL;
+using KarveCar.Logic.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Mvvm;
@@ -13,7 +14,7 @@ namespace KarveTest.ViewModels
        
         protected IConfigurationService SetupConfigurationService()
         {
-            IConfigurationService configurationService = new KarveCar.Logic.ConfigurationService();
+            IConfigurationService configurationService = new ConfigurationService();
             return configurationService;
         }
 

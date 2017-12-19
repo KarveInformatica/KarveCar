@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -19,7 +20,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using Prism.Mvvm;
-
+using NLog;
 namespace DataAccessLayer.Model
 {
 
@@ -29,6 +30,8 @@ namespace DataAccessLayer.Model
         private const string CommissionAgentIds = "SELECT {0} NUM_COMI FROM COMISIO";
         private const string CommissionAgentLimitsId = " SELECT TOP {0} START AT {1} {2} FROM COMISIO";
         private readonly ISqlExecutor _sqlExecutor;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
 
         /// <summary>
         ///  This is the factory for the commission agent. 
@@ -59,6 +62,7 @@ namespace DataAccessLayer.Model
         {
             DesignByContract.Dbc.Requires(fields.Count > 0, "Fields not valid");
             DesignByContract.Dbc.Requires(_sqlExecutor.Connection != null, "Null Connection");
+            logger.Debug("Creating Commission List.");
             IDbConnection connection = _sqlExecutor.Connection;
             string currentQueryAgent = "";
             IList<ICommissionAgent> list = new List<ICommissionAgent>();
@@ -70,8 +74,10 @@ namespace DataAccessLayer.Model
             {
                 currentQueryAgent = string.Format(CommissionAgentLimitsId, maxLimit, offset, fields["COMISIO"]);
             }
+            logger.Debug("Current Agent Query :" + currentQueryAgent);
             using (connection)
             {
+                logger.Debug("Create Loading CommissionAgent");
                 if (connection.State != ConnectionState.Open)
                 {
                     connection.Open();
@@ -82,9 +88,15 @@ namespace DataAccessLayer.Model
 
                     CommissionAgent agent = new CommissionAgent(_sqlExecutor);
                     bool loaded = await agent.LoadValue(fields, c.NUM_COMI);
+                    
                     if (loaded)
                     {
+                        logger.Debug("Agent Loaded.");
                         list.Add(agent);
+                    }
+                    else
+                    {
+                        logger.Info("Failed to laod the commission agent list.");
                     }
                 }
             }
@@ -115,8 +127,15 @@ namespace DataAccessLayer.Model
             Dbc.Requires(fields.Count > 0, "Fields not valid");
             Dbc.Requires(!string.IsNullOrEmpty(commissionId), "Null Connection");
             CommissionAgent agent = new CommissionAgent(_sqlExecutor);
+            logger.Debug("Loading CommissionAgent Value for id: " + commissionId);
+
             bool loaded = await agent.LoadValue(fields, commissionId).ConfigureAwait(false);
             agent.Valid = loaded;
+            if (!agent.Valid)
+            {
+                logger.Info("Cannot Load Agent for ID" + commissionId + ".");
+            }
+            
             return agent;
         }
 
@@ -158,9 +177,9 @@ namespace DataAccessLayer.Model
         private const string DefaultDelegation =
                 "cldIdCOMI, cldDelegacion, cldDireccion1, cldDireccion2, cldCP, cldPoblacion, cldIdProvincia,cldTelefono1, cldTelefono2, cldFax, cldEMail, cldMovil";
 
-        private IEnumerable<COMISIO> _commissionAgents;
+        private IEnumerable<COMISIO> _commissionAgents = new ObservableCollection<COMISIO>();
         private IEnumerable<Country> _nacioPer;
-        private IEnumerable<TIPOCOMI> _tipoComis;
+        private IEnumerable<TIPOCOMI> _tipoComis = new ObservableCollection<TIPOCOMI>();
         private IEnumerable<PROVINCIA> _provinces;
         private IEnumerable<ContactsComiPoco> _contactos = new List<ContactsComiPoco>();
         private IEnumerable<ComiDelegaPoco> _delegations = new List<ComiDelegaPoco>();
@@ -176,7 +195,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<ZONAOFI> _zonaofis = new List<ZONAOFI>();
         private IEnumerable<ClavePtoDto> _clavePto = new List<ClavePtoDto>();
         private IEnumerable<IDIOMAS> _idiomas = new List<IDIOMAS>();
-
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
 
 
@@ -501,7 +520,8 @@ namespace DataAccessLayer.Model
             bool preCondition = commissionDictionary.ContainsKey(Comisio);
             Dbc.Requires(preCondition, "The dictionary used is not correct");
             Dbc.Requires(!string.IsNullOrEmpty(commissionId), "The commission is is not ok");
-
+            logger.Info("Load Agent for ID" + commissionId);
+            
             string commisionQueryFields = commissionDictionary[Comisio];
             string tipoComiFields = GetFields(Tipocomi, commissionDictionary, DefaultTicomiFields);
             string branchesField = GetFields(Branches, commissionDictionary, DefaultDelegation);
@@ -509,6 +529,7 @@ namespace DataAccessLayer.Model
             bool isOpen = false;
             if (_dbConnection == null)
             {
+                logger.Debug("Opening Connection to DB");
                 isOpen = _executor.Open();
             }
             // now between the two
@@ -519,6 +540,8 @@ namespace DataAccessLayer.Model
                 {
                     _dbConnection = _executor.Connection;
                     string commisionQuery = string.Format(_queryComi, commisionQueryFields, commissionId);
+                    logger.Debug("Executing query " + commisionQuery);
+
                     _commissionAgents = await _dbConnection.QueryAsync<COMISIO>(commisionQuery);
                     _currentComisio = _commissionAgents.FirstOrDefault();
 
@@ -543,10 +566,13 @@ namespace DataAccessLayer.Model
                         ContactsDto = _mapper.Map<IEnumerable<ContactsComiPoco>, IEnumerable<ContactsDto>>(_contactos);
 
                         string queryTipoComi = string.Format(_queryTipoComi, tipoComiFields, _currentComisio.TIPOCOMI);
+                        logger.Debug("Query commission agent kind: "+ queryTipoComi);
+
                         _tipoComis = await _dbConnection.QueryAsync<TIPOCOMI>(queryTipoComi).ConfigureAwait(false);
                         if (!string.IsNullOrEmpty(_currentComisio.NACIOPER))
                         {
                             string queryPais = string.Format(_queryPais, _currentComisio.NACIOPER);
+                            logger.Debug("Query commission agent kind: " + queryPais);
                             _nacioPer = await _dbConnection.QueryAsync<Country>(queryPais);
                             CountryDto = _mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(_nacioPer);
                         }
@@ -569,22 +595,26 @@ namespace DataAccessLayer.Model
                                 return visita;
                             }, splitOn: "visIdVisita,IdContacto,IdTipoVisita,IdVendedor");
                         VisitDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);
-                        // build the related tables aux.
+                        logger.Debug("Executing AuxQueries.");
                         await BuildAuxQueryMultiple(_currentComisio, _dbConnection);
                     }
 
                 }
                 catch (System.Exception e)
                 {
+                    logger.Info("Cannot open value" + e.Message);
+
                     return false;
                 }
                 finally
                 {
                     _executor.Close();
+                    logger.Debug("Connection close with success.");
                 }
             }
             else
             {
+                logger.Debug("Current commisionist is null.");
                 return false;
             }
             _valid = true;
@@ -605,6 +635,7 @@ namespace DataAccessLayer.Model
 
             bool retValue = false;
             var delegations = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<COMI_DELEGA>>(DelegationDto, res => res.Items.Add("RefId", _currentComisio.NUM_COMI));
+            logger.Debug("Opening connection for saving.");
 
             // the open shall be reverted.
             using (IDbConnection connection = _executor.OpenNewDbConnection())
@@ -615,6 +646,8 @@ namespace DataAccessLayer.Model
 
                     try
                     {
+                        logger.Debug("Inserting data");
+
                         // now we have to add the new connection.
                         await connection.InsertAsync<COMISIO>(_currentComisio).ConfigureAwait(false);
                         await connection.InsertAsync(_contactos);
@@ -626,11 +659,13 @@ namespace DataAccessLayer.Model
                     }
                     catch (TransactionException ex)
                     {
+                        logger.Info("Transaction ScopeException while saving " + ex.Message);
                         retValue = false;
                     }
                     catch (System.Exception ex)
                     {
                         retValue = false;
+                        logger.Info("Cannot open database connection while saving " + ex.Message);
                         throw new CommissionAgentException(ex.Message);
                     }
                     finally
@@ -639,6 +674,8 @@ namespace DataAccessLayer.Model
                         //transactionScope.Dispose();
                         if (_dbConnection != null)
                         {
+                            logger.Debug("Closing connection.");
+
                             _dbConnection.Close();
                         }
                     }
@@ -652,6 +689,7 @@ namespace DataAccessLayer.Model
             string currentComi, IEnumerable<ComiDelegaPoco> delegations)
         {
             Dbc.Requires(_mapper != null, "Conversion Map shall be allocated");
+            logger.Debug("Saving branches..");
             bool retValue = false;
             var branchesDtos = dto as BranchesDto[] ?? dto.ToArray();
             if (branchesDtos.ToList().Count == 0)
@@ -675,7 +713,7 @@ namespace DataAccessLayer.Model
             Dbc.Requires(_mapper != null, "Conversion Map shall be allocated");
             Dbc.Requires(!string.IsNullOrEmpty(currentComi), "Conversion Map shall be allocated");
             Dbc.Requires(conn != null, "The connection shall be not null");
-
+            logger.Debug("Saving Contacts..");
             var contactsDtos = dto as ContactsDto[] ?? dto.ToArray();
             if (contactsDtos.Length == 0)
             {
@@ -683,6 +721,7 @@ namespace DataAccessLayer.Model
             }
             if (contactsDtos.All(contact => contact.CommissionId == null))
             {
+                logger.Error("Error during saving contacts.");
                 return false;
             }
             
@@ -748,57 +787,58 @@ namespace DataAccessLayer.Model
         public async Task<bool> DeleteAsyncData()
         {
             bool retValue = true;
-            IDbConnection connection = _executor.Connection;
-            if (connection.State != ConnectionState.Open)
+
+            // we shall revert this.
+
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                _executor.Open();
-                connection = _executor.Connection;
 
-            }
-
-            using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                // here i have to delete the current commission data.
-                try
+                using (TransactionScope transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    // now we have to add the new connection.
-                    // delete the cross references.
-                    var contactRef = _contactos.FirstOrDefault(c => (c.COMISIO == _currentComisio.NUM_COMI));
-                    if (contactRef != null)
+                    // here i have to delete the current commission data.
+                    try
                     {
+                        retValue = await connection.DeleteAsync(_currentComisio);
+                        // now we have to add the new connection.
+                        // delete the cross references.
+                        var contactRef = _contactos.FirstOrDefault(c => (c.COMISIO == _currentComisio.NUM_COMI));
+                        if (contactRef != null)
+                        {
 
-                        retValue = await connection.DeleteAsync(contactRef);
-                    }
-                    var delegationRef = _delegations.FirstOrDefault(c => (c.cldIdCOMI == _currentComisio.NUM_COMI));
-                    var visitasRef =
-                        _visitasComis.FirstOrDefault(c => (c.visIdCliente == _currentComisio.NUM_COMI));
+                            retValue = await connection.DeleteAsync(contactRef);
+                        }
+                        var delegationRef = _delegations.FirstOrDefault(c => (c.cldIdCOMI == _currentComisio.NUM_COMI));
+                        var visitasRef =
+                            _visitasComis.FirstOrDefault(c => (c.visIdCliente == _currentComisio.NUM_COMI));
 
-                    // This is very common.
-                    if (delegationRef != null)
-                    {
-                        retValue = retValue && await connection.DeleteAsync(delegationRef);
+                        // This is very common.
+                        if (delegationRef != null)
+                        {
+                            retValue = retValue && await connection.DeleteAsync(delegationRef);
+                        }
+                        if (visitasRef != null)
+                        {
+                            retValue = retValue && await connection.DeleteAsync(visitasRef);
+                        }
+                        //retValue = retValue && await connection.DeleteAsync(_currentComisio);
+                        transactionScope.Complete();
                     }
-                    if (visitasRef != null)
+                    catch (TransactionException ex)
                     {
-                        retValue = retValue && await connection.DeleteAsync(visitasRef);
+                        logger.Error("Transaction scope error during deleting data.");
+                        transactionScope.Dispose();
+                        return retValue;
                     }
-                    retValue = retValue && await connection.DeleteAsync(_currentComisio);
-                    transactionScope.Complete();
-                }
-                catch (TransactionException ex)
-                {
-                    transactionScope.Dispose();
-                    MessageBox.Show("Scope error");
-                    return retValue;
-                }
-                catch (System.Exception ex)
-                {
-                    transactionScope.Dispose();
-                    return retValue;
-                }
-                finally
-                {
-                    transactionScope.Dispose();
+                    catch (System.Exception ex)
+                    {
+                        logger.Error("Error during deleting data: " + ex.Message);
+                        transactionScope.Dispose();
+                        return retValue;
+                    }
+                    finally
+                    {
+                        transactionScope.Dispose();
+                    }
                 }
             }
             return retValue;

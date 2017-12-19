@@ -127,7 +127,8 @@ namespace MasterModule.Common
             payLoad.DataDictionary = evDictionary;
             if (evDictionary.ContainsKey("DataObject"))
             {
-              
+
+            
                 _dataObject = (T)evDictionary["DataObject"];
             //    EnforceChange(evDictionary, ref _dataObject);
                 payLoad.DataObject = _dataObject;

@@ -14,7 +14,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
-
+using NLog;
 namespace DataAccessLayer
 {
 
@@ -40,15 +40,19 @@ namespace DataAccessLayer
                                               "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
 
         private object _currentMerge = new object();
+        private ISupplierData _currentSupplierData = null;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
+
         /// <summary>
         /// This a supplier data access layer constructor
         /// </summary>
         /// <param name="mapper">The sql layer for the connection</param>
         /// <param name="service">The global configuration service</param>
-        public SupplierDataAccessLayer(ISqlExecutor mapper, IConfigurationService service) :base(mapper)
-        {
+        public SupplierDataAccessLayer(ISqlExecutor mapper) :base(mapper)
+        { 
             this._executor = mapper;
-            this._service = service;
+           
         }
 
 
@@ -187,9 +191,10 @@ namespace DataAccessLayer
             }
         }
 
-        public Task<bool> Save(ISupplierData data)
+        public async Task<bool> Save(ISupplierData data)
         {
-            throw new NotImplementedException();
+            bool ret = await data.Save();
+            return ret;
         }
 
         /// <summary>
@@ -218,19 +223,27 @@ namespace DataAccessLayer
             return supplier;
         }
 
-        public Task<bool> DeleteAsyncSupplierDo(ISupplierData data)
+        public async Task<bool> DeleteAsyncSupplierDo(ISupplierData data)
         {
-            throw new NotImplementedException();
+            bool retValue = false;
+            string supplierId = data.Value.NUM_PROVEE;
+            if (!string.IsNullOrEmpty(supplierId))
+            {
+                retValue = await data.DeleteAsyncData();
+            }
+            return retValue;
         }
 
         public ISupplierData GetNewSupplierDo(string id)
         {
-            throw new NotImplementedException();
+            Supplier supplier= new Supplier(_executor, id);
+            return supplier;
         }
 
-        public Task<bool> SaveChanges(ISupplierData supplierData)
+        public async Task<bool> SaveChanges(ISupplierData supplierData)
         {
-            throw new NotImplementedException();
+            bool ret = await supplierData.SaveChanges();
+            return ret;
         }
 
         /// <summary>

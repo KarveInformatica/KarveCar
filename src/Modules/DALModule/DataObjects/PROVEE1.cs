@@ -1,18 +1,22 @@
 using System;
- 
+using Dapper;
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a PROVEE1.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("PROVEE1")]
 	public class PROVEE1 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_PROVEE property.
     /// </summary>
-    
+		 [Key]
 		public string NUM_PROVEE { get; set; }
  
 	/// <summary>

@@ -18,6 +18,9 @@ using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
+using System.Threading.Tasks;
+using KarveControls;
+using KarveControls.KarveGrid;
 
 namespace MasterModule.ViewModels
 {
@@ -28,7 +31,9 @@ namespace MasterModule.ViewModels
         private const string ComiColumnCode = "Nombre";
         private readonly UnityContainer _container;
         private readonly IDataServices _dataServices;
-       
+        private IUserSettings _settings;
+        private IMagnifierSettings _magnifierSettings;
+
         /// <summary>
         ///  This is the region manager.
         /// </summary>
@@ -46,7 +51,7 @@ namespace MasterModule.ViewModels
         public CommissionAgentControlViewModel(IConfigurationService configurationService,
             IEventManager eventManager,
             UnityContainer container,
-            IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services)
+            IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             _regionManager = regionManager;
             _container = container;
@@ -78,10 +83,16 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitViewModel()
         {
+            _settings = ConfigurationService.GetUserSettings();
+
             MessageHandlerMailBox += CommissionAgentMailBox;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
+            GridId = 2;
+            MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
+          
             StartAndNotify();
         }
+        
 
         /// <summary>
         ///  This function load a new item selected from the main grid.
@@ -130,6 +141,13 @@ namespace MasterModule.ViewModels
         {
         }
 
+        public void LoadMagnifierSettings()
+        {
+            MagnifierInitializationNotifier =
+                NotifyTaskCompletion.Create<IMagnifierSettings>(
+                    _settings.UserSettingsLoader.GetMagnifierSettings(GridId), InitializationNotifierOnSettingsChanged);
+
+        }
         public override void StartAndNotify()
         {
             ICommissionAgentDataServices commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
@@ -150,7 +168,8 @@ namespace MasterModule.ViewModels
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
                 payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
+                DeleteItem(payLoad);
+               // EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
@@ -164,21 +183,27 @@ namespace MasterModule.ViewModels
         public override void NewItem()
         {
             string name = "NuevoCommisionista";
-            string codigo = "";
+            string codigo = DataServices.GetCommissionAgentDataServices().GetNewId();
             // move this to the configuration service.
             ICommissionAgentView view = _container.Resolve<CommissionAgentInfoView>();
             // TODO: use the navigation service.
-            ConfigurationService.AddMainTab(view, name);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(name);
+            string viewNameValue = name + "." + codigo;
+            ConfigurationService.AddMainTab(view, viewNameValue);
+            //ConfigurationService.AddMainTab(view, name);
+            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
+            currentPayload.DataObject = DataServices.GetCommissionAgentDataServices().GetNewCommissionAgentDo(codigo);
+            currentPayload.HasDataObject = true;
+            currentPayload.Sender = EventSubsystem.CommissionAgentSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
         }
 
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
+            LoadMagnifierSettings();
         }
 
         /// <summary>
@@ -190,6 +215,10 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
         }
+
+        public override long GridId { get; set; }
+        public override string MagnifierGridName { get; set; }
+
         /// <summary>
         /// Set the current data object for the toolbar
         /// </summary>
@@ -207,6 +236,22 @@ namespace MasterModule.ViewModels
         {
             return "CommisionAgentModule:" + name;
         }
+
+        /// <summary>
+        /// DeleteAsync comissio ageny
+        /// </summary>
+        /// <param name="commissionId"></param>
+        /// <param name="payLoad"></param>
+        /// <returns></returns>
+        public override async Task<bool> DeleteAsync(string commissionId, DataPayLoad payLoad)
+        {
+            ICommissionAgent comisio = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(commissionId);
+            bool retValue = await DataServices.GetCommissionAgentDataServices().DeleteCommissionAgent(comisio);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
+            return retValue;
+        }
+
+
         // create a scope for navigation.
         public bool CreateRegionManagerScope {
             get

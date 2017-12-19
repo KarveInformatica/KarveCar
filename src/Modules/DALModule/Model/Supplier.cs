@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +20,7 @@ using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveDapper.Extensions;
-
+using NLog;
 
 namespace DataAccessLayer.Model
 {
@@ -32,7 +33,7 @@ namespace DataAccessLayer.Model
     {
         private readonly ISqlExecutor _sqlExecutor;
 
-        
+        private static Logger logger = LogManager.GetCurrentClassLogger();        
         /// <summary>
         ///  This is the queryExecutro factory.
         /// </summary>
@@ -56,11 +57,12 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public ISupplierData NewSupplier(string id)
         {
-            ISupplierData data = new Supplier(_sqlExecutor);
-            SupplierDto dto = new SupplierDto();;
-            dto.NUM_PROVEE = id;
+            logger.Debug("Creating a new supplier with id" + id);
+            ISupplierData data = new Supplier(_sqlExecutor, id);
+            //SupplierDto dto = new SupplierDto();
+           // dto.NUM_PROVEE = id;
             data.Valid = true;
-            data.Value = dto;
+           //data.Value = dto;
             return data;
         }
 
@@ -77,6 +79,8 @@ namespace DataAccessLayer.Model
             ISupplierData agent = new Supplier(_sqlExecutor);
             bool loaded = await agent.LoadValue(fields, supplierId).ConfigureAwait(false);
             agent.Valid = loaded;
+            logger.Debug("Loading a new supplier with id " + supplierId + " Valid " + loaded.ToString());
+
             return agent;
         }
 
@@ -85,6 +89,7 @@ namespace DataAccessLayer.Model
     public class Supplier: DomainObject,ISupplierData
     {
         // TODO: Craft a query container, query builder.
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private const string TipoProveSelect = "SELECT NUM_TIPROVE as Number, NOMBRE as Name, " +
                                                "USER as Account, " +
@@ -117,27 +122,39 @@ namespace DataAccessLayer.Model
         private ISqlExecutor _sqlExecutor;
         private SupplierPoco _supplierValue;
         private IMapper _supplierMapper;
-        private IEnumerable<ISupplierTypeData> _type;
-        private IEnumerable<AccountDto> _accounts;
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<BanksDto> _banksDtos;
-        private IEnumerable<CountryDto> _countryDtos;
-        private IEnumerable<ViaDto> _viaDtos;
-        private IEnumerable<BranchesDto> _branchesDtos;
-        private IEnumerable<ContactsDto> _contactsDtos;
-        private IEnumerable<MonthsDto> _monthsDtos;
-        private IEnumerable<PaymentFormDto> _paymentFormDtos;
-        private IEnumerable<VisitsDto> _visitsDtos;
-        private SupplierDto _supplierDto;
-        private IEnumerable<LanguageDto> _languagesDto;
-        private IEnumerable<CurrencyDto> _currencyDto;
-        private IEnumerable<CompanyDto> _companyDtos;
-        private IEnumerable<OfficeDtos> _officeDtos;
+        private IEnumerable<ISupplierTypeData> _type = new ObservableCollection<ISupplierTypeData>();
+        private IEnumerable<AccountDto> _accounts = new ObservableCollection<AccountDto>();
+        private IEnumerable<ProvinciaDto> _provinciaDto = new ObservableCollection<ProvinciaDto>();
+        private IEnumerable<BanksDto> _banksDtos = new ObservableCollection<BanksDto>();
+        private IEnumerable<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
+        private IEnumerable<ViaDto> _viaDtos = new ObservableCollection<ViaDto>();
+        private IEnumerable<BranchesDto> _branchesDtos = new  ObservableCollection<BranchesDto>();
+        private IEnumerable<ContactsDto> _contactsDtos = new ObservableCollection<ContactsDto>();
+        private IEnumerable<MonthsDto> _monthsDtos = new ObservableCollection<MonthsDto>();
+        private IEnumerable<PaymentFormDto> _paymentFormDtos = new ObservableCollection<PaymentFormDto>();
+        private IEnumerable<VisitsDto> _visitsDtos = new ObservableCollection<VisitsDto>();
+        private SupplierDto _supplierDto = new SupplierDto();
+        private IEnumerable<LanguageDto> _languagesDto = new ObservableCollection<LanguageDto>();
+        private IEnumerable<CurrencyDto> _currencyDto = new ObservableCollection<CurrencyDto>();
+        private IEnumerable<CompanyDto> _companyDtos = new ObservableCollection<CompanyDto>();
+        private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
         
 
         public Supplier(ISqlExecutor executor)
         {
             _sqlExecutor = executor;
+            _supplierValue = new SupplierPoco();
+            _supplierDto = new SupplierDto();
+            InitializeMapping();
+        }
+
+        public Supplier(ISqlExecutor executor, string id)
+        {
+            _sqlExecutor = executor;
+            _supplierValue = new SupplierPoco();
+            _supplierDto = new SupplierDto();
+            _supplierValue.NUM_PROVEE = id;
+            _supplierDto.NUM_PROVEE = id;
             InitializeMapping();
         }
         public void InitializeMapping()
@@ -242,8 +259,26 @@ namespace DataAccessLayer.Model
 
         public async Task<bool> DeleteAsyncData()
         {
-          //  throw new NotImplementedException();
-            await Task.Delay(1);
+            bool value = false;
+            PROVEE1 proveedor1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
+            PROVEE2 proveedor2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                using (TransactionScope transactionScope =
+                    new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        value = await connection.DeleteAsync(proveedor1);
+                        value = value && await connection.DeleteAsync(proveedor2);
+                        transactionScope.Complete();
+                    }
+                    catch (System.Exception e)
+                    {
+                        transactionScope.Dispose();
+                    }
+                }
+            }
             return true;
         }
 
@@ -252,7 +287,8 @@ namespace DataAccessLayer.Model
             PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
             PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco,PROVEE2>(_supplierValue);
             provee1.NUM_PROVEE = provee2.NUM_PROVEE;
-        
+            logger.Debug("Saving supplier " +  provee2.NUM_PROVEE);
+
             bool retValue = false;
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -273,11 +309,13 @@ namespace DataAccessLayer.Model
                     {
                         string message = "Transaction Scope Exception in Supplier Insertion. Reason: " + ex.Message;
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
+                        logger.Error(ex, "Exception while saving a supplier. Transaction Scope saving.");
                         throw dataLayer;
                     }
                     catch (System.Exception other)
                     {
                         string message = "Error in a Vehicle Supplier. Reason: " + other.Message;
+                        logger.Error(other, "Exception while saving a supplier..");
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;
                     }
@@ -292,6 +330,7 @@ namespace DataAccessLayer.Model
         {
         PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
         PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
+        
         bool retValue = false;
 
             try
@@ -304,6 +343,10 @@ namespace DataAccessLayer.Model
                         new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
 
+                        // private const string TipoProveSelect = "SELECT NUM_TIPROVE as Number, NOMBRE as Name, " +
+                        string value = string.Format(TipoProveSelect, provee1.NUM_PROVEE);
+                        IEnumerable<TIPOPROVE> prove = await connection.QueryAsync<TIPOPROVE>(value);
+                        var tipoProve = prove.FirstOrDefault<TIPOPROVE>();
 
                         // here we shall already have the correct change in the VehiclePoco. It shall already validated.
                         // now we have to add the new connection.
@@ -315,12 +358,15 @@ namespace DataAccessLayer.Model
                         }
                         catch (TransactionException ex)
                         {
+                            transactionScope.Dispose();
                             string message = "Transaction Scope Exception in Vehicle Update. Reason: " + ex.Message;
+                            logger.Error(message);
                             DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                             throw dataLayer;
                         }
                         catch (System.Exception other)
                         {
+                            logger.Error(other);
                             return retValue;
                         }
                     }
@@ -329,7 +375,7 @@ namespace DataAccessLayer.Model
 
             catch (System.Exception e)
             {
-
+                logger.Error(e);
             }
 
             return retValue;
@@ -533,6 +579,7 @@ namespace DataAccessLayer.Model
                 RaisePropertyChanged();   
             }
         }
+      
 
         public IEnumerable<CurrencyDto> CurrencyDtos
         {

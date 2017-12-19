@@ -6,11 +6,10 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="SupplierControl">
 
@@ -40,7 +39,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
-                               ColumnSizer="Star"
+                               ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -49,6 +48,8 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               karveGrid:KarveGridExt.DefaultColumnsSize="{Binding DefaultColumnsSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               karveGrid:KarveGridExt.ResizeColumnCommand="{Binding GridResizeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"   
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

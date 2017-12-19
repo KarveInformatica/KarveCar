@@ -42,6 +42,7 @@ namespace KarveCar.Logic.Generic
             SetKey(EnvironmentConfig.KarveConfiguration, EnvironmentVariables.EmpresaConectada, "KarveSL");
 
 
+
         }
         public void EmptyKey(EnvironmentConfig config, string key)
         {

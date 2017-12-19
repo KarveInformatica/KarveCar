@@ -18,7 +18,7 @@ using KarveControls.UIObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using Prism.Regions;
-
+using NLog;
 namespace MasterModule.Views
 {
     /// <summary>
@@ -26,14 +26,16 @@ namespace MasterModule.Views
     /// </summary>
     public partial class ProviderInfoView : UserControl, ISupplierInfoView, INavigationAware
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public ProviderInfoView()
         {
             Stopwatch startStopwatch = new Stopwatch();
             startStopwatch.Start();
             InitializeComponent();
             startStopwatch.Stop();
-            long width = startStopwatch.ElapsedMilliseconds;
-            
+            long elapsedTime = startStopwatch.ElapsedMilliseconds;
+            logger.Debug("Elapsed time for loading Proovider" + elapsedTime);    
             Header = "";
         }
 

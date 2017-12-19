@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +40,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -47,6 +50,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -54,9 +58,6 @@
     </Reference>
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper.Contrib, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper.Contrib.1.50.4\lib\net451\Dapper.Contrib.dll</HintPath>
     </Reference>
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
@@ -70,8 +71,8 @@
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
-    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.20434, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iAnywhere.Data.SQLAnywhere.v4.5.16.0.0.20433\lib\net45\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.19484, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\iAnywhere.Data.SQLAnywhere.v4.5.16.0.0.19484\lib\net45\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
     <Reference Include="KarveDapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1082,13 +1083,17 @@
     <Compile Include="MarcasDAL.cs" />
     <Compile Include="Logic\SQL_EditDAL.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
+    <Compile Include="Model\Client.cs" />
     <Compile Include="Model\DataLayerExecutionException.cs" />
     <Compile Include="Model\DomainObject.cs" />
+    <Compile Include="Model\MagnifierColumns.cs" />
+    <Compile Include="Model\MagnifierSettings.cs" />
     <Compile Include="Model\NullCommissionAgentTypeData.cs" />
     <Compile Include="Model\Supplier.cs" />
     <Compile Include="Model\SupplierPoco.cs" />
     <Compile Include="Model\Vehicle.cs" />
     <Compile Include="Model\VehiclePoco.cs" />
+    <Compile Include="SettingsDataService.cs" />
     <Compile Include="SQL\AbstractSqlExecutor.cs" />
     <Compile Include="SQL\DataDescription.cs" />
     <Compile Include="SQL\OdbcExecutor.cs" />
@@ -1130,7 +1135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="DataAccessLayer\DataObjects\" />
+    <Folder Include="DataAccessLayer\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

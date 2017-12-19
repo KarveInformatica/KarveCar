@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using AutoMapper;
 using Dapper;
 using DataAccessLayer.Model;
+using NLog;
 
 
 namespace DataAccessLayer
@@ -30,7 +31,7 @@ namespace DataAccessLayer
         private const string PrimaryKey = "NUM_COMI";
         private const string CommissionAgentTable = "COMISIO";
         private const string CommissionAgentFile = @"\Data\CommissionAgentFields.xml";
-        
+        private Logger logger = LogManager.GetLogger("CommisionAgentAccessLayer");
         /// <summary>
         /// CommissionAgentAccessLayer
         /// </summary>
@@ -49,6 +50,7 @@ namespace DataAccessLayer
         public async Task<ICommissionAgent> GetCommissionAgentDo( string commissionAgentId, IDictionary<string, string> queryDictionary = null)
         {
             IDictionary<string, string> queries;
+            logger.Debug("GetCommissionAgentData Object");
             if (queryDictionary == null)
             {
                 queries= base.baseQueryDictionary;
@@ -68,6 +70,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
         {
+            logger.Debug("GetCommissionAgentDataSet " + query);
             DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(query);
             return set;
         }
@@ -80,6 +83,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IList<ICommissionAgent>> GetCommissionAgentCollection(IDictionary<string,string> fields, int pageSize = 0, int startAt =0)
         {
+            logger.Debug("GetCommissionAgentCollection ");
             CommissionAgentFactory commissionAgentFactory = CommissionAgentFactory.GetFactory(_sqlExecutor);
             IList<ICommissionAgent> commissionAgents = await commissionAgentFactory.CreateCommissionAgentList(fields, pageSize, startAt);
             return commissionAgents;
@@ -94,6 +98,11 @@ namespace DataAccessLayer
         public async Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0)
         {
             DataSet dataset = await _sqlExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery);
+            logger.Debug("GetCommissionAgentSummary " + GenericSql.CommissionAgentSummaryQuery);
+            if (dataset == null)
+            {
+                logger.Debug("GetCommissionAgent Null DataSet ");
+            }
             return dataset;
         }
 
@@ -114,6 +123,7 @@ namespace DataAccessLayer
         {
             CommissionAgentFactory factory = CommissionAgentFactory.GetFactory(_sqlExecutor);
             string id = GetNewId();
+            logger.Debug("GetCommissionAgent " + id);
             ICommissionAgent agent =  factory.NewCommissionAgent(id);
             return agent;
         }
@@ -134,6 +144,7 @@ namespace DataAccessLayer
             str = string.Format(str, id);
             IDbConnection connection = _sqlExecutor.Connection;
             IEnumerable<string> strResult = connection.Query<string>(str);
+            logger.Info("Connect a select string " + str);
             bool unique = (!strResult.Any());
             return unique;
         }
@@ -215,6 +226,7 @@ namespace DataAccessLayer
         public async Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent)
         {
             bool value = false;
+
             IDbConnection connection = _sqlExecutor.Connection;
             using (connection)
             {
@@ -223,6 +235,10 @@ namespace DataAccessLayer
                     connection.Open();
                 }
                 value = await commissionAgent.DeleteAsyncData();
+            }
+            if (!value)
+            {
+                logger.Debug("Failed to delete commission agent");
             }
             return value;
         }

@@ -1548,9 +1548,10 @@
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\es-es.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="es-ES"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      CommandParameter="es-ES"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnIdiomaCAES"
@@ -1558,9 +1559,9 @@
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\ca-es.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnIdiomaENGB"
@@ -1568,9 +1569,9 @@
                                         HorizontalAlignment="Left" 
                                         SmallImageSource="..\Images\en-gb.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SetLanguagesCommand}" CommandParameter="en-GB"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="en-GB"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="en-GB"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand}" CommandParameter="en-GB"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                             </RibbonMenuButton>

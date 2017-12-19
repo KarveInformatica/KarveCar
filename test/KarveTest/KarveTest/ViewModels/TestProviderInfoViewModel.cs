@@ -12,6 +12,7 @@ using MasterModule.ViewModels;
 using Moq;
 using NUnit.Framework.Internal;
 using NUnit.Framework;
+using Prism.Regions;
 
 namespace KarveTest.ViewModels
 {
@@ -21,6 +22,7 @@ namespace KarveTest.ViewModels
         private IDataServices _dataServices;
         private IConfigurationService _serviceConf;
         private Mock<IEventManager> _eventManager  = new Mock<IEventManager>();
+        private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -29,7 +31,7 @@ namespace KarveTest.ViewModels
             try
             {
                 ISqlExecutor executor = SetupSqlQueryExecutor();
-                _dataServices = new DataServiceImplementation(executor, _serviceConf);
+                _dataServices = new DataServiceImplementation(executor);
               //  _supplierDataServices = _dataServices.GetSupplierDataServices();
             }
             catch (Exception e)
@@ -46,7 +48,7 @@ namespace KarveTest.ViewModels
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices, _regionManager.Object);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
@@ -66,7 +68,7 @@ namespace KarveTest.ViewModels
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices, _regionManager.Object);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
@@ -81,7 +83,7 @@ namespace KarveTest.ViewModels
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, _serviceConf, _dataServices, _regionManager.Object);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
@@ -109,7 +111,7 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Delete;
             supplierDataServices.Setup(c => c.DeleteAsyncSupplierDo(dataObject)).ReturnsAsync(true);
             _eventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             // Act.
             infoViewModel.IncomingPayload(payLoad);
 
@@ -130,7 +132,7 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Delete;
             supplierDataServices.Verify(c => c.DeleteAsyncSupplierDo(dataObject), Times.Never);
             _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never);
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             // Act.
             infoViewModel.IncomingPayload(payLoad);
 
@@ -151,7 +153,7 @@ namespace KarveTest.ViewModels
             dataObject.Value.NUM_PROVEE = "-233133";
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Delete;
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             // Act.
             infoViewModel.IncomingPayload(payLoad);
 
@@ -177,7 +179,7 @@ namespace KarveTest.ViewModels
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             _eventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             IDictionary<string,object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataObject"] = dataObject;
             infoViewModel.ItemChangedCommand.Execute(eventDictionary);
@@ -195,7 +197,7 @@ namespace KarveTest.ViewModels
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataParameters"] = dataObject;
             infoViewModel.ItemChangedCommand.Execute(eventDictionary);
@@ -213,7 +215,7 @@ namespace KarveTest.ViewModels
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
-            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object);
+            ProviderInfoViewModel infoViewModel = new ProviderInfoViewModel(_eventManager.Object, serviceConf.Object, dataServices.Object, _regionManager.Object);
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataParameters"] = dataObject;
             infoViewModel.ItemChangedCommand.Execute(eventDictionary);

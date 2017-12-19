@@ -29,7 +29,7 @@ namespace MasterModule.ViewModels
     /// This view model is the commission agent view model
     /// </summary>
     /// CommissionAgentInfoViewModel
-    public partial class CommissionAgentInfoViewModel : MasterViewModuleBase,  IDataErrorInfo, IEventObserver
+    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase,  IDataErrorInfo, IEventObserver
     {
         private const string TableNameComisio = "COMISIO";
         private Visibility _visibility;
@@ -140,7 +140,7 @@ namespace MasterModule.ViewModels
         public IEnumerable<LanguageDto> Language
         {
             get { return _language; }
-            set { _language = value; }
+            set { _language = value; RaisePropertyChanged(); }
         }
         /// <summary>
         /// Offices.
@@ -229,16 +229,15 @@ namespace MasterModule.ViewModels
         public CommissionAgentInfoViewModel(IConfigurationService configurationService,
                                             IEventManager eventManager, 
                                             IDataServices services, 
-                                            IRegionManager regionManager) : base(configurationService, eventManager, services)
+                                            IRegionManager regionManager) : base( eventManager, configurationService, services, regionManager)
         {
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
             _queries = new Dictionary<string, string>();
-            PrimaryKeyValue = CommissionAgentConstants.PrimaryKey;
+            PrimaryKeyValue = "";
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
             _visibility = Visibility.Collapsed;
-            AssistDataSet = new DataSet();
             AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
             ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
@@ -288,11 +287,6 @@ namespace MasterModule.ViewModels
             payLoad.HasDataObject = true;
             EventManager.NotifyToolBar(payLoad);
            
-        }
-        private void ActiveSubSystem()
-        {
-            // change the active subsystem in the toolbar state.
-            RegisterToolBar();
         }
        
         /// <summary>
@@ -502,15 +496,6 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
-
-        /// <summary>
-        ///  This returns an assist table.
-        /// </summary>
-        public object AssistTable
-        {
-            get { return AssistDataSet; }
-            set { AssistDataSet = (DataSet)value; RaisePropertyChanged(); }
-        }
         /// <summary>
         ///  This returns a data table for binding the objects.
         /// </summary>
@@ -597,8 +582,6 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void StartAndNotify()
         {
-
-
             IsVisible = Visibility.Visible;
             _initializationTable =
                 NotifyTaskCompletion.Create<ICommissionAgent>(LoadDataValue(_primaryKeyValue, _isInsertion), InitializationDataObjectOnPropertyChanged);
@@ -697,9 +680,8 @@ namespace MasterModule.ViewModels
             DataSet dataSetAssistant = await helperDataServices.GetAsyncHelper(assistQuery, assistTableName);
             if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
             {
-                UpdateSource(dataSetAssistant, primaryKey, ref UpperPartObservableCollection);
-                AssistDataSet = dataSetAssistant;
-                AssistTable = dataSetAssistant;
+                //UpdateSource(dataSetAssistant, primaryKey, ref UpperPartObservableCollection);
+               
             }
         }
 
@@ -778,13 +760,24 @@ namespace MasterModule.ViewModels
         /// <param name="dataPayLoad">Payload.</param>
         public void IncomingPayload(DataPayLoad dataPayLoad)
         {
+            // precondition not null
+            if (dataPayLoad == null)
+            {
+                return;
+            }
             DataPayLoad payload = dataPayLoad;
+            // ignore double insert
+            if ((dataPayLoad.PayloadType == DataPayLoad.Type.Insert) && 
+                (PrimaryKeyValue == dataPayLoad.PrimaryKeyValue))
+            {
+                return;
+            }
             if (payload != null)
             {
-                if (PrimaryKey.Length == 0)
+                if (PrimaryKeyValue.Length == 0)
                 {
-                    PrimaryKey = payload.PrimaryKeyValue;
-                    string mailboxName = "CommissionAgents." + PrimaryKey;
+                    PrimaryKeyValue = payload.PrimaryKeyValue;
+                    string mailboxName = "CommissionAgents." + PrimaryKeyValue;
                     if (MailBoxHandler != null)
                     {
                         EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
@@ -802,18 +795,28 @@ namespace MasterModule.ViewModels
                         }
                     case DataPayLoad.Type.Insert:
                         {
-                            if (string.IsNullOrEmpty(PrimaryKey))
+                            CurrentOperationalState = DataPayLoad.Type.Insert;
+                            
+                            if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
-                                CurrentOperationalState = DataPayLoad.Type.Insert;
+                               
                                 PrimaryKeyValue = _commissionAgentDataServices.GetNewId();
-                                Init(PrimaryKeyValue, true);
                             }
+                            //PrimaryKeyValue = payload.PrimaryKeyValue;
+                            Init(PrimaryKeyValue, payload, true);
+
                             break;
                         }
 
                     case DataPayLoad.Type.Delete:
                         {
-                            DeleteItem(payload.PrimaryKeyValue);
+
+                            if (PrimaryKey == payload.PrimaryKey)
+                            {
+                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.CommissionAgentSubystem, MasterModuleConstants.CommissionAgentSystemName);
+                                DeleteRegion(payload.PrimaryKeyValue);
+                                // DeleteItem(payload.PrimaryKeyValue);
+                            }
                             break;
                         }
                 }
@@ -848,12 +851,13 @@ namespace MasterModule.ViewModels
 
                 TipoComission = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
+                DataObject = _commissionAgentDo;
 
                 // Here we send a message to upper part of the view.
                 // it is a component. When it will receive it, it will set the view model and the TipoComiDto.
                 EventManager.SendMessage(UpperBarViewModel.Name, payload);
                
-                DataObject = _commissionAgentDo;
+                
                 /* Items controls to the left */
 
                 for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
@@ -869,7 +873,7 @@ namespace MasterModule.ViewModels
                 }
                 LeftValueCollection = _leftSideDualDfSearchBoxes;
                 // This register the last active payload.
-                RegisterToolBar();
+                ActiveSubSystem();
             }
         }
         /// <summary>
@@ -889,13 +893,18 @@ namespace MasterModule.ViewModels
             }
         }
 
+      
+        public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
+        {
+           throw new NotImplementedException();
+        }
+
         public string this[string columnName]
         {
             get { throw new NotImplementedException(); }
         }
 
         public string Error { get; }
-
         /// <summary>
         ///  UniqueId.
         /// </summary>
@@ -903,5 +912,6 @@ namespace MasterModule.ViewModels
         {
             get => _uniqueId; set => _uniqueId = value;
         }
+       
     }
 }

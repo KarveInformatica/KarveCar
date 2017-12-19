@@ -5,18 +5,88 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--
-        <karveGrid:KarveGridView x:Name="ClientSummary" PageSize="25" Grid.IsSharedSizeScope="True"
-                                   ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ObjectDataProvider x:Key="FilterMode"
+                                    MethodName="GetValues"
+                                    ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="syncfusion:FilterMode" />
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+
+                <Style x:Key="GenericCodeStyle" TargetType="syncfusion:GridFilterControl">
+                    <Setter Property="FilterMode" Value="Both" />
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <syncfusion:SfDataGrid x:Name="ClientSummary"
+                               ColumnSizer="Star"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="False">
+
+
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="RowMouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedRow}"/>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehicleSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        </karveGrid:KarveGridView>
--->
+
+
+
+            <syncfusion:SfDataGrid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </syncfusion:SfDataGrid.Resources>
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn HeaderText="Numero" 
+                                           MappingName="Numero" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                <syncfusion:GridTemplateColumn HeaderText="Matricula" MappingName="Matricula"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock FontStyle="Italic"
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Matricula}" />
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+
+                </syncfusion:GridTemplateColumn>
+
+                <syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+            </syncfusion:SfDataGrid.Columns>
+
+        </syncfusion:SfDataGrid>
+
     </Grid>
+   
 </UserControl>

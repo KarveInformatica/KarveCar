@@ -15,7 +15,6 @@ namespace MasterModule.Common
         internal const string ProviderSubsystemName = "ProviderSystem";
         private const string _imagePath = "/MasterModule;component/Images/search.png";
         private const string _copyCool = "/MasterModule;component/Images/copycool.png";
-
         private const string emailImagePath = "/MasterModule;component/Images/email.png";
         internal const string UiUpperPart = "UpperPartPageBuilder";
         internal const string UiMiddlePartPage = "UiMiddlePartPageBuilder";
@@ -27,7 +26,7 @@ namespace MasterModule.Common
         internal const string VehiclesSystemInfoView = "CommissionAgentInfoView";
         internal const string FareSystemName = "VehiclesSystemName";
         internal const string FareSystemInfoView = "CommissionAgentInfoView";
-
+        internal const string CommissionAgentControlVm= "CommissionAgentControlViewModel";
         public static string ImagePath => _imagePath;
         public static string CopyPath => _copyCool;
         public static string EmailImagePath => emailImagePath;

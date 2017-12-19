@@ -9,64 +9,63 @@ using System.Windows.Input;
 using DataAccessLayer.Assist;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using KarveControls.UIObjects;
 using KarveDataServices;
 using Prism.Regions;
-
+using MasterModule.Views;
+using System.Linq;
+using KarveControls.KarveGrid;
+using Prism.Commands;
+using Syncfusion.Windows.Controls.Grid;
+using Syncfusion.Windows.PdfViewer;
+using NLog;
 namespace MasterModule.Common
 {
     /// <summary>
     ///  Base class for the view model.
     /// </summary>
-    public abstract  class MasterViewModuleBase : BindableBase, INavigationAware
+    public abstract class MasterViewModuleBase : BindableBase, INavigationAware, IDisposable
     {
-        protected const string Dataset = "dataset";
-        protected const string Collection = "collection";
-        /// <summary>
-        ///  DataSet Assist for eache  info view modules
-        /// </summary>
-        protected DataSet AssistDataSet;
-        /// <summary>
-        ///  Current dataset info for the view mdouels
-        /// </summary>
-        protected DataSet CurrentDataSet;
-        /// <summary>
-        ///  list of view model queries.
-        /// </summary>
-        protected IDictionary<string, string> ViewModelQueries;
-      //  protected string PrimaryKeyValue = "";
-
-        protected INotifyTaskCompletion<DataSet> InitializationNotifier;
+        private const string RegionName = "TabRegion";
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
-        protected ObservableCollection<IUiObject> UpperPartObservableCollection = new ObservableCollection<IUiObject>();
+        protected INotifyTaskCompletion<DataSet> InitializationNotifier;
 
-        protected ObservableCollection<IUiObject> MiddlePartObservableCollection =
-            new ObservableCollection<IUiObject>();
+        protected INotifyTaskCompletion<IMagnifierSettings> MagnifierInitializationNotifier;
+
+        protected PropertyChangedEventHandler DeleteEventHandler;
+
+
         /// <summary>
         ///  Each viewmodel refelct different types following the paylod that it receives
         /// </summary>
         protected DataPayLoad.Type CurrentOperationalState;
+
         /// <summary>
         ///  Each view model receives messages in a mailbox. This allows any part of the system to comunicate with each view model.
         /// </summary>
         protected MailBoxMessageHandler MailBoxHandler;
+
         /// <summary>
         ///  The configuration service is a way to set/get configurartions
         /// </summary>
         protected IConfigurationService ConfigurationService;
+
         /// <summary>
         ///  This is a command for open a new window.
         /// </summary>
         protected ICommand OpenItemCommand;
+
         /// <summary>
         /// The event manager is responsabile to implement the communication between different view models
         /// </summary>
         protected IEventManager EventManager;
+
         /// <summary>
         ///  The data services allows any view model to communicate with the database via dataset or via dapper/dataobjects
         /// </summary>
         protected IDataServices DataServices;
+
         /// <summary>
         ///  Mailbox where each view model can receive a message from other view models.
         /// </summary>
@@ -78,13 +77,19 @@ namespace MasterModule.Common
         protected AssistHandlerRegistry AssistHandlerRegistry = new AssistHandlerRegistry();
 
         /// <summary>
+        ///  
+        /// </summary>
+        private ObservableCollection<KarveGridExt.ColParamSize> _defaultColParamSizes = new ObservableCollection<KarveGridExt.ColParamSize>();
+        /// <summary>
         /// PrimaryKey field used from all view models.
         /// </summary>
         private string _primaryKey = "";
+
         /// <summary>
         ///  PrimaryKey field used from all view models.
         /// </summary>
         private string _primaryKeyValue = "";
+
         // Primary Key.
         public string PrimaryKeyValue
         {
@@ -97,15 +102,21 @@ namespace MasterModule.Common
             set { _primaryKey = value; }
             get { return _primaryKey; }
         }
+
         private int _notifyState;
 
         protected bool IsInsertion = false;
+
+        protected IRegionManager RegionManager;
+        protected KarveGridExt.ColParamSize DefaultSummaryViewColSize;
+        protected ObservableCollection<KarveGridExt.ColParamSize> _observableCollection;
 
 
         /// <summary>
         /// Object to warrant the notifications.
         /// </summary>
-        protected  object _notifyStateObject = new object();
+        protected object NotifyStateObject = new object();
+
         /// <summary>
         /// Ok.
         /// </summary>
@@ -114,31 +125,103 @@ namespace MasterModule.Common
             set { _notifyState = 0; }
             get { return _notifyState; }
         }
+
         /// <summary>
-        /// ViewModel base for the master registry
+        /// ViewModel base for the master registry.
+        /// FIXME: It does too many things. Violate SRP.
         /// </summary>
         /// <param name="configurationService">It needs the configuration service</param>
         /// <param name="eventManager">The event manager</param>
         /// <param name="services">The dataservices value</param>
+        
         public MasterViewModuleBase(IConfigurationService configurationService,
             IEventManager eventManager,
-            IDataServices services)
+            IDataServices services,
+            IRegionManager regionManager)
         {
             ConfigurationService = configurationService;
             EventManager = eventManager;
             DataServices = services;
+            RegionManager = regionManager;
             _notifyState = 0;
-          //  OpenItemCommand = new DelegateCommand<object>(Ope);
+            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
         }
 
         /// <summary>
-        ///  This value returns foreach database row a tuple containing the value of the name and the id.
+        ///  Each control view model shall have its Grid identifier.
+
+        public async void OnGridResize(object gridSize)
+        {
+            KarveGridExt.ColParamSize colsParam = gridSize as KarveGridExt.ColParamSize;
+            if (colsParam == null)
+            {
+                return;
+            }
+
+            int gridId = Convert.ToInt32(GridId);
+            _magnifierSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
+            _magnifierSettings.NOMBRE= MagnifierGridName;
+            _magnifierSettings.LUPA = MagnifierGridName;
+            var values = _magnifierSettings.MagnifierColumns;
+            var column = values.FirstOrDefault(s =>
+            {
+                if (s.POSICION.HasValue)
+                {
+                    return (s.POSICION.Value == colsParam.ColumnIndex);
+                }
+                return false;
+                
+            });
+            if (column != null)
+            {
+            
+                column.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
+                column.COLUMNA_NOMBRE = colsParam.ColumnName;
+                column.POSICION = colsParam.ColumnIndex;
+                bool retValue = await DataServices.GetSettingsDataService().SaveMagnifierSettings(_magnifierSettings);
+            }
+            else
+            {
+                Random rand = new Random();
+                IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
+                col.COLUMNA_NOMBRE = colsParam.ColumnName;
+                col.ID_LUPA = Convert.ToInt32(GridId);
+                col.POSICION = colsParam.ColumnIndex;
+                col.ID_COL = rand.Next(0, 1000);
+                col.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
+                int retValue = await DataServices.GetSettingsDataService().CreateMagnifierColumn(col);
+                if (retValue < 0)
+                {
+                    Logger.Log(LogLevel.Error, "Cannot create a new setting columns after a resize");
+                }
+            }
+
+        }
+
+        /// <summary>
+        ///  This returns the grid column resize command
         /// </summary>
-        /// <param name="rowView"></param>
-        /// <param name="nameColumn"></param>
-        /// <param name="codeColumn"></param>
-        /// <returns></returns>
-        protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
+        public ICommand GridResizeCommand { set; get; }
+        /// <summary>
+        ///  This returns the default columns size.
+        /// </summary>
+        public ObservableCollection<KarveGridExt.ColParamSize> DefaultColumnsSize
+        {
+            set
+            {
+                _observableCollection = value;
+                RaisePropertyChanged();
+            }
+            get { return _observableCollection; }
+        }
+    /// <summary>
+    ///  This value returns foreach database row a tuple containing the value of the name and the id.
+    /// </summary>
+    /// <param name="rowView"></param>
+    /// <param name="nameColumn"></param>
+    /// <param name="codeColumn"></param>
+    /// <returns></returns>
+    protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
         {
             DataRow row = rowView.Row;
             string name = row[nameColumn] as string;
@@ -146,46 +229,127 @@ namespace MasterModule.Common
             Tuple<string, string> codeTuple = new Tuple<string, string>(commissionId, name);
             return codeTuple;
         }
+
         /// <summary>
         /// Extended Data Table
         /// </summary>
         protected DataTable ExtendedDataTable;
 
+        private INotifyTaskCompletion<bool> DeleteInitializationTable;
+
+        private IMagnifierSettings _magnifierSettings;
+
         /// <summary>
         ///  This starts the load of data from the lower data layer.
         /// </summary>
         public abstract void StartAndNotify();
+
         /// <summary>
         ///  This asks to the control view model to open a new item for insertion. 
         /// </summary>
         public abstract void NewItem();
 
         /// <summary>
+        ///  Payload trasnfer.
+        /// </summary>
+        /// <param name="payLoad"></param>
+        /// 
+        public void DeleteItem(DataPayLoad payLoad)
+        {
+            string primaryKeyValue = payLoad.PrimaryKeyValue;
+            DeleteInitializationTable =
+                NotifyTaskCompletion.Create<bool>(DeleteAsync(primaryKeyValue, payLoad), DeleteEventHandler);
+            DeleteRegion(primaryKeyValue);
+        }
+
+        public abstract Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad);
+
+
+        /// <summary>
         /// Query. Set the query from the ui.
         /// </summary>
         protected string Query { set; get; }
+
         /// <summary>
         /// This is the message handler.
         /// </summary>
         /// <param name="payLoad"></param>
         protected void MessageHandler(DataPayLoad payLoad)
         {
+
+            if (payLoad.Subsystem == KarveCommon.Services.DataSubSystem.SupplierSubsystem)
+            {
+                payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
+            }
+            if (payLoad.Subsystem == KarveCommon.Services.DataSubSystem.VehicleSubsystem)
+            {
+                payLoad.SubsystemName = MasterModuleConstants.VehiclesSystemName;
+
+            }
+            if (payLoad.Subsystem == KarveCommon.Services.DataSubSystem.CommissionAgentSubystem)
+            {
+                payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
+            }
             if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
             {
-                lock (_notifyStateObject)
+                lock (NotifyStateObject)
                 {
                     _notifyState = 1;
                 }
                 StartAndNotify();
+
+                EventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Delete)
             {
-                // forward data to the current payload.
-                EventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
+                DeleteItem(payLoad);
             }
             if (payLoad.PayloadType == DataPayLoad.Type.Insert)
             {
                 NewItem();
+            }
+        }
+
+        /// <summary>
+        ///  This module delete the region
+        /// </summary>
+        /// <param name="primaryKeyValue"></param>
+        protected void DeleteRegion(string primaryKeyValue)
+        {
+            // get the active tab.
+            var activeRegion = RegionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
+            if (activeRegion != null)
+            {
+                if (activeRegion is ProviderInfoView)
+                {
+                    var vehicleInfo = activeRegion as ProviderInfoView;
+                    RegionManager.Regions[RegionName].Remove(vehicleInfo);
+                }
+                if (activeRegion is CommissionAgentInfoView)
+                {
+                    var commissionAgent = activeRegion as CommissionAgentInfoView;
+                    RegionManager.Regions[RegionName].Remove(commissionAgent);
+                }
+                if (activeRegion is VehicleInfoView)
+                {
+                    var commissionAgent = activeRegion as VehicleInfoView;
+                    RegionManager.Regions[RegionName].Remove(commissionAgent);
+                }
+            }
+        }
+
+        protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, DataSubSystem subSystem,
+            string subSystemName)
+        {
+            if (primaryKey == PrimaryKeyValue)
+            {
+                DataPayLoad payLoad = new DataPayLoad();
+                payLoad.Subsystem = subSystem;
+                payLoad.SubsystemName = subSystemName;
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+                payLoad.PayloadType = DataPayLoad.Type.Delete;
+                EventManager.NotifyToolBar(payLoad);
+                PrimaryKeyValue = "";
             }
         }
 
@@ -199,6 +363,7 @@ namespace MasterModule.Common
             // arriva el payload.
             _primaryKey = primaryKey;
             IsInsertion = value;
+
             if (value)
             {
                 StartAndNotify();
@@ -210,7 +375,7 @@ namespace MasterModule.Common
         /// </summary>
         /// <param name="table"></param>
         protected abstract void SetTable(DataTable table);
-        
+
 
         /// <summary>
         ///  This shall be used by different view models to set the registration payload.
@@ -231,11 +396,11 @@ namespace MasterModule.Common
 
             if (propertyName.Equals("Status"))
             {
-                if (InitializationNotifierDo.IsSuccessfullyCompleted)
+                if (InitializationNotifier.IsSuccessfullyCompleted)
                 {
                     var result = InitializationNotifier.Task.Result;
                     SetDataObject(result);
-                    lock (_notifyStateObject)
+                    lock (NotifyStateObject)
                     {
                         NotifyState = 0;
                     }
@@ -244,12 +409,110 @@ namespace MasterModule.Common
                         HasDataObject = true,
                         DataObject = result
                     };
+                    // simply deletegate to the subsystem to add the fields that it needs for the payload (subsystem, id, objectpath)
                     SetRegistrationPayLoad(ref payLoad);
+                    // ok we notify the toolbar with the payload set.
                     EventManager.NotifyToolBar(payLoad);
                 }
             }
         }
+        /// <summary>
+        /// This initializatin notifier for the data object
+        /// </summary>
+        /// <param name="sender">The sender is</param>
+        /// <param name="propertyChangedEventArgs"></param>
+        protected void InitializationNotifierOnPropertyChanged(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
+        {
 
+            string propertyName = propertyChangedEventArgs.PropertyName;
+
+            if (propertyName.Equals("Status"))
+            {
+                if (InitializationNotifier.IsSuccessfullyCompleted)
+                {
+                    SetTable(InitializationNotifier.Task.Result.Tables[0]);
+                    /* ok the first load has been successfully i can do the second one while the UI Thread is refreshing*/
+                    lock (NotifyStateObject)
+                    {
+                        NotifyState = 0;
+                    }
+                }
+
+
+            }
+        }
+
+        protected void InitializationNotifierOnSettingsChanged(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            string propertyName = propertyChangedEventArgs.PropertyName;
+            if (propertyName.Equals("Status"))
+            {
+                if (MagnifierInitializationNotifier.IsSuccessfullyCompleted)
+                {
+                    SetMagnifierSettings(MagnifierInitializationNotifier.Task.Result);
+                }
+            }
+            else if (propertyName.Equals("IsSuccessfullyCompleted"))
+            {
+                INotifyTaskCompletion<IMagnifierSettings> task = sender as INotifyTaskCompletion<IMagnifierSettings>;
+                if (task != null)
+                {
+                    IMagnifierSettings m = task.Result;
+                    SetMagnifierSettings(m);
+                }
+
+            }
+        }
+        public void SetMagnifierSettings(IMagnifierSettings settings)
+        {
+            _magnifierSettings = settings;
+            IEnumerable<IMagnifierColumns> columns = settings.MagnifierColumns;
+            ObservableCollection<KarveGridExt.ColParamSize> colParams = new ObservableCollection<KarveGridExt.ColParamSize>();
+            foreach (var col in columns)
+            {
+
+                KarveGridExt.ColParamSize paramSize = new KarveGridExt.ColParamSize();
+                double value = Convert.ToDouble(col.ANCHO);
+                paramSize.ColumnName = col.COLUMNA_NOMBRE;
+                paramSize.ColumnWidth = value;
+                if (col.POSICION.HasValue)
+                {
+                    paramSize.ColumnIndex = col.POSICION.Value;
+                    
+                }
+                colParams.Add(paramSize);
+            }
+            DefaultColumnsSize = colParams;
+        }
+
+        public void SaveMagnifierSettings(ObservableCollection<KarveGridExt.ColParamSize> colSize)
+        {
+            IDictionary<int, IMagnifierColumns> colDictionary = new Dictionary<int, IMagnifierColumns>();
+            foreach (var col in _magnifierSettings.MagnifierColumns)
+            {
+                colDictionary.Add(col.POSICION.Value, col);
+            }
+            // copy back.            
+            foreach (var col in DefaultColumnsSize)
+            {
+                IMagnifierColumns magnifierColumn = colDictionary[col.ColumnIndex];
+                magnifierColumn.ANCHO = Convert.ToInt32(col.ColumnWidth);
+                magnifierColumn.COLUMNA_NOMBRE = col.ColumnName;
+                colDictionary.Remove(col.ColumnIndex);
+                colDictionary.Add(col.ColumnIndex, magnifierColumn);
+
+            }
+            _magnifierSettings.ULTIMOD = DateTime.Now.ToLongTimeString();
+            _magnifierSettings.MagnifierColumns = colDictionary.Values;
+            _magnifierSettings.ID = Convert.ToInt32(GridId);
+            _magnifierSettings.NOMBRE = MagnifierGridName;
+            ConfigurationService.GetUserSettings().UserSettingsSaver.SaveMagnifierSettings(_magnifierSettings);
+
+        }
+        public abstract long GridId { set; get; }
+        public abstract string MagnifierGridName { set; get; }
 
         /// <summary>
         /// SetDataObject. 
@@ -259,7 +522,7 @@ namespace MasterModule.Common
 
         protected void RegisterMailBox(string mailboxName)
         {
-          
+
             if (!string.IsNullOrEmpty(PrimaryKeyValue))
             {
                 if (MailBoxHandler != null)
@@ -268,11 +531,13 @@ namespace MasterModule.Common
                 }
             }
         }
+
         protected void ActiveSubSystem()
         {
             // change the active subsystem in the toolbar state.
             RegisterToolBar();
         }
+
         protected void RegisterToolBar()
         {
             // each module notify the toolbar.
@@ -280,125 +545,7 @@ namespace MasterModule.Common
             SetRegistrationPayLoad(ref payLoad);
             EventManager.NotifyToolBar(payLoad);
         }
-    /// <summary>
-    /// This initializatin notifier for the data object
-    /// </summary>
-    /// <param name="sender">The sender is</param>
-    /// <param name="propertyChangedEventArgs"></param>
-    protected void InitializationNotifierOnPropertyChanged(object sender,
-            PropertyChangedEventArgs propertyChangedEventArgs)
-        {
 
-             string propertyName = propertyChangedEventArgs.PropertyName;
-
-            if (propertyName.Equals("Status"))
-            {
-                if (InitializationNotifier.IsSuccessfullyCompleted)
-                {
-                    SetTable(InitializationNotifier.Task.Result.Tables[0]);
-                    /* ok the first load has been successfully i can do the second one while the UI Thread is refreshing*/
-                    lock (_notifyStateObject)
-                    {
-                        NotifyState = 0;
-                    }
-                }
-                
-
-            }
-        }
-      
-       
-        // TODO Fix excessive depth of code.
-        protected void
-            UpdateSource(DataSet dataSetAssistant, string primaryKey,
-                ref ObservableCollection<IUiObject> collection)
-        {
-
-            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
-            {
-
-                UiDualDfSearchTextObject update = null;
-                foreach (IUiObject obj in collection)
-                {
-                    if (obj is UiDualDfSearchTextObject)
-                    {
-                        update = (UiDualDfSearchTextObject)obj;
-                        bool isValidKey = ((update.DataFieldFirst == primaryKey) ||
-                                           (update.AssistDataFieldFirst == primaryKey));
-                        if (isValidKey)
-                        {
-                            if (dataSetAssistant.Tables.Count > 0)
-                            {
-                                dataSetAssistant.Tables[0].NewRow();
-
-                                update.SourceView = dataSetAssistant.Tables[0];
-
-                            }
-                            break;
-                        }
-                    }
-
-
-                    if (obj is UiMultipleDfObject)
-                    {
-                        if (dataSetAssistant.Tables.Count > 0)
-                        {
-                            UiMultipleDfObject tmp = (UiMultipleDfObject)obj;
-                            tmp.SetSourceView(dataSetAssistant.Tables[0], dataSetAssistant.Tables[0].TableName);
-                        }
-                    }
-                }
-
-
-
-            }
-        }
-        /// <summary>
-        /// Set the source item in the components.
-        /// </summary>
-        /// <param name="set">DataSet. This set is sending </param>
-        /// <param name="uiDfObjects">IUiObject. Ok.</param>
-        protected void SetItemSourceTable(DataSet set, ref ObservableCollection<IUiObject> uiDfObjects)
-        {
-            IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(set);
-            ObservableCollection<IUiObject> outCollection = new ObservableCollection<IUiObject>();
-            if (uiDfObjects.Count == 0)
-                return;
-            // now i have to check the uiDfObjects
-            for(int i = 0; i < uiDfObjects.Count;++i)
-            {
-                var uiObject = uiDfObjects[i];
-                if (tablesByNameDictionary.ContainsKey(uiObject.TableName))
-                {
-                    DataTable table = null;
-                    table = tablesByNameDictionary[uiObject.TableName];
-                    uiObject.ItemSource = table;
-                    if (uiObject is UiDoubleDfObject)
-                    {
-                        UiDoubleDfObject valDoubleDfObject = (UiDoubleDfObject) uiObject;
-                        valDoubleDfObject.ItemSource = table;
-                        valDoubleDfObject.ItemSourceRight = table;
-                        
-                    }
-                }
-                if (uiObject is UiMultipleDfObject)
-                {
-                    UiMultipleDfObject box = (UiMultipleDfObject) uiObject;
-                    IList<string> tableNames = box.Tables;
-                    if (tableNames != null)
-                    {
-                        foreach (string tableName in tableNames)
-                        {
-                            box.SetItemSource(tablesByNameDictionary[tableName], tableName);
-                        }
-                    }
-                }
-                uiDfObjects.RemoveAt(i);
-                uiDfObjects.Insert(i, uiObject);
-
-            }
-           
-        }
         /// <summary>
         ///  Navigation support.
         /// </summary>
@@ -408,6 +555,7 @@ namespace MasterModule.Common
         {
             return false;
         }
+
         /// <summary>
         ///  Navigation support 
         /// </summary>
@@ -415,6 +563,7 @@ namespace MasterModule.Common
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+
         /// <summary>
         /// This is the navigation context.
         /// </summary>
@@ -422,12 +571,14 @@ namespace MasterModule.Common
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
+
         /// <summary>
         /// GetRouteName
         /// </summary>
         /// <param name="name">This is the route name. An unique name for the view model.</param>
         /// <returns></returns>
-        protected  abstract string GetRouteName(string name);
+        protected abstract string GetRouteName(string name);
+
         /// <summary>
         ///  It detected the payload name following the data occurred.
         /// </summary>
@@ -435,7 +586,8 @@ namespace MasterModule.Common
         /// <param name="completeSummary">List of loaded dataset to be passed.</param>
         /// <param name="queries">Dictionary of the queries indexed by table.</param>
         /// <returns></returns>
-        protected DataPayLoad BuildShowPayLoad(string name, IList<DataSet> completeSummary, IDictionary<string, string> queries = null)
+        protected DataPayLoad BuildShowPayLoad(string name, IList<DataSet> completeSummary,
+            IDictionary<string, string> queries = null)
         {
             DataPayLoad currentPayload = new DataPayLoad();
             string routedName = GetRouteName(name);
@@ -449,6 +601,7 @@ namespace MasterModule.Common
             }
             return currentPayload;
         }
+
         /// <summary>
         /// This function shows a payload data object
         /// </summary>
@@ -488,7 +641,7 @@ namespace MasterModule.Common
             return currentPayload;
         }
 
-        
+
         /// <summary>
         ///  This function merges the new table to the current dataset
         /// </summary>
@@ -515,158 +668,9 @@ namespace MasterModule.Common
                 }
             }
         }
-        /// <summary>
-        ///  This methods has the resposability to lookup the helpers and set in the component collection
-        /// </summary>
-        protected async Task<IDictionary<string, object>> SetComponentHelpers(DataSet currentSet, ObservableCollection<IUiObject> currentComponents)
+        public void Dispose()
         {
-            IDictionary<string, string> assistQueries = new Dictionary<string, string>();
-            FillViewModelAssistantQueries(currentComponents, currentSet, ref assistQueries);
-            DataSet assitDataSet = await DataServices.GetHelperDataServices().GetAsyncHelper(assistQueries);
-            SetSourceViewTable(assitDataSet, ref currentComponents);
-            IDictionary<string, object> currentDictionary = new Dictionary<string, object>
-            {
-                [Dataset] = assitDataSet,
-                [Collection] = currentComponents
-            };
-            return currentDictionary;
+            SaveMagnifierSettings(DefaultColumnsSize);
         }
-
-        
-        /// <summary>
-        ///  This merge list merges all the things to an unique collection. TODO: Move to a common value
-        /// </summary>
-        /// <param name="values"></param>
-        /// <returns></returns>
-
-        protected ObservableCollection<IUiObject> MergeList(IList<ObservableCollection<IUiObject>> values)
-        {
-            ObservableCollection<IUiObject> obs = new ObservableCollection<IUiObject>();
-
-            foreach (ObservableCollection<IUiObject> current in values)
-            {
-                if (current != null)
-                {
-                    foreach (IUiObject o in current)
-                    {
-                        if (o != null)
-                        {
-                            if (!string.IsNullOrEmpty(o.TableName))
-                            {
-                                obs.Add(o);
-                            }
-                        }
-                    }
-                }
-            }
-            return obs;
-        }
-        /// <summary>
-        ///  This function foreach magnifier assigns an assist table
-        /// </summary>
-        /// <param name="sourceView">DataSet for the magnifier</param>
-        /// <param name="uiDfObjects">List of user interface objects</param>
-        protected void SetSourceViewTable(DataSet sourceView, ref ObservableCollection<IUiObject> uiDfObjects)
-        {
-            IDictionary<string, DataTable> tablesByNameDictionary = BuildDictionaryFromDataSet(sourceView);
-            if (uiDfObjects.Count == 0)
-                return;
-            foreach (IUiObject uiObject in uiDfObjects)
-            {
-
-                if (uiObject is UiMultipleDfObject)
-                {
-
-                    UiMultipleDfObject box = (UiMultipleDfObject)uiObject;
-                    IList<string> assistTables = box.AssistTables;
-                    if (assistTables != null)
-                    {
-                        foreach (string tableName in assistTables)
-                        {
-                            if (tablesByNameDictionary.ContainsKey(tableName))
-                            {
-                                box.SetSourceView(tablesByNameDictionary[tableName], tableName);
-                            }
-                        }
-                    }
-                }
-                if (uiObject is UiDualDfSearchTextObject)
-                {
-                    UiDualDfSearchTextObject box = (UiDualDfSearchTextObject)uiObject;
-                    if (tablesByNameDictionary.ContainsKey(box.AssistTableName))
-                    {
-                        box.SourceView = tablesByNameDictionary[box.AssistTableName];
-                    }
-                }
-
-            }
-        }
-
-       // protected string MasterModuleErrorMessage { set; get; }
-        /// <summary>
-        ///  This builds a dictionary of the tables that are present in a dataset.
-        /// </summary>
-        /// <param name="set"></param>
-        /// <returns></returns>
-        /// TODO move to a common file.
-        protected IDictionary<string, DataTable> BuildDictionaryFromDataSet(DataSet set)
-        {
-            IDictionary<string, DataTable> tablesByNameDictionary = new Dictionary<string, DataTable>();
-            foreach (DataTable t in set.Tables)
-            {
-                tablesByNameDictionary.Add(t.TableName, t);
-            }
-            return tablesByNameDictionary;
-
-        }
-
-        /// <summary>
-        /// FillViewModelAssistantQueries.
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="itemSource"></param>
-        /// <param name="assistantQueries"></param>
-        protected void FillViewModelAssistantQueries(ObservableCollection<IUiObject> collection,
-            DataSet itemSource,
-            ref IDictionary<string, string> assistantQueries)
-        {
-            foreach (IUiObject nameObject in collection)
-            {
-                if (!string.IsNullOrEmpty(nameObject.TableName))
-                {
-                    if (nameObject is UiDualDfSearchTextObject)
-                    {
-                        UiDualDfSearchTextObject dualDfSearch = (UiDualDfSearchTextObject)nameObject;
-                        dualDfSearch.ComputeAssistantRefQuery(itemSource);
-                        if (!string.IsNullOrEmpty(dualDfSearch.AssistRefQuery))
-                        {
-                            if (!assistantQueries.ContainsKey(dualDfSearch.AssistTableName))
-                            {
-                                assistantQueries.Add(dualDfSearch.AssistTableName, dualDfSearch.AssistRefQuery);
-                            }
-                        }
-                    }
-                    if (nameObject is UiMultipleDfObject)
-                    {
-                        UiMultipleDfObject multipleDfObject = (UiMultipleDfObject)nameObject;
-                        IList<IUiObject> listOfSearchTextObjects =
-                            multipleDfObject.FindObjects(UiMultipleDfObject.DfKind.UiDualDfSearch);
-                        foreach (var currentUiObject in listOfSearchTextObjects)
-                        {
-                            UiDualDfSearchTextObject dualDfSearch = (UiDualDfSearchTextObject)currentUiObject;
-                            dualDfSearch.ComputeAssistantRefQuery(itemSource);
-                            if (!string.IsNullOrEmpty(dualDfSearch.AssistRefQuery))
-                            {
-                                if (!assistantQueries.ContainsKey(dualDfSearch.AssistTableName))
-                                {
-                                    assistantQueries.Add(dualDfSearch.AssistTableName, dualDfSearch.AssistRefQuery);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
     }
 }

@@ -21,6 +21,8 @@ namespace MasterModule.ViewModels
         public const string Name = "MasterModule.UpperBarViewSupplierViewModel";
         private IEnumerable<TIPOPROVE> _tipocomis = new List<TIPOPROVE>();
         private string _currentName;
+        private ISupplierData _currentSupplier;
+        
 
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
@@ -66,10 +68,17 @@ namespace MasterModule.ViewModels
             if (payLoad.HasDataObject)
             {
                 ISupplierData data = payLoad.DataObject as ISupplierData;
+                DataObject = null;
                 DataObject = data;
+                
+               // DataObject.Value = data.Value;
+              //  RaisePropertyChanged("DataObject.Value");
                 _subsystem = payLoad.Subsystem;
                 EventManager.DeleteMailBoxSubscription(Name);
-               
+                if (string.IsNullOrEmpty(PrimaryKeyValue))
+                {
+                    PrimaryKeyValue = payLoad.PrimaryKeyValue;
+                }
                 _currentName = Name + "." + payLoad.PrimaryKeyValue;
                 EventManager.RegisterMailBox(_currentName, MailBoxHandler);
                                
@@ -111,12 +120,23 @@ namespace MasterModule.ViewModels
             }
 
         }
+
+        public ISupplierData DataObject
+        {
+            get { return _currentSupplier; }
+            set { _currentSupplier = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         ///  This dispose the mailbox subscription.
         /// </summary>
         public void Dispose()
         {
             EventManager.DeleteMailBoxSubscription(UpperBarViewModel.Name);
+        }
+
+        protected override void UpdateDataObject(object currentObject)
+        {
+            DataObject = currentObject as ISupplierData;
         }
     }
 }

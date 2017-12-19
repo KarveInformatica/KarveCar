@@ -28,7 +28,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  This represent the detailed class for the view model in case of each car.
     /// </summary>
-    partial class VehicleInfoViewModel: MasterViewModuleBase, IEventObserver, IDataErrorInfo
+    partial class VehicleInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDataErrorInfo
     {
         private const string DefaultViewInfoRegionName = "TabRegion";
 
@@ -343,12 +343,11 @@ namespace MasterModule.ViewModels
         /// <param name="services">Data access layer interface</param>
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
             IDataServices services, IRegionManager regionManager) : 
-            base(configurationService, eventManager, services)
+            base(eventManager, configurationService, services, regionManager)
         {
  			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();
             ItemChangedCommand = new DelegateCommand<object>(ChangeUnpack);
-            // In this tow cases i would use a collection of items with an itemscontrol.
             MetaDataObject = InitAssuranceObject();
             DataFieldCollection = InitDataField();
             RevisionObject = InitRevisionComposedFieldObjects();
@@ -769,17 +768,6 @@ namespace MasterModule.ViewModels
             }
         }
         
-        private void DeleteRegion(string primaryKeyValue)
-        {
-            // get the active tab.
-            var activeRegion = _regionManager.Regions[DefaultViewInfoRegionName].ActiveViews.FirstOrDefault();
-            if (activeRegion is VehicleInfoView)
-            {
-                var vehicleInfo = activeRegion as VehicleInfoView;
-                _regionManager.Regions[DefaultViewInfoRegionName].Remove(vehicleInfo);
-                
-            }
-        }
         /// <summary>
         /// Delete a commission agent.
         /// </summary>
@@ -802,7 +790,7 @@ namespace MasterModule.ViewModels
                     PrimaryKeyValue = "";
                     _vehicleDo = null;
                 }
-                DeleteRegion(payload.PrimaryKeyValue);
+               // DeleteRegion(payload.PrimaryKeyValue);
 
             }
             return payload;
@@ -810,6 +798,8 @@ namespace MasterModule.ViewModels
 
         public string UniqueId { get; set; }
 
+
+        // move this to the upper interface.
         /// <summary>
         /// Incoming payload
         /// </summary>
@@ -853,18 +843,27 @@ namespace MasterModule.ViewModels
                     }
                     case DataPayLoad.Type.Insert:
                     {
+                        CurrentOperationalState = DataPayLoad.Type.Insert;
                         if (string.IsNullOrEmpty(PrimaryKeyValue))
                         {
-                            CurrentOperationalState = DataPayLoad.Type.Insert;
                             PrimaryKeyValue =
                                 _vehicleDataServices.GetNewId();
-                            Init(PrimaryKeyValue, true);
+
+                            CurrentOperationalState = DataPayLoad.Type.Insert;
                         }
+                        Init(PrimaryKeyValue, payload, true);
                         break;
                     }
                     case DataPayLoad.Type.Delete:
                     {
-                        DeleteItem(payload.PrimaryKeyValue);
+                    
+                            if (PrimaryKey == payload.PrimaryKey)
+                            {
+                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.VehicleSubsystem, 
+                                    MasterModuleConstants.VehiclesSystemName);
+                                DeleteRegion(payload.PrimaryKeyValue);
+                                // DeleteItem(payload.PrimaryKeyValue);
+                            }
                         break;
                     }
                 }

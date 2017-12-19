@@ -10,6 +10,7 @@ using KarveCommon.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections;
+using KarveCar.Logic.Generic;
 
 namespace KarveTest.Base
 {

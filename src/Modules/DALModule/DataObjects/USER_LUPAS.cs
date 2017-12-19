@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper;
+using  KarveDapper.Extensions;
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a USER_LUPAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("USER_LUPAS")]
 	public class USER_LUPAS 
 	{
 	
 	/// <summary>
     ///  Set or get the ID property.
     /// </summary>
-    
+        [Key]
 		public Int32 ID { get; set; }
  
 	/// <summary>

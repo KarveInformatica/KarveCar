@@ -17,6 +17,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using Model;
+using NLog;
 
 namespace DataAccessLayer.Model
 {
@@ -210,7 +211,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<MaintainanceDto> _maintenanceDto = new ObservableCollection<MaintainanceDto>();
         private PictureDto _pictureDto = new PictureDto();
         private IEnumerable<PICTURES> _pictureResult;
-
+        private Logger _logger = LogManager.GetCurrentClassLogger();
         #endregion
 
         /// <summary>
@@ -366,6 +367,7 @@ namespace DataAccessLayer.Model
                     }
                     catch (System.Exception e)
                     {
+                        _logger.Log(LogLevel.Error, "Delete error in the Vehicle module" + e.Message);
                         return false;
                     }
                 }
@@ -410,13 +412,16 @@ namespace DataAccessLayer.Model
                     }
                     catch (TransactionException ex)
                     {
+                        // this is  an antipattern for exception handling.
                         string message = "Transaction Scope Exception in Vehicle Insertion. Reason: " + ex.Message;
-                        DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
+                        _logger.Log(LogLevel.Error,message);
+                       DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;
                     }
                     catch (System.Exception other)
                     {
                         string message = "Error in a Vehicle Insertion. Reason: " + other.Message;
+                        _logger.Log(LogLevel.Error, message);
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;
                     }

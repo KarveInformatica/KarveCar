@@ -1,7 +1,7 @@
 ﻿using KarveCommon.Services;
 using KarveDataServices;
 
-
+// TODO using generic for setting all this.
 namespace DataAccessLayer
 {
     /// <summary>
@@ -18,6 +18,11 @@ namespace DataAccessLayer
         private readonly IHelperDataServices _helperDataServices;
         // private commission agent access layer.
         private readonly ICommissionAgentDataServices _commissionAgentDataServices;
+        // private setting data servive.
+
+        private readonly ISettingsDataService _settingsDataService;
+
+        
         /// <summary>
         /// Vehicle data services. 
         /// </summary>
@@ -30,13 +35,18 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="sqlExecutor">Sql executor</param>
         /// <param name="configurationService">Configuration service. Global services for the application</param>
-        public DataServiceImplementation(ISqlExecutor sqlExecutor, 
-            IConfigurationService configurationService)
+        public DataServiceImplementation(ISqlExecutor sqlExecutor)
         {
-            _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor, configurationService);
+            /* move to generic all this a good schema might be 
+                _supplierDataServices = new DataAccessLayer<ISupplierData>(sqlExecutor);
+                _helperDataServices = new DataAccessLayer<IHelperData>(sqlExecutor);
+                _DataServices = new DataAccessLayer<I>(sqlExecutor);
+             */
+            _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor);
             _helperDataServices = new HelperDataAccessLayer(sqlExecutor);
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
+            _settingsDataService = new SettingsDataService(sqlExecutor);
         }
         /* this looks like a smell
          * 
@@ -84,6 +94,11 @@ namespace DataAccessLayer
         {
            return _commissionAgentDataServices;
         }
-      
+
+        public ISettingsDataService GetSettingsDataService()
+        {
+            return _settingsDataService;
+        }
+
     }
 }

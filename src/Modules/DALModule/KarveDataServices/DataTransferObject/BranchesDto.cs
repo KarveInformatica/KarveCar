@@ -8,6 +8,22 @@ namespace KarveDataServices.DataTransferObject
     [DataContract]
     public class BranchesDto
     {
+        public BranchesDto()
+        { }
+
+        public BranchesDto(BranchesDto lastBranchesDto)
+        {
+            BranchId = lastBranchesDto.BranchId;
+            Address = lastBranchesDto.Address;
+            Address2 = lastBranchesDto.Address2;
+            Phone = lastBranchesDto.Phone;
+            Phone2 = lastBranchesDto.Phone2;
+            Province = lastBranchesDto.Province;
+            Email = lastBranchesDto.Email;
+            City = lastBranchesDto.City;
+            Province = lastBranchesDto.Province;
+        }
+
         [DataMember]
         public int BranchId;
         [DataMember]

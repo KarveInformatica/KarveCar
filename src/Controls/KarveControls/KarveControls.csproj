@@ -52,6 +52,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
@@ -103,6 +105,10 @@
     <Reference Include="Syncfusion.SfGridConverter.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfGridConverter.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfInput.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfInput.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Shared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -228,6 +234,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCompleteSearchBox\AutoCompleteSearchBox.cs" />
     <Compile Include="DataArea\DataArea.xaml.cs">
       <DependentUpon>DataArea.xaml</DependentUpon>
     </Compile>
@@ -246,6 +253,9 @@
     <Compile Include="DataFieldItemsControl\KarveExt.cs" />
     <Compile Include="DataField\DataField.cs" />
     <Compile Include="DataField\DataFieldEventArgs.cs" />
+    <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
+      <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
@@ -257,9 +267,6 @@
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
     <Compile Include="DualDataField\DualDataField.xaml.cs">
       <DependentUpon>DualDataField.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
-      <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
     <Compile Include="Generic\ComponentUtils.cs" />
@@ -310,6 +317,7 @@
     <Compile Include="KarveGrid\GridTraduccion\MyTraducRadGrid.cs" />
     <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
     <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
+    <Compile Include="KarveGrid\KarveGridExt.cs" />
     <Compile Include="KarveGrid\KarveGridView.cs" />
     <Compile Include="KarveGrid\LayoutLocalizationProvider.cs" />
     <Compile Include="KarveGrid\obj\Debug\GeneratedInternalTypeHelper.g.i.cs" />
@@ -369,6 +377,10 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
+    <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -386,10 +398,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DualDataField\DualDataField.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -429,6 +437,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Resource Include="Images\searchImage.png" />
     <Content Include="KarveCommon.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveGrid\KarveGrid.csproj" />

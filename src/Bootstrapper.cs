@@ -12,15 +12,17 @@ using System.Globalization;
 using System;
 using DataAccessLayer;
 using DataAccessLayer.SQL;
+using KarveCar.Logic.Generic;
 using KarveCar.Views;
 using MasterModule.Common;
-
+using NLog;
 
 namespace KarveCar
 {
     class Bootstrapper : UnityBootstrapper
     {
 
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
         /// <summary>
@@ -38,11 +40,8 @@ namespace KarveCar
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
-            catalog.AddModule(typeof(MasterModule.MasterModule));
-            //catalog.AddModule(typeof(AgentsModule.AgentModule));
-            catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
-          //  catalog.AddModule(typeof(PaymentTypeModule.PaymentTypeModule));
-           
+            catalog.AddModule(typeof(MasterModule.MasterModule)); 
+            catalog.AddModule(typeof(ToolBarModule.ToolBarModule));           
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
@@ -55,24 +54,27 @@ namespace KarveCar
         /// </summary>
         protected override void ConfigureContainer()
         {
+            logger.Debug("Configure Prism Container");
             base.ConfigureContainer();
             try
             {
                 Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
                 // The dal service is used to access to the database
+                logger.Debug("Resolving configuration container");
 
-
-                Container.RegisterType<IConfigurationService, KarveCar.Logic.ConfigurationService>(new ContainerControlledLifetimeManager());
+                Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
+                Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
+                Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
+                Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
                 InjectionConstructor injectionConstructorDB = new InjectionConstructor(currentValue);
                 Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
-                object[] values = new object[2];
+                object[] values = new object[1];
                 values[0] = Container.Resolve<ISqlExecutor>();
-                values[1] = Container.Resolve<IConfigurationService>();
-
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
+                logger.Debug("Registering types in the dependency injection");
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
@@ -82,6 +84,7 @@ namespace KarveCar
             }
             catch (Exception e)
             {
+                logger.Error("Error during the container configuration. KarveWin cannot start! Reason:" + e.Message);
                 MessageBox.Show(e.Message, "Error during the container configuration. KarveWin cannot start!", MessageBoxButton.OK);
             }
         }
@@ -119,6 +122,7 @@ namespace KarveCar
                 Application.Current.MainWindow.Show();
             } catch (Exception e)
             {
+                logger.Error("Error during bootstrap:" + e.Message);
                 MessageBox.Show("Error during bootstrap" + e.Message);
             }
         }

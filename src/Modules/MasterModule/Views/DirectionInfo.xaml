@@ -14,6 +14,7 @@
     <Grid x:Name="DefaultLayout">
         <WrapPanel Orientation="Vertical">
             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
+                <TextBlock Text="Dirección 1"></TextBlock>
                 <materialDesign:PackIcon
 		Margin="0,0,8,0"
                     Height="25"
@@ -22,12 +23,13 @@
                 <TextBox
 		x:Name="DirectionTextBox"
         Text="{Binding Direction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-		Width="172"
+		Width="250"
         materialDesign:HintAssist.Hint="Direccion"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
+                <TextBlock Text="Dirección 2"></TextBlock>
                 <materialDesign:PackIcon
                     Height="25"
 		Margin="0,0,8,0"
@@ -37,7 +39,7 @@
 		x:Name="DirectionTextBox2"
                     Text="{Binding Direction2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 	
-		Width="172"
+		Width="250"
         materialDesign:HintAssist.Hint="Direccion"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
@@ -61,7 +63,7 @@
                                                           SourceView="{Binding PoblacionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
-                 
+
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
                         <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                TriggerParameterPath="ChangedValuesObjects"/>

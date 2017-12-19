@@ -9,6 +9,7 @@ using KarveDataServices;
 using MasterModule.Common;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
+using System.Threading.Tasks;
 
 namespace MasterModule.ViewModels
 {
@@ -16,12 +17,14 @@ namespace MasterModule.ViewModels
    ///  This is the fare control view model.
    /// It controls the fares.
    /// </summary>
-    public class FaresControlViewModel : MasterViewModuleBase, IEventObserver
+    public class FaresControlViewModel : MasterControlViewModuleBase, IEventObserver
     {
         private UnityContainer _container;
         private IRegionManager _regionManager;
 
         public string UniqueId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override long GridId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override string MagnifierGridName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         ///  This is the fares control view model.
@@ -30,7 +33,7 @@ namespace MasterModule.ViewModels
             IEventManager eventManager,
             IDataServices services,
             UnityContainer container,
-            IRegionManager regionManager) : base(configurationService, eventManager, services)
+            IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             _container = container;
             _regionManager = regionManager;
@@ -68,6 +71,11 @@ namespace MasterModule.ViewModels
         }
 
         public void IncomingPayload(DataPayLoad payload)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
             throw new NotImplementedException();
         }

@@ -27,21 +27,16 @@ namespace KarveTest.DAL
     {
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
-        private IConfigurationService _serviceConf;
-       
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
-        
-
 
         [OneTimeSetUp]
         public void SetUp()
         {
             _dataServices = null;
-            _serviceConf = base.SetupConfigurationService();
             try
             {
                 ISqlExecutor executor = SetupSqlQueryExecutor();
-               _dataServices = new DataServiceImplementation(executor,_serviceConf);
+               _dataServices = new DataServiceImplementation(executor);
                 _supplierDataServices = _dataServices.GetSupplierDataServices();
             }
            catch (Exception e)

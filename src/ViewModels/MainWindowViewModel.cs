@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using Dragablz;
+using KarveCar.Properties;
 using KarveCommon.Generic;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -23,27 +27,40 @@ namespace KarveCar.ViewModels
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
         private const string _title = "KarveWin 0.9";
+        private ObjectDataProvider _resourceObjectDataProvider;
 
+
+        /// <summary>
+        ///  NavigateCommand, This is the command for navigation
+        /// </summary>
         public DelegateCommand<string> NavigateCommand { get; set; }
-      
+        /// <summary>
+        ///  This support the change of language in the application.
+        /// Some work
+        /// </summary>
+        public ICommand ChangeLanguageCommand { get; set; }
+
         public string Title
         {
             get { return _title; }
         }
-
+        /// <summary>
+        ///  This is the main v
+        /// </summary>
+        /// <param name="regionManager"></param>
         public MainWindowViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+            ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
-
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
             NavigateCommand = new DelegateCommand<string>(Navigate);
-
+            ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
 
         void Navigate(string navigationPath)
@@ -55,14 +72,14 @@ namespace KarveCar.ViewModels
             get { return ClosingTabItemHandlerImpl; }
         }
 
-      
+
         /// <summary>
         /// Callback to handle tab closing.
         /// </summary>        
         private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
         {
             //in here you can dispose stuff or cancel the close
-                
+
             //here's your view model:
             //var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
             //Debug.Assert(viewModel != null);
@@ -73,20 +90,20 @@ namespace KarveCar.ViewModels
             if (tabControl == null)
                 return;
 
-               IRegion region = RegionManager.GetObservableRegion(tabControl).Value;
-              if (region == null)
+            IRegion region = RegionManager.GetObservableRegion(tabControl).Value;
+            if (region == null)
                 return;
-            IViewsCollection collection =  region.ActiveViews;
+            IViewsCollection collection = region.ActiveViews;
             object currentView = null;
             foreach (var v in collection)
             {
                 currentView = v;
-                
+
             }
             if (currentView != null)
             {
-              
-                PropertyInfo parameterInfo =currentView.GetType().GetProperty("Header");
+
+                PropertyInfo parameterInfo = currentView.GetType().GetProperty("Header");
                 if (parameterInfo != null)
                 {
                     string headerName = parameterInfo.GetValue(currentView, null) as string;
@@ -107,11 +124,13 @@ namespace KarveCar.ViewModels
 
         public IInterTabClient CustomInterTabClient
         {
-            get { IInterTabClient tabClient = new KarveInterTabClient();
+            get
+            {
+                IInterTabClient tabClient = new KarveInterTabClient();
                 return tabClient;
             }
         }
- 
+
         void RemoveItemFromRegion(object item, IRegion region)
         {
             var navigationContext = new NavigationContext(region.NavigationService, null);
@@ -181,10 +200,12 @@ namespace KarveCar.ViewModels
 
             return FindParent<T>(parentObject);
         }
-        // TODO: implement a set language support.
+        /// <summary>
+        /// Devuelve el ObjectDataProvider en uso
+        /// </summary>
         public void SetLanguages(object parameter)
         {
-            
+
         }
     }
 

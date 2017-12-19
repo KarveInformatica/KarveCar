@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,11 +28,14 @@ namespace MasterModule.ViewModels
         private IEnumerable<TIPOCOMI> _tipocomis = new List<TIPOCOMI>();
         private string _pathType = "";
         private string _pathPerson = "";
+        private string _currentName = "";
         private string _labelType = "";
         private string _dataFieldSearch = "";
         private string _assistDataFieldFirst = "";
         private string _assistDataFieldSecond = "";
         private string _assistTable = "";
+     
+        private ICommissionAgent _commissionAgentCurrent;
 
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
@@ -90,6 +94,21 @@ namespace MasterModule.ViewModels
             get { return _pathPerson; }
         }
 
+        /// <summary>
+        ///  Data Object
+        /// </summary>
+        public ICommissionAgent DataObject
+        {
+            set
+            {
+                _commissionAgentCurrent = value;
+                RaisePropertyChanged();
+            }
+            get { return _commissionAgentCurrent; }
+        }
+
+
+
         public string LabelTypeSearch {
             get { return _labelType; }
             set { _labelType = value;
@@ -134,9 +153,14 @@ namespace MasterModule.ViewModels
         /// <param name="payLoad"></param>
         private void MailBoxHandlerMethod(DataPayLoad payLoad)
         {
+                       
             if (payLoad.HasDataObject)
-            {
-                DataObject = payLoad.DataObject;
+            {       
+                _subsystem = payLoad.Subsystem;
+                EventManager.DeleteMailBoxSubscription(Name);
+                _currentName = Name + "." + payLoad.PrimaryKeyValue;
+                EventManager.RegisterMailBox(_currentName, MailBoxHandler);
+                DataObject = payLoad.DataObject as ICommissionAgent;
                 _subsystem = payLoad.Subsystem;
                 if (DataObject is ICommissionAgent)
                 {
@@ -155,7 +179,7 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         private async Task HandleSupplier(object dataObject)
         {
-            ISupplierData supplier = dataObject as ISupplierData;
+           /* ISupplierData supplier = dataObject as ISupplierData;
             DataObject = supplier;
             PathCode = "NUM_PROVEE";
             PathPerson = "COMERCIAL";
@@ -169,7 +193,8 @@ namespace MasterModule.ViewModels
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
             var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
             SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
-            
+            */
+            await Task.Delay(1);
         }
         /// <summary>
         ///  This is a commission handler
@@ -180,7 +205,7 @@ namespace MasterModule.ViewModels
         {
             ICommissionAgent agent = dataObject as ICommissionAgent;
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-            DataObject = agent;
+          
             PathCode = "NUM_COMI";
             PathPerson = "NOMBRE";
             LabelTypeSearch = "Tipo.Comm.";
@@ -188,15 +213,28 @@ namespace MasterModule.ViewModels
             AssistDataFieldFirst = "NUM_TICOMI";
             AssistDataFieldSecond = "NOMBRE";
             AssistTable = "TIPOCOMI";
-            var agentValue = agent.CommisionTypeDto.FirstOrDefault().Codigo;
-            if (agentValue != null)
+            DataObject = agent;
+            if ((agent != null) && (agent.CommisionTypeDto != null))
             {
-
-                string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",agentValue);
-                var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(value);
-                SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                var agentValue = agent.CommisionTypeDto.FirstOrDefault();
+                if (agentValue != null)
+                {
+                    var currentCode = agentValue.Codigo;
+                    string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",
+                        currentCode);
+                    var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(value);
+                    SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                }
             }
-  
+            else
+            {
+                if (agent != null)
+                {
+                    agent.CommisionTypeDto = new ObservableCollection<CommissionTypeDto>();
+                    SourceView = agent.CommisionTypeDto;
+                }
+            }
+
         }
      
 
@@ -228,6 +266,15 @@ namespace MasterModule.ViewModels
         public void Dispose()
         {
             EventManager.DeleteMailBoxSubscription(UpperBarViewModel.Name);
+        }
+
+        protected override void UpdateDataObject(object currentObject)
+        {
+           var currentValue = currentObject as ICommissionAgent;
+            if (currentValue != null)
+            {
+                DataObject = currentValue;
+            }
         }
     }
 }

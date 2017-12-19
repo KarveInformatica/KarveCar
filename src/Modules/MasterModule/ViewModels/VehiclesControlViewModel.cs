@@ -11,6 +11,7 @@ using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using KarveCommonInterfaces;
+using System.Threading.Tasks;
 
 namespace MasterModule.ViewModels
 {
@@ -27,6 +28,10 @@ namespace MasterModule.ViewModels
         private const string VehiclesAgentSummaryVm = "VehiclesAgentSummaryVm";
         private const string VehiclesModuleRoutePrefix = "VehiclesModule:";
         public bool CreateRegionManagerScope => true;
+        private long _longId = 3;
+        private ISettingsDataService _settings;
+
+
         /// <summary>
         ///  This is the vehicle control view model. 
         /// This is responsable for the opening new tabs.
@@ -40,10 +45,11 @@ namespace MasterModule.ViewModels
             IEventManager eventManager,
             IDataServices services,
             UnityContainer container,
-            IRegionManager regionManager) : base(configurationService, eventManager, services)
+            IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             _container = container;
             _regionManager = regionManager;
+
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
         }
@@ -55,19 +61,12 @@ namespace MasterModule.ViewModels
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, VehicleNameColumn, VehicleColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-                IVehicleData agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
-
-               
+                var agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add("id",  idNameTuple.Item1);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
                 var uri = new Uri(typeof(VehicleInfoView).FullName+navigationParameters,UriKind.Relative);
                 _regionManager.RequestNavigate("TabRegion", uri);
-                 
-                // replace this with navigation.
-                /*VehicleInfoView view = _container.Resolve<VehicleInfoView>();
-                ConfigurationService.AddMainTab(view, tabName);
-                */
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item1;
                 currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
@@ -76,62 +75,33 @@ namespace MasterModule.ViewModels
             }
         }
 
+
         private void InitViewModel()
         {
-            MessageHandlerMailBox += VehicleAgentMailBox;
-            StartAndNotify();
-            
+            MagnifierGridName = VehiclesAgentSummaryVm;
+            GridId = 3;
+            StartAndNotify();          
         }
-        private void VehicleAgentMailBox(DataPayLoad payLoad)
-        {
-            if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
-            {
-                StartAndNotify();
-            }
-            if (payLoad.PayloadType == DataPayLoad.Type.Delete)
-            {
-                payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
-            }
-            if (payLoad.PayloadType == DataPayLoad.Type.Insert)
-            {
-                NewItem();
-            }
-        }
-
         public ICommand OpenItem
         {
             get { return OpenItemCommand; }
             set { OpenItemCommand = value; }
         }
+
+        public void LoadMagnifierSettings()
+        {
+            _settings = DataServices.GetSettingsDataService();
+            MagnifierInitializationNotifier =
+                NotifyTaskCompletion.Create<IMagnifierSettings>(_settings.GetMagnifierSettings(GridId), InitializationNotifierOnSettingsChanged);
+
+        }
         public override void StartAndNotify()
         {
-            // the message handler is resposible to receive messages from the different view models.
-       //     MessageHandlerMailBox += VehicleMessageHandler;
+            MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0,0), InitializationNotifierOnPropertyChanged);
+            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChanged);
 
-          }
-        protected void VehicleMessageHandler(DataPayLoad payLoad)
-        {
-            if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
-            {
-                lock (_notifyStateObject)
-                {
-                    NotifyState = 1;
-                }
-                StartAndNotify();
-            }
-            if (payLoad.PayloadType == DataPayLoad.Type.Delete)
-            {
-                // forward data to the current payload.
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
-            }
-            if (payLoad.PayloadType == DataPayLoad.Type.Insert)
-            {
-                NewItem();
-            }
         }
         /// <summary>
         ///  This returns the summary view for vehicles.
@@ -146,15 +116,17 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void NewItem()
         {
-            string name = "NuevoVehiculo";
-            string codigo = DataServices.GetVehicleDataServices().GetNewId();
+            string name = "NuevoVehiculos";
+            string codigo = DataServices.GetSupplierDataServices().GetNewId();
             VehicleInfoView view = _container.Resolve<VehicleInfoView>();
             string viewNameValue = name + "." + codigo;
             ConfigurationService.AddMainTab(view, viewNameValue);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = "";
+            currentPayload.PrimaryKeyValue = codigo;
+            currentPayload.HasDataObject = true;
+            currentPayload.DataObject = DataServices.GetVehicleDataServices().GetNewVehicleDo(codigo);
             currentPayload.Sender = EventSubsystem.VehichleSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
         }
@@ -170,12 +142,21 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
         }
         /// <summary>
+        ///  Grid identifier.
+        /// </summary>
+        public override long GridId { get => _longId; set => _longId = value; }
+        /// <summary>
+        ///  Magnifier GridName.
+        /// </summary>
+        public override string MagnifierGridName { get; set; }
+
+        /// <summary>
         /// Set data object
         /// </summary>
         /// <param name="result">This is the data object for this screen</param>
         protected override void SetDataObject(object result)
         {
-            //_dataObject = result;
+            // there is no single data object. Need for just a control interface and refacto.
         }
 
         /// <summary>
@@ -191,7 +172,7 @@ namespace MasterModule.ViewModels
         }
 
         public string UniqueId { get; set; }
-
+       
         /// <summary>
         ///  Message incoming from different 
         /// </summary>
@@ -199,16 +180,19 @@ namespace MasterModule.ViewModels
         public void IncomingPayload(DataPayLoad payload)
         {
         }
-        
-        public void Dispose()
-        {
-           // MessageHandlerMailBox.
-           //     -= VehicleMessageHandler;
-        }
-
+ 
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
+            LoadMagnifierSettings();
+        }
+        public override async Task<bool> DeleteAsync(string vehiculeId, DataPayLoad payLoad)
+        {
+            IVehicleData vehicleData = await DataServices.GetVehicleDataServices().GetVehicleDo(vehiculeId);
+            bool retValue = await DataServices.GetVehicleDataServices().DeleteVehicleDo(vehicleData);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
+            return retValue;
+        
         }
     }
 }

@@ -15,12 +15,12 @@ namespace KarveTest.UI
     public class GuiTests
     {
 
-        private string applicationPath = @"C:\Users\Usuario\Documents\KarveSnapshots\KarveCar\src\bin\Debug\";
+        private string _applicationPath = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
 
         [OneTimeSetUp]
         public void ToolBarTest()
         {
-            applicationPath = Path.Combine(applicationPath, "KarveCar.exe");
+            _applicationPath = Path.Combine(_applicationPath, "KarveCar.exe");
 
         }
         [OneTimeTearDown]
@@ -32,14 +32,14 @@ namespace KarveTest.UI
         public void Should_Start_and_Close_Correctly()
         {
 
-            Application application = Application.Launch(applicationPath);
+            Application application = Application.Launch(_applicationPath);
             application.Close();
         }
         
         [Test]
         public void Should_Start_And_Show_Banks_Correctly()
         {
-            Application application = Application.Launch(applicationPath);
+            Application application = Application.Launch(_applicationPath);
             Window mainWindow = application.GetWindows()[0];
             MenuBar clients = mainWindow.MenuBars[3];
             clients.Click();
@@ -52,7 +52,7 @@ namespace KarveTest.UI
         [Test]
         public void Should_Click_ToolBarExitButton_And_Exit()
         {
-            Application application = Application.Launch(applicationPath);
+            Application application = Application.Launch(_applicationPath);
             Window mainWindow = application.GetWindows()[0];
             SearchCriteria searchCriteria = SearchCriteria.ByAutomationId("tbAcciones");
             var toolBarTest= mainWindow.Get<ToolStrip>(searchCriteria);
@@ -66,10 +66,9 @@ namespace KarveTest.UI
         [Test]
         public void Should_ToolBarSaveButton_Enabled_AfterAnInsertion()
         {
-            Application application = Application.Launch(applicationPath);
+            Application application = Application.Launch(_applicationPath);
             Window mainWindow = application.GetWindows()[0];
             // shall launch the banks for example
-
             SearchCriteria searchCriteria = SearchCriteria.ByAutomationId("tbAcciones");
             var toolBarTest = mainWindow.Get<ToolStrip>(searchCriteria);
             searchCriteria = SearchCriteria.ByAutomationId("tbbtnGuardar");

@@ -21,9 +21,9 @@
         <GroupBox Header="Dato Generales">
         <StackPanel Name="ContextLayout" Orientation="Horizontal">
             
-            <karveControls:DataField x:Name="Numero" TextContentWidth="100"
+            <karveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="{Binding PathCode, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     DataSourcePath="NUM_COMI" 
                                      LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
@@ -58,32 +58,18 @@
                                               IsReadOnlySecond="True"
                                               LabelTextWidth="100" 
                                               LabelText="{Binding LabelTypeSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                              
+                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                               LabelVisible="True"
                                               AssistProperties="Codigo,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="{Binding DataFieldSearch, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               AssistTableName="{Binding AssistTable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              AssistDataFieldFirst="{Binding AssistDataFieldFirst, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              AssistDataFieldSecond="{Binding AssistDataFieldSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              AssistDataFieldFirst="NUM_TICOMI"
+                                              AssistDataFieldSecond="NOMBRE"
                                               ButtonImage="/MasterModule;component/Images/search.png">
-                <i:Interaction.Triggers>
-                    
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                   TriggerParameterPath="AssistParameters" />
-
-                    </i:EventTrigger>
-                    
-                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
-                    </i:EventTrigger>
-                   
-                </i:Interaction.Triggers>
-
+              
             </karveControls:DualFieldSearchBox>
             
         </StackPanel>

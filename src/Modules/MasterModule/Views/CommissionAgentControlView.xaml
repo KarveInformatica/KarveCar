@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:grid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              xmlns:mvvm1="http://prismlibrary.com/"     
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -29,7 +30,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
-                               ColumnSizer="Star"
+                               ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -38,6 +39,8 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               grid:KarveGridExt.DefaultColumnsSize="{Binding DefaultColumnsSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               grid:KarveGridExt.ResizeColumnCommand="{Binding GridResizeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"   
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

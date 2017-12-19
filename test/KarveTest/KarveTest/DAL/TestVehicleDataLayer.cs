@@ -34,7 +34,7 @@ namespace KarveTest.DAL
             try
             {
                 ISqlExecutor executor = SetupSqlQueryExecutor();
-                _dataServices = new DataServiceImplementation(executor, _serviceConf);
+                _dataServices = new DataServiceImplementation(executor);
                 _vehicleDataServices = _dataServices.GetVehicleDataServices();
             }
             catch (Exception e)

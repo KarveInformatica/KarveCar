@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using NLog;
 namespace MasterModule.Views
 {
     /// <summary>
@@ -22,12 +22,15 @@ namespace MasterModule.Views
     public partial class VehicleInfoView : UserControl
     {
         private string _header = string.Empty;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public VehicleInfoView()
         {
             Stopwatch initCStopwatch = new Stopwatch();
             initCStopwatch.Start();
             InitializeComponent();
             initCStopwatch.Stop();
+            long elapsedTime = initCStopwatch.ElapsedMilliseconds;
+            logger.Debug("Elapsed time for loading Vehicle ms" + elapsedTime);
         }
 
         public string Header { set { _header = value; } get { return _header; } }
