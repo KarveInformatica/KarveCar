@@ -21,6 +21,10 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Supplier data service subsystem</returns>
         ISupplierDataServices GetSupplierDataServices();
+        /// <summary>
+        ///  GetSettings data service.
+        /// </summary>
+        /// <returns></returns>
         ISettingsDataService GetSettingsDataService();
 
         /// <summary>
@@ -33,7 +37,13 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         /// 
-        ICommissionAgentDataServices GetCommissionAgentDataServices();        
+        ICommissionAgentDataServices GetCommissionAgentDataServices();
+        /// <summary>
+        ///  This will deprecate the above interfaces.
+        /// </summary>
+        /// <typeparam name="T">Type the service</typeparam>
+        /// <returns></returns>
+        T GetDataService<T>();
     }
 
 }

@@ -7,6 +7,9 @@ using MasterModule.Properties;
 
 namespace MasterModule.UIObjects.Suppliers
 {
+    /// <summary>
+    ///  This was used to craft by hand with data templates the initialcode.
+    /// </summary>
     internal class UiMiddlePartPageBuilder : CommonPageBuilder,IUiPageBuilder
     {
         private const string Email = "EMAIL";
@@ -35,8 +38,9 @@ namespace MasterModule.UIObjects.Suppliers
 
         private IUiObject BuildProvinceDfSearchTextObject( string provinceDataField, UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
+            /*
             UiDualDfSearchTextObject dualSearchTextObject1 =
-                new UiDualDfSearchTextObject(Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
+                new UiDualDfSearchTextObject(Resources.LeftPart_Provincia,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = ProviderConstants.ZipKey;
@@ -54,7 +58,8 @@ namespace MasterModule.UIObjects.Suppliers
             dualSearchTextObject1.TextContentFirstWidth = UiConstants.TextBoxWidthSmall;
             dualSearchTextObject1.TextContentSecondWidth = UiConstants.TextBoxWidthDefault;
             dualSearchTextObject1.OnAssistQuery += assistQuery;
-            return dualSearchTextObject1;
+            return dualSearchTextObject1;*/
+            return null;
         }
 
         private IUiObject BuildOffice(UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
@@ -63,7 +68,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiMultipleDfObject multipleDfObject = new UiMultipleDfObject();
 
             UiDualDfSearchTextObject dualSearchTextObject1 =
-                new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                new UiDualDfSearchTextObject(Properties.Resources.Empresa,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = "CODIGO";
@@ -88,7 +93,7 @@ namespace MasterModule.UIObjects.Suppliers
             multipleDfObject.AddDataField(dualSearchTextObject1);
             
             UiDualDfSearchTextObject dualSearchTextObject2 =
-                new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                new UiDualDfSearchTextObject(Properties.Resources.Empresa,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject2.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject2.AssistDataFieldFirst = "CODIGO";
@@ -125,7 +130,7 @@ namespace MasterModule.UIObjects.Suppliers
             doubleDfObject.LabelVisible = true;
             doubleDfObject.TextContentWidth = UiConstants.TextBoxWidthDefault;
             doubleDfObject.Height = UiConstants.TextboxHeight;
-            doubleDfObject.TableName = Resources.ProviderModule_Table1;
+            doubleDfObject.TableName = "PROVEE1";
             doubleDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             doubleDfObject.IsReadOnly = false;
             doubleDfObject.IsReadOnlyRight = false;
@@ -155,12 +160,12 @@ namespace MasterModule.UIObjects.Suppliers
             startDate.Width = UiConstants.PickerWidth;
             startDate.OnChangedField += changedField;
             startDate.PrimaryKey = ProviderConstants.PrimaryKey;
-            startDate.TableName = Resources.ProviderModule_Table1;
+            startDate.TableName = "PROVEE1";
             startDate.ItemSource = new DataTable();
             startDate.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             dateMultipleDfObject.AddDataField(startDate);
             UiDatePicker startDate1 = new UiDatePicker();
-            startDate1.LabelText = Resources.UiMiddlePartPageBuilder_BuildDates_FechaDeAlta;
+            startDate1.LabelText = Resources.FechaDeAlta;
             startDate1.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             startDate1.DataField = MiddlePartsFields[17];
             startDate1.Height = UiConstants.TextboxHeight;
@@ -205,7 +210,7 @@ namespace MasterModule.UIObjects.Suppliers
             dataArea.LabelText = dataLabel;
             dataArea.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             dataArea.TextContentWidth = UiConstants.LabelTextWidthWide;
-            dataArea.TableName = Resources.ProviderModule_Table1;
+            dataArea.TableName = "PROVEE1";
             dataArea.PrimaryKey = ProviderConstants.PrimaryKey;
             dataArea.ItemSource = new DataTable();
             return dataArea;
@@ -265,11 +270,11 @@ namespace MasterModule.UIObjects.Suppliers
             IDictionary<string, string> currentParam = new Dictionary<string, string>();
             // add a name
             currentParam.Add("DataField", MiddlePartsFields[0]);
-            currentParam.Add("Label", Resources.ProviderInfoViewModel_Nombre);
-            currentParam.Add("Table", Resources.ProviderModule_Table1);
+            currentParam.Add("Label", Resources.Nombre);
+            currentParam.Add("Table", "PROVEE1");
             currentParam.Add("PrimaryKey", ProviderConstants.PrimaryKey);
             //add a nif
-            currentParam.Add("LabelRight", Resources.ProviderInfoViewModel_NIF);
+            currentParam.Add("LabelRight", Resources.NIF);
             currentParam.Add("DataFieldRight", MiddlePartsFields[1]);
 
             IUiObject currentField = BuildDoubleDfObjectProviders(currentParam, changedField);
@@ -278,14 +283,14 @@ namespace MasterModule.UIObjects.Suppliers
            
             currentParam["DataField"] = MiddlePartsFields[2];
             currentParam["Label"]= "Direccion";
-            currentParam["Table"] = Resources.ProviderModule_Table1;
+            currentParam["Table"] = "PROVEE1";
             currentParam["PrimaryKey"] = ProviderConstants.PrimaryKey;
 
             currentField = BuildDirection(currentParam, changedField);
             observableCollection.Add(currentField);
             currentParam["DataField"] = MiddlePartsFields[2];
-            currentParam["Label"] = Resources.ProviderInfoViewModel_Dirección2;
-            currentParam["Table"] = Resources.ProviderModule_Table1;
+            currentParam["Label"] = Resources.Dirección2;
+            currentParam["Table"] = "PROVEE1";
             currentParam["PrimaryKey"] = ProviderConstants.PrimaryKey;
             currentField = BuildDirection(currentParam, changedField);
             observableCollection.Add(currentField);
@@ -307,8 +312,8 @@ namespace MasterModule.UIObjects.Suppliers
 
             IDictionary<string, string> currentEmailParam = new Dictionary<string, string>();
             currentEmailParam.Add("DataField", Email);
-            currentEmailParam.Add("Label", Resources.ProviderInfoViewModel_Email);
-            currentEmailParam.Add("Table", Resources.ProviderModule_Table1);
+            currentEmailParam.Add("Label", Resources.Email);
+            currentEmailParam.Add("Table", "PROVEE1");
             currentEmailParam.Add("PrimaryKey", ProviderConstants.PrimaryKey);
             currentField = BuildEmail(currentEmailParam,this.EmailCheckHandler, changedField);
             observableCollection.Add(currentField);

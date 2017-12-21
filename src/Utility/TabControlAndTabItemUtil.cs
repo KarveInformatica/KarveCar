@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {

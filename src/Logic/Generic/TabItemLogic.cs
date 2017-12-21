@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using KarveCar.Views;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCommon.Logic.Generic
 {

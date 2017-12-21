@@ -21,7 +21,7 @@ namespace KarveCar.ViewModels
         #region Propiedades
         private MarcaUserControl thisusercontrol;        
         private string codigoselecteditem = string.Empty;
-        private RecopilatorioEnumerations.EControlCambio statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+        private Enumerations.EControlCambio statuscontrolcambio = Enumerations.EControlCambio.Update;
 
         private DataTable marcadatatable;
         public DataTable MarcaDataTable
@@ -113,7 +113,7 @@ namespace KarveCar.ViewModels
         private DataTable InitDataLayerMarcaSync()
         {
             string sql = string.Format(ScriptsSQL.SELECT_MARCA);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnMarcas, sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnMarcas, sql);
             return ManageDataTable.ConvertObsCollectionToDataTable<MarcaDataObject>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
@@ -122,7 +122,7 @@ namespace KarveCar.ViewModels
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_MARCA);
-            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnMarcas, sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnMarcas, sql));
             return ManageDataTable.ConvertObsCollectionToDataTable<MarcaDataObject>(obs); //CopyToTable(obs);
             //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
@@ -131,7 +131,7 @@ namespace KarveCar.ViewModels
         private DataTable InitDataLayerProveedorSync()
         {
             string sql = string.Format(ScriptsSQL.SELECT_PROVEEDOR_MARCA);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnProveedores, sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnProveedores, sql);
             return new DataTable();
                 //ManageDataTable.ConvertObsCollectionToDataTable<SupplierDataObject>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
@@ -141,7 +141,7 @@ namespace KarveCar.ViewModels
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_PROVEEDOR_MARCA);
-            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnProveedores, sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnProveedores, sql));
             return new DataTable(); 
                 //ManageDataTable.ConvertObsCollectionToDataTable<SupplierDataObject>(obs); //CopyToTable(obs);
             //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
@@ -166,7 +166,7 @@ namespace KarveCar.ViewModels
                 this.codigoselecteditem = null;
                 this.thisusercontrol.txtCodigo.IsReadOnly = false;
             }
-            this.statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+            this.statuscontrolcambio = Enumerations.EControlCambio.Update;
             this.thisusercontrol.gridsplitter.Visibility = Visibility.Visible;
             this.thisusercontrol.wrpMarca.Visibility = Visibility.Visible;
         }
@@ -175,8 +175,8 @@ namespace KarveCar.ViewModels
         {
             if (text != null)
             {
-                this.thisusercontrol.txtCodigo.IsReadOnly = statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update ? true : false;
-                if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update)
+                this.thisusercontrol.txtCodigo.IsReadOnly = statuscontrolcambio == Enumerations.EControlCambio.Update ? true : false;
+                if (this.statuscontrolcambio == Enumerations.EControlCambio.Update)
                 {
                     string codigo = (text as string).Replace(" ", string.Empty);
                     OnMarcaSelectionChanged(ManageDataTable.FindDataRowViewInDataTableByString(codigo, this.MarcaDataTable, "Codigo"));                    
@@ -225,7 +225,7 @@ namespace KarveCar.ViewModels
         /// <param name="parameter"></param>
         public void Marca(object parameter)
         {
-            RecopilatorioEnumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
+            Enumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
@@ -262,21 +262,21 @@ namespace KarveCar.ViewModels
         #region CRUD logic
         private void InsertMarca(object obj)
         {
-            EmptyScreen(RecopilatorioEnumerations.EControlCambio.Insert);
+            EmptyScreen(Enumerations.EControlCambio.Insert);
         }
 
         private void UpdateMarca(object obj)
         {
-            EmptyScreen(RecopilatorioEnumerations.EControlCambio.Update);
+            EmptyScreen(Enumerations.EControlCambio.Update);
         }
 
         private void CancelMarca(object obj)
         {
-            if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Insert)
+            if (this.statuscontrolcambio == Enumerations.EControlCambio.Insert)
             {
                 InsertMarca(null);
             }
-            else if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update && this.MarcaSelectedItem == null)
+            else if (this.statuscontrolcambio == Enumerations.EControlCambio.Update && this.MarcaSelectedItem == null)
             {
                 UpdateMarca(null);
             }
@@ -292,10 +292,10 @@ namespace KarveCar.ViewModels
             {
                 switch (statuscontrolcambio)
                 {
-                    case RecopilatorioEnumerations.EControlCambio.Insert:
+                    case Enumerations.EControlCambio.Insert:
                         InsertMarca(null);
                         break;
-                    case RecopilatorioEnumerations.EControlCambio.Update:
+                    case Enumerations.EControlCambio.Update:
                         if (MessageBox.Show(Resources.msgEliminarRegistro, Resources.msgEliminarRegistroTitulo,
                                             MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
@@ -324,7 +324,7 @@ namespace KarveCar.ViewModels
         {
             switch (statuscontrolcambio)
             {
-                case RecopilatorioEnumerations.EControlCambio.Insert:
+                case Enumerations.EControlCambio.Insert:
                     this.codigoselecteditem = this.thisusercontrol.txtCodigo.Text;
                     DataRowView datarowview = ManageDataTable.FindDataRowViewInDataTableByString(this.codigoselecteditem, this.MarcaDataTable, "Codigo");
 
@@ -346,7 +346,7 @@ namespace KarveCar.ViewModels
                         this.thisusercontrol.txtCodigo.Focus();
                     }
                     break;
-                case RecopilatorioEnumerations.EControlCambio.Update:
+                case Enumerations.EControlCambio.Update:
                     if (this.MarcaSelectedItem != null)
                     {
                         if (Update(this.MarcaSelectedItem) == 0)
@@ -369,10 +369,10 @@ namespace KarveCar.ViewModels
             string codigo = this.MarcaSelectedItem.Codigo; //this.thisusercontrol.txtCodigo.Text;
             this.MarcaDataTable = InitDataLayerMarcaSync(); //InitDataLayerMarcaAsync();
             OnCodigoMarcaLostFocus(codigo);
-            this.statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+            this.statuscontrolcambio = Enumerations.EControlCambio.Update;
         }
 
-        private void EmptyScreen(RecopilatorioEnumerations.EControlCambio controlcambio)
+        private void EmptyScreen(Enumerations.EControlCambio controlcambio)
         {
             this.statuscontrolcambio = controlcambio;
             this.MarcaSelectedItem = new MarcaDataObject();

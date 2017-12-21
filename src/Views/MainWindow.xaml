@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KarveCar.Views"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                      xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -14,9 +16,10 @@
         xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:uc="clr-namespace:KarveCar.View"
+        
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
-        xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
+       
         xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignCardBackground}"
@@ -28,7 +31,8 @@
             <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
-
+        
+            
         </karvecm:KarveInterTabClient>
         
         <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
@@ -41,9 +45,13 @@
                 <Setter Property="HeaderMemberPath" Value="Header" />
                 <Setter Property="Margin" Value="0 5 0 0" />
         </Style>
-
-            
-<!-- remove all this with navigation -->
+<!--
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+            -->
+            <!-- remove all this with navigation -->
             <viewModels:CloseTabItemViewModel x:Key="closeTabItemViewModel"/>
             <viewModels:CloseWindowViewModel  x:Key="closeWindowViewModel"/>
             <viewModels:MaestroCommonViewModel x:Key="MaestroCommonViewModel"/>
@@ -54,7 +62,7 @@
             <viewModels:PaymentResolverViewModel   x:Key="paymentResolverViewModel"/>
             <viewModels:ProvidersResolverViewModel x:Key="providersResolverViewModel"/>
             <viewModels:MostrarAuxiliaresViewModel x:Key="mostrarAuxiliaresViewModel"/>
-
+            <viewModels:CultureSwitcher     x:Key="cultureSwitchViewModel"/>
             <!-- Configuracion-->
             <viewModels:CintaOpcionesViewModel    x:Key="cintaOpcionesViewModel"/>
         </ResourceDictionary>
@@ -78,7 +86,7 @@
             </StatusBar>
             <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">-->
             <StackPanel DockPanel.Dock="Top">
-                <Ribbon x:Name="rbInicio" DockPanel.Dock="Top" Title="Aquí ponemos algún texto, p.e.: KarveWin [Versión: 01/01/2000 00:00]         C1[PRUEBA, S.A]. USUARIO: JORDI">
+                <Ribbon x:Name="rbInicio" DockPanel.Dock="Top" Title="User">
                     <Ribbon.Resources>
                         <!--Resource que permite hacer drag&drop entre los ribbongroups-->
                         <Style TargetType="{x:Type RibbonGroup}">
@@ -1541,12 +1549,13 @@
                                         SmallImageSource="..\Images\new.png"/>
                             </RibbonMenuButton>
                         </RibbonGroup>
+                        <!--  delegate the single responsability of language change to the ChangeLanguageViewModel -->
                         <RibbonGroup x:Name="rgrIdiomas" Header="{Binding lrgrIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png">
                             <RibbonMenuButton x:Name="rmnbtnIdiomas" Label="{Binding lrmnbtnIdiomas, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" KeyTip="I" >
                                 <RibbonButton x:Name="rbtnIdiomaESES"
-                                        Label="{Binding lrbtnIdiomaESES, Source={StaticResource ResourceLanguage}}"                                             
-                                        HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\es-es.png" >
+                                              Label="{Binding lrbtnIdiomaESES, Source={StaticResource ResourceLanguage}}"                                             
+                                              HorizontalAlignment="Left" 
+                                              SmallImageSource="..\Images\es-es.png" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
                                         <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
@@ -1555,9 +1564,9 @@
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnIdiomaCAES"
-                                        Label="{Binding lrbtnIdiomaCAES, Source={StaticResource ResourceLanguage}}" 
-                                        HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\ca-es.png" >
+                                              Label="{Binding lrbtnIdiomaCAES, Source={StaticResource ResourceLanguage}}" 
+                                              HorizontalAlignment="Left" 
+                                              SmallImageSource="..\Images\ca-es.png" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
                                         <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
@@ -1565,9 +1574,9 @@
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnIdiomaENGB"
-                                        Label="{Binding lrbtnIdiomaENGB, Source={StaticResource ResourceLanguage}}"  
-                                        HorizontalAlignment="Left" 
-                                        SmallImageSource="..\Images\en-gb.png" >
+                                              Label="{Binding lrbtnIdiomaENGB, Source={StaticResource ResourceLanguage}}"  
+                                              HorizontalAlignment="Left" 
+                                              SmallImageSource="..\Images\en-gb.png" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="en-GB"/>
                                         <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="en-GB"/>
@@ -1685,7 +1694,6 @@
                 <!--<ScrollViewer>-->
 
                 <ContentControl  prism:RegionManager.RegionName="KarveToolBar"/>
-
             </StackPanel>
             <!--<dragablz:TabablzControl Grid.Row="2" Style="{StaticResource TabablzControlStyle}" ClosingItemCallback="{Binding ClosingTabItemHandler}" mvvm1:RegionManager.RegionName="TabRegion">
                             <dragablz:TabablzControl.InterTabController>

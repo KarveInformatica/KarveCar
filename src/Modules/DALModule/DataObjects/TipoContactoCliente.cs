@@ -1,6 +1,6 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveDataAccessLayer.DataObjects
 {

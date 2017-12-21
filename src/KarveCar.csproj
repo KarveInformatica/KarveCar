@@ -242,6 +242,7 @@
     <Compile Include="ViewModels\CintaOpcionesViewModel.cs" />
     <Compile Include="ViewModels\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModels\CloseWindowViewModel.cs" />
+    <Compile Include="ViewModels\CultureSwitcher.cs" />
     <Compile Include="ViewModels\GrupoVehiculoDataObject.cs" />
     <Compile Include="ViewModels\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
@@ -491,6 +492,10 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
+    </ProjectReference>
     <ProjectReference Include="Controls\KarveControls\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>

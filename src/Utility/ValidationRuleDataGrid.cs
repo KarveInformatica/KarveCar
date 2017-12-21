@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using static KarveCar.Model.Generic.RecopilatorioCollections;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {

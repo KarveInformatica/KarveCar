@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using KarveCommon.Generic;
 using KarveDataServices;
 
 namespace KarveCommon.Services
@@ -28,6 +29,24 @@ namespace KarveCommon.Services
            IList<IMagnifierSettings> settings = await _dataService.GetAllMagnifiersSettings();
            return settings;
         }
+        /// <summary>
+        ///  This returns the ADO.NET connection string.
+        /// </summary>
+        /// <returns></returns>
+        public string GetConnectionString()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        ///  This returns the locale type. For now the locale is available in the 
+        /// </summary>
+        /// <returns></returns>
+        public Enumerations.ResourceSource GetLocaleType()
+        {
+            return Enumerations.ResourceSource.File;
+        }
+
         /// <summary>
         ///  Get the list of magnifier settings.
         /// </summary>

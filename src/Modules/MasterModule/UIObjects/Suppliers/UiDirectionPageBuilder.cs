@@ -159,7 +159,7 @@ namespace MasterModule.UIObjects.Suppliers
             UiDfObject.ChangedField changedField)
         {
             ObservableCollection<IUiObject> collection = new ObservableCollection<IUiObject>();
-            UiDualDfSearchTextObject viaDfSearch = new UiDualDfSearchTextObject(Resources.UiDirectionPageBuilder_OrderCommunicationWay_Via,UiConstants.LabelTextWidthDefault);
+            UiDualDfSearchTextObject viaDfSearch = new UiDualDfSearchTextObject(Resources.OrderCommunicationWay_Via,UiConstants.LabelTextWidthDefault);
             viaDfSearch.DataFieldFirst = "VIA";
             viaDfSearch.TableName = "PROVEE1";
             viaDfSearch.AssistDataFieldFirst = "NOMBRE";

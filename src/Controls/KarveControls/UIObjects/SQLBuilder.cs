@@ -12,7 +12,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveControls.UIObjects
 {

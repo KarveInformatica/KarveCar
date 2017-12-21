@@ -102,7 +102,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             UiMultipleDfObject multipleDfObject = new UiMultipleDfObject();
 
             UiDualDfSearchTextObject dualSearchTextObject1 =
-                new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                new UiDualDfSearchTextObject(Properties.Resources.Empresa,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject1.ButtonImage = UiConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = "CODIGO";
@@ -125,7 +125,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             dualSearchTextObject1.OnAssistQuery += assistQuery;
             multipleDfObject.AddDataField(dualSearchTextObject1);
             UiDualDfSearchTextObject dualSearchTextObject2 =
-                new UiDualDfSearchTextObject(Properties.Resources.ProviderInfoViewModel_Empresa,
+                new UiDualDfSearchTextObject(Properties.Resources.Empresa,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject2.ButtonImage = UiConstants.ImagePath;
             dualSearchTextObject2.AssistDataFieldFirst = "CODIGO";
@@ -231,7 +231,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             startDate.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             dateMultipleDfObject.AddDataField(startDate);
             UiDatePicker startDate1 = new UiDatePicker();
-            startDate1.LabelText = Resources.UiMiddlePartPageBuilder_BuildDates_FechaDeAlta;
+            startDate1.LabelText = Resources.FechaDeAlta;
             startDate1.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             startDate1.DataField = LeftPartsFields[17];
             startDate1.Height = UiConstants.TextboxHeight;
@@ -284,7 +284,7 @@ namespace MasterModule.UIObjects.CommissionAgents
         private IUiObject BuildProvinceDfSearchTextObject(string provinceDataField, UiDualDfSearchTextObject.OnAssistQueryRequestHandler assistQuery, UiDfObject.ChangedField changedField)
         {
             UiDualDfSearchTextObject dualSearchTextObject1 =
-                new UiDualDfSearchTextObject(Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
+                new UiDualDfSearchTextObject(Resources.Provincia,
                     UiConstants.LabelTextWidthDefault);
             dualSearchTextObject1.ButtonImage = MasterModuleConstants.ImagePath;
             dualSearchTextObject1.AssistDataFieldFirst = ProviderConstants.ZipKey;

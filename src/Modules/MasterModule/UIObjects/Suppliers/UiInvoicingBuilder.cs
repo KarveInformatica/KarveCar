@@ -75,7 +75,7 @@ namespace MasterModule.UIObjects.Suppliers
         {
             ObservableCollection<IUiObject> invoicingObjects = new ObservableCollection<IUiObject>();
 
-            UiDualDfSearchTextObject paymentSearchBox = new UiDualDfSearchTextObject(Resources.UiInvoicingBuilder_LoadInvocingData_FormaDePago, UiConstants.LabelTextWidthDefault);
+            UiDualDfSearchTextObject paymentSearchBox = new UiDualDfSearchTextObject(Resources.FormaDePago, UiConstants.LabelTextWidthDefault);
             paymentSearchBox.DataFieldFirst = "FORPA";
             paymentSearchBox.TableName = "PROVEE2";
             paymentSearchBox.AssistTableName = "FORMAS";
@@ -95,7 +95,7 @@ namespace MasterModule.UIObjects.Suppliers
 
             UiMultipleDfObject payementPlaces = new UiMultipleDfObject();
             UiDfObject dataDfObject = new UiDfObject();
-            dataDfObject.LabelText = Resources.ProviderInfoViewModel_LoadAccountLeft_PlazoDePago;
+            dataDfObject.LabelText = Resources.PlazoDePago;
             dataDfObject.DataField = "PLAZO";
             dataDfObject.TableName = "PROVEE2";
             dataDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
@@ -369,7 +369,7 @@ namespace MasterModule.UIObjects.Suppliers
         {
             ObservableCollection<IUiObject> observableCollection = new ObservableCollection<IUiObject>();
 
-            UiDualDfSearchTextObject cuentaCp = new UiDualDfSearchTextObject(Resources.ProviderInfoViewModel_LoadAccountLeft_CuentaCP, UiConstants.LabelTextWidthDefault);
+            UiDualDfSearchTextObject cuentaCp = new UiDualDfSearchTextObject(Resources.CuentaCP, UiConstants.LabelTextWidthDefault);
             cuentaCp.DataFieldFirst = "CTACP";
             cuentaCp.TableName = "PROVEE1";
             cuentaCp.AssistTableName = "CU1";
@@ -387,7 +387,7 @@ namespace MasterModule.UIObjects.Suppliers
             cuentaCp.OnAssistQuery += assistQuery;
             //leasingBoxMultipleObject.AddDataField(cuentaCp);
             observableCollection.Add(cuentaCp);
-            UiDualDfSearchTextObject cuentaLp = new UiDualDfSearchTextObject(Resources.UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP, UiConstants.LabelTextWidthDefault);
+            UiDualDfSearchTextObject cuentaLp = new UiDualDfSearchTextObject(Resources.CuentaLP, UiConstants.LabelTextWidthDefault);
             cuentaLp.DataFieldFirst = "CTALP";
             cuentaLp.TableName = "PROVEE1";
             cuentaLp.AssistTableName = "CU1";
@@ -427,7 +427,7 @@ namespace MasterModule.UIObjects.Suppliers
         {
             ObservableCollection<IUiObject> observableCollection = new ObservableCollection<IUiObject>();
 
-            UiDualDfSearchTextObject cuentaSoportado = new UiDualDfSearchTextObject(Resources.UiInvoicingBuilder_LoadIntraco_CtaSoportado, UiConstants.LabelTextWidthDefault);
+            UiDualDfSearchTextObject cuentaSoportado = new UiDualDfSearchTextObject(Resources.CtaSoportado, UiConstants.LabelTextWidthDefault);
             cuentaSoportado.DataFieldFirst = "CTAINTRACOP";
             cuentaSoportado.TableName = "PROVEE1";
             cuentaSoportado.AssistTableName = "CU1";
@@ -470,7 +470,7 @@ namespace MasterModule.UIObjects.Suppliers
             ObservableCollection<IUiObject> observableCollection = new ObservableCollection<IUiObject>();
 
             UiMultipleDfObject accountDfObject1 = new UiMultipleDfObject();
-            UiDfObject prefixDfObject = new UiDfObject(Resources.UiInvoicingBuilder_LoadAccounts_Prefijo, UiConstants.LabelTextWidthDefault);
+            UiDfObject prefixDfObject = new UiDfObject(Resources.Prefijo, UiConstants.LabelTextWidthDefault);
             prefixDfObject.DataField = "PREFIJO";
             prefixDfObject.TableName = "PROVEE2";
             prefixDfObject.LabelVisible = true;
@@ -481,19 +481,7 @@ namespace MasterModule.UIObjects.Suppliers
             prefixDfObject.AllowedEmpty = true;
             prefixDfObject.ItemSource = new DataTable();
             accountDfObject1.AddDataField(prefixDfObject);
-            /*
-              UiDfObject balance = new UiDfObject("Saldo", LabelTextWidthDefault);
-              balance.DataField = "";
-              balance.TableName = "";
-              prefixDfObject.LabelVisible = true;
-              prefixDfObject.Height = TextboxHeight;
-              prefixDfObject.TextContentWidth = TextBoxWidthSmall;
-              prefixDfObject.OnChangedField += OnChangedField;
-              prefixDfObject.PrimaryKey = "NUM_PROVEE";
-              prefixDfObject.AllowedEmpty = true;
-              prefixDfObject.ItemSource = new DataTable();
-              accountDfObject1.AddDataField(balance);
-            */
+            
             UiDualDfSearchTextObject cuentaContable = new UiDualDfSearchTextObject("Cuenta Contable", UiConstants.LabelTextWidthDefault);
             cuentaContable.DataFieldFirst = "CONTABLE";
             cuentaContable.TableName = "PROVEE2";

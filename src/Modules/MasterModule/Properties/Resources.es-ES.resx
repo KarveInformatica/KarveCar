@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,112 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ProviderInfoViewModel_Nombre" xml:space="preserve">
+  <data name="Nombre" xml:space="preserve">
     <value>Nombre</value>
   </data>
-  <data name="ProviderInfoViewModel_NIF" xml:space="preserve">
+  <data name="NIF" xml:space="preserve">
     <value>NIF</value>
   </data>
-  <data name="ProviderInfoViewModel_TipoProv" xml:space="preserve">
+  <data name="TipoProv" xml:space="preserve">
     <value>Tipo Prov.</value>
   </data>
-  <data name="ProviderInfoViewModel_Numero" xml:space="preserve">
+  <data name="Numero" xml:space="preserve">
     <value>Numero</value>
   </data>
-  <data name="ProviderInfoViewModel_NombreCommercial" xml:space="preserve">
+  <data name="NombreCommercial" xml:space="preserve">
     <value>Nombre Commercial</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadLeftPart_Dirección" xml:space="preserve">
+  <data name="Dirección" xml:space="preserve">
     <value>Dirección</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadLeftPart_CP" xml:space="preserve">
+  <data name="CP" xml:space="preserve">
     <value>CP</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadLeftPart_Pais" xml:space="preserve">
+  <data name="Pais" xml:space="preserve">
     <value>País</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadLeftPart_Telefono" xml:space="preserve">
-    <value>Teléfono</value>
-  </data>
-  <data name="ProviderInfoViewModel_LoadLeftPart_Provincia" xml:space="preserve">
+  <data name="Provincia" xml:space="preserve">
     <value>Provincia</value>
   </data>
-  <data name="ProviderInfoViewModel_Población" xml:space="preserve">
+  <data name="Población" xml:space="preserve">
     <value>Población</value>
   </data>
-  <data name="ProviderInfoViewModel_Teléfono" xml:space="preserve">
+  <data name="Teléfono" xml:space="preserve">
     <value>Teléfono</value>
   </data>
-  <data name="ProviderInfoViewModel_Fax" xml:space="preserve">
+  <data name="Fax" xml:space="preserve">
     <value>Fax</value>
   </data>
-  <data name="ProviderInfoViewModel_Móvil" xml:space="preserve">
+  <data name="Móvil" xml:space="preserve">
     <value>Móvil</value>
   </data>
-  <data name="ProviderInfoViewModel_Email" xml:space="preserve">
+  <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
-  <data name="ProviderInfoViewModel_Web" xml:space="preserve">
+  <data name="Web" xml:space="preserve">
     <value>Web</value>
   </data>
-  <data name="ProviderInfoViewModel_Contacto" xml:space="preserve">
+  <data name="Contacto" xml:space="preserve">
     <value>Contacto</value>
   </data>
-  <data name="ProviderInfoViewModel_Empresa" xml:space="preserve">
+  <data name="Empresa" xml:space="preserve">
     <value>Empresa</value>
   </data>
-  <data name="ProviderInfoViewModel_Oficina" xml:space="preserve">
+  <data name="Oficina" xml:space="preserve">
     <value>Oficina</value>
   </data>
-  <data name="ProviderInfoViewModel_Dirección2" xml:space="preserve">
+  <data name="Dirección2" xml:space="preserve">
     <value>Segunda Dirección</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadAccountLeft_PlazoDePago" xml:space="preserve">
+  <data name="PlazoDePago" xml:space="preserve">
     <value>Plazo de pago</value>
   </data>
-  <data name="ProviderInfoViewModel_FechaDeBaja" xml:space="preserve">
+  <data name="FechaDeBaja" xml:space="preserve">
     <value>Fecha de Baja</value>
   </data>
-  <data name="ProviderInfoViewModel_FechaDeAlta" xml:space="preserve">
+  <data name="FechaDeAlta" xml:space="preserve">
     <value>Fecha de Alta</value>
   </data>
-  <data name="ProviderInfoViewModel_Notas" xml:space="preserve">
+  <data name="Notas" xml:space="preserve">
     <value>Notas</value>
   </data>
-  <data name="ProviderInfoViewModel_Observaciones" xml:space="preserve">
+  <data name="Observaciones" xml:space="preserve">
     <value>Observaciones</value>
   </data>
-  <data name="ProvidersControlViewModel_OpenNewItem_NewSupplier" xml:space="preserve">
+  <data name="NewSupplier" xml:space="preserve">
     <value>NuevoProveedor</value>
   </data>
-  <data name="UiMiddlePartPageBuilder_BuildDates_FechaDeAlta" xml:space="preserve">
-    <value>Fecha de alta</value>
-  </data>
-  <data name="UiInvoicingBuilder_LoadAccounts_Prefijo" xml:space="preserve">
+  <data name="Prefijo" xml:space="preserve">
     <value>Prefijo</value>
   </data>
-  <data name="ProviderInfoViewModel_LoadAccountLeft_CuentaCP" xml:space="preserve">
+  <data name="CuentaCP" xml:space="preserve">
     <value>Cuenta C/P</value>
   </data>
-  <data name="UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP" xml:space="preserve">
+  <data name="CuentaLP" xml:space="preserve">
     <value>Cuenta L/P</value>
   </data>
-  <data name="UiInvoicingBuilder_LoadInvocingData_FormaDePago" xml:space="preserve">
+  <data name="FormaDePago" xml:space="preserve">
     <value>Forma de Pago</value>
   </data>
-  <data name="ProviderConstants_GestiónDeAlbaranes" xml:space="preserve">
+  <data name="GestiónDeAlbaranes" xml:space="preserve">
     <value>Gestión de albaranes</value>
   </data>
-  <data name="UiDirectionPageBuilder_OrderCommunicationWay_Via" xml:space="preserve">
+  <data name="OrderCommunicationWay_Via" xml:space="preserve">
     <value>Via</value>
   </data>
-  <data name="UiInvoicingBuilder_LoadIntraco_CtaSoportado" xml:space="preserve">
+  <data name="CtaSoportado" xml:space="preserve">
     <value>Cta.Supportado</value>
   </data>
-  <data name="ProviderConstants_EsIntracomunitario" xml:space="preserve">
+  <data name="EsIntracomunitario" xml:space="preserve">
     <value>Es Intracomunitario</value>
   </data>
-  <data name="VehiclesControlView_Header_Vehiculos" xml:space="preserve">
+  <data name="Header_Vehiculos" xml:space="preserve">
     <value>Vehiculos</value>
   </data>
 </root>

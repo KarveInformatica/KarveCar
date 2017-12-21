@@ -7,7 +7,7 @@ using KarveCar.Properties;
 using KarveCar.Views;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices.DataObjects;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 using Color = System.Windows.Media.Color;
 using GrupoVehiculoDataObject = KarveCar.ViewModels.GrupoVehiculoDataObject;
 using MarcaDataObject = KarveCar.ViewModels.MarcaDataObject;

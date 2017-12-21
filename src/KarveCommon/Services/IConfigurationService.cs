@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using Prism.Commands;
 using System.Windows.Controls;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 using System.Windows;
 
 namespace KarveCommon.Services

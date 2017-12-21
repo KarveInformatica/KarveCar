@@ -67,7 +67,7 @@ namespace MasterModule.Common
             doubleDfObject.LabelVisible = true;
             doubleDfObject.TextContentWidth = UiConstants.TextBoxWidthLarge;
             doubleDfObject.Height = UiConstants.TextboxHeight;
-            doubleDfObject.TableName = Resources.ProviderModule_Table1;
+            doubleDfObject.TableName =  "PROVEE1";
             doubleDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
             doubleDfObject.IsReadOnly = false;
             doubleDfObject.IsReadOnlyRight = false;

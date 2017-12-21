@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using KarveCar.Properties;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {

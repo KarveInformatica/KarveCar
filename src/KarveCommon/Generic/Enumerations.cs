@@ -1,7 +1,16 @@
 ﻿namespace KarveCommon.Generic
 {
-    public class RecopilatorioEnumerations
+    public class Enumerations
     {
+
+        /// <summary>
+        ///  Resource of traduction.
+        /// </summary>
+        public enum ResourceSource
+        {
+            File,           /// File based translation
+            DataBase        /// Data base translation
+        };
         /// <summary>
         /// Enumeración de los tipos de datos maestros
         /// </summary>

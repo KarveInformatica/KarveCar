@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,13 +13,14 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Dragablz;
+using KarveCar.Logic.Generic;
 using KarveCar.Properties;
 using KarveCommon.Generic;
+using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
-using Prism.Interactivity.InteractionRequest;
-using Prism.Mvvm;
 using Prism.Regions;
+using KarveLocale;
 
 namespace KarveCar.ViewModels
 {
@@ -27,9 +29,19 @@ namespace KarveCar.ViewModels
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
         private const string _title = "KarveWin 0.9";
-        private ObjectDataProvider _resourceObjectDataProvider;
+        /// <summary>
+        ///  servicio de configuracion.
+        /// </summary>
+        private IConfigurationService _configurationService;
 
+        /// <summary>
+        ///  CultureSwitcher 
+        /// </summary>
+        private CultureSwitcher _cultureSwitch;
 
+        private KarveLocale.Properties.Resources _resources;
+        //
+        private ObjectDataProvider _objectDataProvider=new ObjectDataProvider();
         /// <summary>
         ///  NavigateCommand, This is the command for navigation
         /// </summary>
@@ -39,34 +51,54 @@ namespace KarveCar.ViewModels
         /// Some work
         /// </summary>
         public ICommand ChangeLanguageCommand { get; set; }
+        
 
         public string Title
         {
             get { return _title; }
         }
-        /// <summary>
-        ///  This is the main v
-        /// </summary>
-        /// <param name="regionManager"></param>
-        public MainWindowViewModel(IRegionManager regionManager)
+
+        
+
+           /// <summary>
+    ///  This is the main v
+    /// </summary>
+    /// <param name="regionManager"></param>
+    public MainWindowViewModel(IRegionManager regionManager, IConfigurationService service)
         {
             _regionManager = regionManager;
-
+            _configurationService = service;
+            // culture switch has the single resposabilty to change the culture.
+            _cultureSwitch = new CultureSwitcher(_configurationService);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
-        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager)
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager, IConfigurationService configurationService)
         {
             _container = container;
             _regionManager = regionManager;
+            _configurationService = configurationService;
+            _cultureSwitch = new CultureSwitcher(_configurationService);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
 
+
+        void InitVModel()
+        {
+           
+           // _cultureSwitch.ChangeLanguageCommand(_configurationService.GetUserSettings().UserSettingsLoader.GetCurrentLocale(0))
+        }
         void Navigate(string navigationPath)
         {
             _regionManager.RequestNavigate("TabRegion", navigationPath);
         }
+        /*
+        KarveLocale.Properties.Resources  Resources{
+            set _
+            get;
+        }
+        */
         public ItemActionCallback ClosingTabItemHandler
         {
             get { return ClosingTabItemHandlerImpl; }
@@ -151,10 +183,8 @@ namespace KarveCar.ViewModels
             if (frameworkElement != null)
             {
                 INavigationAware navigationAwareDataContext = frameworkElement.DataContext as INavigationAware;
-                if (navigationAwareDataContext != null)
-                {
-                    navigationAwareDataContext.OnNavigatedFrom(navigationContext);
-                }
+                navigationAwareDataContext?.OnNavigatedFrom(navigationContext);
+                
             }
         }
 
@@ -200,12 +230,28 @@ namespace KarveCar.ViewModels
 
             return FindParent<T>(parentObject);
         }
+
+        /// <summary>
+        /// Devuelve el ObjectDataProvider en uso.
+        /// </summary>
+        public ObjectDataProvider ObjectDataProvider
+        {
+            get
+            {
+                return _objectDataProvider;
+            }
+           
+        }
+        
         /// <summary>
         /// Devuelve el ObjectDataProvider en uso
         /// </summary>
         public void SetLanguages(object parameter)
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(parameter.ToString());
+            _cultureSwitch.Execute(Thread.CurrentThread.CurrentUICulture);
 
+            //ChangeCulture(Thread.CurrentThread.CurrentUICulture);
         }
     }
 

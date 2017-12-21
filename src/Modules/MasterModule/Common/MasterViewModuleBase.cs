@@ -13,11 +13,16 @@ using KarveDataServices;
 using Prism.Regions;
 using MasterModule.Views;
 using System.Linq;
+using Dapper;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.Model;
 using KarveControls.KarveGrid;
 using Prism.Commands;
-using Syncfusion.Windows.Controls.Grid;
-using Syncfusion.Windows.PdfViewer;
 using NLog;
+using Syncfusion.UI.Xaml.Grid;
+using DataRow = System.Data.DataRow;
+using System.IO;
+
 namespace MasterModule.Common
 {
     /// <summary>
@@ -26,6 +31,8 @@ namespace MasterModule.Common
     public abstract class MasterViewModuleBase : BindableBase, INavigationAware, IDisposable
     {
         private const string RegionName = "TabRegion";
+        // local application data for the serialization.
+       
         protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
@@ -147,20 +154,55 @@ namespace MasterModule.Common
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
         }
 
-        /// <summary>
-        ///  Each control view model shall have its Grid identifier.
-
-        public async void OnGridResize(object gridSize)
+        public async Task MoveAllCols(KarveGridExt.ColParamSize colParam)
         {
-            KarveGridExt.ColParamSize colsParam = gridSize as KarveGridExt.ColParamSize;
-            if (colsParam == null)
+            int gridId = Convert.ToInt32(GridId);
+            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId); 
+            int swappedDrop = colParam.SwappedTo;
+            List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
+            // split the magnifier columns in two.
+           // bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(colParam.ColumnList);
+            IList<KarveGridExt.ColParamSize> list = colParam.ColumnList;
+            for (int i = 0; i < colParam.ColumnList.Count; ++i)
             {
-                return;
-            }
+                KarveGridExt.ColParamSize paramSize = list[i];
+                MagnifierColumns cols = new MagnifierColumns();
 
+                var column = columns.FirstOrDefault(s =>
+                {
+                    if (!string.IsNullOrEmpty(s.COLUMNA_NOMBRE))
+                    {
+                        return (s.COLUMNA_NOMBRE == paramSize.ColumnName);
+                    }
+                    return false;
+
+                });
+                cols.ANCHO = Convert.ToInt32(paramSize.ColumnWidth);
+                cols.ID_LUPA = gridId;
+                cols.POSICION = paramSize.ColumnIndex;
+                if (column != null)
+                {
+                    cols.COLUMNA_NOMBRE = column.COLUMNA_NOMBRE;
+                    cols.ID_COL = column.ID_COL;
+                    cols.VISIBLE = column.VISIBLE;
+                }
+                columns.Add(cols);
+              
+            }
+            bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(columns);
+            
+            if (!ret)
+            {
+                Logger.Warn("Error during saving the settings");
+            }
+            // ok i can serialize this stuff.
+        }
+
+        public async Task GridResize(KarveGridExt.ColParamSize colsParam)
+        {
             int gridId = Convert.ToInt32(GridId);
             _magnifierSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
-            _magnifierSettings.NOMBRE= MagnifierGridName;
+            _magnifierSettings.NOMBRE = MagnifierGridName;
             _magnifierSettings.LUPA = MagnifierGridName;
             var values = _magnifierSettings.MagnifierColumns;
             var column = values.FirstOrDefault(s =>
@@ -170,24 +212,26 @@ namespace MasterModule.Common
                     return (s.POSICION.Value == colsParam.ColumnIndex);
                 }
                 return false;
-                
+
             });
             if (column != null)
             {
-            
+
                 column.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
                 column.COLUMNA_NOMBRE = colsParam.ColumnName;
                 column.POSICION = colsParam.ColumnIndex;
                 bool retValue = await DataServices.GetSettingsDataService().SaveMagnifierSettings(_magnifierSettings);
+                if (!retValue)
+                {
+                    Logger.Log(LogLevel.Error, "Cannot save a resize");
+                }
             }
             else
             {
-                Random rand = new Random();
                 IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
                 col.COLUMNA_NOMBRE = colsParam.ColumnName;
                 col.ID_LUPA = Convert.ToInt32(GridId);
                 col.POSICION = colsParam.ColumnIndex;
-                col.ID_COL = rand.Next(0, 1000);
                 col.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
                 int retValue = await DataServices.GetSettingsDataService().CreateMagnifierColumn(col);
                 if (retValue < 0)
@@ -195,6 +239,63 @@ namespace MasterModule.Common
                     Logger.Log(LogLevel.Error, "Cannot create a new setting columns after a resize");
                 }
             }
+        }
+
+        private async Task CreateNewCols(int pos, KarveGridExt.ColParamSize colsParam)
+        {
+           
+            IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
+            col.COLUMNA_NOMBRE = colsParam.ColumnName;
+            col.ID_LUPA = Convert.ToInt32(GridId);
+            col.POSICION = pos;
+            col.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
+            int retValue = await DataServices.GetSettingsDataService().CreateMagnifierColumn(col);
+            if (retValue < 0)
+            {
+                Logger.Log(LogLevel.Error, "Cannot create a new setting columns after a resize");
+            }
+        }
+        public async void OnGridResize(object gridSize)
+        {
+            KarveGridExt.ColParamSize colsParam = gridSize as KarveGridExt.ColParamSize;
+
+            if (colsParam == null)
+            {
+                return;
+            }
+            // check all cols.
+            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(Convert.ToInt32(GridId));
+            // get all cols.
+            List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
+            // n*n. TODO find a better way.
+
+            if (colsParam.ColumnList != null)
+            {
+                foreach (var col in colsParam.ColumnList)
+                {
+                    var swapToCol = columns.FirstOrDefault(s =>
+                    {
+                        if (s.POSICION.HasValue)
+                        {
+                            return (s.POSICION.Value == col.ColumnIndex);
+                        }
+                        return false;
+
+                    });
+                    if (swapToCol == null)
+                    {
+                        await CreateNewCols(col.ColumnIndex, col);
+                    }
+                }
+            }
+            // all columns are present in the db.
+            // ok other things shall be taken in account.
+            if (colsParam.OrderChanged)
+            {
+                await MoveAllCols(colsParam);
+                return;
+            }
+            await GridResize(colsParam);
 
         }
 
@@ -260,6 +361,7 @@ namespace MasterModule.Common
             DeleteInitializationTable =
                 NotifyTaskCompletion.Create<bool>(DeleteAsync(primaryKeyValue, payLoad), DeleteEventHandler);
             DeleteRegion(primaryKeyValue);
+            StartAndNotify();
         }
 
         public abstract Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad);
@@ -277,6 +379,7 @@ namespace MasterModule.Common
         protected void MessageHandler(DataPayLoad payLoad)
         {
 
+            // remove this if with table.
             if (payLoad.Subsystem == KarveCommon.Services.DataSubSystem.SupplierSubsystem)
             {
                 payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
@@ -337,7 +440,13 @@ namespace MasterModule.Common
                 }
             }
         }
-
+        /// <summary>
+        /// This method happens when the item is deleted for the toolbar.
+        /// </summary>
+        /// <param name="primaryKey"></param>
+        /// <param name="PrimaryKeyValue"></param>
+        /// <param name="subSystem"></param>
+        /// <param name="subSystemName"></param>
         protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, DataSubSystem subSystem,
             string subSystemName)
         {

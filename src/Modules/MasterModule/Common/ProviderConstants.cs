@@ -12,40 +12,40 @@ namespace MasterModule.Common
 
         internal static string[] LeftPartLabel =
         {
-            Resources.ProviderInfoViewModel_Nombre,
-            Resources.ProviderInfoViewModel_NIF,
-            Resources.ProviderInfoViewModel_LoadLeftPart_Dirección,
-            Resources.ProviderInfoViewModel_Dirección2,
-            Resources.ProviderInfoViewModel_LoadLeftPart_CP,
-            Resources.ProviderInfoViewModel_Población,
-            Resources.ProviderInfoViewModel_LoadLeftPart_Provincia,
-            Resources.ProviderInfoViewModel_LoadLeftPart_Pais,
-            Resources.ProviderInfoViewModel_Teléfono,
-            Resources.ProviderInfoViewModel_Fax,
-            Resources.ProviderInfoViewModel_Móvil,
-            Resources.ProviderInfoViewModel_Email,
-            Resources.ProviderInfoViewModel_Web,
-            Resources.ProviderInfoViewModel_Contacto,
-            Resources.ProviderInfoViewModel_Empresa,
-            Resources.ProviderInfoViewModel_Oficina,
-            Resources.ProviderInfoViewModel_FechaDeBaja,
-            Resources.ProviderInfoViewModel_FechaDeAlta,
-            Resources.ProviderInfoViewModel_Notas,
-            Resources.ProviderInfoViewModel_Observaciones
+            Resources.Nombre,
+            Resources.NIF,
+            Resources.Dirección,
+            Resources.Dirección2,
+            Resources.CP,
+            Resources.Población,
+            Resources.Provincia,
+            Resources.Pais,
+            Resources.Teléfono,
+            Resources.Fax,
+            Resources.Móvil,
+            Resources.Email,
+            Resources.Web,
+            Resources.Contacto,
+            Resources.Empresa,
+            Resources.Oficina,
+            Resources.FechaDeBaja,
+            Resources.FechaDeAlta,
+            Resources.Notas,
+            Resources.Observaciones
         };
 
         
         internal static string[] UpperPartLabel =
         {
-            Resources.ProviderInfoViewModel_Numero,
-            Resources.ProviderInfoViewModel_NombreCommercial,
-            Resources.ProviderInfoViewModel_NIF,
-            Resources.ProviderInfoViewModel_TipoProv
+            Resources.Numero,
+            Resources.NombreCommercial,
+            Resources.NIF,
+            Resources.TipoProv
         };
        
         internal static string[] AccountLeftCheckBoxNames =
         {
-            Resources.ProviderConstants_GestiónDeAlbaranes, Resources.ProviderConstants_EsIntracomunitario, "Gestionar IVA Importación", "Margen No Automatico"
+            Resources.GestiónDeAlbaranes, Resources.EsIntracomunitario, "Gestionar IVA Importación", "Margen No Automatico"
         };
 
         internal static string[] AccountRightCheckBoxNames =

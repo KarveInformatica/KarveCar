@@ -31,7 +31,7 @@ namespace KarveCar.ViewModels
         public void CloseTabItem(object parameter)
         {
             string name = parameter as string;
-            RecopilatorioEnumerations.EOpcion tipoaux = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
+            Enumerations.EOpcion tipoaux = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
             TabItemLogic.RemoveTabItem(tipoaux);
         }
     }

@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\KarveControls.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -338,26 +339,26 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Template\TemplateSelector.cs" />
+    <Compile Include="UIObjects\IUIObject.cs" />
     <Compile Include="UIObjects\IUiPageBuilder.cs" />
     <Compile Include="UIObjects\SQLBuilder.cs" />
     <Compile Include="UIObjects\TableName.cs" />
     <Compile Include="UIObjects\UiConstant.cs" />
+    <Compile Include="UIObjects\UiDataArea.cs" />
     <Compile Include="UIObjects\UiDataCombox.cs" />
     <Compile Include="UIObjects\UiDataFieldCheckBox.cs" />
+    <Compile Include="UIObjects\UiDataGridObject.cs" />
     <Compile Include="UIObjects\UiDatePicker.cs" />
+    <Compile Include="UIObjects\UiDfObject.cs" />
+    <Compile Include="UIObjects\UiDoubleDfObject.cs" />
+    <Compile Include="UIObjects\UiDualDfAfterSearchBoxObject.cs" />
+    <Compile Include="UIObjects\UiDualDfObject.cs" />
+    <Compile Include="UIObjects\UiDualDfSearchTextObject.cs" />
     <Compile Include="UIObjects\UiEmailDataField.cs" />
     <Compile Include="UIObjects\UiGroupBoxMultipleObject.cs" />
     <Compile Include="UIObjects\UiMultipleDfObject.cs" />
-    <Compile Include="UIObjects\UiDataArea.cs" />
-    <Compile Include="UIObjects\UiDoubleDfObject.cs" />
-    <Compile Include="UIObjects\UiDualDfAfterSearchBoxObject.cs" />
-    <Compile Include="UIObjects\UiDualDfSearchTextObject.cs" />
-    <Compile Include="UIObjects\IUIObject.cs" />
-    <Compile Include="UIObjects\UiSearchTextObject.cs" />
-    <Compile Include="UIObjects\UiDataGridObject.cs" />
-    <Compile Include="UIObjects\UiDfObject.cs" />
-    <Compile Include="UIObjects\UiDualDfObject.cs" />
     <Compile Include="UIObjects\UiObjectsLoader.cs" />
+    <Compile Include="UIObjects\UiSearchTextObject.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>

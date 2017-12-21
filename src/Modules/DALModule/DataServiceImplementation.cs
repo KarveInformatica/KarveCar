@@ -1,4 +1,5 @@
-﻿using KarveCommon.Services;
+﻿using System;
+using KarveCommon.Services;
 using KarveDataServices;
 
 // TODO using generic for setting all this.
@@ -27,6 +28,7 @@ namespace DataAccessLayer
         /// Vehicle data services. 
         /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
+     
         private ISqlExecutor _executor;
         private object _serviceConf;
 
@@ -42,26 +44,13 @@ namespace DataAccessLayer
                 _helperDataServices = new DataAccessLayer<IHelperData>(sqlExecutor);
                 _DataServices = new DataAccessLayer<I>(sqlExecutor);
              */
+            _executor = sqlExecutor;
             _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor);
             _helperDataServices = new HelperDataAccessLayer(sqlExecutor);
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
             _settingsDataService = new SettingsDataService(sqlExecutor);
         }
-        /* this looks like a smell
-         * 
-        /// <summary>
-        /// This is the data service implmentation 
-        /// </summary>
-        /// <param name="executor">SqlExecutor that implements the execution </param>
-        /// <param name="serviceConf">Configuration of the service</param>
-        public DataServiceImplementation(ISqlExecutor executor, object serviceConf)
-        {
-            _executor = executor;
-            _serviceConf = serviceConf;
-        }
-        */
-
         /// <summary>
         ///  Get the vehicles data services that represent all vehicles.
         /// </summary>
@@ -100,5 +89,10 @@ namespace DataAccessLayer
             return _settingsDataService;
         }
 
+        public T GetDataService<T>()
+        {
+            var value = (T)Activator.CreateInstance(typeof(T), new object[] { _executor });
+            return value;
+        }
     }
 }

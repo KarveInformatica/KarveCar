@@ -24,7 +24,7 @@ namespace KarveCar.Logic.Maestros
         {
             try
             {
-                RecopilatorioEnumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
+                Enumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
                 GenericObservableCollection auxobscollection = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.GenericObsCollection;
                 TabItem tabitem = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.TabItem;
                 DataGrid datagrid = tabitem.Content as DataGrid;
@@ -43,7 +43,7 @@ namespace KarveCar.Logic.Maestros
                                 if (itemdatagrid == itemobscollection)
                                 {   //Se marca como delete la propiedad ControlCambio del object del GenericObservableCollection
                                     IDataGridRowChange idatagridrowchange = itemobscollection as IDataGridRowChange;
-                                    idatagridrowchange.ControlCambio = RecopilatorioEnumerations.EControlCambio.Delete;
+                                    idatagridrowchange.ControlCambio = Enumerations.EControlCambio.Delete;
                                     
                                     idatagridrowchange.UltimaModificacion = ManageGenericObject.GetUltModi();
                                     idatagridrowchange.Usuario = ManageGenericObject.GetUsuario();
@@ -71,7 +71,7 @@ namespace KarveCar.Logic.Maestros
         {
             try
             {   //Se recupera la EOpcion, el GenericObservableCollection, el TabItem y el DataGrid del TabItem activo
-                RecopilatorioEnumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
+                Enumerations.EOpcion opcion = TabControlAndTabItemUtil.TabControlSelectedItemEOpcion();
                 GenericObservableCollection auxobscollection = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.GenericObsCollection;
                 TabItem tabitem = tabitemdictionary.Where(g => g.Key == opcion).FirstOrDefault().Value.TabItem;
                 DataGrid datagrid = tabitem.Content as DataGrid;
@@ -86,7 +86,7 @@ namespace KarveCar.Logic.Maestros
                         {   //Se marca como insert/update según corresponda la propiedad ControlCambio
                             //del object del GenericObservableCollection
                             IDataGridRowChange idatagridrowchange = itemobscollection as IDataGridRowChange;
-                            idatagridrowchange.ControlCambio = e.Row.IsNewItem ? RecopilatorioEnumerations.EControlCambio.Insert : RecopilatorioEnumerations.EControlCambio.Update;
+                            idatagridrowchange.ControlCambio = e.Row.IsNewItem ? Enumerations.EControlCambio.Insert : Enumerations.EControlCambio.Update;
 
                             idatagridrowchange.UltimaModificacion = ManageGenericObject.GetUltModi();
                             idatagridrowchange.Usuario = ManageGenericObject.GetUsuario();

@@ -149,6 +149,7 @@ namespace DataAccessLayer
             magnifierDo.ULTMODI = DateTime.Now.ToLongTimeString();
             magnifierDo.USUARIO = settings.USUARIO;
             IMagnifierSettings setting2 = await GetMagnifierSettings(magnifierDo.ID);
+
             if (setting2 != null)
             {
                 // Update
@@ -156,6 +157,7 @@ namespace DataAccessLayer
             }
             else
             {
+
                 // insert
                 ret = await InsertMagnifierSettings(value);
             }
@@ -183,12 +185,12 @@ namespace DataAccessLayer
                         magnifierDo.PUBLICA = settings.PUBLICA;
                         magnifierDo.ULTMODI = DateTime.Now.ToLongTimeString();
                         magnifierDo.USUARIO = settings.USUARIO;
-                        retValue = await connection.InsertAsync<USER_LUPAS>(magnifierDo) >=0;
+                        retValue = await connection.InsertAsync<USER_LUPAS>(magnifierDo) >= 0;
 
                         scope.Complete();
                     }
                 }
-                finally 
+                finally
                 {
                     connection.Close();
                     connection.Dispose();
@@ -214,7 +216,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         private async Task<bool> UpdateMagnifierColumns(IMagnifierColumns mc, IDbConnection connection)
         {
-            bool value = false;
+            bool value = true;
             USER_LUPAS_COLUMNAS cls = new USER_LUPAS_COLUMNAS();
             cls.ANCHO = mc.ANCHO;
             cls.COLUMNA_NOMBRE = mc.COLUMNA_NOMBRE;
@@ -223,11 +225,14 @@ namespace DataAccessLayer
             cls.POSICION = mc.POSICION;
             cls.VISIBLE = mc.VISIBLE;
             // FIME: rmemove this.
+           // string queryFormat = @"DELETE FROM USER_LUPAS_COLUMNAS WHERE POSICION='{0}' AND ID_LUPA='{1}';";
+
             string queryFormat =
                 @"UPDATE USER_LUPAS_COLUMNAS SET ANCHO = '{0}', COLUMNA_NOMBRE = '{1}',ID_COL='{2}', ID_LUPA='{3}',POSICION='{4}', VISIBLE='{5}' WHERE USER_LUPAS_COLUMNAS.ID_COL='{2}'";
             var query = string.Format(queryFormat, cls.ANCHO, cls.COLUMNA_NOMBRE, cls.ID_COL, cls.ID_LUPA, cls.POSICION,
                 cls.VISIBLE);
-            await connection.ExecuteAsync(query);
+            var affectedRows = await connection.ExecuteAsync(query);
+            value = affectedRows > 0;
             return value;
         }
 
@@ -245,7 +250,6 @@ namespace DataAccessLayer
             MagnifierSettings settings = value as MagnifierSettings;
             if (settings == null)
                 return false;
-            
 
             USER_LUPAS magnifierDo = new USER_LUPAS();
             magnifierDo.DEFECTO = settings.DEFECTO;
@@ -258,26 +262,21 @@ namespace DataAccessLayer
             using (IDbConnection connection = _executorSql.OpenNewDbConnection())
             {
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+                {
 
-                try
-                {
-                    // include optimistic check.
-                    retValue = await connection.UpdateAsync<USER_LUPAS>(magnifierDo);
-                    IEnumerable<IMagnifierColumns> cols = value.MagnifierColumns;
-                    // this deletes the query.
-                    foreach (var mc in cols)
+                    try
                     {
-                     //   var format = string.Format(queryFormat, mc.POSICION, mc.ID_LUPA);
-                     //   await connection.ExecuteAsync(format);
-                        retValue = await UpdateMagnifierColumns(mc, connection);
+                        // include optimistic check.
+                        retValue = await connection.UpdateAsync<USER_LUPAS>(magnifierDo);
+                        IEnumerable<IMagnifierColumns> cols = value.MagnifierColumns;
+                        // this deletes the query.
+                        foreach (var mc in cols)
+                        {
+                           
+                            retValue = await UpdateMagnifierColumns(mc, connection);
+                        }
+                        scope.Complete();
                     }
-                    scope.Complete();
-                }
-                catch (System.Exception e)
-                {
-                    
-                }
                     finally
                     {
                         connection.Close();
@@ -315,27 +314,46 @@ namespace DataAccessLayer
             }
             return retValue;
         }
-
+        private bool UniqueId(int id)
+        {
+            string str = "SELECT ID_COL FROM USER_LUPAS_COLUMNAS WHERE ID_COL='{0}'";
+            str = string.Format(str, id);
+            IDbConnection connection = _executorSql.Connection;
+            if (connection == null)
+            {
+               connection = _executorSql.OpenNewDbConnection();
+            }
+            IEnumerable<string> strResult = connection.Query<string>(str);
+            bool unique = (strResult.Distinct().Count() == 0);
+            return unique;
+        }
         public IMagnifierColumns NewMagnifierColumn()
         {
             MagnifierColumns cols = new MagnifierColumns();
             Random rnd = new Random();
             // TODO: check if exists
-            int rndnumber = rnd.Next(0, int.MaxValue);
+            int maxTries = 11;
+            int rndnumber = 0;
+            do
+            {
+                rndnumber = rnd.Next(0, 15000);
+                maxTries--;
+            } while ((maxTries> 0) && !UniqueId(rndnumber));
+
             // safe default.
             cols.ID_COL = rndnumber;
             cols.ANCHO = 0;
-            cols.ID_COL = 1;
             cols.COLUMNA_NOMBRE = string.Empty;
             cols.POSICION = 1;
             cols.VISIBLE = 0;
-  
             return cols;
         }
 
         public async Task<int> CreateMagnifierColumn(IMagnifierColumns col)
         {
+            Random rnd = new Random();
             int retValue = -1;
+            int maxTries = 20;
             using (IDbConnection connection = _executorSql.OpenNewDbConnection())
             {
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -348,7 +366,7 @@ namespace DataAccessLayer
                         cols.ID_COL = col.ID_COL;
                         cols.ID_LUPA = col.ID_LUPA;
                         cols.POSICION = col.POSICION;
-                        cols.VISIBLE = col.VISIBLE;
+                        cols.VISIBLE = col.VISIBLE;                       
                         retValue = await connection.InsertAsync<USER_LUPAS_COLUMNAS>(cols);
                         scope.Complete();
                     }
@@ -388,6 +406,34 @@ namespace DataAccessLayer
         {
             MagnifierSettings setting = new MagnifierSettings();
             return setting;
+        }
+
+        public async Task<bool> SaveColumnsSettings(IList<IMagnifierColumns> cols)
+        {
+            bool retValue = false;
+            using (IDbConnection connection = _executorSql.OpenNewDbConnection())
+            {
+
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+
+                    try
+                    {
+                        foreach (var mc in cols)
+                        {
+
+                            retValue = await UpdateMagnifierColumns(mc, connection);
+                        }
+                        scope.Complete();
+                    }
+                    finally
+                    {
+                        connection.Close();
+                        connection.Dispose();
+                    }
+                }
+            }
+            return retValue;
         }
     }
 }

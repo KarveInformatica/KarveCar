@@ -377,14 +377,7 @@ namespace KarveControls
                     timeValue = (DateTime)propValue;
 
                 }
-                if (timeValue != null)
-                {
-                    dataDatePicker.DateContent = timeValue;
-                }
-                else
-                {
-                    dataDatePicker.DateContent = DateTime.Now;
-                }
+                dataDatePicker.DateContent = timeValue;
             }
         }
         private static void DataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

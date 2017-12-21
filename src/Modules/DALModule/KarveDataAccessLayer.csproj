@@ -1072,9 +1072,11 @@
     <Compile Include="DataObjects\_TMPSC.cs" />
     <Compile Include="DataObjects\_TMPXX.cs" />
     <Compile Include="DataServiceImplementation.cs" />
+    <Compile Include="DataTranslationLoader.cs" />
     <Compile Include="Exception\CommissionAgentException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="GruposDAL.cs" />
+    <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
     <Compile Include="Logic\ErroresDAL.cs" />
     <Compile Include="Logic\GenericDAL.cs" />

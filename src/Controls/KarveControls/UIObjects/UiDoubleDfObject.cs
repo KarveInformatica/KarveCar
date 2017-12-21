@@ -114,17 +114,25 @@ namespace KarveControls.UIObjects
             get => _leftUiDfObject.DataField;
             set => _leftUiDfObject.DataField = value;
         }
-
+        /// <summary>
+        /// Returns the changed item at left
+        /// </summary>
         public ICommand ChangedItem
         {
             get { return _leftUiDfObject.ChangedItem; }
             set { _leftUiDfObject.ChangedItem = value; }
         }
+        /// <summary>
+        ///  return the changed item left
+        /// </summary>
         public ICommand ChangedItemRight
         {
             get { return _rightDfObject.ChangedItem; }
             set { _rightDfObject.ChangedItem = value; }
         }
+        /// <summary>
+        ///  return the table name.
+        /// </summary>
         public string TableName
         {
             get { return _leftUiDfObject.TableName; }

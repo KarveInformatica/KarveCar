@@ -101,6 +101,7 @@
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
+    <Compile Include="DataTransferObject\LocaleDataDto.cs" />
     <Compile Include="DataTransferObject\MaintainanceDto.cs" />
     <Compile Include="DataTransferObject\MercadoDto.cs" />
     <Compile Include="DataTransferObject\ModelVehicleDto.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
+    <Compile Include="ILanguageMapper.cs" />
+    <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />
     <Compile Include="ISettingsDataService.cs" />

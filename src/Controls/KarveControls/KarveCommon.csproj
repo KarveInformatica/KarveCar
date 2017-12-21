@@ -132,7 +132,7 @@
     <Compile Include="Command\CommandHistory.cs" />
     <Compile Include="Generic\GenericObservableCollection.cs" />
     <Compile Include="Generic\GenericPropertyChanged.cs" />
-    <Compile Include="Generic\RecopilatorioEnumerations.cs" />
+    <Compile Include="Generic\Enumerations.cs" />
     <Compile Include="Services\DataChangeEvent.cs" />
     <Compile Include="Services\DataPayLoad.cs" />
     <Compile Include="Generic\ManageGenericObject.cs" />

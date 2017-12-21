@@ -1,4 +1,4 @@
-﻿using static KarveCommon.Generic.RecopilatorioEnumerations;
+﻿using static KarveCommon.Generic.Enumerations;
 using System;
 
 namespace KarveDataAccessLayer.DataObjects

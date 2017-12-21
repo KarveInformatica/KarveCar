@@ -5,13 +5,17 @@
              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
              xmlns:vm="clr-namespace:KarveCar.ViewModels"
              xmlns:mainwindow="clr-namespace:KarveCar.ViewModels"
+             xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+             xmlns:locale="clr-namespace:KarveLocale;assembly=KarveLocale"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz">
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+          >
     <Application.Resources>
         
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
@@ -25,7 +29,10 @@
                     <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
 
                 <ResourceDictionary>
-
+                    <ObjectDataProvider x:Key="ResourceLanguage" 
+                                        ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                        MethodName="GetResourceLanguage">
+                    </ObjectDataProvider>
                     <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
                         <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
 
@@ -51,12 +58,8 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                   
-                    <ObjectDataProvider x:Key="ResourceLanguage" 
-                                ObjectType="{x:Type lang:ChangeLanguageLogic}" 
-                                MethodName="GetResourceLanguage">
-                    </ObjectDataProvider>
-                   
+
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
@@ -71,8 +74,14 @@
             <converter:NullShortConverter    x:Key="nullShortConverter"/>
             <converter:SqlInjectionCodigoConverter    x:Key="sqlInjectionCodigoConverter"/>
             <converter:SqlInjectionConverter x:Key="sqlInjectionConverter"/>
+
             
-            
+            <!--
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+    -->        
             <!--ViewModels-->
         </ResourceDictionary>
         

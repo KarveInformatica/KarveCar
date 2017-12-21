@@ -806,10 +806,7 @@ namespace KarveControls
             SearchTextFirst.KeyDown+= SearchTextOnKeyDown;
             SearchTextFirst.TextChanged += SearchText_TextChanged;
             SearchTextSecond.TextChanged += SearchText_TextChanged;
-           // MagnifierGrid.PageSize = DefaultPageSize;
-          //  MagnifierGrid.AllowEditRow = true;
-          //  MagnifierGrid.DataSource = this.SourceView;
-          //  MagnifierGrid.ReadOnly = true;
+        
             RaiseMagnifierPressEvent();   
         }
 

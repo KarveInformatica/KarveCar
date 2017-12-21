@@ -24,7 +24,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             {
                 UiDualDfSearchTextObject dfSearchTextObject = new UiDualDfSearchTextObject("Tipo.Comissionista", UiConstants.LabelTextWidthDefault);
                 dfSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
-                dfSearchTextObject.TableName = Properties.Resources.CommissionAgentModule_Table1;
+                dfSearchTextObject.TableName = "COMISIO";
                 dfSearchTextObject.PrimaryKey = CommissionAgentConstants.PrimaryKey;
                 dfSearchTextObject.AssistTableName = CommissionAgentConstants.TipoAssistTableName;
                 dfSearchTextObject.AssistDataFieldFirst = CommissionAgentConstants.TipoAssistDataFieldFirst;
@@ -61,7 +61,7 @@ namespace MasterModule.UIObjects.CommissionAgents
                     dataUiDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
                     dataUiDfObject.TextContentWidth = UiConstants.TextBoxWidthDefault;
                     dataUiDfObject.Height = UiConstants.TextboxHeight;
-                    dataUiDfObject.TableName = Resources.CommissionAgentModule_Table1;
+                    dataUiDfObject.TableName = "COMISIO";
                     dataUiDfObject.PrimaryKey = CommissionAgentConstants.PrimaryKey;
                     dataUiDfObject.OnChangedField += changedField;
                     dataUiDfObject.AllowedEmpty = true;
@@ -75,7 +75,7 @@ namespace MasterModule.UIObjects.CommissionAgents
                     if (dataUiDfObject.DataField == _upperPartFields[1])
                     {
                         dataUiDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
-                        dataUiDfObject.TableName = Resources.CommissionAgentModule_Table1;
+                        dataUiDfObject.TableName = "COMISIO";
                     }
                     else if (dataUiDfObject.DataField == _upperPartFields[2])
                     {

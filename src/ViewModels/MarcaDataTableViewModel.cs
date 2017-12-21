@@ -24,10 +24,10 @@ namespace KarveCar.ViewModels
     {
         #region Propiedades
         private MarcaDataTableUserControl thisusercontrol;
-        private RecopilatorioEnumerations.EControlCambio statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+        private Enumerations.EControlCambio statuscontrolcambio = Enumerations.EControlCambio.Update;
         private string codigoselecteditem = string.Empty;
 
-        private Tuple<RecopilatorioEnumerations.ETopDistinct, int, int> topClause = Tuple.Create(RecopilatorioEnumerations.ETopDistinct.TOP, 25, 1);
+        private Tuple<Enumerations.ETopDistinct, int, int> topClause = Tuple.Create(Enumerations.ETopDistinct.TOP, 25, 1);
         private string sqlCRUD;
         private List<string> columnsSqlCRUD;
         private List<string> columnsMarca     = new List<string>() { "MAR.CODIGO, MAR.NOMBRE" };
@@ -137,9 +137,9 @@ namespace KarveCar.ViewModels
             DataRowView datarowview = row as DataRowView;
             if (datarowview != null)
             {
-                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update) ? true : false;
+                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == Enumerations.EControlCambio.Update) ? true : false;
 
-                if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update)
+                if (this.statuscontrolcambio == Enumerations.EControlCambio.Update)
                 {
                     string codigo = datarowview.Row["CODIGO"].ToString();
                     SelectMarca(codigo);
@@ -149,11 +149,11 @@ namespace KarveCar.ViewModels
 
         private void OnCodigoMarcaLostFocus(object text)
         {
-            if (text != null && statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update)
+            if (text != null && statuscontrolcambio == Enumerations.EControlCambio.Update)
             {
-                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update) ? true : false;
+                this.thisusercontrol.txtCodigo.IsReadOnly = (statuscontrolcambio == Enumerations.EControlCambio.Update) ? true : false;
 
-                if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update)
+                if (this.statuscontrolcambio == Enumerations.EControlCambio.Update)
                 {
                     string codigo = (text as string).Replace(" ", string.Empty);
                     SelectMarca(codigo);                  
@@ -163,7 +163,7 @@ namespace KarveCar.ViewModels
 
         private void OnProveedorMarcaSelectionChanged(object row)
         {
-            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Insert)
+            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == Enumerations.EControlCambio.Insert)
             {
                 DataRowView datarowview = row as DataRowView;
                 if (datarowview != null)
@@ -176,7 +176,7 @@ namespace KarveCar.ViewModels
 
         private void OnCodigoProveedorMarcaLostFocus(object text)
         {
-            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Insert)
+            if (this.MarcaSelectedItem != null || this.statuscontrolcambio == Enumerations.EControlCambio.Insert)
             {
                 if (text != null)
                 {
@@ -197,7 +197,7 @@ namespace KarveCar.ViewModels
         /// <param name="parameter"></param>
         public void Marca(object parameter)
         {
-            RecopilatorioEnumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
+            Enumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())
@@ -236,21 +236,21 @@ namespace KarveCar.ViewModels
         #region CRUD logic
         private void Insert(object obj)
         {
-            ClearMarca(RecopilatorioEnumerations.EControlCambio.Insert);
+            ClearMarca(Enumerations.EControlCambio.Insert);
         }
 
         private void Update(object obj)
         {
-            ClearMarca(RecopilatorioEnumerations.EControlCambio.Update);
+            ClearMarca(Enumerations.EControlCambio.Update);
         }
 
         private void Cancel(object obj)
         {
-            if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Insert)
+            if (this.statuscontrolcambio == Enumerations.EControlCambio.Insert)
             {
                 Insert(null);
             }
-            else if (this.statuscontrolcambio == RecopilatorioEnumerations.EControlCambio.Update && this.MarcaSelectedItem == null)
+            else if (this.statuscontrolcambio == Enumerations.EControlCambio.Update && this.MarcaSelectedItem == null)
             {
                 Update(null);
             }
@@ -267,10 +267,10 @@ namespace KarveCar.ViewModels
             {
                 switch (statuscontrolcambio)
                 {
-                    case RecopilatorioEnumerations.EControlCambio.Insert:
+                    case Enumerations.EControlCambio.Insert:
                         Insert(null);
                         break;
-                    case RecopilatorioEnumerations.EControlCambio.Update:
+                    case Enumerations.EControlCambio.Update:
                         if (MessageBox.Show(Resources.msgEliminarRegistro, Resources.msgEliminarRegistroTitulo,
                                             MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
@@ -299,11 +299,11 @@ namespace KarveCar.ViewModels
         {
             switch (statuscontrolcambio)
             {
-                case RecopilatorioEnumerations.EControlCambio.Insert:
+                case Enumerations.EControlCambio.Insert:
                     DataRowView dataRowView = null;
                     this.codigoselecteditem = this.MarcaSelectedItem.Row["CODIGO"].ToString().Replace(" ", string.Empty);
-                    string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(RecopilatorioEnumerations.EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
-                                                                               RecopilatorioEnumerations.EWhereComparisson.LIKE, RecopilatorioEnumerations.ETipoDato.DBstring, codigoselecteditem);
+                    string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(Enumerations.EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                                                                               Enumerations.EWhereComparisson.LIKE, Enumerations.ETipoDato.DBstring, codigoselecteditem);
                     DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                                null, whereClause, null));
 
@@ -329,7 +329,7 @@ namespace KarveCar.ViewModels
                         this.thisusercontrol.txtCodigo.Focus();
                     }
                     break;
-                case RecopilatorioEnumerations.EControlCambio.Update:
+                case Enumerations.EControlCambio.Update:
                     if (this.MarcaSelectedItem != null)
                     {
                         if (UpdateMarca(this.MarcaSelectedItem) == 0)
@@ -352,15 +352,15 @@ namespace KarveCar.ViewModels
             //string codigo = this.MarcaSelectedItem.Codigo; //this.thisusercontrol.txtCodigo.Text;
             //this.MarcaDataTable = LoadMarcaSync(); //LoadMarcaAsync();
             //OnCodigoMarcaLostFocus(codigo);
-            this.statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+            this.statuscontrolcambio = Enumerations.EControlCambio.Update;
         }
 
-        private void ClearMarca(RecopilatorioEnumerations.EControlCambio controlcambio)
+        private void ClearMarca(Enumerations.EControlCambio controlcambio)
         {
             this.statuscontrolcambio = controlcambio;
-            if (controlcambio == RecopilatorioEnumerations.EControlCambio.Insert)
+            if (controlcambio == Enumerations.EControlCambio.Insert)
             {
-                Tuple<RecopilatorioEnumerations.ETopDistinct, int, int> topDistinctClause = Tuple.Create(RecopilatorioEnumerations.ETopDistinct.TOP, 1, 0);
+                Tuple<Enumerations.ETopDistinct, int, int> topDistinctClause = Tuple.Create(Enumerations.ETopDistinct.TOP, 1, 0);
                 DataTable table = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                            topDistinctClause, string.Empty, null));
 
@@ -404,7 +404,7 @@ namespace KarveCar.ViewModels
         /// </summary>
         private async Task SelectMarcaDataTable()
         {
-            string orderbymarca = SqlBuilder.SqlBuilderOrderByOne("MAR.CODIGO", RecopilatorioEnumerations.EOrderBy.ASC);
+            string orderbymarca = SqlBuilder.SqlBuilderOrderByOne("MAR.CODIGO", Enumerations.EOrderBy.ASC);
             this.MarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsMarca, "MARCAS", "MAR",
                                                                                                                             this.topClause, null, orderbymarca)));
         }
@@ -414,7 +414,7 @@ namespace KarveCar.ViewModels
         /// </summary>
         private async Task SelectProveedorMarcaDataTable()
         {
-            string orderbyproveedor = SqlBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", RecopilatorioEnumerations.EOrderBy.ASC);
+            string orderbyproveedor = SqlBuilder.SqlBuilderOrderByOne("PRO.NUM_PROVEE", Enumerations.EOrderBy.ASC);
             this.ProveedorMarcaDataTable = await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO",
                                                                                                                 this.topClause, null, orderbyproveedor)));
         }
@@ -429,8 +429,8 @@ namespace KarveCar.ViewModels
             DataRowView dataRowView = null;
             if (!codigo.Equals(string.Empty))
             {
-                string whereClause =  SqlBuilder.SqlBuilderWhereOneRegister(RecopilatorioEnumerations.EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
-                                                                            RecopilatorioEnumerations.EWhereComparisson.LIKE, RecopilatorioEnumerations.ETipoDato.DBstring, codigo);
+                string whereClause =  SqlBuilder.SqlBuilderWhereOneRegister(Enumerations.EWhereLogicOperator.WHITESPACE, "MAR.CODIGO",
+                                                                            Enumerations.EWhereComparisson.LIKE, Enumerations.ETipoDato.DBstring, codigo);
                 DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsSqlCRUD, "MARCAS", "MAR",
                                                                                                            null, whereClause, null));
 
@@ -454,7 +454,7 @@ namespace KarveCar.ViewModels
                 this.thisusercontrol.txtCodigo.IsReadOnly = false;                
             }
             
-            this.statuscontrolcambio = RecopilatorioEnumerations.EControlCambio.Update;
+            this.statuscontrolcambio = Enumerations.EControlCambio.Update;
             this.thisusercontrol.wrpMarcaDataTable.Visibility = Visibility.Visible;
         }
 
@@ -468,8 +468,8 @@ namespace KarveCar.ViewModels
             DataRowView dataRowView = null;
             if (!codigo.Equals(string.Empty))
             {
-                string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(RecopilatorioEnumerations.EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
-                                                                           RecopilatorioEnumerations.EWhereComparisson.LIKE, RecopilatorioEnumerations.ETipoDato.DBstring, codigo);
+                string whereClause = SqlBuilder.SqlBuilderWhereOneRegister(Enumerations.EWhereLogicOperator.WHITESPACE, "PRO.NUM_PROVEE",
+                                                                           Enumerations.EWhereComparisson.LIKE, Enumerations.ETipoDato.DBstring, codigo);
 
                 DataTable datatable = ManageDBGeneric.GetValuesFromDbDataTable(SqlBuilder.SqlBuilderSelect(this.columnsProveedor, "PROVEE1", "PRO", 
                                                                                                            this.topClause, whereClause, null));

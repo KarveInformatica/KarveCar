@@ -5,7 +5,7 @@ using KarveCommon.Generic;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {

@@ -34,7 +34,16 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-            <karveControls:DualFieldSearchBox x:Name="Colore" 
+            <karveControls:DataField x:Name="Modelo"
+                                     TextContentWidth="100"
+                                     LabelTextWidth="50"
+                                     LabelText="Modelo"
+                                     ItemChangedCommand="{Binding ItemChangedHandler}"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     DataSourcePath="MODELO">
+
+            </karveControls:DataField>
+                <karveControls:DualFieldSearchBox x:Name="Colore" 
                                               DataFieldFirst="COLOR"
                                               AssistTableName="COLORFL"
                                               LabelTextWidth="50"
@@ -130,24 +139,7 @@
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
-            <karveControls:DataField x:Name="Modelo"
-                                              TextContent="100"
-                                              LabelTextWidth="50"
-                                              LabelText="Modelo"
-                                              ItemChangedCommand="{Binding ItemChangedHandler}"
-                                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataSourcePath="MODELO">
-
-                    <i:Interaction.Triggers>
-
-                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
-                                                           TriggerParameterPath="ChangedValuesObjects"/>
-                    </i:EventTrigger>
-
-                </i:Interaction.Triggers>
-
-            </karveControls:DataField>
+           
             <karveControls:DataField LabelText="Bastidor" LabelTextWidth="50"  TextContentWidth="200" 
                                                   ItemChangedCommand="{Binding ItemChangedHandler}"
                                                   DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

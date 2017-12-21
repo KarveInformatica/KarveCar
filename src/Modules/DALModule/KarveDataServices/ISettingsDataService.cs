@@ -51,5 +51,11 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IMagnifierSettings NewMagnifierSettings();
+        /// <summary>
+        ///  This saves the columns
+        /// </summary>
+        /// <param name="colums"></param>
+        /// <returns></returns>
+        Task<bool> SaveColumnsSettings(IList<IMagnifierColumns> colums);
     }
 }

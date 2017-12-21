@@ -154,7 +154,7 @@ namespace MasterModule.ViewModels
          */
         public override void NewItem()
         {
-            string name = Properties.Resources.ProvidersControlViewModel_OpenNewItem_NewSupplier;
+            string name = "NuevoProveedor";
             string codigo = DataServices.GetSupplierDataServices().GetNewId();
             ProviderInfoView view = _container.Resolve<ProviderInfoView>();
             string viewNameValue = name + "." + codigo;
@@ -207,8 +207,9 @@ namespace MasterModule.ViewModels
         {
             ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
             bool retValue = await DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(provider);
-            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, payLoad);
-                      return retValue;
+         //   payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+          //  EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, payLoad);
+                     return retValue;
         }
        
         

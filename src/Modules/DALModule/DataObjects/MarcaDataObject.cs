@@ -1,7 +1,7 @@
 ﻿using KarveCar.Model.Generic;
 using KarveCommon.Generic;
 using System;
-using static KarveCommon.Generic.RecopilatorioEnumerations;
+using static KarveCommon.Generic.Enumerations;
 
 namespace KarveDataAccessLayer.DataObjects
 {

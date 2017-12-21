@@ -12,7 +12,7 @@ namespace KarveTest.DAL
         public void Should_Return_Banks_FromDB()
         {
 
-            /*IDalObject dalObject = _locator.FindDalObject(RecopilatorioEnumerations.EOpcion.rbtnBancosClientes.ToString());
+            /*IDalObject dalObject = _locator.FindDalObject(Enumerations.EOpcion.rbtnBancosClientes.ToString());
             try
             {
                 GenericObservableCollection obsCollection =  dalObject.GetItems();

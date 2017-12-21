@@ -53,7 +53,7 @@ namespace KarveCar.ViewModels
             * unfournately this is a tmeporary work around for passing Unity to the main windows and view models.
             * Until a concrete refactoring is ready. Each view own its viewmodel. The main windows has multiple view models.
             */
-            RecopilatorioEnumerations.EOpcion opcion = RecopilatorioEnumerations.EOpcion.rbtnProveedores;
+            Enumerations.EOpcion opcion = Enumerations.EOpcion.rbtnProveedores;
             Views.MainWindow mainWindow = Application.Current.MainWindow as Views.MainWindow;
            // start.Start();
 

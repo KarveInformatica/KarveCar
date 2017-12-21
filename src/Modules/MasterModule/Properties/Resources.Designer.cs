@@ -19,7 +19,7 @@ namespace MasterModule.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,353 +61,308 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to COMISIO.
-        /// </summary>
-        internal static string CommissionAgentModule_Table1 {
-            get {
-                return ResourceManager.GetString("CommissionAgentModule_Table1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Es Intracomunitario.
-        /// </summary>
-        internal static string ProviderConstants_EsIntracomunitario {
-            get {
-                return ResourceManager.GetString("ProviderConstants_EsIntracomunitario", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gestión de albaranes.
-        /// </summary>
-        internal static string ProviderConstants_GestiónDeAlbaranes {
-            get {
-                return ResourceManager.GetString("ProviderConstants_GestiónDeAlbaranes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Contacto.
         /// </summary>
-        internal static string ProviderInfoViewModel_Contacto {
+        internal static string Contacto {
             get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Contacto", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Segunda Dirección.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Dirección2 {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Dirección2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Email.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Email {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Empresa.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Empresa {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Empresa", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fax.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Fax {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Fax", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fecha de Alta.
-        /// </summary>
-        internal static string ProviderInfoViewModel_FechaDeAlta {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_FechaDeAlta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fecha de Baja.
-        /// </summary>
-        internal static string ProviderInfoViewModel_FechaDeBaja {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_FechaDeBaja", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cuenta C/P.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadAccountLeft_CuentaCP {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadAccountLeft_CuentaCP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Plazo de pago.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadAccountLeft_PlazoDePago {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadAccountLeft_PlazoDePago", resourceCulture);
+                return ResourceManager.GetString("Contacto", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to CP.
         /// </summary>
-        internal static string ProviderInfoViewModel_LoadLeftPart_CP {
+        internal static string CP {
             get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadLeftPart_CP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dirección.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadLeftPart_Dirección {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadLeftPart_Dirección", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to País.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadLeftPart_Pais {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadLeftPart_Pais", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Provincia.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadLeftPart_Provincia {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadLeftPart_Provincia", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Telefono.
-        /// </summary>
-        internal static string ProviderInfoViewModel_LoadLeftPart_Telefono {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_LoadLeftPart_Telefono", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Móvil.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Móvil {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Móvil", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NIF.
-        /// </summary>
-        internal static string ProviderInfoViewModel_NIF {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_NIF", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nombre.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Nombre {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Nombre", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nombre Commercial.
-        /// </summary>
-        internal static string ProviderInfoViewModel_NombreCommercial {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_NombreCommercial", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Notas.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Notas {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Notas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Numero.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Numero {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Numero", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Observaciones.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Observaciones {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Observaciones", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Oficina.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Oficina {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Oficina", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Población.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Población {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Población", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Teléfono.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Teléfono {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Teléfono", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tipo Prov..
-        /// </summary>
-        internal static string ProviderInfoViewModel_TipoProv {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_TipoProv", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Web.
-        /// </summary>
-        internal static string ProviderInfoViewModel_Web {
-            get {
-                return ResourceManager.GetString("ProviderInfoViewModel_Web", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PROVEE1.
-        /// </summary>
-        internal static string ProviderModule_Table1 {
-            get {
-                return ResourceManager.GetString("ProviderModule_Table1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PROVEE2.
-        /// </summary>
-        internal static string ProviderModule_Table2 {
-            get {
-                return ResourceManager.GetString("ProviderModule_Table2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NewSupplier.
-        /// </summary>
-        internal static string ProvidersControlViewModel_OpenNewItem_NewSupplier {
-            get {
-                return ResourceManager.GetString("ProvidersControlViewModel_OpenNewItem_NewSupplier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Via.
-        /// </summary>
-        internal static string UiDirectionPageBuilder_OrderCommunicationWay_Via {
-            get {
-                return ResourceManager.GetString("UiDirectionPageBuilder_OrderCommunicationWay_Via", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Prefijo.
-        /// </summary>
-        internal static string UiInvoicingBuilder_LoadAccounts_Prefijo {
-            get {
-                return ResourceManager.GetString("UiInvoicingBuilder_LoadAccounts_Prefijo", resourceCulture);
+                return ResourceManager.GetString("CP", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cta.Soportado.
         /// </summary>
-        internal static string UiInvoicingBuilder_LoadIntraco_CtaSoportado {
+        internal static string CtaSoportado {
             get {
-                return ResourceManager.GetString("UiInvoicingBuilder_LoadIntraco_CtaSoportado", resourceCulture);
+                return ResourceManager.GetString("CtaSoportado", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forma de Pago.
+        ///   Looks up a localized string similar to Cuenta C/P.
         /// </summary>
-        internal static string UiInvoicingBuilder_LoadInvocingData_FormaDePago {
+        internal static string CuentaCP {
             get {
-                return ResourceManager.GetString("UiInvoicingBuilder_LoadInvocingData_FormaDePago", resourceCulture);
+                return ResourceManager.GetString("CuentaCP", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cuenta L/P.
         /// </summary>
-        internal static string UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP {
+        internal static string CuentaLP {
             get {
-                return ResourceManager.GetString("UiInvoicingBuilder_LoadLeasingUiObjects_CuentaLP", resourceCulture);
+                return ResourceManager.GetString("CuentaLP", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fecha de alta.
+        ///   Looks up a localized string similar to Dirección.
         /// </summary>
-        internal static string UiMiddlePartPageBuilder_BuildDates_FechaDeAlta {
+        internal static string Dirección {
             get {
-                return ResourceManager.GetString("UiMiddlePartPageBuilder_BuildDates_FechaDeAlta", resourceCulture);
+                return ResourceManager.GetString("Dirección", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Segunda Dirección.
+        /// </summary>
+        internal static string Dirección2 {
+            get {
+                return ResourceManager.GetString("Dirección2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empresa.
+        /// </summary>
+        internal static string Empresa {
+            get {
+                return ResourceManager.GetString("Empresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Es Intracomunitario.
+        /// </summary>
+        internal static string EsIntracomunitario {
+            get {
+                return ResourceManager.GetString("EsIntracomunitario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fax.
+        /// </summary>
+        internal static string Fax {
+            get {
+                return ResourceManager.GetString("Fax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de Alta.
+        /// </summary>
+        internal static string FechaDeAlta {
+            get {
+                return ResourceManager.GetString("FechaDeAlta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de Baja.
+        /// </summary>
+        internal static string FechaDeBaja {
+            get {
+                return ResourceManager.GetString("FechaDeBaja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forma de Pago.
+        /// </summary>
+        internal static string FormaDePago {
+            get {
+                return ResourceManager.GetString("FormaDePago", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gestión de albaranes.
+        /// </summary>
+        internal static string GestiónDeAlbaranes {
+            get {
+                return ResourceManager.GetString("GestiónDeAlbaranes", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Vehiculos.
         /// </summary>
-        internal static string VehiclesControlView_Header_Vehiculos {
+        internal static string Header_Vehiculos {
             get {
-                return ResourceManager.GetString("VehiclesControlView_Header_Vehiculos", resourceCulture);
+                return ResourceManager.GetString("Header_Vehiculos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Móvil.
+        /// </summary>
+        internal static string Móvil {
+            get {
+                return ResourceManager.GetString("Móvil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NewSupplier.
+        /// </summary>
+        internal static string NewSupplier {
+            get {
+                return ResourceManager.GetString("NewSupplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NIF.
+        /// </summary>
+        internal static string NIF {
+            get {
+                return ResourceManager.GetString("NIF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre.
+        /// </summary>
+        internal static string Nombre {
+            get {
+                return ResourceManager.GetString("Nombre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre Commercial.
+        /// </summary>
+        internal static string NombreCommercial {
+            get {
+                return ResourceManager.GetString("NombreCommercial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notas.
+        /// </summary>
+        internal static string Notas {
+            get {
+                return ResourceManager.GetString("Notas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numero.
+        /// </summary>
+        internal static string Numero {
+            get {
+                return ResourceManager.GetString("Numero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observaciones.
+        /// </summary>
+        internal static string Observaciones {
+            get {
+                return ResourceManager.GetString("Observaciones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oficina.
+        /// </summary>
+        internal static string Oficina {
+            get {
+                return ResourceManager.GetString("Oficina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Via.
+        /// </summary>
+        internal static string OrderCommunicationWay_Via {
+            get {
+                return ResourceManager.GetString("OrderCommunicationWay_Via", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to País.
+        /// </summary>
+        internal static string Pais {
+            get {
+                return ResourceManager.GetString("Pais", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plazo de pago.
+        /// </summary>
+        internal static string PlazoDePago {
+            get {
+                return ResourceManager.GetString("PlazoDePago", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Población.
+        /// </summary>
+        internal static string Población {
+            get {
+                return ResourceManager.GetString("Población", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefijo.
+        /// </summary>
+        internal static string Prefijo {
+            get {
+                return ResourceManager.GetString("Prefijo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provincia.
+        /// </summary>
+        internal static string Provincia {
+            get {
+                return ResourceManager.GetString("Provincia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teléfono.
+        /// </summary>
+        internal static string Teléfono {
+            get {
+                return ResourceManager.GetString("Teléfono", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo Prov..
+        /// </summary>
+        internal static string TipoProv {
+            get {
+                return ResourceManager.GetString("TipoProv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web.
+        /// </summary>
+        internal static string Web {
+            get {
+                return ResourceManager.GetString("Web", resourceCulture);
             }
         }
     }

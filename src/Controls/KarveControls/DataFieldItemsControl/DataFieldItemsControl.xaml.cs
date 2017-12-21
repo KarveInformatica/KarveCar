@@ -115,7 +115,7 @@ namespace KarveControls.DataFieldItemsControl
         /// <summary>
         ///  DataSourceChanged
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="e">Event args for the property change</param>
         private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
         {
             object value = e.NewValue;

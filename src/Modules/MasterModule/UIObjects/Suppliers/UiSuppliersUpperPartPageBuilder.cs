@@ -18,7 +18,7 @@ namespace MasterModule.UIObjects.Suppliers
         {
             UiDualDfSearchTextObject dfSearchTextObject = new UiDualDfSearchTextObject("Tipo.Prove", UiConstants.LabelTextWidthDefault);
             dfSearchTextObject.ButtonImage = MasterModuleConstants.ImagePath;
-            dfSearchTextObject.TableName = Properties.Resources.ProviderModule_Table1;
+            dfSearchTextObject.TableName = "PROVEE1";
             dfSearchTextObject.PrimaryKey = ProviderConstants.PrimaryKey;
             dfSearchTextObject.AssistTableName = ProviderConstants.TipoProveAssistTableName;
             dfSearchTextObject.AssistDataFieldFirst = ProviderConstants.TipoProveAssistDataFieldFirst;
@@ -51,7 +51,7 @@ namespace MasterModule.UIObjects.Suppliers
                 dataUiDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
                 dataUiDfObject.TextContentWidth = UiConstants.TextBoxWidthDefault;
                 dataUiDfObject.Height = UiConstants.TextboxHeight;
-                dataUiDfObject.TableName = Resources.ProviderModule_Table1;
+                dataUiDfObject.TableName = "PROVEE1";
                 dataUiDfObject.PrimaryKey = ProviderConstants.PrimaryKey;
                 dataUiDfObject.OnChangedField += changedField;
                 dataUiDfObject.AllowedEmpty = true;
@@ -65,7 +65,7 @@ namespace MasterModule.UIObjects.Suppliers
                 if (dataUiDfObject.DataField == UpperPartFields[1])
                 {
                     dataUiDfObject.LabelTextWidth = UiConstants.LabelTextWidthDefault;
-                    dataUiDfObject.TableName = Resources.ProviderModule_Table2; 
+                    dataUiDfObject.TableName = "PROVEE2"; 
                 }
                 else if (dataUiDfObject.DataField == UpperPartFields[2])
                 {

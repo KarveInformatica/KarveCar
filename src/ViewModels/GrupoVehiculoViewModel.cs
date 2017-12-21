@@ -138,7 +138,7 @@ namespace KarveCar.ViewModels
         private DataTable InitDataLayerGrupoVehiculoSync()
         {            
             string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-           GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnGruposVehiculos, sql);
+           GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnGruposVehiculos, sql);
             return ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
@@ -147,7 +147,7 @@ namespace KarveCar.ViewModels
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_GRUPO_VEHICULO);
-            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnGruposVehiculos, sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnGruposVehiculos, sql));
             return ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoDataObject>(obs); //CopyToTable(obs);
             //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
@@ -155,7 +155,7 @@ namespace KarveCar.ViewModels
         private DataTable InitDataLayerTipoVehiculoSync()
         {
             string sql = string.Format(ScriptsSQL.SELECT_TIPO_VEHICULO);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnTiposVehiculos, sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnTiposVehiculos, sql);
             return ManageDataTable.ConvertObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
             //return ManageDBGeneric.GetValuesFromDbDataTable(sql);
         }
@@ -164,7 +164,7 @@ namespace KarveCar.ViewModels
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_TIPO_VEHICULO);
-            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnTiposVehiculos, sql));
+            GenericObservableCollection obs = await Task.Run(() => ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnTiposVehiculos, sql));
             return ManageDataTable.ConvertObsCollectionToDataTable<TipoVehiculo>(obs); //CopyToTable(obs);
             //return await Task.Run(() => ManageDBGeneric.GetValuesFromDbDataTable(sql));
         }
@@ -172,7 +172,7 @@ namespace KarveCar.ViewModels
         private void InitDataLayerPrecioPorDefectoSync(string codigoGrupoVehiculo)
         {
             string sql = string.Format(ScriptsSQL.SELECT_PRECIO_POR_DEFECTO, codigoGrupoVehiculo);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
             this.PrecioPorDefectoDataTable = ManageDataTable.ConvertObsCollectionToDataTable<GrupoVehiculoPrecioPorDefectoDataObject>(obs);
             ShowPrecioPorDefecto(obs.GenericObsCollection.Count);
         }
@@ -181,7 +181,7 @@ namespace KarveCar.ViewModels
         {
             // FIXME: move all this to DataMapper.
             string sql = string.Format(ScriptsSQL.SELECT_PRECIO_POR_DEFECTO, codigoGrupoVehiculo);
-            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(RecopilatorioEnumerations.EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
+            GenericObservableCollection obs = ManageDBGeneric.GetValuesFromDBObsCollection(Enumerations.EOpcion.rbtnGrupoVehiculoPrecioPorDefecto, sql);
             //this.preciopordefectodatatabletask = ManageGenericObject.ConvertObsCollectionToDataTable<GrupoVehiculoPrecioPorDefectoDataObject>(obs);
         }
         #endregion
@@ -268,7 +268,7 @@ namespace KarveCar.ViewModels
             // The data services interface is the data services related to the data access layer
             this._dataServices = container.Resolve<IDataServices>();
 
-            RecopilatorioEnumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;          
+            Enumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;          
             //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
             //la Tab correspondiente al primer valor de la Enum EOpcion
             if (opcion.ToString() == parameter.ToString())

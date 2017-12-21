@@ -143,6 +143,7 @@
     <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />
     <Compile Include="DAL\TestVehicleDataLayer.cs" />
     <Compile Include="KarveDataServices\Assist\AssistTests.cs" />
+    <Compile Include="Locale\TestLocale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
     <Compile Include="TestBootStrapper.cs" />
@@ -161,6 +162,10 @@
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Controls\KarveControls\KarveControls.csproj">
       <Project>{183A9EC4-DC89-411D-975D-C67FA4C01747}</Project>
