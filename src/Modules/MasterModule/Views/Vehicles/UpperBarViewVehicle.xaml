@@ -7,16 +7,17 @@
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:interactivity="http://prismlibrary.com/"
-	     interactivity:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
+             interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="700">
     <Grid>
-        <GroupBox Header="Dato Generales">
+        <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
         <WrapPanel Name="ContextLayout" Orientation="Horizontal">
             <karveControls:DataField x:Name="Codigo"  
                                      IsReadOnly="True"
                                      TextContentWidth="100" DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="Codigo" LabelVisible="True">
+                                     DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="{x:Static properties:Resources.lcodigo}" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
@@ -26,7 +27,7 @@
 
             </karveControls:DataField>
             <karveControls:DataField x:Name="Matricula" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="matricula" LabelTextWidth="60" LabelText="Matricula" LabelVisible="True">
+                                     DataSourcePath="matricula" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
                         <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler, PresentationTraceSources.TraceLevel=High}" 
@@ -37,7 +38,7 @@
             <karveControls:DataField x:Name="Modelo"
                                      TextContentWidth="100"
                                      LabelTextWidth="50"
-                                     LabelText="Modelo"
+                                     LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
                                      ItemChangedCommand="{Binding ItemChangedHandler}"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      DataSourcePath="MODELO">
@@ -47,7 +48,7 @@
                                               DataFieldFirst="COLOR"
                                               AssistTableName="COLORFL"
                                               LabelTextWidth="50"
-                                              LabelText="Color"
+                                              LabelText="{Binding lcolor, Source={StaticResource ResourceLanguage}}"
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="100"
                                               IsReadOnlySecond="True"
@@ -78,7 +79,7 @@
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="150"
                                               LabelTextWidth="50"
-                                              LabelText="Marca"
+                                              LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}"
                                               AssistProperties="Codigo,Nombre"
                                               AssistTableName="MARCAS"
                                               IsReadOnlySecond="True"
@@ -87,7 +88,6 @@
                                               DataFieldFirst="Mar"
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"
-                                              
                                               ButtonImage="/MasterModule;component/Images/search.png">
                 
                 <i:Interaction.Triggers>
@@ -111,7 +111,7 @@
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="198"
                                               LabelTextWidth="50"
-                                              LabelText="Grupo"
+                                              LabelText="{x:Static properties:Resources.lgrupo}"
                                               IsReadOnlySecond="True"
                                               AssistProperties="Codigo,Nombre"
                                               AssistTableName="GRUPOS"
@@ -139,8 +139,8 @@
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
-           
-            <karveControls:DataField LabelText="Bastidor" LabelTextWidth="50"  TextContentWidth="200" 
+
+                <karveControls:DataField LabelText="{Binding lbastidor, Source={StaticResource ResourceLanguage}}" LabelTextWidth="50"  TextContentWidth="200" 
                                                   ItemChangedCommand="{Binding ItemChangedHandler}"
                                                   DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSourcePath="BASTIDOR">

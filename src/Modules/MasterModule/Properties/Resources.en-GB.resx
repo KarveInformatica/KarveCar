@@ -205,10 +205,10 @@
     <value>Payment Type</value>
   </data>
   <data name="GestiónDeAlbaranes" xml:space="preserve">
-    <value>Management of delivery notes</value>
+    <value>Invoice Management</value>
   </data>
   <data name="OrderCommunicationWay_Via" xml:space="preserve">
-    <value>Street</value>
+    <value>Via</value>
   </data>
   <data name="CtaSoportado" xml:space="preserve">
     <value>Account Enabled</value>

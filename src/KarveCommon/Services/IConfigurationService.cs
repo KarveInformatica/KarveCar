@@ -12,6 +12,7 @@ namespace KarveCommon.Services
     /// </summary>
     public interface IConfigurationService
     {
+       
         /// <summary>
         ///  This method helps for closing the application
         /// </summary>

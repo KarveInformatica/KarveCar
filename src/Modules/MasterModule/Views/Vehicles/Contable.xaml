@@ -19,7 +19,7 @@
                         <KarveControls:DualFieldSearchBox 
                                     AssistDataFieldFirst="CODIGO"
                                     AssistDataFieldSecond="DESCRIP"
-                                    LabelText="Inmovilizado"
+                                    LabelText="{Binding linmovilizado, Source={StaticResource ResourceLanguage}}"
                                     IsReadOnlySecond="True"
                                     DataSource="{Binding ElementDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ItemChangedCommand="{Binding ItemChangedCommand, 
@@ -44,7 +44,7 @@
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    MagnifierCommand="{Binding AssistCommand, 
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    LabelText="Amortizacion Acumulada"
+                                    LabelText="{Binding lamortizacionacumulada, Source={StaticResource ResourceLanguage}}"
                                     LabelTextWidth="150"
                                     TextContentFirstWidth="50"
                                     TextContentSecondWidth="150"
@@ -54,7 +54,7 @@
                                     AssistProperties="Codigo, Description"
                                     ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
-                        <KarveControls:DualFieldSearchBox LabelText="Gasto" 
+                        <KarveControls:DualFieldSearchBox LabelText="{Binding lgasto, Source={StaticResource ResourceLanguage}}" 
                                          DataSource="{Binding ElementDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          AssistDataFieldFirst="CODIGO"
                                          AssistDataFieldSecond="DESCRIP"
@@ -74,7 +74,7 @@
                                          Height="25"
                                          AssistProperties="Codigo, Description"
                                          ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-                        <KarveControls:DualFieldSearchBox LabelText="Gasto Anterior" 
+                        <KarveControls:DualFieldSearchBox LabelText="{Binding lgastoanterior, Source={StaticResource ResourceLanguage}}" 
                                                           DataSource="{Binding ElementDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  
                                    
@@ -100,7 +100,7 @@
                     </WrapPanel>
                     <WrapPanel>
                         <KarveControls:DataField
-                          LabelText="% Amort Actual"
+                          LabelText="{Binding lpercentamortactual, Source={StaticResource ResourceLanguage}}"
                           TextContentWidth="100"
                            ItemChangedCommand="{Binding ItemChangedCommand, 
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -197,46 +197,46 @@
             <DockPanel>
 
 
-                <GroupBox Header="Datos Amortizacion" DockPanel.Dock="Left">
+                <GroupBox Header="{Binding lpercentamortactual, Source={StaticResource ResourceLanguage}}" DockPanel.Dock="Left">
                     <WrapPanel Orientation="Vertical">
                         <KarveControls:DataField
                             DataSourcePath="eleImpCom"
                                ItemChangedCommand="{Binding ItemChangedCommand, 
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             DataObject="{Binding ElementDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        LabelText="Valor Adquisicion" 
+                        LabelText="{Binding lvaloradquisicion, Source={StaticResource ResourceLanguage}}" 
                             LabelTextWidth="150"/>
                         <KarveControls:DataField
                         LabelTextWidth="150"
                         DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         DataSourcePath="eleAmorAcu"
-                        LabelText="Amortization Acomulada">
+                        LabelText="{Binding lamortizationacomulada, Source={StaticResource ResourceLanguage}}">
                         </KarveControls:DataField>
                         <KarveControls:DataField
                          DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         DataSourcePath="eleAmorAcuConta"
                         LabelTextWidth="150"
-                        LabelText="Valor Neto Contable">
+                        LabelText="{Binding lvalornetocontable, Source={StaticResource ResourceLanguage}}">
                         </KarveControls:DataField>
                         <KarveControls:DataField
                          LabelTextWidth="150"
-                        LabelText="Valor Analitica"></KarveControls:DataField>
+                        LabelText="{Binding lvaloranalitica, Source={StaticResource ResourceLanguage}}"></KarveControls:DataField>
                         <KarveControls:DataField
                          DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          DataSourcePath="eleValorRes"
                          LabelTextWidth="150"
-                         LabelText="Valor Neto Contable">
+                         LabelText="{Binding lvalornetocontable, Source={StaticResource ResourceLanguage}}">
                         </KarveControls:DataField>
                     </WrapPanel>
                 </GroupBox>
 
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <GroupBox Header="Imprimir">
+                    <GroupBox Header="{Binding limprimir, Source={StaticResource ResourceLanguage}}">
                         <StackPanel Orientation="Vertical">
-                            <Button Content="Analitica Contable" Command="{Binding AnaliticPrintCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+                            <Button Content="{Binding lanaliticacontable, Source={StaticResource ResourceLanguage}}" Command="{Binding AnaliticPrintCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
 
                             </Button>
-                            <Button Content="Ficha Elemento" Command="{Binding ElementFicha, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                            <Button Content="{Binding lfichaelemento, Source={StaticResource ResourceLanguage}}" Command="{Binding ElementFicha, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                             </Button>
                         </StackPanel>
                     </GroupBox>

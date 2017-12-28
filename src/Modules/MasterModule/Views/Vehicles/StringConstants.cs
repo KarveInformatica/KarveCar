@@ -8,96 +8,96 @@ namespace MasterModule.Views.Vehicles
     {
 
 
-        private const string BuyerValue = "Comprador";
-        private const string PriceValue = "Precio";
-        private const string BillNumberValue = "Numero Factura";
-        private const string ResellerValue = "Vendedor";
-        private const string BillingDateValue = "Fecha Factura";
-        private const string StretPriceValue = "Precio Para Venta";
-        private const string TrafficRenounceValue = "Baja Trafico";
-        private const string AssuranceRenountValue = "Baja Seguro";
-        private const string BankTransferValue = "Transferencia";
-        private const string DeliveringDateValue = "Fecha Entrega";
-        private const string SellVehiclesValue = "Venta Vehiculo";
-        private const string VehicleBuyingValue = "Compra Vehiculo";
-        private const string SupplierValue = "Proveedor";
-        private const string PreviousRegisterNumberValue = "Matricula anterior";
-        private const string PaymentWayValue = "Forma de Pago";
-        private const string RegisterDateValue = "Fecha matriculacion";
-        private const string BuyingDateValue = "Fecha compra";
-        private const string VehicleCopyValue = "Copia Vehiculo";
-        private const string SummaryValue = "Importe";
+        private readonly string BuyerValue = KarveLocale.Properties.Resources.lbuyer;
+        private string PriceValue = KarveLocale.Properties.Resources.dttcPrecio;
+        private string BillNumberValue = KarveLocale.Properties.Resources.StringConstants_NumeroFactura;
+        private string ResellerValue = KarveLocale.Properties.Resources.StringConstants_Vendedor;
+        private string BillingDateValue = KarveLocale.Properties.Resources.StringConstants_FechaFactura;
+        private string StretPriceValue = KarveLocale.Properties.Resources.StringConstants_PrecioParaVenta;
+        private string TrafficRenounceValue = KarveLocale.Properties.Resources.StringConstants_BajaTrafico;
+        private string AssuranceRenountValue = KarveLocale.Properties.Resources.StringConstants_BajaSeguro;
+        private string BankTransferValue = KarveLocale.Properties.Resources.StringConstants_Transferencia;
+        private string DeliveringDateValue = KarveLocale.Properties.Resources.StringConstants_FechaEntrega;
+        private string SellVehiclesValue = KarveLocale.Properties.Resources.StringConstants_VentaVehiculo;
+        private string VehicleBuyingValue = KarveLocale.Properties.Resources.StringConstants_CompraVehiculo;
+        private string SupplierValue = KarveLocale.Properties.Resources.lproveedor;
+        private string PreviousRegisterNumberValue = KarveLocale.Properties.Resources.StringConstants_MatriculaAnterior;
+        private string PaymentWayValue = KarveLocale.Properties.Resources.lformadepago;
+        private string RegisterDateValue = KarveLocale.Properties.Resources.StringConstants_FechaMatriculacion;
+        private string BuyingDateValue = KarveLocale.Properties.Resources.StringConstants_FechaCompra;
+        private string VehicleCopyValue = KarveLocale.Properties.Resources.lcopiavehiculo;
+        private string SummaryValue = KarveLocale.Properties.Resources.StringConstants_Importe;
         /// <summary>
         /// import value
         /// </summary>
-        private const string ImportValue = "Importe";
+        private string ImportValue =KarveLocale.Properties.Resources.StringConstants_Importe;
         /// <summary>
         ///  private assurance company value
         /// </summary>
-        private const string AssuranceCompanyValue = "Comp.de seguros";
+        private string AssuranceCompanyValue = KarveLocale.Properties.Resources.StringConstants_CompDeSeguros;
         /// <summary>
         /// 
         /// </summary>
-        private const string InsurancePolicyValue = "Poliza";
+        private string InsurancePolicyValue = KarveLocale.Properties.Resources.StringConstants_Poliza;
         /// <summary>
         /// Insurance type value
         /// </summary>
-        private const string InsuranceTypeValue = "Tipo seguro";
+        private string InsuranceTypeValue = KarveLocale.Properties.Resources.StringConstants_TipoSeguro;
         /// <summary>
         /// entry date value
         /// </summary>
-        private const string EntryDateValue = "Fecha de Alta";
+        private string EntryDateValue = KarveLocale.Properties.Resources.StringConstants_FechaDeAlta;
         /// <summary>
         /// 
         /// </summary>
-        private const string LeavingDateValue = "Fecha de Baja";
+        private string LeavingDateValue = KarveLocale.Properties.Resources.StringConstants_FechaDeBaja;
         /// <summary>
         /// Vencimiento
         /// </summary>
-        private const string ExpirationDateValue = "Vencimiento";
+        private string ExpirationDateValue = KarveLocale.Properties.Resources.StringConstants_Vencimiento;
         /// <summary>
         ///  Carta verde value
         /// </summary>
-        private const string CartaVerdeValue = "Carta Verde";
+        private string CartaVerdeValue = KarveLocale.Properties.Resources.lcartaverde;
         /// <summary>
         ///  Observaciones
         /// </summary>
-        private const string Observaciones = "Observation";
+        private string Observaciones = KarveLocale.Properties.Resources.StringConstants_Observation;
         /// <summary>
         ///  Franquigia
         /// </summary>
-        private const string ExemptionValue = "Franquigia";
+        private  string ExemptionValue = KarveLocale.Properties.Resources.StringConstants_Franquigia;
         /// <summary>
         ///  Amount value
         /// </summary>
-        private const string AmountValue = "Importe";
+        private  string AmountValue = KarveLocale.Properties.Resources.limporte;
         /// <summary>
         ///  Payed value.
         /// </summary>
-        private const string PayedValue = "Pagado";
+        private  string PayedValue = KarveLocale.Properties.Resources.lpagado;
         /// <summary>
         ///  Help desk value
         /// </summary>
-        private const string HelpDeskValue = "Telefono Asist.";
+        private string HelpDeskValue = KarveLocale.Properties.Resources.StringConstants_TelefonoAsist;
         /// <summary>
         ///  payement type
         /// </summary>
-        private const string PaymentTypeValue = "Forma de pago";
+        private string PaymentTypeValue = KarveLocale.Properties.Resources.StringConstants_FormaDePago;
         /// <summary>
         ///  AgentValue
         /// </summary>
-        private const string AgentValue = "Agente";
+        private  string AgentValue = KarveLocale.Properties.Resources.StringConstants_Agente;
 
-        private const string PrimaValue = "Prima";
+        private  string PrimaValue = KarveLocale.Properties.Resources.StringConstants_Prima;
 
         private static List<string> LocalizationList = new List<string>()
         {
-            "Tarjeta de Transporte",
-            "Precio de Fabricacion",
-            "ImpuestoMatriculacion",
-            "Num.Factura",
-            "Precio",
-            "Bonifica"
+            KarveLocale.Properties.Resources.StringConstants_TarjetaDeTransporte,
+            KarveLocale.Properties.Resources.StringConstants_PrecioDeFabricacion,
+           KarveLocale.Properties.Resources.StringConstants_ImpuestoMatriculacion,
+           KarveLocale.Properties.Resources.StringConstants_NumFactura,
+           KarveLocale.Properties.Resources.StringConstants_Precio,
+            KarveLocale.Properties.Resources.StringConstants_Bonifica
         };
 
         /// <summary>

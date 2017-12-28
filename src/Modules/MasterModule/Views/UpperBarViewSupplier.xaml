@@ -19,11 +19,12 @@
             </ResourceDictionary>
 
         </Grid.Resources>
-        <GroupBox Header="Dato Generales">
+        <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
             <StackPanel Name="ContextLayout" Orientation="Horizontal">
 
                 <karveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
-                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="Numero" LabelVisible="True">
+                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
                             <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -32,7 +33,8 @@
                     </i:Interaction.Triggers>
 
                 </karveControls:DataField>
-                <karveControls:DataField x:Name="Persona" TextContentWidth="250" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" LabelTextWidth="50" LabelText="Nombre" LabelVisible="True">
+                <karveControls:DataField x:Name="Persona" TextContentWidth="250" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" LabelTextWidth="50" 
+                                         LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
                             <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -40,7 +42,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </karveControls:DataField>
-                <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="Nif" LabelVisible="True">
+                <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
                             <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
@@ -52,7 +54,7 @@
                                                   TextContentSecondWidth="100"
                                                   TextContentFirstWidth="50"
                                                   LabelTextWidth="100" 
-                                                  LabelText="Tipo.Proveedor" 
+                                                  LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
                                                   LabelVisible="True"
                                                   AssistProperties="Codigo,Nombre"
@@ -86,3 +88,4 @@
         </GroupBox>
     </Grid>
 </UserControl>
+ 

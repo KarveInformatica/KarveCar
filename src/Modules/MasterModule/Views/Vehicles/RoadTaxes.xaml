@@ -15,18 +15,18 @@
              d:DesignHeight="200" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
     <Grid x:Name="GridTaxLayout">
-        <GroupBox Header="Impuesto de circulacion" d:IsLocked="True">
+        <GroupBox Header="{Binding ldanos, Source={StaticResource ResourceLanguage}}" d:IsLocked="True">
             <StackPanel>
                 <WrapPanel>
 
-                    <kc:DataDatePicker LabelText="Fecha Alta"
+                    <kc:DataDatePicker LabelText="{Binding lfechaalta, Source={StaticResource ResourceLanguage}}"
                                    DataDatePickerHeight="25"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="Value.FEC_CIRC_V1" d:IsLocked="True"/>
                     
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="80" Text="Importe"></TextBlock>
+                        <TextBlock Width="80" Text="{Binding limporte, Source={StaticResource ResourceLanguage}}"></TextBlock>
                         <TextBox   Height="25" Width="100"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="Value.IMP_CIRC_V1"
@@ -34,16 +34,15 @@
                            
                         </TextBox>
                     </StackPanel>
-                    
-                 
-                    <kc:DataFieldCheckBox Content="Facturar"
+
+
+                    <kc:DataFieldCheckBox Content="{Binding lfacturar, Source={StaticResource ResourceLanguage}}"
                                       Margin="10,0,10,0"
-                                          kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                   
-                                          kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         kc:ControlExt.DataSourcePath="Value.ImpCircuCliente"
                                       />
-                    <kc:DualFieldSearchBox  LabelText="Poblacion"
+                    <kc:DualFieldSearchBox  LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                         LabelTextWidth="100"
                                         TextContentFirstWidth="60"
                                         TextContentSecondWidth="120"
@@ -66,15 +65,14 @@
                                         AssistDataFieldFirst="COD_ZONAOFI"
                                         AssistProperties="Nome, Zona"
                                         AssistDataFieldSecond="NOM_ZONA"
-                                        
-                                           AssistQuery="{Binding AssitQueryZonas, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        AssistQuery="{Binding AssitQueryZonas, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
                 </WrapPanel>
                 <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30" d:IsLocked="True">
                     <StackPanel Orientation="Horizontal" d:IsLocked="True">
-                        <TextBlock Text="Copia Vehiculo" d:IsLocked="True"></TextBlock>
+                        <TextBlock Text="{Binding lcopiavehiculo, Source={StaticResource ResourceLanguage}}" d:IsLocked="True"></TextBlock>
                         <Image Source="/MasterModule;component/Images/copycool.png"></Image>
                     </StackPanel>
                 </Button>

@@ -133,6 +133,15 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Emite y Paga Clientes.
+        /// </summary>
+        internal static string EmiteYPagaClientes {
+            get {
+                return ResourceManager.GetString("EmiteYPagaClientes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empresa.
         /// </summary>
         internal static string Empresa {
@@ -174,6 +183,24 @@ namespace MasterModule.Properties {
         internal static string FechaDeBaja {
             get {
                 return ResourceManager.GetString("FechaDeBaja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha Fabricacion.
+        /// </summary>
+        internal static string FechaFabricacion {
+            get {
+                return ResourceManager.GetString("FechaFabricacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha Matriculacion.
+        /// </summary>
+        internal static string FechaMatriculacion {
+            get {
+                return ResourceManager.GetString("FechaMatriculacion", resourceCulture);
             }
         }
         
@@ -228,6 +255,15 @@ namespace MasterModule.Properties {
         internal static string NIF {
             get {
                 return ResourceManager.GetString("NIF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No definido.
+        /// </summary>
+        internal static string NoDefinido {
+            get {
+                return ResourceManager.GetString("NoDefinido", resourceCulture);
             }
         }
         
@@ -322,6 +358,15 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Poliza assistencia addicional.
+        /// </summary>
+        internal static string PolizaAssistenciaAddicional {
+            get {
+                return ResourceManager.GetString("PolizaAssistenciaAddicional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prefijo.
         /// </summary>
         internal static string Prefijo {
@@ -336,6 +381,42 @@ namespace MasterModule.Properties {
         internal static string Provincia {
             get {
                 return ResourceManager.GetString("Provincia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seguro.
+        /// </summary>
+        internal static string Seguro {
+            get {
+                return ResourceManager.GetString("Seguro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clave.Ppto.
+        /// </summary>
+        internal static string StringConstants_ClavePpto {
+            get {
+                return ResourceManager.GetString("StringConstants_ClavePpto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha compra.
+        /// </summary>
+        internal static string StringConstants_FechaCompra {
+            get {
+                return ResourceManager.GetString("StringConstants_FechaCompra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observation.
+        /// </summary>
+        internal static string StringConstants_Observation {
+            get {
+                return ResourceManager.GetString("StringConstants_Observation", resourceCulture);
             }
         }
         

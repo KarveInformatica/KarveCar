@@ -118,1545 +118,1183 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lrapmnInicio" xml:space="preserve">
-    <value>Inizio</value>
-    <comment>2</comment>
+    <value>Home</value>
   </data>
   <data name="lrapmnitAbrir" xml:space="preserve">
-    <value>Apri File</value>
-    <comment>3</comment>
+    <value>Open File</value>
   </data>
   <data name="lrapmnitGuardar" xml:space="preserve">
-    <value>Salva</value>
-    <comment>4</comment>
+    <value>Save</value>
   </data>
   <data name="lrapmnitRelogin" xml:space="preserve">
     <value>Relogin</value>
-    <comment>5</comment>
   </data>
   <data name="lrapmnitReconectar" xml:space="preserve">
-    <value>Riconnetti</value>
-    <comment>6</comment>
+    <value>Reconnect</value>
   </data>
   <data name="lrapmnitIrAlquiler" xml:space="preserve">
-    <value>Vai a Noleggio</value>
-    <comment>7</comment>
+    <value>Go to Renting</value>
   </data>
   <data name="lrapmnitIrContabilidad" xml:space="preserve">
-    <value>Vai a Contabilita</value>
-    <comment>8</comment>
+    <value>Go to Accounting</value>
   </data>
   <data name="lrapmnitIrTaller" xml:space="preserve">
-    <value>Vai a Taller</value>
-    <comment>9</comment>
+    <value>Go to Workshop</value>
   </data>
   <data name="lrapmnitSalir" xml:space="preserve">
-    <value>Uscire</value>
-    <comment>10</comment>
+    <value>Quit</value>
   </data>
   <data name="lrbtnHelpTitle" xml:space="preserve">
-    <value>Aiuto</value>
-    <comment>11</comment>
+    <value>Help</value>
   </data>
   <data name="lrbtnHelpDescr" xml:space="preserve">
-    <value>Qui mettiamo informazioni</value>
-    <comment>12</comment>
+    <value>Here we can write some text…</value>
   </data>
   <data name="lrbtnHelpFooterTitle" xml:space="preserve">
-    <value>Ulteriori informazioni</value>
-    <comment>13</comment>
+    <value>More information</value>
   </data>
   <data name="lrbtnHelpFooterDescr" xml:space="preserve">
-    <value>Premi F1 per guida in linea</value>
-    <comment>14</comment>
+    <value>Press F1 for more help…</value>
   </data>
   <data name="ltbbtnNuevo" xml:space="preserve">
-    <value>Nuovo</value>
-    <comment>15</comment>
+    <value>New</value>
   </data>
   <data name="ltbbtnEditar" xml:space="preserve">
-    <value>Modifica</value>
-    <comment>16</comment>
+    <value>Edit</value>
   </data>
   <data name="ltbbtnGuardar" xml:space="preserve">
-    <value>Salva</value>
-    <comment>17</comment>
+    <value>Save</value>
   </data>
   <data name="ltbbtnCancelar" xml:space="preserve">
-    <value>Cancellare</value>
-    <comment>18</comment>
+    <value>Cancel</value>
   </data>
   <data name="ltbbtnImprimir" xml:space="preserve">
-    <value>Stampare</value>
-    <comment>19</comment>
+    <value>Print</value>
   </data>
   <data name="ltbbtnEliminar" xml:space="preserve">
-    <value>Eliminar</value>
-    <comment>20</comment>
+    <value>Delete</value>
   </data>
   <data name="ltbbtnAnterior" xml:space="preserve">
-    <value>Precedente</value>
-    <comment>21</comment>
+    <value>Previous</value>
   </data>
   <data name="ltbbtnSiguiente" xml:space="preserve">
-    <value>Successivo</value>
-    <comment>22</comment>
+    <value>Forward</value>
   </data>
   <data name="ltbbtnSalir" xml:space="preserve">
-    <value>Uscire</value>
-    <comment>23</comment>
+    <value>Quit</value>
   </data>
   <data name="ltbbtnBuscar" xml:space="preserve">
-    <value>Cercare</value>
-    <comment>24</comment>
+    <value>Search</value>
   </data>
   <data name="lrbtbMaestros" xml:space="preserve">
-    <value>Registro Maestro</value>
-    <comment>25</comment>
+    <value>Master Data</value>
   </data>
   <data name="lrgrCentrosAlquiler" xml:space="preserve">
-    <value>Centri di Affitto</value>
-    <comment>26</comment>
+    <value>Renting Centers</value>
   </data>
   <data name="lrbtnEmpresas" xml:space="preserve">
-    <value>Companie</value>
-    <comment>27</comment>
+    <value>Companies</value>
   </data>
   <data name="lrbtnOficinas" xml:space="preserve">
-    <value>Officine</value>
-    <comment>28</comment>
+    <value>Offices</value>
   </data>
   <data name="lrbtnZonasOficina" xml:space="preserve">
-    <value>Aree Uffici</value>
-    <comment>29</comment>
+    <value>Office Areas</value>
   </data>
   <data name="lrgrMaestrosClientes" xml:space="preserve">
-    <value>Clienti</value>
-    <comment>30</comment>
+    <value>Customers</value>
   </data>
   <data name="lrmnbtnMaestrosClientes" xml:space="preserve">
-    <value>Clienti</value>
-    <comment>31</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnBancosClientes" xml:space="preserve">
-    <value>Banche</value>
-    <comment>32</comment>
+    <value>Banks</value>
   </data>
   <data name="lrbtnBloqueFacturacion" xml:space="preserve">
-    <value>Blocco di Fatturazione</value>
-    <comment>33</comment>
+    <value>Billing Block</value>
   </data>
   <data name="lrbtnCambioCodigoCliente" xml:space="preserve">
-    <value>Cambio codice cliente</value>
-    <comment>34</comment>
+    <value>Change Customer Code</value>
   </data>
   <data name="lrbtnCanales" xml:space="preserve">
-    <value>Canali</value>
-    <comment>35</comment>
+    <value>Chanels</value>
   </data>
   <data name="lrbtnCargosPersonal" xml:space="preserve">
-    <value>Incarchi del Personale</value>
-    <comment>36</comment>
+    <value>Staff Position</value>
   </data>
   <data name="lrbtnCCAA" xml:space="preserve">
-    <value>Regioni autonome</value>
-    <comment>37</comment>
+    <value>Autonomous Regions</value>
   </data>
   <data name="lrbtnClavesPresupuesto" xml:space="preserve">
-    <value>Chiave del Presupposto</value>
-    <comment>38</comment>
+    <value>Budget Keys</value>
   </data>
   <data name="lrbtnClientes" xml:space="preserve">
-    <value>Clienti</value>
-    <comment>39</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnEntradaRapida" xml:space="preserve">
-    <value>Entrata Rapida</value>
-    <comment>40</comment>
+    <value>Quick Entrance</value>
   </data>
   <data name="lrbtnFormasCobroClientes" xml:space="preserve">
-    <value>Modalita di Pagamento ai Clienti</value>
-    <comment>41</comment>
+    <value>Forms of Customer Collection</value>
   </data>
   <data name="lrbtnMercados" xml:space="preserve">
-    <value>Mercati</value>
-    <comment>42</comment>
+    <value>Markets</value>
   </data>
   <data name="lrbtnNegocios" xml:space="preserve">
     <value>Business</value>
-    <comment>43</comment>
   </data>
   <data name="lrbtnOrigenClientes" xml:space="preserve">
-    <value>Origine dei Clienti</value>
-    <comment>44</comment>
+    <value>Origin of Customers</value>
   </data>
   <data name="lrbtnPaises" xml:space="preserve">
-    <value>Nazioni</value>
-    <comment>45</comment>
+    <value>Countries</value>
   </data>
   <data name="lrbtnPoblaciones" xml:space="preserve">
-    <value>Popolazioni</value>
-    <comment>46</comment>
+    <value>Towns</value>
   </data>
   <data name="lrbtnProvincias" xml:space="preserve">
-    <value>Province</value>
-    <comment>47</comment>
+    <value>Provinces</value>
   </data>
   <data name="lrbtnSectoresActividad" xml:space="preserve">
-    <value>Settori di attivita</value>
-    <comment>48</comment>
+    <value>Activity Sectors</value>
   </data>
   <data name="lrbtnTarjetasCredito" xml:space="preserve">
-    <value>Carte di credito</value>
-    <comment>49</comment>
+    <value>Credit cards</value>
   </data>
   <data name="lrbtnTarjetasEmpresa" xml:space="preserve">
-    <value>Business Card</value>
-    <comment>50</comment>
+    <value>Business Cards</value>
   </data>
   <data name="lrbtnTiposCliente" xml:space="preserve">
-    <value>Tipo clienti</value>
-    <comment>51</comment>
+    <value>Customer Types</value>
   </data>
   <data name="lrbtnTiposContacto" xml:space="preserve">
-    <value>Tipo di Contatto</value>
-    <comment>52</comment>
+    <value>Contact Types</value>
   </data>
   <data name="lrbtnTiposVisita" xml:space="preserve">
-    <value>Tipo di Visita</value>
-    <comment>53</comment>
+    <value>Visit Types</value>
   </data>
   <data name="lrbtnUsoAlquiler" xml:space="preserve">
-    <value>Uso Noleggio</value>
-    <comment>54</comment>
+    <value>Renting Use</value>
   </data>
   <data name="lrbtnVendedores" xml:space="preserve">
-    <value>Venditori</value>
-    <comment>55</comment>
+    <value>Sellers</value>
   </data>
   <data name="lrbtnZonasCliente" xml:space="preserve">
-    <value>Aree Clienti</value>
-    <comment>56</comment>
+    <value>Client Areas</value>
   </data>
   <data name="lrgrMaestrosComisionistas" xml:space="preserve">
-    <value>Intermediario</value>
-    <comment>57</comment>
+    <value>Brokers</value>
   </data>
   <data name="rmnbtnMaestrosComisionistas" xml:space="preserve">
-    <value>Intermediari</value>
-    <comment>58</comment>
+    <value>Brokers</value>
   </data>
   <data name="lrbtnComisionistas" xml:space="preserve">
-    <value>Intermediari</value>
-    <comment>59</comment>
+    <value>Brokers</value>
   </data>
   <data name="lrbtnEmpleadosAgencia" xml:space="preserve">
-    <value>Impiegati della agenzia</value>
-    <comment>60</comment>
+    <value>Agency Employees</value>
   </data>
   <data name="lrbtnTipoComisionista" xml:space="preserve">
-    <value>Tipo Intermediari</value>
-    <comment>61</comment>
+    <value>Broker Types</value>
   </data>
   <data name="lrgrMaestrosContratos" xml:space="preserve">
-    <value>Contratti</value>
-    <comment>62</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrmnbtnMaestrosContratos" xml:space="preserve">
-    <value>Contratti</value>
-    <comment>63</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnAccesorios" xml:space="preserve">
-    <value>Accessori</value>
-    <comment>64</comment>
+    <value>Accessories</value>
   </data>
   <data name="lrbtnLugaresEntrega" xml:space="preserve">
-    <value>Luoghi di Consegna</value>
-    <comment>65</comment>
+    <value>Delivery Locations</value>
   </data>
   <data name="lrbtnMotivosAnulacionContratos" xml:space="preserve">
-    <value>Motivi Annullamento</value>
-    <comment>66</comment>
+    <value>Annulment Reasons</value>
   </data>
   <data name="lrbtnMotivosCambioVehiculo" xml:space="preserve">
-    <value>Causa Cambio del Veicolo</value>
-    <comment>67</comment>
+    <value>Vehicle Change Reasons</value>
   </data>
   <data name="lrbtnMotivosCancelacion" xml:space="preserve">
-    <value>Causa Cancellazione</value>
-    <comment>68</comment>
+    <value>Cancelling Reasons</value>
   </data>
   <data name="lrbtnMotivosImproductivo" xml:space="preserve">
-    <value>Cause Improductivita</value>
-    <comment>69</comment>
+    <value>Unproductive Reasons</value>
   </data>
   <data name="lrbtnTipoImpresoContrato" xml:space="preserve">
-    <value>Tipus Imprès de Contracte</value>
-    <comment>70</comment>
+    <value>Contract Forms Type</value>
   </data>
   <data name="lrgrMaestrosIncidencias" xml:space="preserve">
-    <value>Incidències</value>
-    <comment>71</comment>
+    <value>Incidents</value>
   </data>
   <data name="lrmnbtnMaestrosIncidencias" xml:space="preserve">
-    <value>Incidències</value>
-    <comment>72</comment>
+    <value>Incidents</value>
   </data>
   <data name="lrbtnTiposIncidenciasClientes" xml:space="preserve">
-    <value>Clients</value>
-    <comment>73</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnTiposIncidenciasContratos" xml:space="preserve">
-    <value>Contractes</value>
-    <comment>74</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnTiposIncidenciasProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>75</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnTiposIncidenciasReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>76</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrgrMaestrosProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>77</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrmnbtnMaestrosProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>78</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnDivisas" xml:space="preserve">
-    <value>Divises</value>
-    <comment>79</comment>
+    <value>Foreign Currency</value>
   </data>
   <data name="lrbtnFormaPagoProveedor" xml:space="preserve">
-    <value>Formes de Pagament</value>
-    <comment>80</comment>
+    <value>Payment Methods</value>
   </data>
   <data name="lrbtnProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>81</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnTiposProveedores" xml:space="preserve">
-    <value>Tipi di Fornitore</value>
-    <comment>82</comment>
+    <value>Supplier Types</value>
   </data>
   <data name="lrgrMaestrosReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>83</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrmnbtnMaestrosReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>84</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnClavesFee" xml:space="preserve">
-    <value>Chiavi Tassa</value>
-    <comment>85</comment>
+    <value>Fee Keys</value>
   </data>
   <data name="lrbtnMediosRecepcion" xml:space="preserve">
-    <value>Mitjans de Recepció</value>
-    <comment>86</comment>
+    <value>Reception Type</value>
   </data>
   <data name="lrbtnMotivosAnulacionReservas" xml:space="preserve">
-    <value>Causa Annullazione</value>
-    <comment>87</comment>
+    <value>Annulment Reasons</value>
   </data>
   <data name="lrbtnMotivosNoServicio" xml:space="preserve">
-    <value>Cause No Servizio</value>
-    <comment>88</comment>
+    <value>No Service Reasons</value>
   </data>
   <data name="lrgrMaestrosTarifas" xml:space="preserve">
-    <value>Tarifes</value>
-    <comment>89</comment>
+    <value>Rates</value>
   </data>
   <data name="lrmnbtnMaestrosTarifas" xml:space="preserve">
-    <value>Tarifes</value>
-    <comment>90</comment>
+    <value>Rates</value>
   </data>
   <data name="lrbtnCambioCodigoTarifas" xml:space="preserve">
-    <value>Canvi Codi de Tarifes</value>
-    <comment>91</comment>
+    <value>Change Rate Code</value>
   </data>
   <data name="lrbtnConceptosFacturacion" xml:space="preserve">
-    <value>Conceptes Facturació</value>
-    <comment>92</comment>
+    <value>Billing Concepts</value>
   </data>
   <data name="lrbtnCrearTarifaDesdeOtraTarifa" xml:space="preserve">
-    <value>Crear Tarifa a partir d'una altra</value>
-    <comment>93</comment>
+    <value>Create Rate From Another</value>
   </data>
   <data name="lrbtnGruposTarifa" xml:space="preserve">
-    <value>Grups de Tarifes</value>
-    <comment>94</comment>
+    <value>Rates Groups</value>
   </data>
   <data name="lrbtnIncrementoPrecios" xml:space="preserve">
-    <value>Increment Preus</value>
-    <comment>95</comment>
+    <value>Increase Prices</value>
   </data>
   <data name="lrbtnTarifas" xml:space="preserve">
-    <value>Tarifes</value>
-    <comment>96</comment>
+    <value>Rates</value>
   </data>
   <data name="lrbtnTarifaCliente" xml:space="preserve">
-    <value>Tarifa per Client</value>
-    <comment>97</comment>
+    <value>Rate per Customer</value>
   </data>
   <data name="lrbtnTarifasComisionista" xml:space="preserve">
-    <value>Tarifes per Comisionista</value>
-    <comment>98</comment>
+    <value>Rates per Borker</value>
   </data>
   <data name="lrbtnVerTarifa" xml:space="preserve">
-    <value>Vedi Tariffa</value>
-    <comment>99</comment>
+    <value>See Rate</value>
   </data>
   <data name="lrbtnVincularClienteTarifa" xml:space="preserve">
-    <value>Vincular Client a Tarifes</value>
-    <comment>100</comment>
+    <value>Link Customer to Rates</value>
   </data>
   <data name="lrgrMaestrosVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>101</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrmnbtnMaestrosVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>102</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrbtnAccesoriosVehiculos" xml:space="preserve">
-    <value>Accessoris Vehicles</value>
-    <comment>103</comment>
+    <value>Vehicle Accessories</value>
   </data>
   <data name="lrbtnActividadesVehiculos" xml:space="preserve">
-    <value>Activitats Vehicles</value>
-    <comment>104</comment>
+    <value>Vehicle Activities</value>
   </data>
   <data name="lrbtnCambioCodigoVehiculo" xml:space="preserve">
-    <value>Canvi Codi de Vehicle</value>
-    <comment>105</comment>
+    <value>Change Vehicle Code</value>
   </data>
   <data name="lrbtnCodigosInmovilizacion" xml:space="preserve">
-    <value>Codis Immobilització</value>
-    <comment>106</comment>
+    <value>Immobilization Codes</value>
   </data>
   <data name="lrbtnCodigosMantenimiento" xml:space="preserve">
-    <value>Codis Manteniment</value>
-    <comment>107</comment>
+    <value>Maintenance Codes</value>
   </data>
   <data name="lrbtnColores" xml:space="preserve">
     <value>Colors</value>
-    <comment>108</comment>
   </data>
   <data name="lrbtnExtras" xml:space="preserve">
-    <value>Extras</value>
-    <comment>109</comment>
+    <value>Additional Features</value>
   </data>
   <data name="lrbtnFormasTraslado" xml:space="preserve">
-    <value>Formes Traslladament</value>
-    <comment>110</comment>
+    <value>Transfer Forms</value>
   </data>
   <data name="lrbtnGruposVehiculos" xml:space="preserve">
-    <value>Grups Vehicles</value>
-    <comment>111</comment>
+    <value>Vehicle Groups</value>
   </data>
   <data name="lrbtnMarcas" xml:space="preserve">
-    <value>Marques</value>
-    <comment>112</comment>
+    <value>Brands</value>
   </data>
   <data name="lrbtnModelos" xml:space="preserve">
     <value>Models</value>
-    <comment>113</comment>
   </data>
   <data name="lrbtnModificacionMasivaAux" xml:space="preserve">
-    <value>Modificació Massiva</value>
-    <comment>114</comment>
+    <value>Massive Modification</value>
   </data>
   <data name="lrbtnMotivosRepostaje" xml:space="preserve">
-    <value>Motivi Rifornimento Carburante</value>
-    <comment>115</comment>
+    <value>Refuel Reasons</value>
   </data>
   <data name="lrbtnPropietarios" xml:space="preserve">
-    <value>Proprietari</value>
-    <comment>116</comment>
+    <value>Owners</value>
   </data>
   <data name="lrbtnRecalculoMantenimiento" xml:space="preserve">
-    <value>Recàlcul Manteniment</value>
-    <comment>117</comment>
+    <value>Maintenance Recalculation</value>
   </data>
   <data name="lrbtnTiposVehiculos" xml:space="preserve">
-    <value>Tipus de Vehicle</value>
-    <comment>118</comment>
+    <value>Vehicle Types</value>
   </data>
   <data name="lrbtnVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>119</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrgrMaestrosVarios" xml:space="preserve">
-    <value>Varis</value>
-    <comment>120</comment>
+    <value>Others</value>
   </data>
   <data name="lrmnbtnMaestrosVarios" xml:space="preserve">
-    <value>Varis</value>
-    <comment>121</comment>
+    <value>Others</value>
   </data>
   <data name="lrbtnCategoriasPersonal" xml:space="preserve">
-    <value>Lliurament Contractes a Oficina</value>
-    <comment>141</comment>
+    <value>Hand Over Contracts to Office</value>
   </data>
   <data name="lrbtnConceptosSalidaCaja" xml:space="preserve">
-    <value>Conceptes Sortida Caixa</value>
-    <comment>123</comment>
+    <value>Output Box Concepts</value>
   </data>
   <data name="lrbtnTextosEstandars" xml:space="preserve">
-    <value>Textes Estàndars</value>
-    <comment>124</comment>
+    <value>Standard Texts</value>
   </data>
   <data name="lrbtnTipoContactoPotencial" xml:space="preserve">
-    <value>Tipus Contacte Potencial</value>
-    <comment>125</comment>
+    <value>Potential Contact Type</value>
   </data>
   <data name="lrbtnTiposDocumentos" xml:space="preserve">
-    <value>Tipus de Documents</value>
-    <comment>126</comment>
+    <value>Documents Types</value>
   </data>
   <data name="lrbtnTipoImpresoFactura" xml:space="preserve">
-    <value>Tipi di Fatture</value>
-    <comment>127</comment>
+    <value>Form Invoice Types</value>
   </data>
   <data name="lrbtbContratos" xml:space="preserve">
-    <value>Contractes</value>
-    <comment>128</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrgrContratos" xml:space="preserve">
-    <value>Contractes</value>
-    <comment>129</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnAbrirContrato" xml:space="preserve">
-    <value>Obrir Contracte</value>
-    <comment>130</comment>
+    <value>Open Contract</value>
   </data>
   <data name="lrbtnAnularContrato" xml:space="preserve">
-    <value>Anul·lar Contracte</value>
-    <comment>131</comment>
+    <value>Cancel Contract</value>
   </data>
   <data name="lrbtnCerrarContrato" xml:space="preserve">
-    <value>Tancar Contracte</value>
-    <comment>132</comment>
+    <value>Close Contract</value>
   </data>
   <data name="lrbtnConcultarContrato" xml:space="preserve">
-    <value>Consultar Contracte</value>
-    <comment>133</comment>
+    <value>Consult Contract</value>
   </data>
   <data name="lrbtnReAbrirContrato" xml:space="preserve">
-    <value>Reobrir Contracte</value>
-    <comment>134</comment>
+    <value>Reopen Contract</value>
   </data>
   <data name="lrgrCambiosContratos" xml:space="preserve">
-    <value>Canvis</value>
-    <comment>135</comment>
+    <value>Changes</value>
   </data>
   <data name="lrbtnCambioConductor" xml:space="preserve">
-    <value>Canvi Conductor</value>
-    <comment>136</comment>
+    <value>Change of Driver</value>
   </data>
   <data name="lrbtnCambioNumeroContrato" xml:space="preserve">
-    <value>Canvi Nombre Contracte</value>
-    <comment>137</comment>
+    <value>Change Contract Number</value>
   </data>
   <data name="lrbtnCambioOficinaContrato" xml:space="preserve">
-    <value>Canvi Oficina Contracte</value>
-    <comment>138</comment>
+    <value>Change Office Contract</value>
   </data>
   <data name="lrbtnCambioVehiculo" xml:space="preserve">
-    <value>Canvi Vehicle</value>
-    <comment>139</comment>
+    <value>Exchange Vehicle</value>
   </data>
   <data name="lrgrVariosContratos" xml:space="preserve">
-    <value>Varis Contractes</value>
-    <comment>140</comment>
+    <value>Others</value>
   </data>
   <data name="lrbtnImpresionBloqueContratos" xml:space="preserve">
-    <value>Impressió en Bloc de Contractes</value>
-    <comment>142</comment>
+    <value>Printing in Block of Contracts</value>
   </data>
   <data name="lrbtnPlantilla" xml:space="preserve">
-    <value>Plantilla</value>
-    <comment>143</comment>
+    <value>Template</value>
   </data>
   <data name="lrbtnProcesoCierreContratos" xml:space="preserve">
-    <value>Procés Tancament Contractes</value>
-    <comment>144</comment>
+    <value>Process Closing Contracts</value>
   </data>
   <data name="lrbtnProlongacionAutomaticaContratos" xml:space="preserve">
-    <value>Prolongació Automàtica de Contractes</value>
-    <comment>145</comment>
+    <value>Automatic Contract Prolonging</value>
   </data>
   <data name="lrbtbReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>146</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrgrReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>147</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>148</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnAnularReserva" xml:space="preserve">
-    <value>Anul·lar Reserva</value>
-    <comment>149</comment>
+    <value>Cancel Booking</value>
   </data>
   <data name="lrbtnConvertirReservaContrato" xml:space="preserve">
-    <value>Convertir Reserva a Contracte</value>
-    <comment>150</comment>
+    <value>Convert Booking to Contract</value>
   </data>
   <data name="lrbtnCotizacionComparada" xml:space="preserve">
-    <value>Cotització Comparada</value>
-    <comment>151</comment>
+    <value>Comparative Quote</value>
   </data>
   <data name="lrbtnEliminarReservasNoShow" xml:space="preserve">
-    <value>Eliminar Reserves No Show</value>
-    <comment>152</comment>
+    <value>Delete Quotings No Show</value>
   </data>
   <data name="lrbtnPeticiones" xml:space="preserve">
-    <value>Peticions</value>
-    <comment>153</comment>
+    <value>Requests</value>
   </data>
   <data name="lrbtbAtipicos" xml:space="preserve">
-    <value>Atípics</value>
-    <comment>154</comment>
+    <value>Atypical</value>
   </data>
   <data name="lrgrAtipicos" xml:space="preserve">
-    <value>Atípics</value>
-    <comment>155</comment>
+    <value>Atypical</value>
   </data>
   <data name="lrbtnAlquilerBicicletas" xml:space="preserve">
-    <value>Lloguer Bicicletes</value>
-    <comment>156</comment>
+    <value>Bicycles Rental</value>
   </data>
   <data name="lrbtnFacturasAtipicas" xml:space="preserve">
-    <value>Factures Atípiques</value>
-    <comment>157</comment>
+    <value>Atypical Invoices</value>
   </data>
   <data name="lrbtnImpresionBloque" xml:space="preserve">
-    <value>Impressió en Bloc</value>
-    <comment>158</comment>
+    <value>Printing in Block</value>
   </data>
   <data name="lrbtnSalidaCaja" xml:space="preserve">
-    <value>Uscita Cassa</value>
-    <comment>159</comment>
+    <value>Checkout</value>
   </data>
   <data name="lrbtnSeriesAtipicos" xml:space="preserve">
-    <value>Sèries d'Atípics</value>
-    <comment>160</comment>
+    <value>Atypical Series</value>
   </data>
   <data name="lrbtbComercial" xml:space="preserve">
-    <value>Comercial</value>
-    <comment>161</comment>
+    <value>Commercial</value>
   </data>
   <data name="lrgrComercial" xml:space="preserve">
-    <value>Comercial</value>
-    <comment>162</comment>
+    <value>Commercial</value>
   </data>
   <data name="lrbtnCustomerService" xml:space="preserve">
     <value>Customer Service</value>
-    <comment>163</comment>
   </data>
   <data name="lrbtnEntregaBonos" xml:space="preserve">
-    <value>Lliurament Bons</value>
-    <comment>164</comment>
+    <value>Bonus Delivery</value>
   </data>
   <data name="lrbtnEMailingClientes" xml:space="preserve">
-    <value>e-Mailing Clients</value>
-    <comment>165</comment>
+    <value>E-Mailing Clients</value>
   </data>
   <data name="lrbtneEMailingPotenciales" xml:space="preserve">
-    <value>e-Mailing Potencials</value>
-    <comment>166</comment>
+    <value>E-Mailing Potentials</value>
   </data>
   <data name="lrbtnPotenciales" xml:space="preserve">
-    <value>Potencials</value>
-    <comment>167</comment>
+    <value>Potentials</value>
   </data>
   <data name="lrbtbFacturacion" xml:space="preserve">
-    <value>Facturació</value>
-    <comment>168</comment>
+    <value>Billing</value>
   </data>
   <data name="lrgrFacturacion" xml:space="preserve">
-    <value>Facturació</value>
-    <comment>169</comment>
+    <value>Billing</value>
   </data>
   <data name="rmnbtnFacturas" xml:space="preserve">
-    <value>Fatture</value>
-    <comment>170</comment>
+    <value>Bills</value>
   </data>
   <data name="lrbtnAbonarFactura" xml:space="preserve">
-    <value>Abonar Factura</value>
-    <comment>171</comment>
+    <value>Pay Invoice</value>
   </data>
   <data name="lrbtnBorrarFacturasPeriodo" xml:space="preserve">
-    <value>Esborrar Factures en un Període</value>
-    <comment>172</comment>
+    <value>Delete Invoices in a Period</value>
   </data>
   <data name="lrbtnCambioNumeroFactura" xml:space="preserve">
-    <value>Canvi Nombre Factura</value>
-    <comment>173</comment>
+    <value>Change Invoice Number</value>
   </data>
   <data name="lrbtnCambioVendedorFacturas" xml:space="preserve">
-    <value>Canvi Venedor en Factures</value>
-    <comment>174</comment>
+    <value>Sales Change in Invoices</value>
   </data>
   <data name="lrbtnCartaPendientes" xml:space="preserve">
-    <value>Cartes Pendents</value>
-    <comment>175</comment>
+    <value>Pending Letters</value>
   </data>
   <data name="lrbtnConsultaModificacion" xml:space="preserve">
-    <value>Consulta / Modificació</value>
-    <comment>176</comment>
+    <value>Consult / Modification</value>
   </data>
   <data name="lrbtnModificarEmpresaOficinaFactura" xml:space="preserve">
-    <value>Modificar Empresa / Oficina Factura</value>
-    <comment>177</comment>
+    <value>Modify Company / Invoice Office</value>
   </data>
   <data name="lrbtnModificarFacturaContrato" xml:space="preserve">
-    <value>Modificar Factura en Contracte</value>
-    <comment>178</comment>
+    <value>Modify Bill in Contract</value>
   </data>
   <data name="lrbtnProcesoFacturacion" xml:space="preserve">
-    <value>Procés Facturació</value>
-    <comment>179</comment>
+    <value>Billing Process</value>
   </data>
   <data name="lrgrRecibosCartera" xml:space="preserve">
-    <value>Rebuts / Cartera</value>
-    <comment>180</comment>
+    <value>Receipts / Portfolio</value>
   </data>
   <data name="lrmnbtnRecibosCartera" xml:space="preserve">
-    <value>Rebuts Cartera</value>
-    <comment>181</comment>
+    <value>Receipts Portfolio</value>
   </data>
   <data name="lrbtnRecibos" xml:space="preserve">
-    <value>Rebuts</value>
-    <comment>182</comment>
+    <value>Receipts</value>
   </data>
   <data name="lrbtnCobrosIndividuales" xml:space="preserve">
-    <value>Cobraments Individuals</value>
-    <comment>183</comment>
+    <value>Individual Charges</value>
   </data>
   <data name="lrbtnGestionImpagados" xml:space="preserve">
-    <value>Gestió d'Impagats</value>
-    <comment>184</comment>
+    <value>Unpaid Management</value>
   </data>
   <data name="lrbtnRefundirRecibosNoCobrados" xml:space="preserve">
-    <value>Refondre Rebuts No Cobrats</value>
-    <comment>185</comment>
+    <value>Refund Receipts Not Charged</value>
   </data>
   <data name="lrgrRemesas" xml:space="preserve">
-    <value>Remeses</value>
-    <comment>186</comment>
+    <value>Remittances</value>
   </data>
   <data name="lrmnbtnRemesas" xml:space="preserve">
-    <value>Remeses</value>
-    <comment>187</comment>
+    <value>Remittances</value>
   </data>
   <data name="lrbtnRemesas" xml:space="preserve">
-    <value>Remeses</value>
-    <comment>188</comment>
+    <value>Remittances</value>
   </data>
   <data name="lrbtnAnulacionPaseRemesaContabilidad" xml:space="preserve">
-    <value>Anul·lació Passi Remesa a Comptabilitat</value>
-    <comment>189</comment>
+    <value>Cancel Pass Remittance to Accounting</value>
   </data>
   <data name="lrbtnBancosRemesas" xml:space="preserve">
-    <value>Bancs de Remeses</value>
-    <comment>190</comment>
+    <value>Remittance Banks</value>
   </data>
   <data name="lrbtnPaseSoporteMagnetico" xml:space="preserve">
-    <value>Passi a Suport Magnètic</value>
-    <comment>191</comment>
+    <value>Pass to Magnetic Support</value>
   </data>
   <data name="rbtnPaseRemesaContabilidad" xml:space="preserve">
-    <value>Passi Remesa a Comptabilitat</value>
-    <comment>192</comment>
+    <value>Pass Remittance to Accounting</value>
   </data>
   <data name="lrgrEnlacesContables" xml:space="preserve">
-    <value>Enllaços Comptables</value>
-    <comment>193</comment>
+    <value>Accounting</value>
   </data>
   <data name="lrmnbtnEnlacesContables" xml:space="preserve">
-    <value>Enllaços Comptables</value>
-    <comment>194</comment>
+    <value>Accounting</value>
   </data>
   <data name="lrbtnAnulacionPase" xml:space="preserve">
-    <value>Anul·lació de Passi</value>
-    <comment>195</comment>
+    <value>Cancel Pass</value>
   </data>
   <data name="lrbtnPaseCobrosRecibos" xml:space="preserve">
-    <value>Passi de Cobraments (Rebuts)</value>
-    <comment>196</comment>
+    <value>Payments Pass (Receipts)</value>
   </data>
   <data name="lrbtnPaseFacturas" xml:space="preserve">
-    <value>Passi de Factures</value>
-    <comment>197</comment>
+    <value>Bills Pass</value>
   </data>
   <data name="lrbtnPaseFacturasAtipicas" xml:space="preserve">
-    <value>Passi de Factures Atípiques</value>
-    <comment>198</comment>
+    <value>Atypical Bills Pass</value>
   </data>
   <data name="lrbtnPaseTesoreriaCaja" xml:space="preserve">
-    <value>Passi de Tresoreria (Caixa)</value>
-    <comment>199</comment>
+    <value>Treasury Pass (Cashier)</value>
   </data>
   <data name="lrgrExportacion" xml:space="preserve">
-    <value>Exportació</value>
-    <comment>200</comment>
+    <value>Export</value>
   </data>
   <data name="lrbtnExportacionFichero340" xml:space="preserve">
-    <value>Exportació Fitxer 340</value>
-    <comment>201</comment>
+    <value>Export File 340</value>
   </data>
   <data name="lrbtnExportacionFichero347" xml:space="preserve">
-    <value>Exportació Fitxer 347</value>
-    <comment>202</comment>
+    <value>Export File 347</value>
   </data>
   <data name="lrgrImpresion" xml:space="preserve">
-    <value>Impressió</value>
-    <comment>203</comment>
+    <value>Print</value>
   </data>
   <data name="lrbtnImpresionBloqueFacturas" xml:space="preserve">
-    <value>Impressió en Bloc Factures</value>
-    <comment>204</comment>
+    <value>Printing in Block Invoices</value>
   </data>
   <data name="lrbtnImpresionBloqueRecibos" xml:space="preserve">
-    <value>Impressió en Bloc Rebuts</value>
-    <comment>205</comment>
+    <value>Printing in Block Receipts</value>
   </data>
   <data name="lrgrEstadisticasFacturas" xml:space="preserve">
-    <value>Estadístiques</value>
-    <comment>206</comment>
+    <value>Statistics</value>
   </data>
   <data name="lrbtnGeneradorEstadisticasFacturas" xml:space="preserve">
-    <value>Generador Estadístiques</value>
-    <comment>207</comment>
+    <value>Statistics Generator</value>
   </data>
   <data name="lrbtbFlota" xml:space="preserve">
-    <value>Flota</value>
-    <comment>208</comment>
+    <value>Fleet</value>
   </data>
   <data name="lrgrInmovilizaciones" xml:space="preserve">
-    <value>Immobilitzacions</value>
-    <comment>209</comment>
+    <value>Immobilization</value>
   </data>
   <data name="lrbtnInmovilizaciones" xml:space="preserve">
-    <value>Immobilitzacions</value>
-    <comment>210</comment>
+    <value>Immobilization</value>
   </data>
   <data name="lrbtnEntradaGastosVehiculo" xml:space="preserve">
-    <value>Entrada Despeses per Vehicle</value>
-    <comment>211</comment>
+    <value>Entry Expenses per Vehicle</value>
   </data>
   <data name="lrbtnGeneradorEstadisticasInmovilizaciones" xml:space="preserve">
-    <value>Generador Estadístiques</value>
-    <comment>212</comment>
+    <value>Statistics Generator</value>
   </data>
   <data name="lrgrUtilidades" xml:space="preserve">
-    <value>Utilitats</value>
-    <comment>213</comment>
+    <value>Utilities</value>
   </data>
   <data name="lrbtnActualizarVtoITV" xml:space="preserve">
-    <value>Actualitzar Venc. ITV</value>
-    <comment>214</comment>
+    <value>Update Expiration ITV</value>
   </data>
   <data name="lrbtnBastidorRadioLlave" xml:space="preserve">
-    <value>Bastidor, Ràdio, Clau</value>
-    <comment>215</comment>
+    <value>Chassis, Radio, Key</value>
   </data>
   <data name="lrbtnCambioFechaBajaVehiculo" xml:space="preserve">
-    <value>Canvi Data Baixa Vehicle</value>
-    <comment>216</comment>
+    <value>Change Fall Date Vehicle</value>
   </data>
   <data name="lrbtnCambioUbicacionKMSituacion" xml:space="preserve">
-    <value>Canvi Ubicació, KM, Situació</value>
-    <comment>217</comment>
+    <value>Change Situation, KM, Location</value>
   </data>
   <data name="lrbtnDatosSeguros" xml:space="preserve">
-    <value>Dades d'Assegurances</value>
-    <comment>218</comment>
+    <value>Insurance Data</value>
   </data>
   <data name="lrbtnFlotaVtoRecibosSeguros" xml:space="preserve">
-    <value>Flota Venc. Rebuts Assegurances</value>
-    <comment>219</comment>
+    <value>Fleet Expiration Insurance Receipts</value>
   </data>
   <data name="lrbtnModificacionMasivaFlota" xml:space="preserve">
-    <value>Modificació Massiva</value>
-    <comment>220</comment>
+    <value>Mass Modification</value>
   </data>
   <data name="lrbtnTraslados" xml:space="preserve">
-    <value>Trasllats</value>
-    <comment>221</comment>
+    <value>Transfers</value>
   </data>
   <data name="lrgrVariosFlota" xml:space="preserve">
-    <value>Varis</value>
-    <comment>222</comment>
+    <value>Others</value>
   </data>
   <data name="lrbtnCambioEmpresa" xml:space="preserve">
-    <value>Canvi d'Empresa</value>
-    <comment>223</comment>
+    <value>Change of Company</value>
   </data>
   <data name="lrbtnCambioUbicacion" xml:space="preserve">
-    <value>Canvi d'Ubicació</value>
-    <comment>224</comment>
+    <value>Change of Location</value>
   </data>
   <data name="lrbtnHistoricoSeguros" xml:space="preserve">
-    <value>Històric Assegurances</value>
-    <comment>225</comment>
+    <value>Insurance History</value>
   </data>
   <data name="lrbtnImpresionLlaveros" xml:space="preserve">
-    <value>Impressió de Clauers</value>
-    <comment>226</comment>
+    <value>Print of Keychains</value>
   </data>
   <data name="lrbtnPrevisionEntradas" xml:space="preserve">
-    <value>Previsione Ingressi</value>
-    <comment>227</comment>
+    <value>Entrance Forecast</value>
   </data>
   <data name="lrbtnRecalculoSituación" xml:space="preserve">
-    <value>Recàlcul de Situació</value>
-    <comment>228</comment>
+    <value>Recalculation of Situation</value>
   </data>
   <data name="lrbtnRepostaje" xml:space="preserve">
-    <value>Repostatge</value>
-    <comment>229</comment>
+    <value>Refueling</value>
   </data>
   <data name="lrbtnSiniestros" xml:space="preserve">
-    <value>Sinistres</value>
-    <comment>230</comment>
+    <value>Accidents</value>
   </data>
   <data name="lrbtbIncidencias" xml:space="preserve">
-    <value>Incidències</value>
-    <comment>231</comment>
+    <value>Incidents</value>
   </data>
   <data name="lrgrIncidencias" xml:space="preserve">
-    <value>Incidències</value>
-    <comment>232</comment>
+    <value>Incidents</value>
   </data>
   <data name="lrbtnIncidenciasClientes" xml:space="preserve">
-    <value>Clients</value>
-    <comment>233</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnIncidenciasContratos" xml:space="preserve">
-    <value>Contractes</value>
-    <comment>234</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnIncidenciasProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>235</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnIncidenciasReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>236</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnIncidenciasVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>237</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrbtbEstadisticas" xml:space="preserve">
-    <value>Statistica</value>
-    <comment>238</comment>
+    <value>Statistics</value>
   </data>
   <data name="lrgrEstadisticas" xml:space="preserve">
-    <value>Estadístiques</value>
-    <comment>239</comment>
+    <value>Statistics</value>
   </data>
   <data name="lrbtnEstadisticasAnaliticas" xml:space="preserve">
-    <value>Analítiques</value>
-    <comment>240</comment>
+    <value>Analytical</value>
   </data>
   <data name="lrbtnEstadisticasClientes" xml:space="preserve">
-    <value>Clients</value>
-    <comment>241</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnEstadisticasContratos" xml:space="preserve">
-    <value>Contractes</value>
-    <comment>242</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnEstadisticasFacturas" xml:space="preserve">
-    <value>Factures</value>
-    <comment>243</comment>
+    <value>Bills</value>
   </data>
   <data name="lrbtnEstadisticasPeticiones" xml:space="preserve">
-    <value>Peticions</value>
-    <comment>244</comment>
+    <value>Requests</value>
   </data>
   <data name="lrbtnEstadisticasProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>245</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnEstadisticasReservas" xml:space="preserve">
-    <value>Reserves</value>
-    <comment>246</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnEstadisticasUtilitarios" xml:space="preserve">
-    <value>Utilitaris</value>
-    <comment>247</comment>
+    <value>Utilities</value>
   </data>
   <data name="lrbtnEstadisticasVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>248</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrbtbListados" xml:space="preserve">
-    <value>Listati</value>
-    <comment>249</comment>
+    <value>Listings</value>
   </data>
   <data name="lrgrListados" xml:space="preserve">
-    <value>Listati</value>
-    <comment>250</comment>
+    <value>Listings</value>
   </data>
   <data name="lrbtnListadosClientes" xml:space="preserve">
-    <value>Clienti</value>
-    <comment>251</comment>
+    <value>Customers</value>
   </data>
   <data name="lrbtnListadosComisionistas" xml:space="preserve">
-    <value>Intermediari</value>
-    <comment>252</comment>
+    <value>Brokers</value>
   </data>
   <data name="lrbtnListadosContratos" xml:space="preserve">
-    <value>Contratti</value>
-    <comment>253</comment>
+    <value>Contracts</value>
   </data>
   <data name="lrbtnListadosFicherosAuxiliares" xml:space="preserve">
-    <value>File Ausilari</value>
-    <comment>254</comment>
+    <value>Auxiliary Files</value>
   </data>
   <data name="lrbtnListadosFacturas" xml:space="preserve">
-    <value>Fatture</value>
-    <comment>255</comment>
+    <value>Bills</value>
   </data>
   <data name="lrbtnListadosPeticiones" xml:space="preserve">
-    <value>Petizioni</value>
-    <comment>256</comment>
+    <value>Requests</value>
   </data>
   <data name="lrbtnListadosPotenciales" xml:space="preserve">
-    <value>Potenziali</value>
-    <comment>257</comment>
+    <value>Potentials</value>
   </data>
   <data name="lrbtnListadosProveedores" xml:space="preserve">
-    <value>Fornitori</value>
-    <comment>258</comment>
+    <value>Suppliers</value>
   </data>
   <data name="lrbtnListadosReservas" xml:space="preserve">
-    <value>Prenotazioni</value>
-    <comment>259</comment>
+    <value>Bookings</value>
   </data>
   <data name="lrbtnListadosVehiculos" xml:space="preserve">
-    <value>Veicoli</value>
-    <comment>260</comment>
+    <value>Vehicles</value>
   </data>
   <data name="lrbtbServicios" xml:space="preserve">
-    <value>Servizi</value>
-    <comment>261</comment>
+    <value>Services</value>
   </data>
   <data name="lrgrServicios" xml:space="preserve">
-    <value>Servizi</value>
-    <comment>262</comment>
+    <value>Services</value>
   </data>
   <data name="lrbtnDescargarMultas" xml:space="preserve">
-    <value>Download Multe </value>
-    <comment>263</comment>
+    <value>Download Traffic Fines</value>
   </data>
   <data name="lrbtnMantenimientoServicios" xml:space="preserve">
-    <value>Servizi di Mantenimento</value>
-    <comment>264</comment>
+    <value>Services Maintenance</value>
   </data>
   <data name="lrbtnMultas" xml:space="preserve">
-    <value>Multe</value>
-    <comment>265</comment>
+    <value>Traffic Fines</value>
   </data>
   <data name="lrbtnNeumaticos" xml:space="preserve">
-    <value>Pneumatici</value>
-    <comment>266</comment>
+    <value>Tires</value>
   </data>
   <data name="lrbtnTarjetaCombustible" xml:space="preserve">
-    <value>Carta Benzina</value>
-    <comment>267</comment>
+    <value>Fuel Card</value>
   </data>
   <data name="lrbtnVehiculoSustitucion" xml:space="preserve">
-    <value>Veicolo Sostitutivo</value>
-    <comment>268</comment>
+    <value>Replacement Vehicle</value>
   </data>
   <data name="lrbtbConfiguracion" xml:space="preserve">
-    <value>Configurazione</value>
-    <comment>269</comment>
+    <value>Configuration</value>
   </data>
   <data name="lrgrConfiguracion" xml:space="preserve">
-    <value>Configurazione</value>
-    <comment>270</comment>
+    <value>Configuration</value>
   </data>
   <data name="lrmnbtnConfiguracion" xml:space="preserve">
-    <value>Configurazione</value>
-    <comment>271</comment>
+    <value>Configuration</value>
   </data>
   <data name="lrbtnCinta" xml:space="preserve">
-    <value>Opzioni</value>
-    <comment>272</comment>
+    <value>Ribbon</value>
   </data>
   <data name="lrbtnCodigosIniciales" xml:space="preserve">
-    <value>Codici Iniziali</value>
-    <comment>273</comment>
+    <value>Initial Codes</value>
   </data>
   <data name="lrbtnEmpresa" xml:space="preserve">
-    <value>Azienda</value>
-    <comment>274</comment>
+    <value>Company</value>
   </data>
   <data name="lrbtnEnlaceContabilidad" xml:space="preserve">
-    <value>Contabilita</value>
-    <comment>275</comment>
+    <value>Accounting</value>
   </data>
   <data name="lrbtnEquipo" xml:space="preserve">
-    <value>Attrezzatura</value>
-    <comment>276</comment>
+    <value>Equipment</value>
   </data>
   <data name="lrbtnFacturacion" xml:space="preserve">
-    <value>Fatturazione</value>
-    <comment>277</comment>
+    <value>Billing</value>
   </data>
   <data name="lrbtnbiImpresion" xml:space="preserve">
-    <value>Stampa</value>
-    <comment>278</comment>
+    <value>Print</value>
   </data>
   <data name="lrbtnKarve" xml:space="preserve">
     <value>Karve</value>
-    <comment>279</comment>
   </data>
   <data name="lrbtnMaestros" xml:space="preserve">
-    <value>Maestro</value>
-    <comment>280</comment>
+    <value>Masters</value>
   </data>
   <data name="lrbtnOficina" xml:space="preserve">
-    <value>Officina</value>
-    <comment>281</comment>
+    <value>Office</value>
   </data>
   <data name="lrbtnOperaciones" xml:space="preserve">
-    <value>Operazioni</value>
-    <comment>282</comment>
+    <value>Operations</value>
   </data>
   <data name="lrbtnOtros" xml:space="preserve">
-    <value>Altri</value>
-    <comment>283</comment>
+    <value>Others</value>
   </data>
   <data name="lrmnbtnPermisos" xml:space="preserve">
-    <value>Permesso</value>
-    <comment>284</comment>
+    <value>Permission</value>
   </data>
   <data name="lrbtnInformes" xml:space="preserve">
-    <value>Resoconti</value>
-    <comment>285</comment>
+    <value>Reports</value>
   </data>
   <data name="lrbtnPrograma" xml:space="preserve">
-    <value>Programa</value>
-    <comment>286</comment>
+    <value>Program</value>
   </data>
   <data name="lrgrIdiomas" xml:space="preserve">
-    <value>Lingue</value>
-    <comment>287</comment>
+    <value>Languages</value>
   </data>
   <data name="lrmnbtnIdiomas" xml:space="preserve">
-    <value>Lingue</value>
-    <comment>288</comment>
+    <value>Languages</value>
   </data>
   <data name="lrbtnIdiomaESES" xml:space="preserve">
-    <value>Spagnolo</value>
-    <comment>289</comment>
+    <value>Spanish</value>
   </data>
   <data name="lrbtnIdiomaCAES" xml:space="preserve">
-    <value>Catalano</value>
-    <comment>290</comment>
+    <value>Catalan</value>
   </data>
   <data name="lrbtnIdiomaENGB" xml:space="preserve">
-    <value>Inglese</value>
-    <comment>291</comment>
+    <value>English</value>
   </data>
   <data name="lrgrPersonal" xml:space="preserve">
-    <value>Personale</value>
-    <comment>292</comment>
+    <value>Staff</value>
   </data>
   <data name="lrbtnMailingPersonal" xml:space="preserve">
-    <value>Mailing al Personale</value>
-    <comment>293</comment>
+    <value>Mailing to Staff</value>
   </data>
   <data name="lrbtnPersonal" xml:space="preserve">
-    <value>Personale</value>
-    <comment>294</comment>
+    <value>Staff</value>
   </data>
   <data name="lrgrUtilitarios" xml:space="preserve">
-    <value>Utilita</value>
-    <comment>295</comment>
+    <value>Utilities</value>
   </data>
   <data name="lrmnbtnUtilitarios" xml:space="preserve">
-    <value>Utilita</value>
-    <comment>296</comment>
+    <value>Utilities</value>
   </data>
   <data name="lrbtnBorrarFicherosEnvioEmail" xml:space="preserve">
-    <value>Cancellare file per Invio Mail.</value>
-    <comment>297</comment>
+    <value>Delete Files Email Sending</value>
   </data>
   <data name="lrbtnCambiarIVA" xml:space="preserve">
-    <value>Cambiare IVA</value>
-    <comment>298</comment>
+    <value>Change VAT</value>
   </data>
   <data name="lrbtnComunicacionPolicia" xml:space="preserve">
-    <value>Communicazione a la Polizia</value>
-    <comment>299</comment>
+    <value>Police Communication</value>
   </data>
   <data name="lrbtnConsultaSQL" xml:space="preserve">
     <value>SQL Query</value>
-    <comment>300</comment>
   </data>
   <data name="lrbtnDesbloquearContratosFacturando" xml:space="preserve">
-    <value>Sbloccare contratti fatturati</value>
-    <comment>301</comment>
+    <value>Unlook Billing Contracts</value>
   </data>
   <data name="lrbtnDeteccionHuecos" xml:space="preserve">
-    <value>Rilevamento di buchi</value>
-    <comment>302</comment>
+    <value>Holes Detection</value>
   </data>
   <data name="lrbtnDeteccionInconsistencias" xml:space="preserve">
-    <value>Rilevamento di incosistenze</value>
-    <comment>303</comment>
+    <value>Detection of Inconsistencies</value>
   </data>
   <data name="lrbtnDesvincularContratosReservas" xml:space="preserve">
-    <value>Svincolare Contratti di Prenotazione</value>
-    <comment>304</comment>
+    <value>Unlink Booking Contracts</value>
   </data>
   <data name="lrbtnLimpiarInformacionAntigua" xml:space="preserve">
-    <value>Eliminare Informazioni Antiche</value>
-    <comment>305</comment>
+    <value>Clean Old Information</value>
   </data>
   <data name="lrbtnLimpiarCodigosReserva" xml:space="preserve">
-    <value>Eliminare Codici di Prenotazione</value>
-    <comment>306</comment>
+    <value>Clear Booking Codes</value>
   </data>
   <data name="lrbtnRecalcularMantenimientos" xml:space="preserve">
-    <value>Recalcular Manteniments</value>
-    <comment>307</comment>
+    <value>Recalculate Maintenance</value>
   </data>
   <data name="lrbtnRecalcularPendientes" xml:space="preserve">
-    <value>Recalcular Pendents</value>
-    <comment>308</comment>
+    <value>Recalculate Pendings</value>
   </data>
   <data name="lrbtnRehacerIndices" xml:space="preserve">
-    <value>Refer Índexs</value>
-    <comment>309</comment>
+    <value>Redo Indexes</value>
   </data>
   <data name="lrbtnRelojesActivos" xml:space="preserve">
-    <value>Rellotges Actius</value>
-    <comment>310</comment>
+    <value>Active Watches</value>
   </data>
   <data name="lrbtnVincularContratosReservas" xml:space="preserve">
-    <value>Vincular Contractes a Reserves</value>
-    <comment>311</comment>
+    <value>Linking Contracts to Reserves</value>
   </data>
   <data name="lrbtnVincularContratosReservasNoVinculadas" xml:space="preserve">
-    <value>Vincular Contractes a Reserves No Vinculades</value>
-    <comment>312</comment>
+    <value>Linking Contracts to Unrelated Reserves</value>
   </data>
   <data name="lrgrVariosConfiguracion" xml:space="preserve">
-    <value>Varis</value>
-    <comment>313</comment>
+    <value>Others</value>
   </data>
   <data name="lrbtnCambiarContrasenyas" xml:space="preserve">
-    <value>Canviar Contrasenyes</value>
-    <comment>314</comment>
+    <value>Change Passwords</value>
   </data>
   <data name="lrbtnPreciosCombustible" xml:space="preserve">
-    <value>Preus Combustible</value>
-    <comment>315</comment>
+    <value>Fuel prices</value>
   </data>
   <data name="lrbtnUsuarios" xml:space="preserve">
-    <value>Usuaris</value>
-    <comment>316</comment>
+    <value>Users</value>
   </data>
   <data name="lrgrKarve" xml:space="preserve">
     <value>Karve</value>
-    <comment>317</comment>
   </data>
   <data name="lrmnbtnKarve" xml:space="preserve">
     <value>Karve</value>
-    <comment>318</comment>
   </data>
   <data name="lrbtnAcercaDe" xml:space="preserve">
-    <value>Sobre...</value>
-    <comment>319</comment>
+    <value>About...</value>
   </data>
   <data name="lrbtnContrasenyasKarve" xml:space="preserve">
-    <value>Contrasenyes Karve</value>
-    <comment>320</comment>
+    <value>Karve Passwords</value>
   </data>
   <data name="lrbtnDescargarActualizacion" xml:space="preserve">
-    <value>Descarregar Actualització</value>
-    <comment>321</comment>
+    <value>Download Update</value>
   </data>
   <data name="lrbtnMensajeEntrada" xml:space="preserve">
-    <value>Missatge d'Entrada</value>
-    <comment>322</comment>
+    <value>Input Message</value>
   </data>
   <data name="lrbtnNovedades" xml:space="preserve">
-    <value>Novetats</value>
-    <comment>323</comment>
+    <value>What's New</value>
   </data>
   <data name="lrbtnReservasWeb" xml:space="preserve">
-    <value>Prenotazioni Web: 123</value>
-    <comment>324</comment>
+    <value>Web Bookings: 123</value>
   </data>
   <data name="lrbtnValidar" xml:space="preserve">
-    <value>Validar</value>
-    <comment>325</comment>
+    <value>Validate</value>
   </data>
   <data name="dttcAbreviatura" xml:space="preserve">
-    <value>Abbreviatura</value>
-    <comment>326</comment>
+    <value>Abbreviation</value>
   </data>
   <data name="dttcBicSwift" xml:space="preserve">
     <value>BIC/Swift</value>
-    <comment>327</comment>
   </data>
   <data name="dttcCapital" xml:space="preserve">
-    <value>Capoluogo</value>
-    <comment>328</comment>
+    <value>Provincial Capital</value>
   </data>
   <data name="dttcCodigo" xml:space="preserve">
-    <value>Codice</value>
-    <comment>329</comment>
+    <value>Code</value>
   </data>
   <data name="dttcCompra" xml:space="preserve">
-    <value>Compra</value>
-    <comment>330</comment>
+    <value>Purchase</value>
   </data>
   <data name="dttcCondiciones" xml:space="preserve">
-    <value>Condicions</value>
-    <comment>331</comment>
+    <value>Conditions</value>
   </data>
   <data name="dttcDefinicion" xml:space="preserve">
-    <value>Definició</value>
-    <comment>332</comment>
+    <value>Definition</value>
   </data>
   <data name="dttcDescripcion" xml:space="preserve">
-    <value>Descripció</value>
-    <comment>333</comment>
+    <value>Description</value>
   </data>
   <data name="dttcObservaciones" xml:space="preserve">
-    <value>Observacions</value>
-    <comment>334</comment>
+    <value>Remarks</value>
   </data>
   <data name="dttcPrecio" xml:space="preserve">
-    <value>Prezzo</value>
-    <comment>335</comment>
+    <value>Price</value>
   </data>
   <data name="dttcPrefijo" xml:space="preserve">
-    <value>Prefisso</value>
-    <comment>336</comment>
+    <value>Prefix</value>
   </data>
   <data name="dttcTipoColor" xml:space="preserve">
-    <value>Tipus de Color</value>
-    <comment>337</comment>
+    <value>Color Type</value>
   </data>
   <data name="dttcUltModi" xml:space="preserve">
-    <value>Data ultima modifica</value>
-    <comment>338</comment>
+    <value>Last Modification Date</value>
   </data>
   <data name="dttcUsuario" xml:space="preserve">
-    <value>Usuari</value>
-    <comment>339</comment>
+    <value>User</value>
   </data>
   <data name="dttcVenta" xml:space="preserve">
-    <value>Venda</value>
-    <comment>340</comment>
+    <value>Sale</value>
   </data>
   <data name="msgSaveCintaOpcionesOK" xml:space="preserve">
-    <value>L'ordre dels grups de les pestanyes de la cinta seleccionades, s'han restaurat a la seva posició inicial.</value>
-    <comment>341</comment>
+    <value>The order of the groups of selected ribbon tabs, have been restored to their initial position.</value>
   </data>
   <data name="msgSalir" xml:space="preserve">
-    <value>Està segur que desitja sortir de l'aplicació?</value>
-    <comment>342</comment>
+    <value>Are you sure you want to quit the application?</value>
   </data>
   <data name="msgEliminarRegistro" xml:space="preserve">
-    <value>Està segur que desitja eliminar aquest registre?</value>
-    <comment>343</comment>
+    <value>Are you sure you want to delete this record?</value>
   </data>
   <data name="msgEliminarRegistroTitulo" xml:space="preserve">
-    <value>Eliminar registre</value>
-    <comment>344</comment>
+    <value>Delete record</value>
   </data>
   <data name="msgEditarRegistroValorVacio" xml:space="preserve">
-    <value>No s'admeten valors buits</value>
-    <comment>345</comment>
+    <value>Empty values are not allowed</value>
   </data>
   <data name="msgEditarRegistroValorRepetido" xml:space="preserve">
-    <value>No s'admet un valors repetits</value>
-    <comment>346</comment>
+    <value>Repeated values are not allowed</value>
   </data>
   <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
-    <value>No s'admeten valors buits en el camp codi</value>
-    <comment>347</comment>
+    <value>Empty values in field code are not allowed</value>
   </data>
   <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
-    <value>Codice gia registrato</value>
-    <comment>348</comment>
+    <value>Code already exist</value>
   </data>
   <data name="msgEditarRegistroTitulo" xml:space="preserve">
-    <value>Editar registre</value>
-    <comment>349</comment>
+    <value>Edit record</value>
   </data>
   <data name="msgInsertarRegistroCampoVacio" xml:space="preserve">
-    <value>No s'admeten valors buits en aquest camp</value>
-    <comment>350</comment>
+    <value>Empty values in this field are not allowed</value>
   </data>
   <data name="msgInsertarRegistroRepetido" xml:space="preserve">
-    <value>No s'admeten registres repetits</value>
-    <comment>351</comment>
+    <value>Repeated records are not allowed</value>
   </data>
   <data name="msgInsertarRegistroTitulo" xml:space="preserve">
-    <value>Insertar registre</value>
-    <comment>352</comment>
+    <value>Insert record</value>
   </data>
   <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
-    <value>Marcare tutto</value>
-    <comment>353</comment>
+    <value>Mark All</value>
   </data>
   <data name="lrdbCintaOpcionesDesmarcarTodos" xml:space="preserve">
-    <value>Smarcare tutto</value>
-    <comment>354</comment>
+    <value>Unmark All</value>
   </data>
   <data name="msgErrorTitulo" xml:space="preserve">
-    <value>Missatge d'Error</value>
-    <comment>355</comment>
+    <value>Error Message</value>
   </data>
   <data name="msgError83" xml:space="preserve">
-    <value>No es troba la Base de Dades</value>
-    <comment>356</comment>
+    <value>Specified DataBase not found</value>
   </data>
   <data name="msgError100" xml:space="preserve">
-    <value>No es troba el Servidor de la Base de Dades</value>
-    <comment>357</comment>
+    <value>DataBase Server not found</value>
   </data>
   <data name="msgError103" xml:space="preserve">
-    <value>Incorrecte Id d'usuari i/o contrasenya</value>
-    <comment>358</comment>
+    <value>Invalid User Id or Password</value>
   </data>
   <data name="msgError131" xml:space="preserve">
-    <value>Error de sintaxi en sentència SQL</value>
-    <comment>359</comment>
+    <value>Syntax Error in SQL sentence</value>
   </data>
   <data name="msgError141" xml:space="preserve">
-    <value>No es troba la Taula</value>
-    <comment>360</comment>
+    <value>Table not found</value>
   </data>
   <data name="msgError157" xml:space="preserve">
-    <value>No es pot convertir un texte a format de data</value>
-    <comment>361</comment>
+    <value>Cannot convert a text to a date</value>
   </data>
   <data name="msgError158" xml:space="preserve">
-    <value>Valor fora de rang</value>
-    <comment>362</comment>
+    <value>Value out of range for destination</value>
   </data>
   <data name="msgError193" xml:space="preserve">
-    <value>Clau primària ja existeix</value>
-    <comment>363</comment>
+    <value>Primary key already exists</value>
   </data>
   <data name="msgError683" xml:space="preserve">
-    <value>Cadena de text excedeix la mida establerta</value>
-    <comment>364</comment>
+    <value>String exceeds established size</value>
   </data>
   <data name="lnombre" xml:space="preserve">
-    <value>Nome</value>
+    <value>Name</value>
   </data>
   <data name="ldireccion" xml:space="preserve">
-    <value>Indirizzo</value>
+    <value>Direction</value>
   </data>
   <data name="ltelefono" xml:space="preserve">
-    <value>Telefono</value>
+    <value>Phone</value>
   </data>
   <data name="lfax" xml:space="preserve">
     <value>Fax</value>
   </data>
   <data name="lmovil" xml:space="preserve">
-    <value>Cellulare</value>
+    <value>Mobile</value>
   </data>
   <data name="lniata" xml:space="preserve">
     <value>N.IATA</value>
   </data>
   <data name="livaenlistado" xml:space="preserve">
-    <value>IVA</value>
+    <value>VAT</value>
   </data>
   <data name="lidioma" xml:space="preserve">
-    <value>Lingua</value>
+    <value>Language</value>
+  </data>
+  <data name="ltipocomision" xml:space="preserve">
+    <value>Commission Type</value>
   </data>
   <data name="lretencionenlistado" xml:space="preserve">
-    <value>Trattenuta nel listato</value>
+    <value>Deduction in the list</value>
   </data>
   <data name="lesnacional" xml:space="preserve">
-    <value>E' Nazionale?</value>
+    <value>Is National?</value>
   </data>
   <data name="lsiesclienteesagencia" xml:space="preserve">
-    <value>Sì, questo cliente è un'agenzia</value>
+    <value>Yes, this client is an agency</value>
   </data>
   <data name="lesagenciadeviaje" xml:space="preserve">
-    <value>E' una agenzia di viaggio</value>
+    <value>It is a travel agency</value>
   </data>
   <data name="ltraduceconceptosweb" xml:space="preserve">
-    <value>Traduce concetti web</value>
+    <value>Translate web concepts.</value>
   </data>
   <data name="ldatosgeneral" xml:space="preserve">
-    <value>Dati Generali</value>
+    <value>Overview</value>
   </data>
   <data name="ltrackrentalbroker" xml:space="preserve">
-    <value>Segui il broker di noleggio</value>
+    <value>Track rental broker</value>
   </data>
   <data name="lcombustibleprepagoobligatorioplusde" xml:space="preserve">
-    <value>Combustibile prepagato obbligatorio piu 5 giorni di noleggio</value>
+    <value>Prepaid Combustible Obligatory</value>
   </data>
   <data name="lnogenerarautofacturas" xml:space="preserve">
-    <value>Non fare autofatturazione</value>
+    <value>Do not release self invoice.</value>
   </data>
   <data name="lsegunda" xml:space="preserve">
-    <value>Indirizzo alternativo</value>
+    <value>Second Address</value>
   </data>
   <data name="lsegundomes" xml:space="preserve">
-    <value>Secondo Mese</value>
+    <value>Second Month</value>
   </data>
   <data name="lsegurointernacional" xml:space="preserve">
-    <value>Assicurazione Internazionale</value>
+    <value>International Assurance</value>
   </data>
   <data name="lpais" xml:space="preserve">
-    <value>Paese</value>
+    <value>Country</value>
+  </data>
+  <data name="lprovincia" xml:space="preserve">
+    <value>Province</value>
   </data>
   <data name="lcotizartodoslosextras" xml:space="preserve">
-    <value>Paga quota per tutti gli extra</value>
+    <value>Charge quota for all the extras</value>
   </data>
   <data name="lonewayautomatico" xml:space="preserve">
-    <value>Oneway automatico</value>
-  </data>
-  <data name="lmostrarsóloincluidosalcotizartodoslosgrupos" xml:space="preserve">
-    <value>Mostra Incluso Solo al pagamento di tutti i gruppi</value>
+    <value>Automatic Oneway</value>
   </data>
   <data name="lwebsite" xml:space="preserve">
-    <value>Sito Web</value>
+    <value>Website</value>
   </data>
   <data name="lcontacto" xml:space="preserve">
-    <value>Contatto</value>
+    <value>Contact</value>
   </data>
   <data name="ldescuento" xml:space="preserve">
-    <value>Sconti</value>
-  </data>
-  <data name="lnoenviarreservas" xml:space="preserve">
-    <value>Non Mandare Prenotazioni</value>
+    <value>Sale</value>
   </data>
   <data name="lautofacturasiniva" xml:space="preserve">
-    <value>Auto fattura senza IVA</value>
+    <value>Self invoice without VAT</value>
   </data>
   <data name="lcomisionsiniva" xml:space="preserve">
-    <value>Commissione senza IVA</value>
+    <value>Commission without VAT</value>
   </data>
   <data name="lporcentaje" xml:space="preserve">
-    <value>Percentuale:</value>
+    <value>Percentuage:</value>
   </data>
   <data name="lpercentlo" xml:space="preserve">
     <value>%LO</value>
@@ -1668,52 +1306,52 @@
     <value>%Sub.</value>
   </data>
   <data name="limportecomision" xml:space="preserve">
-    <value>Importe Commissione</value>
+    <value>Commission amount</value>
   </data>
   <data name="lpercentsubcontractados" xml:space="preserve">
-    <value>%Subcontrattato</value>
+    <value>%Subcontracted</value>
   </data>
   <data name="lreferenciacliente" xml:space="preserve">
-    <value>Referenza Cliente</value>
+    <value>Client Reference</value>
   </data>
   <data name="lnif" xml:space="preserve">
-    <value>C.F.</value>
+    <value>ITIN</value>
   </data>
   <data name="lcp" xml:space="preserve">
-    <value>CAP</value>
+    <value>ZIP</value>
   </data>
   <data name="lpoblacion" xml:space="preserve">
-    <value>Citta</value>
+    <value>City</value>
   </data>
   <data name="ltelmovil" xml:space="preserve">
-    <value>Cellulare</value>
+    <value>Cell Phone</value>
   </data>
   <data name="lemail" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="lcodigo" xml:space="preserve">
-    <value>Codice</value>
-  </data>
-  <data name="lprovincia" xml:space="preserve">
-    <value>Provincia</value>
-  </data>
-  <data name="ltipocomision" xml:space="preserve">
-    <value>Tipo Commissione</value>
+    <value>Code</value>
   </data>
   <data name="lcliente" xml:space="preserve">
-    <value>Cliente</value>
+    <value>Client</value>
+  </data>
+  <data name="lmostrarsóloincluidosalcotizartodoslosgrupos" xml:space="preserve">
+    <value>Show only Included when charging all groups</value>
+  </data>
+  <data name="lnoenviarreservas" xml:space="preserve">
+    <value>Do not send bookings</value>
   </data>
   <data name="lproductocomi" xml:space="preserve">
-    <value>Prodotto del Broker</value>
+    <value>Broker Product</value>
   </data>
   <data name="lsecundomes" xml:space="preserve">
-    <value>Pagamento anticipato</value>
+    <value>Early payment</value>
   </data>
   <data name="ltipoiva" xml:space="preserve">
-    <value>Tipo IVA</value>
+    <value>VAT Type</value>
   </data>
   <data name="lcuenta" xml:space="preserve">
-    <value>Conto</value>
+    <value>Account </value>
   </data>
   <data name="liban" xml:space="preserve">
     <value>IBAN</value>
@@ -1722,699 +1360,700 @@
     <value>SWIFT</value>
   </data>
   <data name="lgestiondealbanares" xml:space="preserve">
-    <value>Gestione delle Fatture</value>
+    <value>Way Bills Management</value>
   </data>
   <data name="lesintracomunitario" xml:space="preserve">
-    <value>E' intracommunitario</value>
+    <value>Is intracommunity?</value>
   </data>
   <data name="lgestionarivaimportacion" xml:space="preserve">
-    <value>Gestione IVA importazione</value>
+    <value>Manage Import VAT</value>
   </data>
   <data name="lmargennoautomatico" xml:space="preserve">
-    <value>Margine non automatico</value>
+    <value>No automatic margin</value>
   </data>
   <data name="lprefijo" xml:space="preserve">
-    <value>Prefisso</value>
+    <value>Prefix</value>
   </data>
   <data name="lempresa" xml:space="preserve">
-    <value>Società</value>
+    <value>Company</value>
   </data>
   <data name="loficinas" xml:space="preserve">
-    <value>Uffici</value>
+    <value>Offices</value>
   </data>
   <data name="lformadepago" xml:space="preserve">
-    <value>Modalità di pagamento</value>
+    <value>Payment Way</value>
   </data>
   <data name="lmesvacaciones" xml:space="preserve">
-    <value>Mese Vacanze</value>
+    <value>Vacation Month</value>
   </data>
   <data name="lbanco" xml:space="preserve">
-    <value>Banca</value>
+    <value>Bank</value>
   </data>
   <data name="lidiomas" xml:space="preserve">
-    <value>Lingua</value>
+    <value>Language</value>
   </data>
   <data name="ldivisa" xml:space="preserve">
-    <value>Valuta</value>
+    <value>Currency</value>
   </data>
   <data name="lcuentacontable" xml:space="preserve">
-    <value>Conta Contabile</value>
+    <value>Accounting Account</value>
   </data>
   <data name="lcuentagasto" xml:space="preserve">
-    <value>Conto Spese</value>
+    <value>Expense Account</value>
   </data>
   <data name="lcuentaretencion" xml:space="preserve">
-    <value>Conto Ritenute</value>
+    <value>Retention account</value>
   </data>
   <data name="lcuentapago" xml:space="preserve">
-    <value>Conto Pagamenti</value>
+    <value>Payment Account</value>
   </data>
   <data name="lcuentacp" xml:space="preserve">
-    <value>Conto C/P</value>
+    <value>C/P Account</value>
   </data>
   <data name="lcuentalp" xml:space="preserve">
-    <value>Cont L/P</value>
+    <value>L/P Account</value>
   </data>
   <data name="laccessorios" xml:space="preserve">
-    <value>Accessori</value>
+    <value>Accessories
+</value>
   </data>
   <data name="lactividad" xml:space="preserve">
-    <value>Attivita</value>
+    <value>Activity</value>
   </data>
   <data name="laeat" xml:space="preserve">
-    <value>Agenzia delle Imposte</value>
+    <value>Tax Agency </value>
   </data>
   <data name="lagentevehiculo" xml:space="preserve">
-    <value>Agente Veicolo</value>
+    <value>Vehicle Agent</value>
   </data>
   <data name="lalbanares" xml:space="preserve">
-    <value>Fatture</value>
+    <value>Way Bills</value>
   </data>
   <data name="lamortizacionacumulada" xml:space="preserve">
-    <value>Ammortizazione Accumulata</value>
-  </data>
-  <data name="lanaliticacontable" xml:space="preserve">
-    <value>Analitica Contabile</value>
+    <value>Accumulated amortization</value>
   </data>
   <data name="lamortizationacomulada" xml:space="preserve">
-    <value>Ammortizazione Accumulata</value>
+    <value>Accumulated amortization</value>
+  </data>
+  <data name="lanaliticacontable" xml:space="preserve">
+    <value>Accounting Analytics</value>
   </data>
   <data name="lavisos" xml:space="preserve">
-    <value>Avvisi</value>
+    <value>Warnings</value>
   </data>
   <data name="lbastidor" xml:space="preserve">
-    <value>Telaio</value>
+    <value>Chassis</value>
   </data>
   <data name="lbillnumber" xml:space="preserve">
-    <value>Numero di Pagamento</value>
+    <value>Payment Number</value>
   </data>
   <data name="lbuyer" xml:space="preserve">
-    <value>Acquirente</value>
+    <value>Buyer</value>
+  </data>
+  <data name="ldirecciondepago" xml:space="preserve">
+    <value>Payment Direction</value>
   </data>
   <data name="ldireccion2" xml:space="preserve">
-    <value>Indirizzo 2</value>
+    <value>Direction 2</value>
   </data>
   <data name="lextras" xml:space="preserve">
     <value>Extras</value>
   </data>
   <data name="lgarantia" xml:space="preserve">
-    <value>Garanzia</value>
+    <value>Warranty</value>
   </data>
   <data name="ldiadepago" xml:space="preserve">
-    <value>Giorno di Pago</value>
+    <value>Payment Day</value>
   </data>
   <data name="lcartaverde" xml:space="preserve">
-    <value>Carta Verde</value>
+    <value>Green Card</value>
   </data>
   <data name="lcargo" xml:space="preserve">
-    <value>Carica</value>
+    <value>Position</value>
   </data>
   <data name="lcertificadohomologacion" xml:space="preserve">
-    <value>Certificato e Omologazione</value>
+    <value>Certificate and Homoo</value>
   </data>
   <data name="ltelefono2" xml:space="preserve">
-    <value>Telefono 2</value>
+    <value>Phone 2</value>
   </data>
   <data name="lultimodiaenflota" xml:space="preserve">
-    <value>Ultimo Giorno in Flotta</value>
+    <value>Last day in fleet</value>
   </data>
   <data name="lcopiavehiculo" xml:space="preserve">
-    <value>Copia Veicolo</value>
+    <value>Vehicle Copy</value>
   </data>
   <data name="ldesde" xml:space="preserve">
-    <value>Da</value>
+    <value>From</value>
   </data>
   <data name="lcuentasuportado" xml:space="preserve">
-    <value>Conto Sopportato</value>
+    <value>Supported account</value>
   </data>
   <data name="lcuentarepercutido" xml:space="preserve">
-    <value>Conto abrogato</value>
+    <value>Repealed Account</value>
   </data>
   <data name="lreferencia" xml:space="preserve">
-    <value>Referenza</value>
+    <value>Reference </value>
   </data>
   <data name="lproximarevisionkm" xml:space="preserve">
-    <value>Km. Prossima Revisione</value>
+    <value>Km. Next Revision</value>
   </data>
   <data name="lvehiculoproprio" xml:space="preserve">
-    <value>Veicolo proprietario</value>
+    <value>Proprietary Vehicle</value>
   </data>
   <data name="lkilometros" xml:space="preserve">
-    <value>Kilometri</value>
+    <value>Kilometers</value>
   </data>
   <data name="lkilometrosres" xml:space="preserve">
-    <value>Kilometri Res.</value>
+    <value>Rem. Kilometers</value>
   </data>
   <data name="lkilometrosmax" xml:space="preserve">
-    <value>Kilometri Max.</value>
+    <value>Max. Kilometers</value>
   </data>
   <data name="lplazas" xml:space="preserve">
-    <value>Posti</value>
+    <value>Places</value>
   </data>
   <data name="lpuertas" xml:space="preserve">
-    <value>Porte</value>
+    <value>Doors</value>
   </data>
   <data name="lcodigollave" xml:space="preserve">
-    <value>Codigo Chiave</value>
+    <value>Key Code</value>
   </data>
   <data name="lcombustible" xml:space="preserve">
-    <value>Carburante</value>
+    <value>Fuel</value>
   </data>
   <data name="lllavemagazino" xml:space="preserve">
-    <value>Chiave Magazzino</value>
+    <value>Warehouse Key</value>
   </data>
   <data name="ltelefonovehiculo" xml:space="preserve">
-    <value>Telefono Vehiculo</value>
+    <value>Phone Vehicle</value>
   </data>
   <data name="StringConstants_Precio" xml:space="preserve">
-    <value>Prezzo</value>
+    <value>Price</value>
   </data>
   <data name="lgeneral" xml:space="preserve">
-    <value>Generale</value>
+    <value>Overview</value>
   </data>
   <data name="ltipoproveedor" xml:space="preserve">
-    <value>Tipo di Fornitore</value>
+    <value>Supplier Type</value>
   </data>
   <data name="lempresaproprietario" xml:space="preserve">
-    <value>Compagnia del Proprietario</value>
+    <value>Owner's company</value>
   </data>
   <data name="lproprietario" xml:space="preserve">
-    <value>Proprietario</value>
+    <value>Owner</value>
   </data>
   <data name="loficinaactual" xml:space="preserve">
-    <value>Ufficio Attuale</value>
+    <value>Current Office</value>
   </data>
   <data name="loficinaasignada" xml:space="preserve">
-    <value>Officina Assegnata</value>
+    <value>Assigned Office</value>
   </data>
   <data name="ldelegacion" xml:space="preserve">
-    <value>Filiale</value>
+    <value>Branch</value>
   </data>
   <data name="lsituacion" xml:space="preserve">
-    <value>Situazione</value>
+    <value>Situation</value>
   </data>
   <data name="lcontracto" xml:space="preserve">
-    <value>Contratto</value>
+    <value>Contract</value>
   </data>
   <data name="lcompania" xml:space="preserve">
-    <value>Società</value>
+    <value>Company</value>
   </data>
   <data name="lmatricula" xml:space="preserve">
-    <value>Targa</value>
+    <value>Plate Number</value>
   </data>
   <data name="lmodelo" xml:space="preserve">
-    <value>Modello</value>
+    <value>Model</value>
   </data>
   <data name="lcolor" xml:space="preserve">
-    <value>Colore</value>
+    <value>Color</value>
   </data>
   <data name="lmarca" xml:space="preserve">
-    <value>Marca</value>
+    <value>Brand</value>
   </data>
   <data name="lgrupo" xml:space="preserve">
-    <value>Gruppo</value>
+    <value>Group</value>
   </data>
   <data name="lnumeroserie" xml:space="preserve">
-    <value>Numero di Serie</value>
+    <value>Serial Number</value>
   </data>
   <data name="lvia" xml:space="preserve">
     <value>Via</value>
   </data>
   <data name="lformaentrega" xml:space="preserve">
-    <value>Modo di Consegna</value>
+    <value>Shipping Way</value>
   </data>
   <data name="lcondicionventa" xml:space="preserve">
-    <value>Condizioni Vendita</value>
+    <value>Selling Terms</value>
   </data>
   <data name="lpercentamortactual" xml:space="preserve">
-    <value>% Amort.Annuale</value>
+    <value>% Amort Annual</value>
   </data>
   <data name="lnumeromeses" xml:space="preserve">
-    <value>Numero di Mesi</value>
+    <value>Number of Months</value>
   </data>
   <data name="lvendidor" xml:space="preserve">
-    <value>Venditore</value>
+    <value>Seller</value>
   </data>
   <data name="ltiposeguro" xml:space="preserve">
-    <value>Tipo Assicurazione</value>
+    <value>Assurance Type</value>
   </data>
   <data name="lulfechamantenimento" xml:space="preserve">
-    <value>Ult.Data.Mantenim.</value>
+    <value>Last.Date.Maint.</value>
   </data>
   <data name="lstretprice" xml:space="preserve">
-    <value>Prezzo di Vendita</value>
+    <value>Selling Price</value>
   </data>
   <data name="lrecibo" xml:space="preserve">
-    <value>Ricevuta</value>
+    <value>Receipt</value>
   </data>
   <data name="ldelegaciones" xml:space="preserve">
-    <value>Filiali</value>
+    <value>Branches</value>
   </data>
   <data name="lvaloradquisicion" xml:space="preserve">
-    <value>Valore Acquisizione</value>
+    <value>Acquisition value</value>
   </data>
   <data name="lvalornetocontable" xml:space="preserve">
-    <value>Valore Netto Contabile</value>
+    <value>Net Accounting Value</value>
   </data>
   <data name="lvaloranalitica" xml:space="preserve">
-    <value>Valore Analitica</value>
+    <value>Analytical Value</value>
   </data>
   <data name="linmovilizado" xml:space="preserve">
-    <value>Immobilizato</value>
+    <value>Immobilized</value>
   </data>
   <data name="lgasto" xml:space="preserve">
-    <value>Costo</value>
+    <value>Cost</value>
   </data>
   <data name="lgastoanterior" xml:space="preserve">
-    <value>Costo Anteriore</value>
+    <value>Previous Cost</value>
   </data>
   <data name="lkmactuales" xml:space="preserve">
-    <value>Km Correnti</value>
+    <value>Current Kms.</value>
   </data>
   <data name="lmatriculaanterior" xml:space="preserve">
-    <value>Targa Precedente</value>
+    <value>Previous Plate Number</value>
   </data>
   <data name="lproveedor" xml:space="preserve">
-    <value>Fornitore</value>
+    <value>Supplier</value>
   </data>
   <data name="lnumerocontracto" xml:space="preserve">
-    <value>Numero Contratto</value>
+    <value>Contract Number</value>
   </data>
   <data name="lvalorresiduo" xml:space="preserve">
-    <value>Valore Residuo</value>
+    <value>Residual Value</value>
   </data>
   <data name="lcuota" xml:space="preserve">
-    <value>Quota</value>
+    <value>Share</value>
   </data>
   <data name="lcomisionotorgamiento" xml:space="preserve">
-    <value>Commissione di Concessione</value>
+    <value>Granting Commission</value>
   </data>
   <data name="limpfinanciado" xml:space="preserve">
-    <value>Importo Finanziato</value>
+    <value>Financed Amount</value>
   </data>
   <data name="lcuotakmexcedente" xml:space="preserve">
-    <value>Quota Km. Eccedenti</value>
+    <value>Share Exceeding Km.</value>
   </data>
   <data name="linteres" xml:space="preserve">
-    <value>Interesse</value>
+    <value>Interest</value>
   </data>
   <data name="liva" xml:space="preserve">
-    <value>IVA</value>
+    <value>VAT</value>
   </data>
   <data name="linterésmoratorio" xml:space="preserve">
-    <value>Interesse moratorio</value>
+    <value>Interest on arrears</value>
   </data>
   <data name="lpenacancelación" xml:space="preserve">
-    <value>Penalita di Cancellazione</value>
+    <value>Penalty Cancellation</value>
   </data>
   <data name="lcuotaprimeromes" xml:space="preserve">
-    <value>Quota primo mese</value>
+    <value>First Month Fee</value>
   </data>
   <data name="lprice" xml:space="preserve">
-    <value>Prezzo</value>
+    <value>Price</value>
   </data>
   <data name="lcomercial" xml:space="preserve">
-    <value>Commerciale</value>
+    <value>Commercial</value>
   </data>
   <data name="lcomercioassociados" xml:space="preserve">
-    <value>Commercio Associato</value>
+    <value>Associated Commerce</value>
   </data>
   <data name="lcompletaeval" xml:space="preserve">
-    <value>Valutazione Completa del Servizio</value>
+    <value>Full Service Evaluation:</value>
   </data>
   <data name="lcontactos" xml:space="preserve">
-    <value>Contatti</value>
+    <value>Contacts</value>
   </data>
   <data name="lcriteriodeevaluacion" xml:space="preserve">
-    <value>Criteri di Valutazione</value>
+    <value>Evaluation Criteria</value>
   </data>
   <data name="lcuestionario" xml:space="preserve">
-    <value>Questionario</value>
+    <value>Questionnaire</value>
   </data>
   <data name="ldanos" xml:space="preserve">
-    <value>Danni</value>
+    <value>Damages</value>
   </data>
   <data name="ldevolucionprevista" xml:space="preserve">
-    <value>Devoluzione Prevista</value>
+    <value>Expected Return</value>
   </data>
   <data name="ldirecciondereclamaciones" xml:space="preserve">
-    <value>Indirizzo Reclami</value>
-  </data>
-  <data name="ldirecciondepago" xml:space="preserve">
-    <value>Indirizzo di Pagamento</value>
+    <value>Claims Directorate</value>
   </data>
   <data name="ldirecciondevolucion" xml:space="preserve">
-    <value>Indirizzo Rientri</value>
+    <value>Returns Directorate</value>
   </data>
   <data name="levaluacion" xml:space="preserve">
-    <value>Valutazione</value>
+    <value>Evaluation</value>
   </data>
   <data name="lexclusividad" xml:space="preserve">
-    <value>Esclusivita</value>
+    <value>Exclusiveness</value>
   </data>
   <data name="lgestionvehiculo" xml:space="preserve">
-    <value>Gestione Veicolo</value>
+    <value>Vehicle Management</value>
   </data>
   <data name="lhistorialvehiculo" xml:space="preserve">
-    <value>Storia Veicolo</value>
+    <value>Vehicle History</value>
   </data>
   <data name="lhistorico" xml:space="preserve">
-    <value>Storico</value>
+    <value>Historic</value>
   </data>
   <data name="lmodocomunicaciondepedido" xml:space="preserve">
-    <value>Comunicazioni Ordini</value>
+    <value>Orders Communication Way</value>
   </data>
   <data name="lnumeromaximo" xml:space="preserve">
-    <value>Numero massimo Nessuna conformità</value>
+    <value>Max Number No Compliance</value>
   </data>
   <data name="lobservacion" xml:space="preserve">
-    <value>Osservazioni</value>
+    <value>Observation</value>
   </data>
   <data name="lpersona" xml:space="preserve">
-    <value>Persona</value>
+    <value>Person</value>
   </data>
   <data name="lprimerdiaenflota" xml:space="preserve">
-    <value>Primo Giorno nella Flotta</value>
+    <value>First day in fleet</value>
   </data>
   <data name="lprueba" xml:space="preserve">
-    <value>Prova</value>
+    <value>Trial</value>
   </data>
   <data name="ldesmarcar" xml:space="preserve">
-    <value>Smarcare</value>
+    <value>Unmark</value>
   </data>
   <data name="lenelvehiculo" xml:space="preserve">
-    <value>Nel veicolo</value>
+    <value>Into the vehicle</value>
   </data>
   <data name="lequipodefrio" xml:space="preserve">
-    <value>Attrezzature per il freddo</value>
+    <value>Cold Equipment</value>
   </data>
   <data name="lmarcar" xml:space="preserve">
-    <value>Marcare</value>
+    <value>Mark</value>
   </data>
   <data name="lhasta" xml:space="preserve">
-    <value>Fino a</value>
+    <value>To</value>
   </data>
   <data name="lfichaelemento" xml:space="preserve">
-    <value>Scheda Elemento</value>
+    <value>Element Card </value>
   </data>
   <data name="limporte" xml:space="preserve">
-    <value>Importo</value>
+    <value>Amount</value>
   </data>
   <data name="limpuestodecirculacion" xml:space="preserve">
-    <value>Tassa di circolazione</value>
+    <value>Road Tax</value>
   </data>
   <data name="lkmsultmantenimiento" xml:space="preserve">
-    <value>Ult.Kms.Mantenimento</value>
+    <value>Last.Kms.Mantainance</value>
   </data>
   <data name="lobservacionseguro" xml:space="preserve">
-    <value>Note sulla Assicurazione</value>
+    <value>Assurance Notes</value>
   </data>
   <data name="lpagado" xml:space="preserve">
-    <value>Pagato</value>
+    <value>Paid out</value>
   </data>
   <data name="lplataforma" xml:space="preserve">
-    <value>Piattaforma</value>
+    <value>Platform</value>
   </data>
   <data name="lpoliza" xml:space="preserve">
-    <value>Poliza</value>
+    <value>Policy</value>
   </data>
   <data name="lrbtnIdiomaDEDE" xml:space="preserve">
-    <value>Tedesco</value>
+    <value>German</value>
   </data>
   <data name="lrbtnIdiomaITIT" xml:space="preserve">
-    <value>Italiano</value>
+    <value>Italian</value>
   </data>
   <data name="lnumero" xml:space="preserve">
-    <value>Numero</value>
+    <value>Number</value>
   </data>
   <data name="lfvalidez" xml:space="preserve">
-    <value>Data di validita</value>
+    <value>Validity Date</value>
   </data>
   <data name="lfaprobacion" xml:space="preserve">
-    <value>Data di Approvazione</value>
+    <value>Approval Date</value>
   </data>
   <data name="lcontable" xml:space="preserve">
-    <value>Conta Contabile</value>
+    <value>Accounting Account</value>
   </data>
   <data name="lnotas" xml:space="preserve">
-    <value>Note</value>
+    <value>Notes</value>
   </data>
   <data name="lobservaciones" xml:space="preserve">
-    <value>Osservazioni</value>
+    <value>Observations</value>
   </data>
   <data name="lcuentas" xml:space="preserve">
-    <value>Conti</value>
+    <value>Accountes</value>
   </data>
   <data name="ltbbtnBorrar" xml:space="preserve">
-    <value>Cancellare</value>
+    <value>Delete</value>
   </data>
   <data name="lfevaluacion" xml:space="preserve">
-    <value>Data di Valutazione</value>
+    <value>Evaluation Date</value>
   </data>
   <data name="ldirecciones" xml:space="preserve">
-    <value>Indirizzi</value>
+    <value>Directions</value>
   </data>
   <data name="lcontables" xml:space="preserve">
-    <value>Contabilità</value>
+    <value>Accounting</value>
   </data>
   <data name="llugaresdeentrega" xml:space="preserve">
-    <value>Luoghi di consegna</value>
+    <value>Delivery places</value>
   </data>
   <data name="lfacturacion" xml:space="preserve">
-    <value>Fatturazione</value>
+    <value>Billing</value>
   </data>
   <data name="lintraco" xml:space="preserve">
-    <value>Intracommunitario</value>
+    <value>Intra-Community</value>
   </data>
   <data name="lplazodepago" xml:space="preserve">
-    <value>Periodo di Pagamento</value>
+    <value>Payment Period</value>
   </data>
   <data name="CompraVenta" xml:space="preserve">
-    <value>Compra/Vendi</value>
+    <value>Buy/Sell</value>
   </data>
   <data name="SeguroAddicional" xml:space="preserve">
-    <value>Assicurazione Aggiuntiva</value>
+    <value>Additional Assurance</value>
   </data>
   <data name="Assistencia" xml:space="preserve">
-    <value>Assistenza</value>
+    <value>Assistance</value>
   </data>
   <data name="Delegacion" xml:space="preserve">
-    <value>Filiale</value>
+    <value>Branch</value>
   </data>
   <data name="SituacionActual" xml:space="preserve">
-    <value>Situazione Attuale</value>
+    <value>Current Situation</value>
   </data>
   <data name="Contable" xml:space="preserve">
-    <value>Contabile</value>
+    <value>Accountant</value>
   </data>
   <data name="Dirección1" xml:space="preserve">
-    <value>Indirizzo 1</value>
+    <value>Address 1</value>
   </data>
   <data name="Direccion" xml:space="preserve">
-    <value>Indirizzo</value>
+    <value>Address</value>
   </data>
   <data name="Fin" xml:space="preserve">
-    <value>Fine</value>
+    <value>End</value>
   </data>
   <data name="StringConstants_ImpuestoMatriculacion" xml:space="preserve">
-    <value>Tassa di Matriculazione</value>
+    <value>Registration Tax</value>
   </data>
   <data name="StringConstants_NumFactura" xml:space="preserve">
-    <value>Num.Fattura</value>
+    <value>Bill No.</value>
   </data>
   <data name="Acumulados" xml:space="preserve">
-    <value>Accumulato</value>
+    <value>Cumulated</value>
   </data>
   <data name="StringConstants_Agente" xml:space="preserve">
-    <value>Agente</value>
+    <value>Agent</value>
   </data>
   <data name="StringConstants_BajaSeguro" xml:space="preserve">
-    <value>Disdetta Assicurazione</value>
+    <value>Cancellation Insurance</value>
   </data>
   <data name="StringConstants_BajaTrafico" xml:space="preserve">
-    <value>Cancellazione Traffico</value>
+    <value>Cancellation Traffic</value>
   </data>
   <data name="StringConstants_Bonifica" xml:space="preserve">
-    <value>Bonifica</value>
+    <value>Reclamation</value>
   </data>
   <data name="Visitas" xml:space="preserve">
-    <value>Visite</value>
+    <value>Visits</value>
   </data>
   <data name="StringConstants_VentaVehiculo" xml:space="preserve">
-    <value>Vendita Veicolo</value>
+    <value>Vehicle Selling</value>
   </data>
   <data name="StringConstants_Vendedor" xml:space="preserve">
-    <value>Venditore</value>
+    <value>Seller</value>
   </data>
   <data name="StringConstants_Vencimiento" xml:space="preserve">
-    <value>Scadenza</value>
+    <value>Expiry</value>
   </data>
   <data name="StringConstants_Transferencia" xml:space="preserve">
-    <value>Transferenza</value>
+    <value>Bank Transfer</value>
   </data>
   <data name="ltodoriesgo" xml:space="preserve">
-    <value>Tutto Rischio</value>
+    <value>All Risk</value>
   </data>
   <data name="StringConstants_TipoSeguro" xml:space="preserve">
-    <value>Tipo Assicurazione</value>
+    <value>Assurance Type</value>
   </data>
   <data name="StringConstants_TelefonoAsist" xml:space="preserve">
-    <value>Telefono Assistenza</value>
+    <value>Support Phone</value>
   </data>
   <data name="StringConstants_TarjetaDeTransporte" xml:space="preserve">
-    <value>Transportkarte</value>
+    <value>Transport Card</value>
   </data>
   <data name="StringConstants_PrecioParaVenta" xml:space="preserve">
-    <value>Prezzo di Vendita</value>
+    <value>Selling Price</value>
   </data>
   <data name="StringConstants_PrecioDeFabricacion" xml:space="preserve">
-    <value>Prezzo di fabbricazione</value>
+    <value>Manufacturing price</value>
   </data>
   <data name="OtrasInformaciones" xml:space="preserve">
-    <value>Ulteriori Informazioni</value>
+    <value>Other Information</value>
   </data>
   <data name="Opciones" xml:space="preserve">
-    <value>Opzioni</value>
+    <value>Options</value>
   </data>
   <data name="StringConstants_NumeroFactura" xml:space="preserve">
-    <value>Numero Fattura</value>
-  </data>
-  <data name="StringConstants_MatriculaAnterior" xml:space="preserve">
-    <value>Targa Precedente</value>
+    <value>Bill Number</value>
   </data>
   <data name="ContractoYITV" xml:space="preserve">
-    <value>Contratto y Rev.Veicolo</value>
+    <value>Contract and V.Rev.</value>
   </data>
   <data name="StringConstants_CompraVehiculo" xml:space="preserve">
-    <value>Compra Veicolo</value>
+    <value>Purchase Vehicle</value>
   </data>
   <data name="StringConstants_CompDeSeguros" xml:space="preserve">
-    <value>Compagnia di Assicurazione</value>
+    <value>Insurance Company</value>
   </data>
   <data name="Commisiones" xml:space="preserve">
-    <value>Commissioni</value>
+    <value>Commissions</value>
   </data>
   <data name="StringConstants_FechaEntrega" xml:space="preserve">
-    <value>Data di Consegna</value>
+    <value>Delivery Date</value>
   </data>
   <data name="StringConstants_FechaCompra" xml:space="preserve">
-    <value>Data di Acquisto</value>
+    <value>Purchase Date</value>
   </data>
   <data name="StringConstants_Importe" xml:space="preserve">
-    <value>Importo</value>
+    <value>Import</value>
   </data>
   <data name="StringConstants_Poliza" xml:space="preserve">
-    <value>Polizza</value>
+    <value>Policy</value>
   </data>
   <data name="StringConstants_Observation" xml:space="preserve">
-    <value>Osservazione</value>
+    <value>Observation</value>
   </data>
   <data name="StringConstants_Prima" xml:space="preserve">
-    <value>Premio</value>
+    <value>Prize</value>
   </data>
   <data name="StringConstants_Franquigia" xml:space="preserve">
     <value>Franchise</value>
   </data>
   <data name="ContractoMantenimento" xml:space="preserve">
-    <value>Contratto di Manutenzione</value>
+    <value>Manteinance Contract</value>
   </data>
   <data name="DatoGenerales" xml:space="preserve">
-    <value>Dati Generici</value>
+    <value>Overview</value>
   </data>
   <data name="Delegaciones" xml:space="preserve">
-    <value>Filiali</value>
+    <value>Branches</value>
   </data>
   <data name="StringConstants_EntryDateValue" xml:space="preserve">
-    <value>Data di Registrazione</value>
+    <value>Entry Date</value>
   </data>
   <data name="EstadoActual" xml:space="preserve">
-    <value>Stato attuale</value>
+    <value>Current State</value>
   </data>
   <data name="StringConstants_FechaDeAlta" xml:space="preserve">
-    <value>Data di Registrazione</value>
+    <value>Registration Date</value>
   </data>
   <data name="StringConstants_FechaDeBaja" xml:space="preserve">
-    <value>Data di Annullamento</value>
+    <value>Cancellation Date</value>
   </data>
   <data name="StringConstants_FechaFactura" xml:space="preserve">
-    <value>Data della Fattura</value>
+    <value>Billing Date</value>
   </data>
   <data name="StringConstants_FechaMatriculacion" xml:space="preserve">
-    <value>Data di Matriculazione</value>
+    <value>Registration Date</value>
   </data>
   <data name="StringConstants_FormaDePago" xml:space="preserve">
-    <value>Modalità di pagamento</value>
+    <value>Payment Way</value>
   </data>
   <data name="Foto" xml:space="preserve">
-    <value>Fotografia</value>
+    <value>Photo</value>
   </data>
   <data name="GarantiaExtendida" xml:space="preserve">
-    <value>Estensione Garanzia</value>
+    <value>Extended Warranty</value>
   </data>
   <data name="Mantenimiento" xml:space="preserve">
-    <value>Manutenzione</value>
+    <value>Maintenance</value>
+  </data>
+  <data name="StringConstants_MatriculaAnterior" xml:space="preserve">
+    <value>Previous Plate number</value>
   </data>
   <data name="lproxfechamantenimieno" xml:space="preserve">
-    <value>Pross.Data.Manutenzione</value>
+    <value>Next.Maint.Date</value>
   </data>
   <data name="PuestaEnServicio" xml:space="preserve">
-    <value>Messa in marcia</value>
+    <value>Commissioning</value>
   </data>
   <data name="Recalcular" xml:space="preserve">
-    <value>Ricalcolare</value>
+    <value>Recompute</value>
   </data>
   <data name="lproxkmsmantenimiento" xml:space="preserve">
-    <value>Km. Prossima Manutenzione</value>
+    <value>Km.Next.Maintenance</value>
   </data>
   <data name="lrevisiones" xml:space="preserve">
-    <value>Revisione</value>
+    <value>Revision</value>
   </data>
   <data name="Retorno" xml:space="preserve">
-    <value>Ritorno</value>
+    <value>Return</value>
   </data>
   <data name="Seguro" xml:space="preserve">
-    <value>Assicurazione</value>
+    <value>Assurance</value>
   </data>
   <data name="VencimentoSeguro" xml:space="preserve">
-    <value>Scadenza Assicurazione</value>
+    <value>Assurance Expiry</value>
   </data>
   <data name="Prov" xml:space="preserve">
     <value>Prov.</value>
   </data>
   <data name="Pobl" xml:space="preserve">
-    <value>Citta</value>
+    <value>City</value>
   </data>
   <data name="PolizaAssistenciaAddicional" xml:space="preserve">
-    <value>Poliza Addizionale</value>
+    <value>Additional Policy</value>
   </data>
   <data name="lprontopago" xml:space="preserve">
-    <value>Pagamento anticipato</value>
+    <value>Early Payment</value>
   </data>
   <data name="StringConstants_ZonaOfi" xml:space="preserve">
-    <value>Zona Ufficio</value>
+    <value>Office Zone</value>
   </data>
   <data name="StringConstants_ClavePpto" xml:space="preserve">
-    <value>Chiave Ppto</value>
+    <value>Ppto.Key</value>
   </data>
   <data name="StringConstants_Origen" xml:space="preserve">
-    <value>Origine</value>
+    <value>Origin</value>
   </data>
   <data name="StringConstants_Canal" xml:space="preserve">
-    <value>Canale</value>
+    <value>Channel</value>
   </data>
   <data name="StringConstants_Negocio" xml:space="preserve">
-    <value>Negozio</value>
+    <value>Business</value>
   </data>
   <data name="StringConstants_Mercado" xml:space="preserve">
-    <value>Mercato</value>
+    <value>Market</value>
   </data>
   <data name="UpperBarViewModel_HandleCommission_TipoComm" xml:space="preserve">
-    <value>Commissionista</value>
+    <value>Broker Type</value>
   </data>
   <data name="lcomercioasociados" xml:space="preserve">
-    <value>Commercio Associato</value>
+    <value>Associated Trade</value>
   </data>
   <data name="ltipo" xml:space="preserve">
-    <value>Tipo</value>
+    <value>Type</value>
   </data>
 </root>

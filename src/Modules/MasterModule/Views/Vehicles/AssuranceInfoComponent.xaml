@@ -12,7 +12,7 @@
     <Grid x:Name="AssuranceInfoLayout">
         <WrapPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock  Text="Poliza" Width="50" Margin="5,5,5,0"></TextBlock>
+                <TextBlock  Text="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"></TextBlock>
                 <TextBox x:Name="PolizaBox" Width="100" Height="25"
                          kc:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          kc:ControlExt.DataSourcePath="{Binding AssurancePolicyPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
@@ -37,7 +37,7 @@
                                               SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 </kc:DualFieldSearchBox>
             -->
-                <kc:DualFieldSearchBox x:Name="AssuranceCompany" LabelText="Compañía" 
+            <kc:DualFieldSearchBox x:Name="AssuranceCompany" LabelText="{Binding lcompania, Source={StaticResource ResourceLanguage}}" 
                                           Height="25" 
                                           Margin="0,5,0,0"
                                           AssistDataFieldFirst="NUM_PROVEE"
@@ -59,7 +59,7 @@
             </kc:DualFieldSearchBox>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Importe" Width="50" Margin="5,5,5,0"></TextBlock>
+                <TextBlock Text="{Binding limporte, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"></TextBlock>
                 <TextBox x:Name="Amount" Width="100" Height="25"
                          kc:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       
@@ -69,7 +69,7 @@
 
             <kc:DataDatePicker x:Name="EntryDate" HorizontalAlignment="Left" 
                                Height="35"
-                               LabelText="Fecha Alta"
+                               LabelText="{Binding lfechaalta, Source={StaticResource ResourceLanguage}}"
                                Margin="5,5,0,0"
                                kc:ControlExt.DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       
@@ -78,7 +78,7 @@
 
             <kc:DataDatePicker x:Name="LeavingDate" HorizontalAlignment="Left" 
                                       Height="35"
-                                      LabelText="Fecha Baja"
+                                      LabelText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}"
                                       Margin="5,5,0,0"
                                       kc:ControlExt.DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       kc:ControlExt.ItemChangedCommand="{Binding Path=ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"       

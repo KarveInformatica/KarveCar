@@ -517,7 +517,7 @@
                         </RibbonGroup>
                         <RibbonGroup x:Name="rgrMaestrosComisionistas" Header="{Binding lrgrMaestrosComisionistas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png">
                             <!--</RibbonMenuButton>-->
-                            <RibbonMenuButton x:Name="rmnbtnMaestrosComisionistas" Label="Comisionista" LargeImageSource="/KarveCar;component/Images/cagent.png" KeyTip="M" >
+                            <RibbonMenuButton x:Name="rmnbtnMaestrosComisionistas" Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/cagent.png" KeyTip="M" >
                                 <RibbonButton x:Name="rbtnComisionistas"
                                         Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}" 
                                         HorizontalAlignment="Left" 
@@ -1563,16 +1563,6 @@
                                                       CommandParameter="es-ES"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
-                                <RibbonButton x:Name="rbtnIdiomaCAES"
-                                              Label="{Binding lrbtnIdiomaCAES, Source={StaticResource ResourceLanguage}}" 
-                                              HorizontalAlignment="Left" 
-                                              SmallImageSource="..\Images\ca-es.png" >
-                                    <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
-                                    </RibbonButton.InputBindings>
-                                </RibbonButton>
                                 <RibbonButton x:Name="rbtnIdiomaENGB"
                                               Label="{Binding lrbtnIdiomaENGB, Source={StaticResource ResourceLanguage}}"  
                                               HorizontalAlignment="Left" 
@@ -1583,7 +1573,31 @@
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand}" CommandParameter="en-GB"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
+                                <RibbonButton x:Name="rbtnIdiomaDEDE"
+                                              Label="{Binding lrbtnIdiomaDEDE, Source={StaticResource ResourceLanguage}}" 
+                                              HorizontalAlignment="Left" 
+                                              SmallImageSource="..\Images\de-DE.png" >
+                                    <RibbonButton.InputBindings>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, 
+                                            UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="de-DE"/>
+                                    </RibbonButton.InputBindings>
+                                </RibbonButton>
+
+                                <RibbonButton x:Name="rbtnIdiomaITIT"
+                                              Label="{Binding lrbtnIdiomaITIT, Source={StaticResource ResourceLanguage}}" 
+                                              HorizontalAlignment="Left" 
+                                              SmallImageSource="..\Images\it-IT.png" >
+                                    <RibbonButton.InputBindings>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, 
+                                            UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="it-IT"/>
+                                    </RibbonButton.InputBindings>
+                                </RibbonButton>
                             </RibbonMenuButton>
+                            
                         </RibbonGroup>
                         <RibbonGroup x:Name="rgrPersonal" Header="{Binding lrgrPersonal, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                             <RibbonButton x:Name="rbtnMailingPersonal" 

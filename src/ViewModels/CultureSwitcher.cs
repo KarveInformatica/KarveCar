@@ -37,13 +37,16 @@ namespace KarveCar.ViewModels
         /// </summary>
         private ICommand _commandService;
 
+        private IEventManager _eventManager;
+
         /// <summary>
         ///  Constructor for the configuration service.
         /// </summary>
         /// <param name="configurationService"></param>
-        public CultureSwitcher(IConfigurationService configurationService)
+        public CultureSwitcher(IConfigurationService configurationService, IEventManager eventManager)
         {
             _configurationService = configurationService;
+            _eventManager = eventManager;
         }
 
         /// <summary>
@@ -82,11 +85,14 @@ namespace KarveCar.ViewModels
         /// <param name="parameter">Locale string</param>
         private void OnChangeCommand(object parameter)
         {
+            
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(parameter.ToString());
             Enumerations.ResourceSource source =
                 _configurationService.GetUserSettings().UserSettingsLoader.GetLocaleType();
             _resources = LocaleResourceFactory.GetLanguageLocale(Thread.CurrentThread.CurrentUICulture, source);
-
+            DataPayLoad payLoad = new DataPayLoad();
+            payLoad.PayloadType = DataPayLoad.Type.CultureChange;
+            _eventManager.NotifyObserver(payLoad);
         }
 
         /// <summary>

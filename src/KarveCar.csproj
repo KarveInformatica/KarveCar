@@ -409,6 +409,8 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <Resource Include="Images\de-DE.png" />
+    <Resource Include="Images\it-IT.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

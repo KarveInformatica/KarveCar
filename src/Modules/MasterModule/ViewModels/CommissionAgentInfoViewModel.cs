@@ -20,8 +20,10 @@ using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
 using Microsoft.Practices.ObjectBuilder2;
-using Prism.Commands;
+using Microsoft.Win32;
 using Prism.Regions;
+using Syncfusion.Windows.Shared;
+using DelegateCommand = Prism.Commands.DelegateCommand;
 
 namespace MasterModule.ViewModels
 {
@@ -29,7 +31,7 @@ namespace MasterModule.ViewModels
     /// This view model is the commission agent view model
     /// </summary>
     /// CommissionAgentInfoViewModel
-    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase,  IDataErrorInfo, IEventObserver
+    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IDataErrorInfo, IEventObserver
     {
         private const string TableNameComisio = "COMISIO";
         private Visibility _visibility;
@@ -179,7 +181,7 @@ namespace MasterModule.ViewModels
             set { _products = value; RaisePropertyChanged(); }
         }
 
-        
+
         /// <summary>
         /// UpperValueCollection. 
         /// </summary>
@@ -189,7 +191,7 @@ namespace MasterModule.ViewModels
             set { _upperObservableCollection = value; }
         }
 
-        
+
         /// <summary>
         ///  LeftValueCollection. This returns the left value collection
         /// </summary>
@@ -213,9 +215,14 @@ namespace MasterModule.ViewModels
                 return _rightObservableCollection;
             }
         }
+        /// <summary>
+        ///  
+        /// </summary>
+        public ICommand PrintAssociate { set; get; }
+
         public ICommand DelegationChangedRowsCommand { set; get; }
 
-        private IRegionManager _regionManager; 
+        private IRegionManager _regionManager;
         //
         // A part of the ui is made up different objects inserted in a observable collection.
         //
@@ -227,38 +234,53 @@ namespace MasterModule.ViewModels
         /// <param name="services">Services to be used</param>
 
         public CommissionAgentInfoViewModel(IConfigurationService configurationService,
-                                            IEventManager eventManager, 
-                                            IDataServices services, 
-                                            IRegionManager regionManager) : base( eventManager, configurationService, services, regionManager)
+                                            IEventManager eventManager,
+                                            IDataServices services,
+                                            IRegionManager regionManager) : base(eventManager, configurationService, services, regionManager)
         {
+
+            _queries = new Dictionary<string, string>();
+            _visibility = Visibility.Collapsed;
+            _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
+            _regionManager = regionManager;
+
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
-            _queries = new Dictionary<string, string>();
-            PrimaryKeyValue = "";
+            PrimaryKeyValue = string.Empty;
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
-            _visibility = Visibility.Collapsed;
-            AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
-            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
+            AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
+            ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
+            PrintAssociate = new DelegateCommand<object>(OnPrintCommand);
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
-            _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
-            DelegationChangedRowsCommand = new DelegateCommand<object>(DelegationChangedRow);
-            _regionManager = regionManager;
+            // register itself in the broacast.
+            EventManager.RegisterObserver(this);
+            DelegationChangedRowsCommand = new Prism.Commands.DelegateCommand<object>(DelegationChangedRow);
+            // i need to track a culture change for dynamically collection.
             LoadUserInterfaceObjects();
         }
 
+        private void OnPrintCommand(object obj)
+        {
+            MessageBox.Show("I am not yet able to print! You are an idiot! Eat my shorts!");
+        }
+
+        /// <summary>
+        ///  This assume the old grid
+        /// </summary>
+        /// <param name="parm"></param>
         private void DelegationChangedRow(object parm)
         {
-            
-            Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object> dictionary = parm as  Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object>;
+
+            Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object> dictionary = parm as Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object>;
             KarveGridView.ChangedGridViewEventArgs.Operation operation =
-                (KarveGridView.ChangedGridViewEventArgs.Operation) dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.Operation];
+                (KarveGridView.ChangedGridViewEventArgs.Operation)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.Operation];
             if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Insert)
             {
                 IEnumerable<BranchesDto> param = (IEnumerable<BranchesDto>)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.DataSource];
                 _commissionAgentDo.DelegationDto = _commissionAgentDo.DelegationDto.Union(param);
-                
+
             }
             else if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Update)
             {
@@ -286,9 +308,9 @@ namespace MasterModule.ViewModels
             payLoad.DataObject = _commissionAgentDo;
             payLoad.HasDataObject = true;
             EventManager.NotifyToolBar(payLoad);
-           
+
         }
-       
+
         /// <summary>
         /// This is enabled to the change the handler
         /// The command deliver some parmetes.
@@ -310,9 +332,9 @@ namespace MasterModule.ViewModels
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
             await AssistQueryRequestHandlerDo(assistTableName, assistQuery);
         }
-     
+
         // move to the master view model or to a data layer
-    private async Task AssistQueryRequestHandlerDo(string assistTableName, string assistQuery)
+        private async Task AssistQueryRequestHandlerDo(string assistTableName, string assistQuery)
         {
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
             object currentView = null;
@@ -417,26 +439,26 @@ namespace MasterModule.ViewModels
                         var origen = await helperDataServices.GetAsyncHelper<ORIGEN>(assistQuery);
                         IEnumerable<OrigenDto> orig =
                             mapper.Map<IEnumerable<ORIGEN>, IEnumerable<OrigenDto>>(origen);
-                        Origen = orig; 
-                       currentView = Origen;
+                        Origen = orig;
+                        currentView = Origen;
                         break;
                     }
                 case "IDIOMAS":
-                {
-                    var language = await helperDataServices.GetAsyncHelper<IDIOMAS>(assistQuery);
-                    IEnumerable<LanguageDto> orig =
-                        mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(language);
-                    Language = orig;
-                    currentView = Language;
-                    break;
-                }
+                    {
+                        var language = await helperDataServices.GetAsyncHelper<IDIOMAS>(assistQuery);
+                        IEnumerable<LanguageDto> orig =
+                            mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(language);
+                        Language = orig;
+                        currentView = Language;
+                        break;
+                    }
 
             }
             UpdateCollections(currentView, assistTableName, ref _leftObservableCollection);
             LeftValueCollection = _leftObservableCollection;
         }
 
-       
+
         private void UpdateCollections(object obj, string tableName, ref ObservableCollection<UiDfSearch> search)
         {
             for (int i = 0; i < search.Count; ++i)
@@ -472,6 +494,8 @@ namespace MasterModule.ViewModels
             }
             _leftObservableCollection = _leftSideDualDfSearchBoxes;
         }
+
+
         /// <summary>
         /// Delete a commission agent.
         /// </summary>
@@ -605,7 +629,8 @@ namespace MasterModule.ViewModels
                 Province = agent.ProvinceDto;
                 Country = agent.CountryDto;
                 for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
-                {   _leftSideDualDfSearchBoxes[i].DataSource = agent;
+                {
+                    _leftSideDualDfSearchBoxes[i].DataSource = agent;
                 }
                 _leftObservableCollection = _leftSideDualDfSearchBoxes;
             }
@@ -627,7 +652,7 @@ namespace MasterModule.ViewModels
                 if (agent != null)
                 {
                     DataObject = agent;
-               }
+                }
             }
             else
             {
@@ -654,7 +679,8 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Delegation.
         /// </summary>
-        public IEnumerable<BranchesDto> Delegation {
+        public IEnumerable<BranchesDto> Delegation
+        {
             get
             {
                 return _branchesDto;
@@ -681,7 +707,7 @@ namespace MasterModule.ViewModels
             if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
             {
                 //UpdateSource(dataSetAssistant, primaryKey, ref UpperPartObservableCollection);
-               
+
             }
         }
 
@@ -716,7 +742,7 @@ namespace MasterModule.ViewModels
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
         }
-
+        /// SetTable is not used here and newItem shall be moved over
         /// <summary>
         ///  This method start a new item when the user clicks over the toolbar
         /// </summary>
@@ -727,7 +753,7 @@ namespace MasterModule.ViewModels
 
         protected override void SetTable(DataTable table)
         {
-        
+
         }
 
         /// <summary>
@@ -742,7 +768,6 @@ namespace MasterModule.ViewModels
 
         protected override void SetDataObject(object result)
         {
-          
         }
 
         /// <summary>
@@ -767,7 +792,7 @@ namespace MasterModule.ViewModels
             }
             DataPayLoad payload = dataPayLoad;
             // ignore double insert
-            if ((dataPayLoad.PayloadType == DataPayLoad.Type.Insert) && 
+            if ((dataPayLoad.PayloadType == DataPayLoad.Type.Insert) &&
                 (PrimaryKeyValue == dataPayLoad.PrimaryKeyValue))
             {
                 return;
@@ -796,10 +821,10 @@ namespace MasterModule.ViewModels
                     case DataPayLoad.Type.Insert:
                         {
                             CurrentOperationalState = DataPayLoad.Type.Insert;
-                            
+
                             if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
-                               
+
                                 PrimaryKeyValue = _commissionAgentDataServices.GetNewId();
                             }
                             //PrimaryKeyValue = payload.PrimaryKeyValue;
@@ -807,7 +832,22 @@ namespace MasterModule.ViewModels
 
                             break;
                         }
-
+                    /*
+                     *  When the culture change. The changer sends a multicast message of culture change.
+                     */
+                    case DataPayLoad.Type.CultureChange:
+                        {
+                            _leftSideDualDfSearchBoxes = UpdateItemControl();
+                            // here we handle all the stuff.
+                            for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
+                            {
+                                _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
+                                _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
+                                _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
+                            }
+                            LeftValueCollection = _leftSideDualDfSearchBoxes;
+                            break;
+                        }
                     case DataPayLoad.Type.Delete:
                         {
 
@@ -815,7 +855,6 @@ namespace MasterModule.ViewModels
                             {
                                 DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.CommissionAgentSubystem, MasterModuleConstants.CommissionAgentSystemName);
                                 DeleteRegion(payload.PrimaryKeyValue);
-                                // DeleteItem(payload.PrimaryKeyValue);
                             }
                             break;
                         }
@@ -833,7 +872,7 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 _commissionAgentDo = (ICommissionAgent)payload.DataObject;
-                
+
                 IDictionary<string, object> lookup = new Dictionary<string, object>();
                 lookup.Add("NEGOCIO", _commissionAgentDo.NegocioDto);
                 lookup.Add("VENDEDOR", _commissionAgentDo.VendedorDto);
@@ -856,18 +895,20 @@ namespace MasterModule.ViewModels
                 // Here we send a message to upper part of the view.
                 // it is a component. When it will receive it, it will set the view model and the TipoComiDto.
                 EventManager.SendMessage(UpperBarViewModel.Name, payload);
-               
-                
+
+
                 /* Items controls to the left */
 
                 for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
                 {
                     _leftSideDualDfSearchBoxes[i].DataSource = _commissionAgentDo;
+
                     if (lookup.ContainsKey(_leftSideDualDfSearchBoxes[i].AssistTableName))
 
                     {
                         var currentDto = lookup[_leftSideDualDfSearchBoxes[i].AssistTableName];
                         _leftSideDualDfSearchBoxes[i].SourceView = currentDto;
+
                     }
 
                 }
@@ -893,10 +934,10 @@ namespace MasterModule.ViewModels
             }
         }
 
-      
+
         public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public string this[string columnName]
@@ -912,6 +953,6 @@ namespace MasterModule.ViewModels
         {
             get => _uniqueId; set => _uniqueId = value;
         }
-       
+
     }
 }

@@ -8,7 +8,7 @@ namespace KarveCommonInterfaces
 {
     /// <summary>
     ///  IMagnifier handler.
-    /// Handler for 
+    /// Handler for the magnifier assists. Not yet used.
     /// </summary>
     public interface IMagnifierHandler
     {

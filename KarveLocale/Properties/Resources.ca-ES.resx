@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1560,5 +1560,26 @@
   <data name="msgError683" xml:space="preserve">
     <value>Cadena de text excedeix la mida establerta</value>
     <comment>364</comment>
+  </data>
+  <data name="dttcAbreviatura" xml:space="preserve">
+    <value>Abreviatura</value>
+  </data>
+  <data name="lnombre" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="lniata" xml:space="preserve">
+    <value>N.IATA</value>
+  </data>
+  <data name="livaenlistado" xml:space="preserve">
+    <value>IVA en Listado</value>
+  </data>
+  <data name="ltbbtnBorrar" xml:space="preserve">
+    <value>Borrar</value>
+  </data>
+  <data name="lfacturacion" xml:space="preserve">
+    <value> Facturacion</value>
+  </data>
+  <data name="lintraco" xml:space="preserve">
+    <value>Intracomunitario</value>
   </data>
 </root>

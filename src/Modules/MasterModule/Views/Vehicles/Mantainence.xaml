@@ -33,12 +33,12 @@
         </Grid.Resources>
         <StackPanel Orientation="Vertical">
             <WrapPanel Orientation="Horizontal">
-                <kc:DataDatePicker LabelText="Fin Garantia" Height="35"
+                <kc:DataDatePicker LabelText="{Binding lfingarantia, Source={StaticResource ResourceLanguage}}" Height="35"
                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               kc:ControlExt.DataSourcePath="Value.FinGaran"
                                               kc:ControlExt.ItemChangedCommand="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Calcola Mantenimiento" Height="25" Width="330.437"/>
-                <kc:DataField LabelText="Km Actuales"
+                <Button Content="{Binding lcalcolamantenimiento, Source={StaticResource ResourceLanguage}}" Height="25" Width="330.437"/>
+                <kc:DataField LabelText="{Binding lkmactuales, Source={StaticResource ResourceLanguage}}"
                                          LabelTextWidth="80"
                                          TextContentWidth="200"
                                          Height="25"
@@ -187,8 +187,8 @@
                                                    Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
                                                    MappingName="OrderID"
                                 -->
-                   
-                        <syncfusion:GridTextColumn HeaderText="Codigo Mantenimiento" 
+
+                    <syncfusion:GridTextColumn HeaderText="{Binding lcodigomantenimiento, Source={StaticResource ResourceLanguage}}" 
                                                            MappingName="MaintananceCode" 
                                                            TextAlignment="Left"
                                                            AllowFiltering="True"
@@ -196,7 +196,7 @@
                                                            FilterPopupStyle="{StaticResource MaintenanceCodeStyle}"
                                                            AllowEditing="True"
                                                            AllowGrouping="True"/>
-                    <syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="MaintananceName"
+                    <syncfusion:GridTemplateColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="MaintananceName"
                                                        FilterPopupStyle="{StaticResource MaintenanceCodeStyle}">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -221,12 +221,12 @@
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.EditTemplate>
                         </syncfusion:GridTemplateColumn>
-                                
-                                <syncfusion:GridDateTimeColumn HeaderText="Ult.Fecha Mantenimiento" MappingName="LastMaintananceDate"/>
-                                <syncfusion:GridTextColumn HeaderText="Kms Ult.Mantenimiento" MappingName="LastMaintananceKMs"/>
-                                <syncfusion:GridDateTimeColumn HeaderText="Prox.Fecha Mantenimiento" MappingName="NextMaintananceDate"/>
-                                <syncfusion:GridTextColumn HeaderText="Prox.Kms Mantenimento" MappingName="NextMaintananceKMs"/>
-                                <syncfusion:GridTextColumn HeaderText="Observaciones" MappingName="Observation"/>
+
+                    <syncfusion:GridDateTimeColumn HeaderText="{Binding lulfechamantenimento, Source={StaticResource ResourceLanguage}}" MappingName="LastMaintananceDate"/>
+                    <syncfusion:GridTextColumn HeaderText="{Binding lkmsultmantenimiento, Source={StaticResource ResourceLanguage}}"  MappingName="LastMaintananceKMs"/>
+                    <syncfusion:GridDateTimeColumn HeaderText="{Binding lproxfechamantenimieno, Source={StaticResource ResourceLanguage}}" MappingName="NextMaintananceDate"/>
+                    <syncfusion:GridTextColumn HeaderText="{Binding lproxkmsmantenimiento, Source={StaticResource ResourceLanguage}}" MappingName="NextMaintananceKMs"/>
+                    <syncfusion:GridTextColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
                             </syncfusion:SfDataGrid.Columns>
                 <i:Interaction.Behaviors>
                     <common:MaintenanceValidationBehavior />

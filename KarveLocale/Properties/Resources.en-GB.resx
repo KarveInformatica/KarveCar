@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -220,7 +220,7 @@
     <value>Chanels</value>
   </data>
   <data name="lrbtnCargosPersonal" xml:space="preserve">
-    <value>Staff Charges</value>
+    <value>Staff Positions</value>
   </data>
   <data name="lrbtnCCAA" xml:space="preserve">
     <value>Autonomous Regions</value>
@@ -1012,7 +1012,7 @@
     <value>SQL Query</value>
   </data>
   <data name="lrbtnDesbloquearContratosFacturando" xml:space="preserve">
-    <value>Unlook Billing Contracts</value>
+    <value>Unblock Billing Contracts</value>
   </data>
   <data name="lrbtnDeteccionHuecos" xml:space="preserve">
     <value>Holes Detection</value>
@@ -1202,5 +1202,858 @@
   </data>
   <data name="msgError683" xml:space="preserve">
     <value>String exceeds established size</value>
+  </data>
+  <data name="lnombre" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ldireccion" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="ltelefono" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="lfax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="lmovil" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="lniata" xml:space="preserve">
+    <value>N.IATA</value>
+  </data>
+  <data name="livaenlistado" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="lidioma" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ltipocomision" xml:space="preserve">
+    <value>Commission Type</value>
+  </data>
+  <data name="lretencionenlistado" xml:space="preserve">
+    <value>Deduction in the list</value>
+  </data>
+  <data name="lesnacional" xml:space="preserve">
+    <value>Is National?</value>
+  </data>
+  <data name="lsiesclienteesagencia" xml:space="preserve">
+    <value>Yes, this client is an agency</value>
+  </data>
+  <data name="lesagenciadeviaje" xml:space="preserve">
+    <value>It is a travel agency</value>
+  </data>
+  <data name="ltraduceconceptosweb" xml:space="preserve">
+    <value>Translate web concepts.</value>
+  </data>
+  <data name="ldatosgeneral" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="ltrackrentalbroker" xml:space="preserve">
+    <value>Track rental broker</value>
+  </data>
+  <data name="lcombustibleprepagoobligatorioplusde" xml:space="preserve">
+    <value>Prepaid Combustible Obligatory</value>
+  </data>
+  <data name="lnogenerarautofacturas" xml:space="preserve">
+    <value>Do not release self invoice</value>
+  </data>
+  <data name="lsegunda" xml:space="preserve">
+    <value>Second Address</value>
+  </data>
+  <data name="lsegundomes" xml:space="preserve">
+    <value>Second Month</value>
+  </data>
+  <data name="lsegurointernacional" xml:space="preserve">
+    <value>International Assurance</value>
+  </data>
+  <data name="lcotizartodoslosextras" xml:space="preserve">
+    <value>Charge quota for all the extras</value>
+  </data>
+  <data name="lonewayautomatico" xml:space="preserve">
+    <value>Automatic Oneway</value>
+  </data>
+  <data name="lmostrarsóloincluidosalcotizartodoslosgrupos" xml:space="preserve">
+    <value>Show only Included when charging all groups</value>
+  </data>
+  <data name="lwebsite" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="lcontacto" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="ldescuento" xml:space="preserve">
+    <value>Sale</value>
+  </data>
+  <data name="lsecundomes" xml:space="preserve">
+    <value>Early Payment</value>
+  </data>
+  <data name="lnoenviarreservas" xml:space="preserve">
+    <value>Do not send bookings</value>
+  </data>
+  <data name="lautofacturasiniva" xml:space="preserve">
+    <value>Self invoice without VAT</value>
+  </data>
+  <data name="lcomisionsiniva" xml:space="preserve">
+    <value>Commission without VAT</value>
+  </data>
+  <data name="lporcentaje" xml:space="preserve">
+    <value>Percentuage:</value>
+  </data>
+  <data name="lpercentlo" xml:space="preserve">
+    <value>%LO</value>
+  </data>
+  <data name="lpercentcl" xml:space="preserve">
+    <value>%CL</value>
+  </data>
+  <data name="lpercentsub" xml:space="preserve">
+    <value>%Sub.</value>
+  </data>
+  <data name="limportecomision" xml:space="preserve">
+    <value>Commission amount</value>
+  </data>
+  <data name="lpercentsubcontractados" xml:space="preserve">
+    <value>%Subcontracted</value>
+  </data>
+  <data name="lreferenciacliente" xml:space="preserve">
+    <value>Client Reference</value>
+  </data>
+  <data name="lnif" xml:space="preserve">
+    <value>UTR</value>
+  </data>
+  <data name="lcp" xml:space="preserve">
+    <value>ZIP</value>
+  </data>
+  <data name="lpoblacion" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="ltelmovil" xml:space="preserve">
+    <value>Cell Phone</value>
+  </data>
+  <data name="lemail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lcodigo" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="lprovincia" xml:space="preserve">
+    <value>Province</value>
+  </data>
+  <data name="lpais" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="lcliente" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="lproductocomi" xml:space="preserve">
+    <value>Broker Product</value>
+  </data>
+  <data name="ltipoiva" xml:space="preserve">
+    <value>VAT Type</value>
+  </data>
+  <data name="lcuenta" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="liban" xml:space="preserve">
+    <value>IBAN</value>
+  </data>
+  <data name="lswift" xml:space="preserve">
+    <value>SWIFT</value>
+  </data>
+  <data name="lesintracomunitario" xml:space="preserve">
+    <value>Is intracommunity?</value>
+  </data>
+  <data name="lgestiondealbanares" xml:space="preserve">
+    <value>Way Bills Management</value>
+  </data>
+  <data name="lgestionarivaimportacion" xml:space="preserve">
+    <value>Manage Import VAT</value>
+  </data>
+  <data name="lmargennoautomatico" xml:space="preserve">
+    <value>No automatic margin</value>
+  </data>
+  <data name="lprefijo" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="lempresa" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="loficinas" xml:space="preserve">
+    <value>Offices</value>
+  </data>
+  <data name="lformadepago" xml:space="preserve">
+    <value>Payment Way</value>
+  </data>
+  <data name="lmesvacaciones" xml:space="preserve">
+    <value>Vacation Month</value>
+  </data>
+  <data name="lbanco" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="lidiomas" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ldivisa" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="lcuentacontable" xml:space="preserve">
+    <value>Accounting Account</value>
+  </data>
+  <data name="lcuentagasto" xml:space="preserve">
+    <value>Expense Account</value>
+  </data>
+  <data name="lcuentaretencion" xml:space="preserve">
+    <value>Retention account</value>
+  </data>
+  <data name="lcuentapago" xml:space="preserve">
+    <value>Payment Account</value>
+  </data>
+  <data name="lcuentacp" xml:space="preserve">
+    <value>C/P Account</value>
+  </data>
+  <data name="lcuentalp" xml:space="preserve">
+    <value>L/P Account</value>
+  </data>
+  <data name="laccessorios" xml:space="preserve">
+    <value>Accessories
+</value>
+  </data>
+  <data name="lactividad" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="laeat" xml:space="preserve">
+    <value>Tax Agency </value>
+  </data>
+  <data name="lagentevehiculo" xml:space="preserve">
+    <value>Vehicle Agent</value>
+  </data>
+  <data name="lalbanares" xml:space="preserve">
+    <value>Way Bills</value>
+  </data>
+  <data name="lamortizacionacumulada" xml:space="preserve">
+    <value>Accumulated amortization</value>
+  </data>
+  <data name="lamortizationacomulada" xml:space="preserve">
+    <value>Accumulated amortization</value>
+  </data>
+  <data name="lanaliticacontable" xml:space="preserve">
+    <value>Accounting Analytics</value>
+  </data>
+  <data name="lavisos" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
+  <data name="lbastidor" xml:space="preserve">
+    <value>Chassis</value>
+  </data>
+  <data name="lbillnumber" xml:space="preserve">
+    <value>Payment Number</value>
+  </data>
+  <data name="lbuyer" xml:space="preserve">
+    <value>Buyer</value>
+  </data>
+  <data name="ldirecciondepago" xml:space="preserve">
+    <value>Payment Direction</value>
+  </data>
+  <data name="ldireccion2" xml:space="preserve">
+    <value>Direction 2</value>
+  </data>
+  <data name="lextras" xml:space="preserve">
+    <value>Extras</value>
+  </data>
+  <data name="lgarantia" xml:space="preserve">
+    <value>Warranty</value>
+  </data>
+  <data name="ldiadepago" xml:space="preserve">
+    <value>Payment Day</value>
+  </data>
+  <data name="lcartaverde" xml:space="preserve">
+    <value>Green Card</value>
+  </data>
+  <data name="lcargo" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="lcertificadohomologacion" xml:space="preserve">
+    <value>Certificate and Homologation</value>
+  </data>
+  <data name="ltelefono2" xml:space="preserve">
+    <value>Phone 2</value>
+  </data>
+  <data name="lultimodiaenflota" xml:space="preserve">
+    <value>Last day in fleet</value>
+  </data>
+  <data name="lcopiavehiculo" xml:space="preserve">
+    <value>Vehicle Copy</value>
+  </data>
+  <data name="ldesde" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="lcuentasuportado" xml:space="preserve">
+    <value>Supported account</value>
+  </data>
+  <data name="lcuentarepercutido" xml:space="preserve">
+    <value>Repealed Account</value>
+  </data>
+  <data name="lreferencia" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="lproximarevisionkm" xml:space="preserve">
+    <value>Km. Next Revision</value>
+  </data>
+  <data name="lvehiculoproprio" xml:space="preserve">
+    <value>Proprietary Vehicle</value>
+  </data>
+  <data name="lkilometros" xml:space="preserve">
+    <value>Kilometers</value>
+  </data>
+  <data name="lkilometrosres" xml:space="preserve">
+    <value>Rem. Kilometers</value>
+  </data>
+  <data name="lkilometrosmax" xml:space="preserve">
+    <value>Max. Kilometers</value>
+  </data>
+  <data name="lplazas" xml:space="preserve">
+    <value>Places</value>
+  </data>
+  <data name="lpuertas" xml:space="preserve">
+    <value>Doors</value>
+  </data>
+  <data name="lcodigollave" xml:space="preserve">
+    <value>Key Code</value>
+  </data>
+  <data name="lcombustible" xml:space="preserve">
+    <value>Fuel</value>
+  </data>
+  <data name="lllavemagazino" xml:space="preserve">
+    <value>Warehouse Key</value>
+  </data>
+  <data name="ltelefonovehiculo" xml:space="preserve">
+    <value>Phone Vehicle</value>
+  </data>
+  <data name="StringConstants_Precio" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="lgeneral" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="ltipoproveedor" xml:space="preserve">
+    <value>Supplier Type</value>
+  </data>
+  <data name="lempresaproprietario" xml:space="preserve">
+    <value>Owner's company</value>
+  </data>
+  <data name="lproprietario" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="loficinaactual" xml:space="preserve">
+    <value>Current Office</value>
+  </data>
+  <data name="loficinaasignada" xml:space="preserve">
+    <value>Assigned Office</value>
+  </data>
+  <data name="ldelegacion" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="lsituacion" xml:space="preserve">
+    <value>Situation</value>
+  </data>
+  <data name="lcontracto" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="lcompania" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="lmatricula" xml:space="preserve">
+    <value>Plate Number</value>
+  </data>
+  <data name="lmodelo" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="lcolor" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="lmarca" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="lgrupo" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="lnumeroserie" xml:space="preserve">
+    <value>Serial Number</value>
+  </data>
+  <data name="lvia" xml:space="preserve">
+    <value>Via</value>
+  </data>
+  <data name="lformaentrega" xml:space="preserve">
+    <value>Shipping Way</value>
+  </data>
+  <data name="lcondicionventa" xml:space="preserve">
+    <value>Selling Terms</value>
+  </data>
+  <data name="lpercentamortactual" xml:space="preserve">
+    <value>% Amort Annual</value>
+  </data>
+  <data name="lnumeromeses" xml:space="preserve">
+    <value>Number of Months</value>
+  </data>
+  <data name="lvendidor" xml:space="preserve">
+    <value>Seller</value>
+  </data>
+  <data name="ltiposeguro" xml:space="preserve">
+    <value>Assurance Type</value>
+  </data>
+  <data name="lulfechamantenimento" xml:space="preserve">
+    <value>Last.Date.Maintainance</value>
+  </data>
+  <data name="lstretprice" xml:space="preserve">
+    <value>Selling Price</value>
+  </data>
+  <data name="lrecibo" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
+  <data name="ldelegaciones" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="lvaloradquisicion" xml:space="preserve">
+    <value>Acquisition value</value>
+  </data>
+  <data name="lvalornetocontable" xml:space="preserve">
+    <value>Net Accounting Value</value>
+  </data>
+  <data name="lvaloranalitica" xml:space="preserve">
+    <value>Analytical Value</value>
+  </data>
+  <data name="linmovilizado" xml:space="preserve">
+    <value>Immobilized</value>
+  </data>
+  <data name="lgasto" xml:space="preserve">
+    <value>Cost</value>
+  </data>
+  <data name="lgastoanterior" xml:space="preserve">
+    <value>Previous Cost</value>
+  </data>
+  <data name="lkmactuales" xml:space="preserve">
+    <value>Current Kms.</value>
+  </data>
+  <data name="lmatriculaanterior" xml:space="preserve">
+    <value>Previous Plate Number</value>
+  </data>
+  <data name="lproveedor" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="lnumerocontracto" xml:space="preserve">
+    <value>Contract Number</value>
+  </data>
+  <data name="linteres" xml:space="preserve">
+    <value>Interest</value>
+  </data>
+  <data name="lvalorresiduo" xml:space="preserve">
+    <value>Residual Value</value>
+  </data>
+  <data name="lcuota" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="lcomisionotorgamiento" xml:space="preserve">
+    <value>Granting Commission</value>
+  </data>
+  <data name="limpfinanciado" xml:space="preserve">
+    <value>Financed Amount</value>
+  </data>
+  <data name="lcuotakmexcedente" xml:space="preserve">
+    <value>Share Exceeding Km.</value>
+  </data>
+  <data name="liva" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="linterésmoratorio" xml:space="preserve">
+    <value>Interest on arrears</value>
+  </data>
+  <data name="lpenacancelación" xml:space="preserve">
+    <value>Penalty Cancellation</value>
+  </data>
+  <data name="lcuotaprimeromes" xml:space="preserve">
+    <value>First Month Fee</value>
+  </data>
+  <data name="lprice" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="lcomercial" xml:space="preserve">
+    <value>Commercial</value>
+  </data>
+  <data name="lcomercioassociados" xml:space="preserve">
+    <value>Associated Commerce</value>
+  </data>
+  <data name="lcompletaeval" xml:space="preserve">
+    <value>Full Service Evaluation:</value>
+  </data>
+  <data name="lcontactos" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="lcriteriodeevaluacion" xml:space="preserve">
+    <value>Evaluation Criteria</value>
+  </data>
+  <data name="lcuestionario" xml:space="preserve">
+    <value>Questionnaire</value>
+  </data>
+  <data name="ldanos" xml:space="preserve">
+    <value>Damages</value>
+  </data>
+  <data name="ldevolucionprevista" xml:space="preserve">
+    <value>Expected Return</value>
+  </data>
+  <data name="ldirecciondereclamaciones" xml:space="preserve">
+    <value>Claims Directorate</value>
+  </data>
+  <data name="ldirecciondevolucion" xml:space="preserve">
+    <value>Return Directorate</value>
+  </data>
+  <data name="levaluacion" xml:space="preserve">
+    <value>Evaluation</value>
+  </data>
+  <data name="lexclusividad" xml:space="preserve">
+    <value>Exclusiveness</value>
+  </data>
+  <data name="lgestionvehiculo" xml:space="preserve">
+    <value>Vehicle Management</value>
+  </data>
+  <data name="lhistorialvehiculo" xml:space="preserve">
+    <value>Vehicle History</value>
+  </data>
+  <data name="lhistorico" xml:space="preserve">
+    <value>Historic</value>
+  </data>
+  <data name="lmodocomunicaciondepedido" xml:space="preserve">
+    <value>Orders Communication Way</value>
+  </data>
+  <data name="lnumeromaximo" xml:space="preserve">
+    <value>Max Number No compliance</value>
+  </data>
+  <data name="lobservacion" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="lpersona" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="lprimerdiaenflota" xml:space="preserve">
+    <value>Fist day in fleet</value>
+  </data>
+  <data name="lprueba" xml:space="preserve">
+    <value>Trial</value>
+  </data>
+  <data name="ldesmarcar" xml:space="preserve">
+    <value>Unmark</value>
+  </data>
+  <data name="lenelvehiculo" xml:space="preserve">
+    <value>Into the vehicle</value>
+  </data>
+  <data name="lequipodefrio" xml:space="preserve">
+    <value>Cold Equipment</value>
+  </data>
+  <data name="lmarcar" xml:space="preserve">
+    <value>Mark</value>
+  </data>
+  <data name="lhasta" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="lfichaelemento" xml:space="preserve">
+    <value>Element Card</value>
+  </data>
+  <data name="limporte" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="limpuestodecirculacion" xml:space="preserve">
+    <value>Road Tax</value>
+  </data>
+  <data name="lkmsultmantenimiento" xml:space="preserve">
+    <value>Last.Kms.Maintenance</value>
+  </data>
+  <data name="lobservacionseguro" xml:space="preserve">
+    <value>Assurance Notes</value>
+  </data>
+  <data name="lpagado" xml:space="preserve">
+    <value>Paid out</value>
+  </data>
+  <data name="lplataforma" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="lpoliza" xml:space="preserve">
+    <value>Policy </value>
+  </data>
+  <data name="lrbtnIdiomaDEDE" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="lrbtnIdiomaITIT" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="lnumero" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="lfvalidez" xml:space="preserve">
+    <value>Validity Date</value>
+  </data>
+  <data name="lfaprobacion" xml:space="preserve">
+    <value>Approval Date</value>
+  </data>
+  <data name="lcontable" xml:space="preserve">
+    <value>Accounting Account</value>
+  </data>
+  <data name="lnotas" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="lobservaciones" xml:space="preserve">
+    <value>Observations</value>
+  </data>
+  <data name="lcuentas" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="ltbbtnBorrar" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="lfevaluacion" xml:space="preserve">
+    <value>Evaluation Date</value>
+  </data>
+  <data name="ldirecciones" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="lcontables" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="llugaresdeentrega" xml:space="preserve">
+    <value>Delivery places</value>
+  </data>
+  <data name="lfacturacion" xml:space="preserve">
+    <value>Billing</value>
+  </data>
+  <data name="lintraco" xml:space="preserve">
+    <value>Intra-Community</value>
+  </data>
+  <data name="lplazodepago" xml:space="preserve">
+    <value>Payment Period</value>
+  </data>
+  <data name="CompraVenta" xml:space="preserve">
+    <value>Buy/Sell</value>
+  </data>
+  <data name="SeguroAddicional" xml:space="preserve">
+    <value>Additional Assurance</value>
+  </data>
+  <data name="Assistencia" xml:space="preserve">
+    <value>Assistance</value>
+  </data>
+  <data name="Delegacion" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="SituacionActual" xml:space="preserve">
+    <value>Current Situation</value>
+  </data>
+  <data name="Contable" xml:space="preserve">
+    <value>Accountant</value>
+  </data>
+  <data name="Dirección1" xml:space="preserve">
+    <value>Address 1</value>
+  </data>
+  <data name="Direccion" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Fin" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="StringConstants_ImpuestoMatriculacion" xml:space="preserve">
+    <value>Registration Tax</value>
+  </data>
+  <data name="StringConstants_NumFactura" xml:space="preserve">
+    <value>Bill No.</value>
+  </data>
+  <data name="Acumulados" xml:space="preserve">
+    <value>Cumulated</value>
+  </data>
+  <data name="StringConstants_Agente" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="StringConstants_BajaSeguro" xml:space="preserve">
+    <value>Cancellation Insurance</value>
+  </data>
+  <data name="StringConstants_BajaTrafico" xml:space="preserve">
+    <value>Cancellation Traffic</value>
+  </data>
+  <data name="StringConstants_Bonifica" xml:space="preserve">
+    <value>Reclamation</value>
+  </data>
+  <data name="Visitas" xml:space="preserve">
+    <value>Visits</value>
+  </data>
+  <data name="StringConstants_VentaVehiculo" xml:space="preserve">
+    <value>Vehicle Selling</value>
+  </data>
+  <data name="StringConstants_Vendedor" xml:space="preserve">
+    <value>Seller</value>
+  </data>
+  <data name="StringConstants_Vencimiento" xml:space="preserve">
+    <value>Expiry</value>
+  </data>
+  <data name="StringConstants_Transferencia" xml:space="preserve">
+    <value>Bank Transfer</value>
+  </data>
+  <data name="ltodoriesgo" xml:space="preserve">
+    <value>All risk</value>
+  </data>
+  <data name="StringConstants_TipoSeguro" xml:space="preserve">
+    <value>Assurance Type</value>
+  </data>
+  <data name="StringConstants_TelefonoAsist" xml:space="preserve">
+    <value>Support Phone</value>
+  </data>
+  <data name="StringConstants_TarjetaDeTransporte" xml:space="preserve">
+    <value>Transport Card</value>
+  </data>
+  <data name="StringConstants_PrecioParaVenta" xml:space="preserve">
+    <value>Selling Price</value>
+  </data>
+  <data name="StringConstants_PrecioDeFabricacion" xml:space="preserve">
+    <value>Manufacturing price</value>
+  </data>
+  <data name="OtrasInformaciones" xml:space="preserve">
+    <value>Other Information</value>
+  </data>
+  <data name="Opciones" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="StringConstants_NumeroFactura" xml:space="preserve">
+    <value>Bill Number</value>
+  </data>
+  <data name="ContractoYITV" xml:space="preserve">
+    <value>Contract and V.Rev.</value>
+  </data>
+  <data name="StringConstants_CompraVehiculo" xml:space="preserve">
+    <value>Purchase Vehicle</value>
+  </data>
+  <data name="StringConstants_CompDeSeguros" xml:space="preserve">
+    <value>Insurance Company</value>
+  </data>
+  <data name="Commisiones" xml:space="preserve">
+    <value>Commissions</value>
+  </data>
+  <data name="StringConstants_FechaEntrega" xml:space="preserve">
+    <value>Delivery Date</value>
+  </data>
+  <data name="StringConstants_FechaCompra" xml:space="preserve">
+    <value>Purchase Date</value>
+  </data>
+  <data name="StringConstants_Importe" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="StringConstants_Poliza" xml:space="preserve">
+    <value>Policy</value>
+  </data>
+  <data name="StringConstants_Observation" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="StringConstants_Prima" xml:space="preserve">
+    <value>Prize</value>
+  </data>
+  <data name="StringConstants_Franquigia" xml:space="preserve">
+    <value>Franchise</value>
+  </data>
+  <data name="StringConstants_FechaDeBaja" xml:space="preserve">
+    <value>Cancellation Date</value>
+  </data>
+  <data name="ContractoMantenimento" xml:space="preserve">
+    <value>Manteinance Contract</value>
+  </data>
+  <data name="DatoGenerales" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Delegaciones" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="StringConstants_EntryDateValue" xml:space="preserve">
+    <value>Entry Date</value>
+  </data>
+  <data name="EstadoActual" xml:space="preserve">
+    <value>Current State</value>
+  </data>
+  <data name="StringConstants_FechaDeAlta" xml:space="preserve">
+    <value>Registration Date</value>
+  </data>
+  <data name="StringConstants_FechaFactura" xml:space="preserve">
+    <value>Billing Date</value>
+  </data>
+  <data name="StringConstants_FechaMatriculacion" xml:space="preserve">
+    <value>Registration Date</value>
+  </data>
+  <data name="StringConstants_FormaDePago" xml:space="preserve">
+    <value>Payment Way</value>
+  </data>
+  <data name="Foto" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="GarantiaExtendida" xml:space="preserve">
+    <value>Extended Warranty</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="StringConstants_MatriculaAnterior" xml:space="preserve">
+    <value>Previous Plate Number</value>
+  </data>
+  <data name="lproxfechamantenimieno" xml:space="preserve">
+    <value>Next.Maint.Date</value>
+  </data>
+  <data name="PuestaEnServicio" xml:space="preserve">
+    <value>Commissioning</value>
+  </data>
+  <data name="Recalcular" xml:space="preserve">
+    <value>Recompute</value>
+  </data>
+  <data name="lproxkmsmantenimiento" xml:space="preserve">
+    <value>Km.Next.Maintenance</value>
+  </data>
+  <data name="lrevisiones" xml:space="preserve">
+    <value>Revision</value>
+  </data>
+  <data name="Retorno" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="Seguro" xml:space="preserve">
+    <value>Assurance</value>
+  </data>
+  <data name="VencimentoSeguro" xml:space="preserve">
+    <value>Assurance Expiry</value>
+  </data>
+  <data name="Prov" xml:space="preserve">
+    <value>Prov.</value>
+  </data>
+  <data name="Pobl" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="PolizaAssistenciaAddicional" xml:space="preserve">
+    <value>Additional Policy</value>
+  </data>
+  <data name="lprontopago" xml:space="preserve">
+    <value>Early Payment</value>
+  </data>
+  <data name="StringConstants_ZonaOfi" xml:space="preserve">
+    <value>Office Zone</value>
+  </data>
+  <data name="StringConstants_ClavePpto" xml:space="preserve">
+    <value>Ppto.Key</value>
+  </data>
+  <data name="StringConstants_Origen" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="StringConstants_Canal" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="StringConstants_Negocio" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="StringConstants_Mercado" xml:space="preserve">
+    <value>Market</value>
+  </data>
+  <data name="UpperBarViewModel_HandleCommission_TipoComm" xml:space="preserve">
+    <value>Broker Type</value>
+  </data>
+  <data name="lcomercioasociados" xml:space="preserve">
+    <value>Associated Trade</value>
+  </data>
+  <data name="ltipo" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

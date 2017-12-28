@@ -1562,4 +1562,10 @@
     <value>Cadena de texto excede el tamaño establecido</value>
     <comment>String too long</comment>
   </data>
+  <data name="Commisiones" xml:space="preserve">
+    <value>Commisiones</value>
+  </data>
+  <data name="VencimentoSeguro" xml:space="preserve">
+    <value>Vencimento Seguro</value>
+  </data>
 </root>

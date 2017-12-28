@@ -9,12 +9,13 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid x:Name="DefaultLayout">
         <WrapPanel Orientation="Vertical">
             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
-                <TextBlock Text="Dirección 1"></TextBlock>
+                <TextBlock Text="{Binding Dirección1, Source={StaticResource ResourceLanguage}}"></TextBlock>
                 <materialDesign:PackIcon
 		Margin="0,0,8,0"
                     Height="25"
@@ -24,12 +25,12 @@
 		x:Name="DirectionTextBox"
         Text="{Binding Direction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 		Width="250"
-        materialDesign:HintAssist.Hint="Direccion"
+        materialDesign:HintAssist.Hint="{x:Static properties:Resources.Direccion}"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
-                <TextBlock Text="Dirección 2"></TextBlock>
+                <TextBlock Text="{Binding ldireccion2, Source={StaticResource ResourceLanguage}}"></TextBlock>
                 <materialDesign:PackIcon
                     Height="25"
 		Margin="0,0,8,0"
@@ -40,7 +41,7 @@
                     Text="{Binding Direction2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 	
 		Width="250"
-        materialDesign:HintAssist.Hint="Direccion"
+        materialDesign:HintAssist.Hint="{x:Static properties:Resources.Direccion}"
 		materialDesign:TransitionAssist.DisableTransitions="True" />
 
             </StackPanel>
@@ -52,7 +53,7 @@
                                                           AssistDataFieldSecond="POBLA"
                                                           AssistProperties="Codigo,Poblacion"
                                                           LabelVisible="False"
-                                                          LabelText="Pobl."
+                                                          LabelText="{Binding Pobl, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="30"
                                                           MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
@@ -80,7 +81,7 @@
                                                           AssistProperties="Code,Name"
                                                           MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                                           LabelVisible="False"
-                                                          LabelText="Prov."
+                                                          LabelText="{Binding Prov, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="30"
                                                           IsReadOnlySecond="True"
@@ -108,7 +109,7 @@
                                                           LabelVisible="False"
                                               MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                               Height="25"           
-                                              LabelText="Pais"
+                                              LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           AssistProperties="Code,CountryName"
                                                           LabelTextWidth="30"
@@ -137,7 +138,7 @@
                     Height="25"
 		Width="272"
                     Text="{Binding Path=Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-		    materialDesign:HintAssist.Hint="Telefono"
+		    materialDesign:HintAssist.Hint="{Binding ltelefono, Source={StaticResource ResourceLanguage}}"
 	
                     materialDesign:TransitionAssist.DisableTransitions="True"/>
                 

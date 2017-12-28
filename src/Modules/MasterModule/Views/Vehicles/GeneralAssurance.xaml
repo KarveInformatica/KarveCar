@@ -50,7 +50,7 @@
             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
             
             <kc:DataArea                                               
-            DataAreaTitle="Tipo Seguro"
+            DataAreaTitle="{Binding ltiposeguro, Source={StaticResource ResourceLanguage}}"
             DataAreaWidth="200"
             kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             kc:ControlExt.DataSourcePath="Value.tiposegu"
@@ -58,7 +58,7 @@
         
             />
             <kc:DataField 
-                LabelText="Carta Verde"
+                LabelText="{Binding lcartaverde, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="100" 
                 TextContentWidth="150"
                 DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -66,31 +66,31 @@
                 DataSourcePath="CARTAVERDE"
                 DataFieldHeight="25"/>
             <kc:DataArea                                               
-            DataAreaTitle="Observacion Seguro"
+            DataAreaTitle="{Binding lobservacionseguro, Source={StaticResource ResourceLanguage}}"
             DataAreaWidth="200"
             kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             kc:ControlExt.DataSourcePath="Value.OBS_SEGURO"
             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             />
-            <kc:DataFieldCheckBox Content="Todo riesgo" Margin="0,0,0,5"
+            <kc:DataFieldCheckBox Content="{Binding ltodoriesgo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGU_TODORIESGO"></kc:DataFieldCheckBox>
-            <kc:DataFieldCheckBox Content="Seguro Internacional" Margin="0,0,0,5"
+            <kc:DataFieldCheckBox Content="{Binding lsegurointernacional, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGU_INTERNACIONAL"></kc:DataFieldCheckBox>
 
-            <kc:DataFieldCheckBox Content="Recibo" Margin="0,0,0,5"
+            <kc:DataFieldCheckBox Content="{Binding lrecibo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.RECIBO_V1"></kc:DataFieldCheckBox>
-            <kc:DataFieldCheckBox Content="En el vehiculo" Margin="0,0,0,5"
+            <kc:DataFieldCheckBox Content="{Binding lenelvehiculo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGURO_EN_VEHI"></kc:DataFieldCheckBox>
 
-            <GroupBox Header="Poliza">
+            <GroupBox Header="{Binding lpoliza, Source={StaticResource ResourceLanguage}}">
             <WrapPanel>
                     <kc:DataField x:Name="Poliza" 
                                   DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"        
@@ -115,7 +115,7 @@
                         kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.DataSourcePath="Value.FBAJA_Segu"
 
-                       LabelText="Fecha Baja"/>
+                       LabelText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}"/>
                     <kc:DataDatePicker
                         DataDatePickerHeight="25"
                         x:Name="Vencimiento" 
@@ -126,7 +126,7 @@
                 
                     <kc:DataField DataFieldHeight="25"
                                              LabelTextWidth="80"
-                                             LabelText="Franquicia"
+                                             LabelText="{Binding lfranquicia, Source={StaticResource ResourceLanguage}}"
                                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataSourcePath="franquicia"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
@@ -147,7 +147,7 @@
                     <kc:DataField 
                     DataFieldHeight="25" 
                     LabelTextWidth="80"
-                    LabelText="Extorno"
+                    LabelText="{Binding lextorno, Source={StaticResource ResourceLanguage}}"
                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DataSourcePath="EXTORNO"
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
@@ -156,7 +156,7 @@
                     <kc:DataField 
                     DataFieldHeight="25" 
                     LabelTextWidth="100"
-                    LabelText="Valor para Seguro"
+                    LabelText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}"
                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DataSourcePath="VALOR_PARASEGURO"
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 

@@ -34,7 +34,7 @@
             </karveControls:DualFieldSearchBox>
             <StackPanel Orientation="Horizontal">
                 <karveControls:DataField x:Name="EmailField"
-                                              LabelText="Email"
+                                              LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                               LabelTextWidth="100"
                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="km" 
@@ -53,7 +53,7 @@
                 AssistDataFieldSecond="NOMBRE"
                 AssistTableName="FORMAS_PEDENT"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Forma Entrega"
+                LabelText="{Binding lformaentrega, Source={StaticResource ResourceLanguage}}"
                 AssistProperties="Numero, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
@@ -70,7 +70,7 @@
                 AssistDataFieldSecond="NOMBRE"
                 AssistTableName="TL_CONDICION_PRECIO"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Condicion Venta"
+                LabelText="{Binding lcondicionventa, Source={StaticResource ResourceLanguage}}"
                 AssistProperties="Numero, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
@@ -84,7 +84,7 @@
             <karveControls:DataArea
                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 karveControls:ControlExt.DataSourcePath="DIRENVIO6"
-                DataAreaTitle="Lugares de Entrega"
+                DataAreaTitle="{Binding llugaresdeentrega, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="120"
                 LabelVisible="True"
                 DataAreaWidth="120"

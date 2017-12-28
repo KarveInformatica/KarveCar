@@ -219,4 +219,31 @@
   <data name="Header_Vehiculos" xml:space="preserve">
     <value>Vehiculos</value>
   </data>
+  <data name="StringConstants_Observation" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="StringConstants_FechaCompra" xml:space="preserve">
+    <value>Fecha compra</value>
+  </data>
+  <data name="Seguro" xml:space="preserve">
+    <value>Seguro</value>
+  </data>
+  <data name="PolizaAssistenciaAddicional" xml:space="preserve">
+    <value>Poliza assistencia addicional</value>
+  </data>
+  <data name="StringConstants_ClavePpto" xml:space="preserve">
+    <value>Clave.Ppto</value>
+  </data>
+  <data name="FechaFabricacion" xml:space="preserve">
+    <value>Fecha Fabricacion</value>
+  </data>
+  <data name="FechaMatriculacion" xml:space="preserve">
+    <value>Fecha Matriculacion</value>
+  </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>No definido</value>
+  </data>
+  <data name="EmiteYPagaClientes" xml:space="preserve">
+    <value>Emite y Paga Clientes</value>
+  </data>
 </root>

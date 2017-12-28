@@ -10,7 +10,7 @@
     
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
-        <GroupBox Header="Revisiones">
+        <GroupBox Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}">
         <ListBox ItemsSource="{Binding RevisionObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

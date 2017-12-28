@@ -14,12 +14,12 @@
             <DataTemplate x:Key="DualDatePicker">
                     <WrapPanel>
                     <KarveControls:DataDatePicker
-                            LabelText="Desde"
+                            LabelText="{Binding ldesde, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25"
                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="{Binding DataSource1, Mode=TwoWay}"/>
                     <KarveControls:DataDatePicker 
-                            LabelText="Hasta"    
+                            LabelText="{Binding lhasta, Source={StaticResource ResourceLanguage}}"    
                             DataDatePickerHeight="25"
                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="{Binding DataSource2, Mode=TwoWay}"    
@@ -29,12 +29,12 @@
             </ResourceDictionary>
         </Grid.Resources>
         <DockPanel>
-            <GroupBox Header="Equipo de Frio" DockPanel.Dock="Left">
+            <GroupBox Header="{Binding lequipodefrio, Source={StaticResource ResourceLanguage}}" DockPanel.Dock="Left">
                 <StackPanel>
                     <KarveControls:DualFieldSearchBox 
                                     AssistDataFieldFirst="CODIGO"
                                     AssistDataFieldSecond="NOMBRE"
-                                    LabelText="Marca"
+                                    LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}"
                                     LabelTextWidth="80"
                                     TextContentFirstWidth="40"
                                     TextContentSecondWidth="100"
@@ -43,27 +43,27 @@
                                     DataFieldFirst="electaIntDifCP"/>
                     <KarveControls:DataField 
                         DataSourcePath="EQFRIO_MARCA"
-                        LabelText="Modelo"
+                        LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
                         LabelTextWidth="80"
                         TextContentWidth="161"
                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <KarveControls:DataField 
                         DataSourcePath="EQFRIO_MODELO"
-                        LabelText="Numero Serie"
+                        LabelText="{Binding lnumeroserie, Source={StaticResource ResourceLanguage}}"
                         LabelTextWidth="80"
                         TextContentWidth="161"
                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <KarveControls:DataDatePicker
-                            LabelText="Fabrica"
+                            LabelText="{Binding lfabrica, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25"
                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="EQFRIO_FFABRICA"/>
 
-                    <GroupBox Header="Garantia">
+                    <GroupBox Header="{Binding lgarantia, Source={StaticResource ResourceLanguage}}">
                         <WrapPanel Orientation="Horizontal">
 
                             <KarveControls:DataDatePicker
-                            LabelText="Desde"
+                            LabelText="{Binding ldesde, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25"
                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="EQFRIO_GARAN1"/>
@@ -77,12 +77,12 @@
                 </StackPanel>
                 
             </GroupBox>
-            <GroupBox Header="Plataforma" DockPanel.Dock="Right">
+            <GroupBox Header="{Binding lplataforma, Source={StaticResource ResourceLanguage}}" DockPanel.Dock="Right">
                 <StackPanel>
                     <KarveControls:DualFieldSearchBox 
                                     AssistDataFieldFirst="CODIGO"
                                     AssistDataFieldSecond="NOMBRE"
-                                    LabelText="Marca"
+                                    LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}"
                                     LabelTextWidth="80"
                                     TextContentFirstWidth="40"
                                     TextContentSecondWidth="100"
@@ -91,21 +91,21 @@
                                     DataFieldFirst="electaIntDifCP"/>
                     <KarveControls:DataField 
                         DataSourcePath="EQFRIO_MARCA"
-                        LabelText="Modelo"
+                        LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
                         LabelTextWidth="80"
                         TextContentWidth="161"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <KarveControls:DataField 
                         DataSourcePath="EQFRIO_MODELO"
-                        LabelText="Numero Serie"
+                        LabelText="{Binding lnumeroserie, Source={StaticResource ResourceLanguage}}"
                         LabelTextWidth="80"
                         TextContentWidth="161"
                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
  
                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <KarveControls:DataDatePicker
-                            LabelText="Fabrica"
+                            LabelText="{Binding lfabrica, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25" 
                        
                             KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
@@ -113,10 +113,10 @@
                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="EQFRIO_FFABRICA"/>
 
-                    <GroupBox Header="Garantia">
+                    <GroupBox Header="{Binding lgarantia, Source={StaticResource ResourceLanguage}}">
                         <WrapPanel Orientation="Horizontal">
                             <KarveControls:DataDatePicker
-                            LabelText="Desde"
+                            LabelText="{Binding ldesde, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25"
                             KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -124,7 +124,7 @@
                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="PLATAF_GARAN1"/>
                             <KarveControls:DataDatePicker
-                            LabelText="Hasta"
+                            LabelText="{Binding lhasta, Source={StaticResource ResourceLanguage}}"
                             DataDatePickerHeight="25"
                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, 
                                                                       Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

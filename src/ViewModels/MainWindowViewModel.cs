@@ -64,21 +64,21 @@ namespace KarveCar.ViewModels
     ///  This is the main v
     /// </summary>
     /// <param name="regionManager"></param>
-    public MainWindowViewModel(IRegionManager regionManager, IConfigurationService service)
+    public MainWindowViewModel(IRegionManager regionManager, IConfigurationService service, IEventManager eventManager)
         {
             _regionManager = regionManager;
             _configurationService = service;
             // culture switch has the single resposabilty to change the culture.
-            _cultureSwitch = new CultureSwitcher(_configurationService);
+            _cultureSwitch = new CultureSwitcher(_configurationService, eventManager);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
-        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager, IConfigurationService configurationService)
+        public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager, IConfigurationService configurationService, IEventManager eventManager)
         {
             _container = container;
             _regionManager = regionManager;
             _configurationService = configurationService;
-            _cultureSwitch = new CultureSwitcher(_configurationService);
+            _cultureSwitch = new CultureSwitcher(_configurationService, eventManager);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
         }
@@ -93,12 +93,7 @@ namespace KarveCar.ViewModels
         {
             _regionManager.RequestNavigate("TabRegion", navigationPath);
         }
-        /*
-        KarveLocale.Properties.Resources  Resources{
-            set _
-            get;
-        }
-        */
+
         public ItemActionCallback ClosingTabItemHandler
         {
             get { return ClosingTabItemHandlerImpl; }

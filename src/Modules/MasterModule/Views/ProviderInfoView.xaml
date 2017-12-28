@@ -34,7 +34,7 @@
             <DataTemplate x:Key="ProviderEmailTemplate">
                 <StackPanel Orientation="Horizontal">
                     <karveControls:DataField x:Name="EmailField" 
-                                             LabelText="Email"
+                                             LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                              DataObject="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              LabelTextWidth="70"
                                              LabelVisible="True"
@@ -121,6 +121,11 @@
 
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid ShowGridLines="False">
 
             <!--     <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
@@ -154,15 +159,15 @@
                 </local:UpperBarViewSupplier>
 
                 <TabControl TabStripPlacement="Left" BorderThickness="0">
-                    <TabItem Name="General"  Header="General" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <TabItem Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid ShowGridLines="False">
 
 
                             <StackPanel>
                                 <karveControls:DataField  DataSourcePath="NOMBRE" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="Nombre"
-                                                      LabelTextWidth="100"
+                                                      LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False">
@@ -175,8 +180,8 @@
                                 </karveControls:DataField>
                                 <karveControls:DataField  DataSourcePath="DIRECCION" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="Direccion"
-                                                  LabelTextWidth="100"
+                                                  LabelText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}"
+                                                  LabelTextWidth="150"
                                                   Margin="0,5,0,0"
                                                   TextContentWidth="400"
                                                   IsReadOnly="False">
@@ -189,8 +194,8 @@
                                 </karveControls:DataField>
                                 <karveControls:DataField  DataSourcePath="DIREC2" 
                                                   DataObject="{Binding   DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="Segunda" 
-                                                  LabelTextWidth="100"
+                                                  LabelText="{Binding lsegunda, Source={StaticResource ResourceLanguage}}" 
+                                                  LabelTextWidth="150"
                                                   Margin="0,5,0,0"
                                                   TextContentWidth="400"
                                                   IsReadOnly="False">
@@ -215,9 +220,9 @@
                                                           AssistDataFieldSecond="POBLA"
                                                           AssistProperties="Codigo,Poblacion"
                                                           LabelVisible="False"
-                                                          LabelText="Poblacion"
+                                                          LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
-                                                          LabelTextWidth="100"
+                                                          LabelTextWidth="150"
                                                           MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
@@ -242,8 +247,8 @@
                                                           AssistDataFieldFirst="SIGLAS"
                                                           AssistDataFieldSecond="PROV"
                                                           AssistProperties="Code,Name"
-                                                          LabelText="Provincia"
-                                                          LabelTextWidth="100"
+                                                          LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
+                                                          LabelTextWidth="150"
                                                           Margin="0,5,0,0"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
@@ -268,8 +273,8 @@
                            
                                 <karveControls:DataField  DataSourcePath="TELEFONO" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="Telefono"
-                                                      LabelTextWidth="100"
+                                                      LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False">
@@ -283,7 +288,7 @@
                                 <karveControls:DataField  DataSourcePath="FAX" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="Fax"
-                                                      LabelTextWidth="100"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False">
@@ -297,8 +302,8 @@
 
                                 <karveControls:DataField  DataSourcePath="MOVIL" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="Movil"
-                                                      LabelTextWidth="100"
+                                                      LabelText="{Binding lmovil, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False">
@@ -312,8 +317,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <karveControls:DataField  DockPanel.Dock="Left" DataSourcePath="INTERNET" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="Website"
-                                                      LabelTextWidth="100"
+                                                      LabelText="{Binding lwebsite, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="380"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False">
@@ -334,9 +339,9 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <karveControls:DataField x:Name="EmailField" 
-                                                     LabelText="Email"
+                                                     LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                                      DataObject="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                     LabelTextWidth="100"
+                                                     LabelTextWidth="150"
                                                      TextContentWidth="400"
                                                      LabelVisible="True"
                                                      DataAllowed="Email"
@@ -357,8 +362,8 @@
                                 </StackPanel>
                                 <karveControls:DataField  DataSourcePath="PERSONA" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="Contacto"
-                                                      LabelTextWidth="100"
+                                                      LabelText="{Binding lcontacto, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                      
@@ -375,9 +380,9 @@
                                                           AssistDataFieldFirst="CODIGO"
                                                           AssistDataFieldSecond="NOMBRE"
                                                           AssistProperties="Code,Name"
-                                                          LabelText="Empresa"
+                                                          LabelText="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
-                                                          LabelTextWidth="100"
+                                                          LabelTextWidth="150"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
@@ -402,9 +407,9 @@
                                                           AssistDataFieldFirst="CODIGO"
                                                           AssistDataFieldSecond="NOMBRE"
                                                           AssistProperties="Codigo,Nombre"
-                                                          LabelText="Oficinas"
+                                                          LabelText="{Binding loficinas, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
-                                                          LabelTextWidth="100"
+                                                          LabelTextWidth="150"
                                                           Height="25"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
@@ -427,7 +432,7 @@
                                 </karveControls:DualFieldSearchBox>
                                 <karveControls:DataArea 
                             DataAreaWidth="400"
-                            DataAreaTitle="Notas"
+                            DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                             Margin="5,0,0,0"
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -437,8 +442,8 @@
                                 </karveControls:DataArea>
                                 <karveControls:DataArea 
                             DataAreaWidth="400"
-                            DataAreaTitle="Observaciones"
-                            Margin="10,5,0,0"
+                            DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
+                            Margin="5,5,0,0"
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="OBSERVA"
@@ -450,10 +455,10 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Name="Contables" Header="Contables" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <TabItem Name="Contables" Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <StackPanel Orientation="Vertical">
 
-                            <GroupBox Header="Facturacion">
+                            <GroupBox Header="{Binding lfacturacion, Source={StaticResource ResourceLanguage}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition>
@@ -474,23 +479,23 @@
                 AssistProperties="Codigo,Nombre"
                 AssistTableName="FORMAS"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Forma de Pago"
+                LabelText="{Binding lformadepago, Source={StaticResource ResourceLanguage}}"
                 IsReadOnlySecond="True"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="150"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="200"
                                     Height="25"
                 SourceView="{Binding Path=PaymentDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORPA"/>
 
-                                        <TextBlock Text="Plazo de Pago" Margin="10,0,0,10"></TextBlock>
+                                        <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
-                                                         Margin="0,5,0,0"
+                                                     Margin="0,5,0,0"
                                                      Height="25"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
@@ -514,7 +519,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
-                                        <TextBlock Text="Dia de Pago" Margin="5,0,0,5"></TextBlock>
+                                        <TextBlock Text="{Binding ldiadepago, Source={StaticResource ResourceLanguage}}" Margin="5,0,0,5"></TextBlock>
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DIA"
                                                          Margin="0,5,0,0"
@@ -549,7 +554,7 @@
                                                      DataSourcePath="DTO"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="True"
-                                                     LabelText="Descuento"
+                                                     LabelText="{Binding ldescuento, Source={StaticResource ResourceLanguage}}"
                                                      LabelTextWidth="90"
                                                      TextContentWidth="100"
                                                      Height="25"
@@ -565,8 +570,8 @@
                                                      DataSourcePath="PP"
                                                      LabelVisible="True"
                                                      Margin="0,5,0,0"
-                                                     LabelText="Pronto Pago"
-                                                     LabelTextWidth="100"
+                                                     LabelText="{Binding lprontopago, Source={StaticResource ResourceLanguage}}"
+                                                     LabelTextWidth="150"
                                                      TextContentWidth="100"
                                                      Height="25"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
@@ -576,7 +581,7 @@
                                                      DataSourcePath="TIPOIVA"
                                                      LabelVisible="True"
                                                      Margin="0,5,0,0"
-                                                     LabelText="Tipo Iva"
+                                                     LabelText="{Binding ltipoiva, Source={StaticResource ResourceLanguage}}"
                                                      LabelTextWidth="80"
                                                      TextContentWidth="100"
                                                      Height="25"
@@ -588,7 +593,7 @@
                                         <karveControls:DualFieldSearchBox
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Mes Vacaciones"
+                LabelText="{Binding lmesvacaciones, Source={StaticResource ResourceLanguage}}"
                
                 IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
@@ -598,7 +603,7 @@
                 AssistProperties="NUMERO_MES,MES"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="150"
                 TextContentFirstWidth="100"
                 TextContentSecondWidth="200"
                 SourceView="{Binding Path=MonthsDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -607,16 +612,16 @@
                                         <karveControls:DualFieldSearchBox
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Segundo mes"
+                LabelText="{Binding lsegundomes, Source={StaticResource ResourceLanguage}}"
   
-                AssistProperties="NUMERO_MES, MES"
+                AssistProperties="NUMERO_MES,MES"
                 IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                 AssistTableName = "MESES2"
                 AssistDataFieldFirst = "NUMERO_MES"
                 AssistDataFieldSecond = "MES"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="150"
                 TextContentFirstWidth="100"
                 TextContentSecondWidth="200"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -630,8 +635,8 @@
                                         <karveControls:DualFieldSearchBox
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                LabelText="Banco"
-                AssistProperties="Codigo, Nombre"
+                LabelText="{Binding lbanco, Source={StaticResource ResourceLanguage}}"
+                AssistProperties="Codigo,Nombre"
                 IsReadOnlySecond="True"
                 Margin="0,5,0,0"
            AssistDataFieldFirst = "CODBAN"
@@ -639,7 +644,7 @@
            AssistTableName = "BANCO"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="150"
                 TextContentFirstWidth="100"
                 TextContentSecondWidth="200"
                 SourceView="{Binding Path=BanksDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -647,9 +652,9 @@
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="CC"
                                                      LabelVisible="True"
-                                                     LabelText="Cuenta"
+                                                     LabelText="{Binding lcuenta, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
-                                                     LabelTextWidth="100"
+                                                     LabelTextWidth="150"
                                                      TextContentWidth="200"
                                                      Height="25"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
@@ -658,7 +663,7 @@
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="IBAN"
                                                      LabelVisible="True"
-                                                     LabelText="IBAN"
+                                                     LabelText="{Binding liban, Source={StaticResource ResourceLanguage}}"
                                                          Margin="0,5,0,0"
                                                      LabelTextWidth="60"
                                                      TextContentWidth="100"
@@ -672,9 +677,9 @@
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="SWIFT"
                                                      LabelVisible="True"
-                                                     LabelText="Swift"
+                                                     LabelText="{Binding lswift, Source={StaticResource ResourceLanguage}}"
                                                          Margin="0,5,0,0"
-                                                     LabelTextWidth="100"
+                                                     LabelTextWidth="150"
                                                      TextContentWidth="100"
                                                      Height="25"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
@@ -682,16 +687,16 @@
                                         <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Idiomas"
+                                    LabelText="{Binding lidiomas, Source={StaticResource ResourceLanguage}}"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    AssistProperties="Numero, Nombre"
+                                    AssistProperties="Numero,Nombre"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "NOMBRE"
                                     AssistTableName = "IDIOMAS"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                                    LabelTextWidth="100"
+                                    LabelTextWidth="150"
                                     TextContentFirstWidth="50"
                                     TextContentSecondWidth="150"
                                     SourceView="{Binding Path=LanguageDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -701,16 +706,16 @@
                                         <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Divisa"
+                                    LabelText="{Binding ldivisa, Source={StaticResource ResourceLanguage}}"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "NOMBRE"
                                     AssistTableName = "DIVISAS"
-                                    AssistProperties="Codigo, Nombre"
+                                    AssistProperties="Codigo,Nombre"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                                    LabelTextWidth="100"
+                                    LabelTextWidth="150"
                                     TextContentFirstWidth="50"
                                     TextContentSecondWidth="150"
                                     SourceView="{Binding Path=CurrencyDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -720,30 +725,30 @@
                                     </VirtualizingStackPanel>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Header="Albanares">
+                            <GroupBox Header="{Binding lalbanares, Source={StaticResource ResourceLanguage}}">
                                 <VirtualizingStackPanel Orientation="Horizontal">
-                                    <karveControls:DataFieldCheckBox Content="Gestion de Albanares"
+                                    <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                          karveControls:ControlExt.DataSourcePath="proprio">
 
                                     </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="Es intracomunitario"
+                                    <karveControls:DataFieldCheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                          karveControls:ControlExt.DataSourcePath="proprio">
 
                                     </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="Gestionar IVA importacion"
+                                    <karveControls:DataFieldCheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                          karveControls:ControlExt.DataSourcePath="proprio">
 
                                     </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="Margen No Automatico"
+                                    <karveControls:DataFieldCheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -753,15 +758,15 @@
 
                                 </VirtualizingStackPanel>
                             </GroupBox>
-                            <GroupBox Header="Contables">
+                            <GroupBox Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}">
                                 <VirtualizingStackPanel>
 
-                                    <GroupBox Header="Cuentas">
+                                    <GroupBox Header="{Binding lcuentas, Source={StaticResource ResourceLanguage}}">
                                         <StackPanel>
                                             <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PREFIJO"
                                                      LabelVisible="True"
-                                                     LabelText="Prefijo"
+                                                     LabelText="{Binding lprefijo, Source={StaticResource ResourceLanguage}}"
                                                          Margin="0,5,0,0"
                                                      LabelTextWidth="120"
                                                      TextContentWidth="100"
@@ -772,17 +777,17 @@
                                             <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Contable"
+                                    LabelText="{Binding lcuentacontable, Source={StaticResource ResourceLanguage}}"
                                     DataFieldFirst = "CONTABLE"
                                     AssistTableName = "CU1"
                                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                                    LabelTextWidth="100"
+                                    LabelTextWidth="150"
                                     TextContentFirstWidth="100"
                                     Height="25"
                                     TextContentSecondWidth="200"
@@ -791,18 +796,18 @@
                                             <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Gasto"
+                                    LabelText="{Binding lcuentagasto, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1Gasto"
                                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"
                                     AssistQuery="{Binding AccountAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                    
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                                    LabelTextWidth="100"
+                                    LabelTextWidth="150"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account2Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -811,11 +816,11 @@
                                             <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Retencion"
+                                    LabelText="{Binding lcuentaretencion, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1Retencion"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"    
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,5,0,0"
@@ -831,7 +836,7 @@
                                             <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Pago"
+                                    LabelText="{Binding lcuentapago, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1Pago"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"    
@@ -857,11 +862,11 @@
                                     <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta C/P"
+                                    LabelText="{Binding lcuentacp, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1CP"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -876,11 +881,11 @@
                                     <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta L/P"
+                                    LabelText="{Binding lcuentalp, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1LP"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
@@ -894,17 +899,17 @@
                                     </karveControls:DualFieldSearchBox>
                                 </VirtualizingStackPanel>
                             </GroupBox>
-                            <GroupBox Header="Intracomunitario">
+                            <GroupBox Header="{Binding lintraco, Source={StaticResource ResourceLanguage}}">
                                 <VirtualizingStackPanel Orientation="Horizontal">
 
                                     <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Suportado"
+                                    LabelText="{Binding lcuentasuportado, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1Intraco"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"    
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -920,11 +925,11 @@
                                     <karveControls:DualFieldSearchBox
                                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
-                                    LabelText="Cuenta Repercutido"
+                                    LabelText="{Binding lcuentarepercutido, Source={StaticResource ResourceLanguage}}"
                                     AssistTableName = "CU1Reper"
                                     AssistDataFieldFirst = "CODIGO"
                                     AssistDataFieldSecond = "DESCRIP"    
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Codigo,Description"
                                     IsReadOnlySecond="True"
                                     Margin="0,5,0,0"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -958,7 +963,7 @@
 
 
                     </TabItem>
-                    <TabItem Name="Direcciones1" Header="Direcciones" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <TabItem Name="Direcciones1" Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <StackPanel>
 
 
@@ -968,18 +973,18 @@
                                     <RowDefinition Height="50*"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <WrapPanel Orientation="Horizontal" Grid.Row="0">
-                                    <GroupBox Header="Dirección de Pago">
+                                    <GroupBox Header="{Binding ldirecciondepago, Source={StaticResource ResourceLanguage}}">
                                         <local:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Direction="{Binding DataObject.DIR_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Direction2="{Binding DataObject.DIR2_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Direction="{Binding DataObject.Value.DIR_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Direction2="{Binding DataObject.Value.DIR2_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       City="POB_PAGO"
                                                       Country="PAIS_PAGO"
                                                       CityAssistName="POBLACIONES"
                                                       CountryAssistName="PAIS"
                                                       ProvinceAssistName="PROV_PAGO"
-                                                      Phone="{Binding DataObject.TELF_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Fax="{Binding DataObject.FAX_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Email="{Binding DataObject.EMAIL_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Phone="{Binding DataObject.Value.TELF_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Fax="{Binding DataObject.Value.FAX_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Email="{Binding DataObject.Value.EMAIL_PAGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       MinWidth="400"
                                                       CountrySourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -989,18 +994,18 @@
 
                                         </local:DirectionInfo>
                                     </GroupBox>
-                                    <GroupBox Header="Dirección de Reclamaciones">
+                                    <GroupBox Header="{Binding ldirecciondereclamaciones, Source={StaticResource ResourceLanguage}}">
                                         <local:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Direction="{Binding DataObject.DIR_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Direction2="{Binding DataObject.DIR2_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Direction="{Binding DataObject.Value.DIR_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Direction2="{Binding DataObject.Value.DIR2_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       City="POB_RECLAMA"
                                                       Country="PAIS_RECLAMA"
                                                       CityAssistName="POBLACIONES_RECL"
                                                       CountryAssistName="PAIS_RECL"
                                                       ProvinceAssistName="PROV_RECL"
-                                                      Phone="{Binding DataObject.TELF_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Fax="{Binding DataObject.FAX_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      Email="{Binding DataObject.EMAIL_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Phone="{Binding DataObject.Value.TELF_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Fax="{Binding DataObject.Value.FAX_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Email="{Binding DataObject.Value.EMAIL_RECLAMA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       MinWidth="400"
                                                       ProvinceSourceView="{Binding ProvinceDto2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1014,10 +1019,10 @@
                                     </GroupBox>
                                 </WrapPanel>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                    <GroupBox Header="Modo de Comunicación de Pedidos">
+                                    <GroupBox Header="{Binding lmodocomunicaciondepedido, Source={StaticResource ResourceLanguage}}">
                                         <local:CommunicationOrder MinWidth="400"></local:CommunicationOrder>
                                     </GroupBox>
-                                    <GroupBox Header="Dirección de Devolución">
+                                    <GroupBox Header="{Binding ldirecciondevolucion, Source={StaticResource ResourceLanguage}}">
                                         <local:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Direction="{Binding DataObject.DIR_DEVO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Direction2="{Binding DataObject.DIR2_DEVO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1044,7 +1049,7 @@
                         </StackPanel>
 
                     </TabItem>
-                    <TabItem Header="Delegaciones">
+                    <TabItem Header="{Binding ldelegaciones, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
                             <Grid>
                                 <Grid.Resources>
@@ -1206,7 +1211,7 @@
                                                    MappingName="OrderID"
                                 -->
 
-                                            <Syncfusion:GridTextColumn HeaderText="Codigo" 
+                                            <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
                                                                MappingName="BranchId" 
                                                                TextAlignment="Left"
                                                                AllowFiltering="True"
@@ -1214,7 +1219,7 @@
                                                                FilterPopupStyle="{StaticResource DelegationCodeStyle}"
                                                                AllowEditing="True"
                                                                AllowGrouping="True"/>
-                                            <Syncfusion:GridTemplateColumn HeaderText="Delegacion" MappingName="Branch"
+                                            <Syncfusion:GridTemplateColumn HeaderText="{Binding ldelegacion, Source={StaticResource ResourceLanguage}}" MappingName="Branch"
                                                                    FilterPopupStyle="{StaticResource DelegationCodeStyle}">
                                                 <Syncfusion:GridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -1239,13 +1244,13 @@
                                                     </DataTemplate>
                                                 </Syncfusion:GridTemplateColumn.EditTemplate>
                                             </Syncfusion:GridTemplateColumn>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Dirección" MappingName="Address"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Dirección 2" MappingName="Address2"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Telefono " MappingName="Phone"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Telefono 2" MappingName="Phone2"/>
-                                            <Syncfusion:GridTextColumn HeaderText="Email" MappingName="Email"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Provincia" MappingName="Provincia.Name"/>
-                                            <Syncfusion:GridTextColumn HeaderText="Pais" MappingName="Provincia.Pais"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Address"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding ldireccion2, Source={StaticResource ResourceLanguage}}" MappingName="Address2"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding ltelefono2, Source={StaticResource ResourceLanguage}}" MappingName="Phone2"/>
+                                            <Syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Name"/>
+                                            <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Pais"/>
                                         </Syncfusion:SfDataGrid.Columns>
                                         <!--
                             <i:Interaction.Behaviors>
@@ -1271,7 +1276,7 @@
                             </Grid>
                         </ScrollViewer>
                     </TabItem>
-                    <TabItem Header="Contactos">
+                    <TabItem Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
                             <Grid>
                                 <Grid.Resources>
@@ -1434,7 +1439,7 @@
                                 -->
 
 
-                                            <Syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="ContactName"
+                                            <Syncfusion:GridTemplateColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"
                                                                    FilterPopupStyle="{StaticResource ContactCodeStyle}">
                                                 <Syncfusion:GridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -1459,51 +1464,51 @@
                                                     </DataTemplate>
                                                 </Syncfusion:GridTemplateColumn.EditTemplate>
                                             </Syncfusion:GridTemplateColumn>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="NIF" MappingName="Nif"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Cargo" MappingName="Responsability"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Telefono" MappingName="Telefono"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Movil" MappingName="Movil"/>
-                                            <Syncfusion:GridTextColumn HeaderText="Email" MappingName="Email"/>
-                                            <Syncfusion:GridDateTimeColumn HeaderText="Fax" MappingName="Fax"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}" MappingName="Responsability"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Telefono"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" MappingName="Movil"/>
+                                            <Syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
+                                            <Syncfusion:GridDateTimeColumn HeaderText="{Binding lfax, Source={StaticResource ResourceLanguage}}" MappingName="Fax"/>
                                         </Syncfusion:SfDataGrid.Columns>
                                     </Syncfusion:SfDataGrid>
                                 </StackPanel>
                             </Grid>
                         </ScrollViewer>
                     </TabItem>
-                    <TabItem Name="Evaluation" Header="Evaluación">
+                    <TabItem Name="Evaluation" Header="{Binding levaluacion, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
 
                             <StackPanel Orientation="Vertical">
-                                <GroupBox Header="Criterios de Evaluacion">
+                                <GroupBox Header="{Binding lcriteriodeevaluacion, Source={StaticResource ResourceLanguage}}">
                                     <WrapPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical">
-                                            <CheckBox Name="Survey" Content="Cuestionario"></CheckBox>
+                                            <CheckBox Name="Survey" Content="{Binding lcuestionario, Source={StaticResource ResourceLanguage}}"></CheckBox>
                                         </StackPanel>
-                                        <CheckBox Margin="40, 0, 0, 0" Name="ExclusiveProvider" Content="Exclusividad">
+                                        <CheckBox Margin="40, 0, 0, 0" Name="ExclusiveProvider" Content="{Binding lexclusividad, Source={StaticResource ResourceLanguage}}">
 
                                         </CheckBox>
-                                        <CheckBox Margin="40, 0, 0, 0" Name="HistoricProvider" Content="Histórico">
+                                        <CheckBox Margin="40, 0, 0, 0" Name="HistoricProvider" Content="{Binding lhistorico, Source={StaticResource ResourceLanguage}}">
 
                                         </CheckBox>
-                                        <CheckBox Margin="40, 0, 0, 0" Name="ChallengeProvider" Content="Prueba">
+                                        <CheckBox Margin="40, 0, 0, 0" Name="ChallengeProvider" Content="{Binding lprueba, Source={StaticResource ResourceLanguage}}">
 
                                         </CheckBox>
-                                        <CheckBox Margin="40, 0, 0, 0" Name="CertifiedProvider" Content="Certificado u Homologación">
+                                        <CheckBox Margin="40, 0, 0, 0" Name="CertifiedProvider" Content="{Binding lcertificadohomologacion, Source={StaticResource ResourceLanguage}}">
 
                                         </CheckBox>
-                                        <CheckBox Margin="40, 0, 0, 0" Name="NoConfirmityProvider" Content="Numero Maximo No conformidades">
+                                        <CheckBox Margin="40, 0, 0, 0" Name="NoConfirmityProvider" Content="{Binding lnumeromaximo, Source={StaticResource ResourceLanguage}}">
 
                                         </CheckBox>
-                                        <Label Margin="40, 0, 0, 0" Content="F.Aprobación"></Label>
+                                        <Label Margin="40, 0, 0, 0" Content="{Binding lfaprobacion, Source={StaticResource ResourceLanguage}}"></Label>
                                         <DatePicker Name="ProviderApproveDate"></DatePicker>
-                                        <Label Margin="40, 0, 0, 0" Content="F.Validez"></Label>
+                                        <Label Margin="40, 0, 0, 0" Content="{Binding lfvalidez, Source={StaticResource ResourceLanguage}}"></Label>
                                         <DatePicker Name="ProviderValidDate"></DatePicker>
                                     </WrapPanel>
                                 </GroupBox>
-                               <GroupBox Header="Evaluaction">
+                                <GroupBox Header="{Binding lfevaluacion, Source={StaticResource ResourceLanguage}}">
                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                        <TextBlock Grid.Row="2" Margin="10 0" Text="Evaluacion Completa de Servicio : "/>
+                                        <TextBlock Grid.Row="2" Margin="10 0" Text="{Binding lcompletaeval, Source={StaticResource ResourceLanguage}}"/>
                                         <Syncfusion:SfRating  Value="2" ItemsCount="8" x:Name="SupplierRating" HorizontalAlignment="Left"
                                                          Precision="{Binding DataObject.PrecisionDto,Mode=TwoWay}"
                                                          

@@ -29,14 +29,14 @@
                         </kc:DataDatePicker>
 
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Importe" Width="50" Margin="5,5,5,0"></TextBlock>
+                            <TextBlock Text="{Binding limporte, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"></TextBlock>
                             <TextBox Width="100" Height="25"
                                      kc:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      kc:ControlExt.DataSourcePath="{Binding DataSourcePath2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                      kc:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </StackPanel>
-                        <TextBlock Text="Pagado"></TextBlock>
+                        <TextBlock Text="{Binding lpagado, Source={StaticResource ResourceLanguage}}"></TextBlock>
                         <kc:DataFieldCheckBox 
                         kc:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.DataSourcePath="{Binding DataSourcePath3, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

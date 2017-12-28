@@ -22,7 +22,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  UpperBarView model.
     /// </summary>
-    public class UpperBarViewModel : UpperBarViewModelBase, IDisposable
+    public class UpperBarViewModel : UpperBarViewModelBase, IEventObserver, IDisposable
     {
         public const string Name = "MasterModule.UpperBarViewModel";
         private IEnumerable<TIPOCOMI> _tipocomis = new List<TIPOCOMI>();
@@ -50,6 +50,7 @@ namespace MasterModule.ViewModels
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             MailBoxHandler += MailBoxHandlerMethod;
             EventManager.RegisterMailBox(Name, MailBoxHandler);
+            EventManager.RegisterObserver(this);
             // initialize the mapper to the automap for the upper view model.
             InitMapping();
         }
@@ -208,7 +209,7 @@ namespace MasterModule.ViewModels
           
             PathCode = "NUM_COMI";
             PathPerson = "NOMBRE";
-            LabelTypeSearch = "Tipo.Comm.";
+            LabelTypeSearch = KarveLocale.Properties.Resources.UpperBarViewModel_HandleCommission_TipoComm;
             DataFieldSearch = "TIPOCOMI";
             AssistDataFieldFirst = "NUM_TICOMI";
             AssistDataFieldSecond = "NOMBRE";
@@ -274,6 +275,21 @@ namespace MasterModule.ViewModels
             if (currentValue != null)
             {
                 DataObject = currentValue;
+            }
+        }
+
+        public string UniqueId { get; set; }
+        /// <summary>
+        ///  Incoming Payload.
+        /// </summary>
+        /// <param name="payload">Pyaload</param>
+        public void IncomingPayload(DataPayLoad payload)
+        {
+            // I shall detect the culture change.
+            if (payload.PayloadType == DataPayLoad.Type.CultureChange)
+            {
+                // ok a culture change is happening. So i need to refresh the property.
+                LabelTypeSearch = KarveLocale.Properties.Resources.UpperBarViewModel_HandleCommission_TipoComm;
             }
         }
     }
