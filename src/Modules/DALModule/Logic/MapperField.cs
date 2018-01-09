@@ -44,8 +44,8 @@ namespace DataAccessLayer.Logic
         public ContactsDto Convert(ContactsComiPoco source, ContactsDto destination, ResolutionContext context)
         {
             ContactsDto contactsDto = new ContactsDto();
-            contactsDto.CommissionId = source.COMISIO;
-            contactsDto.ContactId = source.CONTACTO;
+            contactsDto.ContactsKeyId = source.COMISIO;
+            contactsDto.ContactId = source.CONTACTO.ToString();
             contactsDto.ContactName = source.NOM_CONTACTO;
             contactsDto.Nif = source.NIF;
             contactsDto.Responsability = source.percargos.NOMBRE;
@@ -68,7 +68,7 @@ namespace DataAccessLayer.Logic
         public BranchesDto Convert(ComiDelegaPoco source, BranchesDto destination, ResolutionContext context)
         {
             BranchesDto branchesDto = new BranchesDto();
-            branchesDto.BranchId = source.cldIdDelega;
+            branchesDto.BranchId = source.cldIdDelega.ToString();
             branchesDto.Branch = source.cldDelegacion;
             branchesDto.Province.Code = source.PROV.SIGLAS;
             branchesDto.Province.Name = source.PROV.PROV;
@@ -80,6 +80,71 @@ namespace DataAccessLayer.Logic
             branchesDto.Email = source.cldEMail;
             branchesDto.City = source.cldPoblacion;
             return branchesDto;
+
+        }
+    }
+
+    public class ExtendedProContactsConvert : ITypeConverter<ProContact, ProContactos>
+    {
+        public ProContactos Convert(ProContact source, ProContactos destination, ResolutionContext context)
+        {
+            ProContactos proContactos = new ProContactos();
+            proContactos.ccoCargo = source.Cargo;
+            proContactos.ccoDepto = source.Dipartimento;
+            proContactos.ccoFax = source.Fax;
+            proContactos.ULTMODI = source.UltimaModifica;
+            proContactos.ccoIdCliente = source.ccoIdCliente;
+            proContactos.ccoMail = source.Email;
+            proContactos.ccoMovil = source.Movil;
+            proContactos.ccoFax = source.Fax;
+            proContactos.ccoTelefono = source.Telefono;
+            return proContactos;
+        }
+    }
+    public class ContactToProContactosConverter : ITypeConverter<ContactsDto, ProContactos>
+    {
+        public ProContactos Convert(ContactsDto source, ProContactos destination, ResolutionContext context)
+        {
+            ProContactos contacts = new ProContactos();
+            contacts.ccoFax = source.Fax;
+            if (source.ContactName == null)
+            {
+                source.ContactName = String.Empty;
+            }
+            contacts.ccoContacto = source.ContactName;
+            contacts.ccoIdContacto = source.ContactId;
+            contacts.ccoIdDelega = source.CurrentDelegation;
+            contacts.ccoTelefono = source.Telefono;
+            contacts.ccoMail = source.Email;
+            contacts.ccoMovil = source.Movil;
+            contacts.ccoCargo = source.Responsability;
+            contacts.ccoIdCliente = source.ContactsKeyId;
+            
+            return contacts;
+
+        }
+    }
+    public class ProContactsConverter : ITypeConverter<ProContactos, ContactsDto>
+    {
+        public ContactsDto Convert(ProContactos source, ContactsDto destination, ResolutionContext context)
+        {
+            ContactsDto contacts = new ContactsDto();
+            contacts.ContactId = source.ccoIdContacto;
+            contacts.ContactName = source.ccoContacto;
+           /*
+            branchesDto.BranchId = source.cldIdDelega.ToString();
+            branchesDto.Branch = source.cldDelegacion;
+            branchesDto.Province.Code = source.PROV.SIGLAS;
+            branchesDto.Province.Name = source.PROV.PROV;
+            branchesDto.Province.Country = source.PROV.PAIS;
+            branchesDto.Address = source.cldDireccion1;
+            branchesDto.Address2 = source.cldDireccion2;
+            branchesDto.Phone = source.cldTelefono1;
+            branchesDto.Phone2 = source.cldTelefono2;
+            branchesDto.Email = source.cldEMail;
+            branchesDto.City = source.cldPoblacion;
+           */
+            return contacts;
 
         }
     }
@@ -198,7 +263,8 @@ namespace DataAccessLayer.Logic
             {
                 comiPoco =  context.Items["POCO"] as IEnumerable<ContactsComiPoco>;
             }
-            ContactsComiPoco contacts = comiPoco.FirstOrDefault(c => c.CONTACTO == source.ContactId);
+            int contactIdentifier = Int32.Parse(source.ContactId);
+            ContactsComiPoco contacts = comiPoco.FirstOrDefault(c => c.CONTACTO == contactIdentifier);
             comiContact.COMISIO = idComi;
             comiContact.NOM_CONTACTO = source.ContactName;
             comiContact.EMAIL = source.Email;
@@ -236,7 +302,7 @@ namespace DataAccessLayer.Logic
         public LanguageDto Convert(IDIOMAS source, LanguageDto destination, ResolutionContext context)
         {
             LanguageDto languageDto = new LanguageDto();
-            languageDto.Numero = source.CODIGO;
+            languageDto.Codigo= source.CODIGO.ToString();
             languageDto.Nombre = source.NOMBRE;
             return languageDto;
         }
@@ -257,12 +323,12 @@ namespace DataAccessLayer.Logic
     /// <summary>
     /// POCO to Dto converter for the commission type object
     /// </summary>
-    public class TipoCommisionConverter : ITypeConverter<TIPOCOMISION, CommissionTypeDto>
+    public class TipoCommisionConverter : ITypeConverter<TIPOCOMI, CommissionTypeDto>
     {
-        public CommissionTypeDto Convert(TIPOCOMISION source, CommissionTypeDto destination, ResolutionContext context)
+        public CommissionTypeDto Convert(TIPOCOMI source, CommissionTypeDto destination, ResolutionContext context)
         {
             CommissionTypeDto commisiDto = new CommissionTypeDto();
-            commisiDto.Codigo = source.NUM_SOBREQ;
+            commisiDto.Codigo = source.NUM_TICOMI;
             commisiDto.Nombre = source.NOMBRE;
             return commisiDto;
         }
@@ -275,7 +341,7 @@ namespace DataAccessLayer.Logic
     {
         public COMI_DELEGA Convert(BranchesDto source, COMI_DELEGA destination, ResolutionContext context)
         {
-            string idComi = "0";
+            string idComi = "";
             if (context.Items.ContainsKey("RefId"))
             {
                 idComi = context.Items["RefId"] as string;
@@ -283,14 +349,24 @@ namespace DataAccessLayer.Logic
             
             COMI_DELEGA dest = new COMI_DELEGA();
             dest.cldDelegacion = source.Branch;
-            dest.ULTMODI = DateTime.Now.ToString();
             dest.cldDireccion1 = source.Address;
             dest.cldDireccion2 = source.Address2;
+
             dest.cldEMail = source.Email;
-            dest.cldIdCOMI = idComi;
-            dest.cldIdProvincia = source.Province.Code;
+            if (string.IsNullOrEmpty(idComi))
+            {
+                dest.cldIdCOMI = source.BranchKeyId;
+            }
+            else
+            {
+                dest.cldIdCOMI = idComi;
+            }
+            if (source.Province != null)
+            {
+                dest.cldIdProvincia = source.Province.Code;
+            }
             dest.cldPoblacion = source.City;
-            dest.cldIdDelega = source.BranchId;
+            dest.cldIdDelega = int.Parse(source.BranchId);
             return dest;
         }
     }
@@ -346,7 +422,7 @@ namespace DataAccessLayer.Logic
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TIPOCOMISION, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
+                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
                 cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
@@ -360,12 +436,35 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
                 cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
                 cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
+                cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
                 cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter() );
                 cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
                 cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+                cfg.CreateMap<FORMAS_PEDENT, DeliveringFormDto>().ConvertUsing(src =>
+                    {
+                        var model = new DeliveringFormDto();
+                        model.Codigo = src.CODIGO;
+                        model.Nombre = src.NOMBRE;
+                        return model;
+                    });
+                cfg.CreateMap<DeliveringFormDto, FORMAS_PEDENT>().ConvertUsing(src =>
+                {
+                    var model = new FORMAS_PEDENT();
+                    model.CODIGO = src.Codigo;
+                    model.NOMBRE = src.Nombre;
+                    return model;
+                });
+                cfg.CreateMap<PriceConditionDto, TL_CONDICION_PRECIO>().ConvertUsing(src =>
+                {
+                    var model = new TL_CONDICION_PRECIO();
+                    model.CODIGO = src.Codigo;
+                    model.NOMBRE = src.Nombre;
+                    model.DESCRIPCION = src.Description;
+                    return model;
+                });
                 cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
                 {
                     var model = new CompanyDto();
@@ -381,6 +480,42 @@ namespace DataAccessLayer.Logic
                     var model = new CurrencyDto();
                     model.Codigo = src.CODIGO;
                     model.Nombre = src.NOMBRE;
+                    return model;
+                });
+                cfg.CreateMap<BranchesDto, ProDelega>().ConvertUsing(src =>
+                {
+                    var model = new ProDelega();
+                    model.cldIdCliente = src.BranchKeyId;
+                    model.cldDireccion1 = src.Address;
+                    model.cldDireccion2 = src.Address2;
+                    model.cldEMail = src.Email;
+                    model.cldIdDelega = src.BranchId.ToString();
+                    model.cldDelegacion = src.Branch;
+                    model.cldObservaciones = src.Notes;
+                    model.cldPoblacion = src.City;
+                    model.cldTelefono1 = src.Phone;
+                    model.cldTelefono2 = src.Phone2;
+                    if (src.Province != null)
+                    {
+                        model.cldIdProvincia = src.Province.Code;
+                    }
+                    return model;
+                });
+                cfg.CreateMap<ProDelega, BranchesDto>().ConvertUsing(src =>
+                {
+                    var model = new BranchesDto();
+                    model.Branch = src.cldDelegacion;
+                    model.BranchId = src.cldIdDelega;
+                    model.Address = src.cldDireccion1;
+                    model.Address2 = src.cldDireccion2;
+                    model.Email = src.cldEMail;
+                    model.City = src.cldPoblacion;
+                    model.Phone = src.cldTelefono1;
+                    model.Phone2 = src.cldTelefono2;
+                    model.Notes = src.cldObservaciones;
+                    model.BranchKeyId = src.cldIdDelega;
+                    model.Province = new ProvinciaDto();
+                    model.Province.Code = src.cldIdProvincia;
                     return model;
                 });
                 cfg.CreateMap<MESES, MonthsDto>().ConstructUsing(src =>
@@ -414,6 +549,16 @@ namespace DataAccessLayer.Logic
                     model.Pais = src.PAIS;
                     return model;
                 });
+                cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
+                {
+                    var model = new CompanyDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.Nif = src.NIF;
+                    model.Poblacion = src.POBLACION;
+                    model.CommercialName = src.NOMCOMER;
+                    return model;
+                });
                 cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
                 {
                     var model = new AccountDto();
@@ -434,6 +579,7 @@ namespace DataAccessLayer.Logic
             return Instance;
         }
     }
+
 
     public class OfficeConverter : ITypeConverter<OFICINAS, OfficeDtos>
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  UpperBarView model.
     /// </summary>
-    public class UpperBarViewModel : UpperBarViewModelBase, IEventObserver, IDisposable
+    public class UpperBarViewModel : UpperBarViewModelBase, IEventObserver, IDisposable, IDisposeEvents
     {
         public const string Name = "MasterModule.UpperBarViewModel";
         private IEnumerable<TIPOCOMI> _tipocomis = new List<TIPOCOMI>();
@@ -173,6 +174,11 @@ namespace MasterModule.ViewModels
                 }
             }
         }
+        public void DisposeEvents()
+        {
+            EventManager.DeleteMailBoxSubscription(_currentName);
+            EventManager.DeleteObserver(this);
+        }
         /// <summary>
         ///  This is a supplier handler.
         /// </summary>
@@ -278,6 +284,16 @@ namespace MasterModule.ViewModels
             }
         }
 
+        public override IEnumerable SourceView
+        {
+            get { return _sourceView; }
+            set
+            {
+                _sourceView = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public string UniqueId { get; set; }
         /// <summary>
         ///  Incoming Payload.
@@ -292,5 +308,7 @@ namespace MasterModule.ViewModels
                 LabelTypeSearch = KarveLocale.Properties.Resources.UpperBarViewModel_HandleCommission_TipoComm;
             }
         }
+
+        
     }
 }

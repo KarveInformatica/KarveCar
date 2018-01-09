@@ -92,7 +92,12 @@ namespace MasterModule.ViewModels
           
             StartAndNotify();
         }
-        
+
+        public override void DisposeEvents()
+        {
+            EventManager.DeleteMailBoxSubscription(EventSubsystem.CommissionAgentSummaryVm);
+        }
+
 
         /// <summary>
         ///  This function load a new item selected from the main grid.
@@ -112,7 +117,8 @@ namespace MasterModule.ViewModels
 
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
-            }
+                ActiveSubSystem();
+           }
         }
 
         /// <summary>
@@ -200,6 +206,7 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
         }
 
+        
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
@@ -250,6 +257,8 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             return retValue;
         }
+
+        
 
 
         // create a scope for navigation.

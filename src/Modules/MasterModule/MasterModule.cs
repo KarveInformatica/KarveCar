@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveControls;
 using MasterModule.Interfaces;
 using MasterModule.ViewModels;
 using MasterModule.Views;
@@ -36,9 +37,9 @@ namespace MasterModule
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
             _container.RegisterType<object, VehicleInfoView>(typeof(VehicleInfoView).FullName);
             _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
-            
-
-
+         //   _regionManager.RegisterViewWithRegion("PaymentDirectionRegion", typeof(DirectionInfo));
+         //   _regionManager.RegisterViewWithRegion("ClaimsDirectionRegion", typeof(DirectionInfo));
+         //   _regionManager.RegisterViewWithRegion("ReturnDirectionRegion", typeof(DirectionInfo));
         }
         public void Initialize()
         {

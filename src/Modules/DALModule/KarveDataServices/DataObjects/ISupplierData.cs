@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
@@ -93,5 +94,7 @@ namespace KarveDataServices.DataObjects
         IEnumerable<LanguageDto> LanguageDtos { get; set; }
         IEnumerable<CurrencyDto> CurrencyDtos { get; set; }
         IEnumerable<OfficeDtos> OfficeDtos { get; set; }
+        IEnumerable<CompanyDto> CompanyDtos { get; set; }
+        ObservableCollection<CityDto> CityDtos { get; set; }
     }
 }

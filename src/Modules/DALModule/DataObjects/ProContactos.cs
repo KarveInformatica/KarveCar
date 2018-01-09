@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ProContactos.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ProContactos")]
 	public class ProContactos 
 	{
 	
+       
 	/// <summary>
     ///  Set or get the ccoIdContacto property.
     /// </summary>
-    
+        [Key]
 		public string ccoIdContacto { get; set; }
  
 	/// <summary>

@@ -223,6 +223,11 @@ namespace MasterModule.ViewModels
             //    StringConstants = _stringConstants;
         }
 
+        public override void DisposeEvents()
+        {
+            throw new NotImplementedException();
+        }
+
         // fields for the expiration control.
         private ObservableCollection<UiComposedObject> expirationAssurance =
             new ObservableCollection<UiComposedObject>()

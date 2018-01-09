@@ -1279,7 +1279,7 @@
     <value>Contacto</value>
   </data>
   <data name="ldescuento" xml:space="preserve">
-    <value>Sconti</value>
+    <value>Descuento</value>
   </data>
   <data name="lnoenviarreservas" xml:space="preserve">
     <value>No Enviare Reservas</value>
@@ -1333,7 +1333,7 @@
     <value>Provincia</value>
   </data>
   <data name="ltipocomision" xml:space="preserve">
-    <value>Commision Type</value>
+    <value>Tipo Comisión</value>
   </data>
   <data name="lcliente" xml:space="preserve">
     <value>Cliente</value>
@@ -1534,7 +1534,7 @@
     <value>Oficina Asignada</value>
   </data>
   <data name="ldelegacion" xml:space="preserve">
-    <value>Delegación</value>
+    <value>Delegacion</value>
   </data>
   <data name="lsituacion" xml:space="preserve">
     <value>Situacion</value>
@@ -1597,7 +1597,7 @@
     <value>Recibo</value>
   </data>
   <data name="ldelegaciones" xml:space="preserve">
-    <value>Delegaciónes</value>
+    <value>Delegaciones</value>
   </data>
   <data name="lmostrarsóloincluidosalcotizartodoslosgrupos" xml:space="preserve">
     <value>Mostrar Sólo Incluidos al Cotizar Todos los Grupos</value>
@@ -1807,7 +1807,7 @@
     <value>Fecha Evaluacion</value>
   </data>
   <data name="ldirecciones" xml:space="preserve">
-    <value>Direcciónes</value>
+    <value>Direcciones</value>
   </data>
   <data name="lcontables" xml:space="preserve">
     <value>Contables</value>
@@ -1829,9 +1829,6 @@
   </data>
   <data name="Assistencia" xml:space="preserve">
     <value>Assistencia</value>
-  </data>
-  <data name="Delegacion" xml:space="preserve">
-    <value>Delegacion</value>
   </data>
   <data name="Contable" xml:space="preserve">
     <value>Contable</value>
@@ -2054,5 +2051,50 @@
   </data>
   <data name="ltipo" xml:space="preserve">
     <value>Tipo</value>
+  </data>
+  <data name="lacessorios" xml:space="preserve">
+    <value>Accessorios</value>
+  </data>
+  <data name="lfranquicia" xml:space="preserve">
+    <value>Franquicia</value>
+  </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>No Definido</value>
+  </data>
+  <data name="lcalcolamantenimiento" xml:space="preserve">
+    <value>Calcola Mantenimiento</value>
+  </data>
+  <data name="lfacturar" xml:space="preserve">
+    <value>Facturar</value>
+  </data>
+  <data name="limprimir" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="EmiteYPagaClientes" xml:space="preserve">
+    <value>Emite y Paga Clientes</value>
+  </data>
+  <data name="lextorno" xml:space="preserve">
+    <value>Extorno</value>
+  </data>
+  <data name="FechaMatriculacion" xml:space="preserve">
+    <value>Fecha de Matriculacion</value>
+  </data>
+  <data name="lfechabaja" xml:space="preserve">
+    <value>Fecha Alta</value>
+  </data>
+  <data name="lfechaalta" xml:space="preserve">
+    <value>Fecha Baja</value>
+  </data>
+  <data name="FechaFabricacion" xml:space="preserve">
+    <value>Fecha Fabricacion</value>
+  </data>
+  <data name="EmiteYPagaEmpresa" xml:space="preserve">
+    <value>Emite y Page Empresa</value>
+  </data>
+  <data name="EmiteEmpresaYPagaClientes" xml:space="preserve">
+    <value>Emite Empresa y Paga Clientes</value>
+  </data>
+  <data name="lfingarantia" xml:space="preserve">
+    <value>Fine Garantia</value>
   </data>
 </root>

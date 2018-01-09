@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
-              xmlns:mvvm1="http://prismlibrary.com/"
-               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:uiObjects="clr-namespace:KarveControls.UIObjects;assembly=KarveControls"
              mc:Ignorable="d" 
@@ -29,7 +29,7 @@
                 LabelTextWidth="100"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
-                SourceView="{Binding Path=ViaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SourceView="{Binding Path=DeliveringWayDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="VIA">
             </karveControls:DualFieldSearchBox>
             <StackPanel Orientation="Horizontal">
@@ -61,7 +61,7 @@
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
-                SourceView="{Binding Path=FormasDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SourceView="{Binding Path=DeliveringFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORMA_ENVIO">
             </karveControls:DualFieldSearchBox>
             <karveControls:DualFieldSearchBox
@@ -71,14 +71,14 @@
                 AssistTableName="TL_CONDICION_PRECIO"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
                 LabelText="{Binding lcondicionventa, Source={StaticResource ResourceLanguage}}"
-                AssistProperties="Numero, Nombre"
+                AssistProperties="Codigo, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                 LabelTextWidth="100"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
-                SourceView="{Binding Path=FormasDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SourceView="{Binding Path=PriceConditionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="CONDICION_VENTA">
             </karveControls:DualFieldSearchBox>
             <karveControls:DataArea

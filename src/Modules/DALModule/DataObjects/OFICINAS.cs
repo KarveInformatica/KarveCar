@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using KarveDapper.Extensions;
 
 namespace DataAccessLayer.DataObjects
 {
@@ -7,13 +8,14 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a OFICINAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("OFICINAS")]
 	public class OFICINAS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
 		public string CODIGO { get; set; }
  
 	/// <summary>

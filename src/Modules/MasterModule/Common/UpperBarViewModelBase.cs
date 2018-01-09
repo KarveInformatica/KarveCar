@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -11,7 +12,7 @@ namespace MasterModule.Common
 
     public abstract class UpperBarViewModelBase: BindableBase
     {
-        private object _sourceView= new object();
+        protected IEnumerable _sourceView= new List<object>();
         private object _dataObject = new object();
         protected IEventManager EventManager;
         protected IDataServices DataServices;
@@ -108,18 +109,12 @@ namespace MasterModule.Common
         ///  ChangedItem
         /// </summary>
         public ICommand ChangedItem { set; get; }
+
         /// <summary>
         ///  SourceView
         /// </summary>
-        public object SourceView
-        {
-            set
-            {
-                _sourceView = value;
-                RaisePropertyChanged();
-            }
-            get { return _sourceView; }
-        }
+        public abstract IEnumerable SourceView { set; get; }
+        
     }
 
 }

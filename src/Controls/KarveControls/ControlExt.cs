@@ -8,6 +8,8 @@ using System.Diagnostics.Contracts;
 using System.Windows.Interactivity;
 using ICommand = System.Windows.Input.ICommand;
 using Syncfusion.UI.Xaml.Grid;
+using Syncfusion.UI.Xaml.Grid.Helpers;
+using Syncfusion.UI.Xaml.Grid.ScrollAxis;
 
 namespace KarveControls
 {
@@ -18,6 +20,23 @@ namespace KarveControls
     {
 
         private static string lastTextBoxValue = "";
+
+        public enum GridOp
+        {
+            /// <summary>
+            ///  Insert a row
+            /// </summary>
+            Insert,
+            /// <summary>
+            ///  Delete a row
+            /// </summary>
+            Delete,
+            /// <summary>
+            ///  Update a row.
+            /// </summary>
+            Update,
+            Any
+        }
         /// <summary>
         ///  Email data type
         /// </summary>
@@ -93,6 +112,9 @@ namespace KarveControls
                 typeof(ICommand),
                 typeof(ControlExt),
                 new PropertyMetadata(null, PropertyChangedCb));
+
+
+        
        
         /// <summary>
         ///  This is a property changed util.
@@ -115,6 +137,21 @@ namespace KarveControls
                 objectName["ChangedValue"] = textBox.Text;
                 objectName["PreviousValue"] = lastTextBoxValue;
                 */
+            }
+            if (dependencyObject is SfDataGrid)
+            {
+                SfDataGrid currentDataGrid = dependencyObject as SfDataGrid;
+              //  currentDataGrid.CurrentCellEndEdit += CurrentDataGrid_CurrentCellEndEdit;
+                currentDataGrid.RecordDeleted += CurrentDataGrid_RecordDeleted;
+                currentDataGrid.AddNewRowInitiating += CurrentDataGrid_AddNewRowInitiating;
+                currentDataGrid.RowValidated += CurrentDataGrid_RowValidated;
+            }
+            if (dependencyObject is DataArea)
+            {
+                DataArea dataArea = dependencyObject as DataArea;
+                dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea, eventArgs);
+                dataArea.DataSource = GetDataSource(dataArea);
+                dataArea.DataSourcePath = GetDataSourcePath(dataArea);
             }
             if (dependencyObject is DataDatePicker)
             {
@@ -141,6 +178,97 @@ namespace KarveControls
                     // here we do the combox box.
                     comboBox.SelectionChanged += ComboBox_SelectionChanged;
 
+                }
+            }
+        }
+
+        private static void CurrentDataGrid_RowValidated(object sender, RowValidatedEventArgs e)
+        {
+            SfDataGrid dataGrid = sender as SfDataGrid;
+            var command = dataGrid?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            if ((command != null) && (dataGrid!=null))
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["DataObject"] = GetDataSource(dataGrid);
+                objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
+                objectName["ChangedValue"] = dataGrid.GetRecordAtRowIndex(e.RowIndex);
+                objectName["PreviousValue"] = lastChangedRow;
+                objectName["Operation"] = ControlExt.GridOp.Update;
+                objectName["DeletedItems"] = false;
+                objectName["LastRowId"] = dataGrid.GetLastRowIndex();
+                lastChangedRow = dataGrid.GetRecordAtRowIndex(e.RowIndex);
+                command.Execute(objectName);
+            }
+        }
+
+        private static void CurrentDataGrid_AddNewRowInitiating(object sender, AddNewRowInitiatingEventArgs e)
+        {
+           
+            SfDataGrid dataGrid = sender as SfDataGrid;
+            var command = dataGrid?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            if ((command != null) && (dataGrid !=null))
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["DataObject"] = GetDataSource(dataGrid);
+                objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
+                objectName["ChangedValue"] = e.NewObject;
+                objectName["PreviousValue"] = lastChangedRow;
+                objectName["Operation"] = ControlExt.GridOp.Insert;
+                objectName["DeletedItems"] = false;
+                objectName["LastRowId"] = dataGrid.GetLastRowIndex();
+                command.Execute(objectName);
+            }
+            // lastChangedRow = dataGrid.Get;
+        }
+
+        private static void CurrentDataGrid_RecordDeleted(object sender, RecordDeletedEventArgs e)
+        {
+            SfDataGrid dataGrid = sender as SfDataGrid;
+            RowColumnIndex rowColumnIndex = new RowColumnIndex();
+            bool valueName = dataGrid.View.IsAddingNew;
+
+            if (dataGrid != null)
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                changedValue = false;
+                var command = dataGrid.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {
+                    objectName["DataObject"] = GetDataSource(dataGrid);
+                    objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
+                    objectName["ChangedValue"] = e.Items;
+                    objectName["DeletedItems"] = true;
+                    objectName["Operation"] = ControlExt.GridOp.Insert;
+                    objectName["DeletedItems"] = false;
+                    objectName["LastRowId"] = dataGrid.GetLastRowIndex();
+                    command.Execute(objectName);
+                }
+            }
+        }
+
+        private static void CurrentDataGrid_CurrentCellEndEdit(object sender, CurrentCellEndEditEventArgs e)
+        {
+            SfDataGrid dataGrid = sender as SfDataGrid;
+           
+            if (dataGrid != null)
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                changedValue = false;
+                var command = dataGrid.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                if (command != null)
+                {       
+                    /*
+                  
+                    objectName["DataObject"] = GetDataSource(dataGrid);
+                    objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
+                    objectName["ChangedValue"] = dataGrid.GetRecordAtRowIndex(e.RowColumnIndex.RowIndex);
+                    objectName["PreviousValue"] = lastChangedRow;
+                    objectName["Operation"] = ControlExt.GridOp.Update;
+                    objectName["DeletedItems"] = false;
+                    objectName["LastRowId"] = dataGrid.GetLastRowIndex();
+                    lastChangedRow = dataGrid.GetRecordAtRowIndex(e.RowColumnIndex.RowIndex);
+                    command.Execute(objectName);
+                    */
                 }
             }
         }
@@ -209,11 +337,17 @@ namespace KarveControls
             if (dataFieldCheckBox != null)
             {
                 var command = dataFieldCheckBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                
                 if (command != null)
                 {
+                    var sourceObject = GetDataSource(dataFieldCheckBox);
+                    var sourceObjectPath = GetDataSourcePath(dataFieldCheckBox);
+                  
+                    ComponentUtils.SetPropValue(sourceObject, sourceObjectPath, dataFieldCheckBox.IsChecked);
+                    SetDataSource(dataFieldCheckBox, sourceObject);
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
-                    objectName["DataObject"] = GetDataSource(dataFieldCheckBox);
-                    objectName["DataSourcePath"] = GetDataSourcePath(dataFieldCheckBox);
+                    objectName["DataObject"] = sourceObject;
+                    objectName["DataSourcePath"] = sourceObjectPath;
                     objectName["ChangedValue"] = dataFieldCheckBox.IsChecked;
                     command.Execute(objectName);
                 }
@@ -307,6 +441,7 @@ namespace KarveControls
            
             var propValue = ComponentUtils.GetPropValue(sourceNew, path);
             int value = 0;
+           
             if (propValue != null)
             {
                 if (propValue is string)
@@ -314,11 +449,21 @@ namespace KarveControls
                     value = int.Parse(propValue as string);
                     dataFieldCheckBox.IsChecked = value != 0;
                 }
+
+                if (propValue is bool)
+                {
+                    dataFieldCheckBox.IsChecked = (bool)propValue;
+                }
+                if (propValue is byte)
+                {
+                    value = Convert.ToByte(propValue);
+                    dataFieldCheckBox.IsChecked = value != 0;
+                }
                 if (propValue.GetType().IsAssignableFrom(typeof(int)))
                 {
                     // here we have a tinyint.
                     value = Convert.ToInt32(propValue);
-                    dataFieldCheckBox.IsChecked = value == 0;
+                    dataFieldCheckBox.IsChecked = value != 0;
                    
                 }
             }
@@ -512,6 +657,7 @@ namespace KarveControls
                 typeof(string),
                 typeof(ControlExt),
                 new PropertyMetadata(string.Empty));
+        private static object lastChangedRow;
 
         /// <summary>
         ///  Set or Get the name of the table associated to this control.

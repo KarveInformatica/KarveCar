@@ -27,7 +27,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>4</value>
+        <value>5</value>
       </counter>
     </entity-ids>
     <diagrams>
@@ -40,7 +40,7 @@
   </counters>
   <alias-groups />
   <management uid="md-ca2a9c9156124ba181ff55adf33aa30e" name="" task-id-sequence="0">
-    <working-schedule uid="ws-6b7e5d91f53943af98f415868cd2a386" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
+    <working-schedule uid="ws-79103d29cf304eb583cd1f92b051922d" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
     <persons>
       <person id="P5e2cdb2f41d245909350ca1f09521cd9">
         <first-name />
@@ -50,7 +50,7 @@
         <phone-number />
         <description />
         <color>#00000000</color>
-        <working-schedule uid="ws-a44239da62824c3ca8c5eb60fb516911" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
+        <working-schedule uid="ws-0e5c35ca9bb845fa91f9a9758bc83404" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
       </person>
     </persons>
     <teams />
@@ -163,7 +163,7 @@
             <layout ax="1022" ay="356" awidth="140" aheight="118" x="1022" y="356" width="140" height="118" />
           </item>
           <item id="di808825180642969403" iid="6b91c950948440b490cea6b08feaf752" show-fields="false" creation-date="11/15/2017 09:14:04" order-index="4" type="entity">
-            <layout ax="665" ay="-5" awidth="140" aheight="160" x="665" y="-5" width="140" height="160" />
+            <layout ax="202" ay="-26" awidth="288" aheight="160" x="202" y="-26" width="288" height="160" />
           </item>
           <item id="di654947719590751526" iid="b53d2f9cdadf490c860a1ba59d09ecff" show-fields="false" creation-date="11/15/2017 09:14:18" order-index="5" type="entity">
             <layout ax="665" ay="196" awidth="140" aheight="160" x="665" y="196" width="140" height="160" />

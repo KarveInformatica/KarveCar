@@ -2,93 +2,40 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-
+using KarveDataServices.DataTransferObject;
+using NLog;
 namespace ToolBarModule.Command
 {
     internal class SupplierDataPayload : ToolbarDataPayload
     {
         private ISupplierDataServices _dataServices = null;
-        private IEventManager _manager = null;
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
 
-        public SupplierDataPayload()
-        {
-        }
-
         public event ErrorExecuting OnErrorExecuting;
-        /// <summary>
-        ///  This updates a data set.
-        /// </summary>
-        /// <param name="payLoad"></param>
-        /// <param name="set"></param>
-        /// <param name="queries"></param>
-        private void HandleDataSetUpdate(DataPayLoad payLoad, DataSet set, IDictionary<string, string> queries)
-        {
-            try
-            {
-                _dataServices.UpdateDataSet(queries, set);
-                payLoad.Queries = queries;
-                payLoad.Sender = ToolBarModule.NAME;
-                payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                NotifyEventManager(_manager, payLoad);
-            }
-            catch (Exception e)
-            {
-                OnErrorExecuting?.Invoke(e.Message);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="payLoad"></param>
-        /// <param name="dataSetList"></param>
-        /// <param name="queries"></param>
-        private void HandleDataSetListUpdate(DataPayLoad payLoad, IList<DataSet> dataSetList, IDictionary<string, string> queries)
-        {
-            foreach (DataSet set in dataSetList)
-            {
-                try
-                {
-                    _dataServices.UpdateDataSet(queries, set);
-                    DataPayLoad newSet = (DataPayLoad)payLoad.Clone();
-                    newSet.HasDataSetList = false;
-                    newSet.HasDataSet = true;
-                    payLoad.Sender = ToolBarModule.NAME;
-                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                    NotifyEventManager(_manager, payLoad);
-                }
-                catch (Exception e)
-                {
-                    OnErrorExecuting?.Invoke(e.Message);
-                }
-            }
-
-
-        }
-        private void NotifyEventManager(IEventManager manager, DataPayLoad payLoad)
-        {
-            manager.SendMessage(EventSubsystem.SuppliersSummaryVm, payLoad);
-        }
-
+        private Logger log = LogManager.GetCurrentClassLogger();
+        
+        
         /// <summary>
         /// This execute the payload and notify the event manager
         /// </summary>
         /// <param name="services">Services to be used</param>
         /// <param name="manager">Manager to be notified</param>
         /// <param name="payLoad">Payload to execute.</param>
-        public override void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad)
+        public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
 
             _dataServices= services.GetSupplierDataServices();
             _payload = payLoad;
             EventManager = manager;
             DataServices = services;
-            _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(payLoad), ExecutedPayloadHandler);
+            _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(_payload), ExecutedPayloadHandler);
+           // log.Log(LogLevel.Debug, "SDP:PobPago:" + supplierData.Value.POB_PAGO);
 
         }
        
@@ -96,7 +43,9 @@ namespace ToolBarModule.Command
         {
             bool result = false;
             bool isInsert = false;
-            ISupplierData supplierData = (ISupplierData)payLoad.DataObject;
+            ISupplierData supplierData = payLoad.DataObject as ISupplierData;
+           
+            log.Log(LogLevel.Debug, "SDP:PobPago:"+ supplierData.Value.POB_PAGO);
             // pre: DataServices and vehicle shall be present.
             if (DataServices == null)
             {
@@ -107,6 +56,11 @@ namespace ToolBarModule.Command
             {
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
+            }
+            var checkedSupplierData = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierData.Value.NUM_PROVEE);
+            if (checkedSupplierData.Value == null)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
             }
             switch (payLoad.PayloadType)
             {
@@ -122,12 +76,53 @@ namespace ToolBarModule.Command
                     result = await DataServices.GetSupplierDataServices().Save(supplierData).ConfigureAwait(true);
                     break;
                 }
+                case DataPayLoad.Type.UpdateInsertGrid:
+                {
+                    isInsert = true;
+                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
+                   // this shall be moved to supplier dataservices.
+                    if (branches != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<BranchesDto, ProDelega>(branches).ConfigureAwait(false);
+                    }
+                    ContactsDto contactsDto= payLoad.RelatedObject as ContactsDto;
+                    if (contactsDto != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<ContactsDto, ProContactos>(contactsDto).ConfigureAwait(false);
+                    }
+                    break;
+                }
+                case DataPayLoad.Type.DeleteGrid:
+                {
+                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
+                    
+                    if (branches != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, ProDelega>(branches);
+                        
+                    }
+                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
+                    if (contactsDto != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, ProContactos>(contactsDto);
+                    }
+                    break;
+                }
+               
             }
             if (result)
             {
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                CurrentPayload = payLoad;
+                CurrentPayload = new DataPayLoad();
+                CurrentPayload.PayloadType = DataPayLoad.Type.UpdateView;
+                CurrentPayload.DataObject = supplierData;
+                log.Log(LogLevel.Debug, "SDP:PobPago:" + supplierData.Value.POB_PAGO);
+                CurrentPayload.Sender = ToolBarModule.NAME;
+                CurrentPayload.HasDataObject = true;
+                CurrentPayload.Subsystem = payLoad.Subsystem;
+
+
             }
             else
             {

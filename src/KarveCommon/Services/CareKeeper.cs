@@ -1,14 +1,22 @@
 ﻿using System;
 using KarveCommon.Command;
 using System.Collections.Generic;
+using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveCommon.Services
 {
-    public class CareKeeper: ICareKeeperService
+    public class CareKeeper : ICareKeeperService
     {
         private CommandHistory _history;
         private DataPayLoad _payLoad;
 
+        private enum State
+            {
+             Init, Scheduling, Executing
+        };
+
+        private State _currentState;
         private bool _scheduledPayLoad;
         //private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
         // object path
@@ -16,13 +24,17 @@ namespace KarveCommon.Services
         {
             _history = CommandHistory.GetInstance();
             _scheduledPayLoad = false;
+            _currentState = State.Init;
+            
         }
-        public void Do(CommandWrapper w)
+        public DataPayLoad Do(CommandWrapper w)
         {
+           _currentState = State.Executing;
             w.Parameters = _payLoad;
             _history.DoCommand(w);
             _scheduledPayLoad = false;
-
+            _currentState = State.Init;
+            return _payLoad;
         }
 
         public void Undo()
@@ -50,8 +62,12 @@ namespace KarveCommon.Services
         }
         public void Schedule(DataPayLoad payload)
         {
-            _payLoad = payload;
-            _scheduledPayLoad = true;
+            if (_currentState != State.Executing)
+            {
+                _payLoad = payload;
+                _scheduledPayLoad = true;
+                _currentState = State.Executing;
+            }
         }
     }
 }

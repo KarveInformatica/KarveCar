@@ -238,6 +238,7 @@ namespace ToolBarModule
                     {
                         ValidationRules = this._validationRules
                     };
+                    // here the exception handling shall bubble and set the insert when occurs.
                     _careKeeper.Do(new CommandWrapper(dataCommand));
                     _states = ToolbarStates.None;
                 }
@@ -246,11 +247,14 @@ namespace ToolBarModule
                     SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
                         this._eventManager, this._configurationService);
                     _careKeeper.Do(new CommandWrapper(dataCommand));
-                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                    _eventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
-                    //DeliverIncomingNotify(payLoad.Subsystem, payLoad);
+                  /*  
+                   *  payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                   *  DeliverIncomingNotify(payLoad.Subsystem, payLoad);
+                   */
                 }
-
+                payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                //_eventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
+                DeliverIncomingNotify(payLoad.Subsystem, payLoad);
             }
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
@@ -325,6 +329,13 @@ namespace ToolBarModule
                     {
                         break;
                     }
+                case DataPayLoad.Type.UpdateInsertGrid:
+                {
+                    this.CurrentSaveImagePath = currentSaveImageModified;
+                    this.IsSaveEnabled = true;
+                        _careKeeper.Schedule(payload);
+                    break;
+                }
                 // a subsystem has updated a new window with data.
                 case DataPayLoad.Type.Insert:
                 case DataPayLoad.Type.Update:

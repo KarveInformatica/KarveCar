@@ -107,6 +107,11 @@ namespace KarveControls.Generic
                               !string.IsNullOrEmpty(propName));
 
 
+
+            if (string.IsNullOrEmpty(propName))
+            {
+                return;
+            }
             var tmp = obj;
             string[] nameParts = propName.Split('.');
             if (nameParts.Length == 1)

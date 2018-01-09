@@ -82,11 +82,15 @@ namespace ToolBarModule.Command
         {
             IDictionary<string, DataPayLoad> filterPayload = new Dictionary<string, DataPayLoad>();
             IDictionary<string, DataPayLoad> param = parameters as IDictionary<string, DataPayLoad>;
-            foreach (KeyValuePair<string, DataPayLoad> keypair in param)
+            if (param != null)
             {
-                if (keypair.Key.Contains(DataPayLoad.Type.Insert.ToString()) || keypair.Key.Contains(DataPayLoad.Type.Update.ToString()))
+                foreach (KeyValuePair<string, DataPayLoad> keypair in param)
                 {
-                    filterPayload.Add(keypair.Key, keypair.Value);
+                    if (keypair.Key.Contains(DataPayLoad.Type.Insert.ToString()) ||
+                        keypair.Key.Contains(DataPayLoad.Type.Update.ToString()))
+                    {
+                        filterPayload.Add(keypair.Key, keypair.Value);
+                    }
                 }
             }
             return filterPayload;
@@ -106,7 +110,7 @@ namespace ToolBarModule.Command
                     if (payLoadHandlers.ContainsKey(payLoad.Subsystem))
                     {
                         IDataPayLoadHandler handler = payLoadHandlers[payLoad.Subsystem];
-                        handler.ExecutePayload(_dataServices, _eventManager, payLoad);
+                        handler.ExecutePayload(_dataServices, _eventManager, ref payLoad);
                     }
                     else
                     {

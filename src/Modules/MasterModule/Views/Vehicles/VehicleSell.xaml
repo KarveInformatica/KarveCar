@@ -18,7 +18,7 @@
         </Grid.Resources>
 
 
-        <GroupBox Grid.Row="0" Header="Venta Vehiculo">
+        <GroupBox Grid.Row="0" Header="{Binding StringConstants_VentaVehiculo, Source={StaticResource ResourceLanguage}}">
             <WrapPanel>
                 <kc:DualFieldSearchBox LabelText="{Binding StringConstants.Buyer}" 
                                        LabelTextWidth="100"

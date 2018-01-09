@@ -32,6 +32,7 @@ namespace MasterModule.ViewModels
         private ISettingsDataService _settings;
 
 
+
         /// <summary>
         ///  This is the vehicle control view model. 
         /// This is responsable for the opening new tabs.
@@ -116,7 +117,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void NewItem()
         {
-            string name = "NuevoVehiculos";
+            string name = KarveLocale.Properties.Resources.VehiclesControlViewModel_NewItem_NuevoVehiculos;
             string codigo = DataServices.GetSupplierDataServices().GetNewId();
             VehicleInfoView view = _container.Resolve<VehicleInfoView>();
             string viewNameValue = name + "." + codigo;
@@ -193,6 +194,11 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             return retValue;
         
+        }
+
+        public override void DisposeEvents()
+        {
+           /// throw new NotImplementedException();
         }
     }
 }

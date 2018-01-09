@@ -53,8 +53,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
@@ -254,10 +252,15 @@
     <Compile Include="DataFieldItemsControl\KarveExt.cs" />
     <Compile Include="DataField\DataField.cs" />
     <Compile Include="DataField\DataFieldEventArgs.cs" />
+    <Compile Include="DirectionInfo\DirectionInfo.xaml.cs">
+      <DependentUpon>DirectionInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
+    <Compile Include="GridColumnExt.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
     </Compile>
@@ -378,6 +381,10 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
+    <Page Include="DirectionInfo\DirectionInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -439,8 +446,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Resource Include="Images\searchImage.png" />
+    <Resource Include="Images\phone.png" />
+    <Resource Include="Images\fax.png" />
+    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\email.png" />
     <Content Include="KarveCommon.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
+    <Content Include="KarveDataServices.csproj" />
     <Content Include="KarveGrid\KarveGrid.csproj" />
     <Resource Include="KarveGrid\obj\Debug\KarveGrid.csproj.FileListAbsolute.txt" />
     <Content Include="KarveGrid\obj\Debug\KarveGrid.dll" />
@@ -463,9 +475,17 @@
     <None Include="PhotoFrame\.vs\PhotoFrameSample\v15\.suo" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\DALModule\KarveDataServices\KarveDataServices.csproj">
+      <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
+      <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

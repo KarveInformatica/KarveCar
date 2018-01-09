@@ -79,5 +79,10 @@ namespace MasterModule.ViewModels
         {
             throw new NotImplementedException();
         }
+
+        public override void DisposeEvents()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

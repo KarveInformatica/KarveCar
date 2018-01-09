@@ -2419,4 +2419,49 @@
   <data name="ltipo" xml:space="preserve">
     <value>Typ</value>
   </data>
+  <data name="lacessorios" xml:space="preserve">
+    <value>Zubehör</value>
+  </data>
+  <data name="FechaMatriculacion" xml:space="preserve">
+    <value>Registrierungsdatum</value>
+  </data>
+  <data name="lfacturar" xml:space="preserve">
+    <value>Rechnung</value>
+  </data>
+  <data name="lfranquicia" xml:space="preserve">
+    <value>Franchising</value>
+  </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>Nicht definiert</value>
+  </data>
+  <data name="lcalcolamantenimiento" xml:space="preserve">
+    <value>Berechen Sie Wartung</value>
+  </data>
+  <data name="limprimir" xml:space="preserve">
+    <value>Drucken</value>
+  </data>
+  <data name="EmiteYPagaClientes" xml:space="preserve">
+    <value>Ausgabe und Bezahlung von Kunden</value>
+  </data>
+  <data name="lextorno" xml:space="preserve">
+    <value>Gliederung</value>
+  </data>
+  <data name="lfechabaja" xml:space="preserve">
+    <value>Registrierungsdatum</value>
+  </data>
+  <data name="lfechaalta" xml:space="preserve">
+    <value>Stornierungsdatum</value>
+  </data>
+  <data name="EmiteYPagaEmpresa" xml:space="preserve">
+    <value>Firma ausgeben und bezahlen</value>
+  </data>
+  <data name="EmiteEmpresaYPagaClientes" xml:space="preserve">
+    <value>FirmenAusgabe und Bezahlung von Kunden</value>
+  </data>
+  <data name="FechaFabricacion" xml:space="preserve">
+    <value>Herstellungsdatum</value>
+  </data>
+  <data name="lfingarantia" xml:space="preserve">
+    <value>Ende der Garantie</value>
+  </data>
 </root>

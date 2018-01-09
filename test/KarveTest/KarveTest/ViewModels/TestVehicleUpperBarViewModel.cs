@@ -234,5 +234,10 @@ namespace KarveTest.ViewModels
         {
             throw new NotImplementedException();
         }
+
+        public void DeleteObserver(IEventObserver observer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

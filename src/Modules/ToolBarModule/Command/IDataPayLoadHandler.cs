@@ -7,7 +7,7 @@ namespace ToolBarModule.Command
     internal interface IDataPayLoadHandler
     {
         event ErrorExecuting OnErrorExecuting;
-        void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad);
+        void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad);
       
     }
 }

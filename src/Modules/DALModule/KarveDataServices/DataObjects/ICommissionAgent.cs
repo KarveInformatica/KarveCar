@@ -26,6 +26,8 @@ namespace KarveDataServices.DataObjects
         ///  Data Transfer object for delegations.
         /// </summary>
         IEnumerable<BranchesDto> DelegationDto { set; get; }
+        /// A commission agent can be in one city. City data transfer object.
+        IEnumerable<CityDto> CityDtos { get; set; }
         /// <summary>
         /// This return the underlying database object COMISIO.
         /// We use this for avoiding any extensive wrapping of the object COMISIO.
@@ -46,13 +48,12 @@ namespace KarveDataServices.DataObjects
         /// </summary>
         IEnumerable<LanguageDto> LanguageDto { get; set; }
         /// <summary>
-        /// Commission Type Dtaa Transfer Object.
+        /// Commission Type Data Transfer Object.
         /// </summary>
         IEnumerable<CommissionTypeDto> CommisionTypeDto { get; set; }
         /// <summary>
         /// Clients Data Transfer Object.
         /// </summary>
-        
         IEnumerable<VendedorDto> VendedorDto { get; set; }
         /// <summary>
         /// Mercado Data Transfer Object

@@ -64,7 +64,7 @@
                                               AssistProperties="Codigo,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataFieldFirst="{Binding DataFieldSearch, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="TIPOCOMI"
                                               AssistTableName="{Binding AssistTable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               AssistDataFieldFirst="NUM_TICOMI"
                                               AssistDataFieldSecond="NOMBRE"

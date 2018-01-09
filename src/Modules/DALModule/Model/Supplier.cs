@@ -33,7 +33,7 @@ namespace DataAccessLayer.Model
     {
         private readonly ISqlExecutor _sqlExecutor;
 
-        private static Logger logger = LogManager.GetCurrentClassLogger();        
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         ///  This is the queryExecutro factory.
         /// </summary>
@@ -60,13 +60,13 @@ namespace DataAccessLayer.Model
             logger.Debug("Creating a new supplier with id" + id);
             ISupplierData data = new Supplier(_sqlExecutor, id);
             //SupplierDto dto = new SupplierDto();
-           // dto.NUM_PROVEE = id;
+            // dto.NUM_PROVEE = id;
             data.Valid = true;
-           //data.Value = dto;
+            //data.Value = dto;
             return data;
         }
 
-         /// <summary>
+        /// <summary>
         /// This retrieve a commission agent.
         /// </summary>
         /// <param name="fields">Fields to be selected in the db</param>
@@ -86,7 +86,7 @@ namespace DataAccessLayer.Model
 
 
     }
-    public class Supplier: DomainObject,ISupplierData
+    public class Supplier : DomainObject, ISupplierData
     {
         // TODO: Craft a query container, query builder.
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -94,30 +94,33 @@ namespace DataAccessLayer.Model
         private const string TipoProveSelect = "SELECT NUM_TIPROVE as Number, NOMBRE as Name, " +
                                                "USER as Account, " +
                                                "ULTMODI as LastModification FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'";
-        private const string ProvinciaSelect = "SELECT SIGLAS, PROV, PAIS  FROM PROVINCIA WHERE SIGLAS='{0}'";
-        private const string CompanySelect = " SELECT CODIGO, NOMBRE FROM SUBLICEN WHERE CODIGO='{0}'";
-
+        private const string ProvinciaSelectAll = "SELECT SIGLAS, PROV, PAIS  FROM PROVINCIA";
+        private const string CompanySelect = "SELECT CODIGO, NOMBRE FROM SUBLICEN WHERE CODIGO='{0}'";
+        private string _queryCity = "SELECT * FROM POBLACIONES";
+        // select * from ProContactos
+        private const string LanguageSelect = "SELECT CODIGO,NOMBRE FROM IDIOMAS";
         private const string OfficeSelect =
             " select CODIGO, NOMBRE, SUBLICEN, DIRECCION, POBLACION from oficinas WHERE CODIGO='{0}' AND SUBLICEN='{1}'";
-        private const string PaisSelect = "SELECT SIGLAS, PAIS FROM PAIS WHERE SIGLAS='{0}'";
-        
+        private const string PaisSelectAll = "SELECT SIGLAS, PAIS FROM PAIS";
+        private const string DeleteDelegaciones = "DELETE FROM ProDelega where cldIdCliente='{0}'";
+        private const string DeleteContactos = "DELETE FROM ProContactos where ccoIdCliente='{0}'";
         private const string BankSelect = "SELECT CODBAN, NOMBRE FROM BANCO WHERE CODBAN='{0}'";
         private const string AccountSelect = "SELECT CODIGO, DESCRIP FROM CU1";
         private const string PaymentFormSelect = "SELECT CODIGO, NOMBRE FROM FORMAS";
         private const string MonthsSelect = "SELECT NUMERO_MES, MES FROM MESES";
         private const string ViaSelect = "SELECT NUM_VIA, NOMBRE FROM VIAS WHERE NUM_VIA='{0}'";
         private const string CurrencySelect = "SELECT CODIGO, NOMBRE FROM DIVISAS";
-        private const string SupplierQuery = "SELECT PROVEE1.NUM_PROVEE as NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,CP," +
+        private const string SupplierQuery = "SELECT PROVEE1.NUM_PROVEE as NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,DIREC2,CP," +
                                              "PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3," +
-                                             "PROVEE2.DIA,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO," +
+                                             "PROVEE2.DIA,PROVEE2.PALBARAN, PROVEE2.INTRACO, PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO," +
                                              "POBLACION,PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA," +
-                                             "SUBLICEN,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA," +
+                                             "SUBLICEN,GESTION_IVA_IMPORTA,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA," +
                                              "MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN," +
-                                             "PROALB_COSTE_TRANSP,EXENCIONES_INT,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO," +
-                                             "CP_PAGO,PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO," +
-                                             "DIR2_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO, DIR_RECLAMA,DIR2_RECLAMA," +
-                                             "CP_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6," +
-                                             "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
+                                             "PROALB_COSTE_TRANSP,EXENCIONES_INT,CTALP,CONTABLE,CUGASTO,RETENCION,CTAPAGO,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO," +
+                                             "CP_PAGO,POB_PAGO, PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO," +
+                                             "DIR2_DEVO,POB_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO, DIR_RECLAMA,DIR2_RECLAMA," +
+                                             "CP_RECLAMA,POB_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6," +
+                                             "CTAINTRACOP,ctaintracoPRep FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
 
         private ISqlExecutor _sqlExecutor;
         private SupplierPoco _supplierValue;
@@ -128,7 +131,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<BanksDto> _banksDtos = new ObservableCollection<BanksDto>();
         private IEnumerable<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
         private IEnumerable<ViaDto> _viaDtos = new ObservableCollection<ViaDto>();
-        private IEnumerable<BranchesDto> _branchesDtos = new  ObservableCollection<BranchesDto>();
+        private IEnumerable<BranchesDto> _branchesDtos = new ObservableCollection<BranchesDto>();
         private IEnumerable<ContactsDto> _contactsDtos = new ObservableCollection<ContactsDto>();
         private IEnumerable<MonthsDto> _monthsDtos = new ObservableCollection<MonthsDto>();
         private IEnumerable<PaymentFormDto> _paymentFormDtos = new ObservableCollection<PaymentFormDto>();
@@ -138,7 +141,8 @@ namespace DataAccessLayer.Model
         private IEnumerable<CurrencyDto> _currencyDto = new ObservableCollection<CurrencyDto>();
         private IEnumerable<CompanyDto> _companyDtos = new ObservableCollection<CompanyDto>();
         private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
-        
+        private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
+        private IEnumerable<DeliveringFormDto> _deliveringFormDto;
 
         public Supplier(ISqlExecutor executor)
         {
@@ -157,18 +161,57 @@ namespace DataAccessLayer.Model
             _supplierDto.NUM_PROVEE = id;
             InitializeMapping();
         }
+        /// <summary>
+        ///  Move the mapping to a single mapper.DRY Principle. Dont repeat yourself.
+        /// </summary>
         public void InitializeMapping()
         {
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<SupplierPoco, SupplierDto>();
+                /*.ConvertUsing(src =>
+                {
+                    SupplierDto dto = new SupplierDto();
+                    dto.POB_PAGO = src.POB_PAGO;
+                    dto.ACTUAL = src.ACTUAL;
+                    dto.ALBARANES = src.ALBARANES;
+                    dto.APARTADOCORREOS = src.APARTADOCORREOS;
+                    dto.APELLIDO1 = src.APELLIDO1;
+                    dto.APELLIDO2 = src.APELLIDO1;
+                    dto.APROBADO_PR = src.APROBADO_PR;
+                    dto.AUTOFAC_MANTE = src.AUTOFAC_MANTE;
+                    dto.BANCO = src.BANCO;
+                    dto.BD_DESTINO = src.BD_DESTINO;
+                    dto.BPS_PROVE = src.BPS_PROVE;
+
+                    return dto;
+                });*/
+
                 cfg.CreateMap<SupplierDto, SupplierPoco>();
-                cfg.CreateMap<CU1, AccountDto>();
-                cfg.CreateMap<AccountDto,CU1>();
+                cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
+                    {
+                        var accountDto = new AccountDto();
+                        accountDto.Codigo = src.CODIGO;
+                        accountDto.Description = src.DESCRIP;
+                        accountDto.Cuenta = src.CC;
+                        return accountDto;
+                    }
+
+                    );
+                cfg.CreateMap<AccountDto, CU1>().ConvertUsing(src =>
+                     {
+                         var accountDto = new CU1();
+                         accountDto.CODIGO = src.Codigo;
+                         accountDto.DESCRIP = src.Description;
+                         return accountDto;
+                     }
+
+                );
+
                 cfg.CreateMap<BANCO, BanksDto>();
                 cfg.CreateMap<DIVISAS, CurrencyDto>();
-                cfg.CreateMap<BanksDto, BANCO>();
                 cfg.CreateMap<MESES, MonthsDto>();
+
                 cfg.CreateMap<FORMAS, PaymentFormDto>();
                 cfg.CreateMap<SupplierPoco, PROVEE1>().ConvertUsing<PocoToProvee1>();
                 cfg.CreateMap<SupplierPoco, PROVEE2>().ConvertUsing<PocoToProvee2>();
@@ -179,18 +222,59 @@ namespace DataAccessLayer.Model
                     provincia.PROV = src.Name;
                     return provincia;
                 });
+                cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(src =>
+                {
+                    var language = new LanguageDto();
+                    language.Nombre = src.NOMBRE;
+                    language.Codigo = Convert.ToString(src.CODIGO);
+                    return language;
+                });
+                cfg.CreateMap<BANCO, BanksDto>().ConvertUsing(
+                    src =>
+                    {
+                        var banks = new BanksDto();
+                        banks.Codigo = src.CODBAN;
+                        banks.Nombre = src.NOMBRE;
+                        banks.Swift = src.SWIFT;
+                        banks.UltimaModification = src.ULTMODI;
+                        banks.Usuario = src.USUARIO;
+                        return banks;
+                    }
+                );
+                
                 cfg.CreateMap<ProDelega, BranchesDto>().ConvertUsing(src =>
                 {
                     var branchesDto = new BranchesDto();
-                    branchesDto.BranchId = Convert.ToInt32(src.cldIdDelega);
+                    branchesDto.BranchId = src.cldIdDelega;
                     branchesDto.Address = src.cldDireccion1;
                     branchesDto.Address2 = src.cldDireccion2;
                     branchesDto.Branch = src.cldDelegacion;
                     branchesDto.City = src.cldPoblacion;
                     branchesDto.Email = src.cldEMail;
+                    branchesDto.Phone = src.cldTelefono1;
+                    branchesDto.Phone2 = src.cldTelefono2;
+                    branchesDto.BranchKeyId = src.cldIdCliente;
+                    branchesDto.Province = new ProvinciaDto();
+                    branchesDto.Province.Code = src.cldIdProvincia;
                     return branchesDto;
                 });
 
+                cfg.CreateMap<ProContact, ContactsDto>().ConvertUsing(src =>
+                {
+                    var contactDto = new ContactsDto();
+                    contactDto.Email = src.Email;
+                    contactDto.LastMod = src.UltimaModifica;
+                    contactDto.ContactId = src.ccoIdContacto;
+                    contactDto.ContactName = src.Nombre;
+                    contactDto.Fax = src.Fax;
+                    contactDto.Movil = src.Movil;
+                    contactDto.CurrentDelegation = src.Dipartimento;
+                    contactDto.Telefono = src.Telefono;
+                    contactDto.Responsability = src.Cargo;
+                    contactDto.ContactsKeyId = src.ccoIdCliente;
+
+                    return contactDto;
+                });
 
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(src =>
                 {
@@ -208,7 +292,7 @@ namespace DataAccessLayer.Model
                     provinciaDto.Name = src.PROV;
                     return provinciaDto;
                 });
-               
+
 
             });
             _supplierMapper = mapperConfiguration.CreateMapper();
@@ -245,16 +329,16 @@ namespace DataAccessLayer.Model
             }
         }
 
-    internal class PocoToProvee1 : ITypeConverter<SupplierPoco, PROVEE1>
-    {
-        public PROVEE1 Convert(SupplierPoco source, PROVEE1 destination, ResolutionContext context)
+        internal class PocoToProvee1 : ITypeConverter<SupplierPoco, PROVEE1>
         {
-            PROVEE1 supplier = new PROVEE1();
-            supplier.NUM_PROVEE = source.NUM_PROVEE;
-            Supplier.SetProperties(source, supplier);
-            return supplier;
+            public PROVEE1 Convert(SupplierPoco source, PROVEE1 destination, ResolutionContext context)
+            {
+                PROVEE1 supplier = new PROVEE1();
+                supplier.NUM_PROVEE = source.NUM_PROVEE;
+                Supplier.SetProperties(source, supplier);
+                return supplier;
+            }
         }
-    }
 
 
         public async Task<bool> DeleteAsyncData()
@@ -271,6 +355,13 @@ namespace DataAccessLayer.Model
                     {
                         value = await connection.DeleteAsync(proveedor1);
                         value = value && await connection.DeleteAsync(proveedor2);
+                        // delete branches 
+                        var queryString = string.Format(DeleteDelegaciones, proveedor1.NUM_PROVEE);
+                        var tmpValue = await connection.ExecuteAsync(queryString) > 0;
+                        value = value && tmpValue;
+                        queryString = string.Format(DeleteContactos, proveedor1.NUM_PROVEE);
+                        value = await connection.ExecuteAsync(queryString) > 0;
+                        // delete 
                         transactionScope.Complete();
                     }
                     catch (System.Exception e)
@@ -279,15 +370,15 @@ namespace DataAccessLayer.Model
                     }
                 }
             }
-            return true;
+            return value;
         }
 
         public async Task<bool> Save()
         {
             PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
-            PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco,PROVEE2>(_supplierValue);
+            PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
             provee1.NUM_PROVEE = provee2.NUM_PROVEE;
-            logger.Debug("Saving supplier " +  provee2.NUM_PROVEE);
+            logger.Debug("Saving supplier " + provee2.NUM_PROVEE);
 
             bool retValue = false;
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
@@ -302,6 +393,7 @@ namespace DataAccessLayer.Model
                         int ret = await connection.InsertAsync(provee1);
                         retValue = ret == 0;
                         ret = await connection.InsertAsync(provee2);
+                        retValue = retValue && await SaveContacts(connection);
                         transactionScope.Complete();
                         retValue = retValue && (ret == 0);
                     }
@@ -324,14 +416,88 @@ namespace DataAccessLayer.Model
             }
             return retValue;
         }
-    
 
+
+        public async Task<bool> SaveBranches(IDbConnection connection)
+        {
+            bool retValue = true;
+            string deleteAll = string.Format("DELETE FROM ProDelega WHERE cldIdCliente='{0}'",
+                this.Value.NUM_PROVEE);
+            await connection.ExecuteAsync(deleteAll);
+            IMapper tmpMapper = MapperField.GetMapper();
+            foreach (var branch in this.BranchesDtos)
+            {
+                ProDelega delega = tmpMapper.Map<BranchesDto, ProDelega>(branch);
+                delega.cldIdCliente = this.Value.NUM_PROVEE;
+                
+                try
+
+                {
+                    int value = await connection.InsertAsync(delega);
+                }
+                catch (System.Exception e)
+                {
+                    retValue = false;
+                    string message = "Transaction Scope Exception in Vehicle Insertion. Reason: " + e.Message;
+                    logger.Error(message);
+                    DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
+                    throw dataLayer;
+                }
+            }
+            return retValue;
+        }
+        /// <summary>
+        ///  Save the contacts.
+        /// </summary>
+        /// <param name="connection">Connection</param>
+        /// <returns></returns>
+        public async Task<bool> SaveContacts(IDbConnection connection)
+        {
+            bool retValue = true;
+            string deleteAll = string.Format("DELETE FROM ProContactos WHERE ccoIdCliente='{0}'",
+                this.Value.NUM_PROVEE);
+            await connection.ExecuteAsync(deleteAll);
+
+            foreach (var c in this.ContactsDtos)
+            {
+                ProContactos cont = new ProContactos();
+                cont.ccoCargo = c.Responsability;
+                cont.ULTMODI = c.LastMod;
+                cont.ccoIdContacto = c.ContactId.ToString();
+                cont.ccoIdCliente = this.Value.NUM_PROVEE;
+                cont.ccoContacto = c.ContactName;
+                cont.ccoIdDelega = c.CurrentDelegation;
+                cont.ccoTelefono = c.Telefono;
+                cont.ccoFax = c.Fax;
+                cont.ccoMail = c.Email;
+                cont.ccoMovil = c.Movil;
+                //    cont.ULTMODI = DateTime.Now.ToLongTimeString();
+                /** this needs to be separeted as single responsability */
+
+                try
+
+                {
+                    await connection.InsertAsync(cont);
+
+                }
+                catch (System.Exception e)
+                {
+                    string message = "Transaction Scope Exception in Vehicle Insertion. Reason: " + e.Message;
+                    logger.Error(message);
+
+                    DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
+                    throw dataLayer;
+                }
+
+            }
+            return retValue;
+        }
         public async Task<bool> SaveChanges()
         {
-        PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
-        PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
-        
-        bool retValue = false;
+            PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
+            PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
+
+            bool retValue = false;
 
             try
             {
@@ -352,8 +518,11 @@ namespace DataAccessLayer.Model
                         // now we have to add the new connection.
                         try
                         {
+
                             retValue = await connection.UpdateAsync(provee1);
                             retValue = retValue && await connection.UpdateAsync(provee2);
+                            retValue = retValue && await SaveContacts(connection);
+                            retValue = await SaveBranches(connection) && retValue;
                             transactionScope.Complete();
                         }
                         catch (TransactionException ex)
@@ -399,7 +568,7 @@ namespace DataAccessLayer.Model
                         return false;
                     }
                     Value = _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue);
-                   
+
                     // now we look for aux tables.
                     if (_supplierValue.TIPO.HasValue)
                     {
@@ -410,12 +579,12 @@ namespace DataAccessLayer.Model
                     }
                     IEnumerable<CU1> accounts = await connection.QueryAsync<CU1>(AccountSelect);
                     AccountDtos = _supplierMapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(accounts);
-                    var provincia =
-                        await BuildAndExecute<PROVINCIA>(connection, ProvinciaSelect, _supplierValue.PROV);
+                    var provincia = await connection.QueryAsync<PROVINCIA>(ProvinciaSelectAll);
+                     //   await BuildAndExecute<PROVINCIA>(connection, ProvinciaSelect, _supplierValue.PROV);
                     ProvinciaDtos = _supplierMapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(provincia);
 
-                    var pais =
-                        await BuildAndExecute<Country>(connection, PaisSelect, _supplierValue.NACIOPER);
+                    var pais = await connection.QueryAsync<Country>(PaisSelectAll);
+                     //   await BuildAndExecute<Country>(connection, PaisSelect, _supplierValue.NACIOPER);
                     CountryDtos = _supplierMapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(pais);
 
                     var banks = await BuildAndExecute<BANCO>(connection, BankSelect, _supplierValue.BANCO);
@@ -423,25 +592,58 @@ namespace DataAccessLayer.Model
                     if (_supplierValue.VIA.HasValue)
                     {
                         var vias = await BuildAndExecute<VIAS, byte>(connection, ViaSelect, _supplierValue.VIA.Value);
-                        ViasDtos = _supplierMapper.Map <IEnumerable<VIAS>, IEnumerable<ViaDto>>(vias);
+                        ViasDtos = _supplierMapper.Map<IEnumerable<VIAS>, IEnumerable<ViaDto>>(vias);
                     }
+                   
+
                     var branches = await BuildAndExecute<ProDelega>(connection, GenericSql.DelegationQuery,
                         _supplierValue.NUM_PROVEE);
-                    BranchesDtos = _supplierMapper.Map<IEnumerable<ProDelega>, IEnumerable<BranchesDto>>(branches);
+                    
+                    var tmp = _supplierMapper.Map<IEnumerable<ProDelega>, IEnumerable<BranchesDto>>(branches);
+                    AdjustBranchWithProvince(ref tmp, ProvinciaDtos);
+                    BranchesDtos = tmp;
                     var contacts =
-                        await BuildAndExecute<ProContactos>(connection, GenericSql.ContactsQuery,
+                        await BuildAndExecute<ProContact>(connection, GenericSql.ContactsQuery,
                             _supplierValue.NUM_PROVEE);
-                    ContactsDtos = _supplierMapper.Map<IEnumerable<ProContactos>, IEnumerable<ContactsDto>>(contacts);
+                    
+                    ContactsDtos = _supplierMapper.Map<IEnumerable<ProContact>, IEnumerable<ContactsDto>>(contacts);
                     var months = await connection.QueryAsync<MESES>(MonthsSelect);
                     MonthsDtos = _supplierMapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(months);
+                    var languages = await connection.QueryAsync<IDIOMAS>(LanguageSelect);
+                    LanguageDtos = _supplierMapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(languages);
                     var paymentForms = await connection.QueryAsync<FORMAS>(PaymentFormSelect);
                     PaymentDtos = _supplierMapper.Map<IEnumerable<FORMAS>, IEnumerable<PaymentFormDto>>(paymentForms);
                     var currency = await connection.QueryAsync<DIVISAS>(CurrencySelect);
                     CurrencyDtos = _supplierMapper.Map<IEnumerable<DIVISAS>, IEnumerable<CurrencyDto>>(currency);
+                    // poblacion mapping
+                    var globalMapper = MapperField.GetMapper();
+                    if (_supplierValue.FORMA_ENVIO.HasValue)
+                    {
+                        var deliveringForm = await BuildAndExecute<FORMAS_PEDENT>(connection,
+                            GenericSql.DeliveringFromQuery,
+                            _supplierValue?.FORMA_ENVIO.ToString());
+                        var mapper = MapperField.GetMapper();
+                        DeliveringFormDto = globalMapper.Map<IEnumerable<FORMAS_PEDENT>, IEnumerable<DeliveringFormDto>>(deliveringForm);
+                    }
+                    if (_supplierValue.VIA.HasValue)
+                    {
+                    //    var viaForm = await BuildAndExecute<VIAS>(connection, GenericSql.Via, _supplierValue?.VIA.Value)
+                    }
+                 
+                    var cityMapper = globalMapper;
+                    var cityQuery = string.Format(_queryCity);
+                    var cities = await connection.QueryAsync<POBLACIONES>(cityQuery);
+                    var mappedCityDtos = cityMapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(cities);
+                    CityDtos = new ObservableCollection<CityDto>(mappedCityDtos);
+                    // office mapping
                     string query = string.Format(OfficeSelect, _supplierValue.OFICINA, _supplierValue.SUBLICEN);
                     var office = await connection.QueryAsync<OFICINAS>(query);
                     OfficeDtos = MapperField.GetMapper().Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office);
-                    Value = _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue); 
+                    query = string.Format(CompanySelect, _supplierValue.SUBLICEN);
+
+                    var company = await connection.QueryAsync<SUBLICEN>(query);
+                    CompanyDtos = MapperField.GetMapper().Map<IEnumerable<SUBLICEN>, IEnumerable<CompanyDto>>(company);
+                    Value = _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue);
                     Valid = true;
                 }
                 catch (System.Exception e)
@@ -452,36 +654,59 @@ namespace DataAccessLayer.Model
             return Valid;
         }
 
+
+        /// <summary>
+        ///  Adjust branch witj province.
+        /// </summary>
+        /// <param name="branchesDtos">Branches in London.</param>
+        /// <param name="provinciaDtos">Provincia in London.</param>
+        private void AdjustBranchWithProvince(ref IEnumerable<BranchesDto> branchesDtos, IEnumerable<ProvinciaDto> provinciaDtos)
+        {
+            IList<BranchesDto> listOfBranches = branchesDtos.ToList();
+            for (int i = 0; i < listOfBranches.Count();++i)
+            {
+                var tmp = listOfBranches[i].Province.Code;
+                IEnumerable<ProvinciaDto> tmpProvince = provinciaDtos.Where(x => (tmp == x.Code));
+                ProvinciaDto dto = tmpProvince.FirstOrDefault();
+                if (dto != null)
+                {
+                    listOfBranches[i].Province.Name = dto.Name;
+                    listOfBranches[i].Province.Country = dto.Country;
+                }
+            }
+            branchesDtos = listOfBranches;
+        }
         private async Task<IEnumerable<T>> BuildAndExecute<T>(IDbConnection connection, string query, string
             code)
         {
             IEnumerable<T> type = null;
-  
+
 
             if (!string.IsNullOrEmpty(code))
             {
                 string queryToExec = string.Format(query, code);
-                 type =
-                    await connection.QueryAsync<T>(queryToExec);
+                type =
+                   await connection.QueryAsync<T>(queryToExec);
             }
             return type;
         }
-     
-        private async Task<IEnumerable<T1>> BuildAndExecute<T1, T2>(IDbConnection connection, string query,T2 code)
+
+        private async Task<IEnumerable<T1>> BuildAndExecute<T1, T2>(IDbConnection connection, string query, T2 code)
         {
-           
+
             string queryToExec = string.Format(query, code);
             IEnumerable<T1> type =
                 await connection.QueryAsync<T1>(queryToExec);
-           
+
             return type;
         }
 
         public SupplierDto Value
         {
-            get { return _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue);  }
+            get { return _supplierMapper.Map<SupplierPoco, SupplierDto>(_supplierValue); }
             set
             {
+                _supplierDto = (SupplierDto)value;
                 _supplierValue = _supplierMapper.Map<SupplierDto, SupplierPoco>(value);
                 RaisePropertyChanged();
 
@@ -492,15 +717,16 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Supplier Type
         /// </summary>
-        public IEnumerable<ISupplierTypeData> Type {
+        public IEnumerable<ISupplierTypeData> Type
+        {
             get
             {
                 return _type;
             }
             set
             {
-                _type = value; RaisePropertyChanged(); 
-                
+                _type = value; RaisePropertyChanged();
+
             }
         }
         /// <summary>
@@ -509,10 +735,11 @@ namespace DataAccessLayer.Model
         public IEnumerable<AccountDto> AccountDtos
         {
             get { return _accounts; }
-            set { _accounts = value; RaisePropertyChanged();}
+            set { _accounts = value; RaisePropertyChanged(); }
         }
-   
-        public IEnumerable<ProvinciaDto> ProvinciaDtos {
+
+        public IEnumerable<ProvinciaDto> ProvinciaDtos
+        {
             get { return _provinciaDto; }
             set { _provinciaDto = value; RaisePropertyChanged(); }
         }
@@ -552,18 +779,21 @@ namespace DataAccessLayer.Model
         public IEnumerable<BranchesDto> BranchesDtos
         {
             get { return _branchesDtos; }
-            set { _branchesDtos = value; RaisePropertyChanged();}
+            set { _branchesDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ContactsDto> 
-            ContactsDtos {
+        public IEnumerable<ContactsDto>
+            ContactsDtos
+        {
             get { return _contactsDtos; }
-            set { _contactsDtos = value; RaisePropertyChanged();} }
+            set { _contactsDtos = value; RaisePropertyChanged(); }
+        }
         public IEnumerable<MonthsDto> MonthsDtos
         {
             get { return _monthsDtos; }
-            set { _monthsDtos = value; RaisePropertyChanged();}
+            set { _monthsDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<PaymentFormDto> PaymentDtos {
+        public IEnumerable<PaymentFormDto> PaymentDtos
+        {
             get { return _paymentFormDtos; }
             set { _paymentFormDtos = value; RaisePropertyChanged(); }
         }
@@ -576,15 +806,25 @@ namespace DataAccessLayer.Model
             set
             {
                 _languagesDto = value;
-                RaisePropertyChanged();   
+                RaisePropertyChanged();
             }
         }
-      
+
 
         public IEnumerable<CurrencyDto> CurrencyDtos
         {
             get { return _currencyDto; }
             set { _currencyDto = value; RaisePropertyChanged(); }
         }
-      }
+
+        public ObservableCollection<CityDto> CityDtos
+        {
+
+            get => new ObservableCollection<CityDto>(_cityDtos); set => _cityDtos = value;
+        }
+        public IEnumerable<DeliveringFormDto> DeliveringFormDto {
+            get { return _deliveringFormDto; }
+            set { _deliveringFormDto = value; RaisePropertyChanged(); }
+        }
+    }
 }

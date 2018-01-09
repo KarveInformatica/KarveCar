@@ -20,6 +20,8 @@ using Prism.Regions;
 using KarveDataServices.DataTransferObject;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Windows.Forms;
+using NLog;
 
 namespace MasterModule.ViewModels
 {
@@ -50,8 +52,10 @@ namespace MasterModule.ViewModels
         private IRegionManager _regionManager;
         private Stopwatch _timing = new Stopwatch();
         private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
+        private static long _uniqueIdentifier = 0;
 
         private ISettingsDataService _settings;
+        private string _mailBoxName;
 
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
 
@@ -64,6 +68,10 @@ namespace MasterModule.ViewModels
             _container = container;
             _regionManager = regionManager;
             _extendedSupplierDataTable = new DataTable();
+            _uniqueIdentifier = _uniqueIdentifier % Int64.MaxValue;
+            /* design issue. it shall be an unique control for each windows, */
+            _mailBoxName = PROVIDER_SUMMARY_VM;
+            //+ "." + _uniqueIdentifier;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
         }
@@ -149,26 +157,28 @@ namespace MasterModule.ViewModels
             return routedName;
 
         }
-        /**
-         *  This creates a new item with relatives datasets.
-         */
+        /// <summary>
+        /// This method creats a new item.
+        /// </summary>
         public override void NewItem()
         {
-            string name = "NuevoProveedor";
-            string codigo = DataServices.GetSupplierDataServices().GetNewId();
-            ProviderInfoView view = _container.Resolve<ProviderInfoView>();
-            string viewNameValue = name + "." + codigo;
-            // here shall be added to the region.
-            ConfigurationService.AddMainTab(view, viewNameValue);
+            string name = KarveLocale.Properties.Resources.ProvidersControlViewModel_NewItem_NuevoProveedor;
+            string supplierId = DataServices.GetSupplierDataServices().GetNewId();
+            string viewNameValue = name + "." + supplierId;
+            // here shall be added to the region
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("supplierId", supplierId);
+            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
+            var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.RequestNavigate("TabRegion", uri);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.SupplierSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = codigo;
-            currentPayload.DataObject = DataServices.GetSupplierDataServices().GetNewSupplierDo(codigo);
+            currentPayload.PrimaryKeyValue = supplierId;
+            currentPayload.DataObject = DataServices.GetSupplierDataServices().GetNewSupplierDo(supplierId);
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.SuppliersSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
-
         }
         private async void OpenCurrentItem(object currentItem)
         {
@@ -187,7 +197,8 @@ namespace MasterModule.ViewModels
                 ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);                
                 currentPayload.PrimaryKeyValue = supplierId;
-                currentPayload.Sender = PROVIDER_SUMMARY_VM;
+                currentPayload.Sender = _mailBoxName;
+                Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
             }
         }
@@ -195,25 +206,25 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             MessageHandlerMailBox += MessageHandler;
-            EventManager.RegisterMailBox(ProvidersControlViewModel.PROVIDER_SUMMARY_VM, MessageHandlerMailBox);
+            _mailBoxName = ProvidersControlViewModel.PROVIDER_SUMMARY_VM;
+            EventManager.RegisterMailBox(_mailBoxName, MessageHandlerMailBox);
             ISupplierDataServices supplier = DataServices.GetSupplierDataServices();
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary(), InitializationNotifierOnPropertyChanged);
           
         }
-
-       
-
         public override async Task<bool> DeleteAsync(string supplierId, DataPayLoad payLoad)
         {
             ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
             bool retValue = await DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(provider);
-         //   payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-          //  EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, payLoad);
-                     return retValue;
+            return retValue;
         }
-       
-        
-        
+
+        public override void DisposeEvents()
+        {
+           // this save the columns settings.
+           base.DisposeEvents();
+           DeleteMailBox(_mailBoxName);
+        }
         /// <summary>
         ///  Command to be triggeed from the control to support paging
         /// </summary>

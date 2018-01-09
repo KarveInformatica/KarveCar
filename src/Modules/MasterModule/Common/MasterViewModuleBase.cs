@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Windows.Input;
 using DataAccessLayer.Assist;
 using KarveCommon.Generic;
@@ -22,13 +23,19 @@ using NLog;
 using Syncfusion.UI.Xaml.Grid;
 using DataRow = System.Data.DataRow;
 using System.IO;
+using System.Reflection;
+using System.Windows.Controls;
+using Dragablz;
+using KarveControls;
+using KarveDataServices.DataTransferObject;
+using Syncfusion.Windows.PdfViewer;
 
 namespace MasterModule.Common
 {
     /// <summary>
     ///  Base class for the view model.
     /// </summary>
-    public abstract class MasterViewModuleBase : BindableBase, INavigationAware, IDisposable
+    public abstract class MasterViewModuleBase : BindableBase, INavigationAware, IDisposeEvents
     {
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
@@ -42,7 +49,7 @@ namespace MasterModule.Common
 
         protected PropertyChangedEventHandler DeleteEventHandler;
 
-
+        protected ControlExt.GridOp _delegationGridState = ControlExt.GridOp.Any;
         /// <summary>
         ///  Each viewmodel refelct different types following the paylod that it receives
         /// </summary>
@@ -83,6 +90,7 @@ namespace MasterModule.Common
         /// </summary>
         protected AssistHandlerRegistry AssistHandlerRegistry = new AssistHandlerRegistry();
 
+       
         /// <summary>
         ///  
         /// </summary>
@@ -91,6 +99,13 @@ namespace MasterModule.Common
         /// PrimaryKey field used from all view models.
         /// </summary>
         private string _primaryKey = "";
+
+        /// <summary>
+        /// This delegate set the primary key
+        /// </summary>
+        /// <typeparam name="T">Type of the primary key</typeparam>
+        /// <param name="primaryKey">Value of the primaryKey</param>
+        protected delegate void SetPrimaryKey<T>(ref T primaryKey);
 
         /// <summary>
         ///  PrimaryKey field used from all view models.
@@ -117,7 +132,7 @@ namespace MasterModule.Common
         protected IRegionManager RegionManager;
         protected KarveGridExt.ColParamSize DefaultSummaryViewColSize;
         protected ObservableCollection<KarveGridExt.ColParamSize> _observableCollection;
-
+        protected const string OperationConstKey = "Operation";
 
         /// <summary>
         /// Object to warrant the notifications.
@@ -151,9 +166,122 @@ namespace MasterModule.Common
             DataServices = services;
             RegionManager = regionManager;
             _notifyState = 0;
+            CurrentOperationalState = DataPayLoad.Type.Show;
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
         }
+        /// <summary>
+        ///  This is the grid command 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void OnGridCommand(object value)
+        {
+            var tmp = value;
+            return;
+        }
 
+        protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
+        {
+            // Pre: dtoList shall be not null.
+            // Pre: dto shall be not null.
+            if (dtoList == null)
+            {
+                return;
+            }
+            IList<T> list = new List<T>();
+            list.Add(dto);
+            var unionList = dtoList.Union(list);
+            if (unionList.Any())
+            {
+                dtoList = new ObservableCollection<T>(unionList.ToList());
+            }
+        }
+
+        /// <summary>
+            /// This is the handler for the grid messages.
+            /// </summary>
+            /// <typeparam name="DtoType">Type of the data transfer object</typeparam>
+            /// <typeparam name="DBType">Type of the data base entity</typeparam>
+            /// <param name="gridDictionary">Dictionary of the event to be accessed.</param>
+            /// <param name="setPrimary">Primary Key Delegate to be passed</param>
+            /// <param name="dataSub">Subsystem to be passed</param>
+            /// <returns></returns>
+            protected async Task<Tuple<bool,DtoType>> GridChangedCommand<DtoType, DBType>(object gridDictionary,
+
+            SetPrimaryKey<DtoType> setPrimary, DataSubSystem dataSub) where DBType : class
+            where DtoType : class
+
+        {
+            DtoType dtoType = null;
+            Tuple<bool, DtoType> retValue = new Tuple<bool, DtoType>(false, dtoType); 
+
+            IDictionary<string, object> gridParam = gridDictionary as Dictionary<string, object>;
+            if ((gridParam != null) && (gridParam.ContainsKey(OperationConstKey)))
+            {
+                // this is useful for extracting the name of the attribute.
+                DBType pro = Activator.CreateInstance<DBType>();
+                dtoType = gridParam["ChangedValue"] as DtoType;
+                PropertyInfo info = PrimaryKeyAttribute.SearchAttribute<DtoType>(dtoType);
+                var operationType = gridParam[OperationConstKey];
+                _delegationGridState = (ControlExt.GridOp)operationType;
+                switch (_delegationGridState)
+                {
+                    case ControlExt.GridOp.Insert:
+                    {
+
+                        if (dtoType != null)
+                        {
+
+
+                            var key = await DataServices.GetHelperDataServices().GetUniqueId<DBType>(pro);
+                            setPrimary(ref dtoType);
+                            info.SetValue(dtoType, key);
+                            var opValue = await DataServices.GetHelperDataServices()
+                                .ExecuteInsertOrUpdate<DtoType, DBType>(dtoType);
+                            retValue = new Tuple<bool, DtoType>(opValue, dtoType);
+
+                        }
+                        break;
+                    }
+                    case ControlExt.GridOp.Update:
+                    {
+
+                        if (dtoType != null)
+                        {
+
+                            setPrimary(ref dtoType);
+                            DataPayLoad payLoad = new DataPayLoad();
+                            payLoad.DataObject = gridParam["DataObject"];
+                            payLoad.HasRelatedObject = true;
+                            payLoad.RelatedObject = dtoType;
+                            payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
+                            payLoad.Subsystem = dataSub;
+                            retValue = new Tuple<bool, DtoType>(true, dtoType);                                // ok we act to notify the toolbar.
+                            EventManager.NotifyToolBar(payLoad);
+                        }
+                        break;
+                    }
+
+                    case ControlExt.GridOp.Delete:
+                    {
+                        setPrimary(ref dtoType);
+                        DataPayLoad payLoad = new DataPayLoad();
+                        payLoad.DataObject = gridParam["DataObject"];
+                        payLoad.HasRelatedObject = true;
+                        payLoad.RelatedObject = dtoType;
+                        payLoad.PayloadType = DataPayLoad.Type.DeleteGrid;
+                        payLoad.Subsystem = dataSub;
+                        retValue = new Tuple<bool, DtoType>(true, dtoType);
+                        // ok we act to notify the toolbar.
+                        EventManager.NotifyToolBar(payLoad);
+                        break;
+                    }
+
+                }
+
+            }
+            return retValue;
+        }
         public async Task MoveAllCols(KarveGridExt.ColParamSize colParam)
         {
             int gridId = Convert.ToInt32(GridId);
@@ -267,7 +395,7 @@ namespace MasterModule.Common
             IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(Convert.ToInt32(GridId));
             // get all cols.
             List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
-            // n*n. TODO find a better way.
+            // o(n*n). TODO find a better way.
 
             if (colsParam.ColumnList != null)
             {
@@ -479,6 +607,11 @@ namespace MasterModule.Common
             }
         }
 
+        public virtual  void DisposeEvents()
+        {
+            SaveMagnifierSettings(DefaultColumnsSize);
+
+        }
         /// <summary>
         ///  This is shall be used by the different view model to set the value of the table initialzed;
         /// </summary>
@@ -640,6 +773,17 @@ namespace MasterModule.Common
                 }
             }
         }
+        protected void DeleteMailBox(string mailboxName)
+        {
+
+            if (!string.IsNullOrEmpty(PrimaryKeyValue))
+            {
+                if (MailBoxHandler != null)
+                {
+                    EventManager.DeleteMailBoxSubscription(mailboxName);
+                }
+            }
+        }
 
         protected void ActiveSubSystem()
         {
@@ -653,6 +797,7 @@ namespace MasterModule.Common
             DataPayLoad payLoad = new DataPayLoad();
             SetRegistrationPayLoad(ref payLoad);
             EventManager.NotifyToolBar(payLoad);
+            Logger.Log(LogLevel.Info, "Toolbar notified and subsystem active " + payLoad.Subsystem);
         }
 
         /// <summary>
@@ -777,9 +922,23 @@ namespace MasterModule.Common
                 }
             }
         }
-        public void Dispose()
+
+
+        /// <summary>
+        /// Callback to handle tab closing.
+        /// </summary>        
+        protected static void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
         {
-            SaveMagnifierSettings(DefaultColumnsSize);
+            //in here you can dispose stuff or cancel the close
+
+            //here's your view model:
+            var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
+            CloseTabAction tabAction = new CloseTabAction();
+            tabAction.Execute(args.DragablzItem);
+
+
+            //here's how you can cancel stuff:
+            //args.Cancel(); 
         }
     }
 }

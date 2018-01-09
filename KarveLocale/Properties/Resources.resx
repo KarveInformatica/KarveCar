@@ -1832,7 +1832,7 @@
     <value>Oficina Asignada</value>
   </data>
   <data name="ldelegacion" xml:space="preserve">
-    <value>Delegación</value>
+    <value>Delegacion</value>
   </data>
   <data name="lsituacion" xml:space="preserve">
     <value>Situacion</value>
@@ -2013,7 +2013,7 @@
     <comment>Daños</comment>
   </data>
   <data name="ldelegaciones" xml:space="preserve">
-    <value>Delegaciónes</value>
+    <value>Delegaciones</value>
   </data>
   <data name="ldevolucionprevista" xml:space="preserve">
     <value>Devolucion Prevista</value>
@@ -2324,8 +2324,8 @@
     <value>Fecha Evaluacion</value>
   </data>
   <data name="ldirecciones" xml:space="preserve">
-    <value>Direcciónes</value>
-    <comment>Direcciónes</comment>
+    <value>Direcciones</value>
+    <comment>Direcciones</comment>
   </data>
   <data name="lcontables" xml:space="preserve">
     <value>Contables</value>
@@ -2468,5 +2468,50 @@
   </data>
   <data name="EmiteEmpresaYPagaClientes" xml:space="preserve">
     <value>Emite Empresa y Paga Clientes</value>
+  </data>
+  <data name="lacessorios" xml:space="preserve">
+    <value>Accesorios</value>
+  </data>
+  <data name="FechaFabricacion" xml:space="preserve">
+    <value>Fecha Fabricacion</value>
+  </data>
+  <data name="FechaMatriculacion" xml:space="preserve">
+    <value>Fecha Matriculacion</value>
+  </data>
+  <data name="lfechaalta" xml:space="preserve">
+    <value>Fecha Baja</value>
+  </data>
+  <data name="lfacturar" xml:space="preserve">
+    <value>Facturar</value>
+  </data>
+  <data name="lfechabaja" xml:space="preserve">
+    <value>Fecha Alta</value>
+  </data>
+  <data name="lfranquicia" xml:space="preserve">
+    <value>Franquicia</value>
+  </data>
+  <data name="lextorno" xml:space="preserve">
+    <value>Extorno</value>
+  </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>No Definido</value>
+  </data>
+  <data name="EmiteYPagaClientes" xml:space="preserve">
+    <value>Emite y paga clientes</value>
+  </data>
+  <data name="lcalcolamantenimiento" xml:space="preserve">
+    <value>Calcola Mantenimiento</value>
+  </data>
+  <data name="limprimir" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="lfingarantia" xml:space="preserve">
+    <value>Fine Garantia</value>
+  </data>
+  <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
+    <value>NuevoVehiculos</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>NuevoProveedor</value>
   </data>
 </root>

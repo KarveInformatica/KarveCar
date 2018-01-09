@@ -77,7 +77,7 @@ namespace ToolBarModule.Command
         /// <param name="services"></param>
         /// <param name="manager"></param>
         /// <param name="payLoad"></param>
-        public override void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad)
+        public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
 
             _vehicleDataServices = services.GetVehicleDataServices();

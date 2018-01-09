@@ -206,7 +206,11 @@ namespace KarveCommon.Services
                 }
             }
         }
-
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="messageHandler"></param>
         public void RegisterMailBox(string id, MailBoxMessageHandler messageHandler)
         {
             if (!_mailBox.ContainsKey(id))
@@ -214,13 +218,29 @@ namespace KarveCommon.Services
                 _mailBox[id] = messageHandler;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteMailBoxSubscription(string id)
         {
             
             if (_mailBox.ContainsKey(id))
             {
                 _mailBox.Remove(id);
+            }
+        }
+
+        public void DeleteObserver(IEventObserver observer)
+        {
+            for (int i = 0; i < _observers.Count; ++i)
+            {
+                
+                IEventObserver eo = _observers[i];
+                if (eo == observer)
+                {
+                    _observers.Remove(eo);
+                }
             }
         }
     }

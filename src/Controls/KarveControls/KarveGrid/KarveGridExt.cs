@@ -73,6 +73,9 @@ namespace KarveControls.KarveGrid
                 typeof(ObservableCollection<KarveGridExt.ColParamSize>),
                 typeof(KarveGridExt),
                 new PropertyMetadata(null, DefaultColumnsSizeCb));
+
+
+       
         
         /// <summary>
         ///  DefaultColumnsSize dependency property.

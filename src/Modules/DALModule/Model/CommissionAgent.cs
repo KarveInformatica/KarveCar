@@ -184,7 +184,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<ContactsComiPoco> _contactos = new List<ContactsComiPoco>();
         private IEnumerable<ComiDelegaPoco> _delegations = new List<ComiDelegaPoco>();
         private IEnumerable<VisitasComiPoco> _visitasComis = new List<VisitasComiPoco>();
-        private IEnumerable<TIPOCOMISION> _tipocomisions = new List<TIPOCOMISION>();
+        private IEnumerable<TIPOCOMI> _tipocomisions = new List<TIPOCOMI>();
         private IEnumerable<PRODUCTS> _products = new List<PRODUCTS>();
         private IEnumerable<VENDEDOR> _vendedors = new List<VENDEDOR>();
         private IEnumerable<MERCADO> _mercados = new List<MERCADO>();
@@ -195,7 +195,8 @@ namespace DataAccessLayer.Model
         private IEnumerable<ZONAOFI> _zonaofis = new List<ZONAOFI>();
         private IEnumerable<ClavePtoDto> _clavePto = new List<ClavePtoDto>();
         private IEnumerable<IDIOMAS> _idiomas = new List<IDIOMAS>();
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private IEnumerable<CityDto> _cities = new List<CityDto>();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
 
 
@@ -203,12 +204,14 @@ namespace DataAccessLayer.Model
 
         private readonly ISqlExecutor _executor;
         private COMISIO _currentComisio;
-        private string _queryTipoComi = "SELECT {0} FROM TIPOCOMI WHERE NUM_TICOMI='{1}'";
+        
+        private string _queryTipoComi = "SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'";
         private string _queryProvincia = "SELECT SIGLAS,PROV FROM PROVINCIA WHERE SIGLAS='{0}'";
         private string _queryPais = "SELECT SIGLAS,PAIS FROM PAIS WHERE SIGLAS='{0}'";
         private string _queryComi = "SELECT {0} FROM COMISIO WHERE NUM_COMI='{1}'";
         private string _queryComiDapper = "SELECT {1} FROM {0} WHERE {2}='{3}';";
 
+        private string _queryCity = "SELECT * FROM POBLACIONES WHERE CP='{0}'";
 
         private string _queryContactos = "SELECT CONTACTO as ContactoId,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CargoId, " +
                                          "PG.NOMBRE AS CARGO, TELEFONO, MOVIL, " +
@@ -242,6 +245,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<ContactsDto> _contactosDto = new List<ContactsDto>();
         private IEnumerable<BranchesDto> _delegationDto = new List<BranchesDto>();
         private IEnumerable<VisitsDto> _visitDto = new List<VisitsDto>();
+        private IEnumerable<POBLACIONES> _poblaciones;
 
         #region Properties
         /// <summary>
@@ -343,6 +347,14 @@ namespace DataAccessLayer.Model
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  Cities DTO.
+        /// </summary>
+        public IEnumerable<CityDto> CityDtos
+        {
+            get { return _cities; }
+            set { _cities = value; RaisePropertyChanged(); }
+        }
 
         /// <summary>
         ///  Changed value agent
@@ -432,12 +444,18 @@ namespace DataAccessLayer.Model
         {
             string tmpQuery = "";
 
-            if (!string.IsNullOrEmpty(comisio.SOBREQUE))
+            if (!string.IsNullOrEmpty(comisio.TIPOCOMI))
             {
-                tmpQuery = string.Format(_queryComiDapper, TipoComision, DefaultTipoComision, "NUM_SOBREQ", comisio.SOBREQUE);
-                _tipocomisions = await _dbConnection.QueryAsync<TIPOCOMISION>(tmpQuery);
-                CommisionTypeDto = _mapper.Map<IEnumerable<TIPOCOMISION>, IEnumerable<CommissionTypeDto>>(_tipocomisions);
+                tmpQuery = string.Format(_queryTipoComi, comisio.TIPOCOMI);
+                _tipocomisions = await _dbConnection.QueryAsync<TIPOCOMI>(tmpQuery);
+                CommisionTypeDto = _mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(_tipocomisions);
 
+            }
+            if (!string.IsNullOrEmpty(comisio.CP))
+            {
+                tmpQuery = string.Format(_queryCity, comisio.CP);
+                _poblaciones = await _dbConnection.QueryAsync<POBLACIONES>(tmpQuery);
+                CityDtos = _mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(_poblaciones);
             }
             if (comisio.PRODUCT_COMI != null)
             {
@@ -650,9 +668,9 @@ namespace DataAccessLayer.Model
 
                         // now we have to add the new connection.
                         await connection.InsertAsync<COMISIO>(_currentComisio).ConfigureAwait(false);
-                        await connection.InsertAsync(_contactos);
-                        await connection.InsertAsync(delegations);
-                        await connection.InsertAsync(_visitasComis);
+                        await connection.InsertAsync(_contactos).ConfigureAwait(false);
+                        await connection.InsertAsync(delegations).ConfigureAwait(false);
+                        await connection.InsertAsync(_visitasComis).ConfigureAwait(false);
                         transactionScope.Complete();
                         retValue = true;
 
@@ -719,7 +737,7 @@ namespace DataAccessLayer.Model
             {
                 return true;
             }
-            if (contactsDtos.All(contact => contact.CommissionId == null))
+            if (contactsDtos.All(contact => contact.ContactsKeyId == null))
             {
                 logger.Error("Error during saving contacts.");
                 return false;

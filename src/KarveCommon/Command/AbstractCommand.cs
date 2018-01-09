@@ -24,12 +24,13 @@ namespace KarveCommon.Command
         public abstract void Execute(object parameter);
 
         /// <summary>
-        /// FIXME: This shall be refactored.
+	/// Vetoes the undo
         /// </summary>
         /// <returns></returns>
         public virtual bool UnExecute()
         {
-            throw new NotImplementedException();
+            // this vetoes the undo.
+            return true;
         }
     }
 }

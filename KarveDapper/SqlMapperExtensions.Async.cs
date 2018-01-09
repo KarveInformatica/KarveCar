@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -240,6 +241,49 @@ namespace KarveDapper.Extensions
             string value = sb.ToString();
             var updated = await connection.ExecuteAsync(sb.ToString(), entityToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
             return updated > 0;
+        }
+
+
+        public static async Task<string> UniqueId<T>(this IDbConnection connection, T entityValue,
+            IDbTransaction transaction = null,
+            int? commandTimeout = null) where T : class
+        {
+            var type = typeof(T);
+            var name = GetTableName(type);
+            PropertyInfo info = GetKeyAttribute<T>(entityValue);
+            StringBuilder builder = new StringBuilder();
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            int value = 0;
+            IEnumerable<T> collection = null;
+            int tries = 0;
+            do
+            {
+                var byteArray = new byte[4];
+                provider.GetBytes(byteArray);
+                //convert 4 bytes to an integer
+                try
+                {
+                    value = Math.Abs(BitConverter.ToInt32(byteArray, 0));
+                   
+                }
+                catch (Exception e)
+                {
+                    var v = e;
+                }
+            if (info != null)
+                {
+                    
+                    builder.Append(" WHERE ");
+                    builder.Append(info.Name);
+                    builder.Append("=");
+                    builder.Append(string.Format("'{0}'", value));
+                    var statement = $"select * from {name} " + builder.ToString();
+                    collection = await connection.QueryAsync<T>(statement);
+                    ++tries;
+                }
+            } while ((collection.Count() !=0) && (tries < 10));
+
+            return value.ToString().Substring(0,6);
         }
 
         /// <summary>

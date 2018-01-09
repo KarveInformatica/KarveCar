@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -128,10 +129,11 @@ namespace MasterModule.Common
             if (evDictionary.ContainsKey("DataObject"))
             {
 
-            
-                _dataObject = (T)evDictionary["DataObject"];
-            //    EnforceChange(evDictionary, ref _dataObject);
-                payLoad.DataObject = _dataObject;
+                
+              _dataObject = (T) evDictionary["DataObject"];
+                    //    EnforceChange(evDictionary, ref _dataObject);
+              payLoad.DataObject = _dataObject;
+                
                 _eventManager.NotifyToolBar(payLoad);
             }
         }

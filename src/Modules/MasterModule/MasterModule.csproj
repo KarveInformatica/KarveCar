@@ -84,6 +84,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -221,6 +224,7 @@
     <Compile Include="Common\DataSetUtilities.cs" />
     <Compile Include="Common\DelegationValidationBehavior.cs" />
     <Compile Include="Common\IChangeHandler.cs" />
+    <Compile Include="Common\IDisposeEvents.cs" />
     <Compile Include="Common\IRegionManagerAware.cs" />
     <Compile Include="Common\MaintenanceValidationBehaviour.cs" />
     <Compile Include="Common\MasterModuleConstants.cs" />
@@ -260,6 +264,9 @@
     <Compile Include="ViewModels\VehicleInfoViewModelUi.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
     <Compile Include="ViewModels\VehicleInfoViewModel.cs" />
+    <Compile Include="Views\Clients.xaml.cs">
+      <DependentUpon>Clients.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClientsControlView.xaml.cs">
       <DependentUpon>ClientsControlView.xaml</DependentUpon>
     </Compile>
@@ -277,9 +284,6 @@
     </Compile>
     <Compile Include="Views\Vehicles\Contable.xaml.cs">
       <DependentUpon>Contable.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DirectionInfo.xaml.cs">
-      <DependentUpon>DirectionInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FareUserControl.xaml.cs">
       <DependentUpon>FareUserControl.xaml</DependentUpon>
@@ -369,6 +373,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Clients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ClientsControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -402,10 +410,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CumulativeSummaryControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DirectionInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -635,6 +639,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KarveDataServices\DataTransferObject\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\country.png" />
+    <Resource Include="Images\direction.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fax.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

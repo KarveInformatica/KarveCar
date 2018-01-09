@@ -86,18 +86,17 @@ namespace ToolBarModule
             DataPayLoad payLoad = (DataPayLoad)parameter;
             if (payLoad == null)
                 return;
-            if (payLoad.PayloadType == DataPayLoad.Type.Insert)
-            {
+
                 if (payLoadHandlers.ContainsKey(payLoad.Subsystem))
                 {
                     IDataPayLoadHandler handler = payLoadHandlers[payLoad.Subsystem];
-                    handler.ExecutePayload(_dataServices, _eventManager, payLoad);
+                    handler.ExecutePayload(_dataServices, _eventManager, ref payLoad);
                 }
                 else
                 {
                     MessageBox.Show("Error selecting the insert action handler. Subsystem not known");
                 }
-            }
+            
         }
     }
 }

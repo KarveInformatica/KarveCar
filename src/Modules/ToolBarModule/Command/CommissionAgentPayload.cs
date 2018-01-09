@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace ToolBarModule.Command
 {
@@ -24,9 +26,10 @@ namespace ToolBarModule.Command
         /// <param name="services">Data services to be used for executing the payload</param>
         /// <param name="manager">Manager to be used for sending messages to the view model</param>
         /// <param name="payLoad">Payload to be used for sending it.</param>
-        public override void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad)
+        public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
             _commissionAgentDataServices = services.GetCommissionAgentDataServices();
+            DataServices = services;
             _payload = payLoad;
             EventManager = manager;
             _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleCommissionAgentSave(_payload), _onExecutedPayload);
@@ -52,6 +55,13 @@ namespace ToolBarModule.Command
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
             }
+            /*
+            var checkedData = await _commissionAgentDataServices.GetCommissionAgentDo(payLoad.PrimaryKeyValue);
+            if (checkedData == null)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
+            }*/
+
             switch (payLoad.PayloadType)
             {
                 case DataPayLoad.Type.Update:
@@ -65,7 +75,41 @@ namespace ToolBarModule.Command
                     result = await _commissionAgentDataServices.SaveCommissionAgent(agent).ConfigureAwait(false);
                     break;
                 }
+                case DataPayLoad.Type.UpdateInsertGrid:
+                {
+                    isInsert = true;
+                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
+                    // this shall be moved to supplier dataservices.
+                    if (branches != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<BranchesDto, COMI_DELEGA>(branches).ConfigureAwait(false);
+                    }
+                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
+                    if (contactsDto != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<ContactsDto, CONTACTOS_COMI>(contactsDto).ConfigureAwait(false);
+                    }
+                    break;
+                }
+                case DataPayLoad.Type.DeleteGrid:
+                {
+                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
+
+                    if (branches != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, COMI_DELEGA>(branches);
+
+                    }
+                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
+                    if (contactsDto != null)
+                    {
+                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, CONTACTOS_COMI>(contactsDto);
+                    }
+                    break;
+                }
+
             }
+      
             if (result)
             {
                 payLoad.Sender = ToolBarModule.NAME;

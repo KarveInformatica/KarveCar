@@ -7,6 +7,7 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a COMI_DELEGA.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("COMI_DELEGA")]
 	public class COMI_DELEGA 
 	{
 	

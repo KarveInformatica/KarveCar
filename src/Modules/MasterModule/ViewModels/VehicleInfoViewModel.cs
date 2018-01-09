@@ -77,6 +77,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<AccountDto> _accountDtoCapitalCp;
         private ObservableCollection<AccountDto> _accomulatedRepayment;
         private IRegionManager _regionManager;
+        private ObservableCollection<CityDto> _cityDto;
 
         // This returns the list of activity when asked.
         public ObservableCollection<ActividadDto> ActivityDtos
@@ -494,6 +495,13 @@ namespace MasterModule.ViewModels
                     AccountDtoAccmulatedRepayment = new ObservableCollection<AccountDto>(contable);
                     break;
                 }
+                case "POBLACIONES":
+                {
+                    var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
+                    IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
+                    CityDto = new ObservableCollection<CityDto>(cities);
+                    break;
+                }
                 case "VENDEDOR":
                 {
                     var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
@@ -797,6 +805,19 @@ namespace MasterModule.ViewModels
         }
 
         public string UniqueId { get; set; }
+
+        public ObservableCollection<CityDto> CityDto
+        {
+            get
+            {
+                return _cityDto;
+            }
+            set {
+                _cityDto = value;
+                RaisePropertyChanged();
+            }
+        }
+   
 
 
         // move this to the upper interface.

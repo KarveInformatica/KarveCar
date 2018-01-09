@@ -88,7 +88,7 @@ namespace ToolBarModule.Command
             }
         }
         public event ErrorExecuting OnErrorExecuting;
-        public abstract void ExecutePayload(IDataServices services, IEventManager manager, DataPayLoad payLoad);       
+        public abstract void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad);       
         protected abstract  Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad); 
     }
 }

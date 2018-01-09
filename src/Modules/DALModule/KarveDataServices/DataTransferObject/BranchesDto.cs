@@ -22,10 +22,14 @@ namespace KarveDataServices.DataTransferObject
             Email = lastBranchesDto.Email;
             City = lastBranchesDto.City;
             Province = lastBranchesDto.Province;
+            BranchKeyId = lastBranchesDto.BranchKeyId;
         }
 
         [DataMember]
-        public int BranchId;
+        public string BranchKeyId { get; set; }
+        [DataMember]
+        [PrimaryKey]
+        public string BranchId { get; set; }
         [DataMember]
         public string Branch { get; set; }
         [DataMember]
@@ -42,6 +46,7 @@ namespace KarveDataServices.DataTransferObject
         public string City { get; set; }
         [DataMember]
         public ProvinciaDto Province { get; set; }
+        public string Notes { get; set; }
 
     }
 }

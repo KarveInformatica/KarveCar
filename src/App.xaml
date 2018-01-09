@@ -43,7 +43,7 @@
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="FontFamily" Value="Arial" />
                     </Style>
-
+                 
                     <Style x:Key="MyPageStyle" TargetType="Page">
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="FontFamily" Value="Arial" />

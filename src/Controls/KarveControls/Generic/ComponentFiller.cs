@@ -76,10 +76,18 @@ namespace KarveControls.Generic
         /// <param name="dataField">Data field to be filled.</param>
         public void FillDataObject(string textField, string dataField, ref object dataObject)
         {
+
+            if (dataObject == null)
+                return;
                 try
                 {
-                    ComponentUtils.SetPropValue(dataObject, "Value."+dataField.ToUpper(), textField, true);
-                    
+
+                    ComponentUtils.SetPropValue(dataObject, "Value." + dataField, textField, true);
+                    var tmpValue = ComponentUtils.GetPropValue(dataObject, "Value." + dataField);
+                    if (tmpValue.ToString() != textField)
+                    {
+                        ComponentUtils.SetPropValue(dataObject, "Value." + dataField.ToUpper(), textField, true);
+                    }
                 }
                 catch (Exception e)
                 {

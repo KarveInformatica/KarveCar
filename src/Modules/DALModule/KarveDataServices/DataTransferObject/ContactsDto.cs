@@ -1,8 +1,9 @@
 ﻿namespace KarveDataServices.DataTransferObject
 {
+    public enum StateDto {  Clean = 0, Dirty = 1, Dead = 2}
     public class ContactsDto
     {
-	    public string CommissionId { set; get;}
+	    public string ContactsKeyId { set; get;}
 	    public string ContactName { set; get;}
     	public string Nif {set; get;}
         public string Responsability { get; set; }
@@ -13,6 +14,9 @@
         public string User { get; set; }
         public string LastMod { get; set; }
         public string CurrentDelegation { get; set; }
-        public int ContactId { get; set; }
+        [PrimaryKey]
+        public string ContactId { get; set; }
+        // 0 added, 1, modified, 2 deleted;
+        public int State { get; set; }
     }
 }

@@ -5,8 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Xml.Schema;
 using Dapper;
 
 namespace KarveDapper.Extensions
@@ -490,6 +492,65 @@ namespace KarveDapper.Extensions
         }
 
         /// <summary>
+        ///  This get the property that contains an attribute
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static PropertyInfo GetKeyAttribute<T>(T entity)
+        {
+
+            PropertyInfo[] props = entity.GetType().GetProperties();
+            foreach (PropertyInfo prop in props)
+            {
+                object[] attrs = prop.GetCustomAttributes(true);
+                foreach (object attr in attrs)
+                {
+                    KeyAttribute key = attr as KeyAttribute;
+                    if ((key != null))
+                    {
+                        return prop;
+                    }
+                }
+            }
+
+            return props[0];
+        }
+
+        /// <summary>
+        ///  Gives that is present. TODO: add post condition.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="entityValue"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <returns></returns>
+        public static bool IsPresent<T>(this IDbConnection connection, T entityValue, IDbTransaction transaction = null,
+            int? commandTimeout = null) where T : class
+        {
+            var type = typeof(T);
+            var name = GetTableName(type);
+
+            PropertyInfo info = GetKeyAttribute<T>(entityValue);
+            StringBuilder builder = new StringBuilder();
+            if (info != null)
+            {
+                builder.Append(" WHERE ");
+                builder.Append(info.Name);
+                builder.Append("=");
+                var value = info.GetValue(entityValue);
+                builder.Append(string.Format("'{0}'", value));
+                var statement = $"select * from {name} " + builder.ToString();
+                value = connection.Query(statement).FirstOrDefault();
+                return (value != null);
+            }
+            return false;
+        }
+
+   
+
+        ///(this IDbConnection connection, T entityValue,)
+        /// <summary>
         /// Specifies a custom callback that detects the database type instead of relying on the default strategy (the name of the connection type object).
         /// Please note that this callback is global and will be used by all the calls that require a database specific adapter.
         /// </summary>
@@ -758,7 +819,7 @@ namespace KarveDapper.Extensions
 
     public partial class SybaseAdapter : ISqlAdapter
     {
-    /// <summary>
+        /// <summary>
         /// Inserts <paramref name="entityToInsert"/> into the database, returning the Id of the row created.
         /// </summary>
         /// <param name="connection">The connection to use.</param>
@@ -808,11 +869,11 @@ namespace KarveDapper.Extensions
             sb.AppendFormat("[{0}] = ?{1}?", columnName, columnName);
         }
 
-}
-/// <summary>
-/// The SQL Server database adapter.
-/// </summary>
-public partial class SqlServerAdapter : ISqlAdapter
+    }
+    /// <summary>
+    /// The SQL Server database adapter.
+    /// </summary>
+    public partial class SqlServerAdapter : ISqlAdapter
     {
         /// <summary>
         /// Inserts <paramref name="entityToInsert"/> into the database, returning the Id of the row created.

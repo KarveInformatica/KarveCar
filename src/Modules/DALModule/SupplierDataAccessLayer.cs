@@ -30,7 +30,7 @@ namespace DataAccessLayer
         internal const string SupplierQuery = "SELECT NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,CP," +
                                               "PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3," +
                                               "PROVEE2.DIA,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO" +
-                                              "POBLACION,PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA," +
+                                              "POBLACION,PROV,DIREC2,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA," +
                                               "SUBLICEN,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA," +
                                               "MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN," +
                                               "PROALB_COSTE_TRANSP,EXENCIONES_INT,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO," +
@@ -321,7 +321,8 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
-            DataSet summary = await _executor.AsyncDataSetLoad(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
+            string str = GenericSql.SupplierSummaryQuery;
+            DataSet summary = await _executor.AsyncDataSetLoad(str).ConfigureAwait(false);
             return summary;
         }
 

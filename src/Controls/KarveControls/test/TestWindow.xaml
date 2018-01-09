@@ -14,12 +14,55 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.DataContext>
+        <kc:DirectionInfoViewModelMock></kc:DirectionInfoViewModelMock>
+    </Window.DataContext>
     <Grid>
-        <Grid.Resources>
-            <local:ViewModel x:Key="LocalViewModelKey"></local:ViewModel>
-                    </Grid.Resources>
 
-        <StackPanel DataContext="LocalViewModelKey">
+        <StackPanel>
+            <TabControl>
+                
+                <TabItem Header="DirectionControls">
+                    <StackPanel Orientation="Vertical">
+                    <GroupBox Header="PagoDirection">
+                        <kc:DirectionInfo  
+                                           DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Direction="Value.DIR_PAGO"
+                                                      Direction2="Value.DIR2_PAGO"
+                                                      City="POB_PAGO"
+                                                      Country="PAIS_PAGO"
+                                                      Province="PROV_PAGO"
+                                                      CityAssistName="CITY_ASSIST"
+                                                      CountryAssistName="COUNTRY_ASSIST"
+                                                      ProvinceAssistName="PROV_ASSIST"
+                                                      Phone="Value.TELF_PAGO"
+                                                      Fax="Value.FAX_PAGO"
+                                                      Email="Value.MAIL_PAGO"
+                                                      MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      MinWidth="400"
+                                                      CountrySourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      CitySourceView="{Binding CityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      ProvinceSourceView="{Binding ProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+                        </kc:DirectionInfo>
+                    </GroupBox>
+                        <GroupBox>
+                            <WrapPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=DirInfo.DIR_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.DIR2_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.FAX_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.MAIL_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.PAIS_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.POB_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.PROV_PAGO}"></TextBlock>
+                        <TextBlock Text="{Binding Path=DirInfo.TELF_PAGO}"></TextBlock>
+                            </WrapPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+            <!--
            <kc:AutoCompleteSearchBox  
                                     TextContentFirstWidth="100" 
                                     TextContentSecondWidth="100"
@@ -31,6 +74,7 @@
                                     MagnifierCommand="{Binding MagnifierCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
 
             </kc:AutoCompleteSearchBox>
+            -->
         </StackPanel>
     </Grid>
 </Window>

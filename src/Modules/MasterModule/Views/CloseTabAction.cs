@@ -33,6 +33,22 @@ namespace MasterModule.Views
 
             RemoveItemFromRegion(tabItem.Content, region);
         }
+        public void  Execute(object tabItemValue)
+        {
+            var tabItem = FindParent<TabItem>(tabItemValue as DependencyObject);
+            if (tabItem == null)
+                return;
+
+            var tabControl = FindParent<TabControl>(tabItem);
+            if (tabControl == null)
+                return;
+
+            IRegion region = RegionManager.GetObservableRegion(tabControl).Value;
+            if (region == null)
+                return;
+
+            RemoveItemFromRegion(tabItem.Content, region);
+        }
 
         void RemoveItemFromRegion(object item, IRegion region)
         {

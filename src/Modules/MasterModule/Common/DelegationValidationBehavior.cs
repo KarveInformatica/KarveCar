@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Interactivity;
 using KarveControls;
+using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.UI.Xaml.Grid;
 
@@ -28,12 +29,16 @@ namespace MasterModule.Common
                 args.IsValid = false;
                 return;
             }
-            int codeValue = data.BranchId;
+           
+            
+            long codeValue = Convert.ToInt64(data.BranchId);
             if (codeValue <= 0)
             {
                 args.ErrorMessages.Add("ErrorCode", "Codigo no valido");
                 args.IsValid = false;
             }
+           
+          
             if (lastChangedObject == null)
             {
                 lastChangedObject = data;

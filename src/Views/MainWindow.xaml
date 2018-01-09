@@ -39,13 +39,16 @@
                 <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
                 </Setter>
         </Style>
-        <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
-            <Setter Property="ShowDefaultCloseButton" Value="True" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+        
+            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
+                <Setter Property="ShowDefaultCloseButton" Value="True" />
+
+                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
                 <Setter Property="HeaderMemberPath" Value="Header" />
+                <Setter Property="ClosingItemCallback" Value="{Binding ClosingTabItemHandler, PresentationTraceSources.TraceLevel=High}" />
                 <Setter Property="Margin" Value="0 5 0 0" />
-        </Style>
-<!--
+            </Style>
+            <!--
             <ObjectDataProvider x:Key="ResourceLanguage" 
                                 ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
                                 MethodName="GetResourceLanguage">

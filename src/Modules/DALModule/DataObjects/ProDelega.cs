@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a ProDelega.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
+    /// <summary>
+    /// Represents a ProDelega.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("ProDelega")]
 	public class ProDelega 
 	{
 	
 	/// <summary>
     ///  Set or get the cldIdDelega property.
     /// </summary>
-    
+        [Key]
 		public string cldIdDelega { get; set; }
  
 	/// <summary>

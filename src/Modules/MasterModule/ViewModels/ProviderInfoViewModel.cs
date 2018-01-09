@@ -2,8 +2,10 @@
 using KarveDataServices;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using AutoMapper;
@@ -15,8 +17,18 @@ using KarveDataServices.Assist;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
+using NLog;
+using Prism.Commands;
 using Prism.Regions;
+
 using Syncfusion.UI.Xaml.Grid;
+using System;
+using System.Linq;
+using System.Reflection;
+using Dragablz;
+using KarveControls;
+using KarveDapper.Extensions;
+using MasterModule.ViewModels;
 
 namespace MasterModule.ViewModels
 {
@@ -27,6 +39,7 @@ namespace MasterModule.ViewModels
         private bool _isInsertion;
         private string _header;
         private INotifyTaskCompletion<bool> _deleteInitializationTable;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private INotifyTaskCompletion<ISupplierData> _initializationTable;
         // FIXME: move to data layer.
         private string _accountAssistQuery = "SELECT CODIGO, DESCRIP FROM CU1;";
@@ -34,53 +47,24 @@ namespace MasterModule.ViewModels
         private DataSet _delegationSet;
         private string _delegationQuery = "";
         private ISupplierData _supplierData;
+        private object _dataObject;
         private Visibility _visibility;
-        private IEnumerable<ProvinciaDto> _provinciaDtos;
+        private IEnumerable<ProvinciaDto> _provinciaDtos = new ObservableCollection<ProvinciaDto>();
         private IEnumerable<OfficeDtos> _officeDtos;
-        private IEnumerable<CountryDto> _countryDtos;
+        private IEnumerable<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
         private IEnumerable<CompanyDto> _companyDto;
-       
+
+        private static long _uniqueCounter = 0;
+
         public ICommand ItemChangedCommand { set; get; }
         public ICommand ClickSearchWebAddressCommand { set; get; }
         private IMapper mapper;
-        public DataTable DelegationTable
-        {
-            get
-            {
-                if (_delegationSet == null)
-                {
-                    return null;
-                }
-                if (_delegationSet.Tables.Count == 0)
-                {
-                    return null;
-                }
-                return _delegationSet.Tables[0];
-            }
-            set
-            {
-                if (_delegationSet == null)
-                {
-                    _delegationSet = new DataSet();
-                    _delegationSet.Tables.Add(value);
-                }
-                else
-                {
-                    if (_delegationSet.Tables.Count == 0)
-                    {
-                        _delegationSet.Tables.Add(value);
+        
 
-                    }
-                    else
-                    {
-                        _delegationSet.Tables[0].Merge(value);
-                    }
-                }
-                RaisePropertyChanged("DelegationTable");
-            }
-        }
+        
 
         private const string ProviderInfoVm = "ProviderInfoViewModel";
+       
         private IEnumerable<PaymentFormDto> _paymentDtos;
         private IEnumerable<MonthsDto> _monthsDto;
         private IEnumerable<BanksDto> _banksDto;
@@ -95,27 +79,37 @@ namespace MasterModule.ViewModels
         private IEnumerable<AccountDto> _account6Dto;
         private IEnumerable<AccountDto> _account7Dto;
         private IEnumerable<AccountDto> _account8Dto;
-        private ObservableCollection<CountryDto> _countryDto1;
-        private ObservableCollection<CountryDto> _countryDto2;
-        private ObservableCollection<CityDto> _cityDto1;
-        private ObservableCollection<CityDto> _cityDto2;
+        private ObservableCollection<CountryDto> _countryDto1 = new ObservableCollection<CountryDto>();
+        private ObservableCollection<CountryDto> _countryDto2 = new ObservableCollection<CountryDto>();
+        private ObservableCollection<CityDto> _cityDto1 = new ObservableCollection<CityDto>();
+        private ObservableCollection<CityDto> _cityDto2 = new ObservableCollection<CityDto>();
         // this is ok.
-        private ObservableCollection<ProvinciaDto> _provinciaDtos2;
-        private ObservableCollection<ProvinciaDto> _provinciaDto2;
-        private ObservableCollection<ProvinciaDto> _provinciaDto3;
-        private ObservableCollection<ProvinciaDto> _provinciaDto1;
-        private ObservableCollection<CountryDto> _countryDto3;
-        private ObservableCollection<CountryDto> _countryDto4;
+        private ObservableCollection<ProvinciaDto> _provinciaDtos2 = new ObservableCollection<ProvinciaDto>();
+        private ObservableCollection<ProvinciaDto> _provinciaDto2 = new ObservableCollection<ProvinciaDto>();
+        private ObservableCollection<ProvinciaDto> _provinciaDto3 = new ObservableCollection<ProvinciaDto>();
+        private ObservableCollection<ProvinciaDto> _provinciaDto1 = new ObservableCollection<ProvinciaDto>();
+        private ObservableCollection<CountryDto> _countryDto3 = new ObservableCollection<CountryDto>();
+        private ObservableCollection<CountryDto> _countryDto4 = new ObservableCollection<CountryDto>();
         private ObservableCollection<CityDto> _cityDto3;
+        private ObservableCollection<CityDto> _cityDto11;
+        private ICommand _contactChangedCommand;
+        private string _mailBoxName = string.Empty;
+        private ObservableCollection<ViaDto> _viaDtos;
+        private ObservableCollection<PaymentFormDto> _formaDtos;
+        private IEnumerable<PriceConditionDto> _priceConditionDto;
+        private IEnumerable<DeliveringFormDto> _deliveryFromDto;
+        private IEnumerable<DeliveringWayDto> _deliveryWayDto;
+        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
 
         public ObservableCollection<CountryDto> CountryDto
         {
-            set { _countryDto1 = value; RaisePropertyChanged();}
+            set { _countryDto1 = value; RaisePropertyChanged(); }
             get { return _countryDto1; }
         }
         public ObservableCollection<CountryDto> CountryDto1
         {
-            set { _countryDto2 = value; RaisePropertyChanged();}
+            set { _countryDto2 = value; RaisePropertyChanged(); }
             get { return _countryDto2; }
         }
 
@@ -129,16 +123,21 @@ namespace MasterModule.ViewModels
             get { return _countryDto3; }
 
         }
-      
+
         public ObservableCollection<CityDto> CityDto
         {
             set { _cityDto1 = value; RaisePropertyChanged(); }
             get { return _cityDto1; }
         }
+        public ObservableCollection<CityDto> CityDto1
+        {
+            set { _cityDto11 = value; RaisePropertyChanged(); }
+            get { return _cityDto11; }
+        }
         public ObservableCollection<CityDto> CityDto2
         {
-         set { _cityDto2 = value; RaisePropertyChanged();}
-         get { return _cityDto2; }
+            set { _cityDto2 = value; RaisePropertyChanged(); }
+            get { return _cityDto2; }
         }
         public ObservableCollection<CityDto> CityDto3
         {
@@ -155,6 +154,27 @@ namespace MasterModule.ViewModels
             set { _provinciaDto3 = value; RaisePropertyChanged(); }
             get { return _provinciaDto3; }
         }
+
+        public ObservableCollection<CountryDto> CountryDto3
+        {
+
+            set { _countryDto3 = value; RaisePropertyChanged(); }
+            get { return _countryDto3; }
+
+        }
+
+        public ObservableCollection<ViaDto> ViaDtos
+        {
+            set { _viaDtos = value; RaisePropertyChanged(); }
+            get { return _viaDtos; }
+        }
+
+        public ObservableCollection<PaymentFormDto> FormasDtos
+        {
+            set { _formaDtos = value; RaisePropertyChanged(); }
+            get { return _formaDtos; }
+        }
+
         public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -169,11 +189,15 @@ namespace MasterModule.ViewModels
         {
 
         }
+        public ItemActionCallback ClosingTabItemHandler
+        {
+            get { return ClosingTabItemHandlerImpl; }
+        }
 
         public ICommand AssistCommand { set; get; }
 
         public ICommand EmailCommand { set; get; }
-       
+
         public string Header
         {
             set
@@ -186,6 +210,7 @@ namespace MasterModule.ViewModels
                 return _header;
             }
         }
+        public ICommand DelegationGridChangedCommand { set; get; }
         /// <summary>
         /// ProviderInfoViewModel. 
         /// </summary>
@@ -197,34 +222,84 @@ namespace MasterModule.ViewModels
             IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
         {
             ConfigurationService = configurationService;
-            MailBoxHandler += MessageHandler;
-            DelegationChangedRowsCommand = new Prism.Commands.DelegateCommand<object>(DelegationChangeRows);
-            //ContactsChangedRowsCommand = new DelegateCommand<object>(ContactsChangedRows);
-            DelegationStateBinding = false;
+            MailBoxHandler += MessageHandler;   
+            AccountAssistQuery = _accountAssistQuery;
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, this);
+            // TODO: all the mapping shall be isolated.
+            mapper = MapperField.GetMapper();
+            _onBranchesPrimaryKey += ProviderInfoViewModel__onBranchesPrimaryKey;
+            _onContactsPrimaryKey += ProviderInfoViewModel__onContactsPrimaryKey;
+            _uniqueCounter++;
+           
+            InitVmCommands();
+        }
+
+        /// <summary>
+        ///  This is useful for initialize the view model commands.
+        /// </summary>
+        private void InitVmCommands()
+        {
             EmailCommand = new Prism.Commands.DelegateCommand<object>(LaunchMailClient);
             ClickSearchWebAddressCommand = new Prism.Commands.DelegateCommand<object>(LaunchWebBrowser);
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(OnChangedField);
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
-            AccountAssistQuery = _accountAssistQuery;
-            //_deleteEventHandler += DeleteEventHandler;
-            EventManager.RegisterObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, this);
-            // TODO: all the mapping shall be isolated.
-            mapper = MapperField.GetMapper();
+            ContactsChangedCommand= new DelegateCommand<object>(OnContactsChangedCommand);
         }
-        /*
-        private void DeleteEventHandler(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        public ICommand ContactsChangedCommand {
+            get { return _contactChangedCommand;  }
+            set { _contactChangedCommand = value; RaisePropertyChanged(); }
+        }
+        private void ProviderInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
         {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-            payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
-            payLoad.PrimaryKeyValue = PrimaryKeyValue;
-            payLoad.PayloadType = DataPayLoad.Type.Delete;
-            EventManager.NotifyToolBar(payLoad);
-            PrimaryKeyValue = "";
+            primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
-        */
-       
 
+        private void ProviderInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
+        {
+            primaryKey.BranchKeyId = PrimaryKeyValue;
+        }
+
+        
+
+        /// <summary>
+        ///  Handle the delegation grid changes.
+        /// </summary>
+        /// <param name="obj">This send a delegation fo the changed command</param>
+        private async void DelegationChangedCommandHandler(object obj)
+        {
+            Tuple<bool,BranchesDto> retValue = await GridChangedCommand<BranchesDto, ProDelega>(obj, 
+                                                                            _onBranchesPrimaryKey, 
+                                                                         DataSubSystem.SupplierSubsystem);
+            if (retValue.Item1)
+            {
+                if ((_supplierData != null) && (_supplierData.BranchesDtos!=null))
+                {
+                    IEnumerable<BranchesDto> branchesDtos = new ObservableCollection<BranchesDto>();
+                    Union<BranchesDto>(ref branchesDtos, retValue.Item2);
+                    _supplierData.BranchesDtos = branchesDtos;
+                }
+
+            }
+        }
+
+        private async void ContactsChangedCommandHandler(object obj)
+        {
+            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, ProContactos>(obj,
+                _onContactsPrimaryKey,
+                DataSubSystem.SupplierSubsystem);
+            if (retValue.Item1)
+            {
+                if ((_supplierData != null) && (_supplierData.ContactsDtos != null))
+                {
+                    var contactDto = retValue.Item2;
+                    contactDto.ContactsKeyId = PrimaryKeyValue;
+                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
+                    Union<ContactsDto>(ref contactsDtos, contactDto);
+                    _supplierData.ContactsDtos = contactsDtos;
+                }
+            }
+           
+        }
         // This register the different assist types.
 
         private void OnAssistCommand(object param)
@@ -234,50 +309,33 @@ namespace MasterModule.ViewModels
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
             AssistQueryRequestHandler(assistTableName, assistQuery);
         }
+
+        private void OnContactsChangedCommand(object obj)
+        {
+            IDictionary<string, object> eventDictionary = (IDictionary<string, object>)obj;
+            ContactsChangedCommandHandler(eventDictionary);
+        }
         private void OnChangedField(object obj)
         {
             IDictionary<string, object> eventDictionary = (IDictionary<string, object>)obj;
-            OnChangedField(eventDictionary);
-        }
-        /// <summary>
-        ///  Handler for the delegation change rows
-        ///  It handles the update, delete, insert
-        /// </summary>
-        /// <param name="parameter">Dictionary of parameters to be handled.</param>
-        private void DelegationChangeRows(object parameter)
-        {
-            /*
-            IDictionary<GridParams, object> eventParams = (IDictionary<GridParams, object>)parameter;
-            DataTable table = (DataTable)eventParams[GridParams.DataSource];
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.HasDataSet = true;
-            payLoad.Queries = new Dictionary<string, string>();
-            // Before doing the merge it shall check the alias field.
-            string aliasField = (string)eventParams[GridParams.AliasField];
-            if (!table.Columns.Contains(aliasField))
+            if (eventDictionary.ContainsKey(OperationConstKey))
             {
-                table.Columns.Add(aliasField);
+                var value = eventDictionary["DataSourcePath"] as string;
+                if (value == "ContactsDtos")
+                {
+                    ContactsChangedCommandHandler(eventDictionary);
+                }
+                else
+                {
+                    DelegationChangedCommandHandler(eventDictionary);
+                }
             }
-            foreach (DataRow row in table.Rows)
+            else
             {
-                row[aliasField] = _primaryKeyValue;
+                OnChangedField(eventDictionary);
             }
-            table.TableName = DelegationDataBaseTableName;
-            DelegationTable = table;
-            payLoad.Set = _delegationSet;
-
-            payLoad.Queries.Add(DelegationDataBaseTableName, ContainsAndAdd(_delegationQuery, aliasField));
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-            payLoad.PrimaryKeyValue = ProviderConstants.DelegationesPrimaryKeyValue;
-            if (eventParams.ContainsKey(GridParams.Operation))
-            {
-                GridOperation operation = (GridOperation)eventParams[GridParams.Operation];
-                DataPayLoad.Type payLoadType = Convert(operation);
-                payLoad.PayloadType = payLoadType;
-                EventManager.NotifyToolBar(payLoad);
-            }*/
-
         }
+       
 
         /// <summary>
         ///  Data object.
@@ -286,105 +344,20 @@ namespace MasterModule.ViewModels
         {
             set
             {
-                _supplierData = (ISupplierData)value;
+                _dataObject = value;
                 RaisePropertyChanged();
             }
-            get { return _supplierData; }
+            get { return _dataObject; }
         }
+        
         /// <summary>
-        /// 
+        ///  This shall be moved to another layer.
         /// </summary>
-        /// <param name="delegationQuery"></param>
-        /// <param name="aliasField"></param>
-        /// <returns></returns>
-        private string ContainsAndAdd(string delegationQuery, string aliasField)
-        {
-            string str = ":";
-            string[] stringValues = delegationQuery.Split(',');
-            StringBuilder builder = new StringBuilder();
-            int i = 0;
-            foreach (string value in stringValues)
-            {
-                if (i == 1)
-                {
-                    builder.Append(aliasField);
-                    builder.Append(",");
-                }
-                builder.Append(stringValues[i++]);
-                if (i < stringValues.Length)
-                    builder.Append(",");
-            }
-            str = builder.ToString();
-            return str;
-        }
-        private DataPayLoad.Type Convert(GridOperation operation)
-        {
-            DataPayLoad.Type type = DataPayLoad.Type.Any;
-            /*
-            switch (operation)
-            {
-               
-                case GridOperation.:
-                    type = DataPayLoad.Type.Delete;
-                    break;
-                case GridOperation.Insert:
-                    type = DataPayLoad.Type.Insert;
-                    break;
-                case GridOperation.Update:
-                    type = DataPayLoad.Type.Update;
-                    break;
-                    
-            }*/
-            return type;
-        }
-
-        /// <summary>
-        ///  This is an changed rows command.
-        /// </summary>
-        public ICommand DelegationChangedRowsCommand { set; get; }
-        public ICommand ContactsChangedRowsCommand { set; get; }
-
         public string AccountAssistQuery
         {
             set { _accountAssistQuery = value; RaisePropertyChanged(); }
             get { return _accountAssistQuery; }
         }
-
-
-
-        /// <summary>
-        ///  TODO: remove the helper.
-        /// </summary>
-        /// <param name="primaryKeyValue"></param>
-        /// <param name="isInsertion"></param>
-        /// <param name="currentDataSet"></param>
-        /// <param name="helper"></param>
-        private void Init(string primaryKeyValue, bool isInsertion, DataPayLoad payLoad = null,
-            DataSet currentDataSet = null, DataSet helper = null)
-        {
-
-
-            _isInsertion = isInsertion;
-            if (payLoad != null)
-            {
-
-                if (payLoad.HasDataObject)
-                {
-                    _supplierData = (ISupplierData)payLoad.DataObject;
-                    if (!string.IsNullOrEmpty(PrimaryKeyValue))
-                    {
-                        _supplierData.Value.NUM_PROVEE = this.PrimaryKeyValue;
-                    }
-                  DataObject = _supplierData;
-                    payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-                    payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
-                    EventManager.SendMessage(UpperBarViewSupplierViewModel.Name, payLoad);
-                    RegisterToolBar();
-                }
-            }
-
-        }
-
 
 
         public Visibility IsVisible
@@ -443,75 +416,109 @@ namespace MasterModule.ViewModels
                         break;
                     }
                 case "PROV_PAGO":
-                {
-                    var province = await dto.HandleAssist<PROVINCIA>(assist);
-                    var provinceList = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
-                    ProvinceDto1 = new ObservableCollection<ProvinciaDto>(provinceList);
-                    break;
-                }
+                    {
+                        var province = await dto.HandleAssist<PROVINCIA>(assist);
+                        var provinceList = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
+                        ProvinceDto1 = new ObservableCollection<ProvinciaDto>(provinceList);
+                        break;
+                    }
                 case "PROV_RECL":
-                {
-                    var province = await dto.HandleAssist<PROVINCIA>(assist);
-                    var provinceList = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
-                    ProvinceDto2 = new ObservableCollection<ProvinciaDto>(provinceList);
-                    break;
-                }
+                    {
+                        var province = await dto.HandleAssist<PROVINCIA>(assist);
+                        var provinceList = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
+                        ProvinceDto2 = new ObservableCollection<ProvinciaDto>(provinceList);
+                        break;
+                    }
                 case "PROV_DEVO":
-                {
-                    var province = await dto.HandleAssist<PROVINCIA>(assist);
-                    var manual1 = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
-                    ProvinceDto3 = new ObservableCollection<ProvinciaDto>(manual1);
-                    break;
-                }
+                    {
+                        var province = await dto.HandleAssist<PROVINCIA>(assist);
+                        var manual1 = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(province.ResultList());
+                        ProvinceDto3 = new ObservableCollection<ProvinciaDto>(manual1);
+                        break;
+                    }
                 case "PAIS_PAGO":
-                {
-                    var country = await dto.HandleAssist<Country>(assist);
-                    var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
-                    CountryDto = new ObservableCollection<CountryDto>(value);
-                    break;
-                }
+                    {
+                        var country = await dto.HandleAssist<Country>(assist);
+                        var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
+                        CountryDto1 = new ObservableCollection<CountryDto>(value);
+                        break;
+                    }
                 case "PAIS_RECL":
+                    {
+                        var country = await dto.HandleAssist<Country>(assist);
+                        var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
+                        CountryDto2 = new ObservableCollection<CountryDto>(value);
+                        break;
+                    }
+                case "PAIS_DEVO":
+                    {
+                        var country = await dto.HandleAssist<Country>(assist);
+                        var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
+                        CountryDto3 = new ObservableCollection<CountryDto>(value);
+                        break;
+                    }
+                case "TL_CONDICION_PRECIO":
                 {
-                    var country = await dto.HandleAssist<Country>(assist);
-                    var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
-                    CountryDto1 = new ObservableCollection<CountryDto>(value);
+                    var priceConf = await dto.HandleAssist<TL_CONDICION_PRECIO>(assist);
+                    var value = mapper.Map<IEnumerable<TL_CONDICION_PRECIO>, IEnumerable<PriceConditionDto>>(priceConf.ResultList());
+                    PriceConditionDto = value;
                     break;
                 }
-                case "PAIS_DEVO":
+                case "POBLACIONES_PAGO":
                 {
-                    var country = await dto.HandleAssist<Country>(assist);
-                    var value = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(country.ResultList());
-                    CountryDto2 = new ObservableCollection<CountryDto>(value);
+                    var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
+                    assist.Query = poblacionQuery;
+                    var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
+                    var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
+                    CityDto1 = new ObservableCollection<CityDto>(value);
+                    break;
+                }
+                case "FORMAS_PEDENT":
+                {
+                    var formas = "SELECT CODIGO,NOMBRE FROM FORMAS_PEDENT";
+                    assist.Query = formas;
+                    var deliveringForm = await dto.HandleAssist<FORMAS_PEDENT>(assist);
+                    DeliveringFormDto = mapper.Map<IEnumerable<FORMAS_PEDENT>, IEnumerable<DeliveringFormDto>>(deliveringForm.ResultList());
+                    break;
+                }
+                case "VIASPEDIPRO":
+                {
+                    var formas = "SELECT CODIGO,NOMBRE FROM VIASPEDIPRO";
+                    assist.Query = formas;
+                    var deliveringWay = await dto.HandleAssist<VIASPEDIPRO>(assist);
+                    DeliveringWayDto = mapper.Map<IEnumerable<VIASPEDIPRO>, IEnumerable<DeliveringWayDto>>(deliveringWay.ResultList());
+                   
                     break;
                 }
                 case "POBLACIONES_RECL":
-                {
-                    var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
-                    assist.Query = poblacionQuery;
-                    var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
-                    var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
-                    CityDto2 = new ObservableCollection<CityDto>(value);
-                    break;
-                }
+                    {
+                        var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
+                        assist.Query = poblacionQuery;
+                        var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
+                        var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
+                        CityDto2 = new ObservableCollection<CityDto>(value);
+                        break;
+                    }
+
                 case "POBLACIONES_DEVO":
-                {
-                    var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
-                    assist.Query = poblacionQuery;
-                    var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
-                    var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
-                    CityDto3 = new ObservableCollection<CityDto>(value);
-                    break;
-                }
+                    {
+                        var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
+                        assist.Query = poblacionQuery;
+                        var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
+                        var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
+                        CityDto3 = new ObservableCollection<CityDto>(value);
+                        break;
+                    }
                 case "POBLACIONES":
-                {
-                    var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
-                    assist.Query = poblacionQuery;
-                    var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
-                    var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
-                    CityDto = new ObservableCollection<CityDto>(value);
-                    
-                    break;
-                }
+                    {
+                        var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
+                        assist.Query = poblacionQuery;
+                        var poblacion = await dto.HandleAssist<POBLACIONES>(assist);
+                        var value = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(poblacion.ResultList());
+                        CityDto = new ObservableCollection<CityDto>(value);
+
+                        break;
+                    }
                 case "OFICINAS":
                     {
                         var office = await dto.HandleAssist<OFICINAS>(assist);
@@ -521,104 +528,104 @@ namespace MasterModule.ViewModels
                 case "SUBLICEN":
                     {
                         var company = await dto.HandleAssist<SUBLICEN>(assist);
-                        CompanyDtos = mapper.Map<IEnumerable<SUBLICEN>, IEnumerable<CompanyDto> >(company.ResultList());
+                        CompanyDtos = mapper.Map<IEnumerable<SUBLICEN>, IEnumerable<CompanyDto>>(company.ResultList());
                         break;
                     }
                 case "DIVISAS":
-                {
-                    var divisas = await dto.HandleAssist<DIVISAS>(assist);
-                    CurrencyDtos = mapper.Map<IEnumerable<DIVISAS>, IEnumerable<CurrencyDto>>(divisas.ResultList());
-                    break;
-                }
+                    {
+                        var divisas = await dto.HandleAssist<DIVISAS>(assist);
+                        CurrencyDtos = mapper.Map<IEnumerable<DIVISAS>, IEnumerable<CurrencyDto>>(divisas.ResultList());
+                        break;
+                    }
                 case "FORMAS":
-                {
-                    var formas = await dto.HandleAssist<FORMAS>(assist);
-                    PaymentDtos = mapper.Map<IEnumerable<FORMAS>, IEnumerable<PaymentFormDto>>(formas.ResultList());
-                    break;
-                }
+                    {
+                        var formas = await dto.HandleAssist<FORMAS>(assist);
+                        PaymentDtos = mapper.Map<IEnumerable<FORMAS>, IEnumerable<PaymentFormDto>>(formas.ResultList());
+                        break;
+                    }
                 case "MESES":
-                {
-                    var meses = await dto.HandleAssist<MESES>(assist);
-                    MonthsDtos = mapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(meses.ResultList());
-                    break;
-                }
+                    {
+                        var meses = await dto.HandleAssist<MESES>(assist);
+                        MonthsDtos = mapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(meses.ResultList());
+                        break;
+                    }
                 case "MESES2":
-                {
-                    var mesesAssist = "SELECT NUMERO_MES, MES FROM MESES";
-                    assist.Query = mesesAssist;
-                    var meses = await dto.HandleAssist<MESES>(assist);
-                    MonthsDtos2 = mapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(meses.ResultList());
-                    break;
-                }
+                    {
+                        var mesesAssist = "SELECT NUMERO_MES, MES FROM MESES";
+                        assist.Query = mesesAssist;
+                        var meses = await dto.HandleAssist<MESES>(assist);
+                        MonthsDtos2 = mapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(meses.ResultList());
+                        break;
+                    }
                 case "BANCO":
-                {
-                    var banks = await dto.HandleAssist<BANCO>(assist);
-                    BanksDtos = mapper.Map<IEnumerable<BANCO>, IEnumerable<BanksDto>>(banks.ResultList());
-                    break;
-                }
+                    {
+                        var banks = await dto.HandleAssist<BANCO>(assist);
+                        BanksDtos = mapper.Map<IEnumerable<BANCO>, IEnumerable<BanksDto>>(banks.ResultList());
+                        break;
+                    }
                 case "IDIOMAS":
-                {
-                    var idiomas = await dto.HandleAssist<IDIOMAS>(assist);
-                    LanguageDtos = mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(idiomas.ResultList());
-                    break;
-                }
+                    {
+                        var idiomas = await dto.HandleAssist<IDIOMAS>(assist);
+                        LanguageDtos = mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(idiomas.ResultList());
+                        break;
+                    }
                 case "CU1":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu = await dto.HandleAssist<CU1>(assist);
-                    Account1Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu = await dto.HandleAssist<CU1>(assist);
+                        Account1Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu.ResultList());
+                        break;
+                    }
                 case "CU1Gasto":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Gasto = await dto.HandleAssist<CU1>(assist);
-                    Account2Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Gasto.ResultList());
-                    break;
-                        
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Gasto = await dto.HandleAssist<CU1>(assist);
+                        Account2Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Gasto.ResultList());
+                        break;
+
+                    }
                 case "CU1Retencion":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Retencion = await dto.HandleAssist<CU1>(assist);
-                    Account3Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Retencion.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Retencion = await dto.HandleAssist<CU1>(assist);
+                        Account3Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Retencion.ResultList());
+                        break;
+                    }
                 case "CU1Pago":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Pago = await dto.HandleAssist<CU1>(assist);
-                    Account4Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Pago.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Pago = await dto.HandleAssist<CU1>(assist);
+                        Account4Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Pago.ResultList());
+                        break;
+                    }
                 case "CU1CP":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Cp = await dto.HandleAssist<CU1>(assist);
-                    Account5Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Cp.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Cp = await dto.HandleAssist<CU1>(assist);
+                        Account5Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Cp.ResultList());
+                        break;
+                    }
                 case "CU1LP":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1LP = await dto.HandleAssist<CU1>(assist);
-                    Account6Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1LP.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1LP = await dto.HandleAssist<CU1>(assist);
+                        Account6Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1LP.ResultList());
+                        break;
+                    }
                 case "CU1Intraco":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Intraco = await dto.HandleAssist<CU1>(assist);
-                    Account7Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Intraco.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Intraco = await dto.HandleAssist<CU1>(assist);
+                        Account7Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Intraco.ResultList());
+                        break;
+                    }
                 case "CU1Reper":
-                {
-                    assist.Query = AccountAssistQuery;
-                    var cu1Reper = await dto.HandleAssist<CU1>(assist);
-                    Account8Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Reper.ResultList());
-                    break;
-                }
+                    {
+                        assist.Query = AccountAssistQuery;
+                        var cu1Reper = await dto.HandleAssist<CU1>(assist);
+                        Account8Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu1Reper.ResultList());
+                        break;
+                    }
                 case "PAIS":
                     {
 
@@ -637,11 +644,11 @@ namespace MasterModule.ViewModels
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
-
+            payLoad.PayloadType = DataPayLoad.Type.Update;
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.PayloadType = DataPayLoad.Type.Update;
+                
             }
             if (eventDictionary.ContainsKey("DataObject"))
             {
@@ -662,6 +669,7 @@ namespace MasterModule.ViewModels
             }
             else
             {
+                payLoad.PayloadType = DataPayLoad.Type.Update;
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
         }
@@ -697,7 +705,7 @@ namespace MasterModule.ViewModels
             set { _provinciaDtos = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<PaymentFormDto> PaymentFormDto { get; private set; }
+
 
         public IEnumerable<OfficeDtos> OfficeDtos
         {
@@ -718,28 +726,31 @@ namespace MasterModule.ViewModels
             set { _companyDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<PaymentFormDto> PaymentDtos {
+        public IEnumerable<PaymentFormDto> PaymentDtos
+        {
             get { return _paymentDtos; }
             set { _paymentDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<MonthsDto> MonthsDtos {
+        public IEnumerable<MonthsDto> MonthsDtos
+        {
             get { return _monthsDto; }
-            set { _monthsDto = value; RaisePropertyChanged();}
+            set { _monthsDto = value; RaisePropertyChanged(); }
         }
         public IEnumerable<MonthsDto> MonthsDtos2
         {
             get { return _monthsDto2; }
             set { _monthsDto2 = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<BanksDto> BanksDtos {
+        public IEnumerable<BanksDto> BanksDtos
+        {
             get { return _banksDto; }
-            set { _banksDto =value; RaisePropertyChanged();}
+            set { _banksDto = value; RaisePropertyChanged(); }
         }
 
         public IEnumerable<LanguageDto> LanguageDtos
         {
             get { return _languagesDto; }
-            set { _languagesDto = value; RaisePropertyChanged();}
+            set { _languagesDto = value; RaisePropertyChanged(); }
         }
 
         public IEnumerable<AccountDto> Account1Dtos
@@ -830,6 +841,22 @@ namespace MasterModule.ViewModels
             get { return _provinciaDto1; }
             set { _provinciaDto1 = value; RaisePropertyChanged(); }
         }
+
+        public IEnumerable<PriceConditionDto> PriceConditionDto
+        {
+            get { return _priceConditionDto; }
+            set { _priceConditionDto = value; RaisePropertyChanged(); }
+        }
+
+        public IEnumerable<DeliveringFormDto> DeliveringFormDto
+        {
+            get { return _deliveryFromDto; }
+            set { _deliveryFromDto = value; RaisePropertyChanged(); }
+        }
+        public IEnumerable<DeliveringWayDto> DeliveringWayDto {
+            get { return _deliveryWayDto; }
+            set { _deliveryWayDto = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         /// This adds a primary and a payload
         /// </summary>
@@ -838,19 +865,103 @@ namespace MasterModule.ViewModels
         /// <param name="insertable">Is an insert operation</param>
         private void Init(string primaryKeyValue, DataPayLoad payload, bool insertable)
         {
+
             if (payload.HasDataObject)
             {
-                DataObject = null;
-                _supplierData = (ISupplierData)payload.DataObject;
-                DataObject = _supplierData;
-                ProvinceDto = _supplierData.ProvinciaDtos;
-                PaymentFormDto = _supplierData.PaymentDtos;
-                OfficeDtos = _supplierData.OfficeDtos;
-          
+                Logger.Info("ProviderInfoViewModel has received payload type " + payload.PayloadType.ToString());
+                var supplierData = payload.DataObject as ISupplierData;
+                DataObject = supplierData;
+                Logger.Log(LogLevel.Debug, "Received PoblaPago" + supplierData.Value.POB_RECLAMA);               
+                ProvinceDto = supplierData.ProvinciaDtos;
+                ProvinceDto1 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                CountryDto1 = new  ObservableCollection<CountryDto>(supplierData.CountryDtos);
+                ProvinceDto2 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                CountryDto2 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
+                ProvinceDto3 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                CountryDto3 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
+                
+                CityDto3 = supplierData.CityDtos;
+                CityDto1 = supplierData.CityDtos;
+                CityDto2 = supplierData.CityDtos;
+                PaymentDtos = supplierData.PaymentDtos;
+                OfficeDtos = supplierData.OfficeDtos;
+                CompanyDtos = supplierData.CompanyDtos;
+                CityDto = supplierData.CityDtos;
+                CityDto1 = supplierData.CityDtos;
+                CityDto2 = supplierData.CityDtos;
+                CityDto3 = supplierData.CityDtos;
+                PaymentDtos = supplierData.PaymentDtos;
+               
+                // TODO: aux data shall be moved in a ax object and not present in the supplier.
+                MonthsDtos = supplierData.MonthsDtos;
+                MonthsDtos2 = supplierData.MonthsDtos;
+                BanksDtos = supplierData.BanksDtos;
+                LanguageDtos = supplierData.LanguageDtos;
+                CurrencyDtos = supplierData.CurrencyDtos;
+                Account1Dtos = supplierData.AccountDtos;
+                Account2Dtos = supplierData.AccountDtos;
+                Account3Dtos = supplierData.AccountDtos;
+                Account4Dtos = supplierData.AccountDtos;
+                Account5Dtos = supplierData.AccountDtos;
+                Account6Dtos = supplierData.AccountDtos;
+                Account7Dtos = supplierData.AccountDtos;
+                Account8Dtos = supplierData.AccountDtos;
                 EventManager.SendMessage(UpperBarViewSupplierViewModel.Name, payload);
+                Logger.Info("ProviderInfoViewModel has activated the provider subsystem as current with directive " + payload.PayloadType.ToString());
                 ActiveSubSystem();
+               
             }
         }
+
+
+        // <summary>
+        /// This is the start notify.
+        /// </summary>
+        public override void StartAndNotify()
+        {
+            Logger.Log(LogLevel.Debug, "Started and notified.");
+            _initializationTable =
+                NotifyTaskCompletion.Create<ISupplierData>(LoadDataValue(PrimaryKeyValue, IsInsertion), InitializationDataObjectOnPropertyChanged);
+
+        }
+
+        /// <summary>
+        /// This program loads the data from the data values.
+        /// </summary>
+        /// <param name="primaryKeyValue">Primary Key.</param>
+        /// <param name="isInsertion">Inserted key.</param>
+        /// <returns></returns>
+        private async Task<ISupplierData> LoadDataValue(string primaryKeyValue, bool isInsertion)
+        {
+
+            ISupplierData supplier = null;
+            if (isInsertion)
+            {
+                supplier = DataServices.GetSupplierDataServices().GetNewSupplierDo(PrimaryKeyValue);
+                if (supplier != null)
+                {
+                    DataObject = supplier;
+                }
+            }
+            else
+            {
+                supplier = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(primaryKeyValue);
+                DataObject = supplier;
+                var supplierData = DataObject as ISupplierData;
+                Logger.Log(LogLevel.Debug, "Received PoblaPago" + supplierData.Value.POB_PAGO);
+
+            }
+            return supplier;
+        }
+        private void InitializationDataObjectOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is ISupplierData)
+            {
+                ISupplierData vehicle = (ISupplierData)sender;
+                DataObject = vehicle;
+            }
+        }
+
         /// <summary>
         /// Incoming payload . Refactor to the upper master layer.
         /// </summary>
@@ -858,13 +969,40 @@ namespace MasterModule.ViewModels
         public void IncomingPayload(DataPayLoad dataPayLoad)
         {
             DataPayLoad payload = dataPayLoad;
+
+            ISupplierData pay = payload.DataObject as ISupplierData;
+            if (pay == null)
+            {
+
+                return;
+                /*     SupplierDto dto = pay.Value;
+                     logger.Log(LogLevel.Debug, "ProviderViewModel Received " +dto.POB_PAGO);
+                     */
+            } // precondition not null
+            if (dataPayLoad == null)
+            {
+                return;
+            }
+            // ignore double insert
+            if ((dataPayLoad.PayloadType == DataPayLoad.Type.Insert) &&
+                (PrimaryKeyValue == dataPayLoad.PrimaryKeyValue))
+            {
+                return;
+            }
             if (payload != null)
             {
                 if (PrimaryKeyValue.Length == 0)
                 {
                     PrimaryKeyValue = payload.PrimaryKeyValue;
-                    string mailboxName = "Providers." + PrimaryKeyValue;
-                    RegisterMailBox(mailboxName);
+                    _mailBoxName = "Providers." + PrimaryKeyValue+ "."+ _uniqueCounter;
+                    RegisterMailBox(_mailBoxName);
+                }
+                if (PrimaryKeyValue.Length > 0)
+                {
+                    // check if the message if for me.
+                    if (pay.Value.NUM_PROVEE != PrimaryKeyValue)
+                        return;
+                    
                 }
                 // here i can fix the primary key. Consider to move up to the master module.
                 switch (payload.PayloadType)
@@ -875,14 +1013,19 @@ namespace MasterModule.ViewModels
                             {
                                 DataObject = null;
                                 DataObject = payload.DataObject;
+                                _supplierData = DataObject as ISupplierData;
                             }
                             break;
                         }
                     case DataPayLoad.Type.UpdateView:
                     case DataPayLoad.Type.Show:
                         {
-                            Init(PrimaryKeyValue, payload, false);
-                            CurrentOperationalState = DataPayLoad.Type.Show;
+                            if (!string.IsNullOrEmpty(PrimaryKeyValue))
+                            {
+                                Init(PrimaryKeyValue, payload, false);
+                                //  StartAndNotify();
+                                CurrentOperationalState = DataPayLoad.Type.Show;
+                            }
                             break;
                         }
                     case DataPayLoad.Type.Insert:
@@ -893,17 +1036,19 @@ namespace MasterModule.ViewModels
                             {
                                 PrimaryKeyValue =
                                     DataServices.GetSupplierDataServices().GetNewId();
-                              
+
                             }
                             Init(PrimaryKeyValue, payload, true);
                             break;
                         }
+
                     case DataPayLoad.Type.Delete:
                         {
                             if (payload.PrimaryKeyValue == PrimaryKeyValue)
                             {
                                 DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.SupplierSubsystem, MasterModuleConstants.ProviderSubsystemName);
-                               // DeleteRegion(payload.PrimaryKeyValue);
+                                DeleteRegion(payload.PrimaryKeyValue);
+
                                 PrimaryKeyValue = "";
                             }
                             break;
@@ -911,6 +1056,12 @@ namespace MasterModule.ViewModels
                 }
             }
 
+        }
+
+        public override void DisposeEvents()
+        {
+            EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
+            DeleteMailBox(_mailBoxName);
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
@@ -923,7 +1074,6 @@ namespace MasterModule.ViewModels
         }
         protected override void SetDataObject(object result)
         {
-            _supplierData = (ISupplierData)result;
         }
     }
 }

@@ -38,7 +38,9 @@ namespace KarveCommon.Services
             RegistrationPayload = 3, Show = 4, UpdateView = 5,
             UpdateData = 6,
             Any = 7,
-            CultureChange = 8
+            CultureChange = 8,
+            UpdateInsertGrid = 9,
+            DeleteGrid = 10
         };
 
         private Type _payLoadType = Type.Insert;
@@ -86,6 +88,8 @@ namespace KarveCommon.Services
         public string PrimaryKey { get; set; }
 
         public object DataObject { get; set; }
+
+        public object RelatedObject { set; get; }
         
         public IDictionary<string, object> DataMap { get; set; }
         /// <summary>
@@ -110,7 +114,12 @@ namespace KarveCommon.Services
         public string Sender { get; set; }
         public string SubsystemViewModel { get; set; }
         public string PrimaryKeyValue { get; set; }
+        public bool HasRelatedObject { get; set; }
 
+        public object ShallowCopy()
+        {
+            return this.MemberwiseClone();
+        }
         public object Clone()
         {
             DataPayLoad payLoad = new DataPayLoad();

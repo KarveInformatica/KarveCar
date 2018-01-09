@@ -99,6 +99,8 @@
     <Compile Include="DataTransferObject\ContactsSummaryDto.cs" />
     <Compile Include="DataTransferObject\CountryDto.cs" />
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
+    <Compile Include="DataTransferObject\DeliveringFormDto.cs" />
+    <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LocaleDataDto.cs" />
@@ -112,6 +114,8 @@
     <Compile Include="DataTransferObject\OwnerDto.cs" />
     <Compile Include="DataTransferObject\PaymentFormDto.cs" />
     <Compile Include="DataTransferObject\PictureDto.cs" />
+    <Compile Include="DataTransferObject\PriceConditionDto.cs" />
+    <Compile Include="DataTransferObject\PrimaryKeyAttribute.cs" />
     <Compile Include="DataTransferObject\ProductsDto.cs" />
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />

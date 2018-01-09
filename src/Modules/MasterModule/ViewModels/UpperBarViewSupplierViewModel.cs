@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -7,6 +9,7 @@ using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -22,6 +25,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<TIPOPROVE> _tipocomis = new List<TIPOPROVE>();
         private string _currentName;
         private ISupplierData _currentSupplier;
+        private ICommand _startUpCommand;
         
 
         /// <summary>
@@ -33,12 +37,14 @@ namespace MasterModule.ViewModels
         IDataServices services) : base(manager, services)
         {
 
+            _startUpCommand = new DelegateCommand<object>(HandleSupplier);
             ChangedItem = new DelegateCommand<object>(OnChangedItem);
             UpperBarSupplierAssist = new DelegateCommand<object>(OnAssistCommand);
             MailBoxHandler += MailBoxHandlerMethod;
             EventManager.RegisterMailBox(Name, MailBoxHandler);
             // initialize the mapper to the automap for the upper view model.
             InitMapping();
+            
         }
         /// <summary>
         /// Init the mapping.
@@ -70,18 +76,22 @@ namespace MasterModule.ViewModels
                 ISupplierData data = payLoad.DataObject as ISupplierData;
                 DataObject = null;
                 DataObject = data;
-                
-               // DataObject.Value = data.Value;
-              //  RaisePropertyChanged("DataObject.Value");
+               // _startUpCommand.Execute(data);
+                // DataObject.Value = data.Value;
+                //  RaisePropertyChanged("DataObject.Value");
                 _subsystem = payLoad.Subsystem;
                 EventManager.DeleteMailBoxSubscription(Name);
                 if (string.IsNullOrEmpty(PrimaryKeyValue))
                 {
                     PrimaryKeyValue = payLoad.PrimaryKeyValue;
                 }
-                _currentName = Name + "." + payLoad.PrimaryKeyValue;
-                EventManager.RegisterMailBox(_currentName, MailBoxHandler);
-                               
+                if (PrimaryKeyValue == payLoad.PrimaryKeyValue)
+                {
+                    _currentName = Name + "." + payLoad.PrimaryKeyValue;
+                    EventManager.RegisterMailBox(_currentName, MailBoxHandler);
+                    _startUpCommand.Execute(data);
+                }
+
             }
         }
 
@@ -90,17 +100,27 @@ namespace MasterModule.ViewModels
             set;
             get;
         }
-        private async Task HandleSupplier(object dataObject)
+
+        private async void HandleSupplier(object dataObject)
         {
             ISupplierData supplier = dataObject as ISupplierData;
-            DataObject = supplier;
-            
-            var supplierValue = supplier.Type.FirstOrDefault().Number;
-            string value = string.Format("SELECT NUM_TIPROVE, NOMBRE FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'", supplierValue);
-            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-            var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
-            SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
+            //         DataObject = supplier;
+            if (supplier != null)
+            {
 
+                ISupplierTypeData supplierValue = supplier.Type.FirstOrDefault();
+                if (supplierValue == null)
+                {
+                    supplierValue = new SupplierTypeDataObject();
+                    supplierValue.Number = 1;
+                }
+                string value = string.Format("SELECT NUM_TIPROVE, NOMBRE FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'",
+                    supplierValue.Number);
+                IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
+                var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
+                var dto = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
+                SourceView = dto;
+            }
         }
         /// <summary>
         ///  TODO: using controvariance will be useful
@@ -136,7 +156,17 @@ namespace MasterModule.ViewModels
 
         protected override void UpdateDataObject(object currentObject)
         {
-            DataObject = currentObject as ISupplierData;
+          //DataObject = currentObject as ISupplierData;
         }
-    }
+
+        public override IEnumerable SourceView
+        {
+            get { return _sourceView; }
+            set
+            {
+                _sourceView = value;
+                RaisePropertyChanged();
+            }
+        }
+     }
 }

@@ -186,7 +186,6 @@ namespace KarveControls
             }
             if (string.IsNullOrEmpty(_dataField))
                 return;
-
             _dataObject = e.NewValue;
 
             Type dataType = _dataObject.GetType();
@@ -260,6 +259,10 @@ namespace KarveControls
             if (e.NewValue == null)
                 return;
 
+            if (_dataField == "DIREC2")
+            {
+                int k = 0;
+            }
             if (string.IsNullOrEmpty(_dataField))
                 return;
 
@@ -713,22 +716,8 @@ namespace KarveControls
         /// </summary>
         public static string DATAOBJECT = "DataObject";
         /// <summary>
-        ///  Simple field with associated the database field. 
-        /// This is pretty useful for creating automagically the query to send to the data layer and bind the data.
         /// </summary>
-        /*
-        public DataField(): base()
-        {
-
-            Stopwatch startStopWatch = new Stopwatch();
-            startStopWatch.Start();
-            this.TextContentWidth = "100";
-            this.LabelTextWidth = "50";
-            this.Height = 25;
-            LabelVisible = true;
-            startStopWatch.Stop();
-            long value = startStopWatch.ElapsedMilliseconds;
-        }*/
+     
 
         private void TextField_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -766,10 +755,11 @@ namespace KarveControls
                 {
                     FieldData = textField.Text
                 };
-                var valueDictionary = InitValueDictionary(textField.Text, DataObject);
-                ev.ChangedValuesObjects = valueDictionary;
                 FillDo(textField.Text, ref _dataObject);
                 DataObject = _dataObject;
+                var valueDictionary = InitValueDictionary(textField.Text, DataObject);
+                ev.ChangedValuesObjects = valueDictionary;
+               
                 if (this.ItemChangedCommand != null)
                 {
                     if (ItemChangedCommand.CanExecute(valueDictionary))

@@ -89,5 +89,7 @@ namespace KarveCommon.Services
         /// <param name="viewModuleId">Identifier of the view module</param>
         /// <param name="payLoad">Message to be sent.</param>
         void SendMessage(string viewModuleId, DataPayLoad payLoad);
+
+        void DeleteObserver(IEventObserver observer);
     }
 }

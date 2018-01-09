@@ -21,6 +21,7 @@ using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using KarveLocale;
+using MasterModule.Common;
 
 namespace KarveCar.ViewModels
 {
@@ -108,8 +109,17 @@ namespace KarveCar.ViewModels
             //in here you can dispose stuff or cancel the close
 
             //here's your view model:
-            //var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
-            //Debug.Assert(viewModel != null);
+            var view =  args.DragablzItem.DataContext as UserControl;
+            if (view != null)
+            {
+                var viewModel = view.DataContext;
+                Type viewModelType = viewModel.GetType();
+                MethodInfo methodInfo = viewModelType.GetMethod("DisposeEvents");
+                if (methodInfo != null)
+                {
+                    methodInfo.Invoke(viewModel, null);
+                }
+            }
 
             var tabItem = args.DragablzItem;
 
@@ -140,11 +150,13 @@ namespace KarveCar.ViewModels
                         if (headerName == args.DragablzItem.Content.ToString())
                         {
                             RemoveItemFromRegion(currentView, region);
+      
 
                         }
                     }
                 }
             }
+          
             //here's how you can cancel stuff:
             //args.Cancel(); 
         }
@@ -165,6 +177,7 @@ namespace KarveCar.ViewModels
             {
                 InvokeOnNavigatedFrom(item, navigationContext);
                 region.Remove(item);
+                
             }
         }
 

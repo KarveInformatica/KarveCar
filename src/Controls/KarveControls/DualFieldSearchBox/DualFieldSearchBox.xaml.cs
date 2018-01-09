@@ -20,6 +20,7 @@ using Telerik.WinControls.UI;
 using DataRow = System.Data.DataRow;
 using static KarveControls.DataField;
 using DataColumn = System.Data.DataColumn;
+using NLog;
 
 namespace KarveControls
 {
@@ -33,7 +34,7 @@ namespace KarveControls
 
         // private SfDataGrid MagnifierGrid = new SfDataGrid();
         // most of the shared ones shall be moved as attached properties 
-
+        private Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         ///  Magnifier command dependency property.
         /// </summary>
@@ -119,39 +120,7 @@ namespace KarveControls
         /// </summary>
         public static readonly DependencyProperty DataObjectDependencyProperty = DependencyProperty.Register("DataObject",
                                                     typeof(object),
-                                                    typeof(DualFieldSearchBox), new PropertyMetadata(null, OnDataObjectChange));
-
-        private static void OnDataObjectChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DualFieldSearchBox searchBox = d as DualFieldSearchBox;
-            if (searchBox != null)
-            {
-                searchBox.OnDataObjectEvChange(e);
-            }
-        }
-
-
-        private void OnDataObjectEvChange(DependencyPropertyChangedEventArgs e)
-        {
-            object value = e.NewValue;
-            Type t = value.GetType();
-            PropertyInfo info = t.GetProperty(ValueStr);
-            object currentObjectValue = info.GetValue(value);
-            if (currentObjectValue != null)
-            {
-                Type myType = currentObjectValue.GetType();
-                PropertyInfo dataFieldFirst = myType.GetProperty(DataFieldFirst);
-                if (dataFieldFirst != null)
-                {
-                    object currentValue = dataFieldFirst.GetValue(currentObjectValue);
-                    // currentValue.
-
-
-                }
-
-            }
-        }
-
+                                                    typeof(DualFieldSearchBox));
         /// <summary>
         ///  DataTable or data object to be associated with the search. Cross reference table.
         /// </summary>
@@ -697,7 +666,6 @@ namespace KarveControls
             }
             object value = e.NewValue;
             _dataSource = value;
-
             DataRow[] filteredRows = null;
             Type type = value.GetType();
             object tableSource = SourceView;
@@ -709,6 +677,7 @@ namespace KarveControls
 
             {
 
+               
                 _codeFirst = AssistDataFieldFirst;
                 _codeSecond = "";
                 if (!string.IsNullOrEmpty(_codeFirst))
@@ -721,7 +690,9 @@ namespace KarveControls
                     }
                 }
                var textDo = ComponentUtils.GetTextDo(value, DataFieldFirst, DataAllowedFirst);
-               var source = SourceView as IEnumerable;
+               logger.Log(LogLevel.Debug, "GetTextDo"+textDo);
+
+                var source = SourceView as IEnumerable;
 
                 if (source != null)
                 {
@@ -742,10 +713,8 @@ namespace KarveControls
                         }
                     }
                 }
-            }
-            
+            }   
         }
-
         /// <summary>
         /// Label Text to be used.
         /// </summary>
@@ -832,36 +801,7 @@ namespace KarveControls
             {
                 TextContentSecond = currentValueSecond;
             }
-            /*
-            string value = CheckTheValueInSourceView(searchTxtFirst);
-            _textMode = true;
-            if (string.IsNullOrEmpty(value))
-            {
-                RaiseKeyAssist();
-            }
-            else
-            {
-                  TextContentSecond = value;
-            }
-
-            /*
-            IDictionary<string, object> values = new Dictionary<string, object>();
-            values["SearchText1"] = SearchTextFirst.Text;
-            values["SearchText2"] = SearchTextSecond.Text;
-            values["DataTable"] = ItemSource;
-            values["AssitTable"] = SourceView;
-            values["AssistTableName"] = TableName;
-            values["TableName"] = TableName;
-            values["DataObject"] = _dataSource;
-            values["ChangedCode"] = TextContentFirst;
-            if (this.ItemChangedCommand != null)
-            {
-                if (ItemChangedCommand.CanExecute(values))
-                {
-                    ItemChangedCommand.Execute(values);
-                }
-            }*/
-
+        
         }
 
         /*
@@ -1219,10 +1159,23 @@ namespace KarveControls
                 if (!string.IsNullOrEmpty(AssistProperties))
                 {
                     string[] fieldList = AssistProperties.Split(',');
-                    textContentFirst = ComponentUtils.GetPropValue(currentDto, fieldList[0]) as string;
-                    textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]) as string;
+
+                    var tmpValue = ComponentUtils.GetPropValue(currentDto, fieldList[0]);
+                    if (tmpValue != null)
+                    {
+                        if (tmpValue is string)
+                        {
+                            textContentFirst = tmpValue as string;
+                        }
+                        else
+                        {
+                            textContentFirst = tmpValue.ToString();
+                        }
+                    }
+
                     if (textContentFirst == itemToFind)
                     {
+                        textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]) as string;
                         // bingo.
                         objectFound = true;
                         break;
@@ -1283,11 +1236,6 @@ namespace KarveControls
                 {
                     HandleSourceViewAsEnumerable(enumerableValue, DataSource);
                 }
-                /*
-                if ((enumerableValue!=null) && (this._dataSource!=null))
-                HandleSourceViewAsEnumerable(enumerableValue, DataSource);
-                */
-                //  UpdateValues<Assist, Current>(Assist currentView, Current itemSource)
 
             }
             if (currentTable != null)

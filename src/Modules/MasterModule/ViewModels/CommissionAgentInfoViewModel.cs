@@ -223,6 +223,9 @@ namespace MasterModule.ViewModels
         public ICommand DelegationChangedRowsCommand { set; get; }
 
         private IRegionManager _regionManager;
+        private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
+        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
         //
         // A part of the ui is made up different objects inserted in a observable collection.
         //
@@ -243,7 +246,8 @@ namespace MasterModule.ViewModels
             _visibility = Visibility.Collapsed;
             _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             _regionManager = regionManager;
-
+            _onBranchesPrimaryKey += CommissionAgentInfoViewModel__onBranchesPrimaryKey;
+            _onContactsPrimaryKey += CommissionAgentInfoViewModel__onContactsPrimaryKey;
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
             PrimaryKeyValue = string.Empty;
@@ -253,6 +257,7 @@ namespace MasterModule.ViewModels
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
             PrintAssociate = new DelegateCommand<object>(OnPrintCommand);
+            
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
@@ -261,9 +266,18 @@ namespace MasterModule.ViewModels
             LoadUserInterfaceObjects();
         }
 
-        private void OnPrintCommand(object obj)
+        private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
         {
-            MessageBox.Show("I am not yet able to print! You are an idiot! Eat my shorts!");
+            primaryKey.ContactsKeyId = PrimaryKeyValue;
+        }
+
+        private void CommissionAgentInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
+        {
+            primaryKey.BranchKeyId = PrimaryKeyValue;
+        }
+
+        private void OnPrintCommand(object obj)
+        { 
         }
 
         /// <summary>
@@ -318,8 +332,67 @@ namespace MasterModule.ViewModels
         /// <param name="obj">The object conveyed from the command.</param>
         private void ItemChangedHandler(object obj)
         {
-            IDictionary<string, object> values = (Dictionary<string, object>)obj;
-            OnChangedField(values);
+
+            IDictionary<string, object> eventDictionary = (Dictionary<string, object>)obj;
+                if (eventDictionary.ContainsKey(OperationConstKey))
+                {
+                    var value = eventDictionary["DataSourcePath"] as string;
+                    if (value == "ContactsDtos")
+                    {
+                        ContactsChangedCommandHandler(eventDictionary);
+                    }
+                    else
+                    {
+                        DelegationChangedCommandHandler(eventDictionary);
+                    }
+                }
+                else
+                {
+                    OnChangedField(eventDictionary);
+                }
+
+                
+        }
+        /// <summary>
+        ///  Handle the delegation grid changes.
+        /// </summary>
+        /// <param name="obj">This send a delegation fo the changed command</param>
+        private async void DelegationChangedCommandHandler(object obj)
+        {
+            Tuple<bool, BranchesDto> retValue = await GridChangedCommand<BranchesDto, COMI_DELEGA>(obj,
+                _onBranchesPrimaryKey,
+                DataSubSystem.CommissionAgentSubystem);
+            if (retValue.Item1)
+            {
+                if ((_commissionAgentDo != null) && (_commissionAgentDo.DelegationDto != null))
+                {
+                    var tmp = _commissionAgentDo.DelegationDto;
+                    Union<BranchesDto>(ref tmp, retValue.Item2);
+                    _commissionAgentDo.DelegationDto = tmp;
+                }
+
+            }
+        }
+
+        // FIXME: move GridChangedCommand to a lower level
+
+        private async void ContactsChangedCommandHandler(object obj)
+        {
+            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, CONTACTOS_COMI>(obj,
+                _onContactsPrimaryKey,
+                DataSubSystem.SupplierSubsystem);
+            if (retValue.Item1)
+            {
+                if ((_commissionAgentDo != null) && (_commissionAgentDo.ContactsDto != null))
+                {
+                    var contactDto = retValue.Item2;
+                    contactDto.ContactsKeyId = PrimaryKeyValue;
+                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
+                    Union<ContactsDto>(ref contactsDtos, contactDto);
+                    _commissionAgentDo.ContactsDto = contactsDtos;
+                }
+            }
+
         }
         /// <summary>
         /// This item is enabled to the magnifier command. When the user press the magnifier.
@@ -358,6 +431,14 @@ namespace MasterModule.ViewModels
                         currentView = provDtos;
                         break;
                     }
+                case "POBLACIONES":
+                {
+                    var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
+                    IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
+                    CityDto = new ObservableCollection<CityDto>(cities);
+                    currentView = CityDto;
+                    break;
+                }
                 case "PRODUCTS":
                     {
                         var prod = await helperDataServices.GetAsyncHelper<PRODUCTS>(assistQuery);
@@ -718,7 +799,12 @@ namespace MasterModule.ViewModels
         /// <param name="eventDictionary">Dictionary of events.</param>
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
+            
             DataPayLoad payLoad = new DataPayLoad();
+            payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
+            payLoad.PayloadType = DataPayLoad.Type.Update;
+            
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = _primaryKeyValue;
@@ -832,9 +918,6 @@ namespace MasterModule.ViewModels
 
                             break;
                         }
-                    /*
-                     *  When the culture change. The changer sends a multicast message of culture change.
-                     */
                     case DataPayLoad.Type.CultureChange:
                         {
                             _leftSideDualDfSearchBoxes = UpdateItemControl();
@@ -890,7 +973,9 @@ namespace MasterModule.ViewModels
 
                 TipoComission = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
+                CityDto = _commissionAgentDo.CityDtos;
                 DataObject = _commissionAgentDo;
+
 
                 // Here we send a message to upper part of the view.
                 // it is a component. When it will receive it, it will set the view model and the TipoComiDto.
@@ -933,13 +1018,14 @@ namespace MasterModule.ViewModels
                 _primaryKeyValue = "";
             }
         }
+        public override void DisposeEvents()
+        {
 
-
+        }
         public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
             throw new NotImplementedException();
         }
-
         public string this[string columnName]
         {
             get { throw new NotImplementedException(); }
@@ -954,5 +1040,14 @@ namespace MasterModule.ViewModels
             get => _uniqueId; set => _uniqueId = value;
         }
 
+        public IEnumerable<CityDto> CityDto
+        {
+            get { return _cityDto; }
+            set
+            {
+                _cityDto = new ObservableCollection<CityDto>(value);
+                RaisePropertyChanged();
+            }
+        }
     }
 }
