@@ -30,7 +30,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Tipo" 
                                            LabelText="Tipo" 
                                           Height="25" 
@@ -49,7 +49,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
 
                     <KarveControls:DualFieldSearchBox x:Name="Zona" 
                                            LabelText="Zona" 
@@ -69,7 +69,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Vendedor" 
                                            LabelText="Vendedor" 
                                           Height="25" 
@@ -88,7 +88,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -125,7 +125,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Negocio" 
                                            LabelText="Negocio" 
                                           Height="25" 
@@ -144,7 +144,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Canal" 
                                            LabelText="Canal" 
                                           Height="25" 
@@ -163,7 +163,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="ClavePresupo" 
                                            LabelText="Cl.Presuppuosto" 
                                           Height="25" 
@@ -182,7 +182,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="UsoAlquiler" 
                                           LabelText="Uso Alquiler." 
                                           Height="25" 
@@ -201,7 +201,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Idioma" 
                                           LabelText="Idioma" 
                                           Height="25" 
@@ -220,7 +220,7 @@
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
-                                          ButtonImage=""/>
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DataField  DataSourcePath="DIREC2" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="Producto trans." 

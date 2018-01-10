@@ -273,6 +273,9 @@
     <Compile Include="Views\Clients\ActivitySector.xaml.cs">
       <DependentUpon>ActivitySector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Clients\AutorizationDate.xaml.cs">
+      <DependentUpon>AutorizationDate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Clients\DriverDataUserControl.xaml.cs">
       <DependentUpon>DriverDataUserControl.xaml</DependentUpon>
     </Compile>
@@ -284,6 +287,9 @@
     </Compile>
     <Compile Include="Views\Clients\OtherData.xaml.cs">
       <DependentUpon>OtherData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\ReplacementCard.xaml.cs">
+      <DependentUpon>ReplacementCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
@@ -400,6 +406,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Clients\AutorizationDate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Clients\DriverDataUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -413,6 +423,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Clients\OtherData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\ReplacementCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

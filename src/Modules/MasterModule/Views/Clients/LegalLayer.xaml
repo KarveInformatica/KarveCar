@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MasterModule.Views.Clients"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="400">
     <Grid>
         <GroupBox Header="Representate Legal">
             <Grid Grid.Row="0">
@@ -16,12 +16,20 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                   
                 </Grid.RowDefinitions>
                 <KarveControls:DataField Grid.Row="0" DataSourcePath="NOMBRE" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="Nombre"
                                                       LabelTextWidth="100"
-                                                      TextContentWidth="150"
+                                                      TextContentWidth="200"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="25"
@@ -31,7 +39,7 @@
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="Direccion"
                                                       LabelTextWidth="100"
-                                                      TextContentWidth="150"
+                                                      TextContentWidth="200"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="25"
@@ -41,7 +49,7 @@
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="Poblacion"
                                                       LabelTextWidth="100"
-                                                      TextContentWidth="150"
+                                                      TextContentWidth="200"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="25"
@@ -51,48 +59,108 @@
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="NIF"
                                                       LabelTextWidth="100"
+                                                      TextContentWidth="200"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <StackPanel Orientation="Horizontal" Grid.Row="4">
+                  
+                    <KarveControls:DataField DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Tipo Escritura"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="200"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                    </KarveControls:DataField>
+                </StackPanel>
+                <KarveControls:DataField  Grid.Row="5" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Notario"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="200"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <StackPanel Grid.Row="6"  Orientation="Horizontal">
+                    <KarveControls:DataField  DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Poblacion"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="100"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                    </KarveControls:DataField>
+                    <KarveControls:DataField  DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Protocolo"
+                                                      LabelTextWidth="60"
+                                                      TextContentWidth="90"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                    </KarveControls:DataField>
+                </StackPanel>
+                
+                <StackPanel  Grid.Row="7" Orientation="Horizontal">
+                    <KarveControls:DataDatePicker LabelText="Fecha Escritura"
+                                   DataDatePickerHeight="25"
+                                   KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   KarveControls:ControlExt.DataSourcePath="Value.FEC_CIRC_V1" d:IsLocked="True"/>
+                <KarveControls:DataField  DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Cargo"
+                                                      LabelTextWidth="100"
                                                       TextContentWidth="150"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="25"
                                                       IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
                 </KarveControls:DataField>
-                <TextBlock Text="PODER"></TextBlock>
-                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
+                </StackPanel>
+                <KarveControls:DataField  Grid.Row="8" DataSourcePath="NOMBRE" 
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="NIF"
-                                                      LabelTextWidth="100"
-                                                      TextContentWidth="150"
+                                                      LabelText="Contracto Marco N."
+                                                      LabelTextWidth="150"
+                                                      TextContentWidth="180"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="25"
                                                       IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
                 </KarveControls:DataField>
 
-                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
-                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="NIF"
-                                                      LabelTextWidth="100"
-                                                      TextContentWidth="150"
-                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                      Margin="0,5,0,0"
-                                                      Height="25"
-                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
-                </KarveControls:DataField>
-                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
-                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      LabelText="NIF"
-                                                      LabelTextWidth="100"
-                                                      TextContentWidth="150"
-                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                      Margin="0,5,0,0"
-                                                      Height="25"
-                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
-                </KarveControls:DataField>
-                <!--
-                    <KarveControls:DataField Grid.Row="4" />
-                -->
+                <KarveControls:DataDatePicker Grid.Row="9" LabelText="Fecha Escritura"
+                                   Height="40"
+                                   KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   KarveControls:ControlExt.DataSourcePath="Value.FEC_CIRC_V1" d:IsLocked="True"/>
 
+
+                <KarveControls:DataField  Grid.Row="10" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Registrazione Mercado"
+                                                      LabelTextWidth="150"
+                                                      TextContentWidth="200"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <DockPanel Grid.Row="11">
+                    <Button Content="Contrato Marco" Height="25" Width="180" Command="{Binding MarkContractCommand}" DockPanel.Dock="Left"></Button>
+                    <Button Content="Carta Documentos" Height="25" Width="180" Command="{Binding DocumentPaperCommand}" IsEnabled="False" DockPanel.Dock="Right"></Button>
+                </DockPanel>
+                
             </Grid>
         </GroupBox>
     </Grid>
