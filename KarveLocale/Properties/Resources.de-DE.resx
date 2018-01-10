@@ -2464,4 +2464,7 @@
   <data name="lfingarantia" xml:space="preserve">
     <value>Ende der Garantie</value>
   </data>
+  <data name="TarjetaDeCredito" xml:space="preserve">
+    <value>Kreditkarte</value>
+  </data>
 </root>

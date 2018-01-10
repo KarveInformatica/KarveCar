@@ -2101,4 +2101,10 @@
   <data name="lfingarantia" xml:space="preserve">
     <value>End Warranty</value>
   </data>
+  <data name="lpermiso" xml:space="preserve">
+    <value>Driving Licence</value>
+  </data>
+  <data name="TarjetaDeCredito" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
 </root>

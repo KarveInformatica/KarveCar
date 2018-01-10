@@ -1449,7 +1449,8 @@
                                         <Label Margin="40, 0, 0, 0" Content="{Binding lfaprobacion, Source={StaticResource ResourceLanguage}}"></Label>
                                         <DatePicker Name="ProviderApproveDate"></DatePicker>
                                         <Label Margin="40, 0, 0, 0" Content="{Binding lfvalidez, Source={StaticResource ResourceLanguage}}"></Label>
-                                        <DatePicker Name="ProviderValidDate"></DatePicker>
+                                        <DatePicker Name="ProviderValidDate"></Date
+                   >
                                     </WrapPanel>
                                 </GroupBox>
                                 <GroupBox Header="{Binding lfevaluacion, Source={StaticResource ResourceLanguage}}">

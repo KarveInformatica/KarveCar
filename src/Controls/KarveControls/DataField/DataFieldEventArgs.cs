@@ -5,11 +5,13 @@ using System.Windows.Controls;
 
 namespace KarveControls
 {
+    
     public partial class DataField : TextBox
     {
         /// <summary>
         ///  Event args
         /// </summary>
+        /// 
         public class DataFieldEventArgs : KarveRoutedEventsArgs
         {
             
@@ -30,4 +32,5 @@ namespace KarveControls
             }
         }
     }
+    
 }

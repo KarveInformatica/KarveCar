@@ -1,0 +1,273 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views.Clients"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="MasterModule.Views.Clients.ActivitySector"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="500">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Sector Actividades">
+                <StackPanel Orientation="Vertical">
+                    <KarveControls:DualFieldSearchBox x:Name="FormaDeCobro" 
+                                           LabelText="Sector Actividad" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="Tipo" 
+                                           LabelText="Tipo" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+
+                    <KarveControls:DualFieldSearchBox x:Name="Zona" 
+                                           LabelText="Zona" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="Vendedor" 
+                                           LabelText="Vendedor" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <KarveControls:DataFieldCheckBox Content="Corta duración"/>
+                            <KarveControls:DataFieldCheckBox Content="Larga duración "/>
+                            <KarveControls:DataFieldCheckBox Content="No enviar mailing"/>
+                            <KarveControls:DataFieldCheckBox Content="No Imprimir mensaje en Factura"/>
+                        </StackPanel>
+                        <WrapPanel Grid.Column="1" Orientation="Vertical">
+                            <KarveControls:DataFieldCheckBox Content="Exportación"/>
+                            <KarveControls:DataFieldCheckBox Content="Factura sin I.V.A."/>
+                            <KarveControls:DataFieldCheckBox Content="No permitir cobros"/>
+                            <KarveControls:DataFieldCheckBox Content="Contra pendiente cobros"/>
+                        </WrapPanel>
+                    </Grid>
+                    <KarveControls:DualFieldSearchBox x:Name="Marcado" 
+                                           LabelText="Mercado" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="Negocio" 
+                                           LabelText="Negocio" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="Canal" 
+                                           LabelText="Canal" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="ClavePresupo" 
+                                           LabelText="Cl.Presuppuosto" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="UsoAlquiler" 
+                                          LabelText="Uso Alquiler." 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DualFieldSearchBox x:Name="Idioma" 
+                                          LabelText="Idioma" 
+                                          Height="25" 
+                                          Margin="0,5,0,0"
+                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldSecond="NOMBRE"
+                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsReadOnlySecond="True"
+                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistProperties="Codigo,Nombre"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding MagnifierCommand}" 
+                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage=""/>
+                    <KarveControls:DataField  DataSourcePath="DIREC2" 
+                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                  LabelText="Producto trans." 
+                                                  LabelTextWidth="100"
+                                                  Margin="0,5,0,0"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  TextContentWidth="220"
+                                                  IsReadOnly="False"/>
+
+
+                </StackPanel>
+
+            </GroupBox>
+            <GroupBox Header="Opciones">
+                <StackPanel>
+                    <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto" />
+                    <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"/>
+                    <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias" />
+                    <KarveControls:DataFieldCheckBox Content="No Censado" />
+                    <GroupBox Header="Logo en Factura">
+                        <StackPanel Orientation="Horizontal">
+                        <RadioButton Content="Yes" Width="100"/>
+                            <RadioButton Content="No" Width="100"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <KarveControls:DataField x:Name="EmailField" 
+                                             LabelText="Email Mantenimiento:"
+                                             DataObject="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             LabelTextWidth="120"
+                                             LabelVisible="True"
+                                             DataAllowed="Email"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                             IsReadOnly="False"
+                                             TextContentWidth="150"
+                                             DataFieldHeight="25"
+                                             DataSourcePath="EMAIL">
+                        </KarveControls:DataField>
+                        <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
+                            <Image Source="/KarveControls;component/Images/email.png" Height="25" Width="19"/>
+                        </Button>
+                    </StackPanel>
+                   
+                   
+                </StackPanel>
+
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

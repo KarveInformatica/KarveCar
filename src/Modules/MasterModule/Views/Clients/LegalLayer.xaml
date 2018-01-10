@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="MasterModule.Views.Clients.LegalLayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views.Clients"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <GroupBox Header="Representate Legal">
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <KarveControls:DataField Grid.Row="0" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Nombre"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False">
+                </KarveControls:DataField>
+                <KarveControls:DataField  Grid.Row="1" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Direccion"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False">
+                </KarveControls:DataField>
+                <KarveControls:DataField  Grid.Row="2" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="Poblacion"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False">
+                </KarveControls:DataField>
+                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="NIF"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <TextBlock Text="PODER"></TextBlock>
+                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="NIF"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+
+                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="NIF"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <KarveControls:DataField  Grid.Row="3" DataSourcePath="NOMBRE" 
+                                                      DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                      LabelText="NIF"
+                                                      LabelTextWidth="100"
+                                                      TextContentWidth="150"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                      Margin="0,5,0,0"
+                                                      Height="25"
+                                                      IsReadOnly="False" RenderTransformOrigin="0.502,-0.488">
+                </KarveControls:DataField>
+                <!--
+                    <KarveControls:DataField Grid.Row="4" />
+                -->
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

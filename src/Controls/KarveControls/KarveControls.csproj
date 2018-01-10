@@ -234,6 +234,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCompleteSearchBox\AutoCompleteSearchBox.cs" />
+    <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
+      <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreditCardControl\CreditFieldEventArgs.cs" />
     <Compile Include="DataArea\DataArea.xaml.cs">
       <DependentUpon>DataArea.xaml</DependentUpon>
     </Compile>
@@ -365,6 +369,10 @@
     <Compile Include="Utilities\KeyboardUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CreditCardControl\CreditCardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DataArea\DataArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -450,6 +458,7 @@
     <Resource Include="Images\fax.png" />
     <Resource Include="Images\direction.png" />
     <Resource Include="Images\email.png" />
+    <Resource Include="Images\creditcards.png" />
     <Content Include="KarveCommon.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveDataServices.csproj" />

@@ -907,7 +907,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delegación.
+        ///   Looks up a localized string similar to Delegacion.
         /// </summary>
         public static string ldelegacion {
             get {
@@ -916,7 +916,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delegaciónes.
+        ///   Looks up a localized string similar to Delegaciones.
         /// </summary>
         public static string ldelegaciones {
             get {
@@ -1015,7 +1015,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Direcciónes.
+        ///   Looks up a localized string similar to Direcciones.
         /// </summary>
         public static string ldirecciones {
             get {
@@ -1866,6 +1866,15 @@ namespace KarveLocale.Properties {
         public static string lpercentsubcontractados {
             get {
                 return ResourceManager.GetString("lpercentsubcontractados", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permiso de Conducir.
+        /// </summary>
+        public static string lpermiso {
+            get {
+                return ResourceManager.GetString("lpermiso", resourceCulture);
             }
         }
         
@@ -5988,6 +5997,15 @@ namespace KarveLocale.Properties {
         public static string StringConstants_ZonaOfi {
             get {
                 return ResourceManager.GetString("StringConstants_ZonaOfi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tarjeta de Credito.
+        /// </summary>
+        public static string TarjetaDeCredito {
+            get {
+                return ResourceManager.GetString("TarjetaDeCredito", resourceCulture);
             }
         }
         

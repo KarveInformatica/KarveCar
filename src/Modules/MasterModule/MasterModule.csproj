@@ -264,11 +264,26 @@
     <Compile Include="ViewModels\VehicleInfoViewModelUi.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />
     <Compile Include="ViewModels\VehicleInfoViewModel.cs" />
-    <Compile Include="Views\Clients.xaml.cs">
-      <DependentUpon>Clients.xaml</DependentUpon>
+    <Compile Include="Views\ClientsInfoView.xaml.cs">
+      <DependentUpon>ClientsInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClientsControlView.xaml.cs">
       <DependentUpon>ClientsControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\ActivitySector.xaml.cs">
+      <DependentUpon>ActivitySector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\DriverDataUserControl.xaml.cs">
+      <DependentUpon>DriverDataUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\InvoicePeriod.xaml.cs">
+      <DependentUpon>InvoicePeriod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\LegalLayer.xaml.cs">
+      <DependentUpon>LegalLayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\OtherData.xaml.cs">
+      <DependentUpon>OtherData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
@@ -373,11 +388,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Clients.xaml">
+    <Page Include="Views\ClientsInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ClientsControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\ActivitySector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\DriverDataUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\InvoicePeriod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\LegalLayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\OtherData.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

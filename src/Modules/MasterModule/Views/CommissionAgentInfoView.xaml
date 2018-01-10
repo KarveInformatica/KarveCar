@@ -48,7 +48,8 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <StackPanel Orientation="Vertical">
-        <local:UpperBarView Margin="100,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <local:UpperBarView Margin="100,10,0,0" 
+                            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MagnifierPress">

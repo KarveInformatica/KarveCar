@@ -2514,4 +2514,10 @@
   <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
     <value>NuevoProveedor</value>
   </data>
+  <data name="TarjetaDeCredito" xml:space="preserve">
+    <value>Tarjeta de Credito</value>
+  </data>
+  <data name="lpermiso" xml:space="preserve">
+    <value>Permiso de Conducir</value>
+  </data>
 </root>
