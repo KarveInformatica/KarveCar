@@ -415,6 +415,7 @@ namespace MasterModule.ViewModels
 
             switch (assistTableName)
             {
+
                 case "PAIS":
                     {
                         var countries = await helperDataServices.GetAsyncHelper<Country>(assistQuery);
@@ -529,7 +530,8 @@ namespace MasterModule.ViewModels
                         var language = await helperDataServices.GetAsyncHelper<IDIOMAS>(assistQuery);
                         IEnumerable<LanguageDto> orig =
                             mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(language);
-                        Language = orig;
+                        Language = new ObservableCollection<LanguageDto>(orig);
+
                         currentView = Language;
                         break;
                     }

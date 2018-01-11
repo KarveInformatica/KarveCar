@@ -49,7 +49,7 @@ namespace MasterModule.Views
                 this.Colore.DataSource = e.NewValue;
                 this.Marca.DataSource = e.NewValue;
                 this.Matricula.DataObject = e.NewValue;
-                this.Modelo.DataObject= e.NewValue;  
+                this.Modelo.DataSource = e.NewValue;  
             }
         }
         /// <summary>

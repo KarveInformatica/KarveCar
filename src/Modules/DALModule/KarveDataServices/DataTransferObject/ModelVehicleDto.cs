@@ -5,8 +5,29 @@
     /// </summary>
     public class ModelVehicleDto
     {
+        /// <summary>
+        ///  brand
+        /// </summary>
+        public string Marca { get; set; }
+        /// <summary>
+        /// Nome marca
+        /// </summary>
+        public string NomeMarca { get; set; }
+        /// <summary>
+        ///  Codigo
+        /// </summary>
         public string Codigo { get; set; }
-        public string Nombre { get; set; }
+        /// <summary>
+        ///  Variante
+        /// </summary>
         public string Variante { get; set; }
+        /// <summary>
+        ///  Nombre.
+        /// </summary>
+        public string Nombre { get; set; }
+        /// <summary>
+        ///  Categoria.
+        /// </summary>
+        public string Categoria { get; set; }
     }
 }

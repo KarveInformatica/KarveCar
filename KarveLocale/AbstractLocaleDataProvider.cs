@@ -14,7 +14,10 @@ namespace KarveLocale
         /// <param name="culture">The culture of the data language.</param>
         /// <returns> This returns a resource.</returns>
         public abstract Resources GetLocaleLanguageResource(CultureInfo culture);
-
+        /// <summary>
+        ///  Get the language resource.
+        /// </summary>
+        /// <returns></returns>
         public abstract Resources GetLanguageResource();
     }
 }

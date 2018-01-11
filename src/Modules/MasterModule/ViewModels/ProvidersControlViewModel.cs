@@ -6,12 +6,8 @@ using KarveCommon.Services;
 using Prism.Commands;
 using Microsoft.Practices.Unity;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows;
 using KarveCommon.Generic;
-using KarveControls.UIObjects;
 using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
@@ -19,8 +15,6 @@ using MasterModule.Views;
 using Prism.Regions;
 using KarveDataServices.DataTransferObject;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Windows.Forms;
 using NLog;
 
 namespace MasterModule.ViewModels
@@ -48,7 +42,7 @@ namespace MasterModule.ViewModels
         private readonly IUnityContainer _container;
         private static string PROVIDER_SUMMARY_VM = "ProvidersControlViewModel";
         private DataTable _extendedSupplierDataTable;
-        private ICommand _pagedItemCommand;
+
         private IRegionManager _regionManager;
         private Stopwatch _timing = new Stopwatch();
         private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
@@ -69,13 +63,13 @@ namespace MasterModule.ViewModels
             _regionManager = regionManager;
             _extendedSupplierDataTable = new DataTable();
             _uniqueIdentifier = _uniqueIdentifier % Int64.MaxValue;
-            /* design issue. it shall be an unique control for each windows, */
             _mailBoxName = PROVIDER_SUMMARY_VM;
-            //+ "." + _uniqueIdentifier;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
         }
-
+        /// <summary>
+        ///  Property that return the summary of Suppliers.
+        /// </summary>
         public IEnumerable<SupplierSummaryDto> SummaryCollection
         {
             set
@@ -158,7 +152,8 @@ namespace MasterModule.ViewModels
 
         }
         /// <summary>
-        /// This method creats a new item.
+        /// This method creates a new item using prsim scope navigation.
+        ///    
         /// </summary>
         public override void NewItem()
         {
@@ -180,6 +175,7 @@ namespace MasterModule.ViewModels
             currentPayload.Sender = EventSubsystem.SuppliersSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
         }
+       
         private async void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
@@ -225,10 +221,5 @@ namespace MasterModule.ViewModels
            base.DisposeEvents();
            DeleteMailBox(_mailBoxName);
         }
-        /// <summary>
-        ///  Command to be triggeed from the control to support paging
-        /// </summary>
-        public ICommand PageChangedCommand { set; get; }
-       
     }
 }

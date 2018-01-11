@@ -38,5 +38,11 @@
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="220"
                                                   IsReadOnly="False"/>
+        <DockPanel>
+            <KarveControls:DataFieldCheckBox Content="B2B" KarveControls:ControlExt.DataSource="{Binding DataSource}" 
+                                             KarveControls:ControlExt.DataSourcePath="" DockPanel.Dock="Left"></KarveControls:DataFieldCheckBox>
+            <KarveControls:DataFieldCheckBox Content="Core" KarveControls:ControlExt.DataSource="{Binding DataSource}" 
+                                             KarveControls:ControlExt.DataSourcePath="" DockPanel.Dock="Right"></KarveControls:DataFieldCheckBox>
+        </DockPanel>
     </Grid>
 </UserControl>

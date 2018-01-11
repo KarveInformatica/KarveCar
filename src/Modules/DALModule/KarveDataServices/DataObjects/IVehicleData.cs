@@ -63,5 +63,9 @@ namespace KarveDataServices.DataObjects
         ///  History of the maintenance of the vehicle.
         /// </summary>
         IEnumerable<MaintainanceDto> MaintenanceHistory { get; set; }
+        /// <summary>
+        ///  Query of the model.
+        /// </summary>
+        string AssistModelQuery { get; }
     }
 }

@@ -260,11 +260,16 @@
       <DependentUpon>DirectionInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
+    <Compile Include="DualFieldSearchBox\DraggablePopup.xaml.cs">
+      <DependentUpon>DraggablePopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
       <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridColumnExt.cs" />
+    <Compile Include="HelperButtonControl\HelperButtonControl.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
     </Compile>
@@ -393,6 +398,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="DualFieldSearchBox\DraggablePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -459,6 +468,8 @@
     <Resource Include="Images\direction.png" />
     <Resource Include="Images\email.png" />
     <Resource Include="Images\creditcards.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\exitmodule.jpg" />
     <Content Include="KarveCommon.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveDataServices.csproj" />

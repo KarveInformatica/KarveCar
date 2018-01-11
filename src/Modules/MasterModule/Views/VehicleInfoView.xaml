@@ -44,33 +44,34 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer>    <Grid>
-       
-        <StackPanel Orientation="Vertical">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <Grid>
 
-           
-            <local:UpperBarViewVehicle Margin="100,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <StackPanel Orientation="Vertical">
+
+
+                <local:UpperBarViewVehicle Margin="100,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <interactivity:Interaction.Triggers>
-                    <interactivity:EventTrigger EventName="MagnifierPress">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="MagnifierPress">
 
-                        <mvvm:InvokeCommandAction Command="{Binding AssistCommand}" 
+                            <mvvm:InvokeCommandAction Command="{Binding AssistCommand}" 
                                                TriggerParameterPath="AssistParameters" />
 
-                    </interactivity:EventTrigger>
-                    <interactivity:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
+                        </interactivity:EventTrigger>
+                        <interactivity:EventTrigger EventName="DataSearchTextBoxChanged">
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                TriggerParameterPath="ChangedValuesObjects"/>
-                    </interactivity:EventTrigger>
+                        </interactivity:EventTrigger>
 
-                    <interactivity:EventTrigger EventName="DataFieldChanged">
-                        <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                    </interactivity:EventTrigger>
+                        <interactivity:EventTrigger EventName="DataFieldChanged">
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
+                        </interactivity:EventTrigger>
 
-                </interactivity:Interaction.Triggers>
-            </local:UpperBarViewVehicle>
-                     <i:TabControl TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
-                <!-- <dragablz:TabablzControl.ItemContainerStyle>
+                    </interactivity:Interaction.Triggers>
+                </local:UpperBarViewVehicle>
+                <i:TabControl TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
+                    <!-- <dragablz:TabablzControl.ItemContainerStyle>
                     <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
                         <Setter Property="Width" Value="100" />
                         <Setter Property="Height" Value="40" />
@@ -84,19 +85,19 @@
 -->
 
                     <i:TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <i:Grid>
-                        <i:Grid.ColumnDefinitions>
-                            <i:ColumnDefinition Width="auto"/>
-                            <i:ColumnDefinition Width="auto"/>
-                        </i:Grid.ColumnDefinitions>
-                        <i:Grid.RowDefinitions>
-                            <i:RowDefinition/>
-                            <i:RowDefinition/>
-                        </i:Grid.RowDefinitions>
-                        <i:StackPanel Orientation="Vertical" i:Grid.Row="0" i:Grid.Column="0" i:Grid.RowSpan="2">
+                        <i:Grid>
+                            <i:Grid.ColumnDefinitions>
+                                <i:ColumnDefinition Width="auto"/>
+                                <i:ColumnDefinition Width="auto"/>
+                            </i:Grid.ColumnDefinitions>
+                            <i:Grid.RowDefinitions>
+                                <i:RowDefinition/>
+                                <i:RowDefinition/>
+                            </i:Grid.RowDefinitions>
+                            <i:StackPanel Orientation="Vertical" i:Grid.Row="0" i:Grid.Column="0" i:Grid.RowSpan="2">
 
                                 <i:GroupBox Header="{Binding DatoGenerales, Source={StaticResource ResourceLanguage}}">
-                                <i:StackPanel Orientation="Vertical">
+                                    <i:StackPanel Orientation="Vertical">
 
                                         <kc:DataArea DataAreaTitle="{Binding ldanos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -117,12 +118,12 @@
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"                                                 
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
                                                  DataSourcePath="AVISO"/>
-                                </i:StackPanel>
+                                    </i:StackPanel>
 
-                            </i:GroupBox>
+                                </i:GroupBox>
                                 <i:GroupBox Header="{Binding lgestionvehiculo, Source={StaticResource ResourceLanguage}}">
-                                <i:StackPanel Orientation="Vertical">
-                                    <!--
+                                    <i:StackPanel Orientation="Vertical">
+                                        <!--
                                     <itemsControl:DataPickerItemsControl DataSource="{i:Binding PickerDataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               Localization="{i:Binding Labels}" 
                                                               ChangeActionCommand="{i:Binding ChangedItem, i:PresentationTraceSources.TraceLevel=High}"/>
@@ -147,8 +148,8 @@
                                                            SourceView="{i:Binding ActivityDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            DataFieldFirst="actividad"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
-                                                           AssistDataFieldSecond="NUM_ACTIVI"
-                                                           AssistDataFieldFirst="NOMBRE"
+                                                           AssistDataFieldSecond="NOMBRE"
+                                                           AssistDataFieldFirst="NUM_ACTIVEHI"
                                                            AssistTableName="activi"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            AssistProperties="Codigo, Nombre"
@@ -157,8 +158,8 @@
                                                            IsReadOnlySecond="True"
                                                            ButtonImage="/MasterModule;component/Images/search.png"
                                                            >
-                                     
-                                    </kc:DualFieldSearchBox>
+
+                                        </kc:DualFieldSearchBox>
                                         <kc:DualFieldSearchBox LabelText="{Binding lproprietario, Source={StaticResource ResourceLanguage}}"
                                                            LabelTextWidth="120"
                                                            DataSource="{i:Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -167,8 +168,8 @@
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            AssistQuery="{i:Binding Path=DataObject.AssistQueryOwner, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           AssistDataFieldFirst="num_propie"
-                                                           AssistDataFieldSecond="nombre"
+                                                           AssistDataFieldFirst="NUM_PROPRIE"
+                                                           AssistDataFieldSecond="NOMBRE"
                                                            AssistTableName="propie"
                                                            AssistProperties="Codigo, Nombre"
                                                            TextContentFirstWidth="40"
@@ -186,9 +187,9 @@
                                                            AssistQuery="{i:Binding Path=DataObject.VehicleAgentQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            DataFieldFirst="AGENTE_VEHI"
                                                            AssistProperties="Numero, Nombre, Telefono"
-                                                           AssistDataFieldFirst="num_ag"
-                                                           AssistDataFieldSecond="nombre"
-                                                           AssistTableName="agentes"
+                                                           AssistDataFieldFirst="NUM_AG"
+                                                           AssistDataFieldSecond="NOMBRE"
+                                                           AssistTableName="AGENTES"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                            TextContentFirstWidth="40"
@@ -210,13 +211,13 @@
 
                                         </kc:DataFieldCheckBox>
                                     </i:StackPanel>
-                            </i:GroupBox>
-                            
-                            <!--    <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
+                                </i:GroupBox>
+
+                                <!--    <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
                                ResetCommand="{i:Binding ResetCommand}"
                                DeleteCommand="{i:Binding DeleteCommand}"/>
-                          -->    
-                        </i:StackPanel>
+                          -->
+                            </i:StackPanel>
                             <i:GroupBox Header="{Binding OtrasInformaciones, Source={StaticResource ResourceLanguage}}" i:Grid.Row="1" i:Grid.Column="1">
                                 <i:StackPanel Orientation="Horizontal">
 
@@ -227,8 +228,8 @@
                                                   ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                   TextContentWidth="150"
                                                   Height="25"/>
-                                   
-                                   <!--
+
+                                    <!--
                                     <TextBlock Text="Kilometros">
 
                                     </TextBlock>
@@ -352,34 +353,34 @@
                                 </i:StackPanel>
                             </i:GroupBox>
                             <i:GroupBox Header="{Binding lhistorialvehiculo, Source={StaticResource ResourceLanguage}}" i:Grid.Row="0" i:Grid.Column="1">
-                            <i:StackPanel Orientation="Vertical">
-                                
+                                <i:StackPanel Orientation="Vertical">
+
                                     <kc:DataDatePicker LabelText="{Binding lprimerdiaenflota, Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="150"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataDatePickerHeight="25"
                                                    kc:ControlExt.ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                    kc:ControlExt.DataSourcePath="Value.FECHACO">
-                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:Interaction.Triggers>
 
-                                        <interactivity:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
+                                            <interactivity:EventTrigger EventName="DataDatePickerChanged">
+                                                <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
-                                        </interactivity:EventTrigger>
-                                    </interactivity:Interaction.Triggers>
-                                </kc:DataDatePicker>
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
+                                    </kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding lultimodiaenflota, Source={StaticResource ResourceLanguage}}" 
                                                    LabelTextWidth="150"
                                                    DataDatePickerHeight="25"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="Value.FEBAJA">
-                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:Interaction.Triggers>
 
-                                        <interactivity:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
+                                            <interactivity:EventTrigger EventName="DataDatePickerChanged">
+                                                <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
                                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                                        </interactivity:EventTrigger>
-                                    </interactivity:Interaction.Triggers>
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
 
                                     </kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding ldevolucionprevista, Source={StaticResource ResourceLanguage}}"
@@ -387,13 +388,13 @@
                                                    LabelTextWidth="150"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   kc:ControlExt.DataSourcePath="Value.FDEVO">
-                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:Interaction.Triggers>
 
-                                        <interactivity:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
+                                            <interactivity:EventTrigger EventName="DataDatePickerChanged">
+                                                <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
                                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                                        </interactivity:EventTrigger>
-                                    </interactivity:Interaction.Triggers>
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
 
                                     </kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding FechaFabricacion, Source={StaticResource ResourceLanguage}}"
@@ -401,13 +402,13 @@
                                                    DataDatePickerHeight="25"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="Value.FFABRI">
-                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:Interaction.Triggers>
 
-                                        <interactivity:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
+                                            <interactivity:EventTrigger EventName="DataDatePickerChanged">
+                                                <mvvm:InvokeCommandAction Command="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}" 
                                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                                        </interactivity:EventTrigger>
-                                    </interactivity:Interaction.Triggers>
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
 
                                     </kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding FechaMatriculacion, Source={StaticResource ResourceLanguage}}"
@@ -425,36 +426,36 @@
 
                                     </kc:DataDatePicker>
                                 </i:StackPanel>
-                        </i:GroupBox>
+                            </i:GroupBox>
 
-                    </i:Grid>
-                </i:TabItem>
+                        </i:Grid>
+                    </i:TabItem>
 
                     <i:TabItem x:Name="Reselling"  Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <i:StackPanel Orientation="Vertical">
-                        <vehicleViews:VehicleBuying/>
-                        <vehicleViews:VehicleSell/>
-                        <vehicleViews:VehicleLeasing/>
-                        <vehicleViews:RoadTaxes></vehicleViews:RoadTaxes>
-                  <!--          <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
+                        <i:StackPanel Orientation="Vertical">
+                            <vehicleViews:VehicleBuying/>
+                            <vehicleViews:VehicleSell/>
+                            <vehicleViews:VehicleLeasing/>
+                            <vehicleViews:RoadTaxes></vehicleViews:RoadTaxes>
+                            <!--          <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
                                ResetCommand="{i:Binding ResetCommand}"
                                DeleteCommand="{i:Binding DeleteCommand}"/>
                         -->
-                    </i:StackPanel>
-                    
-                </i:TabItem>
+                        </i:StackPanel>
+
+                    </i:TabItem>
                     <i:TabItem x:Name="Assurance"  Header="{Binding Seguro, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <i:StackPanel Orientation="Vertical">
-                        <vehicleViews:GeneralAssurance/>
-                        <i:Grid>
-                            <i:Grid.ColumnDefinitions>
-                                <i:ColumnDefinition Width="auto"/>
-                                <i:ColumnDefinition />
-                            </i:Grid.ColumnDefinitions>
+                        <i:StackPanel Orientation="Vertical">
+                            <vehicleViews:GeneralAssurance/>
+                            <i:Grid>
+                                <i:Grid.ColumnDefinitions>
+                                    <i:ColumnDefinition Width="auto"/>
+                                    <i:ColumnDefinition />
+                                </i:Grid.ColumnDefinitions>
                                 <i:GroupBox Header="{Binding VencimentoSeguro, Source={StaticResource ResourceLanguage}}" i:Grid.Column="0">
 
-                                <vehicleViews:ExpireAssuranceDataControl/>
-                            </i:GroupBox>
+                                    <vehicleViews:ExpireAssuranceDataControl/>
+                                </i:GroupBox>
 
 
                                 <i:GroupBox Header="{Binding lformadepago,Source={StaticResource ResourceLanguage}}" i:Grid.Column="1">
@@ -476,12 +477,12 @@
 
                                     </i:StackPanel>
 
-                            </i:GroupBox>
+                                </i:GroupBox>
 
 
-                        </i:Grid>
+                            </i:Grid>
                             <GroupBox Header="{Binding SeguroAddicional, Source={StaticResource ResourceLanguage}}">
-                        <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                              AssurancePolicyPath="ADA3"
                                                              AssuranceAmountPath="IMPADA3"
                                                              AssuranceCompanyPath="CIAADA3"
@@ -492,11 +493,11 @@
                                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                              MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                              AssuranceCompanyList="{Binding  AdditionalAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                            
-                        </vehicleViews:AssuranceInfoComponent>
-                        </GroupBox>
+
+                                </vehicleViews:AssuranceInfoComponent>
+                            </GroupBox>
                             <GroupBox Header="{Binding Assistencia, Source={StaticResource ResourceLanguage}}">
-                            <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  AssurancePolicyPath="ADA"
                                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -508,9 +509,9 @@
                                                                  AssuranceLeavingDatePath="Value.VTOADA"
                                                                  AssuranceCompanyList="{Binding AssistanceAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             ></vehicleViews:AssuranceInfoComponent>
-                        </GroupBox>
+                            </GroupBox>
                             <GroupBox Header="{Binding PolizaAssistenciaAddicional,Source={StaticResource ResourceLanguage}}">
-                            <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <vehicleViews:AssuranceInfoComponent DataObjectValue="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  AssurancePolicyPath="ADA2"
@@ -521,20 +522,20 @@
                                                                  AssuranceEntryDatePath ="Value.ALTAADA2"
                                                                  AssuranceLeavingDatePath="Value.VTOADA2"
                                                                  AssuranceCompanyList="{Binding AssistancePolicyAssuranceDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                
-                            </vehicleViews:AssuranceInfoComponent>
-                        </GroupBox>
+
+                                </vehicleViews:AssuranceInfoComponent>
+                            </GroupBox>
 
 
                         </i:StackPanel>
-                </i:TabItem>
+                    </i:TabItem>
 
                     <i:TabItem x:Name="Otros" Header="{Binding lrbtnOtros, Source={StaticResource ResourceLanguage}}">
-                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
 
                             <GroupBox Header="{Binding lrbtnEmpresa,Source={StaticResource ResourceLanguage}}">
-                            <WrapPanel>
-                                <kc:DataField HorizontalAlignment="Left"
+                                <WrapPanel>
+                                    <kc:DataField HorizontalAlignment="Left"
                                                    LabelText="{Binding lrbtnEmpresa,Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="120"
                                                    TextContentWidth="130"
@@ -542,7 +543,7 @@
                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataSourcePath="SUBLICEN"/>
 
-                                <kc:DataField HorizontalAlignment="Left"
+                                    <kc:DataField HorizontalAlignment="Left"
                                                    LabelText="{Binding lempresaproprietario,Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="120"
                                               Margin="0,5,0,0"
@@ -551,7 +552,7 @@
                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataSourcePath="SUBLICEN"
                                                    />
-                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding loficinaactual,Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="OFICINA"
@@ -565,7 +566,7 @@
                                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    AssistQuery="{Binding AssistQueryOffices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding loficinaasignada, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="BASEASIG"
@@ -580,7 +581,7 @@
                                                    SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    AssistQuery="{Binding AssistQueryOffices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding Delegacion, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="CLI_DELEGA_FAC_V1"
@@ -594,12 +595,12 @@
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    AssistQuery="{Binding AssistDelegaciones, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                    SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </WrapPanel>
-                        </GroupBox>
+                                </WrapPanel>
+                            </GroupBox>
 
                             <GroupBox Header="{Binding SituacionActual, Source={StaticResource ResourceLanguage}}">
-                            <WrapPanel>
-                        <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                <WrapPanel>
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lsituacion, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="SITUACION"
@@ -613,12 +614,12 @@
                                                    TableName="SITUACION"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Button x:Name="Compute"
+                                    <Button x:Name="Compute"
                                         Margin="5,0,0,0"
                                         Height="24"
                                         Command="{Binding Recomumpute}" Content="{Binding Recalcular,Source={StaticResource ResourceLanguage}}"></Button>
 
-                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lcliente,Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="CLIENTE"
@@ -632,8 +633,8 @@
                                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    AssistQuery="{Binding AssistQueryClients, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            
-                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
+
+                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lcontracto,Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="CLIENTE"
@@ -651,27 +652,27 @@
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="FECHADEV"
                                                    DataDatePickerHeight="25"></kc:DataDatePicker>
-                           
-                            </WrapPanel>
-                        </GroupBox>
-                            <GroupBox Header="{Binding ContractoYITV,Source={StaticResource ResourceLanguage}}">
-                            <WrapPanel>
-                                <Grid Grid.IsSharedSizeScope="True" MinWidth="400">
-                                    <i:Grid.ColumnDefinitions>
-                                        <i:ColumnDefinition/>
-                                        <i:ColumnDefinition/>
-                                        <i:ColumnDefinition />
-                                    </i:Grid.ColumnDefinitions>
 
-                                    <i:Grid.RowDefinitions>
-                                        <i:RowDefinition />
-                                        <i:RowDefinition />
-                                    </i:Grid.RowDefinitions>
-                                    <TextBlock 
+                                </WrapPanel>
+                            </GroupBox>
+                            <GroupBox Header="{Binding ContractoYITV,Source={StaticResource ResourceLanguage}}">
+                                <WrapPanel>
+                                    <Grid Grid.IsSharedSizeScope="True" MinWidth="400">
+                                        <i:Grid.ColumnDefinitions>
+                                            <i:ColumnDefinition/>
+                                            <i:ColumnDefinition/>
+                                            <i:ColumnDefinition />
+                                        </i:Grid.ColumnDefinitions>
+
+                                        <i:Grid.RowDefinitions>
+                                            <i:RowDefinition />
+                                            <i:RowDefinition />
+                                        </i:Grid.RowDefinitions>
+                                        <TextBlock 
                                         Text="{Binding ContractoMantenimento,Source={StaticResource ResourceLanguage}}"
                                         Margin="5,10,0,0"
                                         Grid.Column="0" Grid.Row="0"></TextBlock>
-                                    <kc:DataDatePicker LabelText="Desde" Grid.Column="1" Grid.Row="0"
+                                        <kc:DataDatePicker LabelText="Desde" Grid.Column="1" Grid.Row="0"
                                                    DataDatePickerHeight="25"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="CONTRAMAN_DESDE"></kc:DataDatePicker>
@@ -682,7 +683,7 @@
                                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="CONTRAMAN_HASTA"
                                                    Height="30"></kc:DataDatePicker>
-                                    <TextBlock Text="Ultima ITV" Grid.Column="0" 
+                                        <TextBlock Text="Ultima ITV" Grid.Column="0" 
                                                Grid.Row="1"
                                                Margin="5,10,0,0"></TextBlock>
 
@@ -699,19 +700,19 @@
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="FITV2"></kc:DataDatePicker>
 
-                                </Grid>
-                                <Grid Grid.IsSharedSizeScope="True" MinWidth="400">
-                                    <i:Grid.ColumnDefinitions>
-                                        <i:ColumnDefinition/>
-                                        <i:ColumnDefinition/>
-                                        <i:ColumnDefinition />
-                                    </i:Grid.ColumnDefinitions>
+                                    </Grid>
+                                    <Grid Grid.IsSharedSizeScope="True" MinWidth="400">
+                                        <i:Grid.ColumnDefinitions>
+                                            <i:ColumnDefinition/>
+                                            <i:ColumnDefinition/>
+                                            <i:ColumnDefinition />
+                                        </i:Grid.ColumnDefinitions>
 
-                                    <i:Grid.RowDefinitions>
-                                        <i:RowDefinition />
-                                        <i:RowDefinition />
-                                    </i:Grid.RowDefinitions>
-                                    <TextBlock 
+                                        <i:Grid.RowDefinitions>
+                                            <i:RowDefinition />
+                                            <i:RowDefinition />
+                                        </i:Grid.RowDefinitions>
+                                        <TextBlock 
                                         Text="{Binding PuestaEnServicio,Source={StaticResource ResourceLanguage}}" 
                                         Margin="5,10,0,5"
                                         Grid.Column="0" Grid.Row="0"></TextBlock>
@@ -743,83 +744,84 @@
                                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        kc:ControlExt.DataSourcePath="FITV2"></kc:DataDatePicker>
 
-                                </Grid>
-                                
-                            </WrapPanel>
-                        </GroupBox>
-                    </StackPanel>
-                   
-                                   </i:TabItem>
+                                    </Grid>
+
+                                </WrapPanel>
+                            </GroupBox>
+                        </StackPanel>
+
+                    </i:TabItem>
 
                     <i:TabItem x:Name="Acomulado"  Header="{Binding Acumulados, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    
-                </i:TabItem>
+
+                    </i:TabItem>
                     <i:TabItem x:Name="Mantainance"  Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <vehicleViews:Mantainence>
-                        
-                    </vehicleViews:Mantainence>
-                </i:TabItem>
+                        <vehicleViews:Mantainence>
+
+                        </vehicleViews:Mantainence>
+                    </i:TabItem>
                     <i:TabItem x:Name="Revision"  Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}" 
                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                   <vehicleViews:Revision></vehicleViews:Revision>
-                </i:TabItem>
+                        <vehicleViews:Revision></vehicleViews:Revision>
+                    </i:TabItem>
                     <i:TabItem x:Name="Photo" Header="{Binding Foto, Source={StaticResource ResourceLanguage}}">
 
                         <photoFrame:PhotoFrame 
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="">
-                            
+
                         </photoFrame:PhotoFrame>
                     </i:TabItem>
                     <i:TabItem x:Name="ActualState" Header="{Binding EstadoActual, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
                             <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="0"
                                                    ImageBinarySource="{Binding DataObject.PictureRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                
+
                             </photoFrame:PhotoFrame>
-                        <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="1"
+                            <photoFrame:PhotoFrame Grid.Row="0" Grid.Column="1"
                                                
                                                ImageBinarySource="{Binding DataObject.PictureFront, 
                                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            
-                        </photoFrame:PhotoFrame>
-                        <photoFrame:PhotoFrame Grid.Row="1" Grid.Column="0"
+
+                            </photoFrame:PhotoFrame>
+                            <photoFrame:PhotoFrame Grid.Row="1" Grid.Column="0"
                                                ImageBinarySource="{Binding DataObject.PictureFront, 
                                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
-                        <photoFrame:PhotoFrame Grid.Row="1" 
+                            <photoFrame:PhotoFrame Grid.Row="1" 
                                                Grid.Column="1"
                                                ImageBinarySource="{Binding DataObject.PictureLeft, 
                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
-                    </Grid>
-                </i:TabItem>
+                        </Grid>
+                    </i:TabItem>
+                    <!--
+  
                     <i:TabItem x:Name="Contable"  Header="{Binding Contable, Source={StaticResource ResourceLanguage}}"
                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <vehicleViews:Contable></vehicleViews:Contable>
-                </i:TabItem>
-<!--
-                <i:TabItem x:Name="Damage"  Header="Daños" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <vehicleViews:Contable></vehicleViews:Contable>
+                    </i:TabItem>
+                               <i:TabItem x:Name="Damage"  Header="Daños" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                 
                 </i:TabItem>
       
                 <i:TabItem x:Name="Cooling"  Header="Frio/Plataforma" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <vehicleViews:ColdPlatform></vehicleViews:ColdPlatform>     
                 </i:TabItem>
-  -->             
-            </i:TabControl>
+  -->
+                </i:TabControl>
 
-        </StackPanel>
-    </Grid>
-        </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 
 </UserControl>
 

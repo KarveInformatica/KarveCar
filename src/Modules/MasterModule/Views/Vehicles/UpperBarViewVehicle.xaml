@@ -35,46 +35,6 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-            <karveControls:DataField x:Name="Modelo"
-                                     TextContentWidth="100"
-                                     LabelTextWidth="50"
-                                     LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
-                                     ItemChangedCommand="{Binding ItemChangedHandler}"
-                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     DataSourcePath="MODELO">
-
-            </karveControls:DataField>
-                <karveControls:DualFieldSearchBox x:Name="Colore" 
-                                              DataFieldFirst="COLOR"
-                                              AssistTableName="COLORFL"
-                                              LabelTextWidth="50"
-                                              LabelText="{Binding lcolor, Source={StaticResource ResourceLanguage}}"
-                                              TextContentFirstWidth="50"
-                                              TextContentSecondWidth="100"
-                                              IsReadOnlySecond="True"
-                                              AssistDataFieldFirst="codigo"
-                                              AssistDataFieldSecond="nombre" 
-                                              AssistProperties="Codigo,Nombre"
-                                              ButtonImage="/MasterModule;component/Images/search.png"
-                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                <i:Interaction.Triggers>
-
-                    <i:EventTrigger EventName="MagnifierPress">
-
-                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand}" 
-                                                           TriggerParameterPath="AssistParameters" />
-
-                    </i:EventTrigger>
-
-                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
-                                                           TriggerParameterPath="ChangedValuesObjects"/>
-                    </i:EventTrigger>
-
-                </i:Interaction.Triggers> 
-            </karveControls:DualFieldSearchBox>
-           
             <karveControls:DualFieldSearchBox x:Name="Marca"
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="150"
@@ -89,24 +49,47 @@
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"
                                               ButtonImage="/MasterModule;component/Images/search.png">
-                
+
                 <i:Interaction.Triggers>
 
                     <i:EventTrigger EventName="MagnifierPress">
 
                         <interactivity:InvokeCommandAction Command="{Binding AssistCommand}" 
-                                                   TriggerParameterPath="AssistParameters" />
+                                                           TriggerParameterPath="AssistParameters" />
 
                     </i:EventTrigger>
 
                     <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
+                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
+                                                           TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
 
                 </i:Interaction.Triggers>
 
             </karveControls:DualFieldSearchBox>
+
+
+                <karveControls:DualFieldSearchBox x:Name="Modelo"
+                                                  TextContentFirstWidth="50"
+                                                  TextContentSecondWidth="150"
+                                                  LabelTextWidth="50"
+                                                  LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
+                                                  AssistQuery="{Binding AssistQueryModel, Mode=OneWay}"
+                                                  AssistProperties="Codigo,Nombre,Marca,Variante,NomeMarca,Nombre"
+                                                  AssistTableName="MODELO"
+                                                  IsReadOnlySecond="True"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding Path=DataObject.ModelDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="MODELO"
+                                                  ItemChangedCommand="{Binding ItemChangedHandler, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
+                                                  AssistDataFieldSecond="Nombre"
+                                                  AssistDataFieldFirst="Codigo"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                </karveControls:DualFieldSearchBox>
+            
+              
+         
             <karveControls:DualFieldSearchBox x:Name="Grupo"
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="198"
@@ -146,7 +129,38 @@
                                                   DataSourcePath="BASTIDOR">
                 
             </karveControls:DataField>
-        </WrapPanel>
+            <karveControls:DualFieldSearchBox x:Name="Colore" 
+                                              DataFieldFirst="COLOR"
+                                              AssistTableName="COLORFL"
+                                              LabelTextWidth="50"
+                                              LabelText="{Binding lcolor, Source={StaticResource ResourceLanguage}}"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="100"
+                                              IsReadOnlySecond="True"
+                                              AssistDataFieldFirst="codigo"
+                                              AssistDataFieldSecond="nombre" 
+                                              AssistProperties="Codigo,Nombre"
+                                              ButtonImage="/MasterModule;component/Images/search.png"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+
+                    <i:EventTrigger EventName="MagnifierPress">
+
+                        <interactivity:InvokeCommandAction Command="{Binding AssistCommand}" 
+                                                           TriggerParameterPath="AssistParameters" />
+
+                    </i:EventTrigger>
+
+                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding ItemChangedHandler}" 
+                                                           TriggerParameterPath="ChangedValuesObjects"/>
+                    </i:EventTrigger>
+
+                </i:Interaction.Triggers>
+            </karveControls:DualFieldSearchBox>
+
+            </WrapPanel>
             </GroupBox>
     </Grid>
 </UserControl>

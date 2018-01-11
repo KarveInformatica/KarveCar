@@ -12,7 +12,7 @@ namespace MasterModule.Views.VehicleSelling
     public sealed class VehicleConstants
     {
         private const string ImageValue =
-            @"C:\Users\Usuario\Documents\CompraVenta\VehicleSelling\VehicleSelling\Images\search.png";
+            @".\Images\search.png";
 
         private const string BuyerValue = "Comprador";
         private const string PriceValue = "Precio";

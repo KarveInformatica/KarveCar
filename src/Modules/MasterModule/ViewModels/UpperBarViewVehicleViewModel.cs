@@ -21,8 +21,8 @@ using Prism.Mvvm;
 namespace MasterModule.ViewModels
 {
 
-   
-    public class UpperBarViewVehicleViewModel: BindableBase, IDisposable, IEventObserver
+
+    public class UpperBarViewVehicleViewModel : BindableBase, IDisposable, IEventObserver
     {
         private IDataServices _dataServices;
         private IEventManager _eventManager;
@@ -31,7 +31,7 @@ namespace MasterModule.ViewModels
         private const string AssistQuery = "AssistQuery";
         private IVehicleData _dataObject = null;
 
-        
+
         private object _sourceView = new object();
         private DataSubSystem _subsystem;
         private IVehicleData _currentVehicleData;
@@ -48,10 +48,13 @@ namespace MasterModule.ViewModels
         /// </summary>
         public IVehicleData DataObject
         {
-            set { _dataObject = (IVehicleData) value;
-              
-                
-                RaisePropertyChanged(); }
+            set
+            {
+                _dataObject = (IVehicleData) value;
+
+
+                RaisePropertyChanged();
+            }
             get { return _dataObject; }
         }
 
@@ -61,14 +64,17 @@ namespace MasterModule.ViewModels
         ///  Changed item
         /// </summary>
         public ICommand ItemChangedCommand { set; get; }
+
         /// <summary>
         ///  Changed item
         /// </summary>
         public ICommand ItemChangedHandler { set; get; }
+
         /// <summary>
         ///  Assist Command
         /// </summary>
         public ICommand AssistCommand { set; get; }
+
         /// <summary>
         ///  SourceView
         /// </summary>
@@ -81,28 +87,36 @@ namespace MasterModule.ViewModels
             }
             get { return _sourceView; }
         }
+
         /// <summary>
         ///  Vehicle group data transfer object
         /// </summary>
         public IEnumerable<VehicleGroupDto> GroupVehicleDto { get; set; }
+
         /// <summary>
         ///  Model vehicle data transfer object
         /// </summary>
         public IEnumerable<ModelVehicleDto> ModelVehicleDto { get; set; }
+
         /// <summary>
         ///  Brand vehicle data transfer object.
         /// </summary>
         public IEnumerable<BrandVehicleDto> BrandVehicleDto { get; set; }
 
-        private string _uniqueValue = "UpperBarViewVehicle."+ Guid.NewGuid().ToString();
-        public string UniqueId { get => _uniqueValue;
+        private string _uniqueValue = "UpperBarViewVehicle." + Guid.NewGuid().ToString();
+        private string _assistQueryModel;
+
+        public string UniqueId
+        {
+            get => _uniqueValue;
             set => _uniqueValue = value;
         }
 
         public UpperBarViewVehicleViewModel()
         {
-            
+
         }
+
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
         /// </summary>
@@ -126,6 +140,7 @@ namespace MasterModule.ViewModels
             startStopwatch.Stop();
             var value = startStopwatch.ElapsedMilliseconds;
         }
+
         /// <summary>
         /// Init the mapping.
         /// </summary>
@@ -139,11 +154,14 @@ namespace MasterModule.ViewModels
                     {
                         Codigo = src.CODIGO,
                         Variante = src.VARIANTE,
-                        Nombre = src.NOMBRE
+                        Nombre = src.NOMBRE,
+                        Marca = src.MARCA,
+                        NomeMarca =  src.NOMMARCA,
+                        Categoria =  src.CATEGORIA
                     };
                     return vehicle;
                 });
-                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src=>
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
                 {
                     var marcas = new BrandVehicleDto
                     {
@@ -153,13 +171,13 @@ namespace MasterModule.ViewModels
                     return marcas;
                 });
                 cfg.CreateMap<GRUPOS, VehicleGroupDto>().ConvertUsing(
-                    src=>
+                    src =>
                     {
-                       var grupos = new VehicleGroupDto()
-                       {
-                            Codigo= src.CODIGO,
+                        var grupos = new VehicleGroupDto()
+                        {
+                            Codigo = src.CODIGO,
                             Nombre = src.NOMBRE
-                       };
+                        };
                         return grupos;
                     });
                 cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
@@ -173,9 +191,10 @@ namespace MasterModule.ViewModels
                 });
 
             });
-            
+
 
         }
+
         /// <summary>
         ///  Each view model has a correct mailbox handler to receive the data form other forms.
         ///  When this view model comes up the first time changes its name to the name of the primary key.
@@ -185,16 +204,28 @@ namespace MasterModule.ViewModels
         {
             if (payLoad.HasDataObject)
             {
-                 DataObject = payLoad.DataObject as IVehicleData;
-                _subsystem = payLoad.Subsystem;
-                _eventManager.DeleteMailBoxSubscription(Name);
-                _currentName = Name + "." + payLoad.PrimaryKeyValue;
-                _eventManager.RegisterMailBox(_currentName, MailBoxHandler);
-                NotifyTaskCompletion.Create(HandleVehicleUpperBar(DataObject));
+                var tmp = payLoad.DataObject as IVehicleData;
+                if (tmp != null)
+                {
+                    DataObject = tmp;
+                    AssistQueryModel = DataObject.AssistModelQuery;
+                    _subsystem = payLoad.Subsystem;
+                    _eventManager.DeleteMailBoxSubscription(Name);
+                    _currentName = Name + "." + payLoad.PrimaryKeyValue;
+                    _eventManager.RegisterMailBox(_currentName, MailBoxHandler);
+                    NotifyTaskCompletion.Create(HandleVehicleUpperBar(DataObject));
+                }
             }
         }
 
-        /// <summary>
+        public string AssistQueryModel
+        {
+            set { _assistQueryModel = value; RaisePropertyChanged(); }
+            get { return _assistQueryModel; }
+        }
+    
+
+    /// <summary>
         /// Handle vehicle upper bar.
         /// </summary>
         /// <param name="dataObject"></param>

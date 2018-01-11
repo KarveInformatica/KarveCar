@@ -60,8 +60,9 @@ namespace KarveControls.Generic
         /// <param name="obj"></param>
         /// <param name="propName"></param>
         /// <returns></returns>
-        public static Object GetPropValue(Object obj, String propName)
+        public static Object GetPropValue(Object obj, String prop)
         {
+            var propName = prop.Trim();
             if (string.IsNullOrEmpty(propName))
             {
                 return null;

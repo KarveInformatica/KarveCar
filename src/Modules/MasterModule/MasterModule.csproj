@@ -353,6 +353,9 @@
     <Compile Include="Views\Vehicles\GeneralAssurance.xaml.cs">
       <DependentUpon>GeneralAssurance.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Vehicles\HelperVehicules.xaml.cs">
+      <DependentUpon>HelperVehicules.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Vehicles\Mantainence.xaml.cs">
       <DependentUpon>Mantainence.xaml</DependentUpon>
     </Compile>
@@ -509,6 +512,10 @@
     <Page Include="Views\Vehicles\GeneralAssurance.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Vehicles\HelperVehicules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Vehicles\Mantainence.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -686,15 +693,22 @@
   <ItemGroup>
     <Resource Include="Images\copycool.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KarveDataServices\DataTransferObject\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\country.png" />
     <Resource Include="Images\direction.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\fax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\exitmodule.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\helpicon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

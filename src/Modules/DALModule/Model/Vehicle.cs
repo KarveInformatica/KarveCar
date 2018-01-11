@@ -129,6 +129,7 @@ namespace DataAccessLayer.Model
     public class Vehicle : DomainObject, IVehicleData
     {
         #region constants
+
         public const string Brand = "MARCA";
         public const string Vehiculo1 = "VEHICULO1";
         public const string Vehiculo2 = "VEHICULO2";
@@ -138,10 +139,15 @@ namespace DataAccessLayer.Model
         public const string Vendedor = "VENDEDOR1";
         public const string Branches = "BRANCHES";
         public const string Visitas = "VISITAS";
+
         private const string VehicleQueryFormat = "SELECT VEHICULO1.CODIINT, {0} FROM VEHICULO1 " +
                                                   "INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT=VEHICULO2.CODIINT " +
                                                   "WHERE VEHICULO1.CODIINT='{1}'";
 
+        private const string QueryModels =
+            "SELECT MARCA, CODIGO, VARIANTE, NOMBRE, NOMMARCA, CATEGORIA FROM MODELO WHERE CODIGO='{0}'";
+
+        private const string QueryModel = "SELECT * FROM MODELO";
         private const string BrandByVehicle =
             "SELECT CODIGO, NOMBRE FROM MARCAS INNER JOIN VEHICULO1 ON VEHICULO1.MAR=MARCAS.CODIGO " +
             "WHERE VEHICULO1.CODIINT='{0}'";
@@ -149,23 +155,27 @@ namespace DataAccessLayer.Model
         private const string ColorByName = "SELECT CODIGO, NOMBRE FROM COLORFL " +
                                            "INNER JOIN VEHICULO1 ON VEHICULO1.COLOR=COLORFL.CODIGO " +
                                            "WHERE VEHICULO1.CODIINT='{0}'";
-        private const string PhotoByValue = "select picture,empresa,filename from vehiculo1 inner join pictures on codiint = cod_asociado and empresa = -2 " +
-                                            "and filename = rutafoto " +
-                                            "where (cod_asociado  is not null) and (codiint='{0}')";
 
-        private const string ActividadByVehicle = "select num_activi, nombre from activi where num_activi='{0}'";
+        private const string PhotoByValue =
+            "select picture,empresa,filename from vehiculo1 inner join pictures on codiint = cod_asociado and empresa = -2 " +
+            "and filename = rutafoto " +
+            "where (cod_asociado  is not null) and (codiint='{0}')";
+
+        private const string ActividadByVehicle = "select NUM_ACTIVEHI, nombre from ACTIVEHI where NUM_ACTIVEHI='{0}'";
 
         private const string OwnersByVehicle = "select NUM_PROPIE as Codigo, " +
                                                "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
                                                "PROPIE.CP as CP, PROVINCIA.PROV as Provincia, " +
                                                "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from PROPIE " +
-                                               "INNER JOIN PROVINCIA ON PROPIE.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_PROPIE='{0}'";
+                                               "INNER JOIN PROVINCIA ON PROPIE.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_PROPIE='{0}'"
+            ;
 
         private const string AgentByVehicule = "select NUM_AG as Codigo, " +
                                                "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
                                                "AGENTES.CP as CP, PROVINCIA.PROV as Provincia, " +
                                                "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from AGENTES " +
-                                               "INNER JOIN PROVINCIA ON AGENTES.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_AG='{0}'";
+                                               "INNER JOIN PROVINCIA ON AGENTES.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_AG='{0}'"
+            ;
 
         private const string MaintenanceQuery = "select CODIGO_MAN as MaintananceCode," +
                                                 " NOMBRE_MAN as MaintananceName, " +
@@ -176,42 +186,52 @@ namespace DataAccessLayer.Model
                                                 "OBSERVACIONES_MAN as Observation " +
                                                 "from MANTENIMIENTO_VEHICULO " +
                                                 "LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV " +
-                                                "WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)";
+                                                "WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)"
+            ;
+
+      
         #endregion
 
         private bool _isValid = false;
+
         /// <summary>
         ///  automapper for the fields.
         /// </summary>
         private IMapper _vehicleMapper;
+
         private readonly ISqlExecutor _sqlExecutor;
+
         // a vehicle has a marca  
         private VehiclePoco _vehicleValue = new VehiclePoco();
         // data transfer object.
 
         #region  Data Transfer Object
+
         private IEnumerable<BrandVehicleDto> _brandDtos = new ObservableCollection<BrandVehicleDto>();
         private IEnumerable<ModelVehicleDto> _modelDtos = new ObservableCollection<ModelVehicleDto>();
         private IEnumerable<ColorDto> _colorDtos = new ObservableCollection<ColorDto>();
         private IEnumerable<PictureDto> _pictureDtos = new ObservableCollection<PictureDto>();
+
         #endregion
 
         #region Fields to related data.
+
         private IEnumerable<PICTURES> _pictures = new ObservableCollection<PICTURES>();
         private IEnumerable<MARCAS> _marcas = new ObservableCollection<MARCAS>();
         private IEnumerable<MODELO> _modelos = new ObservableCollection<MODELO>();
         private IEnumerable<COLORFL> _colorfl = new ObservableCollection<COLORFL>();
         private IEnumerable<VehicleGroupDto> _vehicleGroupDtos = new ObservableCollection<VehicleGroupDto>();
         private IEnumerable<ActividadDto> _actividadDtos = new ObservableCollection<ActividadDto>();
-        private IEnumerable<OwnerDto> _ownerDtos  = new ObservableCollection<OwnerDto>();
+        private IEnumerable<OwnerDto> _ownerDtos = new ObservableCollection<OwnerDto>();
         private IEnumerable<AgentDto> _agentDtos = new ObservableCollection<AgentDto>();
-        
+
         private string _assistQueryOwner;
         private string _agentQuery;
         private IEnumerable<MaintainanceDto> _maintenanceDto = new ObservableCollection<MaintainanceDto>();
         private PictureDto _pictureDto = new PictureDto();
         private IEnumerable<PICTURES> _pictureResult;
         private Logger _logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         /// <summary>
@@ -224,16 +244,25 @@ namespace DataAccessLayer.Model
             _sqlExecutor = sqlExecutor;
             InitializeMapping();
         }
-        /// <summary>
+
+        public string VehicleModelQuery {
+            get
+            {
+                return QueryModel;
+            }
+        }
+
+    /// <summary>
         ///  This is the initialize mapping for the vehiculos.
         /// </summary>
         public void InitializeMapping()
         {
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
+
                 cfg.CreateMap<VehiclePoco, VehicleDto>();
                 cfg.CreateMap<VehicleDto, VehiclePoco>();
-                cfg.CreateMap<PICTURES, PictureDto> ();
+                cfg.CreateMap<PICTURES, PictureDto>();
                 cfg.CreateMap<VehiclePoco, VEHICULO1>().ConvertUsing<PocoToVehiculo1>();
                 cfg.CreateMap<VehiclePoco, VEHICULO2>().ConvertUsing<PocoToVehiculo2>();
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(src =>
@@ -244,8 +273,8 @@ namespace DataAccessLayer.Model
                     return marcas;
                 });
                 // _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
-                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src=> 
-                { 
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
+                {
                     var marcas = new BrandVehicleDto();
                     marcas.Codigo = src.CODIGO;
                     marcas.Nombre = src.NOMBRE;
@@ -255,28 +284,54 @@ namespace DataAccessLayer.Model
                 cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
                     {
                         var color = new COLORFL();
-                        color.CODIGO= src.Codigo;
+                        color.CODIGO = src.Codigo;
                         color.NOMBRE = src.Nombre;
                         return color;
                     }
                 );
-                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(src =>
+
+                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
+                    {
+                        var model = new ModelVehicleDto();
+                        model.Codigo = src.CODIGO;
+                        model.Nombre = src.NOMBRE;
+                        model.Marca = src.MARCA;
+                        model.Categoria = src.CATEGORIA;
+                        model.Variante = src.VARIANTE;
+                        model.NomeMarca = src.NOMMARCA;
+                        return model;
+                    }
+                );
+                cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
+                    {
+                        var model = new MODELO();
+                        model.MARCA = src.Marca;
+                        model.CODIGO = src.Codigo;
+                        model.NOMBRE = src.Nombre;
+                        model.CATEGORIA = src.Categoria;
+                        model.VARIANTE = src.Variante;
+                        model.NOMMARCA = src.NomeMarca;
+                        return model;
+                    }
+                );
+                
+                cfg.CreateMap<ACTIVEHI, ActividadDto>().ConvertUsing(src =>
                     {
                         var color = new ActividadDto();
-                        color.Codigo = src.NUM_ACTIVI;
+                        color.Codigo = src.NUM_ACTIVEHI;
                         color.Nombre = src.NOMBRE;
                         return color;
                     }
                 );
-                    cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
+                cfg.CreateMap<ActividadDto, ACTIVEHI>().ConvertUsing(src =>
                     {
-                        var model = new MODELO();
-                        model.CODIGO = src.Codigo;
-                        model.NOMBRE = src.Nombre;
-                        model.VARIANTE = src.Variante;
-                        return model;
+                        var color = new ACTIVEHI();
+                        color.NUM_ACTIVEHI = src.Codigo;
+                        color.NOMBRE = src.Nombre;
+                        return color;
                     }
                 );
+              
 
             });
             _vehicleMapper = mapperConfiguration.CreateMapper();
@@ -525,8 +580,8 @@ namespace DataAccessLayer.Model
                      _pictureResult = await connection.QueryAsync<PICTURES>(queryPicture);
                     PictureDtos = _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(_pictureResult);
                     var queryActivi = string.Format(ActividadByVehicle, _vehicleValue.ACTIVIDAD);
-                    var actividad = await connection.QueryAsync<ACTIVI>(queryActivi);
-                    ActividadDtos = _vehicleMapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividad);
+                    var actividad = await connection.QueryAsync<ACTIVEHI>(queryActivi);
+                    ActividadDtos = _vehicleMapper.Map<IEnumerable<ACTIVEHI>, IEnumerable<ActividadDto>>(actividad);
                     // this is the owner. Just in this case i sue the dto.
                     string queryOwner = string.Format(OwnersByVehicle, _vehicleValue.PROPIE);
                     AssistQueryOwner = queryOwner;
@@ -535,6 +590,9 @@ namespace DataAccessLayer.Model
                     AgentDtos = await connection.QueryAsync<AgentDto>(VehicleAgentQuery);
                     var maintananceQuery = string.Format(MaintenanceQuery, _vehicleValue.CODIINT);
                     MaintenanceDtos = await connection.QueryAsync<MaintainanceDto>(maintananceQuery);
+                    var queryVehicle = string.Format(QueryModels, _vehicleValue.MODELO);
+                    var models = await connection.QueryAsync<MODELO>(queryVehicle);
+                    ModelDtos = _vehicleMapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(models);
                     Valid =true;
                 }
                 catch (System.Exception e)
@@ -554,6 +612,10 @@ namespace DataAccessLayer.Model
             set { _agentQuery = value;  RaisePropertyChanged();}
         }
 
+        public string AssistModelQuery
+        {
+            get { return QueryModel; }
+        }
         /// <summary>
         ///  Converter for the the new vehiculo2.
         /// </summary>

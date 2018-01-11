@@ -40,13 +40,16 @@
             
         </ResourceDictionary>
     </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <Grid>
+          
 
-    <Grid>
-        <i:Interaction.Triggers>
+                <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
+        
         <StackPanel Orientation="Vertical">
         <local:UpperBarView Margin="100,10,0,0" 
                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -340,7 +343,7 @@
                                 AssistDataFieldFirst="CODIGO"
                                 AssistDataFieldSecond="NOMBRE" 
                                 AssistTableName="IDIOMAS"
-                                AssistProperties="Numero,Nombre"
+                                AssistProperties="Codigo,Nombre"
                                 TextContentFirstWidth="50"
                                 TextContentSecondWidth="100"
                                 ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
@@ -349,6 +352,7 @@
                                 SourceView="{Binding Language,UpdateSourceTrigger=PropertyChanged}"
                                 ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                             </karveControls:DualFieldSearchBox>
+                            
                             <karveControls:DataField
                                 LabelText="{Binding lniata, Source={StaticResource ResourceLanguage}}"
                                 LabelTextWidth="100"
@@ -1624,4 +1628,5 @@
         </TabControl>
         </StackPanel>    
         </Grid>
+        </ScrollViewer>
 </UserControl>

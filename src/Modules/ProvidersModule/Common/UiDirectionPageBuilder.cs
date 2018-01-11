@@ -13,6 +13,7 @@ namespace MasterModule.Common
     /// <summary>
     ///  This is the builder needed for the collection page.
     /// </summary>
+    [System.Obsolete("Class is deprecated.")]
     public class UiDirectionPageBuilder: IUiPageBuilder
     {
         private const string FirstDirectionDf = "FirstDirectionDf";

@@ -108,6 +108,44 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type local:HelperButtonControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HelperButtonControl}">
+                    <Grid x:Name="ControlLayout">
+                        <Border x:Name="Border"
+                    Padding="2"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel  x:Name="PART_ButtonContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
+                                <Button Height="25" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SaveCommand}"
+                                                    CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SaveCommandParam}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/KarveControls;component/Images/save.png"></Image>
+                                        <TextBlock Margin="5,0,0,0">Guardar</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Height="25"  Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExitCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ExitCommandParam}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/KarveControls;component/Images/exitmodule.jpg"></Image>
+                                        <TextBlock Margin="5,0,0,0">Salir</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button  Height="25"  Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HelpCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/KarveControls;component/Images/helpicon.png"></Image>
+                                        <TextBlock Margin="5,0,0,0">Help(F1)</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type local:AutoCompleteSearchBox}">
         <Setter Property="Template">
             <Setter.Value>

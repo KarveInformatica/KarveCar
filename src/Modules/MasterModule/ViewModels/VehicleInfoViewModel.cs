@@ -76,7 +76,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<AccountDto> _accountDtoPaymentAccountDto;
         private ObservableCollection<AccountDto> _accountDtoCapitalCp;
         private ObservableCollection<AccountDto> _accomulatedRepayment;
-        private IRegionManager _regionManager;
+          private IRegionManager _regionManager;
         private ObservableCollection<CityDto> _cityDto;
 
         // This returns the list of activity when asked.
@@ -359,12 +359,7 @@ namespace MasterModule.ViewModels
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
             ActiveSubSystem();
         }
-
-        private void DeleteEventHandler(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-           
-        }
-
+      
         private async Task<ObservableCollection<ElementDto>> InitElements()
         {
             IEnumerable<ElementDto> value = await DataServices.GetHelperDataServices().GetAsyncHelper<ElementDto>(GenericSql.ElementsSummaryQuery);
@@ -393,6 +388,14 @@ namespace MasterModule.ViewModels
                 {
                     var actividades = await helperDataServices.GetAsyncHelper<ACTIVI>(assistQuery);
                     var act = mapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividades);
+                    ActivityDtos = new ObservableCollection<ActividadDto>(act);
+                    break;
+                }
+               
+                case "ACTIVEHI":
+                {
+                    var actividades = await helperDataServices.GetAsyncHelper<ACTIVEHI>(assistQuery);
+                    var act = mapper.Map<IEnumerable<ACTIVEHI>, IEnumerable<ActividadDto>>(actividades);
                     ActivityDtos = new ObservableCollection<ActividadDto>(act);
                     break;
                 }
@@ -547,11 +550,7 @@ namespace MasterModule.ViewModels
             set { _header = value; RaisePropertyChanged(); }
             get { return _header; }
         }
-        private void ActiveSubSystem()
-        {
-            // change the active subsystem in the toolbar state.
-            RegisterToolBar();
-        }
+        
         public string Error => throw new NotImplementedException();
 
         public string this[string columnName] => throw new NotImplementedException();
@@ -883,7 +882,7 @@ namespace MasterModule.ViewModels
                                 DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.VehicleSubsystem, 
                                     MasterModuleConstants.VehiclesSystemName);
                                 DeleteRegion(payload.PrimaryKeyValue);
-                                // DeleteItem(payload.PrimaryKeyValue);
+                               
                             }
                         break;
                     }

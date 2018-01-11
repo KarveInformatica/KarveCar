@@ -541,6 +541,26 @@ namespace KarveControls
         /// <summary>
         /// Assist Query to be used.
         /// </summary>
+        public static readonly DependencyProperty ColumnsDependencyProperty =
+            DependencyProperty.Register(
+                "Columns",
+                typeof(string),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// AssistProperties. 
+        /// </summary>
+        public string ColumnsProperties
+        {
+            get { return (string)GetValue(ColumnsDependencyProperty); }
+            set { SetValue(ColumnsDependencyProperty, value); }
+        }
+
+
+        /// <summary>
+        /// Assist Query to be used.
+        /// </summary>
         public static readonly DependencyProperty AssistPropertiesDependencyProperty =
             DependencyProperty.Register(
                 "AssistProperties",
@@ -690,7 +710,7 @@ namespace KarveControls
                     }
                 }
                var textDo = ComponentUtils.GetTextDo(value, DataFieldFirst, DataAllowedFirst);
-               logger.Log(LogLevel.Debug, "GetTextDo"+textDo);
+              
 
                 var source = SourceView as IEnumerable;
 
@@ -775,7 +795,7 @@ namespace KarveControls
             SearchTextFirst.KeyDown+= SearchTextOnKeyDown;
             SearchTextFirst.TextChanged += SearchText_TextChanged;
             SearchTextSecond.TextChanged += SearchText_TextChanged;
-        
+          
             RaiseMagnifierPressEvent();   
         }
 
@@ -918,8 +938,11 @@ namespace KarveControls
                 SetValue(SourceViewDependencyProperty, value);
                 if (_buttonManifierState == 1)
                 {
+                   // this.mainGrid.Visibility = Visibility.Visible;
+                    
                    
                     Popup.IsOpen = true;
+                    
                 }
             }
         }
@@ -1229,6 +1252,7 @@ namespace KarveControls
                 {
                     _firstSelection = true;
                     this.Popup.IsOpen = true;
+                    //this.mainGrid.Visibility = Visibility.Visible;
                     _buttonManifierState = 0;
                     return;
                 }
@@ -1481,11 +1505,17 @@ namespace KarveControls
             object currentDto = value;
             if (string.IsNullOrEmpty(AssistProperties))
                 return;
-            string[] fieldList = AssistProperties.Split(',');
+            object textContentFirst = null;
+            object textContentSecond = null;
 
-            object textContentFirst = ComponentUtils.GetPropValue(currentDto, fieldList[0].Trim());
-            object textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1].Trim());
-            
+            string[] fieldList = AssistProperties.Split(',');
+            // if we have multiple fiels
+            if (fieldList.Length >= 2)
+            {
+                textContentFirst = ComponentUtils.GetPropValue(currentDto, AssistDataFieldFirst);
+                textContentSecond = ComponentUtils.GetPropValue(currentDto, AssistDataFieldSecond);
+            }
+
             if ((textContentFirst == null) || (textContentSecond == null))
             {
                 return;

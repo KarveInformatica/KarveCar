@@ -83,7 +83,7 @@
                 </syncfusion:GridTemplateColumn>
 
                 <syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
             </syncfusion:SfDataGrid.Columns>
