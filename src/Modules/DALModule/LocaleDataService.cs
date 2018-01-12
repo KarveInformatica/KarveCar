@@ -24,7 +24,7 @@ namespace DataAccessLayer
     {
         
         private ISqlExecutor _sqlExecutor;
-        private ILanguageMapper _mapper;
+
         private string _languageQuery = @"select ORIGINAL,TRADUC, IDIOMA from K_TRADUC WHERE IDIOMA='{0}' ORDER BY  ORIGINAL ;";
         // culutre language name.
         private IDictionary<string, int> _cultureDictionary = new Dictionary<string, int>()

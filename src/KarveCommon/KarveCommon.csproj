@@ -95,7 +95,9 @@
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
     <Compile Include="Generic\LinqToVisualTree.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
+    <Compile Include="Generic\RegionManagerBehavior.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
+    <Compile Include="Generic\ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
     <Compile Include="Services\EventDispatcher.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />

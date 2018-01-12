@@ -211,6 +211,26 @@ namespace DataAccessLayer
             }
             return result;
         }
+
+        public async Task<IEnumerable<DtoTransfer>> GetMappedAsyncHelper<DtoTransfer, T>(string query) where DtoTransfer : class
+        {
+            IDbConnection connection = _sqlExecutor.Connection;
+            IEnumerable<DtoTransfer> result = null;
+            if ((connection == null) || ((connection.State != ConnectionState.Open)))
+            {
+                connection = _sqlExecutor.OpenNewDbConnection();
+            }
+            try
+            {
+                var values = await connection.QueryAsync<T>(query);
+                result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return result;
+        }
         /// <summary>
         /// Assist query using the data set
         /// </summary>

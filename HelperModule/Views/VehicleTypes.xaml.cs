@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class VehicleTypes : UserControl
     {
+        private const string _header = "Tipo de Vehiculos";
         public VehicleTypes()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header;} }
     }
 }

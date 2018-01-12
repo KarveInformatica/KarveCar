@@ -10,6 +10,8 @@ namespace MasterModule.UIObjects.Suppliers
     /// <summary>
     ///  This was used to craft by hand with data templates the initialcode.
     /// </summary>
+    [System.Obsolete("Not used anymore", true)]
+
     internal class UiMiddlePartPageBuilder : CommonPageBuilder,IUiPageBuilder
     {
         private const string Email = "EMAIL";

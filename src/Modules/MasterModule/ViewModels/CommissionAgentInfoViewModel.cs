@@ -263,7 +263,7 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserver(this);
             DelegationChangedRowsCommand = new Prism.Commands.DelegateCommand<object>(DelegationChangedRow);
             // i need to track a culture change for dynamically collection.
-            LoadUserInterfaceObjects();
+            //LoadUserInterfaceObjects();
         }
 
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
@@ -558,6 +558,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void LoadUserInterfaceObjects()
         {
+            /*
             UiCommissionAgentUpperPartBuilder builderUpperPart = new UiCommissionAgentUpperPartBuilder();
             IDictionary<string, ObservableCollection<IUiObject>> collection = builderUpperPart.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
             if (collection.ContainsKey(MasterModuleConstants.UiUpperPart))
@@ -576,6 +577,7 @@ namespace MasterModule.ViewModels
                 _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
             }
             _leftObservableCollection = _leftSideDualDfSearchBoxes;
+            */
         }
 
 

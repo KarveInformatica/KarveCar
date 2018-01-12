@@ -411,6 +411,7 @@
     </None>
     <Resource Include="Images\de-DE.png" />
     <Resource Include="Images\it-IT.png" />
+    <Resource Include="Images\VehicleTypeIcon.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -494,6 +495,10 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HelperModule\HelperModule.csproj">
+      <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
+      <Name>HelperModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KarveLocale\KarveLocale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveLocale</Name>
@@ -521,10 +526,6 @@
     <ProjectReference Include="Modules\ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
       <Name>ToolBarModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="Modules\VehicleModule\VehicleModule.csproj">
-      <Project>{fe715282-21f1-47b2-902f-82bf37330251}</Project>
-      <Name>VehicleModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

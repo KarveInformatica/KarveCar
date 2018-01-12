@@ -8,9 +8,11 @@ using MasterModule.Interfaces;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
+using System;
 
 namespace KarveCar.ViewModels
 {
+    [Obsolete("This is no longer used")]
     class ProvidersResolverViewModel
     {
         #region Variables

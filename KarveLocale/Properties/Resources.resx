@@ -2520,4 +2520,10 @@
   <data name="lpermiso" xml:space="preserve">
     <value>Permiso de Conducir</value>
   </data>
+  <data name="TipoDeVehículos" xml:space="preserve">
+    <value>Tipo de Vehículos</value>
+  </data>
+  <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
+    <value>Tipo de Vehiculos</value>
+  </data>
 </root>

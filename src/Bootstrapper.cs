@@ -19,6 +19,9 @@ using NLog;
 
 namespace KarveCar
 {
+    /// <summary>
+    ///  This is the application bootstrapper.
+    /// </summary>
     class Bootstrapper : UnityBootstrapper
     {
 
@@ -41,7 +44,8 @@ namespace KarveCar
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
             catalog.AddModule(typeof(MasterModule.MasterModule)); 
-            catalog.AddModule(typeof(ToolBarModule.ToolBarModule));           
+            catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
+            catalog.AddModule(typeof(HelperModule.HelperModule));
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
@@ -78,8 +82,9 @@ namespace KarveCar
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
+                // Event dispatcher is the resposible for the mediator between view models.
                 Container.RegisterType<IEventManager, KarveCommon.Services.EventDispatcher>(new ContainerControlledLifetimeManager());
-                //Container.RegisterType(typeof(ViewModel.MaestrosViewModel.GrupoVehiculoViewModel), "GrupoVehiculoViewModel");
+              
                
             }
             catch (Exception e)

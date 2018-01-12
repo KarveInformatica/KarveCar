@@ -7,6 +7,7 @@ using MasterModule.Properties;
 
 namespace MasterModule.UIObjects.CommissionAgents
 {
+    [System.Obsolete("Not used anymore", true)]
     class UiCommissionMiddlePageBuilder: CommonPageBuilder,IUiPageBuilder
     {
         private string[] LeftPartsFields =

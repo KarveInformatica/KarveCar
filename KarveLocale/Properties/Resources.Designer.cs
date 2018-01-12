@@ -6010,6 +6010,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tipo de Vehículos.
+        /// </summary>
+        public static string TipoDeVehículos {
+            get {
+                return ResourceManager.GetString("TipoDeVehículos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo.Comm..
         /// </summary>
         public static string UpperBarViewModel_HandleCommission_TipoComm {

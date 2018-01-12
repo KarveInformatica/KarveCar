@@ -57,5 +57,15 @@ namespace KarveDataServices
 
         // This generate a random well known long id that it is converted in a 8 bytes number.
         Task<string> GetUniqueId<T>(T entity) where T : class;
+        /// <summary>
+        ///  This execute a query mapping directly to the Data Transfer Object, in this way the asking module 
+        /// is not dependent in any case on the data implementation.
+        /// </summary>
+        /// <typeparam name="DtoTransfer"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+
+        Task<IEnumerable<DtoTransfer>> GetMappedAsyncHelper<DtoTransfer, T>(string query)
+            where DtoTransfer : class;
     }
 }

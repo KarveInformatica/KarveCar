@@ -903,7 +903,8 @@
                                             Label="{Binding lrbtnMotivosRepostaje, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
                                             SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            Command="{Binding NavigateCommand}"
+                                            CommandParameter="VehicleRepostajeReason">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -922,7 +923,8 @@
                                             Label="{Binding lrbtnTiposVehiculos, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
                                             SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            Command="{Binding NavigateCommand}"
+                                            CommandParameter="VehiclesType">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>

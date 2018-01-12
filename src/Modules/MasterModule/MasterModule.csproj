@@ -225,27 +225,18 @@
     <Compile Include="Common\DelegationValidationBehavior.cs" />
     <Compile Include="Common\IChangeHandler.cs" />
     <Compile Include="Common\IDisposeEvents.cs" />
-    <Compile Include="Common\IRegionManagerAware.cs" />
     <Compile Include="Common\MaintenanceValidationBehaviour.cs" />
     <Compile Include="Common\MasterModuleConstants.cs" />
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
-    <Compile Include="Common\RegionManagerBehavior.cs" />
     <Compile Include="Common\UpperBarViewModelBase.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentUpperPartBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionMiddlePageBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiDfSearch.cs" />
-    <Compile Include="UIObjects\Suppliers\UiInvoicingBuilder.cs" />
-    <Compile Include="UIObjects\Suppliers\UiMiddlePartPageBuilder.cs" />
-    <Compile Include="UIObjects\Suppliers\UiDirectionPageBuilder.cs" />
-    <Compile Include="Common\UiFirstPageBuilder.cs" />
-    <Compile Include="UIObjects\Suppliers\UiSuppliersUpperPartPageBuilder.cs" />
     <Compile Include="Interfaces\IProvidersView.cs" />
     <Compile Include="Interfaces\IProvidersViewModel.cs" />
     <Compile Include="Interfaces\ISupplierInfoView.cs" />
-    <Compile Include="Interfaces\ISupplierPayload.cs" />
     <Compile Include="MasterModule.cs" />
-    <Compile Include="Common\ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="ViewModels\CommissionAgentControlViewModel.cs" />
     <Compile Include="Interfaces\ICommissionAgentView.cs" />
     <Compile Include="ViewModels\CommissionAgentInfoViewModel.cs" />
@@ -693,7 +684,9 @@
   <ItemGroup>
     <Resource Include="Images\copycool.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UIObjects\Suppliers\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\country.png" />
     <Resource Include="Images\direction.png" />

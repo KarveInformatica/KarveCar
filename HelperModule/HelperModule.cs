@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
+using HelperModule.Views;
+using KarveDataServices;
+
 namespace HelperModule
 { 
     /// <summary>
@@ -21,9 +24,13 @@ namespace HelperModule
         {
             _container = container;
             _regionManager = regionManager;
+            
         }
         protected void RegisterViewsAndServices()
         {
+           _container.RegisterType<object, VehicleTypes>("VehiclesType");
+            _container.RegisterType<object, VehicleRepostajeReason>("VehicleRepostajeReason");
+
         }
         public void Initialize()
         {

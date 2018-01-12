@@ -155,6 +155,5 @@ namespace KarveDataServices
         /// <returns></returns>
         IDbConnection OpenNewDbConnection();
 
-       /// void CheckOptimisticLock<T>();
     }
 }

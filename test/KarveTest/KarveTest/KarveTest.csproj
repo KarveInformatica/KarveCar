@@ -132,9 +132,14 @@
   <ItemGroup>
     <Compile Include="Base\TestConfigurationService.cs" />
     <Compile Include="Base\TestEnviromentVariables.cs" />
-    <Compile Include="DAL\BankAccessLayerTest.cs" />
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
+    <Compile Include="DAL\Mock\HelperDataServices.cs" />
+    <Compile Include="DAL\Mock\MockModel\VehicleMock.cs" />
+    <Compile Include="DAL\Mock\SettingsDataService.cs" />
+    <Compile Include="DAL\Mock\MockDataServices.cs" />
+    <Compile Include="DAL\Mock\SupplierDataService.cs" />
+    <Compile Include="DAL\Mock\VehicleDataService.cs" />
     <Compile Include="DAL\TestBase.cs" />
     <Compile Include="DAL\TestColumnSettingsDataService.cs" />
     <Compile Include="DAL\TestCommissionAgentDataServiceLayer.cs" />
@@ -156,7 +161,6 @@
     <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleUpperBarViewModel.cs" />
     <Compile Include="ViewModels\TestVehiculoDatosGeneral.cs" />
-    <Compile Include="Views\MasterModule\MockViewModelExpireAssuranceDataControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
@@ -208,6 +212,7 @@
     <Folder Include="KarveDataServices\DataTransferObject\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />
+    <Folder Include="Views\MasterModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

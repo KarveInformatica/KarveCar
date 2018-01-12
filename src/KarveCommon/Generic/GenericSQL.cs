@@ -11,8 +11,11 @@ namespace KarveCommon.Generic
         public static string CHANGED_VALUE = "ChangedValue";
         public static string FIELD = "Field";
         public static string DATATABLE = "DataTable";
+
         public static string TABLENAME = "TableName";
 
+
+        public const string VehicleTypes = "select * from CATEGO order by CODIGO";
         public const string ElementsSummaryQuery = "select * from elementos where eleIdCodigo='{0}'";
 
         public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";

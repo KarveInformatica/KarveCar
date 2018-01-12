@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using DataAccessLayer.Model;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;

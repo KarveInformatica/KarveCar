@@ -22,7 +22,7 @@ namespace DataAccessLayer
     {
         private IConfigurationService _service;
         private ISqlExecutor _executor;
-        private ISqlSession _session = null;
+        
         public const string SupplierTable1 = "PROVEE1";
         public const string SupplierTable2 = "PROVEE2";
         public const string PrimaryKey = "NUM_PROVEE";

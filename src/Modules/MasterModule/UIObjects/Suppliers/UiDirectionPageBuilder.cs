@@ -10,6 +10,8 @@ namespace MasterModule.UIObjects.Suppliers
     /// <summary>
     ///  This is the builder needed for the collection page.
     /// </summary>
+    /// 
+    [System.Obsolete("Not used anymore", true)]
     public class UiDirectionPageBuilder: IUiPageBuilder
     {
         private const string FirstDirectionDf = "FirstDirectionDf";

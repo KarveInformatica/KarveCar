@@ -1,21 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prism;
+﻿using System.Collections.Generic;
 using Prism.Mvvm;
 using System.Windows.Input;
 using Prism.Commands;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using DevExpress.Data.Helpers;
+using KarveCommon.Services;
+using Prism.Regions;
+using KarveDataServices;
+using KarveDataServices.DataTransferObject;
 
 namespace HelperModule.ViewModels
 {
     /// <summary>
     ///  This base helper view model.
     /// </summary>
-    public abstract class BaseHelperViewModel : BindableBase
+    public abstract class BaseHelperViewModel : BindableBase, INavigationAware
     {
+
+        /// <summary>
+        ///  Load any helper window.
+        /// </summary>
+        protected PropertyChangedEventHandler ExecutedLoadHandler;
+
+        protected IEventManager EventManager;
         /// <summary>
         ///  This command exit the interface
         /// </summary>
@@ -40,25 +48,48 @@ namespace HelperModule.ViewModels
         ///  Method on exit depends on the current view model, region so this is abstract
         /// </summary>
         /// <param name="value">Value on exit command</param>
-        public virtual void OnExitCommand(object value) { };
-       
+        public abstract void OnExitCommand(object value);
+
         /// On help command. This shows the help of the command.
         /// </summary>
         /// <param name="value"></param>
-        public virtual void OnHelpCommand() {} 
+        public abstract void OnHelpCommand();
         /// <summary>
         ///  This is a on save command.
         /// </summary>
         /// <param name="value">Parameters in the save</param>
-        public virtual void OnSaveCommand(object value ) {}
+        public abstract void OnSaveCommand(object value);
+
+
+     //   protected abstract Task<IEnumerable<T>> InitViewModel<T>() where T:class;
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return false;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
         /// <summary>
         ///  BaseHelperViewModel. 
         /// </summary>
-        public BaseHelperViewModel()
+        protected IRegionManager RegionManager;
+        protected IDataServices DataServices;
+
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager)
         {
             ExitCommand = new DelegateCommand<object>(OnExitCommand);
             HelpCommand = new DelegateCommand(OnHelpCommand);
             SaveCommand = new DelegateCommand<object>(OnSaveCommand);
+            DataServices = dataServices;
+            RegionManager = region;
+            EventManager = eventManager;
         }
         
     }

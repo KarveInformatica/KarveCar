@@ -450,6 +450,27 @@ namespace DataAccessLayer.Logic
                         model.Nombre = src.NOMBRE;
                         return model;
                     });
+                cfg.CreateMap<CATEGO, VehicleTypeDto>().ConvertUsing(src =>
+                {
+                    var model = new VehicleTypeDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.WebName = src.NOMWEB;
+                    model.OfferMargin = src.DIAS_MARGEN;
+                   // model.TerminationDate = src.
+                    return model;
+                });
+                cfg.CreateMap<VehicleTypeDto, CATEGO>().ConvertUsing(src =>
+                {
+                    var model = new CATEGO();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.NOMWEB = src.WebName;
+                    model.DIAS_MARGEN = src.OfferMargin;
+                    // model.TerminationDate = src.
+                    return model;
+                });
+
                 cfg.CreateMap<DeliveringFormDto, FORMAS_PEDENT>().ConvertUsing(src =>
                 {
                     var model = new FORMAS_PEDENT();

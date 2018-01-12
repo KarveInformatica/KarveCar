@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveCommon.Generic;
 using KarveControls.UIObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;

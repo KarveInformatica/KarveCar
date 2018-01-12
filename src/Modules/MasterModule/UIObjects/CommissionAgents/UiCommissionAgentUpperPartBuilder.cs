@@ -4,10 +4,11 @@ using System.Data;
 using KarveControls.UIObjects;
 using MasterModule.Common;
 using MasterModule.Properties;
+using System;
 
 namespace MasterModule.UIObjects.CommissionAgents
 {
-
+    [Obsolete("Not used anymore", true)]
     class UiCommissionAgentUpperPartBuilder: IUiPageBuilder
     {
             private readonly string[] _upperPartFields =

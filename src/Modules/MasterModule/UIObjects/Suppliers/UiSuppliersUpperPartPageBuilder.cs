@@ -7,6 +7,7 @@ using MasterModule.Properties;
 
 namespace MasterModule.UIObjects.Suppliers
 {
+    [System.Obsolete("Not used anymore", true)]
     class UiSuppliersUpperPartPageBuilder: IUiPageBuilder
     {
         private string[] UpperPartFields =

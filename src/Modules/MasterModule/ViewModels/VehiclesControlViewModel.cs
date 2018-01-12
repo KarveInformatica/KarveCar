@@ -198,6 +198,7 @@ namespace MasterModule.ViewModels
 
         public override void DisposeEvents()
         {
+            EventManager.DeleteMailBoxSubscription(EventSubsystem.VehichleSummaryVm);
         }
     }
 }

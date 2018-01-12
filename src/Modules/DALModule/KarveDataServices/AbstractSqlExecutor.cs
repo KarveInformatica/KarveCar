@@ -95,7 +95,13 @@ namespace KarveDataServices
         public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
 
         //  public abstract IList<T> ExecuteQueryFields(string sqlQuery);
-
+        /// <summary>
+        ///  Check if two values have the same columns
+        /// </summary>
+        /// <param name="tableName">Name of the table</param>
+        /// <param name="columnName">First column name</param>
+        /// <param name="whereClause">Clause of the match</param>
+        /// <returns> True if the match in the clause is correct.</returns>
         public bool SameColumn(string tableName, string columnName, string whereClause)
         {
             string sqlString = string.Format(" SELECT {0} FROM {1} {2}", columnName, tableName, whereClause);
@@ -119,6 +125,10 @@ namespace KarveDataServices
         }
 
         public abstract IList<string> ExecuteQueryFields(string sqlQuery);
+        /// <summary>
+        ///  Open a new database connection
+        /// </summary>
+        /// <returns></returns>
         public abstract IDbConnection OpenNewDbConnection();
     }
 }

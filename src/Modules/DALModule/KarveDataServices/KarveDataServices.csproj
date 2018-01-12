@@ -123,8 +123,9 @@
     <Compile Include="DataTransferObject\SupplierSummaryDto.cs" />
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
+    <Compile Include="DataTransferObject\VehicleOwnerDto.cs" />
+    <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
-    <Compile Include="ILanguageMapper.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />
@@ -142,7 +143,6 @@
     <Compile Include="DataObjects\ISupplierEvaluationNoteData.cs" />
     <Compile Include="ISqlCommand.cs" />
     <Compile Include="ISqlExecutor.cs" />
-    <Compile Include="ISqlSession.cs" />
     <Compile Include="ISupplierDataServices.cs" />
     <Compile Include="DataObjects\IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />

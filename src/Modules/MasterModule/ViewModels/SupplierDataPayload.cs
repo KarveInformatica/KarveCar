@@ -6,7 +6,7 @@ using MasterModule.Interfaces;
 
 namespace MasterModule.ViewModels
 {
-    public class SupplierDataPayload : ISupplierPayload
+    public class SupplierDataPayload 
     {
         public ISupplierData SupplierDataObjectInfo { get; set ; }
         public ISupplierTypeData SupplierDataObjectType { get; set; }
