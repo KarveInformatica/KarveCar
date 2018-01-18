@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="Command\CommissionAgentPayload.cs" />
     <Compile Include="Command\GridSaveDataCommand.cs" />
+    <Compile Include="Command\HelperDataPayLoad.cs" />
     <Compile Include="Command\IDataPayLoadHandler.cs" />
     <Compile Include="Command\SaveDataException.cs" />
     <Compile Include="Command\SaveDataLayerCommand.cs" />

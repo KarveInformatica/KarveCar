@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="HelperModule.Views.VehicleOwner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HelperModule.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/HelperModule;component/Template/DataTemplate.xaml" x:Key="DataTemplate"/>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="85*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <GroupBox Grid.Row ="0" Header="Datos">
+                
+                <VirtualizingStackPanel Orientation="Horizontal" VirtualizationMode="Recycling">
+                <karveControls:DataField LabelText="Code"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="NUM_PROPRIE"
+                                         TextContentWidth="50"></karveControls:DataField>
+                    <karveControls:DataField LabelText="Nombre"
+                                             MaxHeight="30"
+                                             LabelTextWidth="60"
+                                             IsReadOnly="True"
+                                             DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="NOMBRE"
+                                             TextContentWidth="100"></karveControls:DataField>
+                <karveControls:DataField LabelText="Nif"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="NIF"
+                                         TextContentWidth="100"></karveControls:DataField>
+
+            </VirtualizingStackPanel>
+        </GroupBox>
+
+        <TabControl Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
+            <TabItem x:Name="OwnerData" Header="Proprietario">
+                <ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel  HorizontalAlignment="Stretch">
+                        
+                           
+                            <karveControls:DirectionInfo 
+                        HideSecondDirection="True"
+                        DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Direction="DIRECCION"
+                        City="POBLACION"
+                        Country="NACIOPER"
+                        Province="PROV"
+                        CityAssistName="POBLA_OWNER"
+                        CountryAssistName="PAIS_OWNER"
+                        ProvinceAssistName="PROV_OWNER"
+                        Phone="TELFONO"
+                        Fax="FAX"
+                        Email="MAIL"
+                        Web="INTERNET"
+                        MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        CountrySourceView="{Binding VehicleOwnerCountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        CitySourceView="{Binding VehicleOwnerCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        ProvinceSourceView="{Binding VehicleOwnerProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        />
+                        <VirtualizingStackPanel VirtualizationMode="Recycling">
+                            <karveControls:DualFieldSearchBox
+                                LabelText="Provveedor"
+                                LabelTextWidth="80"
+                                DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                AssistTableName="SUPPLIER"
+                                SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                MaxHeight="30"
+                                MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                TextContentFirstWidth="60"
+                                TextContentSecondWidth="100">
+                                
+                            </karveControls:DualFieldSearchBox>
+                            <karveControls:DataField LabelText="Contacto"
+                                                     MaxHeight="30"
+                                                     LabelTextWidth="60"
+                                                     DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     DataSourcePath="CONTACTO"
+                                                     TextContentWidth="225"></karveControls:DataField>
+                        </VirtualizingStackPanel>
+                    </WrapPanel>
+
+                        <karveControls:DataArea Grid.Row="1" Height="100" DataAreaTitle="Notes"
+                                            DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            DataSourcePath="NOTES"
+                                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
+                        </karveControls:DataArea>
+                    <Syncfusion:SfDataGrid Grid.Row="2" x:Name="HelperSummary"                       
+                                           ColumnSizer="Star"  
+                                           AllowDraggingColumns="True"
+                                           AllowEditing="False"
+                                           AllowFiltering="True"
+                                           AllowResizingColumns="True"
+                                           AllowSorting="True"
+                                           AllowGrouping="True"
+                                           ShowGroupDropArea="True"
+                                           NavigationMode="Row"
+                                           ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           AutoGenerateColumns="False">
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </i:Interaction.Behaviors>
+                        <Syncfusion:SfDataGrid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </Syncfusion:SfDataGrid.Resources>
+                        <Syncfusion:SfDataGrid.Columns>
+                            <Syncfusion:GridTextColumn HeaderText="Code" 
+                                                       MappingName="NUM_PROPIE" 
+                                                       TextAlignment="Left"
+                                                       AllowFiltering="True"                                
+                                                       AllowEditing="False"
+                                                       AllowGrouping="True"/>
+                            <Syncfusion:GridTextColumn HeaderText="Nombre" 
+                                                       MappingName="NOMBRE" 
+                                                       TextAlignment="Left"
+                                                       AllowEditing="True"
+                                                       AllowGrouping="True"
+                            />
+                            <Syncfusion:GridDateTimeColumn HeaderText="Telefono" 
+                                                           MappingName="TELEFONO" 
+                                                           TextAlignment="Left"
+                                                           AllowEditing="True"
+                                                           AllowGrouping="True"
+                            />
+                            <Syncfusion:GridTextColumn HeaderText="DNI" 
+                                                       MappingName="NIF" 
+                                                       TextAlignment="Left"
+                                                       AllowEditing="True"
+                                                       AllowGrouping="True"
+                            />
+                        </Syncfusion:SfDataGrid.Columns>
+
+                    </Syncfusion:SfDataGrid>
+                   
+                 
+                                  </Grid>
+                    </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        
+    </Grid>
+</UserControl>
+

@@ -9,7 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  clients summary dto.
     /// </summary>
-    public class ClientsSummaryDto
+    public class ClientsSummaryDto : BaseDto
     {
         public string Codigo { set; get; }
         public string Nombre { set; get; }

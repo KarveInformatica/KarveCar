@@ -61,7 +61,7 @@
                                               MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                               ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                               LabelVisible="True"
-                                              AssistProperties="Codigo,Nombre"
+                                              AssistProperties="Code,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="TIPOCOMI"

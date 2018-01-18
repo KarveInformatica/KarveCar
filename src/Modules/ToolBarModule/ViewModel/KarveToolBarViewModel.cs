@@ -47,6 +47,8 @@ namespace ToolBarModule
         private bool Confirmed = false;
         private string confirmDelete = "Quieres borrar el registro?";
         private string confirmSave = "Quieres guardar el registro?";
+        private string currentViewObjectId = string.Empty;
+        private Stack<Uri> viewStack = new Stack<Uri>();
 
         private string _uniqueId;
         // this is useful for adding or removing item to the toolbar.
@@ -94,15 +96,29 @@ namespace ToolBarModule
             ConfirmationCommand = new DelegateCommand(() =>
             {
                 string noActiveValue = configurationService.GetPrimaryKeyValue();
-                if (string.IsNullOrEmpty(noActiveValue))
+                if (_activeSubSystem != DataSubSystem.HelperSubsytsem)
                 {
-                    InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
-                    Notification nt = new Notification
+                    if (string.IsNullOrEmpty(noActiveValue))
                     {
-                        Content = "No puedo borrar la ficha de consulta",
-                        Title = "Error"
-                    };
-                    ir.Raise(nt);
+                        InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
+                        Notification nt = new Notification
+                        {
+                            Content = "No puedo borrar la ficha de consulta",
+                            Title = "Error"
+                        };
+                        ir.Raise(nt);
+                    }
+                    else
+                    {
+                        request.Content = confirmDelete;
+                        ConfirmationRequest.Raise(request);
+                        if (request.Confirmed)
+                        {
+                            DeleteCommand.Execute();
+                            Confirmed = false;
+
+                        }
+                    }
                 }
                 else
                 {
@@ -112,7 +128,6 @@ namespace ToolBarModule
                     {
                         DeleteCommand.Execute();
                         Confirmed = false;
-
                     }
                 }
             });
@@ -147,7 +162,12 @@ namespace ToolBarModule
                 PayloadType = DataPayLoad.Type.Delete,
                 PrimaryKeyValue = value
             };
-            if (value.Length > 0)
+            if (!string.IsNullOrEmpty(currentViewObjectId))
+            {
+                payLoad.ObjectPath = viewStack.Peek();
+                _eventManager.SendMessage(currentViewObjectId, payLoad);
+            }
+            else if (value.Length > 0)
             {
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
             }
@@ -159,16 +179,25 @@ namespace ToolBarModule
             _validationRules = new RemoveDuplicateSqlValidationRule();
             // _validationRules.SetSuccessor(crossDomain);
         }
+
         private void DoNewCommand()
         {
-           DataPayLoad payLoad = new DataPayLoad
-           {
+            DataPayLoad payLoad = new DataPayLoad
+            {
                 PayloadType = DataPayLoad.Type.Insert
-             };
-                _states = ToolbarStates.Insert;
+            };
+            _states = ToolbarStates.Insert;
+            if (!string.IsNullOrEmpty(currentViewObjectId))
+            {
+                payLoad.ObjectPath = viewStack.Peek();
+                _eventManager.SendMessage(currentViewObjectId, payLoad);
+            }
+            else
+            {
+
                 // this send a message to the current control view model.
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
-            
+            }
 
         }
         /// <summary>
@@ -252,9 +281,22 @@ namespace ToolBarModule
                    *  DeliverIncomingNotify(payLoad.Subsystem, payLoad);
                    */
                 }
-                payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                //_eventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
-                DeliverIncomingNotify(payLoad.Subsystem, payLoad);
+                // in case of the helper subsystem it is the same view model to handle the stuff,
+                if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)
+                {
+                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                }
+                
+                if (payLoad.ObjectPath != null)
+                {
+                    // we deliver the answer to theobject itself.
+                    _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
+                }
+                else
+                {
+                    // we deliver directly to the controller of the subsystem
+                    DeliverIncomingNotify(payLoad.Subsystem, payLoad);
+                }
             }
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
@@ -309,9 +351,28 @@ namespace ToolBarModule
                 case DataPayLoad.Type.RegistrationPayload:
                     {
                         _activeSubSystem = payload.Subsystem;
+                        var objectPath = payload.ObjectPath;
+                        if (objectPath != null)
+                        {
+                          currentViewObjectId = objectPath.ToString();
+                            if (!viewStack.Contains(objectPath))
+                            {
+                                viewStack.Push(objectPath);
+                            }
+                        }
                         IsNewEnabled = true;
                         break;
                     }
+                case DataPayLoad.Type.UnregisterPayload:
+                {
+                    var objectPath = payload.ObjectPath;
+                    if (objectPath != null)
+                    {
+                        viewStack.Pop();
+                        currentViewObjectId = viewStack.Peek().ToString();
+                    }
+                    break;
+                }
                 case DataPayLoad.Type.Delete:
                     {
                         string primaryKeyValue = payload.PrimaryKeyValue;

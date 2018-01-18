@@ -5,9 +5,15 @@
              xmlns:locale="clr-namespace:KarveLocale;assembly=KarveLocale"
              StartupUri="TestWindow.xaml">
     <Application.Resources>
-        <ObjectDataProvider x:Key="ResourceLanguage" 
+        <ResourceDictionary>
+
+            <ObjectDataProvider x:Key="ResourceLanguage" 
                             ObjectType="{x:Type locale:LocaleResourceFactory}" 
                             MethodName="GetResourceLanguage">
         </ObjectDataProvider>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

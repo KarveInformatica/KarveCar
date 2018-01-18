@@ -234,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoCompleteSearchBox\AutoCompleteSearchBox.cs" />
+    <Compile Include="ControlState.cs" />
     <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
     </Compile>
@@ -256,16 +257,9 @@
     <Compile Include="DataFieldItemsControl\KarveExt.cs" />
     <Compile Include="DataField\DataField.cs" />
     <Compile Include="DataField\DataFieldEventArgs.cs" />
-    <Compile Include="DirectionInfo\DirectionInfo.xaml.cs">
-      <DependentUpon>DirectionInfo.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DirectionInfo\DirectionInfo.cs" />
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
-    <Compile Include="DualFieldSearchBox\DraggablePopup.xaml.cs">
-      <DependentUpon>DraggablePopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DualFieldSearchBox\DualFieldSearchBox.xaml.cs">
-      <DependentUpon>DualFieldSearchBox.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
     <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridColumnExt.cs" />
@@ -394,18 +388,6 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="DirectionInfo\DirectionInfo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DualFieldSearchBox\DraggablePopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DualFieldSearchBox\DualFieldSearchBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -470,6 +452,7 @@
     <Resource Include="Images\creditcards.png" />
     <Resource Include="Images\save.png" />
     <Resource Include="Images\exitmodule.jpg" />
+    <Resource Include="Images\web.png" />
     <Content Include="KarveCommon.csproj" />
     <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveDataServices.csproj" />

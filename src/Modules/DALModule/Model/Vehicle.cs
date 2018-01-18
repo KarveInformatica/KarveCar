@@ -163,14 +163,14 @@ namespace DataAccessLayer.Model
 
         private const string ActividadByVehicle = "select NUM_ACTIVEHI, nombre from ACTIVEHI where NUM_ACTIVEHI='{0}'";
 
-        private const string OwnersByVehicle = "select NUM_PROPIE as Codigo, " +
+        private const string OwnersByVehicle = "select NUM_PROPIE as Code, " +
                                                "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
                                                "PROPIE.CP as CP, PROVINCIA.PROV as Provincia, " +
                                                "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from PROPIE " +
                                                "INNER JOIN PROVINCIA ON PROPIE.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_PROPIE='{0}'"
             ;
 
-        private const string AgentByVehicule = "select NUM_AG as Codigo, " +
+        private const string AgentByVehicule = "select NUM_AG as Code, " +
                                                "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
                                                "AGENTES.CP as CP, PROVINCIA.PROV as Provincia, " +
                                                "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from AGENTES " +

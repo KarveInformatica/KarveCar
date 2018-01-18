@@ -38,12 +38,12 @@ namespace MasterModule.Common
                 decimal codeValue = 0;
                 if (!decimal.TryParse(data.MaintananceCode, out codeValue))
                 {
-                    args.ErrorMessages.Add("MainteanceCode", "Codigo no valido");
+                    args.ErrorMessages.Add("MainteanceCode", "Code no valido");
                     args.IsValid = false;
                 }
                 if (codeValue <=0)
                 {
-                    args.ErrorMessages.Add("ErrorCode", "Codigo no valido");
+                    args.ErrorMessages.Add("ErrorCode", "Code no valido");
                     args.IsValid = false;
                 }
                 if (lastChangedObject == null)

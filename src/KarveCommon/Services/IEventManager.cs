@@ -15,6 +15,7 @@ namespace KarveCommon.Services
         public const string CommissionAgentSummaryVm = "CommisionAgentSummaryVm";
         public const string SuppliersSummaryVm = "ProvidersControlViewModel";
         public const string VehichleSummaryVm = "VehicleControlViewModel";
+        public const string HelperSubsystem = "HelperSubsystem";
     }
     /// <summary>
     /// Interface for communication between view models.
@@ -89,7 +90,17 @@ namespace KarveCommon.Services
         /// <param name="viewModuleId">Identifier of the view module</param>
         /// <param name="payLoad">Message to be sent.</param>
         void SendMessage(string viewModuleId, DataPayLoad payLoad);
-
+        /// <summary>
+        ///  Delete an observer.
+        /// </summary>
+        /// <param name="observer"></param>
         void DeleteObserver(IEventObserver observer);
+        /// <summary>
+        ///  Check if a mailbox is registered.
+        /// </summary>
+        /// <param name="id">Mailbox identifier</param>
+        /// <param name="payLoad">payload identifier</param>
+        /// <returns>True if a mailbox is available.</returns>
+        bool IsRegisteredMailbox(string id, DataPayLoad payLoad);
     }
 }

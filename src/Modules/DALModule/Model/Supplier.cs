@@ -169,24 +169,6 @@ namespace DataAccessLayer.Model
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<SupplierPoco, SupplierDto>();
-                /*.ConvertUsing(src =>
-                {
-                    SupplierDto dto = new SupplierDto();
-                    dto.POB_PAGO = src.POB_PAGO;
-                    dto.ACTUAL = src.ACTUAL;
-                    dto.ALBARANES = src.ALBARANES;
-                    dto.APARTADOCORREOS = src.APARTADOCORREOS;
-                    dto.APELLIDO1 = src.APELLIDO1;
-                    dto.APELLIDO2 = src.APELLIDO1;
-                    dto.APROBADO_PR = src.APROBADO_PR;
-                    dto.AUTOFAC_MANTE = src.AUTOFAC_MANTE;
-                    dto.BANCO = src.BANCO;
-                    dto.BD_DESTINO = src.BD_DESTINO;
-                    dto.BPS_PROVE = src.BPS_PROVE;
-
-                    return dto;
-                });*/
-
                 cfg.CreateMap<SupplierDto, SupplierPoco>();
                 cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
                     {
@@ -233,10 +215,10 @@ namespace DataAccessLayer.Model
                     src =>
                     {
                         var banks = new BanksDto();
-                        banks.Codigo = src.CODBAN;
+                        banks.Code = src.CODBAN;
                         banks.Nombre = src.NOMBRE;
                         banks.Swift = src.SWIFT;
-                        banks.UltimaModification = src.ULTMODI;
+                        banks.LastModification = src.ULTMODI;
                         banks.Usuario = src.USUARIO;
                         return banks;
                     }

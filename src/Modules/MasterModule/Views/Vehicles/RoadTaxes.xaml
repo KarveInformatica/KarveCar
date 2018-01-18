@@ -52,7 +52,7 @@
                                         AssistQuery="{Binding AssistQueryPoblacion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataFieldFirst="CP"
-                                        AssistProperties="Numero, Poblacion, Codigo, Pais"
+                                        AssistProperties="Numero, Poblacion, Code, Pais"
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 

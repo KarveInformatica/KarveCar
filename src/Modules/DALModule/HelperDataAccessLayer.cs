@@ -116,9 +116,52 @@ namespace DataAccessLayer
             return uniqueId;
         }
 
+
+
+        /// <summary>
+        /// GetUniqueMappedId 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<string> GetMappedUniqueId<DtoTransfer, T>(DtoTransfer entity) where T : class
+        {
+            string uniqueId;
+            if (entity == null)
+            {
+                return String.Empty;
+            }
+            T entityValue = _mapper.Map<DtoTransfer, T>(entity);
+            if (_sqlExecutor.Connection.State != ConnectionState.Open)
+            {
+                using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+                {
+                    uniqueId = await GetScopedUniqueId<T>(connection, entityValue);
+                }
+            }
+            else
+            {
+                using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+                {
+                    uniqueId = await GetScopedUniqueId<T>(connection, entityValue);
+                }
+            }
+            return uniqueId;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="DtoTransfer"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public async Task<bool> ExecuteInsertOrUpdate<DtoTransfer, T>(DtoTransfer entity) where T : class
         {
             bool updateAsync = false;
+            if (entity == null)
+            {
+                return false;
+            }
             T entityValue = _mapper.Map<DtoTransfer, T>(entity);
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -129,7 +172,8 @@ namespace DataAccessLayer
                             bool present =  connection.IsPresent<T>(entityValue);
                             if (!present)
                             {
-                                updateAsync = await connection.InsertAsync(entityValue) > 0;
+                                // FIXME shall be > 0.
+                                updateAsync = await connection.InsertAsync(entityValue) == 0;
                             }
                             else
                             {
@@ -231,6 +275,30 @@ namespace DataAccessLayer
             }
             return result;
         }
+
+        public async Task<IEnumerable<DtoTransfer>> GetMappedAllAsyncHelper<DtoTransfer, T>() where DtoTransfer : class
+                                                                                              where T: class
+        {
+            IDbConnection connection = _sqlExecutor.Connection;
+            IEnumerable<DtoTransfer> result = null;
+            if ((connection == null) || ((connection.State != ConnectionState.Open)))
+            {
+                connection = _sqlExecutor.OpenNewDbConnection();
+            }
+            try
+            {
+                var values = await connection.GetAsyncAll<T>();
+                result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return result;
+        }
+
+        
+
         /// <summary>
         /// Assist query using the data set
         /// </summary>

@@ -3,7 +3,7 @@
 namespace KarveDataServices.DataTransferObject
 {
     [DataContract]
-    public class CanalDto
+    public class CanalDto: BaseDto
     {
         [DataMember]
         public string Canal { get; set; }

@@ -179,7 +179,7 @@ namespace KarveCar.ViewModels
                 if (this.statuscontrolcambio == Enumerations.EControlCambio.Update)
                 {
                     string codigo = (text as string).Replace(" ", string.Empty);
-                    OnMarcaSelectionChanged(ManageDataTable.FindDataRowViewInDataTableByString(codigo, this.MarcaDataTable, "Codigo"));                    
+                    OnMarcaSelectionChanged(ManageDataTable.FindDataRowViewInDataTableByString(codigo, this.MarcaDataTable, "Code"));                    
                 }
             }
         }
@@ -326,7 +326,7 @@ namespace KarveCar.ViewModels
             {
                 case Enumerations.EControlCambio.Insert:
                     this.codigoselecteditem = this.thisusercontrol.txtCodigo.Text;
-                    DataRowView datarowview = ManageDataTable.FindDataRowViewInDataTableByString(this.codigoselecteditem, this.MarcaDataTable, "Codigo");
+                    DataRowView datarowview = ManageDataTable.FindDataRowViewInDataTableByString(this.codigoselecteditem, this.MarcaDataTable, "Code");
 
                     if (!ManageGenericObject.CheckCodigo(this.codigoselecteditem, datarowview))
                     {

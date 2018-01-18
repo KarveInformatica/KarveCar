@@ -517,6 +517,31 @@ namespace KarveDapper.Extensions
         }
 
         /// <summary>
+        ///  This get the property that contains an attribute
+        /// </summary>
+        /// <param name="entity">Entity to be used.</param>
+        /// <returns></returns>
+        public static int GetFieldSize<T>(T entity)
+        {
+
+            PropertyInfo[] props = entity.GetType().GetProperties();
+            foreach (PropertyInfo prop in props)
+            {
+                object[] attrs = prop.GetCustomAttributes(true);
+                foreach (object attr in attrs)
+                {
+                    FieldSizeAttribute fieldSize = attr as FieldSizeAttribute;
+                    if (fieldSize != null)
+                    {
+                        int size = Convert.ToInt32(fieldSize.Size);
+                        return size;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        /// <summary>
         ///  Gives that is present. TODO: add post condition.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -744,6 +769,28 @@ namespace KarveDapper.Extensions
     public class KeyAttribute : Attribute
     {
     }
+
+    /// <summary>
+    ///  This tags the number of bytes of a field in the database
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class FieldSizeAttribute : Attribute
+    {
+        /// <summary>
+        /// Creates a field size for dapper contrib in karve/
+        /// </summary>
+        /// <param name="size">The name of this table in the database.</param>
+        public FieldSizeAttribute(string size)
+        {
+            Size = size;
+        }
+
+        /// <summary>
+        /// Size of the field it is useful for generating an unique id.
+        /// </summary>
+        public string Size { get; set; }
+    }
+
 
     /// <summary>
     /// Specifies that this field is a explicitly set primary key in the database

@@ -10,7 +10,7 @@ using Dapper;
 
 /// <summary>
 /// Karve Informatica Extensions for the Sysbase Dapper.
-///  This allows us to use dapper in safe way.
+///  This allows us to use dapper in safe way with support for sybase.
 /// </summary>
 namespace KarveDapper.Extensions
 {
@@ -242,28 +242,58 @@ namespace KarveDapper.Extensions
             var updated = await connection.ExecuteAsync(sb.ToString(), entityToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
             return updated > 0;
         }
+        /// <summary>
+        ///  This returns all the entities from a table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<T>> GetAsyncAll<T>(this IDbConnection connection) where T: class
+        {
+            var type = typeof(T);
+            var name = GetTableName(type);
+            string value = "SELECT * FROM " + name + ";";
+            var returnValue = await connection.QueryAsync<T>(value);
+            return returnValue;
+        }
 
 
+        /// <summary>
+        ///  This method is used for generate an unique number for  a primary key:
+        ///  1. It generate 8 bytes from a crypto random generator.
+        ///  2. Converts to long
+        ///  3. Truncate the bytes to the primary key fieldsize or to 6.
+        ///  4. Check if an entity with that value exists.
+        /// </summary>
+        /// <typeparam name="T">Entity type to be checked</typeparam>
+        /// <param name="connection">Connection to be extended.</param>
+        /// <param name="entityValue">EntityValue</param>
+        /// <param name="transaction">Transaction</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <returns></returns>
         public static async Task<string> UniqueId<T>(this IDbConnection connection, T entityValue,
             IDbTransaction transaction = null,
             int? commandTimeout = null) where T : class
         {
+          
             var type = typeof(T);
             var name = GetTableName(type);
             PropertyInfo info = GetKeyAttribute<T>(entityValue);
+            int fieldSize = GetFieldSize<T>(entityValue);
             StringBuilder builder = new StringBuilder();
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            int value = 0;
+            ulong value = 0;
             IEnumerable<T> collection = null;
             int tries = 0;
+            string id = String.Empty;       
             do
             {
-                var byteArray = new byte[4];
+                var byteArray = new byte[8];
                 provider.GetBytes(byteArray);
-                //convert 4 bytes to an integer
+                //convert 8 bytes to a long
                 try
                 {
-                    value = Math.Abs(BitConverter.ToInt32(byteArray, 0));
+                    value = BitConverter.ToUInt64(byteArray, 0);
                    
                 }
                 catch (Exception e)
@@ -272,18 +302,23 @@ namespace KarveDapper.Extensions
                 }
             if (info != null)
                 {
-                    
+                    // ok this is a unique id. 6 is the default field size.
+                    if (fieldSize == 0)
+                    {
+                        fieldSize = 6;
+                    }
+                    id = value.ToString().Substring(0, fieldSize);
+                    id = id.PadLeft(fieldSize, '0');
                     builder.Append(" WHERE ");
                     builder.Append(info.Name);
                     builder.Append("=");
-                    builder.Append(string.Format("'{0}'", value));
+                    builder.Append(string.Format("'{0}'", id));
                     var statement = $"select * from {name} " + builder.ToString();
                     collection = await connection.QueryAsync<T>(statement);
                     ++tries;
                 }
             } while ((collection.Count() !=0) && (tries < 10));
-
-            return value.ToString().Substring(0,6);
+            return id;
         }
 
         /// <summary>

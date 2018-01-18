@@ -58,7 +58,7 @@
                                                   LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
                                                   LabelVisible="True"
-                                                  AssistProperties="Codigo,Nombre"
+                                                  AssistProperties="Code,Nombre"
                                                   MagnifierCommand="{Binding UpperBarSupplierAssist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

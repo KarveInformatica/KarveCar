@@ -21,13 +21,37 @@ namespace KarveControls
     /// </summary>
     public class DirectionObject
     {
+        /// <summary>
+        ///  Direction of payment
+        /// </summary>
         public string DIR_PAGO { set; get; }
+        /// <summary>
+        ///  Second direction of payment
+        /// </summary>
         public string DIR2_PAGO { set; get; }
+        /// <summary>
+        ///  City of paymenet
+        /// </summary>
         public string POB_PAGO { set; get; }
+        /// <summary>
+        ///  Country of payment
+        /// </summary>
         public string PAIS_PAGO { set; get; }
+        /// <summary>
+        ///  Province of payment
+        /// </summary>
         public string PROV_PAGO { set; get; }
+        /// <summary>
+        ///  Mail fo payment
+        /// </summary>
         public string MAIL_PAGO { set; get; }
+        /// <summary>
+        ///  Phone payment
+        /// </summary>
         public string TELF_PAGO { set; get; }
+        /// <summary>
+        ///  Fax payment
+        /// </summary>
         public string FAX_PAGO { set; get; }
     }
 
@@ -76,19 +100,19 @@ namespace KarveControls
             new CityDto()
             {
                
-                Codigo = "01",
+                Code = "01",
                 Pais = "Spain",
                 Poblacion = "Barcelona"
             },
             new CityDto()
             {
-                Codigo = "02",
+                Code = "02",
                 Pais = "Spain",
                 Poblacion = "Malaga"
             },
             new CityDto()
             {
-                Codigo= "03",
+                Code= "03",
                 Pais = "Spain",
                 Poblacion = "Victoria-Gasteiz"
             }
@@ -200,7 +224,10 @@ namespace KarveControls
               var tmp  = eventDictionary["DataObject"];
               DataObject = tmp;
               DomainWrapper wrapper = tmp as DomainWrapper;
-              DirInfo =   wrapper.Value;  
+              if (wrapper != null)
+              {
+                   DirInfo = wrapper.Value;
+              }
               Contract.Requires(DataObject != null);       
             }
         }
@@ -239,19 +266,19 @@ namespace KarveControls
                 new CityDto()
                 {
 
-                    Codigo = "01",
+                    Code = "01",
                     Pais = "Spain",
                     Poblacion = "Barcelona"
                 },
                 new CityDto()
                 {
-                    Codigo = "02",
+                    Code = "02",
                     Pais = "Spain",
                     Poblacion = "Malaga"
                 },
                 new CityDto()
                 {
-                    Codigo = "03",
+                    Code = "03",
                     Pais = "Spain",
                     Poblacion = "Victoria-Gasteiz"
                 }

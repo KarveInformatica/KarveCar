@@ -224,7 +224,6 @@
     <Compile Include="Common\DataSetUtilities.cs" />
     <Compile Include="Common\DelegationValidationBehavior.cs" />
     <Compile Include="Common\IChangeHandler.cs" />
-    <Compile Include="Common\IDisposeEvents.cs" />
     <Compile Include="Common\MaintenanceValidationBehaviour.cs" />
     <Compile Include="Common\MasterModuleConstants.cs" />
     <Compile Include="Common\MasterViewModuleBase.cs" />

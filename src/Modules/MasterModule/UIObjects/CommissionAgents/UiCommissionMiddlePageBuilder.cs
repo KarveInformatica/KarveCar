@@ -177,7 +177,7 @@ namespace MasterModule.UIObjects.CommissionAgents
             nameNifDictionary["TableName"] = "COMISIO";
             currentField = BuildDirection(dirDictionary, changedField);
             observableCollection.Add(currentField);
-           // Codigo postal y poblacion
+           // Code postal y poblacion
             currentField = BuildCpPoblacion(assistQuery, changedField);
             observableCollection.Add(currentField);
             // Provincia

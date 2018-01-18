@@ -59,6 +59,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -134,12 +136,8 @@
     <Compile Include="Base\TestEnviromentVariables.cs" />
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
-    <Compile Include="DAL\Mock\HelperDataServices.cs" />
-    <Compile Include="DAL\Mock\MockModel\VehicleMock.cs" />
-    <Compile Include="DAL\Mock\SettingsDataService.cs" />
-    <Compile Include="DAL\Mock\MockDataServices.cs" />
-    <Compile Include="DAL\Mock\SupplierDataService.cs" />
-    <Compile Include="DAL\Mock\VehicleDataService.cs" />
+    <Compile Include="Mock\MockEventManger.cs" />
+    <Compile Include="Mock\MockModel\VehicleMock.cs" />
     <Compile Include="DAL\TestBase.cs" />
     <Compile Include="DAL\TestColumnSettingsDataService.cs" />
     <Compile Include="DAL\TestCommissionAgentDataServiceLayer.cs" />
@@ -149,6 +147,12 @@
     <Compile Include="DAL\TestVehicleDataLayer.cs" />
     <Compile Include="KarveDataServices\Assist\AssistTests.cs" />
     <Compile Include="Locale\TestLocale.cs" />
+    <Compile Include="Mock\MockCommissionAgentDataService.cs" />
+    <Compile Include="Mock\MockDataServices.cs" />
+    <Compile Include="Mock\MockHelperDataServices.cs" />
+    <Compile Include="Mock\MockSettingsDataService.cs" />
+    <Compile Include="Mock\MockSupplierDataServices.cs" />
+    <Compile Include="Mock\MockVehicleDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
     <Compile Include="TestBootStrapper.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="UI\UiObjectSerializationTests.cs" />
     <Compile Include="UI\VehicleUITests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
+    <Compile Include="ViewModels\TestVehicleTypeViewModel.cs" />
     <Compile Include="ViewModels\TestKarveToolbarViewModel.cs" />
     <Compile Include="ViewModels\TestProviderControlViewModel.cs" />
     <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
@@ -163,6 +168,10 @@
     <Compile Include="ViewModels\TestVehiculoDatosGeneral.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HelperModule\HelperModule.csproj">
+      <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
+      <Name>HelperModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>
@@ -178,6 +187,10 @@
     <ProjectReference Include="..\..\..\src\KarveCar.csproj">
       <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
       <Name>KarveCar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>

@@ -349,7 +349,7 @@ namespace KarveCar.ViewModels
 
         private void SaveLogic()
         {
-            //string codigo = this.MarcaSelectedItem.Codigo; //this.thisusercontrol.txtCodigo.Text;
+            //string codigo = this.MarcaSelectedItem.Code; //this.thisusercontrol.txtCodigo.Text;
             //this.MarcaDataTable = LoadMarcaSync(); //LoadMarcaAsync();
             //OnCodigoMarcaLostFocus(codigo);
             this.statuscontrolcambio = Enumerations.EControlCambio.Update;
@@ -499,11 +499,11 @@ namespace KarveCar.ViewModels
 
         private int InsertMarca(DataRowView datarowview)
         {
-            //obj.Codigo = this.codigoselecteditem;
+            //obj.Code = this.codigoselecteditem;
             //string fechabaja = ManageGenericObject.GetDateTimeToString(obj.FechaBaja);
             //string fechamarca = ManageGenericObject.GetDateTimeToString(obj.FechaMarca);
 
-            //string sql = string.Format(ScriptsSQL.INSERT_MARCA, obj.Codigo, ManageGenericObject.GetUsuario(), ManageGenericObject.GetUltModi(),
+            //string sql = string.Format(ScriptsSQL.INSERT_MARCA, obj.Code, ManageGenericObject.GetUsuario(), ManageGenericObject.GetUltModi(),
             //                                                    obj.Definicion, fechabaja, obj.ProveedorCodigo, obj.Condiciones,
             //                                                    obj.Pactadas, obj.Interlocutor, fechamarca, obj.Observaciones);
             string sql = string.Empty;

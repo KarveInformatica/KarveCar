@@ -1,11 +1,13 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a CANAL.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("CANAL")]
 	public class CANAL 
 	{
 	
@@ -18,9 +20,9 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
-		public string CODIGO { get; set; }
- 
+        [Key]
+        [FieldSize("2")]
+        public string CODIGO { get; set; }
 	/// <summary>
     ///  Set or get the ULTMODI property.
     /// </summary>

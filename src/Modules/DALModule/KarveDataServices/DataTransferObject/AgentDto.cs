@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class AgentDto
+    public class AgentDto : BaseDto
     {
 
         /// <summary>
         ///  Set or get the NUM_PROPIE property.
         /// </summary>
-
+        [PrimaryKey]
+       
         public string Codigo { get; set; }
 
         /// <summary>

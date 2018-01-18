@@ -195,7 +195,7 @@ namespace KarveCar.ViewModels
                 DataRowView dataRowView = null;
                 foreach (DataRowView tempRowView in this.GrupoVehiculoDataTable.DefaultView)
                 {
-                    if (tempRowView.Row.Field<string>("Codigo").ToLower() == codigo.ToLower())
+                    if (tempRowView.Row.Field<string>("Code").ToLower() == codigo.ToLower())
                     {
                         dataRowView = tempRowView;
                         break;
@@ -225,7 +225,7 @@ namespace KarveCar.ViewModels
                 DataRowView dataRowView = null;
                 foreach (DataRowView tempRowView in this.TipoVehiculoDataTable.DefaultView)
                 {
-                    if (tempRowView.Row.Field<string>("Codigo").ToLower() == codigo.ToLower())
+                    if (tempRowView.Row.Field<string>("Code").ToLower() == codigo.ToLower())
                     {
                         dataRowView = tempRowView;
                         break;
@@ -249,7 +249,7 @@ namespace KarveCar.ViewModels
                     {
                         this.GrupoVehiculoSelectedItem = new GrupoVehiculoDataObject();
                     }
-                    this.GrupoVehiculoSelectedItem.TipoVehiculoCodigo = tipovehiculo.Codigo;//tipo.Codigo[0];
+                    this.GrupoVehiculoSelectedItem.TipoVehiculoCodigo = tipovehiculo.Code;//tipo.Code[0];
                     this.GrupoVehiculoSelectedItem.TipoVehiculoDescripcion = tipovehiculo.Definicion;
                 }
             }*/
@@ -320,7 +320,7 @@ namespace KarveCar.ViewModels
         }
 
         /// <summary>
-        /// Dependiendo de los valores devueltos según el Codigo de TipoVehiculo, hace visible o hidden el DataGrid PreciosPorDefecto
+        /// Dependiendo de los valores devueltos según el Code de TipoVehiculo, hace visible o hidden el DataGrid PreciosPorDefecto
         /// </summary>
         /// <param name="codigoGrupoVehiculo"></param>
         private void ShowPrecioPorDefecto(int codigoGrupoVehiculo)

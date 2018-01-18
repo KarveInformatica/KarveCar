@@ -1,18 +1,22 @@
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a PROPIE.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("PROPIE")]
 	public class PROPIE 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_PROPIE property.
     /// </summary>
-    
+        [Key]
+        [PrimaryKey]
 		public string NUM_PROPIE { get; set; }
  
 	/// <summary>

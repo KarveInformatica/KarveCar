@@ -87,6 +87,14 @@ namespace KarveControls
             /// </summary>
             DateTime
         }
+
+        public const string AssistTable = "AssistTable";
+        public const string DataFieldFirst = "DataFieldFirst";
+        public const string DataFieldSecond = "DataFieldSecond";
+        public const string AssistFieldFirst = "AssistFieldFirst";
+        public const string AssistFieldSecond = "AssistFieldSecond";
+        public const string AssistQuery = "AssistQuery";
+
         #region Description
         /// <summary>
         ///  This is a metadata that describe a component.
@@ -124,20 +132,6 @@ namespace KarveControls
         public static void PropertyChangedCb(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
 
-            if (dependencyObject is Behavior<SfDataGrid>)
-            {
-                // it is a chnaged that is coming fom the grid.
-
-                Behavior<SfDataGrid> changedBehavior = dependencyObject as Behavior<SfDataGrid>;
-                /*
-            
-            Dictionary<string, object> objectName = new Dictionary<string, object>();
-
-                objectName["DataObject"] = GetDataSource(dependencyObject);
-                objectName["ChangedValue"] = textBox.Text;
-                objectName["PreviousValue"] = lastTextBoxValue;
-                */
-            }
             if (dependencyObject is SfDataGrid)
             {
                 SfDataGrid currentDataGrid = dependencyObject as SfDataGrid;

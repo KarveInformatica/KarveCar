@@ -57,6 +57,20 @@ namespace KarveCommon.Services
             
         }
         /// <summary>
+        ///  Summary. Registered mailbox.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <param name="payLoad">Payload.</param>
+        /// <returns></returns>
+        public bool IsRegisteredMailbox(string id, DataPayLoad payLoad)
+        {
+            string primaryKeyValue = id + "." + payLoad.PrimaryKeyValue;
+            if (_mailBox.ContainsKey(primaryKeyValue))
+                return true;
+            return  _mailBox.ContainsKey(id);
+        }
+
+        /// <summary>
         ///  Notify all the global observer of a new message
         /// </summary>
         /// <param name="payload">Message to be send to all the system</param>

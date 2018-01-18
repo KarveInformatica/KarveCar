@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:template="clr-namespace:HelperModule.Template"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:interactivity="http://prismlibrary.com/"
+                    xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls">
+  
+    <DataTemplate x:Key="CodeDescription" DataType="{x:Type ContentControl}">
+       <DockPanel>
+            <TextBlock Text="Code" Width="100" DockPanel.Dock="Left"></TextBlock>
+            <TextBox Width="200" DockPanel.Dock="Right"></TextBox>
+        </DockPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="UpperBar" DataType="{x:Type ContentControl}">
+        <VirtualizingStackPanel>
+            <kc:DualFieldSearchBox LabelText="{Binding lcode, Source={StaticResource ResourceLanguage}}"
+                                   LabelTextWidth="120"
+                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                   SourceView="{Binding CodeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   AssistQuery="{Binding Path=DataObject.VehicleAgentQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   DataFieldFirst="AGENTE_VEHI"
+                                   AssistProperties="Numero, Nombre, Telefono"
+                                   AssistDataFieldFirst="NUM_AG"
+                                   AssistDataFieldSecond="NOMBRE"
+                                   AssistTableName="AGENTES"
+                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                   ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                   TextContentFirstWidth="40"
+                                   TextContentSecondWidth="180"
+                                   IsReadOnlySecond="True"
+                                   ButtonImage="/HelperModule;component/Images/search.png"
+            />
+            <TextBlock Text="Nombre"></TextBlock>
+            <TextBox Text="{Binding DataObject.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBlock Text="Nif"></TextBlock>
+            <TextBox Text="{Binding DataObject.Nif, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"></TextBox>
+        </VirtualizingStackPanel>
+    </DataTemplate>
+    
+</ResourceDictionary>
+  

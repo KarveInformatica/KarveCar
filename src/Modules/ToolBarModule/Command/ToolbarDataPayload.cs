@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveCommon.Generic;
 
 namespace ToolBarModule.Command
 {
@@ -14,10 +15,12 @@ namespace ToolBarModule.Command
     /// </summary>
     abstract class  ToolbarDataPayload : IDataPayLoadHandler
     {
-        protected readonly PropertyChangedEventHandler ExecutedPayloadHandler;
         private IEventManager CurrentEventManager;
         protected DataPayLoad CurrentPayload;
         private IDataServices _dataServices;
+        protected readonly PropertyChangedEventHandler ExecutedPayloadHandler;
+        protected INotifyTaskCompletion<DataPayLoad> ToolbarInitializationNotifier;
+
         /// <summary>
         ///  Toolbar data payload
         /// </summary>

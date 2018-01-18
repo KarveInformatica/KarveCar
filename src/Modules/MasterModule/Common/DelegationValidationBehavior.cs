@@ -34,7 +34,7 @@ namespace MasterModule.Common
             long codeValue = Convert.ToInt64(data.BranchId);
             if (codeValue <= 0)
             {
-                args.ErrorMessages.Add("ErrorCode", "Codigo no valido");
+                args.ErrorMessages.Add("ErrorCode", "Code no valido");
                 args.IsValid = false;
             }
            

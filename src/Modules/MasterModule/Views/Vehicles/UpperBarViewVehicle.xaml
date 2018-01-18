@@ -40,7 +40,7 @@
                                               TextContentSecondWidth="150"
                                               LabelTextWidth="50"
                                               LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}"
-                                              AssistProperties="Codigo,Nombre"
+                                              AssistProperties="Code,Nombre"
                                               AssistTableName="MARCAS"
                                               IsReadOnlySecond="True"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -75,7 +75,7 @@
                                                   LabelTextWidth="50"
                                                   LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
                                                   AssistQuery="{Binding AssistQueryModel, Mode=OneWay}"
-                                                  AssistProperties="Codigo,Nombre,Marca,Variante,NomeMarca,Nombre"
+                                                  AssistProperties="Code,Nombre,Marca,Variante,NomeMarca,Nombre"
                                                   AssistTableName="MODELO"
                                                   IsReadOnlySecond="True"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -84,7 +84,7 @@
                                                   ItemChangedCommand="{Binding ItemChangedHandler, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
                                                   AssistDataFieldSecond="Nombre"
-                                                  AssistDataFieldFirst="Codigo"
+                                                  AssistDataFieldFirst="Code"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
                 </karveControls:DualFieldSearchBox>
             
@@ -96,7 +96,7 @@
                                               LabelTextWidth="50"
                                               LabelText="{x:Static properties:Resources.lgrupo}"
                                               IsReadOnlySecond="True"
-                                              AssistProperties="Codigo,Nombre"
+                                              AssistProperties="Code,Nombre"
                                               AssistTableName="GRUPOS"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding Path=DataObject.VehicleGroupDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -139,7 +139,7 @@
                                               IsReadOnlySecond="True"
                                               AssistDataFieldFirst="codigo"
                                               AssistDataFieldSecond="nombre" 
-                                              AssistProperties="Codigo,Nombre"
+                                              AssistProperties="Code,Nombre"
                                               ButtonImage="/MasterModule;component/Images/search.png"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding Path=DataObject.ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">

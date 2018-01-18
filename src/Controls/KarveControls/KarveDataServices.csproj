@@ -106,7 +106,7 @@
     <Compile Include="DataTransferObject\MercadoDto.cs" />
     <Compile Include="DataTransferObject\ModelVehicleDto.cs" />
     <Compile Include="DataTransferObject\MonthsDto.cs" />
-    <Compile Include="DataTransferObject\NegocioDto.cs" />
+    <Compile Include="DataTransferObject\BusinessDto.cs" />
     <Compile Include="DataTransferObject\OfficeDto.cs" />
     <Compile Include="DataTransferObject\OrigenDto.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />

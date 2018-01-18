@@ -39,7 +39,7 @@ namespace KarveDataAccessLayer.DataObjects
             set
             {
                 _codigo = value;
-                OnPropertyChanged("Codigo");
+                OnPropertyChanged("Code");
             }
         }
         public string Nombre

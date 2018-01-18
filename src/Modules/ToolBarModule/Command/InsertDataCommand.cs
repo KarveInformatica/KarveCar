@@ -23,7 +23,8 @@ namespace ToolBarModule
             new Dictionary<DataSubSystem, IDataPayLoadHandler>()
             {
                 {DataSubSystem.SupplierSubsystem, new SupplierDataPayload()},
-                {DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()}
+                {DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
+                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad()}
             };
         /// <summary>
         /// This is the configuratin of an insert command.

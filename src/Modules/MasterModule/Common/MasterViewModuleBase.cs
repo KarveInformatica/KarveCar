@@ -26,6 +26,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Controls;
 using Dragablz;
+using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.Windows.PdfViewer;

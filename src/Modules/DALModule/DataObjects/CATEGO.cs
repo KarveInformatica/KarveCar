@@ -1,19 +1,23 @@
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a CATEGO.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class CATEGO 
-	{
-	
-	/// <summary>
-    ///  Set or get the CODIGO property.
+    /// <summary>
+    /// Represents a CATEGO.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
     /// </summary>
-    
-		public string CODIGO { get; set; }
+    [Table("CATEGO")]
+    public class CATEGO 
+	{
+
+        /// <summary>
+        ///  Set or get the CODIGO property.
+        /// </summary>
+        [Key]
+        [PrimaryKey]
+        public string CODIGO { get; set; }
  
 	/// <summary>
     ///  Set or get the NOMBRE property.

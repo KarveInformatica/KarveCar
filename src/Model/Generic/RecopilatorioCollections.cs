@@ -37,7 +37,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ZONAOFI",
                                                                              obj = new ZonaOficina(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_ZONAOFI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -59,7 +59,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "BANCO",
                                                                              obj = new BancoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODBAN",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -83,7 +83,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "BLOQUEFAC",
                                                                              obj = new BloqueFacturacion(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -95,7 +95,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CANAL",
                                                                              obj = new CanalCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -115,7 +115,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CATEGOPER",
                                                                              obj = new CargoPersonal(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_CAT",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -135,7 +135,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CCAA",
                                                                              obj = new ComunidadAutonoma(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO_CCAA",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -147,7 +147,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CLAVEPTO",
                                                                              obj = new ClavePresupuesto(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_CLAVE",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -167,7 +167,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "MERCADO",
                                                                              obj = new Mercado(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -187,7 +187,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "NEGOCIO",
                                                                              obj = new Negocio(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -208,7 +208,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ORIGEN",
                                                                              obj = new OrigenCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_ORIGEN",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBint,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -228,7 +228,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "POBLACIONES",
                                                                              obj = new Poblacion(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CP",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -248,7 +248,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "PROVINCIA",
                                                                              obj = null,
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CP",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -280,7 +280,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ACTIVI",
                                                                              obj = new SectorActividad(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_ACTIVI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -300,7 +300,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TARCREDI",
                                                                              obj = new TarjetaCredito(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -320,7 +320,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TARJETA_EMP",
                                                                              obj = new TarjetaEmpresa(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_TARJETA",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -340,7 +340,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TIPOCLI",
                                                                              obj = new TipoCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_TICLI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -360,7 +360,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TIPOCONTACTO_CLI",
                                                                              obj = new TipoContactoCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -380,7 +380,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TIPOVISITAS",
                                                                              obj = new TipoVisita(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO_VIS",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -400,7 +400,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "USO_ALQUILER",
                                                                              obj = new UsoAlquiler(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -421,7 +421,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ZONAS",
                                                                              obj = new ZonaCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_ZONA",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -444,7 +444,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "TIPOCOMI",
                                                                              obj = new TipoComisionista(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_TICOMI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -467,7 +467,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "MOTANU",
                                                                              obj = new MotivoAnulacionContrato(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -487,7 +487,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "MOTCAMBIO",
                                                                              obj = new MotivoCambioVehiculo(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -507,7 +507,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "MOTI_CANCEL",
                                                                              obj = new MotivoCancelacion(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -527,7 +527,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "MOTIMPRODUC",
                                                                              obj = new MotivoImproductivo(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBint,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -539,7 +539,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb =  "CONTRATIPIMPR",
                                                                              obj = new TipoImpresoContrato(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -561,7 +561,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "INCIDENCIAS_CLI",
                                                                              obj = new IncidenciaCliente(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_INCI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -581,7 +581,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "COINRE",
                                                                              obj = new IncidenciaContrato(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -601,7 +601,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "INCIDENCIAS_PRO",
                                                                              obj = new IncidenciaProveedor(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_INCI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -621,7 +621,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "COINRE",
                                                                              obj = new IncidenciaReserva(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -643,7 +643,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "DIVISAS",
                                                                              obj = new Divisa(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -671,7 +671,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "FORPRO",
                                                                              obj = new FormaPagoProveedor(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -704,7 +704,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TIPOPROVE",
                                                                              obj = new TipoProveedor(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_TIPROVE",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBshort,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -726,7 +726,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ORIRE",
                                                                              obj = new ClaveFee(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_ORIRE",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -746,7 +746,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "MEDIO_RES",
                                                                              obj = new MedioRecepcion(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -766,7 +766,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "MOTANU",
                                                                              obj = new MotivoAnulacionReserva(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -786,7 +786,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "MOPETI",
                                                                              obj = new MotivoNoServicio(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -808,7 +808,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "GRUPOS_TARI",
                                                                              obj = new GrupoTarifa(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_GT",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -830,7 +830,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "VEHI_ACC",
                                                                              obj = new AccesorioVehiculoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_ACC",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBint,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -842,7 +842,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "ACTIVEHI",
                                                                              obj = new ActividadVehiculo(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_ACTIVEHI",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -862,7 +862,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "COCIN",
                                                                              obj = new CodigoInmovilizacion(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -882,7 +882,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "COLORFL",
                                                                              obj = new Color(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -906,7 +906,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "VIAS",
                                                                              obj = new FormaTraslado(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "NUM_VIA",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -930,7 +930,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = string.Empty,
                                                                              obj = new GrupoVehiculoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring},
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Definicion",
@@ -1006,7 +1006,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = string.Empty,
                                                                              obj = new GrupoVehiculoPrecioPorDefectoDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CONCEPTO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBint},
                                                                                               new TemplateInfoDB(){ nombrepropiedadobj = "Descripcion",
@@ -1023,7 +1023,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = string.Empty,
                                                                              obj = new MarcaDataObject(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -1075,7 +1075,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "MOT_REPOSTAJE",
                                                                              obj = new MotivoRepostaje(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_MOT",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -1087,7 +1087,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CATEGO",
                                                                              obj = new TipoVehiculo(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -1109,7 +1109,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "CASHAUX",
                                                                              obj = new ConceptoSalidaCaja(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "COD_CASH",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBstring,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -1129,7 +1129,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "TIPO_POTENCIAL",
                                                                              obj = new TipoContactoPotencial(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBint,
                                                                                                                     datagridheader     = Resources.dttcCodigo },
@@ -1149,7 +1149,7 @@ namespace KarveCar.Model.Generic
                                                                              nombretabladb = "FRATIPIMPR",
                                                                              obj = new TipoImpresoFactura(),
                                                                              templateinfodb = new List<TemplateInfoDB>() {
-                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Codigo",
+                                                                                              new TemplateInfoDB(){ nombrepropiedadobj = "Code",
                                                                                                                     nombrecolumnadb    = "CODIGO",
                                                                                                                     tipodatocolumnadb  = ETipoDato.DBbyte,
                                                                                                                     datagridheader     = Resources.dttcCodigo },

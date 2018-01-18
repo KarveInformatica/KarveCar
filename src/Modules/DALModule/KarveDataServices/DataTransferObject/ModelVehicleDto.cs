@@ -14,7 +14,7 @@
         /// </summary>
         public string NomeMarca { get; set; }
         /// <summary>
-        ///  Codigo
+        ///  Code
         /// </summary>
         public string Codigo { get; set; }
         /// <summary>

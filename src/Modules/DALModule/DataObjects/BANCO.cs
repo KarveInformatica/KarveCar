@@ -1,18 +1,23 @@
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a BANCO.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("BANCO")]
 	public class BANCO 
 	{
 	
 	/// <summary>
     ///  Set or get the CODBAN property.
     /// </summary>
-    
+        [PrimaryKey]
+        [Key]
+        [FieldSize("4")]
 		public string CODBAN { get; set; }
  
 	/// <summary>

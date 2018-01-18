@@ -71,7 +71,7 @@
                 AssistTableName="TL_CONDICION_PRECIO"
                 ButtonImage="{x:Static uiObjects:UiConstants.ImagePath}"
                 LabelText="{Binding lcondicionventa, Source={StaticResource ResourceLanguage}}"
-                AssistProperties="Codigo, Nombre"
+                AssistProperties="Code, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                 LabelTextWidth="100"

@@ -3,7 +3,7 @@
 namespace KarveDataServices.DataTransferObject
 {
     [DataContract]
-    public class ClavePtoDto
+    public class ClavePtoDto: BaseDto
     {
         [DataMember]
         public string Numero { get;  set; }

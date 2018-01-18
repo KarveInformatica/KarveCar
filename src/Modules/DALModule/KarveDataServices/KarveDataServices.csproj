@@ -85,6 +85,7 @@
     <Compile Include="DataTransferObject\ActividadDto.cs" />
     <Compile Include="DataTransferObject\AgentDto.cs" />
     <Compile Include="DataTransferObject\BanksDto.cs" />
+    <Compile Include="DataTransferObject\BaseDto.cs" />
     <Compile Include="DataTransferObject\BranchesDto.cs" />
     <Compile Include="DataTransferObject\BrandVehicleDto.cs" />
     <Compile Include="DataTransferObject\CanalDto.cs" />
@@ -102,13 +103,14 @@
     <Compile Include="DataTransferObject\DeliveringFormDto.cs" />
     <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
+    <Compile Include="DataTransferObject\InvoiceBlockDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LocaleDataDto.cs" />
     <Compile Include="DataTransferObject\MaintainanceDto.cs" />
     <Compile Include="DataTransferObject\MercadoDto.cs" />
     <Compile Include="DataTransferObject\ModelVehicleDto.cs" />
     <Compile Include="DataTransferObject\MonthsDto.cs" />
-    <Compile Include="DataTransferObject\NegocioDto.cs" />
+    <Compile Include="DataTransferObject\BusinessDto.cs" />
     <Compile Include="DataTransferObject\OfficeDto.cs" />
     <Compile Include="DataTransferObject\OrigenDto.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />
@@ -124,6 +126,8 @@
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\VehicleOwnerDto.cs" />
+    <Compile Include="DataTransferObject\VehicleProvisionReasonDto.cs" />
+    <Compile Include="DataTransferObject\VehicleToolDto.cs" />
     <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
     <Compile Include="ILocaleDataServices.cs" />

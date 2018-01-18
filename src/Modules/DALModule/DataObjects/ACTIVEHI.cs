@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ACTIVEHI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ACTIVEHI")]
 	public class ACTIVEHI 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_ACTIVEHI property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("4")]
 		public string NUM_ACTIVEHI { get; set; }
  
 	/// <summary>

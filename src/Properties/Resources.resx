@@ -1420,7 +1420,7 @@
   </data>
   <data name="dttcCodigo" xml:space="preserve">
     <value>Código</value>
-    <comment>dttcCodigo</comment>
+    <comment>dttcCode</comment>
   </data>
   <data name="dttcCompra" xml:space="preserve">
     <value>Compra</value>
@@ -1492,11 +1492,11 @@
   </data>
   <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
     <value>No se admiten valores vacíos en el campo código</value>
-    <comment>msgEditarRegistroCodigoVacio</comment>
+    <comment>msgEditarRegistroCodeVacio</comment>
   </data>
   <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
     <value>El código ya existe</value>
-    <comment>msgEditarRegistroCodigoRepetido</comment>
+    <comment>msgEditarRegistroCodeRepetido</comment>
   </data>
   <data name="msgEditarRegistroTitulo" xml:space="preserve">
     <value>Editar registro</value>

@@ -22,7 +22,7 @@
             <WrapPanel Orientation="Horizontal">
                 
                 <kc:DualFieldSearchBox AssistTableName="PROVEE2" 
-                                       AssistProperties="Codigo,Nombre,Commercial,Direccion,Poblacion"
+                                       AssistProperties="Code,Nombre,Commercial,Direccion,Poblacion"
                                        DataFieldFirst="CIALEAS"
                                        LabelText="Proveedor"
                                        LabelTextWidth="100"

@@ -32,7 +32,7 @@
                                     TextContentSecondWidth="150"
                                     DataFieldFirst="eleIdCu1Inmo"
                                     AssistTableName="ACCOUNT_INMOVILIZADO"
-                                    AssistProperties="Codigo, Nombre"
+                                    AssistProperties="Code, Nombre"
                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
                         <KarveControls:DualFieldSearchBox 
@@ -51,7 +51,7 @@
                                     IsReadOnlySecond="True"
                                     DataFieldFirst="eleIdCu1Amort"
                                     AssistTableName="ACCOUNT_PAYMENT_ACCOUNT"
-                                    AssistProperties="Codigo, Description"
+                                    AssistProperties="Code, Description"
                                     ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
                         <KarveControls:DualFieldSearchBox LabelText="{Binding lgasto, Source={StaticResource ResourceLanguage}}" 
@@ -72,7 +72,7 @@
                                          AssistTableName="CU1"
                                          Margin="5,0,0,0"
                                          Height="25"
-                                         AssistProperties="Codigo, Description"
+                                         AssistProperties="Code, Description"
                                          ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                         <KarveControls:DualFieldSearchBox LabelText="{Binding lgastoanterior, Source={StaticResource ResourceLanguage}}" 
                                                           DataSource="{Binding ElementDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -94,7 +94,7 @@
                                        AssistTableName="ACCOUNT_PREVIUOS_PAYMENT"
                                        Margin="5,0,0,0"
                                        Height="25"
-                                       AssistProperties="Codigo, Description"
+                                       AssistProperties="Code, Description"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
                     </WrapPanel>

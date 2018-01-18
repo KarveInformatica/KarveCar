@@ -114,12 +114,14 @@ namespace ToolBarModule.Command
             {
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-             
-                
+           
             }
             else
             {
+                payLoad.Sender = ToolBarModule.NAME;
+                payLoad.PayloadType = DataPayLoad.Type.UpdateError;
                 string message = isInsert ? "Error during the insert" : "Error during the update";
+                payLoad.ResultString = message;
                 OnErrorExecuting?.Invoke(message);
             }
             return payLoad;

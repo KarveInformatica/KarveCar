@@ -58,7 +58,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<TIPOCOMI> _tipoComi = new List<TIPOCOMI>();
         private IEnumerable<ClientesDto> _clientOne = new List<ClientesDto>();
         private IEnumerable<ProductsDto> _products = new List<ProductsDto>();
-        private IEnumerable<NegocioDto> _negocios = new List<NegocioDto>();
+        private IEnumerable<BusinessDto> _negocios = new List<BusinessDto>();
         private IEnumerable<MercadoDto> _mercados = new List<MercadoDto>();
         private IEnumerable<CanalDto> _canal = new List<CanalDto>();
         private IEnumerable<VendedorDto> _vendedor = new List<VendedorDto>();
@@ -79,7 +79,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data Transfer objects for negocio
         /// </summary>
-        public IEnumerable<NegocioDto> Negocio
+        public IEnumerable<BusinessDto> Negocio
         {
             get { return _negocios; }
             set { _negocios = value; RaisePropertyChanged(); }
@@ -468,7 +468,7 @@ namespace MasterModule.ViewModels
                 case "NEGOCIO":
                     {
                         var negocio = await helperDataServices.GetAsyncHelper<NEGOCIO>(assistQuery);
-                        IEnumerable<NegocioDto> negocios = mapper.Map<IEnumerable<NEGOCIO>, IEnumerable<NegocioDto>>(negocio);
+                        IEnumerable<BusinessDto> negocios = mapper.Map<IEnumerable<NEGOCIO>, IEnumerable<BusinessDto>>(negocio);
                         Negocio = negocios;
                         currentView = Negocio;
                         break;

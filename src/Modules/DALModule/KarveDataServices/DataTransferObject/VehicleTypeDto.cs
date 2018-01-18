@@ -12,5 +12,6 @@ namespace KarveDataServices.DataTransferObject
         public string Name { set; get; }
         public int? OfferMargin { set; get; }
         public string WebName { set; get; }
+        public string LastModification { get; set; }
     }
 }

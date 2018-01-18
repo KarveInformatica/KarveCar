@@ -34,7 +34,7 @@
                                    Margin="5,0,0,5"
                                    Height="25"
                                    SourceView="{Binding ProveeDto, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
-                                   AssistProperties="Codigo, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                                   AssistProperties="Code, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                 <kc:DataField TextContentWidth="150" 
                               LabelTextWidth="100"
@@ -61,7 +61,7 @@
                                    Margin="5,0,0,0"
                                    Height="25"
                                    TableName="formas"
-                                   AssistProperties="Codigo, Nombre"
+                                   AssistProperties="Code, Nombre"
                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                 <kc:DataDatePicker DataDatePickerHeight="25"
                                    LabelText="Fecha Matricula Anterior"

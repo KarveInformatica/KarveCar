@@ -36,7 +36,7 @@
                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        Margin="5,0,0,0"
                                        Height="25"
-                                       AssistProperties="Codigo, Nombre"
+                                       AssistProperties="Code, Nombre"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                 <kc:DataField TextContentWidth="150" 
                               LabelTextWidth="50"

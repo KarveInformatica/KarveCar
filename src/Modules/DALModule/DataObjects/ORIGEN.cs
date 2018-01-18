@@ -1,22 +1,26 @@
  
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ORIGEN.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ORIGEN")]
 	public class ORIGEN 
 	{
-	
-	/// <summary>
-    ///  Set or get the NUM_ORIGEN property.
-    /// </summary>
-    
-		public Int32 NUM_ORIGEN { get; set; }
- 
-	/// <summary>
+
+	    /// <summary>
+	    ///  Set or get the NUM_ORIGEN property.
+	    /// </summary>
+	    [Key]
+	    [PrimaryKey]
+        public Int32 NUM_ORIGEN { get; set; }
+
+	    /// <summary>
     ///  Set or get the NOMBRE property.
     /// </summary>
     

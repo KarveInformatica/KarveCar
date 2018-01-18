@@ -40,7 +40,10 @@ namespace KarveCommon.Services
             Any = 7,
             CultureChange = 8,
             UpdateInsertGrid = 9,
-            DeleteGrid = 10
+            DeleteGrid = 10,
+            RevertChanges = 11,
+            UpdateError = 12,
+            UnregisterPayload = 13
         };
 
         private Type _payLoadType = Type.Insert;
@@ -66,9 +69,25 @@ namespace KarveCommon.Services
         ///
         public bool HasDictionary { set; get; }
 
+        /// <summary>
+        ///  Contains the previous value to do the undo
+        /// </summary>
+        public bool HasOldValue { set; get; }
+
+        /// <summary>
+        ///  contains the value of the oldvalue
+        /// </summary>
+
+        public object OldValue { set; get; }
+
+        /// <summary>
+        ///  Data dictionary of elements.
+        /// </summary>
 
         public IDictionary<string, object> DataDictionary { set; get; }
 
+
+        
         /// We map each command inside the system with a Uri
         ///  karve://suppliers/all?action=save  - this means the save the object
         ///  karve://vehicles/group?action=save - this means save the vehicles group
@@ -115,6 +134,7 @@ namespace KarveCommon.Services
         public string SubsystemViewModel { get; set; }
         public string PrimaryKeyValue { get; set; }
         public bool HasRelatedObject { get; set; }
+        public string ResultString { get; set; }
 
         public object ShallowCopy()
         {

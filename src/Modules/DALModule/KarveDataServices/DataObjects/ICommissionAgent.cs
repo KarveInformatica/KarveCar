@@ -62,7 +62,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Negocio Data Transfer Object
         /// </summary>
-        IEnumerable<NegocioDto> NegocioDto { get; set; }
+        IEnumerable<BusinessDto> NegocioDto { get; set; }
         /// <summary>
         ///  Canal Data Transfer Object
         /// </summary>

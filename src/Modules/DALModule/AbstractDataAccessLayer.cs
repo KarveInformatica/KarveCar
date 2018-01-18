@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
+using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using DesignByContract;
@@ -128,7 +129,7 @@ namespace DataAccessLayer
 
             
             string query = BuildQuery(primaryKey, supplierId);
-            
+
             try
             {
                 _executor.BeginTransaction();
@@ -146,9 +147,9 @@ namespace DataAccessLayer
             catch (System.Exception e)
             {
                 _executor.Rollback();
-                
+                throw new DataLayerExecutionException("Delete a data access layer failed!", e);
+
             }
-            return false;
         }
     }
 }

@@ -28,9 +28,7 @@ namespace KarveControls
         /// </summary>
         public DataField() : base()
         {
-           // OnApplyTemplate();
         }
-
         static DataField()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataField), new FrameworkPropertyMetadata(typeof(DataField)));
@@ -259,10 +257,7 @@ namespace KarveControls
             if (e.NewValue == null)
                 return;
 
-            if (_dataField == "DIREC2")
-            {
-                int k = 0;
-            }
+            
             if (string.IsNullOrEmpty(_dataField))
                 return;
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:KarveControlsTest"
         xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
         mc:Ignorable="d"
-        Title="TestWindow" Height="300" Width="300">
+        Title="TestWindow" Height="400" Width="400">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,18 +15,65 @@
         </ResourceDictionary>
     </Window.Resources>
     <Window.DataContext>
-        <kc:DirectionInfoViewModelMock></kc:DirectionInfoViewModelMock>
+        <local:ViewModel></local:ViewModel>
     </Window.DataContext>
     <Grid>
 
         <StackPanel>
             <TabControl>
                 
-                <TabItem Header="DirectionControls">
+                <TabItem Header="SearchBox">
                     <StackPanel Orientation="Vertical">
-                    <GroupBox Header="PagoDirection">
-                        <kc:DirectionInfo  
-                                           DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    <GroupBox Header="DataFields">
+                        <StackPanel>
+                            <kc:DualFieldSearchBox LabelText="Name"
+                                                   LabelTextWidth="50"
+                                                   TextContentFirstWidth="50"
+                                                   TextContentSecondWidth="160"
+                                                   DataFieldFirst="Zip"
+                                                   AssistQuery="{Binding AssistQuery}"
+                                                   AssistProperties="Zip,City"
+                                                   SourceView="{Binding SourceViewDto, Mode=OneWay}"
+                                                   DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   ButtonImage="/KarveControls;component/Images/search.png"
+                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MagnifierCommand="{Binding MagnifierCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   ></kc:DualFieldSearchBox>
+                            <kc:DualFieldSearchBox LabelText="Name"
+                                                   LabelTextWidth="50"
+                                                   TextContentFirstWidth="50"
+                                                   TextContentSecondWidth="160"
+                                                   DataFieldFirst="Zip"
+                                                   AssistQuery="{Binding AssistQuery}"
+                                                   AssistProperties="Zip,City"
+                                                   SourceView="{Binding SourceViewDto, Mode=OneWay}"
+                                                   DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   ButtonImage="/KarveControls;component/Images/search.png"
+                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   MagnifierCommand="{Binding MagnifierCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            ></kc:DualFieldSearchBox>
+                            </StackPanel>   
+                         
+                    <!--        
+                        
+                        <kc:DualFieldSearchBox x:Name="MyName"
+                           AssistTableName="SuperName"
+                           TextContentFirstWidth="100"
+                           TextContentSecondWidth="200"
+                           SourceView="{Binding SourceViewDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                           MagnifierCommand="{Binding MagnifierCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                           DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           ButtonImage="/KarveControls;component/Images/search.png">
+                            </kc:DualFieldSearchBox>
+                        </StackPanel>
+                            -->
+                        <!--
+                            <kc:DirectionInfo DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                     />
+                        -->
+
+                        <!--DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Direction="Value.DIR_PAGO"
                                                       Direction2="Value.DIR2_PAGO"
                                                       City="POB_PAGO"
@@ -45,21 +92,27 @@
                                                       ProvinceSourceView="{Binding ProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
-                        </kc:DirectionInfo>
+                        -->
                     </GroupBox>
-                        <GroupBox>
-                            <WrapPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Path=DirInfo.DIR_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.DIR2_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.FAX_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.MAIL_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.PAIS_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.POB_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.PROV_PAGO}"></TextBlock>
-                        <TextBlock Text="{Binding Path=DirInfo.TELF_PAGO}"></TextBlock>
-                            </WrapPanel>
-                        </GroupBox>
+                     
                     </StackPanel>
+                   
+                </TabItem>
+                <TabItem Header="DirectionInfoTest">
+                    <kc:DirectionInfo 
+                        DataObject="{Binding DirectionObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Direction="Value.DIRECTION1"
+                        Direction2="Value.DIRECTION2"
+                        City="CITY"
+                        Country="PAIS"
+                        Province="PROV"
+                        CityAssistName="CITY_ASSIST"
+                        CountryAssistName="COUNTRY_ASSIST"
+                        ProvinceAssistName="PROV_ASSIST"
+                        Phone="Value.TELEFONO"
+                        Fax="Value.FAX"
+                        Email="Value.MAIL">
+                    </kc:DirectionInfo>
                 </TabItem>
             </TabControl>
             <!--

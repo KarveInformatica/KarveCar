@@ -6,7 +6,7 @@ namespace KarveDataServices.DataTransferObject
     /// Data transfer object of each vehicle.
     /// </summary>
     [DataContract]
-    public class BrandVehicleDto
+    public class BrandVehicleDto : BaseDto
     {
         [DataMember]
         public string Codigo { get;  set; }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
-    ///  Codigo actividad dto.
+    ///  Code actividad dto.
     /// </summary>
-    public class ActividadDto
+    public class ActividadDto : BaseDto
     {
         /// <summary>
         ///  Code of the activity

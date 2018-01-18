@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="IAsyncInitialization.cs" />
     <Compile Include="ICreateRegionManagerScope.cs" />
+    <Compile Include="IDisposeEvents.cs" />
     <Compile Include="ILinqToTree.cs" />
     <Compile Include="IMagnifierHandler.cs" />
     <Compile Include="IRegionManagerAware.cs" />

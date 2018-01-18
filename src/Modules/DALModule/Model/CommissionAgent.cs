@@ -317,7 +317,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Negocio Dto
         /// </summary>
-        public IEnumerable<NegocioDto> NegocioDto { get; set; }
+        public IEnumerable<BusinessDto> NegocioDto { get; set; }
         /// <summary>
         ///  Canal Dto
         /// </summary>
@@ -487,7 +487,7 @@ namespace DataAccessLayer.Model
             {
                 tmpQuery = string.Format(_queryComiDapper, Negocio, DefaultNegocioFields, "CODIGO", comisio.NEGOCIO);
                 _negocios = await _dbConnection.QueryAsync<NEGOCIO>(tmpQuery);
-                NegocioDto = _mapper.Map<IEnumerable<NEGOCIO>, IEnumerable<NegocioDto>>(_negocios);
+                NegocioDto = _mapper.Map<IEnumerable<NEGOCIO>, IEnumerable<BusinessDto>>(_negocios);
 
             }
             if (!string.IsNullOrEmpty(comisio.CANAL))

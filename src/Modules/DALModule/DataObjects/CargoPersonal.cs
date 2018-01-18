@@ -2,6 +2,9 @@
 
 namespace KarveDataAccessLayer.DataObjects
 {
+    /// <summary>
+    ///  dupllicated code.
+    /// </summary>
     public class CargoPersonal : BaseAuxDataObject
     {
         #region Constructores

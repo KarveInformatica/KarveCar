@@ -6,7 +6,7 @@ namespace KarveDataServices.DataTransferObject
     ///  The branches dto is a data transfer object for the branches.
     /// </summary>
     [DataContract]
-    public class BranchesDto
+    public class BranchesDto : BaseDto
     {
         public BranchesDto()
         { }
@@ -47,6 +47,5 @@ namespace KarveDataServices.DataTransferObject
         [DataMember]
         public ProvinciaDto Province { get; set; }
         public string Notes { get; set; }
-
     }
 }

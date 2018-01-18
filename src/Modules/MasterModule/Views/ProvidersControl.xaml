@@ -68,7 +68,7 @@
             </Syncfusion:SfDataGrid.Resources>
             <Syncfusion:SfDataGrid.Columns>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
-                                           MappingName="Codigo" 
+                                           MappingName="Code" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"

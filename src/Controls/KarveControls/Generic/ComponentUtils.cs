@@ -31,14 +31,24 @@ namespace KarveControls.Generic
             // Get the string Value of the object.
             PropertyInfo valuePropType = dataType.GetProperty(ValueString);
             object valueObject = null;
-            if (valuePropType != null)
+            if (valuePropType == null)
+            {
+                valueObject = dataObject;
+            }
+            else 
             {
                 valueObject = valuePropType.GetValue(dataObject);
             }
             if (valueObject != null)
             {
                 Type valueType = valueObject.GetType();
-                PropertyInfo info = valueType.GetProperty(dataField.ToUpper());
+                var currentField = dataField;
+                PropertyInfo info = valueType.GetProperty(currentField);
+                if (info == null)
+                {
+                    currentField = currentField.ToUpper();
+                    info = valueType.GetProperty(currentField);
+                }
                 // ok we get the field to be used and changed
                 if (info != null)
                 {

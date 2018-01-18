@@ -186,8 +186,8 @@ namespace DataAccessLayer.Logic
         public MercadoDto Convert(MERCADO source, MercadoDto destination, ResolutionContext context)
         {
             MercadoDto destinationDto = new MercadoDto();
-            destinationDto.Codigo = source.CODIGO;
-            destinationDto.Nombre = source.NOMBRE;
+            destinationDto.Name = source.CODIGO;
+            destinationDto.Code = source.NOMBRE;
             return destinationDto;
         }
     }
@@ -221,14 +221,14 @@ namespace DataAccessLayer.Logic
     /// <summary>
     /// POCO to Dto converter for the business shop domain object
     /// </summary>
-    public class NegocioConverter : ITypeConverter<NEGOCIO, NegocioDto>
+    public class NegocioConverter : ITypeConverter<NEGOCIO, BusinessDto>
     {
-        public NegocioDto Convert(NEGOCIO source, NegocioDto destination, ResolutionContext context)
+        public BusinessDto Convert(NEGOCIO source, BusinessDto destination, ResolutionContext context)
         {
-            NegocioDto negocioDto = new NegocioDto();
-            negocioDto.Codigo = source.CODIGO;
-            negocioDto.Negocio = source.NOMBRE;
-            return negocioDto;
+            BusinessDto businessDto = new BusinessDto();
+            businessDto.Code= source.CODIGO;
+            businessDto.Name = source.NOMBRE;
+            return businessDto;
         }
     }
     /// <summary>
@@ -431,7 +431,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
                 cfg.CreateMap<CANAL, CanalDto>().ConvertUsing(new CanalConverter());
-                cfg.CreateMap<NEGOCIO, NegocioDto>().ConvertUsing(new NegocioConverter());
+                cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
                 cfg.CreateMap<VENDEDOR, VendedorDto>().ConvertUsing(new VendedorConverter());
                 cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
                 cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
@@ -450,6 +450,16 @@ namespace DataAccessLayer.Logic
                         model.Nombre = src.NOMBRE;
                         return model;
                     });
+
+                cfg.CreateMap<VehicleProvisionReasonDto, MOT_REPOSTAJE>().ConvertUsing(src =>
+                {
+                    var model = new MOT_REPOSTAJE();
+                    model.COD_MOT = src.Code;
+                    model.NOM_MOT = src.Name;
+                    return model;
+                });
+                
+
                 cfg.CreateMap<CATEGO, VehicleTypeDto>().ConvertUsing(src =>
                 {
                     var model = new VehicleTypeDto();
@@ -457,6 +467,7 @@ namespace DataAccessLayer.Logic
                     model.Name = src.NOMBRE;
                     model.WebName = src.NOMWEB;
                     model.OfferMargin = src.DIAS_MARGEN;
+                    model.LastModification = src.ULTMODI;
                    // model.TerminationDate = src.
                     return model;
                 });
@@ -467,7 +478,7 @@ namespace DataAccessLayer.Logic
                     model.NOMBRE = src.Name;
                     model.NOMWEB = src.WebName;
                     model.DIAS_MARGEN = src.OfferMargin;
-                    // model.TerminationDate = src.
+                    model.ULTMODI = src.LastModification;
                     return model;
                 });
 
@@ -549,7 +560,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<BANCO, BanksDto>().ConstructUsing(src =>
                 {
                     var model = new BanksDto();
-                    model.Codigo= src.CODBAN;
+                    model.Code= src.CODBAN;
                     model.Nombre = src.NOMBRE;
                     model.Swift = src.SWIFT;
                     return model;
@@ -565,9 +576,11 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<POBLACIONES, CityDto>().ConvertUsing(src =>
                 {
                     var model = new CityDto();
-                    model.Codigo = src.CP;
+                    model.Code = src.CP;
                     model.Poblacion = src.POBLA;
                     model.Pais = src.PAIS;
+                    model.Country = new CountryDto();
+                    model.Country.Code = src.PAIS;
                     return model;
                 });
                 cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
@@ -588,10 +601,7 @@ namespace DataAccessLayer.Logic
                     model.Cuenta = src.CC;
                     return model;
                 });
-
-
-                //  cfg.CreateMap<AGENTES, AgentDto>().ConvertUsing(new AgentConverter());
-
+          
             });
             if (Instance == null)
             {

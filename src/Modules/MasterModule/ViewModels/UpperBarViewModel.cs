@@ -14,6 +14,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using AutoMapper;
 using KarveCommon.Generic;
+using KarveCommonInterfaces;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;

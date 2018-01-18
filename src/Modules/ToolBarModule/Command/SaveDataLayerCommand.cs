@@ -32,7 +32,8 @@ namespace ToolBarModule.Command
             {
                 { DataSubSystem.SupplierSubsystem, new SupplierDataPayload() },
                 { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
-                { DataSubSystem.VehicleSubsystem, new VehicleDataPayload() }
+                { DataSubSystem.VehicleSubsystem, new VehicleDataPayload() },
+                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad() }
             };
 
         /// <summary>
@@ -125,6 +126,7 @@ namespace ToolBarModule.Command
         /// <param name="errorType"></param>
         private void HandlerOnOnErrorExecuting(string errorType)
         {
+
             MessageBox.Show(errorType, "Error while saving", MessageBoxButton.OK);
         }
 

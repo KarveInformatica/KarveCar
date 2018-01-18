@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class BanksDto
+    public class BanksDto : BaseDto
     {
             /// <summary>
             ///  Set or get the CODBAN property.
             /// </summary>
 
-            public string Codigo { get; set; }
+            public string Code { get; set; }
 
-            /// <summary>
-            ///  Set or get the ULTMODI property.
-            /// </summary>
-
-            public string UltimaModification { get; set; }
-
+          
             /// <summary>
             ///  Set or get the USUARIO property.
             /// </summary>
