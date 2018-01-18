@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
-             xmlns:kcgeneric="clr-namespace:KarveControls.Generic;assembly=KarveControls"
              xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:kctb="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControls"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:mvvm="http://prismlibrary.com/"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
@@ -14,11 +12,7 @@
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
              xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:photoFrame="clr-namespace:KarveControls.PhotoFrame;assembly=KarveControls"
-             xmlns:itemsControl="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              xmlns:vehicleViews="clr-namespace:MasterModule.Views.Vehicles"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
              mc:Ignorable="d" 
              d:DesignHeight="960" d:DesignWidth="1000">
     <UserControl.Resources>

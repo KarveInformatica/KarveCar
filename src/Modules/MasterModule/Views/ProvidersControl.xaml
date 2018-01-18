@@ -9,7 +9,6 @@
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:karveGrid="clr-namespace:KarveControls.KarveGrid;assembly=KarveControls"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="SupplierControl">
 

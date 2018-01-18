@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls;
-using Xceed.Wpf.Toolkit.Core.Converters;
 
 namespace MasterModule.Views.Vehicles
 {
