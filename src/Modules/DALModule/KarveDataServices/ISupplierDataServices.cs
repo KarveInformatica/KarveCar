@@ -57,18 +57,16 @@ namespace KarveDataServices
         /// <param name="queries">The dictionary of the queries per table</param>
         /// <param name="set">The dataset per table</param>
         void UpdateDataSet(IDictionary<string, string> queries, DataSet set);
-        //List of dataset.
-
+       
+        /// <summary>
+        ///  This returns the dataset list.
+        /// </summary>
+        /// <param name="queries"></param>
+        /// <param name="setList"></param>
         void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList);
       
         /// <summary>
-        /// Return the supplier contacts asynchronously
-        /// </summary>
-        /// <param name="supplierId">supplier identifier</param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncSupplierContacts(string supplierId);
-        /// <summary>
-        /// This returns the asynchronous suppliers.
+        ///  Retrieve the asynchronous suppliers and store them in a dataset.
         /// </summary>
         /// <returns></returns>
         Task<DataSet> GetAsyncSuppliers();
@@ -111,8 +109,6 @@ namespace KarveDataServices
         /// <returns></returns>
         string GetNewId();
         #endregion
-        // Returns a collection of object suppliers.
-        Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection();
         /// <summary>
         ///  Returns a valid supplier given its code.
         /// </summary>

@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using DataAccessLayer.DataObjects;
+using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveCommon.Services;
@@ -18,6 +18,9 @@ using NLog;
 namespace DataAccessLayer
 {
 
+    /// <summary>
+    ///  Implementation of the supplier data access layer.
+    /// </summary>
     internal class SupplierDataAccessLayer : AbstractDataAccessLayer, ISupplierDataServices
     {
         private IConfigurationService _service;
@@ -39,7 +42,6 @@ namespace DataAccessLayer
                                               "CP_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6," +
                                               "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
 
-        private object _currentMerge = new object();
         private ISupplierData _currentSupplierData = null;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -54,7 +56,11 @@ namespace DataAccessLayer
             this._executor = mapper;
            
         }
-
+        /// <summary>
+        ///  Get Supplier Data Object
+        /// </summary>
+        /// <param name="supplierId">The supplier identifier to fetch from the database</param>
+        /// <returns></returns>
 
         public async Task<SupplierPoco> GetSupplierDo(string supplierId)
         {
@@ -153,16 +159,6 @@ namespace DataAccessLayer
             _executor.Commit();
 
         }
-
-        /// <summary>
-        /// Get suppliers contacts.
-        /// </summary>
-        /// <param name="supplierId">It returns the contact given a supplierId</param>
-        /// <returns></returns>
-        public Task<DataSet> GetAsyncSupplierContacts(string supplierId)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// Update a dataset from the supplierId
         /// </summary>
@@ -191,6 +187,11 @@ namespace DataAccessLayer
             }
         }
 
+        /// <summary>
+        ///  Save a supplier data.
+        /// </summary>
+        /// <param name="data">Data to be saved.</param>
+        /// <returns></returns>
         public async Task<bool> Save(ISupplierData data)
         {
             bool ret = await data.Save();
@@ -207,10 +208,6 @@ namespace DataAccessLayer
             return name;
         }
 
-        public Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<ISupplierData> GetAsyncSupplierDo(string validSupplierCode)
         {
@@ -379,6 +376,7 @@ namespace DataAccessLayer
             catch (System.Exception e)
             {
                 _executor.Rollback();
+                throw new DataLayerExecutionException("Error deleting a supplier", e);
             }
 
             return true;
@@ -386,9 +384,14 @@ namespace DataAccessLayer
 
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
+        public async Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
         {
-            throw new NotImplementedException();
+            IEnumerable<SupplierSummaryDto> queryAsync = null;
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            {
+                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+            }
+            return queryAsync;
         }
     }
 }

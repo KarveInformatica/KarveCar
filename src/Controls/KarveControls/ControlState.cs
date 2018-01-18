@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Syncfusion.Windows.Shared;
 
 namespace KarveControls
 {
@@ -161,10 +157,10 @@ DependencyProperty.RegisterAttached(
      typeof(ControlState),
      new FrameworkPropertyMetadata(DateTime.Now));
 
-        // <summary>
-        ///  Get the item changed command
+        /// <summary>
+        /// Get the previous value of type datetime
         /// </summary>
-        /// <param name="ds">Dependency object</param>
+        /// <param name="ds">Dependency Object/ User control to take</param>
         /// <returns></returns>
         public static DateTime GetDatePrev(DependencyObject ds)
         {
@@ -173,8 +169,8 @@ DependencyProperty.RegisterAttached(
         /// <summary>
         /// Set the item changed command
         /// </summary>
-        /// <param name="ds"></param>
-        /// <param name="item"></param>
+        /// <param name="ds">Dependency Object, user control to take</param>
+        /// <param name="item">Item value to be set</param>
         public static void SetDatePrev(DependencyObject ds, object item)
         {
             ds.SetValue(DatePrevDependencyProperty, item);

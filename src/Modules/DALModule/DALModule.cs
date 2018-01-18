@@ -15,12 +15,6 @@ namespace DataAccessLayer
                 _container = container;
                 _regionManager = regionManager;
             }
-            protected void RegisterViewsAndServices()
-            {
-            }
-            public void Initialize()
-            {
-                RegisterViewsAndServices();
-            }
+            
         }
 }

@@ -131,7 +131,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\KarveLocale\KarveLocale.csproj">
+    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveLocale</Name>
     </ProjectReference>

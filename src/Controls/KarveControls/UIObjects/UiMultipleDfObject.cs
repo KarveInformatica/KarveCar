@@ -7,7 +7,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Prism.Mvvm;
-using Telerik.WinControls.UI.Design;
 
 namespace KarveControls.UIObjects
 {

@@ -12,8 +12,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using KarveControls.Generic;
-using KarveControls.KarveGrid.Events;
-using Telerik.WinControls.UI;
 using Xceed.Wpf.AvalonDock.Layout;
 using System.Collections;
 using Syncfusion.UI.Xaml.Grid;

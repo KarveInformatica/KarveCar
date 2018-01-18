@@ -29,7 +29,6 @@ using Dragablz;
 using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
-using Syncfusion.Windows.PdfViewer;
 
 namespace MasterModule.Common
 {
@@ -40,7 +39,7 @@ namespace MasterModule.Common
     {
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
-       
+
         protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
@@ -91,11 +90,11 @@ namespace MasterModule.Common
         /// </summary>
         protected AssistHandlerRegistry AssistHandlerRegistry = new AssistHandlerRegistry();
 
-       
+
         /// <summary>
         ///  
         /// </summary>
-        private ObservableCollection<KarveGridExt.ColParamSize> _defaultColParamSizes = new ObservableCollection<KarveGridExt.ColParamSize>();
+        private ObservableCollection<KarveControls.KarveGridExt.ColParamSize> _defaultColParamSizes = new ObservableCollection<KarveControls.KarveGridExt.ColParamSize>();
         /// <summary>
         /// PrimaryKey field used from all view models.
         /// </summary>
@@ -131,8 +130,8 @@ namespace MasterModule.Common
         protected bool IsInsertion = false;
 
         protected IRegionManager RegionManager;
-        protected KarveGridExt.ColParamSize DefaultSummaryViewColSize;
-        protected ObservableCollection<KarveGridExt.ColParamSize> _observableCollection;
+        protected KarveControls.KarveGridExt.ColParamSize DefaultSummaryViewColSize;
+        protected ObservableCollection<KarveControls.KarveGridExt.ColParamSize> _observableCollection;
         protected const string OperationConstKey = "Operation";
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace MasterModule.Common
         /// <param name="configurationService">It needs the configuration service</param>
         /// <param name="eventManager">The event manager</param>
         /// <param name="services">The dataservices value</param>
-        
+
         public MasterViewModuleBase(IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
@@ -170,25 +169,11 @@ namespace MasterModule.Common
             CurrentOperationalState = DataPayLoad.Type.Show;
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
         }
-        /// <summary>
-        ///  This is the grid command 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public void OnGridCommand(object value)
-        {
-            var tmp = value;
-            return;
-        }
 
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
         {
-            // Pre: dtoList shall be not null.
-            // Pre: dto shall be not null.
-            if (dtoList == null)
-            {
-                return;
-            }
+            DesignByContract.Dbc.Requires(dtoList != null, "DataTransfer List Object shall be not null");
+            DesignByContract.Dbc.Requires(dto != null, "Data Transfer Obejct is not null");
             IList<T> list = new List<T>();
             list.Add(dto);
             var unionList = dtoList.Union(list);
@@ -199,22 +184,22 @@ namespace MasterModule.Common
         }
 
         /// <summary>
-            /// This is the handler for the grid messages.
-            /// </summary>
-            /// <typeparam name="DtoType">Type of the data transfer object</typeparam>
-            /// <typeparam name="DBType">Type of the data base entity</typeparam>
-            /// <param name="gridDictionary">Dictionary of the event to be accessed.</param>
-            /// <param name="setPrimary">Primary Key Delegate to be passed</param>
-            /// <param name="dataSub">Subsystem to be passed</param>
-            /// <returns></returns>
-            protected async Task<Tuple<bool,DtoType>> GridChangedCommand<DtoType, DBType>(object gridDictionary,
+        /// This is the handler for the grid messages.
+        /// </summary>
+        /// <typeparam name="DtoType">Type of the data transfer object</typeparam>
+        /// <typeparam name="DBType">Type of the data base entity</typeparam>
+        /// <param name="gridDictionary">Dictionary of the event to be accessed.</param>
+        /// <param name="setPrimary">Primary Key Delegate to be passed</param>
+        /// <param name="dataSub">Subsystem to be passed</param>
+        /// <returns></returns>
+        protected async Task<Tuple<bool, DtoType>> GridChangedCommand<DtoType, DBType>(object gridDictionary,
 
-            SetPrimaryKey<DtoType> setPrimary, DataSubSystem dataSub) where DBType : class
-            where DtoType : class
+        SetPrimaryKey<DtoType> setPrimary, DataSubSystem dataSub) where DBType : class
+        where DtoType : class
 
         {
             DtoType dtoType = null;
-            Tuple<bool, DtoType> retValue = new Tuple<bool, DtoType>(false, dtoType); 
+            Tuple<bool, DtoType> retValue = new Tuple<bool, DtoType>(false, dtoType);
 
             IDictionary<string, object> gridParam = gridDictionary as Dictionary<string, object>;
             if ((gridParam != null) && (gridParam.ContainsKey(OperationConstKey)))
@@ -228,73 +213,73 @@ namespace MasterModule.Common
                 switch (_delegationGridState)
                 {
                     case ControlExt.GridOp.Insert:
-                    {
-
-                        if (dtoType != null)
                         {
 
+                            if (dtoType != null)
+                            {
 
-                            var key = await DataServices.GetHelperDataServices().GetUniqueId<DBType>(pro);
-                            setPrimary(ref dtoType);
-                            info.SetValue(dtoType, key);
-                            var opValue = await DataServices.GetHelperDataServices()
-                                .ExecuteInsertOrUpdate<DtoType, DBType>(dtoType);
-                            retValue = new Tuple<bool, DtoType>(opValue, dtoType);
 
+                                var key = await DataServices.GetHelperDataServices().GetUniqueId<DBType>(pro);
+                                setPrimary(ref dtoType);
+                                info.SetValue(dtoType, key);
+                                var opValue = await DataServices.GetHelperDataServices()
+                                    .ExecuteInsertOrUpdate<DtoType, DBType>(dtoType);
+                                retValue = new Tuple<bool, DtoType>(opValue, dtoType);
+
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case ControlExt.GridOp.Update:
-                    {
-
-                        if (dtoType != null)
                         {
 
+                            if (dtoType != null)
+                            {
+
+                                setPrimary(ref dtoType);
+                                DataPayLoad payLoad = new DataPayLoad();
+                                payLoad.DataObject = gridParam["DataObject"];
+                                payLoad.HasRelatedObject = true;
+                                payLoad.RelatedObject = dtoType;
+                                payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
+                                payLoad.Subsystem = dataSub;
+                                retValue = new Tuple<bool, DtoType>(true, dtoType);                                // ok we act to notify the toolbar.
+                                EventManager.NotifyToolBar(payLoad);
+                            }
+                            break;
+                        }
+
+                    case ControlExt.GridOp.Delete:
+                        {
                             setPrimary(ref dtoType);
                             DataPayLoad payLoad = new DataPayLoad();
                             payLoad.DataObject = gridParam["DataObject"];
                             payLoad.HasRelatedObject = true;
                             payLoad.RelatedObject = dtoType;
-                            payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
+                            payLoad.PayloadType = DataPayLoad.Type.DeleteGrid;
                             payLoad.Subsystem = dataSub;
-                            retValue = new Tuple<bool, DtoType>(true, dtoType);                                // ok we act to notify the toolbar.
+                            retValue = new Tuple<bool, DtoType>(true, dtoType);
+                            // ok we act to notify the toolbar.
                             EventManager.NotifyToolBar(payLoad);
+                            break;
                         }
-                        break;
-                    }
-
-                    case ControlExt.GridOp.Delete:
-                    {
-                        setPrimary(ref dtoType);
-                        DataPayLoad payLoad = new DataPayLoad();
-                        payLoad.DataObject = gridParam["DataObject"];
-                        payLoad.HasRelatedObject = true;
-                        payLoad.RelatedObject = dtoType;
-                        payLoad.PayloadType = DataPayLoad.Type.DeleteGrid;
-                        payLoad.Subsystem = dataSub;
-                        retValue = new Tuple<bool, DtoType>(true, dtoType);
-                        // ok we act to notify the toolbar.
-                        EventManager.NotifyToolBar(payLoad);
-                        break;
-                    }
 
                 }
 
             }
             return retValue;
         }
-        public async Task MoveAllCols(KarveGridExt.ColParamSize colParam)
+        public async Task MoveAllCols(KarveControls.KarveGridExt.ColParamSize colParam)
         {
             int gridId = Convert.ToInt32(GridId);
-            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId); 
+            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
             int swappedDrop = colParam.SwappedTo;
             List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
             // split the magnifier columns in two.
-           // bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(colParam.ColumnList);
-            IList<KarveGridExt.ColParamSize> list = colParam.ColumnList;
+            // bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(colParam.ColumnList);
+            IList<KarveControls.KarveGridExt.ColParamSize> list = colParam.ColumnList;
             for (int i = 0; i < colParam.ColumnList.Count; ++i)
             {
-                KarveGridExt.ColParamSize paramSize = list[i];
+                KarveControls.KarveGridExt.ColParamSize paramSize = list[i];
                 MagnifierColumns cols = new MagnifierColumns();
 
                 var column = columns.FirstOrDefault(s =>
@@ -316,10 +301,10 @@ namespace MasterModule.Common
                     cols.VISIBLE = column.VISIBLE;
                 }
                 columns.Add(cols);
-              
+
             }
             bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(columns);
-            
+
             if (!ret)
             {
                 Logger.Warn("Error during saving the settings");
@@ -327,7 +312,7 @@ namespace MasterModule.Common
             // ok i can serialize this stuff.
         }
 
-        public async Task GridResize(KarveGridExt.ColParamSize colsParam)
+        public async Task GridResize(KarveControls.KarveGridExt.ColParamSize colsParam)
         {
             int gridId = Convert.ToInt32(GridId);
             _magnifierSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
@@ -370,9 +355,9 @@ namespace MasterModule.Common
             }
         }
 
-        private async Task CreateNewCols(int pos, KarveGridExt.ColParamSize colsParam)
+        private async Task CreateNewCols(int pos, KarveControls.KarveGridExt.ColParamSize colsParam)
         {
-           
+
             IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
             col.COLUMNA_NOMBRE = colsParam.ColumnName;
             col.ID_LUPA = Convert.ToInt32(GridId);
@@ -386,7 +371,7 @@ namespace MasterModule.Common
         }
         public async void OnGridResize(object gridSize)
         {
-            KarveGridExt.ColParamSize colsParam = gridSize as KarveGridExt.ColParamSize;
+            KarveControls.KarveGridExt.ColParamSize colsParam = gridSize as KarveControls.KarveGridExt.ColParamSize;
 
             if (colsParam == null)
             {
@@ -444,14 +429,14 @@ namespace MasterModule.Common
             }
             get { return _observableCollection; }
         }
-    /// <summary>
-    ///  This value returns foreach database row a tuple containing the value of the name and the id.
-    /// </summary>
-    /// <param name="rowView"></param>
-    /// <param name="nameColumn"></param>
-    /// <param name="codeColumn"></param>
-    /// <returns></returns>
-    protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
+        /// <summary>
+        ///  This value returns foreach database row a tuple containing the value of the name and the id.
+        /// </summary>
+        /// <param name="rowView"></param>
+        /// <param name="nameColumn"></param>
+        /// <param name="codeColumn"></param>
+        /// <returns></returns>
+        protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
         {
             DataRow row = rowView.Row;
             string name = row[nameColumn] as string;
@@ -608,7 +593,7 @@ namespace MasterModule.Common
             }
         }
 
-        public virtual  void DisposeEvents()
+        public virtual void DisposeEvents()
         {
             SaveMagnifierSettings(DefaultColumnsSize);
 
@@ -708,29 +693,33 @@ namespace MasterModule.Common
 
             }
         }
+        /// <summary>
+        ///  FIXME: this is supposed to set the magnifier settings to the database.
+        /// </summary>
+        /// <param name="settings"></param>
         public void SetMagnifierSettings(IMagnifierSettings settings)
         {
             _magnifierSettings = settings;
             IEnumerable<IMagnifierColumns> columns = settings.MagnifierColumns;
-            ObservableCollection<KarveGridExt.ColParamSize> colParams = new ObservableCollection<KarveGridExt.ColParamSize>();
+            ObservableCollection<KarveControls.KarveGridExt.ColParamSize> colParams = new ObservableCollection<KarveControls.KarveGridExt.ColParamSize>();
             foreach (var col in columns)
             {
 
-                KarveGridExt.ColParamSize paramSize = new KarveGridExt.ColParamSize();
+                KarveControls.KarveGridExt.ColParamSize paramSize = new KarveControls.KarveGridExt.ColParamSize();
                 double value = Convert.ToDouble(col.ANCHO);
                 paramSize.ColumnName = col.COLUMNA_NOMBRE;
                 paramSize.ColumnWidth = value;
                 if (col.POSICION.HasValue)
                 {
                     paramSize.ColumnIndex = col.POSICION.Value;
-                    
+
                 }
                 colParams.Add(paramSize);
             }
-            DefaultColumnsSize = colParams;
+         //   DefaultColumnsSize = colParams;
         }
 
-        public void SaveMagnifierSettings(ObservableCollection<KarveGridExt.ColParamSize> colSize)
+        public void SaveMagnifierSettings(ObservableCollection<KarveControls.KarveGridExt.ColParamSize> colSize)
         {
             IDictionary<int, IMagnifierColumns> colDictionary = new Dictionary<int, IMagnifierColumns>();
             foreach (var col in _magnifierSettings.MagnifierColumns)
@@ -741,8 +730,8 @@ namespace MasterModule.Common
             foreach (var col in DefaultColumnsSize)
             {
                 IMagnifierColumns magnifierColumn = colDictionary[col.ColumnIndex];
-                magnifierColumn.ANCHO = Convert.ToInt32(col.ColumnWidth);
-                magnifierColumn.COLUMNA_NOMBRE = col.ColumnName;
+              //  magnifierColumn.ANCHO = Convert.ToInt32(col.ColumnWidth);
+              //  magnifierColumn.COLUMNA_NOMBRE = col.ColumnName;
                 colDictionary.Remove(col.ColumnIndex);
                 colDictionary.Add(col.ColumnIndex, magnifierColumn);
 

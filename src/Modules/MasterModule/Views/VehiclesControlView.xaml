@@ -39,8 +39,6 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
-                               grid:KarveGridExt.DefaultColumnsSize="{Binding DefaultColumnsSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               grid:KarveGridExt.ResizeColumnCommand="{Binding GridResizeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"   
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

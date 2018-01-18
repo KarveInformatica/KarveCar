@@ -1,0 +1,1 @@
+AutoSearchCoontrol is a work in progress control that it will use suffix arrays for autocompletion in a textbox.

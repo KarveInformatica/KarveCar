@@ -112,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>

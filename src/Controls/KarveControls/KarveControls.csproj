@@ -62,12 +62,15 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -146,69 +149,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Telerik.WinControls">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.ChartView">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.ChartView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.GridView">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.GridView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.PdfViewer">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.PdfViewer.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.PivotGrid">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.PivotGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadChart">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.RadChart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadDock">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.RadDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadMarkupEditor">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RichTextBox">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.RichTextBox.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Scheduler">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Scheduler.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Office2013Light">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.TelerikMetro">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Windows7">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.Windows7.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Windows8">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.Themes.Windows8.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.UI">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.UI.Design">
-      <HintPath>..\..\..\lib\Telerik\Telerik.WinControls.UI.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="TelerikCommon">
-      <HintPath>..\..\..\lib\Telerik\TelerikCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="TelerikData">
-      <HintPath>..\..\..\lib\Telerik\TelerikData.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -233,7 +173,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoCompleteSearchBox\AutoCompleteSearchBox.cs" />
     <Compile Include="ControlState.cs" />
     <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
@@ -267,9 +206,6 @@
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataRadio\DataRadio.xaml.cs">
-      <DependentUpon>DataRadio.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
     <Compile Include="DualDataField\DualDataField.xaml.cs">
@@ -282,58 +218,7 @@
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlExt.cs" />
-    <Compile Include="KarveGrid\ColumnGroup\DataGridColumnGroup.cs" />
-    <Compile Include="KarveGrid\ColumnGroup\DataGridColumnGroups.cs" />
-    <Compile Include="KarveGrid\ColumnVirtual\DataGridColumnVirtual.cs" />
-    <Compile Include="KarveGrid\ColumnVirtual\VirtualDataGridColumns.cs" />
-    <Compile Include="KarveGrid\Column\Columns.cs" />
-    <Compile Include="KarveGrid\Column\DataGridColumn.cs" />
-    <Compile Include="KarveGrid\Column\DataGridColumnGroup.cs" />
-    <Compile Include="KarveGrid\Column\DataGridColumnGroups.cs" />
-    <Compile Include="KarveGrid\Column\DataGridColumns.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridBrowseBoxColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridCheckBoxColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridComboBoxColumn\DataGridComboBoxColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDateColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDecimalColumn Subtypes\DataGridPercentageColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDecimalColumn Subtypes\DataGridPriceColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDecimalColumn Subtypes\DataGridQuanityColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDecimalColumn Subtypes\DataGridTotalColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridDecimalColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DataGridTextBoxColumn.cs" />
-    <Compile Include="KarveGrid\Column\Types\DefaultColors.cs" />
-    <Compile Include="KarveGrid\Column\Types\MDataBaseExtension.cs" />
-    <Compile Include="KarveGrid\Events\ChangeFilterEvent.cs" />
-    <Compile Include="KarveGrid\Events\GridRowModifiedCellEventArgs.cs" />
-    <Compile Include="KarveGrid\Events\GridViewSelectedCellsChangedEventArgs.cs" />
-    <Compile Include="KarveGrid\Events\PageChangingEventArgs.cs" />
-    <Compile Include="KarveGrid\Events\QueryDataTableEventArgs.cs" />
-    <Compile Include="KarveGrid\Events\UpdateQueryEventArgs.cs" />
-    <Compile Include="KarveGrid\GridDefinition\DataGridRule.cs" />
-    <Compile Include="KarveGrid\GridDefinition\DataGridRules.cs" />
-    <Compile Include="KarveGrid\GridDefinition\DataGridTemplate.cs" />
-    <Compile Include="KarveGrid\GridFilters\BaseFilter.cs" />
-    <Compile Include="KarveGrid\GridFilters\DateFilter.cs" />
-    <Compile Include="KarveGrid\GridFilters\IKarveGridFilter.cs" />
-    <Compile Include="KarveGrid\GridFilters\KarveCompositeFilter.cs" />
-    <Compile Include="KarveGrid\GridFilters\TextFilter.cs" />
-    <Compile Include="KarveGrid\GridOrder\DataGridOrderedColumn.cs" />
-    <Compile Include="KarveGrid\GridOrder\DataGridOrderedColumns.cs" />
-    <Compile Include="KarveGrid\GridTable\DataGridTable.cs" />
-    <Compile Include="KarveGrid\GridTable\DataGridTables.cs" />
-    <Compile Include="KarveGrid\GridTraduccion\MyTraducRadGrid.cs" />
-    <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
-    <Compile Include="KarveGrid\KarveEditor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
-    <Compile Include="KarveGrid\KarveGridExt.cs" />
-    <Compile Include="KarveGrid\KarveGridView.cs" />
-    <Compile Include="KarveGrid\LayoutLocalizationProvider.cs" />
-    <Compile Include="KarveGrid\obj\Debug\GeneratedInternalTypeHelper.g.i.cs" />
-    <Compile Include="KarveGrid\obj\Debug\KarveGrid.g.i.cs" />
-    <Compile Include="KarveGrid\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="KarveGrid\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="KarveGrid\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-    <Compile Include="KarveGrid\obj\Debug\UserControl1.g.i.cs" />
-    <Compile Include="KarveGrid\QueryColumnsName.cs" />
+    <Compile Include="KarveGridExt.cs" />
     <Compile Include="KarveTripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
     </Compile>
@@ -392,10 +277,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DataRadio\DataRadio.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DataRatingsControl\RatingsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -434,9 +315,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="KarveGrid\obj\Debug\KarveGrid.Properties.Resources.resources" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\search.png" />
   </ItemGroup>
   <ItemGroup>
@@ -454,45 +332,30 @@
     <Resource Include="Images\exitmodule.jpg" />
     <Resource Include="Images\web.png" />
     <Content Include="KarveCommon.csproj" />
-    <Resource Include="KarveGrid\GridTheme\Generic.xml" />
     <Content Include="KarveDataServices.csproj" />
-    <Content Include="KarveGrid\KarveGrid.csproj" />
-    <Resource Include="KarveGrid\obj\Debug\KarveGrid.csproj.FileListAbsolute.txt" />
-    <Content Include="KarveGrid\obj\Debug\KarveGrid.dll" />
-    <Content Include="KarveGrid\obj\Debug\KarveGrid.pdb" />
-    <Content Include="KarveGrid\obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
-    <Resource Include="KarveGrid\Themes\Generic.xml" />
     <Content Include="MapControl\MapControl.csproj" />
     <Content Include="PhotoFrame\PhotoControl.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="DataFieldItemsControl\packages.config" />
-    <None Include="KarveGrid\obj\Debug\CoreCompileInputs.cache" />
-    <None Include="KarveGrid\obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <None Include="KarveGrid\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="KarveGrid\obj\Debug\KarveGrid.csproj.CoreCompileInputs.cache" />
-    <None Include="KarveGrid\obj\Debug\KarveGrid.csproj.GenerateResource.Cache" />
-    <None Include="KarveGrid\obj\Debug\KarveGrid.csprojResolveAssemblyReference.cache" />
     <None Include="packages.config" />
     <None Include="PhotoFrame\.vs\PhotoFrameSample\v15\.suo" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
-      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modules\DALModule\KarveDataServices\KarveDataServices.csproj">
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="KarveGrid\bin\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

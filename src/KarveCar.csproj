@@ -114,8 +114,8 @@
     <Reference Include="MaterialDesignThemes.MahApps, Version=0.0.11.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.MahApps.0.0.11\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=1.5.0.523, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignThemes.1.5.0.523\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -495,14 +495,6 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelperModule\HelperModule.csproj">
-      <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
-      <Name>HelperModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KarveLocale\KarveLocale.csproj">
-      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
-    </ProjectReference>
     <ProjectReference Include="Controls\KarveControls\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>
@@ -510,6 +502,10 @@
     <ProjectReference Include="KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="KarveLocale\KarveLocale.csproj">
+      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
+      <Name>KarveLocale</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>

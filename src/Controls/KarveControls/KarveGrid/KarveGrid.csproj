@@ -37,6 +37,7 @@
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="PresentationFramework.Luna" />
     <Reference Include="PresentationFramework.Royale" />
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -50,69 +51,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Telerik.WinControls">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.ChartView">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.ChartView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.GridView">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.GridView.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.PdfViewer">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.PdfViewer.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.PivotGrid">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.PivotGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadChart">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.RadChart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadDock">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.RadDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RadMarkupEditor">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.RichTextBox">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.RichTextBox.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Scheduler">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Scheduler.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Office2013Light">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.TelerikMetro">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Windows7">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.Windows7.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.Themes.Windows8">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.Themes.Windows8.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.UI">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.WinControls.UI.Design">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\Telerik.WinControls.UI.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="TelerikCommon">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\TelerikCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="TelerikData">
-      <HintPath>..\..\..\..\..\..\lib\Telerik\TelerikData.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -148,13 +86,13 @@
     <Compile Include="GridDefinition\DataGridRules.cs" />
     <Compile Include="GridOrder\DataGridOrderedColumn.cs" />
     <Compile Include="GridOrder\DataGridOrderedColumns.cs" />
-    <Compile Include="GridRowModifiedCellEventArgs.cs" />
     <Compile Include="GridTable\DataGridTable.cs" />
     <Compile Include="GridTable\DataGridTables.cs" />
     <Compile Include="GridTraduccion\MyTraducRadGrid.cs" />
     <Compile Include="GridFilters\IKarveGridFilter.cs" />
     <Compile Include="GridFilters\KarveCompositeFilter.cs" />
-    <Compile Include="GridViewSelectedCellsChangedEventArgs.cs" />
+    <Compile Include="GridViewCellEventArgs.cs" />
+    <Compile Include="GridViewCollectionChangedEventArgs.cs" />
     <Compile Include="KarveEditor\BrowerGridEditorKarve\BrowerGridEditorKarve.cs" />
     <Compile Include="KarveEditor\BrowerGridEditorKarve\BrowseEditorElement.cs" />
     <Compile Include="KarveGridView.cs" />

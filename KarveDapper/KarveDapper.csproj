@@ -48,9 +48,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\src\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Dapper.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\src\packages\Dapper.Extension.1.0.0.1\lib\net45\Dapper.Extension.dll</HintPath>
