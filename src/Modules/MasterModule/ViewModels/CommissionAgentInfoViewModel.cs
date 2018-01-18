@@ -12,7 +12,6 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using KarveControls.KarveGrid;
 using KarveControls.UIObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -256,14 +255,11 @@ namespace MasterModule.ViewModels
             AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
-            PrintAssociate = new DelegateCommand<object>(OnPrintCommand);
-            
+            PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
-            DelegationChangedRowsCommand = new Prism.Commands.DelegateCommand<object>(DelegationChangedRow);
-            // i need to track a culture change for dynamically collection.
-            //LoadUserInterfaceObjects();
+         
         }
 
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
@@ -280,50 +276,7 @@ namespace MasterModule.ViewModels
         { 
         }
 
-        /// <summary>
-        ///  This assume the old grid
-        /// </summary>
-        /// <param name="parm"></param>
-        private void DelegationChangedRow(object parm)
-        {
-
-            Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object> dictionary = parm as Dictionary<KarveGridView.ChangedGridViewEventArgs.EventParams, object>;
-            KarveGridView.ChangedGridViewEventArgs.Operation operation =
-                (KarveGridView.ChangedGridViewEventArgs.Operation)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.Operation];
-            if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Insert)
-            {
-                IEnumerable<BranchesDto> param = (IEnumerable<BranchesDto>)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.DataSource];
-                _commissionAgentDo.DelegationDto = _commissionAgentDo.DelegationDto.Union(param);
-
-            }
-            else if (operation == KarveGridView.ChangedGridViewEventArgs.Operation.Update)
-            {
-                // Yeah it is just one at time.
-                // we shall merge this to 
-                IEnumerable<BranchesDto> currentBranches = (IEnumerable<BranchesDto>)dictionary[KarveGridView.ChangedGridViewEventArgs.EventParams.DataSource];
-                BranchesDto changedDto = currentBranches.FirstOrDefault();
-                if (changedDto != null)
-                {
-                    _commissionAgentDo.DelegationDto.Where(b => b.BranchId == changedDto.BranchId).ForEach(tmpBranch =>
-                    {
-                        tmpBranch.Address = changedDto.Address;
-                        tmpBranch.Address2 = changedDto.Address2;
-                        tmpBranch.Branch = changedDto.Branch;
-                        tmpBranch.City = changedDto.City;
-                        tmpBranch.Email = changedDto.Email;
-                        tmpBranch.Phone = changedDto.Phone;
-                        tmpBranch.Province = changedDto.Province;
-                    });
-                }
-            }
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
-            payLoad.DataObject = _commissionAgentDo;
-            payLoad.HasDataObject = true;
-            EventManager.NotifyToolBar(payLoad);
-
-        }
+        
 
         /// <summary>
         /// This is enabled to the change the handler
@@ -553,32 +506,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        /// <summary>
-        ///  This load the user interface object for the upper part and the right page is it is present.
-        /// </summary>
-        private void LoadUserInterfaceObjects()
-        {
-            /*
-            UiCommissionAgentUpperPartBuilder builderUpperPart = new UiCommissionAgentUpperPartBuilder();
-            IDictionary<string, ObservableCollection<IUiObject>> collection = builderUpperPart.BuildPageObjects(AssistQueryRequestHandler, OnChangedField);
-            if (collection.ContainsKey(MasterModuleConstants.UiUpperPart))
-            {
-                UpperValueCollection = collection[MasterModuleConstants.UiUpperPart];
-            }
-            if (collection.ContainsKey(MasterModuleConstants.UiRightPartPage))
-            {
-                RightValueCollection = collection[MasterModuleConstants.UiRightPartPage];
-            }
-            // here we handle all the stuff.
-            for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
-            {
-                _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
-                _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
-                _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
-            }
-            _leftObservableCollection = _leftSideDualDfSearchBoxes;
-            */
-        }
+       
 
 
         /// <summary>

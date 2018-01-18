@@ -66,6 +66,8 @@ namespace DataAccessLayer.Model
             return data;
         }
 
+        
+
         /// <summary>
         /// This retrieve a commission agent.
         /// </summary>

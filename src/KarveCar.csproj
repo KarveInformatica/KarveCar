@@ -515,6 +515,10 @@
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
+    <ProjectReference Include="Modules\HelperModule\HelperModule.csproj">
+      <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
+      <Name>HelperModule</Name>
+    </ProjectReference>
     <ProjectReference Include="Modules\MasterModule\MasterModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
       <Name>MasterModule</Name>

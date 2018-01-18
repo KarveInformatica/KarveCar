@@ -133,5 +133,11 @@ namespace KarveDataServices
         /// <param name="supplierData"></param>
         /// <returns></returns>
         Task<bool> SaveChanges(ISupplierData supplierData);
+
+        /// <summary>
+        ///  This method shall return the complete list of suppliers.
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection();
     }
 }

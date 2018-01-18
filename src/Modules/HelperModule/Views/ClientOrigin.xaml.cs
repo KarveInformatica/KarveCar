@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HelperModule
+namespace HelperModule.Views
 {
     /// <summary>
     /// Interaction logic for ClientOriginViewModel.xaml
     /// </summary>
-    public partial class ClientOriginViewModel : UserControl
+    public partial class ClientOrigin : UserControl
     {
-        public ClientOriginViewModel()
+        public ClientOrigin()
         {
             InitializeComponent();
         }

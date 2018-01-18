@@ -18,9 +18,9 @@ namespace HelperModule.Views
     /// <summary>
     /// Interaction logic for BudgetCharge.xaml
     /// </summary>
-    public partial class BudgetCharge : UserControl
+    public partial class PeoplePosition : UserControl
     {
-        public BudgetCharge()
+        public PeoplePosition()
         {
             InitializeComponent();
         }

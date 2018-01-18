@@ -239,5 +239,10 @@ namespace KarveTest.ViewModels
         {
             throw new NotImplementedException();
         }
+
+        public bool IsRegisteredMailbox(string id, DataPayLoad payLoad)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

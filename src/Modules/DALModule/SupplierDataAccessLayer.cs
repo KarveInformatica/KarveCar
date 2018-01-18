@@ -10,6 +10,7 @@ using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -392,6 +393,21 @@ namespace DataAccessLayer
                 queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
             }
             return queryAsync;
+        }
+        /// <summary>
+        ///  FIXME find a the correct algorithm for this.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection()
+        {
+            IEnumerable<ISupplierData> supplierDatas = null;
+            IDbConnection connection = _executor.Connection;
+            if (connection.State != ConnectionState.Open)
+            {
+                
+            }
+       
+            return supplierDatas;
         }
     }
 }

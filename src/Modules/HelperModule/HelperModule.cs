@@ -28,11 +28,12 @@ namespace HelperModule
         }
         protected void RegisterViewsAndServices()
         {
-            _container.RegisterType<object, BudgetCharge>("BudgetCharge");
-            _container.RegisterType<object, Business>("Business");
-            _container.RegisterType<object, Channel>("Channel");
             _container.RegisterType<object, ClientBanks>("ClientBanks");
             _container.RegisterType<object, ClientInvoiceBlocks>("ClientInvoiceBlocks");
+            _container.RegisterType<object, Channel>("Channel");
+            _container.RegisterType<object, Country>("Country");
+            _container.RegisterType<object, PeoplePosition>("PeoplePosition");
+            _container.RegisterType<object, Business>("Business");
             _container.RegisterType<object, Market>("Mercado");
             _container.RegisterType<object, VehicleActivities>("VehicleActivities");
             _container.RegisterType<object, VehicleBrand>("VehicleBrand");
