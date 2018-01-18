@@ -2468,4 +2468,7 @@
   <data name="TarjetaDeCredito" xml:space="preserve">
     <value>Carta di Credito</value>
   </data>
+  <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
+    <value>Tipi di veicoli</value>
+  </data>
 </root>

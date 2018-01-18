@@ -8,7 +8,7 @@
         /// <summary>
         ///  Code 
         /// </summary>
-        public int Code { set; get; }
+        public byte Code { set; get; }
         /// <summary>
         ///  Name.
         /// </summary>

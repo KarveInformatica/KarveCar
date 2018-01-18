@@ -1,18 +1,23 @@
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a BLOQUEFAC.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("BLOQUEFAC")]
 	public class BLOQUEFAC 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
+        // two byets
+        [FieldSize("3")]
 		public string CODIGO { get; set; }
  
 	/// <summary>

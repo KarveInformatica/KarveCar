@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class PeoplePosition : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.PeoplePosition_CargoDePersonal;
         public PeoplePosition()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

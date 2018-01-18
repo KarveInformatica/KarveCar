@@ -321,7 +321,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Canal Dto
         /// </summary>
-        public IEnumerable<CanalDto> CanalDto { get; set; }
+        public IEnumerable<ChannelDto> CanalDto { get; set; }
         /// <summary>
         ///  Clave Ppto Dto
         /// </summary>
@@ -494,7 +494,7 @@ namespace DataAccessLayer.Model
             {
                 tmpQuery = string.Format(_queryComiDapper, Canal, DefaultCanalFields, "CODIGO", comisio.CANAL);
                 _canals = await _dbConnection.QueryAsync<CANAL>(tmpQuery);
-                CanalDto = _mapper.Map<IEnumerable<CANAL>, IEnumerable<CanalDto>>(_canals);
+                CanalDto = _mapper.Map<IEnumerable<CANAL>, IEnumerable<ChannelDto>>(_canals);
 
             }
             if ((!string.IsNullOrEmpty(comisio.CLAVEPPTO)))

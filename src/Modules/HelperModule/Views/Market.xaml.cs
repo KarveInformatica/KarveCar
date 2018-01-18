@@ -13,16 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HelperModule
+namespace HelperModule.Views
 {
     /// <summary>
     /// Interaction logic for Market.xaml
     /// </summary>
     public partial class Market : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnMercados;
         public Market()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
+
     }
 }

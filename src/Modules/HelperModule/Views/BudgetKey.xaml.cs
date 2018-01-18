@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class BudgetKey : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.BudgetKey_ClaveDePresuppuesto;
         public BudgetKey()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

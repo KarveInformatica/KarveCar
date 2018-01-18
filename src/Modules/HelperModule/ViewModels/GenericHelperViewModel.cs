@@ -55,26 +55,23 @@ namespace HelperModule.ViewModels
             if (query == string.Empty)
             {
                 _loader.LoadAll();
+                if (_loader.HelperView != null)
+                {
+                    HelperView = _loader.HelperView;
+                    HelperDto = _loader.HelperView.FirstOrDefault();
+                }
             }
             else
             {
                 _loader.Load(query);
+                if (_loader.HelperView != null)
+                {
+                    HelperView = _loader.HelperView;
+                    HelperDto = _loader.HelperView.FirstOrDefault();
+                }
             }
         }
-        /*
-        public GenericHelperViewModel(IDataServices dataServices, IRegionManager region,
-            IEventManager manager) : base(dataServices, region, manager)
-        {
-            SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);
-            ItemChangedCommand = new DelegateCommand<object>(OnItemChangedCommand);
-            _loader = new HelperLoader<Dto, Entity>(dataServices);
-            _loader.LoadAll();
-            _saver = new HelperSaver<Dto, Entity>(dataServices);
-            var id = Address.ToString();
-            MailBoxMessageHandler += IncomingMailbox;
-            EventManager.RegisterMailBox(id, MailBoxMessageHandler);
-
-        }*/
+    
         /// <summary>
         /// Selection changed within the grid.
         /// </summary>

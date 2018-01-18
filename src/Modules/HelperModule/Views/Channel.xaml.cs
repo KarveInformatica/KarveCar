@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class Channel : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.StringConstants_Canal;
         public Channel()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

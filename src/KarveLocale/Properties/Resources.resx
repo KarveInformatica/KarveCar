@@ -2520,10 +2520,16 @@
   <data name="lpermiso" xml:space="preserve">
     <value>Permiso de Conducir</value>
   </data>
-  <data name="TipoDeVehículos" xml:space="preserve">
-    <value>Tipo de Vehículos</value>
-  </data>
   <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
     <value>Tipo de Vehiculos</value>
+  </data>
+  <data name="ClientInvoiceBlocks_BloqueDeFacturacion" xml:space="preserve">
+    <value>Bloque de Facturacion</value>
+  </data>
+  <data name="PeoplePosition_CargoDePersonal" xml:space="preserve">
+    <value>Cargo de Personal</value>
+  </data>
+  <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
+    <value>Claves de presuppuesto</value>
   </data>
 </root>

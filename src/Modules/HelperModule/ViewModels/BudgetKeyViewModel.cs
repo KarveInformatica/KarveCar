@@ -13,7 +13,7 @@ namespace HelperModule.ViewModels
 {
     public class BudgetKeyViewModel : GenericHelperViewModel<BudgetKeyDto, CLAVEPTO>
     {
-        public BudgetKeyViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager) : base(
+        public BudgetKeyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(
             String.Empty, dataServices, region, manager)
         {
         }

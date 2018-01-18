@@ -25,7 +25,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the NOMBRE property.
             /// </summary>
 
-            public string Nombre { get; set; }
+            public string Name { get; set; }
 
             /// <summary>
             ///  Set or get the GESTIONAR property.

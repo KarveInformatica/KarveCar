@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class ClientBanks : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnBancosClientes;
         public ClientBanks()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

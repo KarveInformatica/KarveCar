@@ -2103,4 +2103,10 @@
   <data name="TarjetaDeCredito" xml:space="preserve">
     <value>Tarjeta de Credito</value>
   </data>
+  <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
+    <value>Tipo de Vehiculos</value>
+  </data>
+  <data name="ClientInvoiceBlocks_BloqueDeFacturacion" xml:space="preserve">
+    <value>Bloque de Facturacion</value>
+  </data>
 </root>

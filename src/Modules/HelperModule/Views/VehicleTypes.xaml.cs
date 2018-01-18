@@ -20,7 +20,7 @@ namespace HelperModule.Views
     /// </summary>
     public partial class VehicleTypes : UserControl
     {
-        private const string _header = "Tipo de Vehiculos";
+        private string _header = KarveLocale.Properties.Resources.VehicleTypes_TipoDeVehiculos;
         public VehicleTypes()
         {
             InitializeComponent();

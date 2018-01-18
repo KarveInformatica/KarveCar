@@ -218,7 +218,7 @@ namespace DataAccessLayer.Model
                     {
                         var banks = new BanksDto();
                         banks.Code = src.CODBAN;
-                        banks.Nombre = src.NOMBRE;
+                        banks.Name = src.NOMBRE;
                         banks.Swift = src.SWIFT;
                         banks.LastModification = src.ULTMODI;
                         banks.Usuario = src.USUARIO;

@@ -278,9 +278,9 @@
                                 <RibbonButton x:Name="rbtnBancosClientes" 
                                             Label="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"
-                                            AutomationProperties.AutomationId ="AuxBanksClients"
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/banks.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientBanks">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -290,8 +290,9 @@
                                 <RibbonButton x:Name="rbtnBloqueFacturacion" 
                                             Label="{Binding lrbtnBloqueFacturacion, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left"                                        
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/blockinvoice.png" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientInvoiceBlocks">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -305,8 +306,9 @@
                                 <RibbonButton x:Name="rbtnCanales" 
                                             Label="{Binding lrbtnCanales, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png"  
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/channel.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Channel">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -316,8 +318,9 @@
                                 <RibbonButton x:Name="rbtnCargosPersonal" 
                                             Label="{Binding lrbtnCargosPersonal, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/position.png" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="PeoplePosition" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -338,8 +341,9 @@
                                 <RibbonButton x:Name="rbtnClavesPresupuesto" 
                                             Label="{Binding lrbtnClavesPresupuesto, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/budget.png" 
+                                              Command="{Binding NavigateCommand}" 
+                                              CommandParameter="BudgetKey">
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -368,8 +372,9 @@
                                 <RibbonButton x:Name="rbtnMercados" 
                                             Label="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/market.png"
+                                              Command="{Binding NavigateCommand}" 
+                                              CommandParameter="Market" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -379,8 +384,9 @@
                                 <RibbonButton x:Name="rbtnNegocios" 
                                             Label="{Binding lrbtnNegocios, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                            SmallImageSource="/KarveCar;component/Images/business.png" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Business" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -391,7 +397,8 @@
                                             Label="{Binding lrbtnOrigenClientes, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
                                             SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource mostrarAuxiliaresViewModel}" >
+                                              Command="{Binding NavigateCommand}" 
+                                              CommandParameter="ClientLocation" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MostrarAuxCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
@@ -922,7 +929,7 @@
                                 <RibbonButton x:Name="rbtnTiposVehiculos" 
                                             Label="{Binding lrbtnTiposVehiculos, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
-                                            SmallImageSource="/KarveCar;component/Images/new.png" 
+                                            SmallImageSource="/KarveCar;component/Images/vehicletype.png" 
                                             Command="{Binding NavigateCommand}"
                                             CommandParameter="VehiclesType">
                                     <RibbonButton.InputBindings>

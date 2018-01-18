@@ -87,7 +87,7 @@
     <Compile Include="DataTransferObject\BanksDto.cs" />
     <Compile Include="DataTransferObject\BranchesDto.cs" />
     <Compile Include="DataTransferObject\BrandVehicleDto.cs" />
-    <Compile Include="DataTransferObject\CanalDto.cs" />
+    <Compile Include="DataTransferObject\ChannelDto.cs" />
     <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
     <Compile Include="DataTransferObject\ClientesDto.cs" />

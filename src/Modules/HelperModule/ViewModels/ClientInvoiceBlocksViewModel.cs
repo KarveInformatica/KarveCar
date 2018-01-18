@@ -12,9 +12,9 @@ using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class ClientInvoiceBlockViewModel : GenericHelperViewModel<InvoiceBlockDto, BLOQUEFAC>
+    class ClientInvoiceBlocksViewModel : GenericHelperViewModel<InvoiceBlockDto, BLOQUEFAC>
     {
-        public ClientInvoiceBlockViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty,dataServices, region, manager)
+        public ClientInvoiceBlocksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty,dataServices, region, manager)
         {
         }
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)

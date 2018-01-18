@@ -187,7 +187,6 @@
     <Compile Include="Views\Country.xaml.cs">
       <DependentUpon>Country.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KarveDataServices\DataTransferObject\BudgetKeyDto.cs" />
     <Compile Include="KarveDataServices\DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="ViewModels\BudgetKeyViewModel.cs" />
     <Compile Include="Views\BudgetKey.xaml.cs">
@@ -196,8 +195,6 @@
     <Compile Include="Views\ClientOrigin.xaml.cs">
       <DependentUpon>ClientOrigin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KarveDataServices\DataTransferObject\PeoplePositionDto.cs" />
-    <Compile Include="KarveDataServices\DataTransferObject\ChannelDto.cs" />
     <Compile Include="KarveDataServices\DataTransferObject\VehicleActivitiesDto.cs" />
     <Compile Include="ViewModels\BusinessViewModel.cs" />
     <Compile Include="ViewModels\ClientOriginViewModel.cs" />
@@ -220,7 +217,7 @@
     <Compile Include="ViewModels\BaseHelperViewModel.cs" />
     <Compile Include="ViewModels\HelperSaver.cs" />
     <Compile Include="ViewModels\GenericHelperViewModel.cs" />
-    <Compile Include="ViewModels\ClientInvoiceBlockViewModel.cs" />
+    <Compile Include="ViewModels\ClientInvoiceBlocksViewModel.cs" />
     <Compile Include="ViewModels\VehicleActivitiesViewModel.cs" />
     <Compile Include="ViewModels\VehicleColorsViewModel.cs" />
     <Compile Include="ViewModels\VehicleOwnerViewModel.cs" />
@@ -423,6 +420,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\banks.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\refresh.png" />

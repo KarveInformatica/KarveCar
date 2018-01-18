@@ -2107,4 +2107,7 @@
   <data name="TarjetaDeCredito" xml:space="preserve">
     <value>Credit Card</value>
   </data>
+  <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
+    <value>Vehicle Types</value>
+  </data>
 </root>

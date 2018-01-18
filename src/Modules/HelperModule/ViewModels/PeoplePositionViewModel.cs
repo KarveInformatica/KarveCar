@@ -26,7 +26,7 @@ namespace HelperModule.ViewModels
             if (dto != null)
             {
                 string codeId = await helperDal.GetMappedUniqueId<PeoplePositionDto, TIPO_CARGO>(dto);
-                dto.Code = Convert.ToInt16(codeId.Substring(0,3));
+                dto.Code = Convert.ToByte(codeId.Substring(0,2));
                 payLoad.DataObject = dto;
             }
             return payLoad;

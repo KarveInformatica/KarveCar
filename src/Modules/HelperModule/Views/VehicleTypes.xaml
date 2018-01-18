@@ -15,7 +15,7 @@
              d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
         
-        <GroupBox>
+        <GroupBox >
             <GroupBox.Header>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="TIPO DE VEHICULO" Foreground="White"></TextBlock>
@@ -100,19 +100,19 @@
                         <Syncfusion:GridTextColumn HeaderText="Nombre" 
                                            MappingName="Name" 
                                            TextAlignment="Left"
-                                           AllowEditing="True"
+                                           AllowEditing="False"
                                            AllowGrouping="True"
                                            />
                         <Syncfusion:GridDateTimeColumn HeaderText="Fecha de baja" 
                                                    MappingName="TerminationDate" 
                                                    TextAlignment="Left"
-                                                   AllowEditing="True"
+                                                   AllowEditing="False"
                                                    AllowGrouping="True"
                         />
                         <Syncfusion:GridTextColumn HeaderText="Nombre Web" 
                                                    MappingName="WebName" 
                                                    TextAlignment="Left"
-                                                   AllowEditing="True"
+                                                   AllowEditing="False"
                                                    AllowGrouping="True"
                         />
                     </Syncfusion:SfDataGrid.Columns>

@@ -11,7 +11,7 @@ using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class MarketViewModel : GenericHelperViewModel<MERCADO, MercadoDto>
+    class MarketViewModel : GenericHelperViewModel<MercadoDto, MERCADO>
     {
         /// <summary>
         ///  SetCode

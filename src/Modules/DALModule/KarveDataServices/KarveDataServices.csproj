@@ -88,7 +88,8 @@
     <Compile Include="DataTransferObject\BaseDto.cs" />
     <Compile Include="DataTransferObject\BranchesDto.cs" />
     <Compile Include="DataTransferObject\BrandVehicleDto.cs" />
-    <Compile Include="DataTransferObject\CanalDto.cs" />
+    <Compile Include="DataTransferObject\BudgetKeyDto.cs" />
+    <Compile Include="DataTransferObject\ChannelDto.cs" />
     <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
     <Compile Include="DataTransferObject\ClientesDto.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="DataTransferObject\OrigenDto.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />
     <Compile Include="DataTransferObject\PaymentFormDto.cs" />
+    <Compile Include="DataTransferObject\PeoplePositionDto.cs" />
     <Compile Include="DataTransferObject\PictureDto.cs" />
     <Compile Include="DataTransferObject\PriceConditionDto.cs" />
     <Compile Include="DataTransferObject\PrimaryKeyAttribute.cs" />

@@ -9,12 +9,9 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Invoice Block Dto.
     /// </summary>
-    public class InvoiceBlockDto
+    public class InvoiceBlockDto: BaseDto
     {
-        /// <summary>
-        ///  Last modification
-        /// </summary>
-        public string LastModification { get; set; }
+        
         /// <summary>
         ///  Code.
         /// </summary>
@@ -22,6 +19,6 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Description.
         /// </summary>
-        public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

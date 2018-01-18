@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class ClientInvoiceBlocks : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.ClientInvoiceBlocks_BloqueDeFacturacion;
         public ClientInvoiceBlocks()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

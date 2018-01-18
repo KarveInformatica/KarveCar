@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class Business : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.StringConstants_Negocio;
         public Business()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

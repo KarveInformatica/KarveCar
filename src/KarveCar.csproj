@@ -411,7 +411,15 @@
     </None>
     <Resource Include="Images\de-DE.png" />
     <Resource Include="Images\it-IT.png" />
-    <Resource Include="Images\VehicleTypeIcon.png" />
+    <Resource Include="Images\vehicletype.png" />
+    <Resource Include="Images\banks.png" />
+    <Resource Include="Images\blockinvoice.png" />
+    <Resource Include="Images\channel.png" />
+    <Resource Include="Images\position.png" />
+    <Resource Include="Images\budget.png" />
+    <Resource Include="Images\business.png" />
+    <Resource Include="Images\market.png" />
+    <Resource Include="Images\originclient.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

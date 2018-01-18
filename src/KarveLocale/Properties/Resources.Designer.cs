@@ -79,6 +79,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Claves de presuppuesto.
+        /// </summary>
+        public static string BudgetKey_ClaveDePresuppuesto {
+            get {
+                return ResourceManager.GetString("BudgetKey_ClaveDePresuppuesto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bloque de Facturacion.
+        /// </summary>
+        public static string ClientInvoiceBlocks_BloqueDeFacturacion {
+            get {
+                return ResourceManager.GetString("ClientInvoiceBlocks_BloqueDeFacturacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Commisiones.
         /// </summary>
         public static string Commisiones {
@@ -5533,6 +5551,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cargo de Personal.
+        /// </summary>
+        public static string PeoplePosition_CargoDePersonal {
+            get {
+                return ResourceManager.GetString("PeoplePosition_CargoDePersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pobl..
         /// </summary>
         public static string Pobl {
@@ -6010,15 +6037,6 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tipo de Vehículos.
-        /// </summary>
-        public static string TipoDeVehículos {
-            get {
-                return ResourceManager.GetString("TipoDeVehículos", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tipo.Comm..
         /// </summary>
         public static string UpperBarViewModel_HandleCommission_TipoComm {
@@ -6033,6 +6051,15 @@ namespace KarveLocale.Properties {
         public static string VehiclesControlViewModel_NewItem_NuevoVehiculos {
             get {
                 return ResourceManager.GetString("VehiclesControlViewModel_NewItem_NuevoVehiculos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Vehiculos.
+        /// </summary>
+        public static string VehicleTypes_TipoDeVehiculos {
+            get {
+                return ResourceManager.GetString("VehicleTypes_TipoDeVehiculos", resourceCulture);
             }
         }
         

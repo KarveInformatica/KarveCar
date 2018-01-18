@@ -36,18 +36,28 @@ namespace HelperModule.ViewModels
         {
             _initializationNotifier = NotifyTaskCompletion.Create(LoadDtoAll(), null);
         }
+
         /// <summary>
         ///  Load Data Transfer All.
         /// </summary>
         /// <returns></returns>
         private async Task<IEnumerable<Dto>> LoadDtoAll()
         {
-            var listOfVehicles = await _services.GetHelperDataServices().GetMappedAllAsyncHelper<Dto, Entity>();
-            if (listOfVehicles == null)
+            IEnumerable<Dto> list = null;
+            try
+
+            {
+                list = await _services.GetHelperDataServices().GetMappedAllAsyncHelper<Dto, Entity>();
+            }
+            catch (Exception e)
+            {
+                
+            }
+            if (list == null)
             {
                 return null;
             }
-            var value = new ObservableCollection<Dto>(listOfVehicles);
+            var value = new ObservableCollection<Dto>(list);
             _helperView = value;
             return value;
         }

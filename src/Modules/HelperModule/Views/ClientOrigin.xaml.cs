@@ -20,9 +20,11 @@ namespace HelperModule.Views
     /// </summary>
     public partial class ClientOrigin : UserControl
     {
+        private string _header = "Origin Clientes";
         public ClientOrigin()
         {
             InitializeComponent();
         }
+        public string Header { get { return _header; } }
     }
 }

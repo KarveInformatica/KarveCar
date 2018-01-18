@@ -208,13 +208,13 @@ namespace DataAccessLayer.Logic
     /// <summary>
     /// POCO to Dto converter for the canal domain object
     /// </summary>
-    public class CanalConverter : ITypeConverter<CANAL, CanalDto>
+    public class CanalConverter : ITypeConverter<CANAL, ChannelDto>
     {
-        public CanalDto Convert(CANAL source, CanalDto destination, ResolutionContext context)
+        public ChannelDto Convert(CANAL source, ChannelDto destination, ResolutionContext context)
         {
-            CanalDto dto = new CanalDto();
-            dto.Canal = source.CODIGO;
-            dto.Nombre = source.NOMBRE;
+            ChannelDto dto = new ChannelDto();
+            dto.Code = source.CODIGO;
+            dto.Name = source.NOMBRE;
             return dto;
         }
     }
@@ -289,8 +289,8 @@ namespace DataAccessLayer.Logic
         public OrigenDto Convert(ORIGEN source, OrigenDto destination, ResolutionContext context)
         {
             OrigenDto origenDto = new OrigenDto();
-            origenDto.Numero = source.NUM_ORIGEN;
-            origenDto.Nombre = source.NOMBRE;
+            origenDto.Code = source.NUM_ORIGEN;
+            origenDto.Name = source.NOMBRE;
             return origenDto;
         }
     }
@@ -430,7 +430,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
-                cfg.CreateMap<CANAL, CanalDto>().ConvertUsing(new CanalConverter());
+              //  cfg.CreateMap<CANAL, ChannelDto>().ConvertUsing(new CanalConverter());
                 cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
                 cfg.CreateMap<VENDEDOR, VendedorDto>().ConvertUsing(new VendedorConverter());
                 cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
@@ -443,6 +443,101 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+                cfg.CreateMap<OrigenDto, ORIGEN>().ConvertUsing(src =>
+                {
+                    var model = new ORIGEN();
+                    model.NUM_ORIGEN = src.Code;
+                    model.NOMBRE = src.Name;
+                    return model;
+                });
+                cfg.CreateMap<BANCO,BanksDto>().ConvertUsing(src =>
+                {
+                    var model = new BanksDto();
+                    model.Code = src.CODBAN;
+                    model.Name = src.NOMBRE;
+                    model.Swift = src.SWIFT;
+                    model.LastModification = src.ULTMODI;
+                    return model;
+                });
+                cfg.CreateMap<CLAVEPTO, BudgetKeyDto>().ConvertUsing(src =>
+                {
+                    var model = new BudgetKeyDto();
+                    model.Code = src.COD_CLAVE;
+                    model.Name = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<BudgetKeyDto, CLAVEPTO>().ConvertUsing(src =>
+                {
+                    var model = new CLAVEPTO();
+                    model.COD_CLAVE = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+
+                cfg.CreateMap<ChannelDto, CANAL>().ConvertUsing(src =>
+                {
+                    var model = new CANAL();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<CANAL, ChannelDto>().ConvertUsing(src =>
+                {
+                    var model = new ChannelDto();
+                    model.Code = src.CODIGO;
+                    model.Name= src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<TIPO_CARGO, PeoplePositionDto>().ConvertUsing(src =>
+                {
+                    var model = new PeoplePositionDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    return model;
+                });
+                cfg.CreateMap<PeoplePositionDto, TIPO_CARGO>().ConvertUsing(src =>
+                {
+                    var model = new TIPO_CARGO();
+                    model.CODIGO = Convert.ToByte(src.Code);
+                    model.NOMBRE = src.Name;
+                    return model;
+                });
+
+                cfg.CreateMap<BLOQUEFAC, InvoiceBlockDto>().ConvertUsing(src =>
+                {
+                    var model = new  InvoiceBlockDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<InvoiceBlockDto, BLOQUEFAC>().ConvertUsing(src =>
+                {
+                    var model = new BLOQUEFAC();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<BanksDto, BANCO>().ConvertUsing(src =>
+                {
+                    var model = new BANCO();
+                    model.CODBAN = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.SWIFT = src.Swift;
+                    return model;
+                });
                 cfg.CreateMap<FORMAS_PEDENT, DeliveringFormDto>().ConvertUsing(src =>
                     {
                         var model = new DeliveringFormDto();
@@ -557,14 +652,7 @@ namespace DataAccessLayer.Logic
                     model.NUMERO_MES = src.NUMERO_MES;
                     return model;
                 });
-                cfg.CreateMap<BANCO, BanksDto>().ConstructUsing(src =>
-                {
-                    var model = new BanksDto();
-                    model.Code= src.CODBAN;
-                    model.Nombre = src.NOMBRE;
-                    model.Swift = src.SWIFT;
-                    return model;
-                });
+              
                 cfg.CreateMap<FORMAS, PaymentFormDto>().ConvertUsing(src =>
                 {
                     var model = new PaymentFormDto();
@@ -601,7 +689,16 @@ namespace DataAccessLayer.Logic
                     model.Cuenta = src.CC;
                     return model;
                 });
-          
+                cfg.CreateMap<BusinessDto, NEGOCIO>().ConvertUsing(src =>
+                {
+                    var model = new NEGOCIO();
+                    model.CODIGO = src.Name;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+
             });
             if (Instance == null)
             {

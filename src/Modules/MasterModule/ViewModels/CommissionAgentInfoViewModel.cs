@@ -59,7 +59,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<ProductsDto> _products = new List<ProductsDto>();
         private IEnumerable<BusinessDto> _negocios = new List<BusinessDto>();
         private IEnumerable<MercadoDto> _mercados = new List<MercadoDto>();
-        private IEnumerable<CanalDto> _canal = new List<CanalDto>();
+        private IEnumerable<ChannelDto> _canal = new List<ChannelDto>();
         private IEnumerable<VendedorDto> _vendedor = new List<VendedorDto>();
         private IEnumerable<CommissionTypeDto> _tipocomisions = new List<CommissionTypeDto>();
         private IEnumerable<ZonaOfiDto> _officies = new List<ZonaOfiDto>();
@@ -86,7 +86,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data Trasnfer object for canal
         /// </summary>
-        public IEnumerable<CanalDto> Canal
+        public IEnumerable<ChannelDto> Canal
         {
             get { return _canal; }
             set { _canal = value; RaisePropertyChanged(); }
@@ -439,7 +439,7 @@ namespace MasterModule.ViewModels
                 case "CANAL":
                     {
                         var canal = await helperDataServices.GetAsyncHelper<CANAL>(assistQuery);
-                        IEnumerable<CanalDto> cli = mapper.Map<IEnumerable<CANAL>, IEnumerable<CanalDto>>(canal);
+                        IEnumerable<ChannelDto> cli = mapper.Map<IEnumerable<CANAL>, IEnumerable<ChannelDto>>(canal);
                         Canal = cli;
                         currentView = Canal;
                         break;

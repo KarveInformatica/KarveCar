@@ -66,7 +66,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Canal Data Transfer Object
         /// </summary>
-        IEnumerable<CanalDto> CanalDto { get; set; }
+        IEnumerable<ChannelDto> CanalDto { get; set; }
         /// <summary>
         ///  Clave Data Transfer Object
         /// </summary>
