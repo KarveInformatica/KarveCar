@@ -20,6 +20,8 @@ namespace HelperModule.Views
     /// </summary>
     public partial class VehicleColors : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnColores;
+        public string Header { get { return _header; } }
         public VehicleColors()
         {
             InitializeComponent();

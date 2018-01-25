@@ -309,7 +309,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Vendedor Dto
         /// </summary>
-        public IEnumerable<VendedorDto> VendedorDto { get; set; }
+        public IEnumerable<ResellerDto> VendedorDto { get; set; }
         /// <summary>
         ///  MercadoDto
         /// </summary>
@@ -468,7 +468,7 @@ namespace DataAccessLayer.Model
 
                 tmpQuery = string.Format(_queryComiDapper, Vendedor, DefaultVendedorFields, "NUM_VENDE", comisio.VENDE_COMI);
                 _vendedors = await _dbConnection.QueryAsync<VENDEDOR>(tmpQuery);
-                VendedorDto = _mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<VendedorDto>>(_vendedors);
+                VendedorDto = _mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<ResellerDto>>(_vendedors);
             }
             if (!string.IsNullOrEmpty(comisio.MERCADO))
             {

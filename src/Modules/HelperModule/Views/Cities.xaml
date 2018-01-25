@@ -4,73 +4,127 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HelperModule.Views"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
+            
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer>
+    <Grid>
+        <GroupBox Header="{Binding lrbtnPoblaciones, Source={StaticResource ResourceLanguage}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
 
-        <Grid>
+                    <RowDefinition></RowDefinition>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <VirtualizingStackPanel VirtualizationMode="Recycling" Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
-                <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
-                         Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
-                         karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <karveControls:DualFieldSearchBox
+                        LabelText="Pais"
+                        LabelTextWidth="80"
+                        DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        AssistTableName="COUNTRY"
+                        AssistProperties="Code,Name"
+                        DataFieldFirst="Language"
+                        SourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        MaxHeight="30"
+                        MagnifierCommand="{Binding AssistCountryCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        TextContentFirstWidth="60"
+                        TextContentSecondWidth="100">
+                    </karveControls:DualFieldSearchBox>
+                    <karveControls:DualFieldSearchBox
+                        LabelText="Codigo Postal"
+                        LabelTextWidth="80"
+                        DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        AssistTableName="CP"
+                        AssistProperties="City.Code,City.Poblacion"
+                        DataFieldFirst="Code"
+                        SourceView="{Binding CityCountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        MaxHeight="30"
+                        MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        TextContentFirstWidth="60"
+                        TextContentSecondWidth="100">
+                    </karveControls:DualFieldSearchBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <TextBlock Text="Poblacion" Width="80" Height="25" Margin="10,5,0,0"/>
+                        <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
+                                 karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                 Text="{Binding HelperDto.Poblacion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
+                  
+                </StackPanel>
 
-                <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
-                ></TextBlock>
-                <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
-                         karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                         Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
-            </VirtualizingStackPanel>
-            <Syncfusion:SfDataGrid Grid.Row="1" 
-                                   x:Name="InvoiceSummary"                       
-                                   ColumnSizer="Star"
-                                   AllowDraggingColumns="True"
-                                   AllowEditing="False"
-                                   AllowFiltering="True"
-                                   AllowResizingColumns="True"
-                                   AllowSorting="True"
-                                   AllowGrouping="True"
-                                   ShowGroupDropArea="True"
-                                   NavigationMode="Row"
-                                   ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   AutoGenerateColumns="False">
-                <Syncfusion:SfDataGrid.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Syncfusion:SfDataGrid.Resources>
-                <i:Interaction.Behaviors>
-                    <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </i:Interaction.Behaviors>
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="Code" 
-                                               MappingName="Code" 
-                                               TextAlignment="Left"
-                                               AllowFiltering="True"                                
-                                               AllowEditing="True"
-                                               AllowGrouping="True"/>
-                    <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                               MappingName="Canal" 
-                                               TextAlignment="Left"
-                                               AllowEditing="True"
-                                               AllowGrouping="True"
-                    />
-                </Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:SfDataGrid Grid.Row="2" 
+                                       x:Name="Summary"                       
+                                       ColumnSizer="Star"
+                                       AllowDraggingColumns="True"
+                                       AllowEditing="False"
+                                       AllowFiltering="True"
+                                       AllowResizingColumns="True"
+                                       AllowSorting="True"
+                                       AllowGrouping="True"
+                                       ShowGroupDropArea="True"
+                                       NavigationMode="Row"
+                                       karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                                       karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                       karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                       karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                       ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       AutoGenerateColumns="False">
+                    <Syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Syncfusion:SfDataGrid.Resources>
+                    <i:Interaction.Behaviors>
+                        <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                    <Syncfusion:SfDataGrid.Columns>
+                        <Syncfusion:GridTextColumn HeaderText="Codigo Postal" 
+                                                   MappingName="Code" 
+                                                   TextAlignment="Left"
+                                                   AllowEditing="False"
+                                                   AllowFiltering="True"
+                                                   AllowSorting="True"
+                                                   AllowGrouping="True"/>
+                        <Syncfusion:GridTextColumn HeaderText="Poblacion" 
+                                                   MappingName="Poblacion" 
+                                                   TextAlignment="Left"
+                                                   AllowEditing="False"
+                                                   AllowGrouping="True"
+                                                   AllowFiltering="True"
+                                                   AllowSorting="True"
+                        />
+                        <Syncfusion:GridTextColumn HeaderText="Codigo Pais" 
+                                                   MappingName="Country.Code" 
+                                                   TextAlignment="Left"
+                                                   AllowEditing="False"
+                                                   AllowGrouping="True"
+                                                   AllowFiltering="True"
+                                                   AllowSorting="True"
+                        />
+                        <Syncfusion:GridTextColumn HeaderText="Pais" 
+                                                   MappingName="Country.CountryName" 
+                                                   TextAlignment="Left"
+                                                   AllowEditing="False"
+                                                   AllowGrouping="True"
+                                                   AllowFiltering="True"
+                                                   AllowSorting="True"
+                        />
+                    </Syncfusion:SfDataGrid.Columns>
 
-            </Syncfusion:SfDataGrid>
-        </Grid>
-    </ScrollViewer>  
+                </Syncfusion:SfDataGrid>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </UserControl>

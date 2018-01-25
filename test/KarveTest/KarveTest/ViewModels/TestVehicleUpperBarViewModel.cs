@@ -90,14 +90,14 @@ namespace KarveTest.ViewModels
             ColorDto[] dto = colorsColorDtos.ToArray();
             Assert.Greater(dto.Length,0);
             Assert.AreSame(dto.Length, 4);
-            Assert.AreSame(dto[0].Codigo, "A");
-            Assert.AreSame(dto[1].Codigo, "BL");
-            Assert.AreSame(dto[2].Codigo, "BU");
-            Assert.AreSame(dto[3].Codigo, "GR");
-            Assert.AreSame(dto[0].Nombre, "AZUL");
-            Assert.AreSame(dto[1].Nombre, "BLANCO");
-            Assert.AreSame(dto[2].Nombre, "BORDEUS");
-            Assert.AreSame(dto[3].Nombre, "GRIS");
+            Assert.AreSame(dto[0].Code, "A");
+            Assert.AreSame(dto[1].Code, "BL");
+            Assert.AreSame(dto[2].Code, "BU");
+            Assert.AreSame(dto[3].Code, "GR");
+            Assert.AreSame(dto[0].Name, "AZUL");
+            Assert.AreSame(dto[1].Name, "BLANCO");
+            Assert.AreSame(dto[2].Name, "BORDEUS");
+            Assert.AreSame(dto[3].Name, "GRIS");
         }
         /// <summary>
         ///  This tests the view model in isolation when the user has a dto.
@@ -120,14 +120,14 @@ namespace KarveTest.ViewModels
             BrandVehicleDto[] dto = brandVehicleDtos.ToArray();
             Assert.Greater(dto.Length, 0);
             Assert.AreSame(dto.Length, 4);
-            Assert.AreSame(dto[0].Codigo, "A");
-            Assert.AreSame(dto[1].Codigo, "BL");
-            Assert.AreSame(dto[2].Codigo, "BU");
-            Assert.AreSame(dto[3].Codigo, "GR");
-            Assert.AreSame(dto[0].Nombre, "AZUL");
-            Assert.AreSame(dto[1].Nombre, "BLANCO");
-            Assert.AreSame(dto[2].Nombre, "BORDEUS");
-            Assert.AreSame(dto[3].Nombre, "GRIS");
+            Assert.AreSame(dto[0].Code, "A");
+            Assert.AreSame(dto[1].Name, "BL");
+            Assert.AreSame(dto[2].Code, "BU");
+            Assert.AreSame(dto[3].Code, "GR");
+            Assert.AreSame(dto[0].Name, "AZUL");
+            Assert.AreSame(dto[1].Name, "BLANCO");
+            Assert.AreSame(dto[2].Name, "BORDEUS");
+            Assert.AreSame(dto[3].Name, "GRIS");
         }
         /// <summary>
         ///  This should retrive a vehicle dto.

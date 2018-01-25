@@ -9,6 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Base Data Transfer Object use foreach object that we need..
     /// </summary>
+    [Serializable]
     public class BaseDto
     {
         /// <summary>
@@ -19,5 +20,10 @@ namespace KarveDataServices.DataTransferObject
         ///  User
         /// </summary>
         public string User { set; get; }
+
+        /// <summary>
+        ///  This return the value of the object itself.
+        /// </summary>
+        public virtual BaseDto Value { get { return this; } }
     }
 }

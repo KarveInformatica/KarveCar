@@ -79,22 +79,13 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
-            MagnifierGridName = VehiclesAgentSummaryVm;
-            GridId = 3;
+            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;
             StartAndNotify();          
         }
         public ICommand OpenItem
         {
             get { return OpenItemCommand; }
             set { OpenItemCommand = value; }
-        }
-
-        public void LoadMagnifierSettings()
-        {
-            _settings = DataServices.GetSettingsDataService();
-            MagnifierInitializationNotifier =
-                NotifyTaskCompletion.Create<IMagnifierSettings>(_settings.GetMagnifierSettings(GridId), InitializationNotifierOnSettingsChanged);
-
         }
         public override void StartAndNotify()
         {
@@ -142,14 +133,7 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
         }
-        /// <summary>
-        ///  Grid identifier.
-        /// </summary>
-        public override long GridId { get => _longId; set => _longId = value; }
-        /// <summary>
-        ///  Magnifier GridName.
-        /// </summary>
-        public override string MagnifierGridName { get; set; }
+       
 
         /// <summary>
         /// Set data object
@@ -185,7 +169,6 @@ namespace MasterModule.ViewModels
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
-            LoadMagnifierSettings();
         }
         public override async Task<bool> DeleteAsync(string vehiculeId, DataPayLoad payLoad)
         {

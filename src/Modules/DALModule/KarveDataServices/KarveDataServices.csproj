@@ -49,6 +49,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -90,20 +92,27 @@
     <Compile Include="DataTransferObject\BrandVehicleDto.cs" />
     <Compile Include="DataTransferObject\BudgetKeyDto.cs" />
     <Compile Include="DataTransferObject\ChannelDto.cs" />
+    <Compile Include="DataTransferObject\CityCountryDto.cs" />
     <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
     <Compile Include="DataTransferObject\ClientesDto.cs" />
+    <Compile Include="DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
+    <Compile Include="DataTransferObject\ClientZoneDto.cs" />
     <Compile Include="DataTransferObject\ColorDto.cs" />
     <Compile Include="DataTransferObject\ComisioDto.cs" />
+    <Compile Include="DataTransferObject\CompanyCardDto.cs" />
     <Compile Include="DataTransferObject\CompanyDto.cs" />
     <Compile Include="DataTransferObject\ContactsDto.cs" />
     <Compile Include="DataTransferObject\ContactsSummaryDto.cs" />
+    <Compile Include="DataTransferObject\ContactTypeDto.cs" />
     <Compile Include="DataTransferObject\CountryDto.cs" />
+    <Compile Include="DataTransferObject\CreditCardDto.cs" />
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
     <Compile Include="DataTransferObject\DeliveringFormDto.cs" />
     <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
+    <Compile Include="DataTransferObject\GridSettingsDto.cs" />
     <Compile Include="DataTransferObject\InvoiceBlockDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LocaleDataDto.cs" />
@@ -123,22 +132,26 @@
     <Compile Include="DataTransferObject\ProductsDto.cs" />
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
+    <Compile Include="DataTransferObject\RentingUseDto.cs" />
     <Compile Include="DataTransferObject\SupplierDto.cs" />
     <Compile Include="DataTransferObject\SupplierSummaryDto.cs" />
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />
+    <Compile Include="DataTransferObject\VehicleActivitiesDto.cs" />
+    <Compile Include="DataTransferObject\VehicleExtraDto.cs" />
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\VehicleOwnerDto.cs" />
     <Compile Include="DataTransferObject\VehicleProvisionReasonDto.cs" />
     <Compile Include="DataTransferObject\VehicleToolDto.cs" />
     <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
+    <Compile Include="DataTransferObject\VisitTypeDto.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />
     <Compile Include="ISettingsDataService.cs" />
     <Compile Include="SqlValidationRule.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />
-    <Compile Include="DataTransferObject\VendedorDto.cs" />
+    <Compile Include="DataTransferObject\ResellerDto.cs" />
     <Compile Include="DataTransferObject\VisitsDto.cs" />
     <Compile Include="DataTransferObject\ZonaOfiDto.cs" />
     <Compile Include="ICommissionAgentDataServices.cs" />
@@ -153,7 +166,6 @@
     <Compile Include="DataObjects\IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VehicleGroupDto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -625,7 +625,7 @@ namespace KarveControls
                 if (value is DataTable)
                 {
                     DataTable currentTable = value as DataTable;
-                    var propValue = filler.FetchDataFieldObject(currentTable, path);
+                    filler.FetchDataFieldObject(currentTable, path);
                     
 
                 }

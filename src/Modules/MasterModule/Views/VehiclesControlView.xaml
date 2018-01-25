@@ -8,6 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -36,6 +37,11 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                   
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

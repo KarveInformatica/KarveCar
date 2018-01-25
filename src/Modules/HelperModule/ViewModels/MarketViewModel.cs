@@ -32,6 +32,7 @@ namespace HelperModule.ViewModels
         }
         public MarketViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
         {
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperMarket;
         }
     }
 }

@@ -23,8 +23,7 @@ namespace MasterModule.ViewModels
         private IRegionManager _regionManager;
 
         public string UniqueId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override long GridId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override string MagnifierGridName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+     
 
         /// <summary>
         ///  This is the fares control view model.

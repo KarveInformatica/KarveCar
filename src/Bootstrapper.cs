@@ -66,9 +66,9 @@ namespace KarveCar
                 // The dal service is used to access to the database
                 logger.Debug("Resolving configuration container");
 
-                Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
-                Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
-                Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
+               // Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
+               // Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
+               // Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];

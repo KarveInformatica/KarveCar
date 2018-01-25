@@ -268,24 +268,24 @@ namespace DataAccessLayer.Model
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(src =>
                 {
                     var marcas = new MARCAS();
-                    marcas.CODIGO = src.Codigo;
-                    marcas.NOMBRE = src.Nombre;
+                    marcas.CODIGO = src.Code;
+                    marcas.NOMBRE = src.Name;
                     return marcas;
                 });
                 // _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
                 {
                     var marcas = new BrandVehicleDto();
-                    marcas.Codigo = src.CODIGO;
-                    marcas.Nombre = src.NOMBRE;
+                    marcas.Code = src.CODIGO;
+                    marcas.Name = src.NOMBRE;
                     return marcas;
                 });
                 cfg.CreateMap<PICTURES, PictureDto>();
                 cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
                     {
                         var color = new COLORFL();
-                        color.CODIGO = src.Codigo;
-                        color.NOMBRE = src.Nombre;
+                        color.CODIGO = src.Code;
+                        color.NOMBRE = src.Name;
                         return color;
                     }
                 );

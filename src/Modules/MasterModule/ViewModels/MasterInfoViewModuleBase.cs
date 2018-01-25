@@ -50,8 +50,7 @@ namespace MasterModule.ViewModels {
         protected override void SetTable(DataTable table)
         {   
         }
-        public override long GridId { set; get; }
-        public override string MagnifierGridName { set; get; }
+      
         protected IDictionary<string, string> ViewModelQueries { get; set; }
     }
 

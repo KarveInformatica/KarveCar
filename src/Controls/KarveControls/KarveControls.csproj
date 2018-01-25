@@ -88,6 +88,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Data.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Edit.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Edit.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Grid.MVVM.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Grid.MVVM.WPF.dll</HintPath>
@@ -95,6 +99,10 @@
     <Reference Include="Syncfusion.Grid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Grid.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfBusyIndicator.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,6 +119,18 @@
     <Reference Include="Syncfusion.SfInput.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfInput.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.MVVM.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.MVVM.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.Windows.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Shared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -131,6 +151,10 @@
     <Reference Include="Syncfusion.Tools.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Tools.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Tools.WPF.resources, Version=15.4460.0.17, Culture=en-US, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Tools.WPF.resources.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -201,7 +225,7 @@
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
     <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
-    <Compile Include="GridColumnExt.cs" />
+    <Compile Include="GridColumnFilterBehaviour.cs" />
     <Compile Include="HelperButtonControl\HelperButtonControl.cs" />
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>

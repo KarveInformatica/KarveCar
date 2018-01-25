@@ -21,7 +21,7 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <VirtualizingStackPanel VirtualizationMode="Recycling" Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
+                <TextBlock Text="Codigo" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
                 <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
                          Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>

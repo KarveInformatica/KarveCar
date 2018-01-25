@@ -99,6 +99,7 @@ namespace KarveControls
                 _webTextBox.LostFocus += WebTextBox_LostFocus;
                 _webTextBox.IsReadOnly = false;
             }
+            UpdateControls(DataObject);
         }
 
      
@@ -122,28 +123,63 @@ namespace KarveControls
             }
         }
 
-        private void GetAndSetDependency(object dataObject, DependencyProperty dependencyProperty, ref TextBox box, ControlExt.DataType type)
+        private string GetPropertyValue(object dataObject, string name, ControlExt.DataType type)
         {
+            if (dataObject != null)
+            {
+                var tmp = ComponentUtils.GetTextDo(dataObject, name, type);
+                if (type == ControlExt.DataType.Email)
+                {
+                    tmp = tmp.Replace("#", "@"); ;
+                }
+                return tmp;
+            }
+            return string.Empty;
+        }
 
-
+        private string GetDependencyValue(object dataObject, DependencyProperty dependencyProperty, ControlExt.DataType type)
+        {
+            string tmp = string.Empty;
+            if ((dataObject == null))
+            {
+                return string.Empty;
+            }
             var value = GetValue(dependencyProperty) as string;
             if (!string.IsNullOrEmpty(value))
             {
                 var tmpValue = value.Split('.');
                 if (tmpValue.Length == 2)
                 {
-                    var tmp = ComponentUtils.GetTextDo(dataObject, tmpValue[1], type);
-                    if (type == ControlExt.DataType.Email)
-                    {
-                        tmp = tmp.Replace("#", "@"); ;
-                    }
-                    box.Text = tmp;
+                    tmp = GetPropertyValue(dataObject, tmpValue[1], type);
+                }
+                else if (tmpValue.Length == 1)
+                {
+                     tmp = GetPropertyValue(dataObject, tmpValue[0], type);
                 }
             }
+            return tmp;
         }
+        private void GetAndSetDependency(object dataObject, DependencyProperty dependencyProperty, ref TextBox box, ControlExt.DataType type)
+        {
+            if ((dataObject == null) || (box == null))
+            {
+                return;
+            }
+            var value = GetValue(dependencyProperty) as string;
+            if (!string.IsNullOrEmpty(value))
+            {
+                box.Text = GetDependencyValue(dataObject,dependencyProperty,type);
+            }
+        }
+
         private void UpdateValues(DependencyPropertyChangedEventArgs ev)
         {
             object dataObject = ev.NewValue;
+            UpdateControls(dataObject);
+        }
+
+        private void UpdateControls(object dataObject)
+        {
             if (dataObject != null)
             {
                 ControlExt.DataType type = ControlExt.DataType.Any;
@@ -364,10 +400,10 @@ namespace KarveControls
         public static readonly DependencyProperty CountrySourceDependencyProperty =
             DependencyProperty.Register(
                 "CountrySourceView",
-                typeof(ObservableCollection<CountryDto>),
-                typeof(DirectionInfo), new PropertyMetadata(new ObservableCollection<CountryDto>()));
+                typeof(IEnumerable<CountryDto>),
+                typeof(DirectionInfo), new PropertyMetadata(null));
 
-        public ObservableCollection<CountryDto> CountrySourceView
+        public IEnumerable<CountryDto> CountrySourceView
         {
             set
             {
@@ -375,16 +411,21 @@ namespace KarveControls
             }
             get
             {
-                return (ObservableCollection<CountryDto>)GetValue(CountrySourceDependencyProperty);
+                return (IEnumerable<CountryDto>)GetValue(CountrySourceDependencyProperty);
             }
         }
         public static readonly DependencyProperty CitySourceDependencyProperty =
             DependencyProperty.Register(
                 "CitySourceView",
-                typeof(ObservableCollection<CityDto>),
-                typeof(DirectionInfo), new PropertyMetadata(null));
+                typeof(IEnumerable<CityDto>),
+                typeof(DirectionInfo), new PropertyMetadata(null, OnCityCallback));
 
-        public ObservableCollection<CityDto> CitySourceView
+        private static void OnCityCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var v = 1;
+        }
+
+        public IEnumerable<CityDto> CitySourceView
         {
             set
             { 
@@ -393,7 +434,7 @@ namespace KarveControls
             }
             get
             {
-                return (ObservableCollection<CityDto>)GetValue(CitySourceDependencyProperty);
+                return (IEnumerable<CityDto>)GetValue(CitySourceDependencyProperty);
             }
         }
 
@@ -404,12 +445,12 @@ namespace KarveControls
         ///  province
         /// </summary>
         /// 
-
+        
         public static readonly DependencyProperty ProvinceSourceDependencyProperty =
             DependencyProperty.Register(
                 "ProvinceSourceView",
-                typeof(ObservableCollection<ProvinciaDto>),
-                typeof(DirectionInfo), new PropertyMetadata(new ObservableCollection<ProvinciaDto>()));
+                typeof(IEnumerable<ProvinciaDto>),
+                typeof(DirectionInfo), new PropertyMetadata(null));
 
         public ObservableCollection<ProvinciaDto> ProvinceSourceView
         {
@@ -562,24 +603,19 @@ namespace KarveControls
 
         private void LaunchMailClient(object value)
         {
-            if (value != null)
+            var tmp = GetDependencyValue(DataObject, EmailDependencyProperty, ControlExt.DataType.Email);
+            if (tmp?.Length>0)
             {
-                string email = value as string;
-                string emailUrl = "mailto:" + email + "?subject=KarveCar";
-
+                string emailUrl = "mailto:" + tmp + "?subject=KarveCar";
                 System.Diagnostics.Process.Start(emailUrl);
             }
         }
         private void LaunchWebBrowser(object value)
         {
-            if (value != null)
+            var tmp = GetDependencyValue(DataObject, WebDependencyProperty, ControlExt.DataType.Any);
+            if (tmp?.Length > 0)
             {
-                string webBrowser = value as string;
-                if (webBrowser.Length > 0)
-                {
-
-                    System.Diagnostics.Process.Start(webBrowser);
-                }
+                System.Diagnostics.Process.Start(tmp);
             }
         }
         public ProvinciaDto ProvinceDto

@@ -16,11 +16,14 @@ using System.Windows.Shapes;
 namespace HelperModule.Views
 {
     /// <summary>
-    /// Interaction logic for VehicleExtras.xaml
+    /// Interaction logic for Province.xaml
     /// </summary>
-    public partial class VehicleExtras : UserControl
+    public partial class Province : UserControl
     {
-        public VehicleExtras()
+        private string _header = KarveLocale.Properties.Resources.lrbtnProvincias;
+        public string Header { get { return _header; } }
+
+        public Province()
         {
             InitializeComponent();
         }

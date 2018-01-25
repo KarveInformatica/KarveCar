@@ -20,6 +20,8 @@ namespace HelperModule.Views
     /// </summary>
     public partial class VehicleRepostajeReason : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnMotivosRepostaje;
+        public string Header { get { return _header; } }
         public VehicleRepostajeReason()
         {
             InitializeComponent();

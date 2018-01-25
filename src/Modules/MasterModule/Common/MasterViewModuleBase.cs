@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -13,11 +12,7 @@ using KarveDataServices;
 using Prism.Regions;
 using MasterModule.Views;
 using System.Linq;
-using Dapper;
-using DataAccessLayer.Model;
-using Prism.Commands;
 using NLog;
-using DataRow = System.Data.DataRow;
 using System.Reflection;
 using Dragablz;
 using KarveCommonInterfaces;
@@ -29,7 +24,7 @@ namespace MasterModule.Common
     /// <summary>
     ///  Base class for the view model.
     /// </summary>
-    public abstract class MasterViewModuleBase : BindableBase, INavigationAware, IDisposeEvents
+    public abstract class MasterViewModuleBase : KarveViewModelBase, INavigationAware, IDisposeEvents
     {
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
@@ -39,7 +34,7 @@ namespace MasterModule.Common
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
 
-        protected INotifyTaskCompletion<IMagnifierSettings> MagnifierInitializationNotifier;
+       
 
         protected PropertyChangedEventHandler DeleteEventHandler;
 
@@ -69,10 +64,7 @@ namespace MasterModule.Common
         /// </summary>
         protected IEventManager EventManager;
 
-        /// <summary>
-        ///  The data services allows any view model to communicate with the database via dataset or via dapper/dataobjects
-        /// </summary>
-        protected IDataServices DataServices;
+        
 
         /// <summary>
         ///  Mailbox where each view model can receive a message from other view models.
@@ -85,10 +77,6 @@ namespace MasterModule.Common
         protected AssistHandlerRegistry AssistHandlerRegistry = new AssistHandlerRegistry();
 
 
-        /// <summary>
-        ///  
-        /// </summary>
-        private ObservableCollection<KarveControls.KarveGridExt.ColParamSize> _defaultColParamSizes = new ObservableCollection<KarveControls.KarveGridExt.ColParamSize>();
         /// <summary>
         /// PrimaryKey field used from all view models.
         /// </summary>
@@ -124,8 +112,7 @@ namespace MasterModule.Common
         protected bool IsInsertion = false;
 
         protected IRegionManager RegionManager;
-        protected KarveControls.KarveGridExt.ColParamSize DefaultSummaryViewColSize;
-        protected ObservableCollection<KarveControls.KarveGridExt.ColParamSize> _observableCollection;
+       
         protected const string OperationConstKey = "Operation";
 
         /// <summary>
@@ -153,7 +140,7 @@ namespace MasterModule.Common
         public MasterViewModuleBase(IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
-            IRegionManager regionManager)
+            IRegionManager regionManager) : base(services)
         {
             ConfigurationService = configurationService;
             EventManager = eventManager;
@@ -161,7 +148,7 @@ namespace MasterModule.Common
             RegionManager = regionManager;
             _notifyState = 0;
             CurrentOperationalState = DataPayLoad.Type.Show;
-            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
+           
         }
 
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
@@ -261,167 +248,6 @@ namespace MasterModule.Common
 
             }
             return retValue;
-        }
-        public async Task MoveAllCols(KarveControls.KarveGridExt.ColParamSize colParam)
-        {
-            int gridId = Convert.ToInt32(GridId);
-            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
-            int swappedDrop = colParam.SwappedTo;
-            List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
-            // split the magnifier columns in two.
-            // bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(colParam.ColumnList);
-            IList<KarveControls.KarveGridExt.ColParamSize> list = colParam.ColumnList;
-            for (int i = 0; i < colParam.ColumnList.Count; ++i)
-            {
-                KarveControls.KarveGridExt.ColParamSize paramSize = list[i];
-                MagnifierColumns cols = new MagnifierColumns();
-
-                var column = columns.FirstOrDefault(s =>
-                {
-                    if (!string.IsNullOrEmpty(s.COLUMNA_NOMBRE))
-                    {
-                        return (s.COLUMNA_NOMBRE == paramSize.ColumnName);
-                    }
-                    return false;
-
-                });
-                cols.ANCHO = Convert.ToInt32(paramSize.ColumnWidth);
-                cols.ID_LUPA = gridId;
-                cols.POSICION = paramSize.ColumnIndex;
-                if (column != null)
-                {
-                    cols.COLUMNA_NOMBRE = column.COLUMNA_NOMBRE;
-                    cols.ID_COL = column.ID_COL;
-                    cols.VISIBLE = column.VISIBLE;
-                }
-                columns.Add(cols);
-
-            }
-            bool ret = await DataServices.GetSettingsDataService().SaveColumnsSettings(columns);
-
-            if (!ret)
-            {
-                Logger.Warn("Error during saving the settings");
-            }
-            // ok i can serialize this stuff.
-        }
-
-        public async Task GridResize(KarveControls.KarveGridExt.ColParamSize colsParam)
-        {
-            int gridId = Convert.ToInt32(GridId);
-            _magnifierSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(gridId);
-            _magnifierSettings.NOMBRE = MagnifierGridName;
-            _magnifierSettings.LUPA = MagnifierGridName;
-            var values = _magnifierSettings.MagnifierColumns;
-            var column = values.FirstOrDefault(s =>
-            {
-                if (s.POSICION.HasValue)
-                {
-                    return (s.POSICION.Value == colsParam.ColumnIndex);
-                }
-                return false;
-
-            });
-            if (column != null)
-            {
-
-                column.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
-                column.COLUMNA_NOMBRE = colsParam.ColumnName;
-                column.POSICION = colsParam.ColumnIndex;
-                bool retValue = await DataServices.GetSettingsDataService().SaveMagnifierSettings(_magnifierSettings);
-                if (!retValue)
-                {
-                    Logger.Log(LogLevel.Error, "Cannot save a resize");
-                }
-            }
-            else
-            {
-                IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
-                col.COLUMNA_NOMBRE = colsParam.ColumnName;
-                col.ID_LUPA = Convert.ToInt32(GridId);
-                col.POSICION = colsParam.ColumnIndex;
-                col.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
-                int retValue = await DataServices.GetSettingsDataService().CreateMagnifierColumn(col);
-                if (retValue < 0)
-                {
-                    Logger.Log(LogLevel.Error, "Cannot create a new setting columns after a resize");
-                }
-            }
-        }
-
-        private async Task CreateNewCols(int pos, KarveControls.KarveGridExt.ColParamSize colsParam)
-        {
-
-            IMagnifierColumns col = DataServices.GetSettingsDataService().NewMagnifierColumn();
-            col.COLUMNA_NOMBRE = colsParam.ColumnName;
-            col.ID_LUPA = Convert.ToInt32(GridId);
-            col.POSICION = pos;
-            col.ANCHO = Convert.ToInt32(colsParam.ColumnWidth);
-            int retValue = await DataServices.GetSettingsDataService().CreateMagnifierColumn(col);
-            if (retValue < 0)
-            {
-                Logger.Log(LogLevel.Error, "Cannot create a new setting columns after a resize");
-            }
-        }
-        public async void OnGridResize(object gridSize)
-        {
-            KarveControls.KarveGridExt.ColParamSize colsParam = gridSize as KarveControls.KarveGridExt.ColParamSize;
-
-            if (colsParam == null)
-            {
-                return;
-            }
-            // check all cols.
-            IMagnifierSettings magnifiersSettings = await DataServices.GetSettingsDataService().GetMagnifierSettings(Convert.ToInt32(GridId));
-            // get all cols.
-            List<IMagnifierColumns> columns = magnifiersSettings.MagnifierColumns.AsList<IMagnifierColumns>();
-            // o(n*n). TODO find a better way.
-
-            if (colsParam.ColumnList != null)
-            {
-                foreach (var col in colsParam.ColumnList)
-                {
-                    var swapToCol = columns.FirstOrDefault(s =>
-                    {
-                        if (s.POSICION.HasValue)
-                        {
-                            return (s.POSICION.Value == col.ColumnIndex);
-                        }
-                        return false;
-
-                    });
-                    if (swapToCol == null)
-                    {
-                        await CreateNewCols(col.ColumnIndex, col);
-                    }
-                }
-            }
-            // all columns are present in the db.
-            // ok other things shall be taken in account.
-            if (colsParam.OrderChanged)
-            {
-                await MoveAllCols(colsParam);
-                return;
-            }
-            await GridResize(colsParam);
-
-        }
-
-        /// <summary>
-        ///  This returns the grid column resize command
-        /// </summary>
-        public ICommand GridResizeCommand { set; get; }
-        /// <summary>
-        ///  This returns the default columns size.
-        /// </summary>
-        public ObservableCollection<KarveGridExt.ColParamSize> DefaultColumnsSize
-        {
-            set
-            {
-                _observableCollection = value;
-                RaisePropertyChanged();
-            }
-            get { return _observableCollection; }
         }
         /// <summary>
         ///  This value returns foreach database row a tuple containing the value of the name and the id.
@@ -586,12 +412,6 @@ namespace MasterModule.Common
                 StartAndNotify();
             }
         }
-
-        public virtual void DisposeEvents()
-        {
-            SaveMagnifierSettings(DefaultColumnsSize);
-
-        }
         /// <summary>
         ///  This is shall be used by the different view model to set the value of the table initialzed;
         /// </summary>
@@ -665,81 +485,9 @@ namespace MasterModule.Common
             }
         }
 
-        protected void InitializationNotifierOnSettingsChanged(object sender,
-            PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            string propertyName = propertyChangedEventArgs.PropertyName;
-            if (propertyName.Equals("Status"))
-            {
-                if (MagnifierInitializationNotifier.IsSuccessfullyCompleted)
-                {
-                    SetMagnifierSettings(MagnifierInitializationNotifier.Task.Result);
-                }
-            }
-            else if (propertyName.Equals("IsSuccessfullyCompleted"))
-            {
-                INotifyTaskCompletion<IMagnifierSettings> task = sender as INotifyTaskCompletion<IMagnifierSettings>;
-                if (task != null)
-                {
-                    IMagnifierSettings m = task.Result;
-                    SetMagnifierSettings(m);
-                }
-
-            }
-        }
-        /// <summary>
-        ///  FIXME: this is supposed to set the magnifier settings to the database.
-        /// </summary>
-        /// <param name="settings"></param>
-        public void SetMagnifierSettings(IMagnifierSettings settings)
-        {
-            _magnifierSettings = settings;
-            IEnumerable<IMagnifierColumns> columns = settings.MagnifierColumns;
-            ObservableCollection<KarveControls.KarveGridExt.ColParamSize> colParams = new ObservableCollection<KarveControls.KarveGridExt.ColParamSize>();
-            foreach (var col in columns)
-            {
-
-                KarveControls.KarveGridExt.ColParamSize paramSize = new KarveControls.KarveGridExt.ColParamSize();
-                double value = Convert.ToDouble(col.ANCHO);
-                paramSize.ColumnName = col.COLUMNA_NOMBRE;
-                paramSize.ColumnWidth = value;
-                if (col.POSICION.HasValue)
-                {
-                    paramSize.ColumnIndex = col.POSICION.Value;
-
-                }
-                colParams.Add(paramSize);
-            }
-         //   DefaultColumnsSize = colParams;
-        }
-
-        public void SaveMagnifierSettings(ObservableCollection<KarveControls.KarveGridExt.ColParamSize> colSize)
-        {
-            IDictionary<int, IMagnifierColumns> colDictionary = new Dictionary<int, IMagnifierColumns>();
-            foreach (var col in _magnifierSettings.MagnifierColumns)
-            {
-                colDictionary.Add(col.POSICION.Value, col);
-            }
-            // copy back.            
-            foreach (var col in DefaultColumnsSize)
-            {
-                IMagnifierColumns magnifierColumn = colDictionary[col.ColumnIndex];
-              //  magnifierColumn.ANCHO = Convert.ToInt32(col.ColumnWidth);
-              //  magnifierColumn.COLUMNA_NOMBRE = col.ColumnName;
-                colDictionary.Remove(col.ColumnIndex);
-                colDictionary.Add(col.ColumnIndex, magnifierColumn);
-
-            }
-            _magnifierSettings.ULTIMOD = DateTime.Now.ToLongTimeString();
-            _magnifierSettings.MagnifierColumns = colDictionary.Values;
-            _magnifierSettings.ID = Convert.ToInt32(GridId);
-            _magnifierSettings.NOMBRE = MagnifierGridName;
-            ConfigurationService.GetUserSettings().UserSettingsSaver.SaveMagnifierSettings(_magnifierSettings);
-
-        }
-        public abstract long GridId { set; get; }
-        public abstract string MagnifierGridName { set; get; }
-
+       
+        
+        
         /// <summary>
         /// SetDataObject. 
         /// </summary>

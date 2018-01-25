@@ -4,35 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HelperModule.Views"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
              xmlns:Syncfusion="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <ScrollViewer>
-
-        <Grid>
+    <Grid>
+        <GroupBox Header="{Binding lrbtnColores, Source={StaticResource ResourceLanguage}}">
+            <Grid>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <VirtualizingStackPanel VirtualizationMode="Recycling" Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
-                <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
-                     Text="{Binding VehicleType.Code, Mode=TwoWay}" Margin="0,18.5"
-                     karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
 
+                <karveControls:DataField  LabelText="Codigo"
+                                          MaxHeight="30"
+                                          LabelTextWidth="60"
+                                          IsReadOnly="False"
+                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataSourcePath="Code"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                          TextContentWidth="100"></karveControls:DataField>
 
-                <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
-            ></TextBlock>
-                <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
-                     karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                     Text="{Binding VehicleType.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
-            </VirtualizingStackPanel>
-            <VirtualizingStackPanel VirtualizationMode="Recycling" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+                <karveControls:DataField  LabelText="Nombre"
+                                          MaxHeight="30"
+                                          LabelTextWidth="60"
+                                          IsReadOnly="False"
+                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataSourcePath="Name"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                          TextContentWidth="100"></karveControls:DataField>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
                 <karveControls:DataFieldCheckBox Content="Metalizada"   
                                                  karveControls:ControlExt.DataSource="{Binding HelperDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -48,7 +57,7 @@
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  karveControls:ControlExt.DataSourcePath="NoCoating">
                 </karveControls:DataFieldCheckBox>
-            </VirtualizingStackPanel>
+            </StackPanel>
             <Syncfusion:SfDataGrid Grid.Row="2" 
             x:Name="ColorSummary"                       
                                ColumnSizer="Star"
@@ -80,7 +89,7 @@
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
                     <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                           MappingName="Nombre" 
+                                           MappingName="Name" 
                                            TextAlignment="Left"
                                            AllowEditing="True"
                                            AllowGrouping="True"
@@ -90,5 +99,6 @@
             </Syncfusion:SfDataGrid>
 
         </Grid>
-    </ScrollViewer>
+            </GroupBox>
+    </Grid>
 </UserControl>

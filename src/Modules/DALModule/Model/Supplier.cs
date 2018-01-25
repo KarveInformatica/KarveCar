@@ -192,7 +192,17 @@ namespace DataAccessLayer.Model
 
                 );
 
-                cfg.CreateMap<BANCO, BanksDto>();
+                cfg.CreateMap<BanksDto, BANCO>().ConstructUsing(src=>
+                        {
+                    var bankDto = new BANCO();
+                            bankDto.CODBAN = src.Code;
+                            bankDto.NOMBRE = src.Name;
+                            bankDto.SWIFT = src.Swift;
+                            bankDto.USUARIO = src.Usuario;
+                            bankDto.ULTMODI = src.LastModification;
+                            return bankDto;
+                        }
+                        );
                 cfg.CreateMap<DIVISAS, CurrencyDto>();
                 cfg.CreateMap<MESES, MonthsDto>();
 
@@ -564,21 +574,29 @@ namespace DataAccessLayer.Model
                     IEnumerable<CU1> accounts = await connection.QueryAsync<CU1>(AccountSelect);
                     AccountDtos = _supplierMapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(accounts);
                     var provincia = await connection.QueryAsync<PROVINCIA>(ProvinciaSelectAll);
-                     //   await BuildAndExecute<PROVINCIA>(connection, ProvinciaSelect, _supplierValue.PROV);
-                    ProvinciaDtos = _supplierMapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(provincia);
-
-                    var pais = await connection.QueryAsync<Country>(PaisSelectAll);
-                     //   await BuildAndExecute<Country>(connection, PaisSelect, _supplierValue.NACIOPER);
-                    CountryDtos = _supplierMapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(pais);
-
-                    var banks = await BuildAndExecute<BANCO>(connection, BankSelect, _supplierValue.BANCO);
-                    BanksDtos = _supplierMapper.Map<IEnumerable<BANCO>, IEnumerable<BanksDto>>(banks);
-                    if (_supplierValue.VIA.HasValue)
+                    //   await BuildAndExecute<PROVINCIA>(connection, ProvinciaSelect, _supplierValue.PROV);
+                    if (provincia != null)
                     {
-                        var vias = await BuildAndExecute<VIAS, byte>(connection, ViaSelect, _supplierValue.VIA.Value);
-                        ViasDtos = _supplierMapper.Map<IEnumerable<VIAS>, IEnumerable<ViaDto>>(vias);
+                        ProvinciaDtos =
+                            _supplierMapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(provincia);
                     }
-                   
+                    var pais = await connection.QueryAsync<Country>(PaisSelectAll);
+                    if (pais != null)
+                    {
+                        CountryDtos = _supplierMapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(pais);
+                    }
+                    var banks = await BuildAndExecute<BANCO>(connection, BankSelect, _supplierValue.BANCO);
+                    if (banks != null)
+                    {
+                        BanksDtos = _supplierMapper.Map<IEnumerable<BANCO>, IEnumerable<BanksDto>>(banks);
+                        if (_supplierValue.VIA.HasValue)
+                        {
+                            var vias = await BuildAndExecute<VIAS, byte>(connection, ViaSelect,
+                                _supplierValue.VIA.Value);
+                            ViasDtos = _supplierMapper.Map<IEnumerable<VIAS>, IEnumerable<ViaDto>>(vias);
+                        }
+                    }
+
 
                     var branches = await BuildAndExecute<ProDelega>(connection, GenericSql.DelegationQuery,
                         _supplierValue.NUM_PROVEE);
@@ -663,7 +681,7 @@ namespace DataAccessLayer.Model
         private async Task<IEnumerable<T>> BuildAndExecute<T>(IDbConnection connection, string query, string
             code)
         {
-            IEnumerable<T> type = null;
+            IEnumerable<T> type = new ObservableCollection<T>();
 
 
             if (!string.IsNullOrEmpty(code))

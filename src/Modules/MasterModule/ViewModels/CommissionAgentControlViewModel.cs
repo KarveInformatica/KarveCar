@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Windows;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
-using KarveControls.UIObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
-using MasterModule.UIObjects.CommissionAgents;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using System.Threading.Tasks;
-using KarveControls;
 
 
 namespace MasterModule.ViewModels
@@ -84,12 +77,12 @@ namespace MasterModule.ViewModels
         private void InitViewModel()
         {
             _settings = ConfigurationService.GetUserSettings();
-
+            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.CommissionAgent;
+            GridId = KarveCommon.Generic.GridIdentifiers.CommissionAgent;
+            MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
             MessageHandlerMailBox += CommissionAgentMailBox;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
-            GridId = 2;
-            MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
-          
+           
             StartAndNotify();
         }
 
@@ -147,13 +140,7 @@ namespace MasterModule.ViewModels
         {
         }
 
-        public void LoadMagnifierSettings()
-        {
-            MagnifierInitializationNotifier =
-                NotifyTaskCompletion.Create<IMagnifierSettings>(
-                    _settings.UserSettingsLoader.GetMagnifierSettings(GridId), InitializationNotifierOnSettingsChanged);
-
-        }
+     
         public override void StartAndNotify()
         {
             ICommissionAgentDataServices commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
@@ -210,7 +197,7 @@ namespace MasterModule.ViewModels
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
-            LoadMagnifierSettings();
+           
         }
 
         /// <summary>
@@ -223,8 +210,8 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
         }
 
-        public override long GridId { get; set; }
-        public override string MagnifierGridName { get; set; }
+        public  long GridId { get; set; }
+        public  string MagnifierGridName { get; set; }
 
         /// <summary>
         /// Set the current data object for the toolbar
@@ -268,14 +255,10 @@ namespace MasterModule.ViewModels
                 return true;
             }
         }
-        private string _uniqueValue = "CommissionAgentControlViewModel." + Guid.NewGuid().ToString();
+
         /// <summary>
         ///  UniqueId. Unique Identifier.
         /// </summary>
-        public string UniqueId
-        {
-            get => _uniqueValue;
-            set => _uniqueValue = value;
-        }
+        public string UniqueId { get; set; } = "CommissionAgentControlViewModel." + Guid.NewGuid().ToString();
     }
 }

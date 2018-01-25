@@ -65,6 +65,7 @@ namespace MasterModule.ViewModels
             _uniqueIdentifier = _uniqueIdentifier % Int64.MaxValue;
             _mailBoxName = PROVIDER_SUMMARY_VM;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
+           
             InitViewModel();
         }
         /// <summary>
@@ -82,8 +83,7 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
-            MagnifierGridName = PROVIDER_SUMMARY_VM;
-            GridId = 1;
+            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.Supplier;
             StartAndNotify();
         }
         /// <summary>
@@ -99,34 +99,20 @@ namespace MasterModule.ViewModels
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
-            LoadMagnifierSettings();
+           
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
         }
-        /// <summary>
-        ///  This returns a long value.
-        /// </summary>
-        public override long GridId { get; set; }
-        /// <summary>
-        ///  This returns a grid name.
-        /// </summary>
-        public override string MagnifierGridName { get; set; }
+        
 
         protected override void SetDataObject(object result)
         {
             // we dont use here any data object.
         }
 
-        public void LoadMagnifierSettings()
-        {
-            _settings = DataServices.GetSettingsDataService();
-             MagnifierInitializationNotifier =
-                NotifyTaskCompletion.Create<IMagnifierSettings>(_settings.GetMagnifierSettings(GridId),InitializationNotifierOnSettingsChanged);
-
-        }
         /// <summary>
         ///  Return the selected columns summary view for the suppliers. It might be paged.
         /// </summary>
@@ -214,10 +200,8 @@ namespace MasterModule.ViewModels
             bool retValue = await DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(provider);
             return retValue;
         }
-
         public override void DisposeEvents()
         {
-           // this save the columns settings.
            base.DisposeEvents();
            DeleteMailBox(_mailBoxName);
         }

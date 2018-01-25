@@ -165,8 +165,8 @@ namespace MasterModule.ViewModels
                 {
                     var marcas = new BrandVehicleDto
                     {
-                        Codigo = src.CODIGO,
-                        Nombre = src.NOMBRE
+                        Code= src.CODIGO,
+                        Name = src.NOMBRE
                     };
                     return marcas;
                 });
@@ -184,8 +184,8 @@ namespace MasterModule.ViewModels
                 {
                     var color = new ColorDto
                     {
-                        Codigo = src.CODIGO,
-                        Nombre = src.NOMBRE
+                        Code = src.CODIGO,
+                        Name = src.NOMBRE
                     };
                     return color;
                 });

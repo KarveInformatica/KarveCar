@@ -7,7 +7,9 @@ using KarveDataServices;
 using Prism.Regions;
 using Prism.Commands;
 using System;
+using System.ComponentModel;
 using System.Reflection;
+using KarveCommon.Generic;
 
 namespace HelperModule.ViewModels
 {
@@ -21,14 +23,39 @@ namespace HelperModule.ViewModels
     public abstract class GenericHelperViewModel<Dto, Entity> : BaseHelperViewModel where Entity : class, new()
         where Dto : class, new()
     {
-        private ObservableCollection<Dto> _listOfValues = new ObservableCollection<Dto>();
+        
         protected Dto CurrentValue = new Dto();
         protected Dto PreviousValue;
+        /// <summary>
+        /// In this case is useful apply the interface segregation and divide the responsabilities between an entity loader
+        /// and en entity saver. The interface-segregation principle (ISP) states that no client 
+        /// should be forced to depend on methods it does not use.
+        /// ISP splits interfaces that are very large into smaller and more specific ones so that clients 
+        /// will only have to know about the methods that are of interest to them. 
+        /// Such shrunken interfaces are also called role interfaces
+        /// ISP is intended to keep a system decoupled and thus easier to refactor, change, and redeploy. I
+        /// </summary>
         private HelperLoader<Dto, Entity> _loader;
         private HelperSaver<Dto, Entity> _saver;
         protected string QueryLoad;
-        private ObservableCollection<Dto> _helperView;
 
+        /// <summary>
+        /// The main reason for this is the following link: https://msdn.microsoft.com/en-us/magazine/jj991977.aspx
+        /// 1. Async void methods have different composing semantics. 
+        /// 2. Async methods returning Task or Task<T> can be easily composed using await, Task.WhenAny, Task.WhenAll and so on. 
+        /// 3. Async methods returning void don’t provide an easy way to notify the calling code that they’ve completed. 
+        /// It’s easy to start several async void methods, but it’s not easy to determine when they’ve finished. 
+        /// Async void methods will notify their SynchronizationContext when they start and finish, 
+        /// but a custom SynchronizationContext is a complex solution for regular application code.
+        /// Async void methods are difficult to test. 
+        /// Because of the differences in error handling and composing, it’s difficult to write unit tests that call async void methods.
+        /// Some other part of the program are using void async will be refactored to use an assistcompletion and  an assist completion handler.
+        /// Each search box send and assist that has result an async method call for this we need a notify task completion.
+        protected INotifyTaskCompletion<bool> AssistCompletion;
+        /// <summary>
+        ///  When the task is successfully completed we invoke an handler.
+        /// </summary>
+        protected PropertyChangedEventHandler AssistCompletionEventHandler;
         /// <summary>
         /// GenericHelperViewModel
         /// </summary>
@@ -49,6 +76,7 @@ namespace HelperModule.ViewModels
             MailBoxMessageHandler += IncomingMailbox;
             EventManager.RegisterMailBox(id, MailBoxMessageHandler);
         }
+
         private void InitLoader(IDataServices dataServices, string query)
         {
             _loader = new HelperLoader<Dto, Entity>(dataServices);
@@ -71,7 +99,7 @@ namespace HelperModule.ViewModels
                 }
             }
         }
-    
+
         /// <summary>
         /// Selection changed within the grid.
         /// </summary>
@@ -84,6 +112,7 @@ namespace HelperModule.ViewModels
                 HelperDto = value;
             }
         }
+
         /// <summary>
         ///  Reverted current value.
         /// </summary>
@@ -92,8 +121,9 @@ namespace HelperModule.ViewModels
         {
             var tmp = CurrentValue;
             CurrentValue = payLoad.DataObject as Dto;
-            PreviousValue = tmp;      
+            PreviousValue = tmp;
         }
+
         /// <summary>
         ///  Element to delete the entity
         /// </summary>
@@ -110,7 +140,7 @@ namespace HelperModule.ViewModels
                 if (entityDeleted)
                 {
                     Update();
-                   
+
                 }
                 else
                 {
@@ -119,13 +149,20 @@ namespace HelperModule.ViewModels
             }
             return entityDeleted;
         }
-        /// <summary>
-        ///  Update the value.
-        /// </summary>
-        protected void Update()
+
+        protected ObservableCollection<Dto> LoadView()
         {
             _loader.Load(QueryLoad);
-            HelperView = _loader.HelperView;
+            return _loader.HelperView;
+        }
+
+    /// <summary>
+        ///  Update the value.
+        /// </summary>
+        protected virtual void Update()
+        {
+            
+            HelperView = LoadView();
             PreviousValue = CurrentValue;
             CurrentValue = HelperView.FirstOrDefault();
         }
@@ -140,16 +177,14 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  Helper collection
         /// </summary>
-        public ObservableCollection<Dto> HelperView
-        {
-            get { return _helperView; }
-            set { _helperView = value; }
-        }
+        public ObservableCollection<Dto> HelperView { get; set; } = new ObservableCollection<Dto>();
+
         /// <summary>
         ///  This dispose the helper when we close the tab.
         /// </summary>
-        public void DisposeEvents()
+        public override void DisposeEvents()
         {
+            base.DisposeEvents();
             var id = Address.ToString();
             EventManager.DeleteMailBoxSubscription(id);
         }
@@ -194,6 +229,7 @@ namespace HelperModule.ViewModels
         }
         /// <summary>
         ///  Insert entity. This insert an entity for the owner.
+        ///  FIXME: here there is a problem, we dont check the return value.
         /// </summary>
         /// <param name="payLoad">Payload that contains the entity to be inserted.</param>
         /// <returns></returns>

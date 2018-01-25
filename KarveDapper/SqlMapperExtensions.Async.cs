@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -321,6 +322,9 @@ namespace KarveDapper.Extensions
             return id;
         }
 
+
+       
+
         /// <summary>
         /// Delete entity in table "Ts" asynchronously using .NET 4.5 Task.
         /// </summary>
@@ -418,28 +422,19 @@ namespace KarveDapper.Extensions
         /// <param name="keyProperties">The key columns in this table.</param>
         /// <param name="entityToInsert">The entity to insert.</param>
         /// <returns>The Id of the row created.</returns>
-        ///  TODO: there is an issue it retuens always 0.
+        ///  KarveTeam: We keep this simple because it is important. The original dapper.contrib in SQLServer was using queryMultiple.
         public async Task<int> InsertAsync(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
         {
-            // here we need to replace select @@identity because many time the identiy feature might be disabled.
-            var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});SELECT @@IDENTITY;";
-            //var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});";
-            var multi = await connection.QueryMultipleAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
+                    var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});";
+            var affectedRows = await connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
             
-            var first = multi.Read().FirstOrDefault();
-            if (first == null || first.id == null) return 0;
-            
-            var id = (int)first.id;
-            var pi = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
-            if (pi.Length == 0) return id;
-
-            var idp = pi[0];
-            idp.SetValue(entityToInsert, Convert.ChangeType(id, idp.PropertyType), null);
-
-            return id;
+           
+            return affectedRows;
         }
-    }
-    public partial class SqlServerAdapter
+
+        }
+
+        public partial class SqlServerAdapter
     {
         /// <summary>
         /// Inserts <paramref name="entityToInsert"/> into the database, returning the Id of the row created.

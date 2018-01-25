@@ -15,6 +15,7 @@ namespace HelperModule.ViewModels
     {
         public ClientOriginViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty, dataServices, region, manager)
         {
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperClientOrigin;
         }
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {

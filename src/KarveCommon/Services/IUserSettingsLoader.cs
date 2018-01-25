@@ -14,8 +14,7 @@ namespace KarveCommon.Services
     /// </summary>
     public interface IUserSettingsLoader
     {
-        Task<IList<IMagnifierSettings>> GetAllMagnifierSettings();
-        Task<IMagnifierSettings> GetMagnifierSettings(long id);
+        
         Enumerations.ResourceSource GetLocaleType();
         string GetConnectionString();
 

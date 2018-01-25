@@ -15,13 +15,16 @@ using System.Windows;
 
 namespace HelperModule.ViewModels
 {
+    /// <summary>
+    ///  FIXME this is too complex. Refactor as other identifiers.
+    /// </summary>
     public class VehicleTypesViewModel : BaseHelperViewModel, IDisposeEvents
     {
         private ObservableCollection<VehicleTypeDto> _listOfVehicles = new ObservableCollection<VehicleTypeDto>();
         private VehicleTypeDto _vehicleType = new VehicleTypeDto();
         private VehicleTypeDto _prevVehicleType;
-        private HelperLoader<VehicleTypeDto, CATEGO> _loader;
-        private HelperSaver<VehicleTypeDto, CATEGO> _saver;
+        private readonly HelperLoader<VehicleTypeDto, CATEGO> _loader;
+        private readonly HelperSaver<VehicleTypeDto, CATEGO> _saver;
         private bool _saveState;
 
 
@@ -31,17 +34,18 @@ namespace HelperModule.ViewModels
             SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnItemChangedCommand);
             SaveState = false;
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleTypes;
             _loader = new HelperLoader<VehicleTypeDto, CATEGO>(dataServices);
             _loader.Load(GenericSql.VehicleTypes);
-            _saver = new HelperSaver<VehicleTypeDto, CATEGO>(dataServices);
-            var id = Address.ToString();
-            InitVehicle();
+            _saver = new HelperSaver<VehicleTypeDto, CATEGO>(dataServices);            
             MailBoxMessageHandler += IncomingMailbox;
-            EventManager.RegisterMailBox(id, MailBoxMessageHandler);   
+            EventManager.RegisterMailBox(Address.ToString(), MailBoxMessageHandler);
+            InitVehicle();
         }
 
         private void InitVehicle()
         {
+            
             _vehicleType.Code = "0";
             _vehicleType.Name = "";
             _vehicleType.OfferMargin = 0;
@@ -86,10 +90,9 @@ namespace HelperModule.ViewModels
             }
             return currentPayLoad;
         }
-        public void DisposeEvents()
+        public override void DisposeEvents()
         {
-            var id = Address.ToString();
-            EventManager.DeleteMailBoxSubscription(id);
+            EventManager.DeleteMailBoxSubscription(Address.ToString());
         }
 
         
@@ -109,7 +112,14 @@ namespace HelperModule.ViewModels
         private void ExecutedLoadHandlerMethod(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             var completion = sender as INotifyTaskCompletion;
-           
+            // check if there are errors.
+            if ((completion !=null) && (completion.Status == TaskStatus.Faulted))
+            {
+                // ok we need an interaction service a la prism.
+                // https://www.codeproject.com/Articles/269364/MVVM-PRISM-Modal-Windows-by-using-Interaction-Requ
+
+                MessageBox.Show("Error loading the data!");
+            }
         }
         public VehicleTypeDto VehicleType
         {
@@ -166,20 +176,28 @@ namespace HelperModule.ViewModels
             }
             return entityDeleted;
         }
-
+        /// <summary>
+        ///  This returns the identifier generated for inserting an entity.
+        /// </summary>
+        /// <param name="payLoad"></param>
+        /// <returns></returns>
         public override async Task<bool> InsertEntity(DataPayLoad payLoad)
         {
-            bool entityInserted = true;
+            bool identifierGenerated = false;
             // here we shall use navigation for creating a new view.
             VehicleTypeDto dto = new VehicleTypeDto();
             dto.Code = await DataServices.GetHelperDataServices().GetMappedUniqueId<VehicleTypeDto, CATEGO>(dto);
-            dto.Code = dto.Code.Substring(0, 2);
-            var lastModification = DateTime.Now;
-            dto.LastModification = lastModification.ToString("yyyyMMddHHmmss");
-            VehicleType = dto;
-            PrevVehicleType = dto;
-            State = BaseHelperViewModel.InsertState;
-            return entityInserted;
+            if (!string.IsNullOrEmpty(dto.Code))
+            {
+                dto.Code = dto.Code.Substring(0, 2);
+                var lastModification = DateTime.Now;
+                dto.LastModification = lastModification.ToString("yyyyMMddHHmmss");
+                VehicleType = dto;
+                PrevVehicleType = dto;
+                State = BaseHelperViewModel.InsertState;
+                identifierGenerated = true;
+            }
+            return identifierGenerated;
         }
         public override bool UpdateEntity(DataPayLoad payLoad)
         {

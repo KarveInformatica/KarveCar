@@ -181,13 +181,37 @@
     <Reference Include="XamlBuildTask" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\CitiesViewModel.cs" />
+    <Compile Include="ViewModels\ClientZoneViewModel.cs" />
+    <Compile Include="ViewModels\DirectionBaseViewModel.cs" />
+    <Compile Include="ViewModels\ResellersViewModel.cs" />
+    <Compile Include="ViewModels\ClientTypeViewModel.cs" />
+    <Compile Include="ViewModels\CompanyCardViewModel.cs" />
+    <Compile Include="ViewModels\ContactTypeViewModel.cs" />
+    <Compile Include="ViewModels\CountryViewModel.cs" />
+    <Compile Include="ViewModels\CreditCardViewModel.cs" />
+    <Compile Include="ViewModels\ProvinceViewModel.cs" />
+    <Compile Include="ViewModels\RentingUseViewModel.cs" />
+    <Compile Include="ViewModels\VehicleExtraViewModel.cs" />
+    <Compile Include="ViewModels\VisitTypeViewModel.cs" />
     <Compile Include="Views\Cities.xaml.cs">
       <DependentUpon>Cities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientType.xaml.cs">
+      <DependentUpon>ClientType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientZone.xaml.cs">
+      <DependentUpon>ClientZone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CompanyCard.xaml.cs">
+      <DependentUpon>CompanyCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContactType.xaml.cs">
+      <DependentUpon>ContactType.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Country.xaml.cs">
       <DependentUpon>Country.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KarveDataServices\DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="ViewModels\BudgetKeyViewModel.cs" />
     <Compile Include="Views\BudgetKey.xaml.cs">
       <DependentUpon>BudgetKey.xaml</DependentUpon>
@@ -195,15 +219,17 @@
     <Compile Include="Views\ClientOrigin.xaml.cs">
       <DependentUpon>ClientOrigin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KarveDataServices\DataTransferObject\VehicleActivitiesDto.cs" />
     <Compile Include="ViewModels\BusinessViewModel.cs" />
     <Compile Include="ViewModels\ClientOriginViewModel.cs" />
     <Compile Include="ViewModels\MarketViewModel.cs" />
     <Compile Include="Views\Business.xaml.cs">
       <DependentUpon>Business.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Extra.xaml.cs">
-      <DependentUpon>Extra.xaml</DependentUpon>
+    <Compile Include="Views\CreditCard.xaml.cs">
+      <DependentUpon>CreditCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehicleExtra.xaml.cs">
+      <DependentUpon>VehicleExtra.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Market.xaml.cs">
       <DependentUpon>Market.xaml</DependentUpon>
@@ -247,6 +273,15 @@
       <DependentUpon>ClientInvoiceBlocks.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MockViewModels\VehicleTypesMockViewModel.cs" />
+    <Compile Include="Views\Province.xaml.cs">
+      <DependentUpon>Province.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RentingUse.xaml.cs">
+      <DependentUpon>RentingUse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Resellers.xaml.cs">
+      <DependentUpon>Resellers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VehicleMantienanceCode.xaml.cs">
       <DependentUpon>VehicleMantienanceCode.xaml</DependentUpon>
     </Compile>
@@ -258,9 +293,6 @@
     </Compile>
     <Compile Include="Views\VehicleColors.xaml.cs">
       <DependentUpon>VehicleColors.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VehicleExtras.xaml.cs">
-      <DependentUpon>VehicleExtras.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehicleGroup.xaml.cs">
       <DependentUpon>VehicleGroup.xaml</DependentUpon>
@@ -274,8 +306,14 @@
     <Compile Include="Views\VehicleRepostajeReason.xaml.cs">
       <DependentUpon>VehicleRepostajeReason.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VehicleTools.xaml.cs">
+      <DependentUpon>VehicleTools.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VehicleTypes.xaml.cs">
       <DependentUpon>VehicleTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisitType.xaml.cs">
+      <DependentUpon>VisitType.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +322,22 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Cities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CompanyCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContactType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,7 +357,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Extra.xaml">
+    <Page Include="Views\CreditCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehicleExtra.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -339,6 +397,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Province.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RentingUse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resellers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VehicleMantienanceCode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,10 +422,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VehicleColors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VehicleExtras.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -375,13 +441,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VehicleTools.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VehicleTypes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\VisitType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
+    <Folder Include="KarveDataServices\DataTransferObject\" />
     <Folder Include="Views\AttachedProperty\" />
   </ItemGroup>
   <ItemGroup>

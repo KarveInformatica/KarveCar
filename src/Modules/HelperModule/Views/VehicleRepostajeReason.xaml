@@ -16,31 +16,30 @@
         <GroupBox Header="Motivo de Repostaje">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
-                    <TextBlock Text="Nombre" DockPanel.Dock="Left" Height="25" Margin="5,0,0,0"></TextBlock>
-                    <TextBox DockPanel.Dock="Right" x:Name="Name" Width="200" Height="25" Text="{Binding VehicleBaseDto.Name, 
-                        Mode=TwoWay, 
-                        UpdateSourceTrigger=LostFocus}">
-                        
-                    </TextBox>
-                </DockPanel>
-                <DockPanel Grid.Row="1">
-                    <TextBlock Text="Code" DockPanel.Dock="Left" Height="25" Margin="5,0,0,0"></TextBlock>
-                    <TextBox DockPanel.Dock="Right" x:Name="Code" Width="200" Height="25" Text="{Binding VehicleBaseDto.Code, 
-                        Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
-
-                    </TextBox>
-                    
-                                 </DockPanel>
-
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <karveControls:DataField  LabelText="Codigo"
+                                              MaxHeight="30"
+                                              LabelTextWidth="60"
+                                              IsReadOnly="True"
+                                              DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSourcePath="Code"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              TextContentWidth="100"></karveControls:DataField>
+                    <karveControls:DataField  LabelText="Nombre"
+                                              MaxHeight="30"
+                                              LabelTextWidth="60"
+                                              IsReadOnly="False"
+                                              DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSourcePath="Name"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              TextContentWidth="100"></karveControls:DataField>
+                </StackPanel>
                 <syncfusion:SfDataGrid x:Name="HelperSummary"
                                ColumnSizer="Star"
-                               Grid.Row="2"
+                               Grid.Row="1"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"

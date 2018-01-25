@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.Mock
 {
@@ -13,47 +15,17 @@ namespace KarveTest.Mock
         {
         }
 
-        public Task<int> CreateMagnifierColumn(IMagnifierColumns col)
+        public Task<ObservableCollection<GridSettingsDto>> GetMagnifierSettingByIds(List<long> registeredGridIds)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteMagnifier(int i)
+        public Task<GridSettingsDto> GetMagnifierSettings(long idValue)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<IMagnifierSettings>> GetAllMagnifiersSettings()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IMagnifierSettings> GetMagnifierSettings(long idValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IMagnifierColumns NewMagnifierColumn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IMagnifierSettings NewMagnifierSettings()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveAllMagnifierSettings(IList<IMagnifierSettings> magnifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveColumnsSettings(IList<IMagnifierColumns> colums)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveMagnifierSettings(IMagnifierSettings value)
+        public Task<bool> SaveMagnifierSettings(GridSettingsDto settingsDto)
         {
             throw new NotImplementedException();
         }

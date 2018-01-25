@@ -13,13 +13,15 @@ using KarveCommonInterfaces;
 namespace HelperModule.ViewModels
 {
     /// <summary>
-    ///  This base helper view model.
+    ///  BaseHelperViewModel. All the view models in the helperModule:
+    ///  1. will inherit this base class.
+    ///  2. This class provide navigation tools
     /// </summary>
-    public abstract class BaseHelperViewModel : BindableBase, INavigationAware, ICreateRegionManagerScope
+    public abstract class BaseHelperViewModel : KarveViewModelBase, INavigationAware, ICreateRegionManagerScope
     {
-        private Guid _guid;
+        
         protected Uri Address;
-        protected string _state;
+        private string _state;
         protected bool SaveState;
 
         protected MailBoxMessageHandler MailBoxMessageHandler;
@@ -30,13 +32,7 @@ namespace HelperModule.ViewModels
         protected PropertyChangedEventHandler ExecutedLoadHandler;
         protected IEventManager EventManager;
 
-        /// <summary>
-        ///  Unique Id for the helpers.
-        /// </summary>
-        public string UniqueId { get => _guid.ToString();
-            set {
-                _guid = Guid.Parse(value);
-            } }  
+        
 
        
         protected const string InsertState = "INSERT STATE";
@@ -47,7 +43,7 @@ namespace HelperModule.ViewModels
         ///  BaseHelperViewModel. 
         /// </summary>
         protected IRegionManager RegionManager;
-        protected IDataServices DataServices;
+     
         protected abstract Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad);
         /// <summary>
         ///  SelectionChangedCommand
@@ -75,13 +71,19 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  Update an entity.
         /// </summary>
-        /// <param name="payLoad"></param>
+        /// <param name="payLoad">Payload coming from the EventManager that contains the entity</param>
         /// <returns></returns>
         public abstract bool UpdateEntity(DataPayLoad payLoad);
-
+        /// <summary>
+        /// Create region scope.
+        /// </summary>
         public bool CreateRegionManagerScope => true;
 
-        
+        /// <summary>
+        ///  Current state of the view model to be showed to the user:
+        ///     1. Insert. (in Spanish, Agregar) 
+        ///     2. Show. (in Spanish, Consulatar)
+        /// </summary>
 
         public string State
         {
@@ -105,12 +107,11 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">Data service implementation.</param>
         /// <param name="region">Region manager.</param>
         /// <param name="eventManager">Event manager.</param>
-        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager)
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager): base(dataServices)
         { 
-            DataServices = dataServices;
             RegionManager = region;
             EventManager = eventManager;
-            _guid = Guid.NewGuid();
+          
             RegisterSubsystem();
         }
         protected  void IncomingMailbox(DataPayLoad payLoad)

@@ -27,6 +27,7 @@ namespace HelperModule.ViewModels
         }
         public ChannelViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
         {
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperChannel;
         }
     }
 }

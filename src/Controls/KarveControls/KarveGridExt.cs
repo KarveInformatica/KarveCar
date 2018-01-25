@@ -1,243 +1,335 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Syncfusion.UI.Xaml.Grid;
-using Syncfusion.UI.Xaml.Grid.Helpers;
 using System.IO;
+using KarveCommon.Generic;
 
 namespace KarveControls
 {
-
     /// <summary>
-    ///  This is a public extension for the karve grid.
+    ///  This is a public class that cfor the karve grid. This is a set of attached properties used to:
+    ///  1. Assign to each datagrid an unique identifier in the system.
+    ///  2. Let each grid reguister its identifier in the system.
+    ///  3. Store the grid parameter and invoke a command when the user change size and dimension of the grid.
     /// </summary>
     public class KarveGridExt : DependencyObject
     {
-
-
-        // in application data.
-        private static string _gridOptionPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-    
-        private enum GridColumnEventState {
-            ResizeStart = 0, ResizeStop = 1
-        };
-
-        private static GridColumnEventState _resizeState = GridColumnEventState.ResizeStop;
-
-        private static int _lastMovedCol = 0;
-        
-      
         /// <summary>
-        /// Columns parameter name.
+        ///  State enum to keep trace of the resize.
         /// </summary>
-        public class ColParamSize
+        enum ResizeState
         {
-            /// <summary>
-            ///  This is the column index
-            /// </summary>
-            public int ColumnIndex { set; get; }
-            /// <summary>
-            ///  This is the case of the width.
-            /// </summary>
-            public double ColumnWidth { set; get; }
-            /// <summary>
-            ///  This is the case of the name.
-            /// </summary>
-            public string ColumnName { set; get; }
-            /// <summary>
-            ///  Swapped from 
-            /// </summary>
-            public int SwappedFrom { set; get; }
-            /// <summary>
-            ///  SwwappedTo
-            /// </summary>
-            public int SwappedTo { set; get; }
-
-            public bool OrderChanged { set; get; }  
-            /// <summary>
-            ///  ColumnsList size.
-            /// </summary>
-            public IList<ColParamSize> ColumnList { set; get; }
+            NoResize,       //No resize of the state of the grid. When i have to resize a column.
+            StartResize     // Resize of the state of the grid
         }
-
-
-        
         /// <summary>
-        ///  This property allow us to resize a columns.
+        ///  Resize of the current state.
         /// </summary>
-        public static readonly DependencyProperty DefaultColumnsSizeDependencyProperty =
+        private static ResizeState _currentState = ResizeState.NoResize;
+        /// <summary>
+        ///  Each grid has an unique identifier.
+        /// </summary>
+        public static readonly DependencyProperty GridIdentifierDependencyProperty =
             DependencyProperty.RegisterAttached(
-                "DefaultColumnsSize",
-                typeof(ObservableCollection<KarveGridExt.ColParamSize>),
+                "GridIdentifier",
+                typeof(long),
                 typeof(KarveGridExt),
-                new PropertyMetadata(null, DefaultColumnsSizeCb));
+                new PropertyMetadata(long.MinValue, OnIdChanged));
 
-
-       
-        
-        /// <summary>
-        ///  DefaultColumnsSize dependency property.
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        public static void SetDefaultColumnsSize(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(DefaultColumnsSizeDependencyProperty, e);
-        }
-        /// <summary>
-        ///  Get default columns size dependency property.
-        /// </summary>
-        /// <param name="d"></param>
-        /// <param name="e"></param>
-        public static ObservableCollection<KarveGridExt.ColParamSize> GetDefaultColumnsSize(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ObservableCollection<KarveGridExt.ColParamSize>  value = (ObservableCollection<KarveGridExt.ColParamSize>)d.GetValue(DefaultColumnsSizeDependencyProperty);
-            return value;
-        }
-
-        private static void SerializeAndRefresh(SfDataGrid grid, string combinePath)
-        {
-            
-        }
-        private static void DefaultColumnsSizeCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            SfDataGrid dataGrid  = d as SfDataGrid;
-            if (d != null)
+            ICommand command = GetGridInitCommand(d, e);
+            if (command != null)
             {
-                ObservableCollection<KarveGridExt.ColParamSize> cols = GetDefaultColumnsSize(d, e);
-                // ok here we can set the columns.
-                if (dataGrid != null)
-                {
-                    foreach (var value in cols)
-                    {
-                        if (value.ColumnIndex < dataGrid.Columns.Count)
-                        {
-                            dataGrid.Columns[value.ColumnIndex].Width = value.ColumnWidth;
-                           
-                         
-                        }
-                    }
-                    // FIXME: usare la base de datos con los colmmans para riversar la serialization in a memory stream.
-                    var combinePath = Path.Combine(_gridOptionPath, "GridOptions_" + dataGrid.Name + ".xml");
-                    using (var file = File.Open(combinePath, FileMode.Open))
-                    {
-                        dataGrid.Deserialize(file);
-                    }
-
-                    dataGrid.RefreshColumns();
-                }
+                long value = GetGridIdentifier(d, e);
+                KarveGridParameters parameters = new KarveGridParameters();
+                parameters.GridIdentifier = value;
+                command.Execute(parameters);
             }
         }
 
 
         /// <summary>
-        ///  This command get executed when a columns get resized. 
-        ///  The view model in this case might know that this has been happened and save the settings in the configuration service.
+        ///  Set the GridIdentifier dependency property.
         /// </summary>
-        public static readonly DependencyProperty ResizeColumnCommandDependencyProperty =
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Depndency Property event</param>
+        public static void SetGridIdentifier(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(GridIdentifierDependencyProperty, e);
+        }
+
+        /// <summary>
+        /// Get the GridIdentifier dependecy property.
+        /// </summary>
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Dependency Property events</param>
+        public static long GetGridIdentifier(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return (long) d.GetValue(GridIdentifierDependencyProperty);
+        }
+
+        /// <summary>
+        /// Dependency property for leveraging the command.
+        /// </summary>
+        public static readonly DependencyProperty GridInitCommandDependencyProperty =
             DependencyProperty.RegisterAttached(
-                "ResizeColumnCommand",
+                "GridInitCommand",
                 typeof(ICommand),
+                typeof(KarveGridExt), new PropertyMetadata(null, OnGridInitChangedCommand));
+
+        private static void OnGridInitChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+            ICommand command = (ICommand) d.GetValue(GridInitCommandDependencyProperty);
+            long value = GetGridIdentifier(d, e);
+            if (value != long.MinValue)
+            {
+                KarveGridParameters parameters = new KarveGridParameters();
+                parameters.GridIdentifier = value;
+                if (command != null)
+                {
+                    command.Execute(parameters);
+                }
+            }
+        }
+        /// <summary>
+        ///  Set the GridParameters dependency property.
+        /// </summary>
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Depndency Property event</param>
+        public static void SetGridInitCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(GridInitCommandDependencyProperty, e);
+        }
+
+        /// <summary>
+        /// This set the grid param changed command
+        /// </summary>
+        /// <param name="d">GridInitCommand Dependency Property</param>
+        /// <param name="e">Events</param>
+        /// <returns></returns>
+        public static ICommand GetGridInitCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return (ICommand) d.GetValue(GridInitCommandDependencyProperty);
+        }
+
+        /// <summary>
+        ///  Each grid has an unique identifier.
+        /// </summary>
+        public static readonly DependencyProperty GridNameDependencyProperty =
+            DependencyProperty.RegisterAttached(
+                "GridName",
+                typeof(string),
+                typeof(KarveGridExt));
+
+        /// <summary>
+        ///  Set the GridIdentifier dependency property.
+        /// </summary>
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Depndency Property event</param>
+        public static void SetGridName(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(GridNameDependencyProperty, e);
+        }
+
+        /// <summary>
+        /// Get the GridIdentifier dependecy property.
+        /// </summary>
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Dependency Property events</param>
+        public static string GetGridName(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return (string) d.GetValue(GridNameDependencyProperty);
+        }
+
+        /// <summary>
+        ///  Grid parameters to be set and serialized when changed 
+        /// </summary>
+        public static readonly DependencyProperty GridParameterDependencyProperty =
+            DependencyProperty.RegisterAttached(
+                "GridParameters",
+                typeof(KarveGridParameters),
                 typeof(KarveGridExt),
-                new PropertyMetadata(null, GridColWidthChangedCommand));
-
-       
+                new PropertyMetadata(new KarveGridParameters()));
 
         /// <summary>
-        ///  This set the resize column command.
+        ///  Set the GridParameters dependency property.
         /// </summary>
-        /// <param name="d">Dependency Property object</param>
-        /// <param name="e">Parameters for the changed events.</param>
-        public static void SetResizeColumnCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Depndency Property event</param>
+        public static void SetGridParameters(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(ResizeColumnCommandDependencyProperty, e);
+            d.SetValue(GridParameterDependencyProperty, e);
         }
         /// <summary>
-        /// This set the size column command.
+        /// Get the GridParameters dependecy property.
         /// </summary>
-        /// <param name="d">Dependency Property object</param>
-        /// <param name="e">Parameters for the changed events</param>
-        public static ICommand GetResizeColumnCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Dependency Property events</param>
+        public static KarveGridParameters GetGridParameters(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (ICommand)d.GetValue(ResizeColumnCommandDependencyProperty);
+            return (KarveGridParameters) d.GetValue(GridParameterDependencyProperty);
         }
-        private static void GridColWidthChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Dependency property for leveraging the command.
+        /// </summary>
+        public static readonly DependencyProperty GridParamChangedCommandDependencyProperty =
+            DependencyProperty.RegisterAttached(
+                "GridParamChangedCommand",
+                typeof(ICommand),
+                typeof(KarveGridExt), new PropertyMetadata(null, OnGridParmChangedCommand));
+        /// <summary>
+        ///  GridParamChanged. This command changes the param.
+        /// </summary>
+        /// <param name="d">Syncfusion DataGrid</param>
+        /// <param name="e"></param>
+        private static void OnGridParmChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SfDataGrid dataGrid = d as SfDataGrid;
             if (dataGrid != null)
             {
                 dataGrid.ResizingColumns += DataGrid_ResizingColumns;
-                dataGrid.MouseUp += DataGrid_MouseLeave;
+                dataGrid.MouseLeave += DataGrid_MouseLeave;
                 dataGrid.QueryColumnDragging += DataGrid_QueryColumnDragging;
-                
-
+                dataGrid.ItemsSourceChanged += DataGrid_ItemsSourceChanged;
             }
+        }
+        /// <summary>
+        ///  ItemChangeSource Changed event. In this function in case of autogenerate column we enforce the parameters load.
+        /// </summary>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="e">Source of the event</param>
+        private static void DataGrid_ItemsSourceChanged(object sender, GridItemsSourceChangedEventArgs e)
+        {
+            var dataGrid = sender as SfDataGrid;
+            if (dataGrid != null)
+            {
+                DependencyPropertyChangedEventArgs ev = new DependencyPropertyChangedEventArgs();
+                KarveGridParameters parm = GetGridParameters(dataGrid, ev);
+                LoadParameters(dataGrid, parm.Xml);
+            }
+        }
+        /// <summary>
+        ///  Set the GridParameters dependency property.
+        /// </summary>
+        /// <param name="d">Dependency Property</param>
+        /// <param name="e">Depndency Property event</param>
+        public static void SetGridParamChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetValue(GridParamChangedCommandDependencyProperty, e);
+        }
+
+        /// <summary>
+        /// This set the grid param changed command
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static ICommand GetGridParamChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return (ICommand) d.GetValue(GridParamChangedCommandDependencyProperty);
         }
 
       
+        /// <summary>
+        ///  This load the parameters
+        /// </summary>
+        /// <param name="dataGrid">DataGrid to be used</param>
+        /// <param name="serializedString">The serialized string to be used</param>
+
+        private static void LoadParameters(SfDataGrid dataGrid, string serializedString)
+        {
+            if (string.IsNullOrEmpty(serializedString))
+            {
+                return;
+            }
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (StreamWriter writer = new StreamWriter(ms))
+                {
+   
+
+                    writer.Write(serializedString);
+                    writer.Flush();
+                    byte[] byteArray = ms.ToArray();
+                    using (MemoryStream reader = new MemoryStream(byteArray))
+                    {
+                        dataGrid.Deserialize(reader);
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///  This function save the parameters.
+        /// </summary>
+        /// <param name="grid">Grid parameters.</param>
+        private static void SaveParameters(SfDataGrid grid, out string serializedString)
+        {
+            var dependencyObject = grid as DependencyObject;
+            serializedString = String.Empty;
+
+            DependencyPropertyChangedEventArgs ev = new DependencyPropertyChangedEventArgs();
+            ICommand command = GetGridParamChangedCommand(dependencyObject, ev);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                if (grid != null)
+                {
+
+                    grid.Serialize(ms);
+                    byte[] valueArray = ms.ToArray();
+                    StreamReader reader = new StreamReader(new MemoryStream(valueArray));
+                    var xmlString = reader.ReadToEnd();
+                    serializedString = xmlString;
+                    KarveGridParameters karveGrid = GetGridParameters(grid, ev);
+                    if (karveGrid != null)
+                    {
+                        karveGrid.GridIdentifier = GetGridIdentifier(dependencyObject, ev);
+                        karveGrid.GridName = GetGridName(dependencyObject, ev);
+                        karveGrid.PreviousXml = karveGrid.PreviousXml;
+                        karveGrid.Xml = xmlString;
+                        command?.Execute(karveGrid);
+                    }
+                }
+            }
+        }
+
         private static void DataGrid_QueryColumnDragging(object sender, QueryColumnDraggingEventArgs e)
         {
-
             if (e.Reason == QueryColumnDraggingReason.Dropped)
             {
                 SfDataGrid grid = sender as SfDataGrid;
-                var combinePath = Path.Combine(_gridOptionPath, "GridOptions_" + grid.Name + ".xml");
-                using (var file = File.Create(combinePath))
+                string savedParams = string.Empty;
+                SaveParameters(grid, out savedParams);
+                if (!string.IsNullOrEmpty(savedParams))
                 {
-                    SerializationOptions options = new SerializationOptions();
-                    grid.Serialize(file, options);
+                    LoadParameters(grid, savedParams);
                 }
             }
-          
-            
+
         }
 
         private static void DataGrid_MouseLeave(object sender, MouseEventArgs e)
         {
-            DependencyPropertyChangedEventArgs ev = new DependencyPropertyChangedEventArgs();
-            ColParamSize param = new ColParamSize();
-            param.ColumnList = new List<ColParamSize>();
-            int idx = 0;
-            if (_resizeState == GridColumnEventState.ResizeStart)
+           
+          var grid = sender as SfDataGrid;
+            if (_currentState == ResizeState.StartResize)
             {
-                _resizeState = GridColumnEventState.ResizeStop;
-                param.ColumnIndex = _lastMovedCol;
-                SfDataGrid grid = sender as SfDataGrid;
-                if (grid != null)
+                string savedParams = string.Empty;
+                SaveParameters(grid, out savedParams);
+                if (!string.IsNullOrEmpty(savedParams))
                 {
-                    Columns cls = grid.Columns;
-                    GridColumn column = cls[_lastMovedCol];
-                    param.ColumnName = column.HeaderText;
-                    param.ColumnWidth = column.ActualWidth;
-                    foreach (var c in cls)
-                    {
-                        ColParamSize currentParam = new ColParamSize();
-                        currentParam.ColumnIndex = idx++;
-                        currentParam.ColumnName = c.HeaderText;
-                        currentParam.ColumnWidth = c.ActualWidth;
-                        param.ColumnList.Add(currentParam);
-                    }
-                    var dependencyObject = sender as DependencyObject;
-                    var command = KarveGridExt.GetResizeColumnCommand(dependencyObject, ev);
-                    command?.Execute(param);
+                    LoadParameters(grid, savedParams);
                 }
-            }         
+                _currentState = ResizeState.NoResize;
+            }
         }
-
         private static void DataGrid_ResizingColumns(object sender, ResizingColumnsEventArgs e)
         {
-            _resizeState = GridColumnEventState.ResizeStart;
-            _lastMovedCol = e.ColumnIndex;
-         
-        }
-
-        /// <summary>
-        ///  This is the karve grid extension
-        /// </summary>
-        public KarveGridExt()
-        {
+            _currentState = ResizeState.StartResize;
         }
          
     }

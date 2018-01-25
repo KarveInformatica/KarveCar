@@ -28,17 +28,23 @@ namespace KarveControls.Generic
         {
             string value = "";
             Type dataType = dataObject.GetType();
+            var currentPropertyValue = GetPropValue(dataObject, dataField);
             // Get the string Value of the object.
             PropertyInfo valuePropType = dataType.GetProperty(ValueString);
             object valueObject = null;
+
+            if (currentPropertyValue != null)
+            {
+                return currentPropertyValue.ToString();
+            }
             if (valuePropType == null)
             {
-                valueObject = dataObject;
+                return string.Empty;
             }
-            else 
-            {
-                valueObject = valuePropType.GetValue(dataObject);
-            }
+
+            valueObject =
+                valuePropType.GetValue(dataObject);
+
             if (valueObject != null)
             {
                 Type valueType = valueObject.GetType();
@@ -53,7 +59,7 @@ namespace KarveControls.Generic
                 if (info != null)
                 {
                     object tmpValue = info.GetValue(valueObject);
-                    value = (tmpValue != null) ? tmpValue.ToString() : "" ;
+                    value = (tmpValue != null) ? tmpValue.ToString() : "";
                     // since internally we have problems with email. 
                     if ((value != null) && (dataAllowed == ControlExt.DataType.Email))
                     {
@@ -61,9 +67,10 @@ namespace KarveControls.Generic
                     }
                 }
             }
+
             return value;
         }
-       
+
         /// <summary>
         ///  GetPropertiesValue.
         /// </summary>
@@ -76,7 +83,7 @@ namespace KarveControls.Generic
             if (string.IsNullOrEmpty(propName))
             {
                 return null;
-                
+
             }
             if (obj == null)
             {
@@ -143,7 +150,7 @@ namespace KarveControls.Generic
                 if (obj != null)
                 {
                     Type type = obj.GetType();
-                    
+
                     PropertyInfo info = type.GetProperty(part);
                     object currentValue = value;
                     if ((info != null) && (i == nameParts.Length))
@@ -196,10 +203,10 @@ namespace KarveControls.Generic
                         }
                     }
                     if ((obj != null) && (info != null))
-                        {
+                    {
                         tmp = obj;
-                            obj = info.GetValue(obj, null);
-                         }
+                        obj = info.GetValue(obj, null);
+                    }
                     ++i;
                 }
             }

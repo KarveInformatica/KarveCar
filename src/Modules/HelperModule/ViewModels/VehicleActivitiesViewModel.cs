@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
-using KarveDataServices.DataObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
+    /// <summary>
+    ///  VehicleActivitiesViewModel. This is a viewmodel for the helpers vehicle view model.
+    /// </summary>
     class VehicleActivitiesViewModel : GenericHelperViewModel<VehicleActivitiesDto, ACTIVEHI>
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="dataServices">DataServices to be used.</param>
+        /// <param name="region">Region where the tab is present.</param>
+        /// <param name="manager">Event manager to send and receive messages from other view models.</param>
+        
         public VehicleActivitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty, dataServices, region, manager)
         {
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleActivities;
         }
+
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             VehicleActivitiesDto activitiesDto = new VehicleActivitiesDto();

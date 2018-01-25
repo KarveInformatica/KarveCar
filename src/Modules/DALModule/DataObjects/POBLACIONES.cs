@@ -21,6 +21,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the CP property.
     /// </summary>
         [Key]
+        [FieldSize("7")]
 		public string CP { get; set; }
  
 	/// <summary>

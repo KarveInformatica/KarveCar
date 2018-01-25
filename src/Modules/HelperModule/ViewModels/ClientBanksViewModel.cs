@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace HelperModule.ViewModels
     class ClientBanksViewModel: GenericHelperViewModel<BanksDto, BANCO>
     {
         /// <summary>
+        ///  This is unique for all class of the grid identifiers.
+        /// </summary>
+        private static long _gridIdentifier;
+        private KarveGridParameters _bankGridParm = new KarveGridParameters();
+        /// <summary>
         ///  ClientBanksViewModel
         /// </summary>
         /// <param name="dataServices">DataServices testing</param>
@@ -25,7 +31,10 @@ namespace HelperModule.ViewModels
         /// <param name="manager"> event manager to send and put messages.</param>
         public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(GenericSql.BanksSql, dataServices, region, manager)
         {
+            _gridIdentifier = GenerateGridId();
+            GridIdentifier = _gridIdentifier;
         }
+        
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();

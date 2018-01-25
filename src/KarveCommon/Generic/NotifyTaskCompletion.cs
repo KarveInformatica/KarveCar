@@ -120,10 +120,7 @@ namespace KarveCommon.Generic
             return Create(asyncAction());
         }
 
-        public static INotifyTaskCompletion<T> Create<T>(object initViewModel, PropertyChangedEventHandler executedLoadHandler)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         /// <summary>
         /// Executes the specified asynchronous code and creates a new task notifier watching the returned task.

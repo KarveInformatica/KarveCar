@@ -1,30 +1,29 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a TIPOCLI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("TIPOCLI")]	
 	public class TIPOCLI 
 	{
-	
-	/// <summary>
-    ///  Set or get the NUM_TICLI property.
-    /// </summary>
-    
+
+        /// <summary>
+        ///  Set or get the NUM_TICLI property.
+        /// </summary>
+        [FieldSize("2")]
+        [Key]
 		public string NUM_TICLI { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ULTMODI property.
-    /// </summary>
-    
+	    /// <summary>
+        ///  Set or get the ULTMODI property.
+        /// </summary>
 		public string ULTMODI { get; set; }
- 
-	/// <summary>
-    ///  Set or get the USUARIO property.
-    /// </summary>
-    
+    	/// <summary>
+        ///  Set or get the USUARIO property.
+        /// </summary>
 		public string USUARIO { get; set; }
  
 	/// <summary>

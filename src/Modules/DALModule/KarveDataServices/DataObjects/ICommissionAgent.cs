@@ -54,7 +54,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         /// Clients Data Transfer Object.
         /// </summary>
-        IEnumerable<VendedorDto> VendedorDto { get; set; }
+        IEnumerable<ResellerDto> VendedorDto { get; set; }
         /// <summary>
         /// Mercado Data Transfer Object
         /// </summary>

@@ -11,10 +11,14 @@ using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
+    /// <summary>
+    ///  BusinessViewModel. Model that maps the business helper.
+    /// </summary>
     class BusinessViewModel: GenericHelperViewModel<BusinessDto, NEGOCIO>
     {
         public BusinessViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
         {
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperBusiness;
         }
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {

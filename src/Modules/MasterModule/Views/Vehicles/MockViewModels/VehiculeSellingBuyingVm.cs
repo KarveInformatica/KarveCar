@@ -34,7 +34,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
 
         private void GotANewAssist(object obj)
         {
-            MessageBox.Show("Got a new assist");
+          //  MessageBox.Show("Got a new assist");
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         /// <param name="value">Name of the value changed.</param>
         public void ItemIsChanged(object value)
         {
-            MessageBox.Show("Value Changed");
+           // MessageBox.Show("Value Changed");
         }
         /// <summary>
         ///  Buyer Assist Query

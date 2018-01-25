@@ -16,11 +16,13 @@ using System.Windows.Shapes;
 namespace HelperModule.Views
 {
     /// <summary>
-    /// Interaction logic for Extra.xaml
+    /// Interaction logic for VehicleTools.xaml
     /// </summary>
-    public partial class Extra : UserControl
+    public partial class VehicleTools : UserControl
     {
-        public Extra()
+        private string _header = KarveLocale.Properties.Resources.lrbtnAccesoriosVehiculos;
+        public string Header { get { return _header; } }
+        public VehicleTools()
         {
             InitializeComponent();
         }

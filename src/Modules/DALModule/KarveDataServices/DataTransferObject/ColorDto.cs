@@ -8,11 +8,11 @@
         /// <summary>
         ///  codigo of the color.
         /// </summary>
-        public string Codigo { get;  set; }
+        public string Code { get;  set; }
         /// <summary>
         ///  name of the color
         /// </summary>
-        public string Nombre { get;  set; }
+        public string Name { get;  set; }
         /// <summary>
         ///  metalizad
         /// </summary>

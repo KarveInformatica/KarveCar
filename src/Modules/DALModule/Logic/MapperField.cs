@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
-using System.Windows;
+using System.Text;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -20,9 +20,41 @@ namespace DataAccessLayer.Logic
             ProvinciaDto prov = new ProvinciaDto();
             prov.Code = source.SIGLAS;
             prov.Name = source.PROV;
+            prov.Capital = source.CAPITAL;
+            prov.Prefix = source.PREFIJO;
+            prov.Country = source.PAIS;
+            prov.CountryValue = new CountryDto();
+            // TODO: avoid this replication
+            prov.CountryValue.CountryCode = source.PAIS;
+            prov.CountryValue.Code = source.PAIS;
             return prov;
         }
     }
+
+    /// <summary>
+    /// Drto converter for the provice domain object
+    /// </summary>
+    public class ProvinciaConverterToPOCO : ITypeConverter<ProvinciaDto, PROVINCIA>
+    {
+        /// <summary>
+        ///  Provincia converter
+        /// </summary>
+        /// <param name="source">Convert the provincia</param>
+        /// <param name="destination"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public PROVINCIA Convert(ProvinciaDto source, PROVINCIA destination, ResolutionContext context)
+        {
+            PROVINCIA prov = new PROVINCIA();
+            prov.SIGLAS = source.Code;
+            prov.PROV = source.Name;
+            prov.CAPITAL = source.Capital;
+            prov.PREFIJO = source.Prefix;
+            prov.PAIS = source.CountryValue.Code;
+            return prov;
+        }
+    }
+
     /// <summary>
     /// POCO to Dto converter for the country domain object
     /// </summary>
@@ -80,7 +112,6 @@ namespace DataAccessLayer.Logic
             branchesDto.Email = source.cldEMail;
             branchesDto.City = source.cldPoblacion;
             return branchesDto;
-
         }
     }
 
@@ -186,8 +217,8 @@ namespace DataAccessLayer.Logic
         public MercadoDto Convert(MERCADO source, MercadoDto destination, ResolutionContext context)
         {
             MercadoDto destinationDto = new MercadoDto();
-            destinationDto.Name = source.CODIGO;
-            destinationDto.Code = source.NOMBRE;
+            destinationDto.Code = source.CODIGO;
+            destinationDto.Name = source.NOMBRE;
             return destinationDto;
         }
     }
@@ -234,15 +265,29 @@ namespace DataAccessLayer.Logic
     /// <summary>
     /// POCO to Dto converter for the reseller domain object
     /// </summary>
-    public class VendedorConverter : ITypeConverter<VENDEDOR, VendedorDto>
+    public class VendedorConverter : ITypeConverter<VENDEDOR, ResellerDto>
     {
-        public VendedorDto Convert(VENDEDOR source, VendedorDto destination, ResolutionContext context)
+        public ResellerDto Convert(VENDEDOR source, ResellerDto destination, ResolutionContext context)
         {
-            VendedorDto vendedorDto = new VendedorDto();
-            vendedorDto.Numero = source.NUM_VENDE;
-            vendedorDto.Nombre = source.NOMBRE;
-            vendedorDto.Movil = source.MOVIL;
-            return vendedorDto;
+            ResellerDto resellerDto = new ResellerDto();
+            resellerDto.Code = source.NUM_VENDE;
+            resellerDto.Name = source.NOMBRE;
+            resellerDto.Nif = source.NIF;
+            resellerDto.City = new CityDto();
+            resellerDto.City.Poblacion = source.POBLACION;
+            resellerDto.City.Code = source.CP;
+            resellerDto.Country = new CountryDto();
+            resellerDto.Country.Code = source.NACIOPER;
+            resellerDto.Direction = source.DIRECCION;
+            resellerDto.Province = new ProvinciaDto();
+            resellerDto.Province.Code = source.PROVINCIA;
+            resellerDto.Fax = source.FAX;
+            resellerDto.Email = source.EMAIL;
+            resellerDto.CellPhone = source.MOVIL;
+            resellerDto.StartDate = source.FECHALTA;
+            resellerDto.LeaveDate = source.FECHABAJA;
+            resellerDto.Web = source.WEB;
+            return resellerDto;
         }
     }
     /// <summary>
@@ -304,6 +349,7 @@ namespace DataAccessLayer.Logic
             LanguageDto languageDto = new LanguageDto();
             languageDto.Codigo= source.CODIGO.ToString();
             languageDto.Nombre = source.NOMBRE;
+           
             return languageDto;
         }
     }
@@ -414,7 +460,38 @@ namespace DataAccessLayer.Logic
 
         }
     }
-
+    
+    public class BrandVehicle2Poco : ITypeConverter<BrandVehicleDto,  MARCAS>
+    {
+        public MARCAS Convert(BrandVehicleDto source, MARCAS destination, ResolutionContext context)
+        {
+            MARCAS marcas = new MARCAS();
+            marcas.CODIGO = source.Code;
+            marcas.NOMBRE = source.Name;
+            marcas.CONDICIONES = source.Terms;
+            marcas.FBAJA = source.LeaveDate;
+            marcas.FECHA = source.CurrentDate;
+            marcas.OBS = source.Observation;
+            marcas.ULTMODI = source.LastModification;
+            marcas.USUARIO = source.User;
+            marcas.PROVEE = source.Supplier.NUM_PROVEE;
+            return marcas;
+        }
+    }
+    public class Poco2BrandVehicle: ITypeConverter<MARCAS, BrandVehicleDto>
+    {
+        public BrandVehicleDto Convert(MARCAS source, BrandVehicleDto destination, ResolutionContext context)
+        {
+            BrandVehicleDto brandVehicleDto = new BrandVehicleDto();
+            brandVehicleDto.Code = source.CODIGO;
+            brandVehicleDto.CurrentDate = source.FECHA;
+            brandVehicleDto.Name = source.NOMBRE;
+            brandVehicleDto.Observation = source.OBS;
+            brandVehicleDto.LastModification = source.ULTMODI;
+            brandVehicleDto.User = source.USUARIO;
+            return brandVehicleDto;
+        }
+    }
     public static class MapperField
     {
         private static IMapper Instance = null;
@@ -424,15 +501,15 @@ namespace DataAccessLayer.Logic
             {
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
                 cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
+                cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing( new ZonaOfiConverter());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
-              //  cfg.CreateMap<CANAL, ChannelDto>().ConvertUsing(new CanalConverter());
                 cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
-                cfg.CreateMap<VENDEDOR, VendedorDto>().ConvertUsing(new VendedorConverter());
+                cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
                 cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
                 cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
                 cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
@@ -443,10 +520,262 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
+                cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+
+                cfg.CreateMap<GRID_SERIALIZATION, GridSettingsDto>().ConvertUsing(src =>
+                {
+                    var model = new GridSettingsDto();
+                    model.GridIdentifier = src.GRID_ID;
+                    model.GridName = src.GRID_NAME;
+                    if (src.SERILIZED_DATA != null)
+                    {
+                      model.XmlBase64 = src.SERILIZED_DATA;
+                    }
+                    return model;
+                });
+                cfg.CreateMap<GridSettingsDto, GRID_SERIALIZATION>().ConvertUsing(src =>
+                {
+                    var model = new GRID_SERIALIZATION();
+                    model.GRID_ID = src.GridIdentifier;
+                    model.GRID_NAME = src.GridName;
+                    model.SERILIZED_DATA = src.XmlBase64;
+                    return model;
+                });
+
+                cfg.CreateMap<VEHI_ACC, VehicleToolDto>().ConvertUsing(src =>
+                {
+                    var model = new VehicleToolDto();
+                    model.Name = src.NOM_ACC;
+                    model.Code = src.COD_ACC.ToString();
+                    return model;
+                });
+                cfg.CreateMap<VehicleToolDto, VEHI_ACC>().ConvertUsing(src =>
+                {
+                    var model = new VEHI_ACC();
+                    model.COD_ACC = Convert.ToInt32(src.Code);
+                    model.NOM_ACC= src.Name;
+                    return model;
+                });
+
+                cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
+                {
+                    var model = new ColorDto();
+                    model.Name = src.CODIGO;
+                    model.Code = src.NOMBRE;
+                    var colorType = src.TIPOCOLOR;
+                    model.NoCoating = colorType == "S";
+                    model.PowderCoating = colorType == "M";
+                    model.TwoTone = colorType == "B";
+                    return model;
+                });
+                cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
+                {
+                    var model = new COLORFL();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    string type = "";
+                    if (src.NoCoating)
+                    {
+                        type = "S";
+                    }
+                    if (src.PowderCoating)
+                    {
+                        type = "M";
+                    }
+                    if (src.TwoTone)
+                    {
+                        type = "B";
+                    }
+                    model.TIPOCOLOR = type;
+                    return model;
+                });
+                cfg.CreateMap<EXTRASVEHI, VehicleExtraDto>().ConvertUsing(src =>
+                {
+                    var model = new VehicleExtraDto();
+                    model.Name = src.NOMBRE;
+                    model.Code = src.CODIGO.ToString();
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    model.Reference = src.REFERENCIA;
+                    model.Notes = src.OBS;
+                    model.VehicleType= new VehicleTypeDto();
+                    model.VehicleType.Code = src.CODIGO.ToString();
+                    return model;
+                });
+                cfg.CreateMap<VehicleExtraDto, EXTRASVEHI>().ConvertUsing(src =>
+                {
+                    var model = new EXTRASVEHI();
+                    model.CODIGO = Convert.ToInt32(src.Code);
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    model.REFERENCIA= src.Reference;
+                    model.OBS = src.Notes;
+                    model.TIPO_VEHI = src.VehicleType.Code;
+                    return model;
+                });
+
+                cfg.CreateMap<USO_ALQUILER, RentingUseDto>().ConvertUsing(src =>
+                {
+                    var model = new RentingUseDto();
+                    model.Name = src.NOMBRE;
+                    model.Code = src.CODIGO.ToString();
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<RentingUseDto, USO_ALQUILER>().ConvertUsing(src =>
+                {
+                    var model = new USO_ALQUILER();
+                    model.CODIGO = Convert.ToByte(src.Code);
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI= src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<ResellerDto, VENDEDOR>().ConvertUsing(src =>
+                {
+            
+                    var model = new VENDEDOR();
+                    model.NUM_VENDE = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI= src.LastModification;
+                    model.USUARIO = src.User;
+                    model.FECHALTA = src.StartDate;
+                    model.FECHABAJA = src.LeaveDate;
+                    model.CP = src.City.Code;
+                    model.POBLACION = src.City.Poblacion;
+                    model.PROVINCIA = src.Province.Code;
+                    model.EMAIL = src.Email;
+                    model.MOVIL = src.CellPhone;
+                    model.DIRECCION = src.Direction;
+                    model.NIF = src.Nif;
+                    model.OBS1 = src.Observation;
+                    model.NOTAS = src.Notes;
+                    model.FAX = src.Fax;
+                    model.WEB = src.Web;
+                    
+                    return model;
+                });
                 cfg.CreateMap<OrigenDto, ORIGEN>().ConvertUsing(src =>
                 {
                     var model = new ORIGEN();
                     model.NUM_ORIGEN = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<CreditCardDto, TARCREDI>().ConvertUsing(src =>
+                {
+                    var model = new TARCREDI();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<ClientTypeDto, TIPOCLI>().ConvertUsing(src =>
+                {
+                    var model = new TIPOCLI();
+                    model.NUM_TICLI = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<TIPOCLI, ClientTypeDto>().ConvertUsing(src =>
+                {
+                    var model = new ClientTypeDto();
+                    model.Code = src.NUM_TICLI;
+                    model.Name = src.NOMBRE;
+                    model.User = src.USUARIO;
+                    model.LastModification = src.ULTMODI;
+                    return model;
+                });
+                cfg.CreateMap<ClientZoneDto, ZONAS>().ConvertUsing(src =>
+                {
+                    var model = new ZONAS();
+                    model.NUM_ZONA = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<ZONAS, ClientZoneDto>().ConvertUsing(src =>
+                {
+                    var model = new ClientZoneDto();
+                    model.Code = src.NUM_ZONA;
+                    model.Name = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User= src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<VisitTypeDto, TIPOVISITAS>().ConvertUsing(src =>
+                {
+                    var model = new TIPOVISITAS();
+                    model.NOMBRE_VIS = src.Name;
+                    model.CODIGO_VIS = src.Code;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<TIPOVISITAS, VisitTypeDto>().ConvertUsing(src =>
+                {
+                    var model = new VisitTypeDto();
+                    model.Code = src.CODIGO_VIS;
+                    model.Name = src.NOMBRE_VIS;
+                    model.User = src.USUARIO;
+                    model.LastModification = src.ULTMODI;
+                    return model;
+                });
+                cfg.CreateMap<ContactTypeDto, TIPOCONTACTO_CLI>().ConvertUsing(src =>
+                {
+                    var model = new TIPOCONTACTO_CLI();
+                    model.CODIGO = src.Code;
+                    model.NOMBRE = src.Name;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    return model;
+                });
+                cfg.CreateMap<TIPOCONTACTO_CLI, ContactTypeDto>().ConvertUsing(src =>
+                {
+                    var model = new ContactTypeDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.User = src.USUARIO;
+                    model.LastModification = src.ULTMODI;
+                    return model;
+                });
+                cfg.CreateMap<TARCREDI, CreditCardDto>().ConvertUsing(src =>
+                {
+                    var model = new CreditCardDto();
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    return model;
+                });
+
+                cfg.CreateMap<TARJETA_EMP, CompanyCardDto>().ConvertUsing(src =>
+                {
+                    var model = new CompanyCardDto();
+                    model.Code = src.COD_TARJETA;
+                    model.Name = src.NOMBRE;
+                    model.Conditions = src.CONDICIONES;
+                    model.Prefix = src.PREFIJO;
+                    model.Price = src.PRECIO;
+                    return model;
+                });
+
+                cfg.CreateMap<CompanyCardDto, TARJETA_EMP>().ConvertUsing(src =>
+                {
+                    var model = new TARJETA_EMP();
+                    model.COD_TARJETA = src.Code;
+                    model.CONDICIONES = src.Conditions;
+                    model.PRECIO = src.Price;
+                    model.PREFIJO = src.Prefix;
                     model.NOMBRE = src.Name;
                     return model;
                 });

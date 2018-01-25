@@ -10,6 +10,7 @@
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
+             xmlns:commonGeneric="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
@@ -44,8 +45,13 @@
                                    AllowGrouping="True"
                                    ShowGroupDropArea="True"
                                    NavigationMode="Row"
+                                   AutoGenerateColumns="True"
+                                   karveControls:KarveGridExt.GridIdentifier="1"
+                                   karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                    ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   AutoGenerateColumns="False">
+                                   >
                 <Syncfusion:SfDataGrid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -55,28 +61,9 @@
                 </Syncfusion:SfDataGrid.Resources>
                 <i:Interaction.Behaviors>
                     <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name,Swift"></karveControls:GridColumnFilterBehaviour>
                 </i:Interaction.Behaviors>
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="Codigo" 
-                                               MappingName="Code" 
-                                               TextAlignment="Left"
-                                               AllowFiltering="True"                                
-                                               AllowEditing="False"
-                                               AllowGrouping="True"/>
-                    <Syncfusion:GridTextColumn HeaderText="Banco" 
-                                               MappingName="Name" 
-                                               TextAlignment="Left"
-                                               AllowEditing="False"
-                                               AllowGrouping="True"
-                    />
-                    <Syncfusion:GridTextColumn HeaderText="SWIFT/BIC" 
-                                               MappingName="Swift" 
-                                               TextAlignment="Left"
-                                               AllowEditing="True"
-                                               AllowGrouping="True"
-                    />
-                </Syncfusion:SfDataGrid.Columns>
-
+               
             </Syncfusion:SfDataGrid>
         </Grid>
    </GroupBox>

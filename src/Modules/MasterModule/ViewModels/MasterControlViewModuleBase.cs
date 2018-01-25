@@ -19,22 +19,8 @@ namespace MasterModule.ViewModels
         public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
         }
-        protected override void SetTable(DataTable table)
-        {
-            throw new NotImplementedException();
-        }
 
-        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override long GridId { get; set; }
-        public override string MagnifierGridName { get; set; }
-        protected override void SetDataObject(object result)
-        {
-            throw new NotImplementedException();
-        }
+        
        
     }
 }

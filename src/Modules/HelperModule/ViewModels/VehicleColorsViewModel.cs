@@ -13,8 +13,19 @@ using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
+
+    /// <summary>
+    ///  VehicleColorsViewModel. Model of the vehicle.
+    /// </summary>
     class VehicleColorsViewModel : GenericHelperViewModel<ColorDto, COLORFL>
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="dataServices">DataServices to be used.</param>
+        /// <param name="region">Region where the tab is present.</param>
+        /// <param name="eventManager">Event manager to send and receive messages from other view models.</param>
+
         public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager) : base(GenericSql.ColorTypes, dataServices, region, eventManager)
         {    
         }
@@ -31,7 +42,7 @@ namespace HelperModule.ViewModels
             colorDto = payLoad.DataObject as ColorDto;
             if (colorDto != null)
             {
-                colorDto.Codigo = colorId.Substring(0, 6);
+                colorDto.Code = colorId.Substring(0, 6);
             }
             return payLoad;
         }

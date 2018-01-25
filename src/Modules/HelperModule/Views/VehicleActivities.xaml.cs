@@ -20,6 +20,8 @@ namespace HelperModule.Views
     /// </summary>
     public partial class VehicleActivities : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnActividadesVehiculos;
+        public string Header { get { return _header; } }
         public VehicleActivities()
         {
             InitializeComponent();

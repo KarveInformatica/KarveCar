@@ -1,18 +1,22 @@
 using System;
- 
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a PROVINCIA.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("PROVINCIA")]
 	public class PROVINCIA 
 	{
 	
 	/// <summary>
     ///  Set or get the SIGLAS property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("3")]
 		public string SIGLAS { get; set; }
  
 	/// <summary>

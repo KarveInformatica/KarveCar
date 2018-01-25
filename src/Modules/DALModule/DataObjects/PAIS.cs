@@ -17,6 +17,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the SIGLAS property.
     /// </summary>
         [Key]
+        [FieldSize("3")]
 		public string SIGLAS { get; set; }
 
         /// <summary>

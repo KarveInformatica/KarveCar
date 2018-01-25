@@ -11,7 +11,7 @@ namespace KarveDataServices
         /// <summary>
         ///  Thsi interface return the locale traduction that are present in the database.
         /// </summary>
-        /// <param name="info"></param>
+        /// <param name="info">Info of the culture.</param>
         /// <returns></returns>
         IList<LocaleDataDto> GetLocaleData(CultureInfo info);
     }

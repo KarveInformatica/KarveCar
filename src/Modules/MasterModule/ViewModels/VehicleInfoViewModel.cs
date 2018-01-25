@@ -49,7 +49,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<SupplierSummaryDto> _supplier;
         private ObservableCollection<PaymentFormDto> _paymentFormDto;
         private ObservableCollection<ClientsSummaryDto> _clients;
-        private ObservableCollection<VendedorDto> _vendedor;
+        private ObservableCollection<ResellerDto> _vendedor;
         private ObservableCollection<ClientsSummaryDto> _clientDto;
         private ObservableCollection<SupplierSummaryDto> _assuranceCompany;
         private ObservableCollection<SupplierSummaryDto> _assuranceAgent;
@@ -94,7 +94,7 @@ namespace MasterModule.ViewModels
             
         }
 
-        public ObservableCollection<VendedorDto> VendedorDtos
+        public ObservableCollection<ResellerDto> VendedorDtos
         {
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
@@ -508,9 +508,9 @@ namespace MasterModule.ViewModels
                 case "VENDEDOR":
                 {
                     var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
-                    IEnumerable<VendedorDto> cli = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<VendedorDto>>
+                    IEnumerable<ResellerDto> cli = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<ResellerDto>>
                         (vendedor);
-                    VendedorDtos = new ObservableCollection<VendedorDto>(cli);
+                    VendedorDtos = new ObservableCollection<ResellerDto>(cli);
                     break;
                 }
             }

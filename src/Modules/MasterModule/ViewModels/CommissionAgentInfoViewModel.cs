@@ -60,7 +60,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<BusinessDto> _negocios = new List<BusinessDto>();
         private IEnumerable<MercadoDto> _mercados = new List<MercadoDto>();
         private IEnumerable<ChannelDto> _canal = new List<ChannelDto>();
-        private IEnumerable<VendedorDto> _vendedor = new List<VendedorDto>();
+        private IEnumerable<ResellerDto> _vendedor = new List<ResellerDto>();
         private IEnumerable<CommissionTypeDto> _tipocomisions = new List<CommissionTypeDto>();
         private IEnumerable<ZonaOfiDto> _officies = new List<ZonaOfiDto>();
         private IEnumerable<ClavePtoDto> _clavePto = new List<ClavePtoDto>();
@@ -91,7 +91,7 @@ namespace MasterModule.ViewModels
             get { return _canal; }
             set { _canal = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<VendedorDto> Vendedor
+        public IEnumerable<ResellerDto> Vendedor
         {
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
@@ -405,7 +405,7 @@ namespace MasterModule.ViewModels
                 case "VENDEDOR":
                     {
                         var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
-                        IEnumerable<VendedorDto> vendedorDto = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<VendedorDto>>(vendedor);
+                        IEnumerable<ResellerDto> vendedorDto = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<ResellerDto>>(vendedor);
                         Vendedor = vendedorDto;
                         currentView = Vendedor;
                         break;

@@ -20,6 +20,8 @@ namespace HelperModule.Views
     /// </summary>
     public partial class Cities : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnPoblaciones;
+        public string Header { get { return _header; } }
         public Cities()
         {
             InitializeComponent();

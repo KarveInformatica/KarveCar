@@ -20,7 +20,8 @@ namespace KarveCommon.Generic
         public const string VehicleProvisionReason = "select * from MOT_REPOSTAJE";
         public const string VehicleTools = "select  from VEHI_ACC";
         public const string ElementsSummaryQuery = "select * from elementos where eleIdCodigo='{0}'";
-
+        public const string GridSettingInsert = "INSERT INTO GRID_SERIALIZATION (GRID_ID, GRID_NAME, SERILIZED_DATA) VALUES('{0}','{1}','{2}');";
+        public const string GridSettingsUpdate = "UPDATE GRID_SERIALIZATION SET GRID_ID='{0}', GRID_NAME='{1}',SERILIZED_DATA='{2}' WHERE GRID_ID='{0}';";
         public const string VehicleOwner =
                 "select NUM_PROPRIE,NOMBRE, DIRECCION, POBLACION,CP,PROVINCIA,NIF,TELEFONO,FAX,NACIOPER,NOTAS,PROVEEDOR,COORDGPS,WEB,EMAIL from PROPIE"
             ;

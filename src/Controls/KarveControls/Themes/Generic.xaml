@@ -133,19 +133,17 @@
                                     
                                 </TextBox>
                                 <TextBox x:Name="PART_SearchTextSecond" 
-                                         Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentFirstWidth}"
+                                         Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}" 
                                          IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnly}"></TextBox>
 
                                 <StackPanel Background="Azure">
-                                    <Button Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
+                                    <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
                                             Background="Lavender">
-                                        <Image Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
+                                        <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
                                     <Popup x:Name="PART_PopUp" 
                        
-                    Placement="Relative"
-                    PlacementTarget="{Binding ElementName=MainWindow}"
                       >
 
                                         <Border  HorizontalAlignment="Stretch"
@@ -162,6 +160,7 @@
 
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="40"/>
+                                                    <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
@@ -187,22 +186,23 @@
                                                     </Thumb.Template>
                                                 </Thumb>
 
+                                                
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
-                               ColumnSizer="Star"
-                                                   MinHeight="400" MinWidth="600"
-                               Grid.Row="1"
-                               AllowDraggingColumns="True"
-                               AllowEditing="False"
-                               AllowFiltering="True"
-                               AllowResizingColumns="True"
-                               AllowSorting="True"
-                               AllowGrouping="True"
-                               ShowGroupDropArea="True"
-                               NavigationMode="Row" 
-                               Background="AliceBlue"
-                               ItemsSource="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=SourceView}"
-                               AutoGenerateColumns="True"
-                              >
+                                                                       ColumnSizer="Star"
+                                                                       MinHeight="400" MinWidth="600"
+                                                                       Grid.Row="1"
+                                                                       AllowDraggingColumns="True"
+                                                                       AllowEditing="False"
+                                                                       AllowFiltering="True"
+                                                                       AllowResizingColumns="True"
+                                                                       AllowSorting="True"
+                                                                       AllowGrouping="True"
+                                                                       AutoGenerateColumns="True"                                                              
+                                                                       ShowGroupDropArea="True"
+                                                                       NavigationMode="Row" 
+                                                                       Background="AliceBlue"                                                                       
+                                                >
+
                                                     <Syncfusion:SfDataGrid.Resources>
                                                         <ResourceDictionary>
                                                             <ResourceDictionary.MergedDictionaries>
@@ -211,11 +211,31 @@
                                                         </ResourceDictionary>
                                                     </Syncfusion:SfDataGrid.Resources>
                                                 </Syncfusion:SfDataGrid>
+                                                <Border Grid.Row="2" Height="60"
+                                                        VerticalAlignment="Bottom"
+                                                        Background="Black"
+                                                        BorderBrush="Black"
+                                                        BorderThickness="1"
+                                                        Opacity="50"
+                                                        Visibility="{Binding IsBusy,
+                                             Mode=TwoWay,
+                                             Converter={StaticResource converter}}">
+                                                    <StackPanel HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                        <TextBlock Margin="5"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="16"
+                                                                   Foreground="White"
+                                                                   Text="Fetching Data..." />
+                                                        <Syncfusion:SfBusyIndicator Margin="5"
+                                                                                    VerticalAlignment="Center"
+                                                                                    AnimationType="Gear" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Button Grid.Row="3" Margin="10" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpCloseCommand}">Close</Button>
 
-
-                                                    <Button Grid.Row="2" Margin="10" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpCloseCommand}">Close</Button>
-
-
+                                                
 
 
 
@@ -300,7 +320,7 @@
                             </local:DualFieldSearchBox>
                             <local:DualFieldSearchBox 
                                 x:Name="PART_CountrySearchBox"
-                                DataFieldFirst="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Province}"
+                                DataFieldFirst="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Country}"
                                 AssistTableName="PAIS"
                                 AssistDataFieldFirst="SIGLAS"
                                 AssistDataFieldSecond="PAIS"
@@ -323,7 +343,7 @@
 
                                 <Image Source="/KarveControls;component/Images/phone.png" Margin="0,0,8,0" Height="25"></Image>
                                 <TextBox
-                                    x:Name="PhoneTextBox"
+                                    x:Name="PART_PhoneTextBox"
                                     Height="25"
                                     Width="272"       
                                 />

@@ -1,20 +1,22 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a VENDEDOR.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("VENDEDOR")]
 	public class VENDEDOR 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_VENDE property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("7")]
 		public string NUM_VENDE { get; set; }
- 
 	/// <summary>
     ///  Set or get the NOMBRE property.
     /// </summary>

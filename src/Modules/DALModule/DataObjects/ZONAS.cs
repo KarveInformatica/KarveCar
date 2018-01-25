@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ZONAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ZONAS")]
 	public class ZONAS 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_ZONA property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("5")]
 		public string NUM_ZONA { get; set; }
  
 	/// <summary>

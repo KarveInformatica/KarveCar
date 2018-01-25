@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
@@ -10,10 +11,101 @@ using System.Text;
 using System.Threading;
 using System.Xml.Schema;
 using Dapper;
+using iAnywhere.Data.SQLAnywhere;
 
 namespace KarveDapper.Extensions
 {
+    public static class SqlInsertBuilder
+    {
+        // List of mapped value to be filled.
+        /// <summary>
+        ///  Database of supported types.
+        /// </summary>
+        public static Dictionary<string, SADbType> DatabaseSaDbTypes { get; set; } = new Dictionary<string, SADbType>()
+        {
+            { "DateTime", SADbType.DateTime},
+            { "String", SADbType.VarChar },
+            { "Xml", SADbType.Xml },
+            {"Integer", SADbType.Integer },
+            {"Long", SADbType.BigInt }
+        };
 
+        /// <summary>
+        /// BuildCommand. This build an insert command to be used with ADO.net.
+        /// </summary>
+        /// <typeparam name="T">Type of the entity</typeparam>
+        /// <param name="connection">Database Connection</param>
+        /// <param name="template">Insert template</param>
+        /// <param name="command">Command filled with the right parameters</param>
+        /// <param name="entityToInsert"></param>
+        private static void BuildCommand<T>(this SAConnection connection, string template, out SACommand command,
+            T entityToInsert)
+        {
+            Type entityType = entityToInsert.GetType();
+            PropertyInfo[] properties = entityType.GetProperties();
+            command = new SACommand(template, connection);
+            foreach (var prop in properties)
+            {
+                SAParameter param = new SAParameter();
+                DbTypeFieldAttribute attribute = prop.GetCustomAttribute(typeof(DbTypeFieldAttribute), false) as DbTypeFieldAttribute;
+                if (attribute != null)
+                {
+                    string typeName = attribute.TypeName;
+                    if (DatabaseSaDbTypes.ContainsKey(typeName))
+                    {
+                        SADbType currentType = DatabaseSaDbTypes[typeName];
+                        param.SADbType = currentType;
+                    }
+
+                }
+                param.Value = prop.GetValue(entityToInsert);
+                command.Parameters.Add(param);
+            }
+        }
+
+        public static long ExecuteSaCommand<T>(this IDbConnection connection, string tableName, T entityToInsert)
+        {
+            Type type = entityToInsert.GetType();  
+            PropertyInfo[] info = type.GetProperties();
+            SAConnection conn = connection as SAConnection;
+            StringBuilder fieldBuilder = new StringBuilder();
+            fieldBuilder.Append("INSERT INTO ");
+            fieldBuilder.Append(tableName);
+            fieldBuilder.Append("(");
+            int i = info.Length;
+            int j = 0;
+            foreach (var prop in info)
+            {
+
+                fieldBuilder.Append(prop.Name);
+                if (j < i - 1)
+                {
+                    fieldBuilder.Append(",");
+
+                }
+                ++j;
+            }
+            fieldBuilder.Append(")");
+            fieldBuilder.Append(" VALUES ( ");
+            i = info.Length - 1;
+            j = 0;
+            foreach (var prop in info)
+            {
+
+                fieldBuilder.Append("?");
+                if (j < i)
+                {
+                    fieldBuilder.Append(",");
+                }
+                ++j;
+            }
+            fieldBuilder.Append(");");
+            SACommand command;
+            BuildCommand<T>(conn, fieldBuilder.ToString(), out command, entityToInsert);
+            long value = command.ExecuteNonQuery();
+            return value;
+        }
+    }
     /// <summary>
     /// The Dapper.Contrib extensions for Dapper
     /// </summary>
@@ -338,7 +430,7 @@ namespace KarveDapper.Extensions
             for (var i = 0; i < allPropertiesExceptKeyAndComputed.Count; i++)
             {
                 var property = allPropertiesExceptKeyAndComputed[i];
-                sbParameterList.AppendFormat("@{0}", property.Name);
+                sbParameterList.AppendFormat("?{0}?", property.Name);
                 if (i < allPropertiesExceptKeyAndComputed.Count - 1)
                     sbParameterList.Append(", ");
             }
@@ -571,8 +663,14 @@ namespace KarveDapper.Extensions
             }
             return false;
         }
+        public static bool StoreEntity<T>(this IDbConnection connection, T entityToInsert)
+        {
+            var type = typeof(T);
 
-   
+            var name = GetTableName(type);
+            long value = SqlInsertBuilder.ExecuteSaCommand(connection, name, entityToInsert);
+            return value > 0;
+            }
 
         ///(this IDbConnection connection, T entityValue,)
         /// <summary>
@@ -791,7 +889,22 @@ namespace KarveDapper.Extensions
         public string Size { get; set; }
     }
 
-
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DbTypeFieldAttribute : Attribute
+    {
+        /// <summary>
+        /// Creates a field size for dapper contrib in karve.
+        /// </summary>
+        /// <param name="name">The name of this table in the database.</param>
+        public DbTypeFieldAttribute(string name)
+        {
+            TypeName = name;
+        }
+        /// <summary>
+        /// Size of the field it is useful for generating an unique id.
+        /// </summary>
+        public string TypeName { get; set; }
+    }
     /// <summary>
     /// Specifies that this field is a explicitly set primary key in the database
     /// </summary>
@@ -913,6 +1026,7 @@ namespace KarveDapper.Extensions
         /// <param name="columnName">The column name.</param>
         public void AppendColumnNameEqualsValue(StringBuilder sb, string columnName)
         {
+           
             sb.AppendFormat("[{0}] = ?{1}?", columnName, columnName);
         }
 

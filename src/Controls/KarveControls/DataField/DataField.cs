@@ -172,6 +172,24 @@ namespace KarveControls
             }
         }
 
+        private void SetTextContent(object dataObject, string path)
+        {
+            object value = ComponentUtils.GetPropValue(_dataObject, path);
+            if (value != null)
+            {
+                string objectValue = value.ToString();
+                if (DataAllowed == ControlExt.DataType.Email)
+                {
+                    objectValue = objectValue.Replace("#", "@");
+                }
+                if (!string.IsNullOrEmpty(objectValue))
+                {
+                    TextContent = objectValue;
+                }
+
+
+            }
+        }
         /// <summary>
         /// This handle the logic for changing the depedency object using a data object.
         /// </summary>
@@ -187,26 +205,20 @@ namespace KarveControls
             _dataObject = e.NewValue;
 
             Type dataType = _dataObject.GetType();
+            /*
+             *  In this case we can support two cases: 
+             *  When the object has a proprety Value and when it has not.
+             */
+            string currentValue = DataSourcePath;
             object valueObject = dataType.GetProperty("Value");
-            if (valueObject != null)
+            if (dataType.GetProperty(currentValue) != null)
             {
-                string currentValue = "Value." + DataSourcePath.ToUpper();
-                object value = ComponentUtils.GetPropValue(_dataObject, currentValue);
-                if (value != null)
-                {
-                    string objectValue = value.ToString();
-                    if (DataAllowed == ControlExt.DataType.Email)
-                    {
-                        objectValue = objectValue.Replace("#", "@");
-                    }
-                    if (!string.IsNullOrEmpty(objectValue))
-                    {
-                        TextContent = objectValue;
-                    }
-
-
-                }
-
+                SetTextContent(_dataObject, currentValue);
+            }
+            else if (valueObject != null)
+            {
+                currentValue = "Value." + DataSourcePath;
+                SetTextContent(_dataObject, currentValue);
             }
         }
         /// <summary>

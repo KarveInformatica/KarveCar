@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,13 +32,20 @@ namespace MasterModule.Views
 
         public ProviderInfoView()
         {
-            Stopwatch startStopwatch = new Stopwatch();
-            startStopwatch.Start();
-            InitializeComponent();
-            startStopwatch.Stop();
-            long elapsedTime = startStopwatch.ElapsedMilliseconds;
-            logger.Debug("Elapsed time for loading Proovider" + elapsedTime);    
-            Header = "";
+            try
+            {
+                Stopwatch startStopwatch = new Stopwatch();
+                startStopwatch.Start();
+                InitializeComponent();
+                startStopwatch.Stop();
+                long elapsedTime = startStopwatch.ElapsedMilliseconds;
+                logger.Debug("Elapsed time for loading Proovider" + elapsedTime);
+                Header = "";
+            }
+            catch (Exception e)
+            {
+                var c = e.StackTrace;
+            }
         }
 
         public string Header

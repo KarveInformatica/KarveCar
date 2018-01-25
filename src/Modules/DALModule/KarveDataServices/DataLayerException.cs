@@ -4,8 +4,11 @@ using System.Runtime.Serialization;
 namespace KarveDataServices
 {
     [Serializable]
-    internal class DataLayerException : Exception
+    public class DataLayerException : Exception
     {
+        /// <summary>
+        ///  DataLayerExecption. Exception for triggering an exceptional event in data event.
+        /// </summary>
         public DataLayerException()
         {
         }

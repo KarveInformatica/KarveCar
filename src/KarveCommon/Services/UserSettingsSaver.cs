@@ -19,16 +19,5 @@ namespace KarveCommon.Services
         {
             _dataService = dataServices.GetSettingsDataService();
         }
-
-        public async Task<bool> SaveAllMagnifierSettings(IList<IMagnifierSettings> magnifier)
-        {
-            bool ret = await _dataService.SaveAllMagnifierSettings(magnifier);
-            return ret;
-        }
-        public async Task<bool> SaveMagnifierSettings(IMagnifierSettings magnifier)
-        {
-           bool ret = await _dataService.SaveMagnifierSettings(magnifier);
-           return ret;
-        }
     }
 }

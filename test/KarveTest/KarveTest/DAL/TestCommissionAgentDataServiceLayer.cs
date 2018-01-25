@@ -15,6 +15,7 @@ using KarveDataServices.DataObjects;
 using  Dapper;
 using DataAccessLayer.Model;
 using KarveDapper;
+using KarveDapper.Extensions;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.DAL
@@ -205,6 +206,20 @@ namespace KarveTest.DAL
 
         }
 
+        private async Task<string> GetFirstId()
+        {
+            string primaryKeyValue = "0000004";
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                var brokers = await connection.GetAllAsync<COMISIO>();
+                var singleBroker = brokers.FirstOrDefault();
+                if (singleBroker != null)
+                {
+                    primaryKeyValue = singleBroker.NUM_COMI;
+                }
+            }
+            return primaryKeyValue;
+        }
         /// <summary>
         ///  This load a data value.
         /// </summary>
@@ -214,7 +229,17 @@ namespace KarveTest.DAL
         {
 
             IDictionary<string, string> query = new Dictionary<string, string>();
-            string primaryKeyValue = "0000004";
+            string primaryKeyValue = await GetFirstId();
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                var brokers = await connection.GetAllAsync<COMISIO>();
+                var singleBroker = brokers.FirstOrDefault();
+                if (singleBroker != null)
+                {
+                    primaryKeyValue = singleBroker.NUM_COMI;
+                }
+            }
+                
             query["COMISIO"] =
                 "NUM_COMI,PERSONA,NIF,TIPOCOMI,VENDE_COMI,MERCADO,NEGOCIO,CANAL,CLAVEPPTO,ORIGEN_COMI,ZONAOFI," +
                 "direccion,cp,poblacion,provincia,nacioper,telefono,fax,Movil,alta_comi," +
@@ -238,12 +263,14 @@ namespace KarveTest.DAL
             fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
             fields.Add(CommissionAgent.Visitas, " * ");
             fields.Add(CommissionAgent.Branches, "* ");
-            string numComi = "0000005";
-            ICommissionAgent agent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi, fields);
+            string numComi = _commissionAgentDataServices.GetNewId();
+            ICommissionAgent agent = _commissionAgentDataServices.GetNewCommissionAgentDo(numComi);
+              
             ICommissionAgent commissionAgent = agent;
             Assert.NotNull(commissionAgent);
             COMISIO value = commissionAgent.Value as COMISIO;
             Assert.NotNull(value);
+            Assert.AreEqual(value.NUM_COMI, numComi);
         }
 
         [Test]
@@ -254,16 +281,17 @@ namespace KarveTest.DAL
             fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
             fields.Add(CommissionAgent.Visitas, " * ");
             fields.Add(CommissionAgent.Branches, "* ");
-            string numComi = "0000005";
+            string numComi = await GetFirstId();
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
             COMISIO internalValue = (COMISIO) commissionAgent.Value;
             IEnumerable<BranchesDto> branchesDto = commissionAgent.DelegationDto;
-           
             IEnumerable<ContactsDto> contactsDtos = commissionAgent.ContactsDto;
             IEnumerable<VisitsDto> visitsDtos = commissionAgent.VisitsDto;
-
+            Assert.NotNull(branchesDto);
+            Assert.NotNull(contactsDtos);
+            Assert.NotNull(visitsDtos);
             Assert.NotNull(internalValue);
             internalValue.NOMBRE = "Karve2Comission";
             commissionAgent.Value = internalValue;

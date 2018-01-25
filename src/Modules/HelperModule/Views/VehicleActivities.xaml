@@ -9,36 +9,45 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <GroupBox Header="Actividades de Vehiculo">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                  
                 </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
-                    <TextBlock Text="Nombre" 
-                               
-                               DockPanel.Dock="Left" Height="25" Margin="5,0,0,0"></TextBlock>
-                    <TextBox DockPanel.Dock="Right" Width="200" Height="25" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                </DockPanel>
-                <DockPanel Grid.Row="1">
-                    <TextBlock Text="Code" DockPanel.Dock="Left" Height="25" Margin="5,0,0,0"></TextBlock>
-                    <TextBox DockPanel.Dock="Right" Width="200" Height="25" Text="{Binding Codigo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                </DockPanel>
-                <kc:DataFieldCheckBox Content="Afecta al calcolo de Ocupación" Grid.Row="2"  
-                                                 kc:ControlExt.DataSource="{Binding HelperDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 kc:ControlExt.DataSourcePath="Compute">
-                </kc:DataFieldCheckBox>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <karveControls:DataField  LabelText="Code"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Code"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         TextContentWidth="100"></karveControls:DataField>
+
+                <karveControls:DataField  LabelText="Nombre"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Name"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         TextContentWidth="100"></karveControls:DataField>
+                    <kc:DataFieldCheckBox Content="Afecta al calcolo de Ocupación"   
+                                          kc:ControlExt.DataSource="{Binding HelperDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          kc:ControlExt.DataSourcePath="Compute">
+                    </kc:DataFieldCheckBox>
+
+                </StackPanel>
                 <syncfusion:SfDataGrid x:Name="HelperSummary"
                                ColumnSizer="Star"
-                               Grid.Row="3"
+                               Grid.Row="1"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"

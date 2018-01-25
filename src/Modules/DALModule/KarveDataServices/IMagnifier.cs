@@ -5,16 +5,7 @@ namespace KarveDataServices
 {
     public interface IMagnifierSettings
     {
-        /// <summary>
-        ///  Columnas of the magnifier.
-        /// </summary>
-         IEnumerable<IMagnifierColumns> MagnifierColumns { set; get; }
-        //private USER_LUPAS _lupas;
-        /// <summary>
-        ///  Set or get the ID property.
-        /// </summary>
-
-         int ID { get; set; }
+        
         /// <summary>
         ///  User
         /// </summary>

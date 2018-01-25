@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,24 +10,39 @@ using KarveDataServices;
 
 namespace HelperModule.ViewModels
 {
+    /// <summary>
+    ///  TODO: fix the srp issues.
+    /// </summary>
+    /// <typeparam name="Dto"></typeparam>
+    /// <typeparam name="Entity"></typeparam>
     public class HelperLoader<Dto, Entity> where Dto: class
                                            where Entity: class
     {
         private IDataServices _services;
         private ObservableCollection<Dto> _helperView;
         private INotifyTaskCompletion<IEnumerable<Dto>> _initializationNotifier;
+        private PropertyChangedEventHandler _loadCompleted;
 
         public HelperLoader(IDataServices services)
         {
             _services = services;
+            _loadCompleted += OnLoadCompleted;
+
         }
+
+        private void OnLoadCompleted(object sender, PropertyChangedEventArgs e)
+        {
+           
+           
+        }
+
         /// <summary>
         ///  Load event.
         /// </summary>
         /// <param name="value"></param>
         public void Load(string value)
         {
-            _initializationNotifier = NotifyTaskCompletion.Create(LoadDto(value), null);
+            _initializationNotifier = NotifyTaskCompletion.Create(LoadDto(value), _loadCompleted);
 
         }
         /// <summary>
@@ -34,11 +50,11 @@ namespace HelperModule.ViewModels
         /// </summary>
         public void LoadAll()
         {
-            _initializationNotifier = NotifyTaskCompletion.Create(LoadDtoAll(), null);
+            _initializationNotifier = NotifyTaskCompletion.Create(LoadDtoAll(), _loadCompleted);
         }
 
         /// <summary>
-        ///  Load Data Transfer All.
+        ///  Load Data Transfer All. Violate SRP.
         /// </summary>
         /// <returns></returns>
         private async Task<IEnumerable<Dto>> LoadDtoAll()
@@ -51,7 +67,7 @@ namespace HelperModule.ViewModels
             }
             catch (Exception e)
             {
-                
+                throw new DataLayerException(e.Message, e);
             }
             if (list == null)
             {

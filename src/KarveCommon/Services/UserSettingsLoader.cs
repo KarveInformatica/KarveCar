@@ -20,22 +20,14 @@ namespace KarveCommon.Services
         {
             _dataService = dataServices.GetSettingsDataService();
         }
-        /// <summary>
-        ///  Get all magnifier settings
-        /// </summary>
-        /// <returns>A list of settings foreach magnifier.</returns>
-        public async Task<IList<IMagnifierSettings>> GetAllMagnifierSettings()
-        {
-           IList<IMagnifierSettings> settings = await _dataService.GetAllMagnifiersSettings();
-           return settings;
-        }
+        
         /// <summary>
         ///  This returns the ADO.NET connection string.
         /// </summary>
         /// <returns></returns>
         public string GetConnectionString()
         {
-            throw new System.NotImplementedException();
+            return string.Empty;
         }
 
         /// <summary>
@@ -47,15 +39,5 @@ namespace KarveCommon.Services
             return Enumerations.ResourceSource.File;
         }
 
-        /// <summary>
-        ///  Get the list of magnifier settings.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IMagnifierSettings> GetMagnifierSettings(long id)
-        {
-            IMagnifierSettings magnifierSettings =  await _dataService.GetMagnifierSettings(id);
-            return magnifierSettings;
-        }
     }
 }

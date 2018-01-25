@@ -208,6 +208,7 @@
     <Compile Include="DataObjects\CK_PERMCONCEP.cs" />
     <Compile Include="DataObjects\CK_PERMCONCEP_INF.cs" />
     <Compile Include="DataObjects\CLASIFICACLI.cs" />
+    <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />
     <Compile Include="DataObjects\CLAVEPTO.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="DataObjects\CLIENTES_VIASPAGO.cs" />
     <Compile Include="DataObjects\CLIENTE_COMERCIAL.cs" />
     <Compile Include="DataObjects\CLIENTE_HIST_MANDATO.cs" />
+    <Compile Include="DataObjects\ClientTypeDto.cs" />
     <Compile Include="DataObjects\CLI_EURO.cs" />
     <Compile Include="DataObjects\CLI_GARAN.cs" />
     <Compile Include="DataObjects\CLI_INDESEABLES.cs" />

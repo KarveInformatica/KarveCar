@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a USO_ALQUILER.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class USO_ALQUILER 
-	{
-	
-	/// <summary>
+    /// <summary>
+    /// Represents a USO_ALQUILER.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("USO_ALQUILER")]
+    public class USO_ALQUILER
+    {
+
+    /// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("2")]
 		public byte CODIGO { get; set; }
  
 	/// <summary>

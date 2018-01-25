@@ -420,6 +420,20 @@
     <Resource Include="Images\business.png" />
     <Resource Include="Images\market.png" />
     <Resource Include="Images\originclient.png" />
+    <Resource Include="Images\country.png" />
+    <Resource Include="Images\city.png" />
+    <Resource Include="Images\province.png" />
+    <Resource Include="Images\genericcard.gif" />
+    <Resource Include="Images\amex.png" />
+    <Resource Include="Images\visa.png" />
+    <Resource Include="Images\visaelectron.png" />
+    <Resource Include="Images\maestro.png" />
+    <Resource Include="Images\mastercard.png" />
+    <Resource Include="Images\companycard.png" />
+    <Resource Include="Images\clienttype.png" />
+    <Resource Include="Images\contacttype.png" />
+    <Resource Include="Images\visit.jpg" />
+    <Resource Include="Images\rentinguse.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

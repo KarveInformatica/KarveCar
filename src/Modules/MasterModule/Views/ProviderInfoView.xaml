@@ -945,7 +945,7 @@
 
                            
                                 <WrapPanel Orientation="Horizontal">
-                                   
+                                   <!--
                                     <GroupBox Header="{Binding ldirecciondepago, Source={StaticResource ResourceLanguage}}">
                                     <karveControls:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   Direction="Value.DIR_PAGO"
@@ -994,9 +994,10 @@
 
                                     </karveControls:DirectionInfo>
                                 </GroupBox>
-                                        
+                                        -->
                                 </WrapPanel>
                                 <StackPanel Orientation="Horizontal">
+                                   <!--
                                     <GroupBox Header="{Binding lmodocomunicaciondepedido, Source={StaticResource ResourceLanguage}}">
                                         <local:CommunicationOrder MinWidth="400"></local:CommunicationOrder>
                                     </GroupBox>
@@ -1024,6 +1025,7 @@
                                     </karveControls:DirectionInfo>
                                  
                                     </GroupBox>
+                                    -->
                                                                    </StackPanel>
                                       
                             

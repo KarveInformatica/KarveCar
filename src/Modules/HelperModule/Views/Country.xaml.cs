@@ -20,9 +20,16 @@ namespace HelperModule.Views
     /// </summary>
     public partial class Country : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnPaises;
         public Country()
         {
             InitializeComponent();
+
+        }
+
+        public string Header
+        {
+            get { return _header; }
         }
     }
 }

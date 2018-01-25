@@ -128,7 +128,7 @@
     <Compile Include="ISettingsDataService.cs" />
     <Compile Include="SqlValidationRule.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />
-    <Compile Include="DataTransferObject\VendedorDto.cs" />
+    <Compile Include="DataTransferObject\ResellerDto.cs" />
     <Compile Include="DataTransferObject\VisitsDto.cs" />
     <Compile Include="DataTransferObject\ZonaOfiDto.cs" />
     <Compile Include="ICommissionAgentDataServices.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -18,6 +19,7 @@ using NLog;
 using System.Windows.Controls.Primitives;
 using static KarveControls.DataField;
 using Prism.Commands;
+using Syncfusion.Data.Extensions;
 
 namespace KarveControls
 {
@@ -294,7 +296,8 @@ namespace KarveControls
 
         private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is DualFieldSearchBox control)
+            var control = d as DualFieldSearchBox;
+            if (control!= null)
             {
                 control.OnLabelVisiblePropertyChanged(e);
             }
@@ -302,14 +305,19 @@ namespace KarveControls
 
         private void OnLabelVisiblePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
+            if (e.NewValue == null)
+                return;
             bool value = Convert.ToBoolean(e.NewValue);
-            if (value)
+            if (SearchLabel != null)
             {
-                SearchLabel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                SearchLabel.Visibility = Visibility.Collapsed;
+                if (value)
+                {
+                    SearchLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    SearchLabel.Visibility = Visibility.Collapsed;
+                }
             }
         }
         #endregion
@@ -738,6 +746,7 @@ namespace KarveControls
         private SfDataGrid MagnifierGrid;
         private Image PopUpButtonImage;
         private TextBlock SearchLabel;
+        private IEnumerable<object> _currentSourceView;
 
         static DualFieldSearchBox()
         {
@@ -778,11 +787,25 @@ namespace KarveControls
             if (MagnifierGrid != null)
             {
                 MagnifierGrid.SelectionChanged += MagnifierGrid_OnSelectionRowChanged;
-                MagnifierGrid.AutoGeneratingColumn +=  MagnifierGrid_AutoGenerating;
+             //   MagnifierGrid.AutoGeneratingColumn += MagnifierGrid_AutoGeneratingColumn; ;
             }
-            RaiseMagnifierPressEvent();
+          // RaiseMagnifierPressEvent();
            // this.Res
           //  OnResize(EventArgs.Empty);
+        }
+
+        private void MagnifierGrid_AutoGeneratingColumn(object sender, AutoGeneratingColumnArgs e)
+        {
+            
+            if ((e.Column.MappingName != _codeFirst) || (e.Column.MappingName!=_codeSecond))
+            {
+                e.Cancel = true;
+            }     
+        }
+
+        private void MagnifierGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var grid = 1;
         }
 
         private void MagnifierGrid_AutoGenerating(object sender, AutoGeneratingColumnArgs autoGeneratingColumnArgs)
@@ -1076,6 +1099,11 @@ namespace KarveControls
             }
 
         }
+        void LoadMoreItems(uint count, int baseIndex)
+        {
+            var list = _currentSourceView.Skip(baseIndex).Take(50).ToList();
+            //IncrementalItemsSource.LoadItems(list);
+        }
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
           
@@ -1105,7 +1133,10 @@ namespace KarveControls
                 }
                 if (MagnifierGrid != null)
                 {
-                    MagnifierGrid.ItemsSource = enumerableValue;
+
+//                    IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
+                    MagnifierGrid.ItemsSource = e.NewValue;
+                    
                     if (_buttonManifierState == 1)
                     {
                         _firstSelection = true;
@@ -1368,12 +1399,8 @@ namespace KarveControls
 
             string[] fieldList = AssistProperties.Split(',');
             // if we have multiple fiels
-            if (fieldList.Length > 2)
-            {
-                textContentFirst = ComponentUtils.GetPropValue(currentDto, AssistDataFieldFirst);
-                textContentSecond = ComponentUtils.GetPropValue(currentDto, AssistDataFieldSecond);
-            }
-            else
+            
+            if (fieldList.Length >=2)
             {
                 textContentFirst = ComponentUtils.GetPropValue(currentDto, fieldList[0]);
                 textContentSecond= ComponentUtils.GetPropValue(currentDto, fieldList[1]);

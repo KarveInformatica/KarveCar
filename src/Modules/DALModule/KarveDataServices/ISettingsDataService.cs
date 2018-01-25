@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using KarveDataServices.DataTransferObject;
+
 namespace KarveDataServices
 {
     /// <summary>
@@ -12,50 +15,18 @@ namespace KarveDataServices
         ///  Get all magnifier settings
         /// </summary>
         /// <returns></returns>
-        Task<IMagnifierSettings> GetMagnifierSettings(long idValue);
+        Task<GridSettingsDto> GetMagnifierSettings(long idValue);
         /// <summary>
-        /// Save all magnifer settings.
+        ///  Save the magnifier settings.
         /// </summary>
-        /// <param name="value">This value of the magnifier.</param>
-        Task<bool> SaveMagnifierSettings(IMagnifierSettings value);
+        /// <param name="settingsDto"></param>
+        Task<bool> SaveMagnifierSettings(GridSettingsDto settingsDto);
+
         /// <summary>
-        ///  Save the setting of a collection of magnifier
+        /// Thois gets the magnifier settings using a list of registered identifier.
         /// </summary>
-        /// <param name="magnifier">Save the setting of a collection of magnifier</param>
+        /// <param name="registeredGridIds"></param>
         /// <returns></returns>
-        Task<bool> SaveAllMagnifierSettings(IList<IMagnifierSettings> magnifier);
-        /// <summary>
-        ///  This returns the all magnifier settings.
-        /// </summary>
-        /// <returns></returns>
-        Task<IList<IMagnifierSettings>> GetAllMagnifiersSettings();
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <returns></returns>
-        IMagnifierColumns NewMagnifierColumn();
-        /// <summary>
-        ///  Create a new magnifier column in the data base
-        /// </summary>
-        /// <param name="col"></param>
-        /// <returns></returns>
-        Task<int> CreateMagnifierColumn(IMagnifierColumns col);
-        /// <summary>
-        ///  Delete a new magnifier setting from the ID 
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        Task DeleteMagnifier(int i);
-        /// <summary>
-        ///  Create a new magnifier setting
-        /// </summary>
-        /// <returns></returns>
-        IMagnifierSettings NewMagnifierSettings();
-        /// <summary>
-        ///  This saves the columns
-        /// </summary>
-        /// <param name="colums"></param>
-        /// <returns></returns>
-        Task<bool> SaveColumnsSettings(IList<IMagnifierColumns> colums);
+        Task<ObservableCollection<GridSettingsDto>> GetMagnifierSettingByIds(List<long> registeredGridIds);
     }
 }

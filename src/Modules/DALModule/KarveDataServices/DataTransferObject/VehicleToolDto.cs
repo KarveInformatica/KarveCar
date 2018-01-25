@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class VehicleToolDto
+    public class VehicleToolDto: BaseDto
     {
         public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

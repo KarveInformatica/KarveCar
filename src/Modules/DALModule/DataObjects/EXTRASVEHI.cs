@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a EXTRASVEHI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("EXTRASVEHI")]
 	public class EXTRASVEHI 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("10")]
 		public Int32 CODIGO { get; set; }
  
 	/// <summary>

@@ -8,239 +8,94 @@
              xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" Height="556" Width="875">
 
-    <GroupBox Header="Marca de Vehiculos">
+    <Grid>
+        <!--
+        Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}
+        -->
+        
+        <GroupBox Header="Marcas">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                    <ColumnDefinition Width="40*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                <karveControls:DataField  LabelText="Code"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Code"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         TextContentWidth="100"></karveControls:DataField>
 
-        <Grid x:Name="marcadatatableusercontrol">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            <Grid x:Name="marcaDataGrid" Grid.Column="0" Visibility="Visible" Margin="0,25,0,0" VerticalAlignment="Top">
+                <karveControls:DataField  LabelText="Nombre"
+                                         MaxHeight="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Name"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         TextContentWidth="100"></karveControls:DataField>
+                    <karveControls:DataDatePicker  Height="35" LabelText="Fecha Baja"
+                                                   DataDatePickerHeight="35"
+                                                   PickerContentWidth="200"
+                                   karveControls:ControlExt.DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   karveControls:ControlExt.DataSourcePath="LeaveDate"
+                                   karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                   Margin="0,16.95,0,38.95" Width="150.64"/>
 
-                <Syncfusion:SfDataGrid x:Name="BrandSummary"
-                                       ColumnSizer="Star"
-                                       AllowDraggingColumns="True"
-                                       AllowEditing="False"
-                                       AllowFiltering="True"
-                                       AllowResizingColumns="True"
-                                       AllowSorting="True"
-                                       AllowGrouping="True"
-                                       ShowGroupDropArea="True"
-                                       NavigationMode="Row"
-                                       ItemsSource="{Binding BrandView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       AutoGenerateColumns="False" Margin="0,10,0,-10">
-                    <Syncfusion:SfDataGrid.Resources>
-                        <ResourceDictionary>
-                            <ResourceDictionary.MergedDictionaries>
-                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                            </ResourceDictionary.MergedDictionaries>
-                        </ResourceDictionary>
-                    </Syncfusion:SfDataGrid.Resources>
-                    <Syncfusion:SfDataGrid.Columns>
-                        <Syncfusion:GridTextColumn HeaderText="Code" 
-                                                   MappingName="Code" 
-                                                   TextAlignment="Left"
-                                                   AllowFiltering="True"                                
-                                                   AllowEditing="True"
-                                                   AllowGrouping="True"/>
-                        <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                                   MappingName="Nombre" 
-                                                   TextAlignment="Left"
-                                                   AllowEditing="True"
-                                                   AllowGrouping="True"
-                        />
-                    </Syncfusion:SfDataGrid.Columns>
 
-                </Syncfusion:SfDataGrid>
-
-            </Grid>
-            <Grid x:Name="proveedorMarcaDataGrid" Grid.Column="0" Visibility="Hidden" Margin="0,25,0,0" VerticalAlignment="Top">
-
-                <Syncfusion:SfDataGrid x:Name="BrandSupplierSummary"
-                                       ColumnSizer="Star"
-                                       Grid.Row="2"
-                                       AllowDraggingColumns="True"
-                                       AllowEditing="False"
-                                       AllowFiltering="True"
-                                       AllowResizingColumns="True"
-                                       AllowSorting="True"
-                                       AllowGrouping="True"
-                                       ShowGroupDropArea="True"
-                                       NavigationMode="Row"
-                                       ItemsSource="{Binding BrandSupplierView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       AutoGenerateColumns="False">
-                    <Syncfusion:SfDataGrid.Resources>
-                        <ResourceDictionary>
-                            <ResourceDictionary.MergedDictionaries>
-                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                            </ResourceDictionary.MergedDictionaries>
-                        </ResourceDictionary>
-                    </Syncfusion:SfDataGrid.Resources>
-                    <Syncfusion:SfDataGrid.Columns>
-                        <Syncfusion:GridTextColumn HeaderText="Code" 
-                                                   MappingName="Code" 
-                                                   TextAlignment="Left"
-                                                   AllowFiltering="True"                                
-                                                   AllowEditing="True"
-                                                   AllowGrouping="True"/>
-                        <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                                   MappingName="Nombre" 
-                                                   TextAlignment="Left"
-                                                   AllowEditing="True"
-                                                   AllowGrouping="True"
-                        />
-                    </Syncfusion:SfDataGrid.Columns>
-
-                </Syncfusion:SfDataGrid>
-
-            </Grid>
-
-            <GridSplitter x:Name="gridsplitter" Grid.Column="1" Visibility="Visible" HorizontalAlignment="Stretch" ResizeDirection="Columns"/>
-            <WrapPanel x:Name="wrpMarcaDataTable" Visibility="Visible" Grid.Column="2" 
-                       ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Height="125" Width="475" Orientation="Horizontal" Margin="25,15">
-                        <Border BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="4" Height="125" Width="475">
-                            <Grid>
-                                <Label   x:Name="lblCodigo" Content="Código: " Margin="25,25,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtCodigo" Tag="MAR.CODIGO" 
-                                         Text="{Binding MarcaSelectedItem.CODIGO, Mode=TwoWay}" Style="{StaticResource TextBoxStyle}"
-                                         Margin="100,25,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="False">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="LostFocus">
-                                            <i:InvokeCommandAction Command="{Binding CodigoMarcaLostFocus}" 
-                                                                   CommandParameter="{Binding ElementName=txtCodigo, Path=Text}">
-                                            </i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
-                                <Button x:Name="bttCodigo" Margin="150,25,300,75" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/search.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="marcaDataGridUserControl"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="marcaDataGridUserControl"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="marcaDataGridUserControl"/>
-                                    </Button.InputBindings>
-                                </Button>
-                                <TextBox x:Name="txtUser"    Tag="MAR.USUARIO" Text="{Binding MarcaSelectedItem.USUARIO}" Style="{StaticResource TextBoxStyle}"
-                                         Margin="300,25,0,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
-                                <TextBox x:Name="txtUltModi" Tag="MAR.ULTMODI" Text="{Binding MarcaSelectedItem.ULTMODI}" Style="{StaticResource TextBoxStyle}"
-                                         Margin="350,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
-
-                                <Label   x:Name="lblNombre"  Content="Nombre: " Margin="25,50,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtNombre" Tag="MAR.NOMBRE"                                         Text="{Binding MarcaSelectedItem.NOMBRE, Mode=TwoWay}"
-                                         Margin="100,50,0,0" Width="350" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                <Label   x:Name="lblFechaBaja" Content="Fecha Baja: " Margin="25,75,0,0" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <DatePicker x:Name="dtpckFechaBaja" Tag="MAR.FBAJA" 
-                                            SelectedDate="{Binding MarcaSelectedItem.FBAJA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
-                                            Margin="100,75,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                <Button x:Name="bttNew" Margin="300,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/new.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding InsertCommand}"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding InsertCommand}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding InsertCommand}"/>
-                                    </Button.InputBindings>
-                                </Button>
-                                <Button x:Name="bttUpdate" Margin="325,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/edit.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding UpdateCommand}"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding UpdateCommand}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding UpdateCommand}"/>
-                                    </Button.InputBindings>
-                                </Button>
-                                <Button x:Name="bttDelete" Margin="350,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/delete.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding DeleteCommand}"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding DeleteCommand}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding DeleteCommand}"/>
-                                    </Button.InputBindings>
-                                </Button>
-                                <Button x:Name="bttCancel" Margin="375,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/refresh.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding CancelCommand}"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding CancelCommand}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding CancelCommand}"/>
-                                    </Button.InputBindings>
-                                </Button>
-                                <Button x:Name="bttSave" Margin="400,75,0,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/save.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SaveCommand}"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding SaveCommand}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding SaveCommand}"/>
-                                    </Button.InputBindings>
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                    <StackPanel Height="350" Width="475" Orientation="Horizontal" Margin="25,15">
-                        <Border BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="4" Height="350" Width="475">
-                            <Grid>
-                                <Label   x:Name="lblProveedor" Content="Proveedor: " Margin="25,25,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtProveedorCodigo" Tag="MAR.PROVEE" 
-                                         Text="{Binding MarcaSelectedItem.PROVEE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionCodigoConverter}}"
-                                         Margin="125,25,0,0" Height="25" Width="50"  HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="LostFocus">
-                                            <i:InvokeCommandAction Command="{Binding CodigoProveedorMarcaLostFocus}" 
-                                                                   CommandParameter="{Binding ElementName=txtProveedorCodigo, Path=Text}">
-                                            </i:InvokeCommandAction>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
-                                <TextBox x:Name="txtProveedorDescripcion" Tag="PRO.NOMBRE" Style="{StaticResource TextBoxStyle}"
-                                         Text="{Binding ProveedorMarcaSelectedItem.NOMBRE, UpdateSourceTrigger=PropertyChanged}"
-                                         Margin="175,25,0,0" Height="25" Width="250" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True"/>
-
-                                <Button Margin="425,25,25,0" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Image Source="/HelperModule;component/Images/search.png" HorizontalAlignment="Right"/>
-                                    <Button.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="proveedorMarcaDataGridUserControl"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="proveedorMarcaDataGridUserControl"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ShowMarcaUserControlCommand}" CommandParameter="proveedorMarcaDataGridUserControl"/>
-                                    </Button.InputBindings>
-                                </Button>
-
-                                <Label   x:Name="lblCondiciones" Content="Condiciones: " Margin="25,50,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtCondiciones" Tag="MAR.CONDICIONES" TextWrapping="Wrap" AcceptsReturn="True"
-                                         Text="{Binding MarcaSelectedItem.CONDICIONES, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
-                                         Margin="125,50,0,0" Height="100" Width="325" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"/>
-
-                                <Label   x:Name="lblPactadas" Content="Pactadas con: " Margin="25,150,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtPactadas" Tag="MAR.PACTADAS" 
-                                         Text="{Binding MarcaSelectedItem.PACTADAS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
-                                         Margin="125,150,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                <Label   x:Name="lblInterlocutor" Content="Interlocutor: " Margin="25,175,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtInterlocutor" Tag="MAR.LOCUTOR"
-                                         Text="{Binding MarcaSelectedItem.LOCUTOR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
-                                         Margin="125,175,0,0" Width="325" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                <Label   x:Name="lblFechaMarca" Content="Fecha Marca: " Margin="25,200,0,0" Width="100" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <DatePicker x:Name="dtpckFechaMarca" Tag="MAR.FECHA" 
-                                            SelectedDate="{Binding MarcaSelectedItem.FECHA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy/MM/dd}" 
-                                            Margin="125,200,0,0" Width="175" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                <Label   x:Name="lblObservaciones" Content="Observaciones: " Margin="25,225,0,0" Width="125" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="txtObservaciones" Tag="MAR.OBS" TextWrapping="Wrap" AcceptsReturn="True"
-                                         Text="{Binding MarcaSelectedItem.OBS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource sqlInjectionConverter}}" 
-                                         Margin="125,225,0,0" Height="100" Width="325" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"/>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </StackPanel>
             </WrapPanel>
-        </Grid>
-    </GroupBox>
+                <Syncfusion:SfDataGrid Grid.Row="0"
+                                       Grid.Column="1"
+                                       Grid.RowSpan="2"
+                                   x:Name="InvoiceSummary"                       
+                                   ColumnSizer="Star"
+                                   AllowDraggingColumns="True"
+                                   AllowEditing="False"
+                                   AllowFiltering="True"
+                                   AllowResizingColumns="True"
+                                   AllowSorting="True"
+                                   AllowGrouping="True"
+                                   ShowGroupDropArea="True"
+                                   NavigationMode="Row"
+                                   ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   AutoGenerateColumns="False">
+                    <Syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Syncfusion:SfDataGrid.Resources>
+                    <i:Interaction.Behaviors>
+                        <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                    <Syncfusion:SfDataGrid.Columns>
+                        <Syncfusion:GridTextColumn HeaderText="Codigo" 
+                                               MappingName="Code" 
+                                               TextAlignment="Left"
+                                               AllowFiltering="True"                                
+                                               AllowEditing="True"
+                                               AllowGrouping="True"/>
+                      
+                        <Syncfusion:GridTextColumn HeaderText="Marca" 
+                                               MappingName="Name" 
+                                               TextAlignment="Left"
+                                               AllowEditing="False"
+                                               AllowGrouping="True"
+                     
+                    />
+                    </Syncfusion:SfDataGrid.Columns>
 
+                </Syncfusion:SfDataGrid>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </UserControl>
 

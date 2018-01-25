@@ -15,7 +15,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the COD_MOT property.
     /// </summary>
-        [PrimaryKey]
+        [FieldSize("2")]
         [Key]
 		public byte COD_MOT { get; set; } 
 	/// <summary>
