@@ -32,7 +32,10 @@ namespace HelperModule.ViewModels
             if (activitiesDto != null)
             {
                 activitiesDto.Code = activities.Substring(0, 4);
+                payLoad.DataObject = activitiesDto;
+
             }
+            
             return payLoad;
         }
         

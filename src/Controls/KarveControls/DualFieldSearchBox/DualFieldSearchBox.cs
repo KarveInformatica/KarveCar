@@ -38,11 +38,10 @@ namespace KarveControls
       
     public partial class DualFieldSearchBox : TextBox
     {
-
-
-        // private SfDataGrid MagnifierGrid = new SfDataGrid();
-        // most of the shared ones shall be moved as attached properties 
-        private Logger logger = LogManager.GetCurrentClassLogger();
+        
+    // private SfDataGrid MagnifierGrid = new SfDataGrid();
+    // most of the shared ones shall be moved as attached properties 
+    private Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         ///  Magnifier command dependency property.
         /// </summary>
@@ -739,6 +738,7 @@ namespace KarveControls
         private ControlExt.DataType _dataAllowedSecond;
         private readonly ComponentFiller _componentFiller;
         private bool _firstSelection = true;
+        private bool _bootUp = true;
         private bool _textMode = false;
         private TextBox SearchTextFirst;
         private TextBox SearchTextSecond;
@@ -787,9 +787,12 @@ namespace KarveControls
             if (MagnifierGrid != null)
             {
                 MagnifierGrid.SelectionChanged += MagnifierGrid_OnSelectionRowChanged;
+                
              //   MagnifierGrid.AutoGeneratingColumn += MagnifierGrid_AutoGeneratingColumn; ;
             }
-          // RaiseMagnifierPressEvent();
+            _bootUp = true;
+           // RaiseKeyAssist();
+           // RaiseMagnifierPressEvent();
            // this.Res
           //  OnResize(EventArgs.Empty);
         }
@@ -802,18 +805,7 @@ namespace KarveControls
                 e.Cancel = true;
             }     
         }
-
-        private void MagnifierGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var grid = 1;
-        }
-
-        private void MagnifierGrid_AutoGenerating(object sender, AutoGeneratingColumnArgs autoGeneratingColumnArgs)
-        {
-           var sfDataGrid = MagnifierGrid;
-           double i = autoGeneratingColumnArgs.Column.Width;
-        }
-
+        
        private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchTxtFirst = SearchTextFirst.Text;
@@ -895,10 +887,13 @@ namespace KarveControls
             set
             {
                 SetValue(SourceViewDependencyProperty, value);
-                if (_buttonManifierState == 1)
+               
+                if ((_buttonManifierState == 1))
                 {
                     Popup.IsOpen = true;
                 }
+                
+                
             }
         }
         /// <summary>
@@ -1131,11 +1126,16 @@ namespace KarveControls
                 {
                     HandleSourceViewAsEnumerable(enumerableValue, DataSource);
                 }
+                if (_bootUp)
+                {
+                    _bootUp = false;
+                    return;
+                }
                 if (MagnifierGrid != null)
                 {
 
 //                    IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
-                    MagnifierGrid.ItemsSource = e.NewValue;
+                    MagnifierGrid.ItemsSource = new GridVirtualizingCollectionView(enumerableValue);
                     
                     if (_buttonManifierState == 1)
                     {
@@ -1146,6 +1146,7 @@ namespace KarveControls
 
                             _buttonManifierState = 0;
                         }
+                        
                         return;
                     }
                     
@@ -1181,6 +1182,11 @@ namespace KarveControls
 
         private void RaiseKeyAssist()
         {
+            /*
+            if ((Popup != null) && Popup.IsOpen)
+            {
+                return;
+            }*/
             if (string.IsNullOrEmpty(this.AssistQuery))
             {
                 AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
@@ -1208,6 +1214,8 @@ namespace KarveControls
         }
         private void RaiseMagnifierPressEvent()
         {
+            if (this.Popup.IsOpen)
+                return;
             MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
             if (string.IsNullOrEmpty(this.AssistQuery))
             {
@@ -1346,11 +1354,13 @@ namespace KarveControls
         }
         private void OnTextContentSecondPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            SearchTextFirst = GetTemplateChild("PART_SearchTextSecond") as TextBox;
-
             if (SearchTextSecond != null)
             {
-               SearchTextSecond.Text = Convert.ToString(e.NewValue);
+                var value = Convert.ToString(e.NewValue);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SearchTextSecond.Text = value;
+                }
             }
           
 
@@ -1412,8 +1422,16 @@ namespace KarveControls
             }
             _componentFiller.FillDataObject(textContentFirst.ToString(), DataFieldFirst, ref _dataSource);
 
-            TextContentFirst = textContentFirst.ToString();
-            TextContentSecond = textContentSecond.ToString();
+            TextContentFirst = Convert.ToString(textContentFirst);
+            if (textContentSecond is string)
+            {
+                TextContentSecond = textContentSecond as string;
+            }
+            else
+            {
+                TextContentSecond = Convert.ToString(textContentSecond);
+
+            }
 
             if (Popup.IsOpen)
             {

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveControls;
+using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
 
@@ -32,8 +33,8 @@ namespace MasterModule.ViewModels
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "30",
                     TableName = "COMISIO",
-                    AssistProperties = "Numero,Nombre",
-                    SourceView =  new DataTable(),
+                    AssistProperties = "Code,Name",
+                    SourceView =  new ObservableCollection<ResellerDto>(),
                     LabelVisible = true,
                     ButtonImage = MasterModuleConstants.ImagePath,
                     IsReadOnlyFirst = true
@@ -47,7 +48,7 @@ namespace MasterModule.ViewModels
                     DataField = "MERCADO",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
-                    AssistProperties = "Code,Nombre",
+                    AssistProperties = "Code,Name",
                     SourceView = new object(),
                     DataSource = new object(),
                     LabelVisible = true,
@@ -59,7 +60,7 @@ namespace MasterModule.ViewModels
                     AssistTableName="NEGOCIO",
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
-                    AssistProperties = "Code,Negocio",
+                    AssistProperties = "Code,Name",
                     DataAllowed = ControlExt.DataType.Any,
                     DataField = "NEGOCIO",
                     SourceView = new DataTable(),
@@ -78,7 +79,7 @@ namespace MasterModule.ViewModels
                     AssistDataFieldSecond = "NOMBRE",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
-                    AssistProperties = "Canal,Nombre",
+                    AssistProperties = "Code,Name",
                     DataAllowed = ControlExt.DataType.Any,
                     SourceView = new DataTable(),
                     DataSource = new object(),
@@ -92,7 +93,7 @@ namespace MasterModule.ViewModels
                     AssistTableName = "CLAVEPTO",
                     AssistDataFieldFirst = "COD_CLAVE",
                     AssistDataFieldSecond = "NOMBRE",
-                    AssistProperties = "Numero,Nombre",
+                    AssistProperties = "Numero, Nombre",
                     DataAllowed = ControlExt.DataType.Any,
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
@@ -111,7 +112,7 @@ namespace MasterModule.ViewModels
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
                     DataAllowed = ControlExt.DataType.Any,
-                    AssistProperties = "Numero,Nombre",
+                    AssistProperties = "Code,Name",
                     SourceView =  new DataTable(),
                     DataSource = new object(),
                     LabelVisible = true,
@@ -126,7 +127,7 @@ namespace MasterModule.ViewModels
                     AssistDataFieldSecond = "NOM_ZONA",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "300",
-                    AssistProperties = "Code,Nombre",
+                    AssistProperties = "Codigo,Nombre",
                     SourceView = new DataTable(),
                     DataSource = new object(),
                     ButtonImage = MasterModuleConstants.ImagePath,

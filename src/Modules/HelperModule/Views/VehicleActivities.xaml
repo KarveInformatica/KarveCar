@@ -35,7 +35,7 @@
                                          LabelTextWidth="60"
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="Name"
+                                         DataSourcePath="Activity"
                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                                          TextContentWidth="100"></karveControls:DataField>
                     <kc:DataFieldCheckBox Content="Afecta al calcolo de Ocupación"   
@@ -56,6 +56,10 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
                     <syncfusion:SfDataGrid.Resources>
@@ -68,6 +72,7 @@
                     <i:Interaction.Behaviors>
                         <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </i:Interaction.Behaviors>
+                   
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTextColumn HeaderText="Code" 
                                            MappingName="Code" 
@@ -76,13 +81,13 @@
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
                         <syncfusion:GridTextColumn HeaderText="Nombre" 
-                                           MappingName="Nombre" 
+                                           MappingName="Activity" 
                                            TextAlignment="Left"
                                            AllowEditing="True"
                                            AllowGrouping="True"
                                            />
                     </syncfusion:SfDataGrid.Columns>
-
+               
                 </syncfusion:SfDataGrid>
 
           

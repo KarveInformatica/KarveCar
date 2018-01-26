@@ -43,9 +43,9 @@ namespace KarveCar
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
-            catalog.AddModule(typeof(MasterModule.MasterModule)); 
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(HelperModule.HelperModule));
+            catalog.AddModule(typeof(MasterModule.MasterModule));
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
@@ -66,9 +66,9 @@ namespace KarveCar
                 // The dal service is used to access to the database
                 logger.Debug("Resolving configuration container");
 
-               // Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
-               // Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
-               // Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
+               Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
+                Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
+                Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];

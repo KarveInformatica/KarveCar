@@ -34,7 +34,7 @@ namespace HelperModule.ViewModels
             if (dto != null)
             {
                 string codeId = await helperDal.GetMappedUniqueId<BudgetKeyDto, CLAVEPTO>(dto);
-                dto.Code= codeId.Substring(0, 3);
+                dto.Code= codeId.Substring(0, 2);
                 payLoad.DataObject = dto;
             }
             return payLoad;

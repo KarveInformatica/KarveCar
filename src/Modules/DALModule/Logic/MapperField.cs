@@ -65,6 +65,30 @@ namespace DataAccessLayer.Logic
             CountryDto dto = new CountryDto();
             dto.Code = source.SIGLAS;
             dto.CountryName = source.PAIS;
+            dto.Language = source.IDIOMA_PAIS;
+            if (source.INTRACO.HasValue)
+            {
+                var value = source.INTRACO.Value;
+                dto.IsIntraco = value == 1;
+            }
+            return dto;
+        }
+    }
+    /// <summary>
+    /// Dto to POCO  converter for the country domain object
+    /// </summary>
+    public class Country2PocoConverter : ITypeConverter<CountryDto, Country>
+    {
+        public Country Convert(CountryDto source, Country destination, ResolutionContext context)
+        {
+            Country dto = new Country();
+            dto.SIGLAS = source.Code;
+            dto.PAIS = source.CountryName;
+            dto.IDIOMA_PAIS = source.Language;
+            if (source.IsIntraco)
+            {
+                dto.INTRACO = 1;
+            }
             return dto;
         }
     }
@@ -222,6 +246,23 @@ namespace DataAccessLayer.Logic
             return destinationDto;
         }
     }
+    /// <summary>
+    /// POCO to Dto converter for the market domain object
+    /// </summary>
+    public class Poco2MercadoConverter : ITypeConverter<MercadoDto, MERCADO>
+    {
+
+        public MERCADO Convert(MercadoDto source, MERCADO destination, ResolutionContext context)
+        {
+            MERCADO destinationDto = new MERCADO();
+            destinationDto.CODIGO = source.Code;
+            destinationDto.NOMBRE = source.Name;
+            destinationDto.ULTMODI = source.LastModification;
+            destinationDto.USUARIO = source.User;
+            return destinationDto;
+        }
+    }
+
     /// <summary>
     /// POCO to Dto converter for the client domain object
     /// </summary>
@@ -503,10 +544,13 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
                 cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
+                cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
+
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing( new ZonaOfiConverter());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
+                cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
                 cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
                 cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
                 cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
@@ -522,7 +566,41 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
-
+                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
+                {
+                    var tipoComi = new CommissionTypeDto();
+                    tipoComi.Codigo = src.NUM_TICOMI;
+                    tipoComi.Nombre = src.NOMBRE;
+                    tipoComi.LastModification = src.ULTMODI;
+                    tipoComi.User = src.USUARIO;
+                    return tipoComi;
+                });
+ 
+                cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
+                {
+                    var tipoComi = new SupplierTypeDto();
+                    tipoComi.Codigo = src.NUM_TIPROVE;
+                    tipoComi.Nombre = src.NOMBRE;
+                    return tipoComi;
+                });
+                cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
+                {
+                    var model = new SupplierTypeDto();
+                    model.Codigo = src.NUM_TIPROVE;
+                    model.Nombre = src.NOMBRE;
+                    model.UltimaModifica = src.ULTMODI;
+                    model.Usuario = src.USUARIO;
+                    return model;
+                });
+                cfg.CreateMap<SupplierTypeDto, TIPOPROVE>().ConvertUsing(src =>
+                {
+                    var model = new TIPOPROVE();
+                    model.NOMBRE = src.Nombre;
+                    model.NUM_TIPROVE = src.Codigo;
+                    model.USUARIO = src.Usuario;
+                    model.ULTMODI = src.UltimaModifica;
+                    return model;
+                });
                 cfg.CreateMap<GRID_SERIALIZATION, GridSettingsDto>().ConvertUsing(src =>
                 {
                     var model = new GridSettingsDto();
@@ -555,6 +633,41 @@ namespace DataAccessLayer.Logic
                     var model = new VEHI_ACC();
                     model.COD_ACC = Convert.ToInt32(src.Code);
                     model.NOM_ACC= src.Name;
+                    return model;
+                });
+                cfg.CreateMap<ACTIVEHI, VehicleActivitiesDto>().ConvertUsing(src =>
+                {
+                    var model = new VehicleActivitiesDto();
+                    model.Code = src.NUM_ACTIVEHI;
+                    model.Activity = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    model.ActivitySigle = src.SIGLAS_ACT;
+                    var c = Convert.ToInt16(src.CALCULO);
+                    model.Compute = (c == 0);
+                    model.ActityAlquiler = src.ACTIVI_ALQ;
+                    model.Assurance = src.SEGURO_ANUAL;
+                    
+                    return model;
+                });
+                cfg.CreateMap<VehicleActivitiesDto, ACTIVEHI>().ConvertUsing(src =>
+                {
+                    var model = new ACTIVEHI();
+                    model.NOMBRE = src.Activity;
+                    model.CALCULO = src.Compute.ToString();
+                    model.ACTIVI_ALQ = src.ActityAlquiler;
+                    model.ULTMODI = src.LastModification;
+                    model.USUARIO = src.User;
+                    model.SEGURO_ANUAL = src.Assurance;
+                    model.SIGLAS_ACT = src.ActivitySigle;
+        
+                    return model;
+                });
+                cfg.CreateMap<VehicleToolDto, VEHI_ACC>().ConvertUsing(src =>
+                {
+                    var model = new VEHI_ACC();
+                    model.COD_ACC = Convert.ToInt32(src.Code);
+                    model.NOM_ACC = src.Name;
                     return model;
                 });
 
@@ -1021,7 +1134,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<BusinessDto, NEGOCIO>().ConvertUsing(src =>
                 {
                     var model = new NEGOCIO();
-                    model.CODIGO = src.Name;
+                    model.CODIGO = src.Code;
                     model.NOMBRE = src.Name;
                     model.ULTMODI = src.LastModification;
                     model.USUARIO = src.User;

@@ -33,7 +33,13 @@
                 <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                          Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
-            </StackPanel>
+                <TextBlock Text="Swift" Width="64" Height="25" Margin="5,19,0,19" 
+                ></TextBlock>
+                    <TextBox x:Name="Swift"  Width="230" Height="25" 
+                         karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                         Text="{Binding HelperDto.Swift, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
+                    <TextBlock Text="{Binding State,Mode=OneWay}" HorizontalAlignment="Right"></TextBlock>
+                </StackPanel>
             <Syncfusion:SfDataGrid Grid.Row="1" 
                                    x:Name="Summary"                       
                                    ColumnSizer="Star"

@@ -21,7 +21,7 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  This is unique for all class of the grid identifiers.
         /// </summary>
-        private static long _gridIdentifier;
+      
         private KarveGridParameters _bankGridParm = new KarveGridParameters();
         /// <summary>
         ///  ClientBanksViewModel
@@ -31,8 +31,8 @@ namespace HelperModule.ViewModels
         /// <param name="manager"> event manager to send and put messages.</param>
         public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(GenericSql.BanksSql, dataServices, region, manager)
         {
-            _gridIdentifier = GenerateGridId();
-            GridIdentifier = _gridIdentifier;
+            
+            GridIdentifier = KarveCommon.Generic.GridIdentifiers.BankGrid;
         }
         
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)

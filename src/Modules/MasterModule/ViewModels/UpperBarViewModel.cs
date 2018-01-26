@@ -13,6 +13,7 @@ using KarveDataServices;
 using Prism.Commands;
 using Prism.Mvvm;
 using AutoMapper;
+using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommonInterfaces;
 using KarveDataServices.DataObjects;
@@ -36,7 +37,7 @@ namespace MasterModule.ViewModels
         private string _assistDataFieldFirst = "";
         private string _assistDataFieldSecond = "";
         private string _assistTable = "";
-     
+        protected IMapper _mapper;
         private ICommissionAgent _commissionAgentCurrent;
 
         /// <summary>
@@ -62,24 +63,8 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitMapping()
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
-                {
-                    var tipoComi = new CommissionTypeDto();
-                    tipoComi.Codigo = src.NUM_TICOMI;
-                    tipoComi.Nombre = src.NOMBRE;
-                    return tipoComi;
-                });
-                cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
-                {
-                    var tipoComi = new SupplierTypeDto();
-                    tipoComi.Codigo = src.NUM_TIPROVE;
-                    tipoComi.Nombre = src.NOMBRE;
-                    return tipoComi;
-                });
-
-            });            
+            _mapper = MapperField.GetMapper();
+           
             _status = UpperBarViewModelState.Init;
         }
         /// <summary>
@@ -230,8 +215,8 @@ namespace MasterModule.ViewModels
                     var currentCode = agentValue.Codigo;
                     string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",
                         currentCode);
-                    var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(value);
-                    SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                     SourceView= await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(value);   
+                    
                 }
             }
             else

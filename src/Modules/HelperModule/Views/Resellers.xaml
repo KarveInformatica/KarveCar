@@ -119,6 +119,8 @@
                                            AllowGrouping="True"
                                            ShowGroupDropArea="True"
                                            NavigationMode="Row"
+                                           
+                                           
                                            ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            AutoGenerateColumns="False">
                         <i:Interaction.Behaviors>

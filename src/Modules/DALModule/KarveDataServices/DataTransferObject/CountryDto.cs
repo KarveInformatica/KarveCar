@@ -26,7 +26,7 @@ namespace KarveDataServices.DataTransferObject
             }
         }
 
-        public byte Language { set; get; }
+        public byte? Language { set; get; }
         /// <summary>
         ///  CountryCode
         /// </summary>

@@ -101,8 +101,9 @@ namespace MasterModule.ViewModels
         private IEnumerable<DeliveringWayDto> _deliveryWayDto;
         protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+     //   private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
 
-        public ObservableCollection<CountryDto> CountryDto
+    public ObservableCollection<CountryDto> CountryDto
         {
             set { _countryDto1 = value; RaisePropertyChanged(); }
             get { return _countryDto1; }

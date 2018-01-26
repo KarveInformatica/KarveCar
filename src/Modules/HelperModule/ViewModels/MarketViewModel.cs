@@ -26,7 +26,7 @@ namespace HelperModule.ViewModels
             marketDto = payLoad.DataObject as MercadoDto;
             if (marketDto != null)
             {
-                marketDto.Code = activities.Substring(0, 4);
+                marketDto.Code = activities.Substring(0, 2);
             }
             return payLoad;
         }

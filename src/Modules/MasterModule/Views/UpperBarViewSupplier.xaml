@@ -2,62 +2,49 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:interactivity="http://prismlibrary.com/"
+             xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-
-        </Grid.Resources>
+        
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
             <StackPanel Name="ContextLayout" Orientation="Horizontal">
 
                 <karveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
                                          TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataFieldChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
-                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
+                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                                         LabelVisible="True">
+                 
                 </karveControls:DataField>
-                <karveControls:DataField x:Name="Persona" TextContentWidth="250" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" LabelTextWidth="50" 
+                <karveControls:DataField x:Name="Persona" TextContentWidth="250" 
+                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" LabelTextWidth="50" 
                                          LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataFieldChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
-                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                   
                 </karveControls:DataField>
-                <karveControls:DataField x:Name="Nif" TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataFieldChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
-                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                <karveControls:DataField x:Name="Nif" 
+                                         TextContentWidth="100" 
+                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                    
                 </karveControls:DataField>
                 <karveControls:DualFieldSearchBox x:Name="TipoProveSearch" 
-                                                  TextContentSecondWidth="100"
+                                                  TextContentSecondWidth="180"
                                                   TextContentFirstWidth="50"
                                                   LabelTextWidth="100"
                                                   AssistQuery="{Binding AssistQuery, Mode=OneWay}"
                                                   LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
+                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                                   LabelVisible="True"
-                                                  AssistProperties="Code,Nombre"
+                                                  AssistProperties="Codigo,Nombre"
                                                   MagnifierCommand="{Binding UpperBarSupplierAssist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -66,22 +53,6 @@
                                                   AssistDataFieldFirst="NUM_TIPROVE"
                                                   AssistDataFieldSecond="NOMBRE"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
-                    <i:Interaction.Triggers>
-
-                        <i:EventTrigger EventName="MagnifierPress">
-
-                            <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
-                                                       TriggerParameterPath="AssistParameters" />
-
-                        </i:EventTrigger>
-
-                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                            <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
-                                                       TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-
-                    </i:Interaction.Triggers>
-
                 </karveControls:DualFieldSearchBox>
 
             </StackPanel>

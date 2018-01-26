@@ -20,6 +20,7 @@ namespace DataAccessLayer.DataObjects
         /// <summary>
         ///  Set or get the CODIGO property.
         /// </summary>
+        [FieldSize("2")]
         [Key]
         public string CODIGO { get; set; }
 

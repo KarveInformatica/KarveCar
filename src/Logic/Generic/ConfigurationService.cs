@@ -34,6 +34,15 @@ namespace KarveCar.Logic.Generic
             this._mainWindow = null;
         }
         /// <summary>
+        ///  Configuratin service
+        /// </summary>
+        /// <param name="settings"></param>
+        public ConfigurationService(IUserSettings settings)
+        {
+            _userSettings = settings;
+        }
+
+        /// <summary>
         ///  This returns the Shell.
         /// </summary>
         public Window Shell

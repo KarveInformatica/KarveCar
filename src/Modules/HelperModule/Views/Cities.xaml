@@ -28,33 +28,35 @@
                         LabelText="Pais"
                         LabelTextWidth="80"
                         DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        AssistTableName="COUNTRY"
-                        AssistProperties="Code,Name"
-                        DataFieldFirst="Language"
-                        SourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        AssistTableName="PAIS"
+                        AssistDataFieldFirst="SIGLAS"
+                        AssistDataFieldSecond="PAIS"
+                        AssistProperties="Code,CountryName"
+                        DataFieldFirst="Country.Code"
+                        SourceView="{Binding CountryCitiesDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                         MaxHeight="30"
                         MagnifierCommand="{Binding AssistCountryCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                         TextContentFirstWidth="60"
-                        TextContentSecondWidth="100">
+                        TextContentSecondWidth="150">
                     </karveControls:DualFieldSearchBox>
                     <karveControls:DualFieldSearchBox
                         LabelText="Codigo Postal"
                         LabelTextWidth="80"
                         DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         AssistTableName="CP"
-                        AssistProperties="City.Code,City.Poblacion"
+                        AssistProperties="Code,Poblacion"
                         DataFieldFirst="Code"
-                        SourceView="{Binding CityCountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        SourceView="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                         MaxHeight="30"
                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                         TextContentFirstWidth="60"
-                        TextContentSecondWidth="100">
+                        TextContentSecondWidth="150">
                     </karveControls:DualFieldSearchBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <TextBlock Text="Poblacion" Width="80" Height="25" Margin="10,5,0,0"/>
+                    <TextBlock Text="Poblacion" Width="92" Height="25" Margin="10,5,0,0"/>
                         <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
                                  karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                  Text="{Binding HelperDto.Poblacion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>

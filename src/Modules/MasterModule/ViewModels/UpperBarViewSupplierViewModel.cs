@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataAccessLayer.DataObjects;
@@ -26,7 +27,7 @@ namespace MasterModule.ViewModels
         private string _currentName;
         private ISupplierData _currentSupplier;
         private ICommand _startUpCommand;
-        
+        private IMapper _mapper;
 
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
@@ -51,17 +52,8 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitMapping()
         {
-            Mapper.Initialize(cfg =>
-            cfg.CreateMap<TIPOPROVE, KarveDataServices.DataTransferObject.SupplierTypeDto>().ConvertUsing(src =>
-            {
-                var tipoProvee = new SupplierTypeDto();
-                tipoProvee.Codigo = src.NUM_TIPROVE;
-                tipoProvee.Nombre = src.NOMBRE;
-                tipoProvee.Usuario = src.USUARIO;
-                tipoProvee.UltimaModifica = src.ULTMODI;
-                return tipoProvee;
-            })
-            );
+            _mapper = MapperField.GetMapper();
+
             _status = UpperBarViewModelState.Init;
         }
         /// <summary>
@@ -118,7 +110,8 @@ namespace MasterModule.ViewModels
                     supplierValue.Number);
                 IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
                 var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
-                var dto = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
+               
+                var dto = _mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
                 SourceView = dto;
             }
         }
@@ -135,7 +128,7 @@ namespace MasterModule.ViewModels
 
                 string assistQuery = currentData[AssistQuery] as string;
                 var tipoProve = await helperDataServices.GetAsyncHelper<TIPOPROVE>(assistQuery);
-                SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(tipoProve);
+                SourceView = _mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(tipoProve);
                 _status = UpperBarViewModelState.Loaded;
             }
 

@@ -110,6 +110,8 @@ namespace HelperModule.ViewModels
             if (value != null)
             {
                 HelperDto = value;
+                PreviousValue = CurrentValue;
+                CurrentValue = value;
             }
         }
 
@@ -139,7 +141,9 @@ namespace HelperModule.ViewModels
                     .ExecuteAsyncDelete<Dto, Entity>(cv);
                 if (entityDeleted)
                 {
-                    Update();
+                    HelperView.Remove(cv);
+                    HelperDto = HelperView.FirstOrDefault();
+                    //Update();
 
                 }
                 else
@@ -238,9 +242,12 @@ namespace HelperModule.ViewModels
             bool entityInserted = true;
             // here we shall use navigation for creating a new view.
             Dto dto = new Dto();
+            payLoad.HasDataObject = true;
+            payLoad.DataObject = dto;
             await SetCode(payLoad, DataServices);
             SetModification(ref payLoad);
             CurrentValue = dto;
+            HelperDto = dto;
             PreviousValue = dto;
             State = BaseHelperViewModel.InsertState;
             return entityInserted;
@@ -278,6 +285,11 @@ namespace HelperModule.ViewModels
                 if (!value)
                 {
                     State = "Error in insertion/update";
+                }
+                else
+                {
+                    HelperView.Add(currentDto);
+
                 }
                SaveState = value;
                State = "";

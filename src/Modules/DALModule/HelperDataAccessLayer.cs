@@ -172,8 +172,8 @@ namespace DataAccessLayer
                             bool present =  connection.IsPresent<T>(entityValue);
                             if (!present)
                             {
-                                // FIXME shall be > 0.
-                                updateAsync = await connection.InsertAsync(entityValue) == 0;
+                             
+                                updateAsync = await connection.InsertAsync(entityValue) > 0;
                             }
                             else
                             {

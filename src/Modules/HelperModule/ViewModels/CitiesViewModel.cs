@@ -26,6 +26,7 @@ namespace HelperModule.ViewModels
       
         private IEnumerable<CityCountryDto> _cityCountryDto = new ObservableCollection<CityCountryDto>();
         private static long _gridIdentifier = 0;
+        private ObservableCollection<CountryDto> _countryCities;
 
         /// <summary>
         ///  CitiesViewModel
@@ -43,8 +44,33 @@ namespace HelperModule.ViewModels
             }
             GridIdentifier = _gridIdentifier;
             LoadAllCountries();
+            SetCurrentCountryDto();
         }
-       
+
+        private void SetCurrentCountryDto()
+        {
+            var value = CityCountryDto;
+            var country = from citycountry in value
+                where citycountry.City.Code == HelperDto.Code
+                select citycountry;
+            var cval = country.FirstOrDefault();
+            if (cval != null)
+            {
+                PreviousValue = HelperDto;
+                CurrentValue.Country = new CountryDto()
+                {
+                    Code = cval.Country.Code,
+                    CountryCode = cval.Country.CountryCode,
+                    CountryName = cval.Country.CountryName,
+                    IsIntraco = cval.Country.IsIntraco,
+                    Language = cval.Country.Language,
+                    ShortName = cval.Country.ShortName
+                };
+                HelperDto = CurrentValue;
+
+            }
+        }
+
         /// <summary>
         ///  Country Data Trasnfer object
         /// </summary>
@@ -53,10 +79,16 @@ namespace HelperModule.ViewModels
         {
             IHelperDataServices dataServices = DataServices.GetHelperDataServices();
             var value = await dataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
-            CountryDto = new ObservableCollection<CountryDto>(value);
-            LoadAllCountries();
+            CountryCitiesDto = new ObservableCollection<CountryDto>(value);
+          //  LoadAllCountries();
         }
-        public ObservableCollection<CountryDto> CountryDto { get; set; }
+
+        public ObservableCollection<CountryDto> CountryCitiesDto
+        {
+            get { return _countryCities; }
+            set { _countryCities = value; RaisePropertyChanged(); }
+                
+        }
         /// <summary>
         ///  AssistCommand to be executed
         /// </summary>
@@ -101,6 +133,7 @@ namespace HelperModule.ViewModels
                     }
                 };
             CityCountryDto= new ObservableCollection<CityCountryDto>(list);
+
         }
 
         /// <summary>

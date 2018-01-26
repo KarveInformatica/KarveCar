@@ -43,7 +43,9 @@
                     LabelTextWidth="80"
                     DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     AssistTableName="LANGUAGE"
-                    AssistProperties="Code,Name"
+                    AssistProperties="Codigo,Nombre"
+                    AssistDataFieldFirst="CODIGO"
+                    AssistDataFieldSecond="NOMBRE"
                     DataFieldFirst="Language"
                     SourceView="{Binding LanguageDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
                     MaxHeight="30"
@@ -71,6 +73,10 @@
                                    AllowGrouping="True"
                                    ShowGroupDropArea="True"
                                    NavigationMode="Row"
+                                   karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                    ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    AutoGenerateColumns="False">
                 <Syncfusion:SfDataGrid.Resources>

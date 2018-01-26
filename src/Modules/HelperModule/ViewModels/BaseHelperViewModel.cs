@@ -35,9 +35,10 @@ namespace HelperModule.ViewModels
         
 
        
-        protected const string InsertState = "INSERT STATE";
-        protected const string UpdateState = " UPDATE STATE";
-        protected const string DefaultState = "";
+        protected const string InsertState = "Estado Agregar.";
+        protected const string UpdateState = " Estado Modificar.";
+        protected const string DeletedSuccess = "Valor borrado con exito.";
+        protected const string DefaultState = "Estado consultar.";
 
         /// <summary>
         ///  BaseHelperViewModel. 

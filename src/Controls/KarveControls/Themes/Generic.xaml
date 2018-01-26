@@ -6,6 +6,7 @@
   xmlns:local="clr-namespace:KarveControls"
   xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
@@ -135,7 +136,7 @@
                                 <TextBox x:Name="PART_SearchTextSecond" 
                                          Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}" 
-                                         IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnly}"></TextBox>
+                                         ></TextBox>
 
                                 <StackPanel Background="Azure">
                                     <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
@@ -189,20 +190,19 @@
                                                 
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
                                                                        ColumnSizer="Star"
-                                                                       MinHeight="400" MinWidth="600"
+                                                                       MinHeight="600" MinWidth="800"
                                                                        Grid.Row="1"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
                                                                        AllowFiltering="True"
                                                                        AllowResizingColumns="True"
                                                                        AllowSorting="True"
-                                                                       AllowGrouping="True"
-                                                                       AutoGenerateColumns="True"                                                              
+                                                                       AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row" 
                                                                        Background="AliceBlue"                                                                       
                                                 >
-
+        
                                                     <Syncfusion:SfDataGrid.Resources>
                                                         <ResourceDictionary>
                                                             <ResourceDictionary.MergedDictionaries>
@@ -210,7 +210,13 @@
                                                             </ResourceDictionary.MergedDictionaries>
                                                         </ResourceDictionary>
                                                     </Syncfusion:SfDataGrid.Resources>
+                                                    <i:Interaction.Behaviors>
+                                                        <local:GridColumnFilterBehaviour 
+                                                            AssistProperties="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=AssistProperties}"
+                                                            ></local:GridColumnFilterBehaviour>
+                                                    </i:Interaction.Behaviors>
                                                 </Syncfusion:SfDataGrid>
+                                              <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"
                                                         Background="Black"
@@ -233,6 +239,7 @@
                                                                                     AnimationType="Gear" />
                                                     </StackPanel>
                                                 </Border>
+                                                -->
                                                 <Button Grid.Row="3" Margin="10" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpCloseCommand}">Close</Button>
 
                                                 
@@ -425,4 +432,5 @@
         </Setter>
     </Style>
 </ResourceDictionary>
+    
     
