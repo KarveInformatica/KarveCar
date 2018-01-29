@@ -41,10 +41,13 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>
 
-            <StackPanel Orientation="Vertical">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+         
 
-
-                <local:UpperBarViewVehicle Margin="100,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <local:UpperBarViewVehicle Grid.Row="0" Margin="100,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="MagnifierPress">
@@ -64,7 +67,7 @@
 
                     </interactivity:Interaction.Triggers>
                 </local:UpperBarViewVehicle>
-                <i:TabControl TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
+            <i:TabControl Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
                     <!-- <dragablz:TabablzControl.ItemContainerStyle>
                     <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
                         <Setter Property="Width" Value="100" />
@@ -77,6 +80,7 @@
                     <dragablz:InterTabController />
                 </dragablz:TabablzControl.InterTabController>
 -->
+                   
 
                     <i:TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <i:Grid>
@@ -144,9 +148,9 @@
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                            AssistDataFieldSecond="NOMBRE"
                                                            AssistDataFieldFirst="NUM_ACTIVEHI"
-                                                           AssistTableName="activi"
+                                                           AssistTableName="activehi"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           AssistProperties="Code, Nombre"
+                                                           AssistProperties="Code, Activity, Compute"
                                                            TextContentFirstWidth="40"
                                                            TextContentSecondWidth="180"
                                                            IsReadOnlySecond="True"
@@ -162,10 +166,10 @@
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            AssistQuery="{i:Binding Path=DataObject.AssistQueryOwner, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           AssistDataFieldFirst="NUM_PROPRIE"
+                                                           AssistDataFieldFirst="NUM_PROPIE"
                                                            AssistDataFieldSecond="NOMBRE"
                                                            AssistTableName="propie"
-                                                           AssistProperties="Code, Nombre"
+                                                           AssistProperties="Codigo, Nombre"
                                                            TextContentFirstWidth="40"
                                                            TextContentSecondWidth="180"
                                                            IsReadOnlySecond="True"
@@ -427,10 +431,10 @@
 
                     <i:TabItem x:Name="Reselling"  Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <i:StackPanel Orientation="Vertical">
-                            <vehicleViews:VehicleBuying/>
-                            <vehicleViews:VehicleSell/>
-                            <vehicleViews:VehicleLeasing/>
-                            <vehicleViews:RoadTaxes></vehicleViews:RoadTaxes>
+                        <vehicleViews:VehicleBuying Width="900" HorizontalAlignment="Left"/>
+                            <vehicleViews:VehicleSell Width="900" HorizontalAlignment="Left"/>
+                        <vehicleViews:VehicleLeasing Height="300" Width="900" HorizontalAlignment="Left"/>
+                        <vehicleViews:RoadTaxes Width="900" HorizontalAlignment="Left"></vehicleViews:RoadTaxes>
                             <!--          <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
                                ResetCommand="{i:Binding ResetCommand}"
                                DeleteCommand="{i:Binding DeleteCommand}"/>
@@ -439,8 +443,8 @@
 
                     </i:TabItem>
                     <i:TabItem x:Name="Assurance"  Header="{Binding Seguro, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                        <i:StackPanel Orientation="Vertical">
-                            <vehicleViews:GeneralAssurance/>
+                    <i:StackPanel Orientation="Vertical" >
+                        <vehicleViews:GeneralAssurance Width="900" HorizontalAlignment="Left"/>
                             <i:Grid>
                                 <i:Grid.ColumnDefinitions>
                                     <i:ColumnDefinition Width="auto"/>
@@ -528,7 +532,7 @@
                         <StackPanel Orientation="Vertical">
 
                             <GroupBox Header="{Binding lrbtnEmpresa,Source={StaticResource ResourceLanguage}}">
-                                <WrapPanel>
+                                <WrapPanel MaxWidth="900" HorizontalAlignment="Left">
                                     <kc:DataField HorizontalAlignment="Left"
                                                    LabelText="{Binding lrbtnEmpresa,Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="120"
@@ -556,11 +560,14 @@
                                                    TextContentSecondWidth="120"
                                                    AssistDataFieldFirst="CODIGO"
                                                    AssistDataFieldSecond="SUBLICEN"
+                                                   AssistTableName="OFICINA1"
+                                                   AssistProperties="Code,Name,CommercialName,Nif,Poblacion"
                                                    Margin="0,5,0,0"
-                                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                   SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                   AssistQuery="{Binding AssistQueryOffices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
+                                                   ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                                   SourceView="{Binding OtherOffice1Dto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  />
+                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding loficinaasignada, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="BASEASIG"
@@ -570,30 +577,35 @@
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
+                                                   AssistProperties="Code,Name,CommercialName,Nif,Poblacion"
                                                    AssistDataFieldFirst="CODIGO"
                                                    AssistDataFieldSecond="SUBLICEN"
-                                                   SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                   AssistQuery="{Binding AssistQueryOffices, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-
+                                                   AssistTableName="OFICINA2"
+                                                   SourceView="{Binding OtherOffice2Dto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 ></kc:DualFieldSearchBox>
                                     <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding Delegacion, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="CLI_DELEGA_FAC_V1"
-                                                     ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
-                                                 Margin="0,5,0,0"
-                                                       LabelTextWidth="120"
+                                                   ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
+                                                   Margin="0,5,0,0"
+                                                   LabelTextWidth="120"
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
                                                    AssistDataFieldFirst="CODIGO"
                                                    AssistDataFieldSecond="SUBLICEN"
+                                                   AssistTableName="OFICINA3"
+                                                   AssistProperties="Code,Name,CommercialName,Nif,Poblacion"
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    AssistQuery="{Binding AssistDelegaciones, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                   SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                   SourceView="{Binding OtherOffice3Dto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </WrapPanel>
                             </GroupBox>
 
                             <GroupBox Header="{Binding SituacionActual, Source={StaticResource ResourceLanguage}}">
-                                <WrapPanel>
+                            <WrapPanel MaxWidth="900" HorizontalAlignment="Left">
                                     <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lsituacion, Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -605,15 +617,17 @@
                                                    TextContentSecondWidth="120"
                                                    AssistDataFieldFirst="NOMBRE"
                                                    AssistDataFieldSecond="NUMERO"
-                                                   TableName="SITUACION"
+                                                   AssistTableName="SITUATION"
+                                                   AssistProperties="Code, Name"
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                   SourceView="{Binding AssistView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                   SourceView="{Binding CurrentSituationDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <Button x:Name="Compute"
                                         Margin="5,0,0,0"
                                         Height="24"
                                         Command="{Binding Recomumpute}" Content="{Binding Recalcular,Source={StaticResource ResourceLanguage}}"></Button>
-
-                                    <kc:DualFieldSearchBox HorizontalAlignment="Left"
+<!--
+                                <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lcliente,Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    DataFieldFirst="CLIENTE"
@@ -624,10 +638,12 @@
                                                    AssistDataFieldFirst="CODIGO"
                                                    AssistDataFieldSecond="NOMBRE"
                                                    Height="25"
-                                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                   SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                   AssistQuery="{Binding AssistQueryClients, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
+                                                   ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
+                                                   SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    
+                                </kc:DualFieldSearchBox>
+                                               
                                     <kc:DualFieldSearchBox HorizontalAlignment="Left"
                                                    LabelText="{Binding lcontracto,Source={StaticResource ResourceLanguage}}"
                                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -638,10 +654,12 @@
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
                                                    AssistDataFieldFirst="CODIGO"
-                                                   AssistDataFieldSecond="NOMBRE"        
+                                                   AssistDataFieldSecond="NOMBRE"
+                                                   MagnifierCommand="{i:Binding AssistCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                    SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    AssistQuery="{Binding AssistQueryClients, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                -->
                                     <kc:DataDatePicker LabelText="{Binding Retorno,Source={StaticResource ResourceLanguage}}"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="FECHADEV"
@@ -650,7 +668,7 @@
                                 </WrapPanel>
                             </GroupBox>
                             <GroupBox Header="{Binding ContractoYITV,Source={StaticResource ResourceLanguage}}">
-                                <WrapPanel>
+                            <WrapPanel MaxWidth="900" HorizontalAlignment="Left">
                                     <Grid Grid.IsSharedSizeScope="True" MinWidth="400">
                                         <i:Grid.ColumnDefinitions>
                                             <i:ColumnDefinition/>
@@ -757,11 +775,11 @@
                     <i:TabItem x:Name="Revision"  Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}" 
                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                        <vehicleViews:Revision></vehicleViews:Revision>
+                        <vehicleViews:Revision MaxWidth="900"></vehicleViews:Revision>
                     </i:TabItem>
-                    <i:TabItem x:Name="Photo" Header="{Binding Foto, Source={StaticResource ResourceLanguage}}">
+                <i:TabItem x:Name="Photo" Header="{Binding Foto, Source={StaticResource ResourceLanguage}}">
 
-                        <photoFrame:PhotoFrame 
+                    <photoFrame:PhotoFrame MaxWidth="900" 
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="">
 
@@ -789,11 +807,11 @@
 
                             </photoFrame:PhotoFrame>
                             <photoFrame:PhotoFrame Grid.Row="1" Grid.Column="0"
-                                               ImageBinarySource="{Binding DataObject.PictureFront, 
+                                               ImageBinarySource="{Binding DataObject.PictureLeft, 
                                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
                             <photoFrame:PhotoFrame Grid.Row="1" 
                                                Grid.Column="1"
-                                               ImageBinarySource="{Binding DataObject.PictureLeft, 
+                                               ImageBinarySource="{Binding DataObject.PictureRight, 
                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></photoFrame:PhotoFrame>
                         </Grid>
                     </i:TabItem>
@@ -813,7 +831,7 @@
   -->
                 </i:TabControl>
 
-            </StackPanel>
+           
         </Grid>
     </ScrollViewer>
 

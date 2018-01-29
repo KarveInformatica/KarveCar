@@ -13,11 +13,15 @@
              d:DesignHeight="200" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
     <Grid>
-        <Grid.Resources>
-
-        </Grid.Resources>
-        <GroupBox Grid.Row="0" Header="Compra Veichulo">
-            <WrapPanel>
+       
+        <GroupBox  Header="Compra Veichulo">
+            <Grid>
+    <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+           
+            <WrapPanel Grid.Row="0">
                 <kc:DualFieldSearchBox LabelText="Proveedor" 
                                    LabelTextWidth="100"
                                    TextContentFirstWidth="50"
@@ -26,64 +30,72 @@
                                    DataFieldFirst="proveeedor"
                                    AssistTableName="provee1"
                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   AssistQuery="{Binding SupplierAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AssistQuery="{Binding SupplierAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    AssistDataFieldFirst="num_provee"
                                    AssistDataFieldSecond="nombre"
                                    ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                    MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                    Margin="5,0,0,5"
-                                   Height="25"
+                                   Height="30"
                                    SourceView="{Binding ProveeDto, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
-                                   AssistProperties="Code, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                                   AssistProperties="Codigo,Nombre,Direccion,Poblacion,Provincia,Pais,Telefono,Email"
                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-                <kc:DataField TextContentWidth="150" 
-                              LabelTextWidth="100"
-                              LabelText="Matricula Anterior"
-                              LabelVisible="True"
-                              Margin="5,0,0,0"
-                              DataSourcePath="matri2"
-                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                              DataFieldHeight="25"/>
                 <kc:DualFieldSearchBox LabelText="Forma de Pago" 
-                                   LabelTextWidth="100"
-                                   TextContentFirstWidth="50"
-                                   TextContentSecondWidth="150"
-                                   IsReadOnlySecond="True"
-                                   SourceView="{Binding PaymentFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   DataFieldFirst="forpagoco"
-                                   MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                                   ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                                   AssistTableName="formas"
-                                   AssistDataFieldFirst="codigo"
-                                   AssistDataFieldSecond="nombre"
-                                   Margin="5,0,0,0"
-                                   Height="25"
-                                   TableName="formas"
-                                   AssistProperties="Code, Nombre"
-                                   ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-                <kc:DataDatePicker DataDatePickerHeight="25"
-                                   LabelText="Fecha Matricula Anterior"
-                                   LabelVisible="True"
-                                   Margin="10,0,0,0"
-                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" 
-                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FMATRI"
-                                   />
+                                       LabelTextWidth="100"
+                                       TextContentFirstWidth="50"
+                                       TextContentSecondWidth="150"
+                                       IsReadOnlySecond="True"
+                                       SourceView="{Binding PaymentFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       DataFieldFirst="forpagoco"
+                                       MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                       ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                       AssistTableName="formas"
+                                       AssistDataFieldFirst="codigo"
+                                       AssistDataFieldSecond="nombre"
+                                       Margin="5,0,0,0"
+                                       Height="30"
+                                       TableName="formas"
+                                       AssistProperties="Codigo, Nombre, Cuenta"
+                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
+
                 <kc:DataDatePicker DataDatePickerHeight="25"
                                    LabelText="Fecha Compra"
+                                   LabelTextWidth="100"
                                    LabelVisible="True"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="FECCOMPRA"
-                                   />
+                />
+
+                    <kc:DataField TextContentWidth="150" 
+                              LabelTextWidth="150"
+                              LabelText="Matricula Anterior"
+                              LabelVisible="True"
+                              Margin="5,0,0,0"
+                              Height="25"
+                              DataSourcePath="matri2"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              DataFieldHeight="30"/>
+                    <kc:DataDatePicker DataDatePickerHeight="25"
+                                   LabelText="Fecha Matricula Anterior"
+                                   LabelVisible="True"
+                                   LabelTextWidth="150"
+                                   Margin="10,0,0,0"
+                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" 
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FMATRI"></kc:DataDatePicker>
+                </WrapPanel>
+            <StackPanel Grid.Row="1">
+               
+               
                     <!-- item control-->
 
                 <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                            <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -93,7 +105,7 @@
                                          LabelTextWidth="130"
                                          LabelVisible="True"
                                          IsReadOnly="False"
-                                         DataFieldHeight="25"
+                                         DataFieldHeight="30"
                                          Margin="0,5,0,0"
                                          DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -108,7 +120,8 @@
                     </ItemsControl.ItemTemplate>
 
                 </ItemsControl>
-            </WrapPanel>
+            </StackPanel>
+            </Grid>
         </GroupBox>
 
         </Grid>

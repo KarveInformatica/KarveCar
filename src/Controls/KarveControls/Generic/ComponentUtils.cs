@@ -27,6 +27,10 @@ namespace KarveControls.Generic
         public static string GetTextDo(object dataObject, string dataField, ControlExt.DataType dataAllowed)
         {
             string value = "";
+            if (dataObject == null)
+            {
+                return string.Empty;
+            }
             Type dataType = dataObject.GetType();
             var currentPropertyValue = GetPropValue(dataObject, dataField);
             // Get the string Value of the object.
@@ -79,6 +83,10 @@ namespace KarveControls.Generic
         /// <returns></returns>
         public static Object GetPropValue(Object obj, String prop)
         {
+            if (prop==null)
+                return null;
+            if (obj == null)
+                return null;
             var propName = prop.Trim();
             if (string.IsNullOrEmpty(propName))
             {

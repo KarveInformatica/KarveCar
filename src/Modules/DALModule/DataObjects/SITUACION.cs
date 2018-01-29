@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a SITUACION.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
+    /// <summary>
+    /// Represents a SITUACION.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("SITUACION")]
 	public class SITUACION 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("2")]
 		public byte NUMERO { get; set; }
  
 	/// <summary>

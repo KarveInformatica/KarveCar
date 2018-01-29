@@ -60,10 +60,21 @@ namespace KarveControls
 
         private void AssociatedObject_AutogenerateCols(object sender, AutoGeneratingColumnArgs e)
         {
-           
+
             if (!_sortedSet.Contains(e.Column.MappingName))
             {
                 e.Cancel = true;
+            }
+            else
+            {
+                
+                double actualWidth = this.AssociatedObject.ActualWidth;
+                int count = _sortedSet.Count;
+              //  double colWidth = actualWidth / count;
+              //  e.Column.Width = colWidth;
+                e.Column.ColumnSizer = GridLengthUnitType.Star;
+
+                //                this.AssociatedObject.
             }
         }
 

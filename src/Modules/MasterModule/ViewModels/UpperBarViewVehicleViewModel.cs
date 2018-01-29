@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls;
@@ -63,7 +64,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Changed item
         /// </summary>
-        public ICommand ItemChangedCommand { set; get; }
+        public ICommand ItemUpperChangedCommand { set; get; }
 
         /// <summary>
         ///  Changed item
@@ -73,7 +74,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Assist Command
         /// </summary>
-        public ICommand AssistCommand { set; get; }
+        public ICommand AssistUpperCommand { set; get; }
 
         /// <summary>
         ///  SourceView
@@ -105,6 +106,7 @@ namespace MasterModule.ViewModels
 
         private string _uniqueValue = "UpperBarViewVehicle." + Guid.NewGuid().ToString();
         private string _assistQueryModel;
+        private IMapper _mapper;
 
         public string UniqueId
         {
@@ -127,9 +129,9 @@ namespace MasterModule.ViewModels
         {
             _dataServices = services;
             _eventManager = manager;
-            ItemChangedCommand = new DelegateCommand<object>(OnChangedItem);
+            ItemUpperChangedCommand = new DelegateCommand<object>(OnChangedItem);
             ItemChangedHandler = new DelegateCommand<object>(OnChangedItem);
-            AssistCommand = new DelegateCommand<object>(OnAssistCommand);
+            AssistUpperCommand = new DelegateCommand<object>(OnAssistCommand);
             MailBoxHandler += MailBoxHandlerMethod;
             _eventManager.RegisterMailBox(Name, MailBoxHandler);
             _eventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
@@ -146,6 +148,8 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitMapping()
         {
+            _mapper = MapperField.GetMapper();
+            /*
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
@@ -191,6 +195,7 @@ namespace MasterModule.ViewModels
                 });
 
             });
+            */
 
 
         }
@@ -261,12 +266,12 @@ namespace MasterModule.ViewModels
                 string modelCode = _currentVehicleData.Value.MODELO;
                 string modelQuery = string.Format(VehicleModel, modelCode);
                 var model = await helperDataServices.GetAsyncHelper<MODELO>(modelQuery);
-                _currentVehicleData.BrandDtos = Mapper.Map<IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(marcas);
-                _currentVehicleData.ColorDtos = Mapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorDto>>(color);
-                _currentVehicleData.ModelDtos = Mapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(model);
+                _currentVehicleData.BrandDtos = _mapper.Map<IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(marcas);
+                _currentVehicleData.ColorDtos = _mapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorDto>>(color);
+                _currentVehicleData.ModelDtos = _mapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(model);
                 string query = string.Format(VehicleGroup, _currentVehicleData.Value.GRUPO);
                 var grupos = await helperDataServices.GetAsyncHelper<GRUPOS>(query);
-                _currentVehicleData.VehicleGroupDtos = Mapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupDto>>(grupos);
+                _currentVehicleData.VehicleGroupDtos = _mapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupDto>>(grupos);
                 DataObject = _currentVehicleData;
                 DataObject.BrandDtos = _currentVehicleData.BrandDtos;
                 DataObject.ColorDtos = _currentVehicleData.ColorDtos;
@@ -285,26 +290,28 @@ namespace MasterModule.ViewModels
             {
                 case "COLORFL":
                 {
-                  var colors = await helperDataServices.GetAsyncHelper<COLORFL>(assistQuery);
-                  _currentVehicleData.ColorDtos = Mapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorDto>>(colors); 
+                       var colos =
+                  _currentVehicleData.ColorDtos = await helperDataServices.GetMappedAsyncHelper<ColorDto, COLORFL>(assistQuery);
                   break;
                 }
                 case "MARCAS":
                 {
-                    var marcas = await helperDataServices.GetAsyncHelper<MARCAS>(assistQuery);
-                    _currentVehicleData.BrandDtos = Mapper.Map<IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(marcas);
+                        var brands = await helperDataServices.GetMappedAsyncHelper<BrandVehicleDto, MARCAS>(assistQuery);
+                    _currentVehicleData.BrandDtos = brands;
                     break;
                 }
                 case "MODELO":
                 {
-                    var modelo = await helperDataServices.GetAsyncHelper<MODELO>(assistQuery);
-                    _currentVehicleData.ModelDtos = Mapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(modelo);
+                        var models = await helperDataServices.GetMappedAsyncHelper<ModelVehicleDto, MODELO>(assistQuery);
+                    _currentVehicleData.ModelDtos = models;
                     break;
                 }
                 case "GRUPOS":
                 {
-                    var grupos = await helperDataServices.GetAsyncHelper<GRUPOS>(assistQuery);
-                    _currentVehicleData.VehicleGroupDtos = Mapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupDto>>(grupos);
+                        var vehicles = await helperDataServices
+                            .GetMappedAsyncHelper<VehicleGroupDto, GRUPOS>(assistQuery);
+                    _currentVehicleData.VehicleGroupDtos = vehicles;
+                         
                     break;
                 }
                 

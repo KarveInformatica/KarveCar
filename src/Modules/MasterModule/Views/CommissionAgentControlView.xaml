@@ -64,7 +64,7 @@
                 </ResourceDictionary>
             </Syncfusion:SfDataGrid.Resources>
             <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
                                            MappingName="Numero" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
@@ -76,13 +76,12 @@
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}">
                    
                 </Syncfusion:GridTextColumn>
-
-                <Syncfusion:GridTextColumn HeaderText="{Binding lpersona, Source={StaticResource ResourceLanguage}}" MappingName="Persona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" MappingName="Comercial" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpersona, Source={StaticResource ResourceLanguage}}" MappingName="Persona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Provincia" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Pais" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
             </Syncfusion:SfDataGrid.Columns>
 
         </Syncfusion:SfDataGrid>

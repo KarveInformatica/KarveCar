@@ -143,17 +143,20 @@
                                             Background="Lavender">
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
-                                    <Popup x:Name="PART_PopUp" 
+
+                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding ElementName=RibbonWindow}"
+                                            
                        
                       >
+                                        <!--      BorderBrush="#FF000000" //-->
 
                                         <Border  HorizontalAlignment="Stretch"
 
                             VerticalAlignment="Stretch"
-
-                            BorderBrush="#FF000000" 
-
-                            BorderThickness="3" 
+                                                 BorderBrush="#FF000000"
+                     
+                    
+                            BorderThickness="2" 
 
                             CornerRadius="5,5,5,5">
 
@@ -175,9 +178,9 @@
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
 
-                                                 BorderBrush="AliceBlue" 
+                                                 BorderBrush="DeepSkyBlue" 
 
-                                                 Background="AliceBlue" VerticalAlignment="Top" 
+                                                 Background="DeepSkyBlue" VerticalAlignment="Top" 
 
                                                  CornerRadius="5,5,0,0" Margin="-2,-2,-2,0">
 
@@ -190,7 +193,6 @@
                                                 
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
                                                                        ColumnSizer="Star"
-                                                                       MinHeight="600" MinWidth="800"
                                                                        Grid.Row="1"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
@@ -200,7 +202,10 @@
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row" 
-                                                                       Background="AliceBlue"                                                                       
+                                                                       Height="800"
+                                                                       MinWidth="900"
+                                                                       Background="White"
+                                                                                                                                           
                                                 >
         
                                                     <Syncfusion:SfDataGrid.Resources>
@@ -210,12 +215,13 @@
                                                             </ResourceDictionary.MergedDictionaries>
                                                         </ResourceDictionary>
                                                     </Syncfusion:SfDataGrid.Resources>
+                                                  
                                                     <i:Interaction.Behaviors>
                                                         <local:GridColumnFilterBehaviour 
                                                             AssistProperties="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=AssistProperties}"
                                                             ></local:GridColumnFilterBehaviour>
                                                     </i:Interaction.Behaviors>
-                                                </Syncfusion:SfDataGrid>
+                                                                                                    </Syncfusion:SfDataGrid>
                                               <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"

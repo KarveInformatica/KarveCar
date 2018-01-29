@@ -80,7 +80,7 @@ namespace KarveTest.ViewModels
             ev.Add("TableName", "COLORFL");
             ev.Add("AssitQuery", "SELECT CODIGO, NOMBRE FROM COLORFL");
             // this is the click form the component.
-            ICommand assistColor = _upperBarViewModel.AssistCommand;
+            ICommand assistColor = _upperBarViewModel.AssistUpperCommand;
             assistColor.Execute(ev);
             IVehicleData vehicleData = _upperBarViewModel.DataObject as IVehicleData;
 
@@ -109,7 +109,7 @@ namespace KarveTest.ViewModels
             ev.Add("TableName", "MARCAS");
             ev.Add("AssitQuery", "SELECT CODIGO, NOMBRE FROM MODEL");
             // this is the click form the component.
-            ICommand assistColor = _upperBarViewModel.AssistCommand;
+            ICommand assistColor = _upperBarViewModel.AssistUpperCommand;
             assistColor.Execute(ev);
             IVehicleData vehicleData = _upperBarViewModel.DataObject as IVehicleData;
 
@@ -138,7 +138,7 @@ namespace KarveTest.ViewModels
             ev.Add("TableName", "GRUPOS");
             ev.Add("AssitQuery", "SELECT CODIGO, NOMBRE FROM GRUPOS");
             // this is the click form the component.
-            ICommand assistColor = _upperBarViewModel.AssistCommand;
+            ICommand assistColor = _upperBarViewModel.AssistUpperCommand;
             assistColor.Execute(ev);
             IEnumerable<VehicleGroupDto> vehicleGroup = _upperBarViewModel.GroupVehicleDto;
             VehicleGroupDto[] dto = vehicleGroup.ToArray();

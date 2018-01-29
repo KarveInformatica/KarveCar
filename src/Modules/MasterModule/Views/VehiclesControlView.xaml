@@ -28,7 +28,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <syncfusion:SfDataGrid x:Name="VehicleSummary"
-                               ColumnSizer="AutoWithLastColumnFill"
+                               ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"

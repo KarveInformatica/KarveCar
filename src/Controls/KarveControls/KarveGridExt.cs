@@ -241,6 +241,8 @@ namespace KarveControls
 
         private static void LoadParameters(SfDataGrid dataGrid, string serializedString)
         {
+            DeserializationOptions options = new DeserializationOptions();
+            options.DeserializeFiltering = false;
             if (string.IsNullOrEmpty(serializedString))
             {
                 return;
@@ -256,7 +258,7 @@ namespace KarveControls
                     byte[] byteArray = ms.ToArray();
                     using (MemoryStream reader = new MemoryStream(byteArray))
                     {
-                        dataGrid.Deserialize(reader);
+                        dataGrid.Deserialize(reader, options);
 
                     }
                 }

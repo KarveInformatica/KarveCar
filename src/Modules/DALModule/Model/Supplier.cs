@@ -253,18 +253,18 @@ namespace DataAccessLayer.Model
                     return branchesDto;
                 });
 
-                cfg.CreateMap<ProContact, ContactsDto>().ConvertUsing(src =>
+                cfg.CreateMap<ProContactos, ContactsDto>().ConvertUsing(src =>
                 {
                     var contactDto = new ContactsDto();
-                    contactDto.Email = src.Email;
-                    contactDto.LastMod = src.UltimaModifica;
+                    contactDto.Email = src.ccoMail;
+                    contactDto.LastMod = src.ULTMODI;
                     contactDto.ContactId = src.ccoIdContacto;
-                    contactDto.ContactName = src.Nombre;
-                    contactDto.Fax = src.Fax;
-                    contactDto.Movil = src.Movil;
-                    contactDto.CurrentDelegation = src.Dipartimento;
-                    contactDto.Telefono = src.Telefono;
-                    contactDto.Responsability = src.Cargo;
+                    contactDto.ContactName = src.ccoContacto;
+                    contactDto.Fax = src.ccoFax;
+                    contactDto.Movil = src.ccoMovil;
+                    contactDto.CurrentDelegation = src.ccoIdDelega;
+                    contactDto.Telefono = src.ccoTelefono;
+                    contactDto.Responsability = src.ccoCargo;
                     contactDto.ContactsKeyId = src.ccoIdCliente;
 
                     return contactDto;
@@ -369,6 +369,10 @@ namespace DataAccessLayer.Model
 
         public async Task<bool> Save()
         {
+
+            // set reference to city dto.
+            FillCities(ref _supplierValue);
+            
             PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
             PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
             provee1.NUM_PROVEE = provee2.NUM_PROVEE;
@@ -465,8 +469,9 @@ namespace DataAccessLayer.Model
                 cont.ccoFax = c.Fax;
                 cont.ccoMail = c.Email;
                 cont.ccoMovil = c.Movil;
-                //    cont.ULTMODI = DateTime.Now.ToLongTimeString();
-                /** this needs to be separeted as single responsability */
+                DateTime time = DateTime.Now;
+                cont.ULTMODI = time.ToString("yyyMMddHHmmss");
+                cont.USUARIO = c.User;
 
                 try
 
@@ -486,8 +491,24 @@ namespace DataAccessLayer.Model
             }
             return retValue;
         }
+
+        private void FillCities(ref SupplierPoco poco)
+        {
+            var city = from c in _cityDtos
+                where c.Code == _supplierValue.CP
+                select c;
+            var singleCity = city.FirstOrDefault();
+            if (singleCity != null)
+            {
+               poco.POBLACION = singleCity.Poblacion;
+            }
+
+        }
         public async Task<bool> SaveChanges()
         {
+            
+            FillCities(ref _supplierValue);
+
             PROVEE1 provee1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
             PROVEE2 provee2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
 
@@ -605,10 +626,10 @@ namespace DataAccessLayer.Model
                     AdjustBranchWithProvince(ref tmp, ProvinciaDtos);
                     BranchesDtos = tmp;
                     var contacts =
-                        await BuildAndExecute<ProContact>(connection, GenericSql.ContactsQuery,
+                        await BuildAndExecute<ProContactos>(connection, GenericSql.ContactsQuery,
                             _supplierValue.NUM_PROVEE);
                     
-                    ContactsDtos = _supplierMapper.Map<IEnumerable<ProContact>, IEnumerable<ContactsDto>>(contacts);
+                    ContactsDtos = _supplierMapper.Map<IEnumerable<ProContactos>, IEnumerable<ContactsDto>>(contacts);
                     var months = await connection.QueryAsync<MESES>(MonthsSelect);
                     MonthsDtos = _supplierMapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(months);
                     var languages = await connection.QueryAsync<IDIOMAS>(LanguageSelect);
@@ -640,7 +661,8 @@ namespace DataAccessLayer.Model
                     // office mapping
                     string query = string.Format(OfficeSelect, _supplierValue.OFICINA, _supplierValue.SUBLICEN);
                     var office = await connection.QueryAsync<OFICINAS>(query);
-                    OfficeDtos = MapperField.GetMapper().Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office);
+                    var mappedOffices = MapperField.GetMapper().Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office);
+                    OfficeDtos = new ObservableCollection<OfficeDtos>(mappedOffices); 
                     query = string.Format(CompanySelect, _supplierValue.SUBLICEN);
 
                     var company = await connection.QueryAsync<SUBLICEN>(query);

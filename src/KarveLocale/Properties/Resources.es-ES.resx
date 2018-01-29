@@ -1327,7 +1327,7 @@
     <value>Email</value>
   </data>
   <data name="lcodigo" xml:space="preserve">
-    <value>Code</value>
+    <value>Codigo</value>
   </data>
   <data name="lprovincia" xml:space="preserve">
     <value>Provincia</value>
@@ -1507,7 +1507,7 @@
     <value>Puertas</value>
   </data>
   <data name="lcodigollave" xml:space="preserve">
-    <value>Code LLave</value>
+    <value>Codigo LLave</value>
   </data>
   <data name="lcombustible" xml:space="preserve">
     <value>Combustible</value>

@@ -583,7 +583,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Code.
+        ///   Looks up a localized string similar to Codigo.
         /// </summary>
         public static string lcodigo {
             get {
@@ -592,7 +592,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Code Llave.
+        ///   Looks up a localized string similar to Codigo Llave.
         /// </summary>
         public static string lcodigollave {
             get {

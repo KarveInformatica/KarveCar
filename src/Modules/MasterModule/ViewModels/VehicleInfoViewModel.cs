@@ -43,7 +43,7 @@ namespace MasterModule.ViewModels
         public ICommand AssistCommand { set; get; }
         private string _header;
         private string _assistQueryOwner;
-        private ObservableCollection<ActividadDto> _activity;
+        private ObservableCollection<VehicleActivitiesDto> _activity;
         private ObservableCollection<AgentDto> _agents;
         private ObservableCollection<OwnerDto> _owner;
         private ObservableCollection<SupplierSummaryDto> _supplier;
@@ -78,9 +78,15 @@ namespace MasterModule.ViewModels
         private ObservableCollection<AccountDto> _accomulatedRepayment;
           private IRegionManager _regionManager;
         private ObservableCollection<CityDto> _cityDto;
+        private ObservableCollection<CityDto> _roadTaxesCities = new ObservableCollection<CityDto>();
+        private ObservableCollection<ZonaOfiDto> _officeZoneRoadTaxes;
+        private ObservableCollection<CurrentSituationDto> _situationDto;
+        private ObservableCollection<CompanyDto> _otherOffice1Dto;
+        private ObservableCollection<CompanyDto> _otherOffice2Dto = new ObservableCollection<CompanyDto>();
+        private ObservableCollection<CompanyDto> _otherOffice3Dto = new ObservableCollection<CompanyDto>();
 
         // This returns the list of activity when asked.
-        public ObservableCollection<ActividadDto> ActivityDtos
+        public ObservableCollection<VehicleActivitiesDto> ActivityDtos
         {
             get
             {
@@ -384,19 +390,13 @@ namespace MasterModule.ViewModels
 
             switch (assistTableName)
             {
-                case "ACTIVI":
-                {
-                    var actividades = await helperDataServices.GetAsyncHelper<ACTIVI>(assistQuery);
-                    var act = mapper.Map<IEnumerable<ACTIVI>, IEnumerable<ActividadDto>>(actividades);
-                    ActivityDtos = new ObservableCollection<ActividadDto>(act);
-                    break;
-                }
+                
                
                 case "ACTIVEHI":
                 {
-                    var actividades = await helperDataServices.GetAsyncHelper<ACTIVEHI>(assistQuery);
-                    var act = mapper.Map<IEnumerable<ACTIVEHI>, IEnumerable<ActividadDto>>(actividades);
-                    ActivityDtos = new ObservableCollection<ActividadDto>(act);
+                    var act =
+                        await helperDataServices.GetMappedAsyncHelper<VehicleActivitiesDto, ACTIVEHI>(assistQuery);
+                    ActivityDtos = new ObservableCollection<VehicleActivitiesDto>(act);
                     break;
                 }
                 case "PROPIE":
@@ -504,6 +504,43 @@ namespace MasterModule.ViewModels
                     IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
                     CityDto = new ObservableCollection<CityDto>(cities);
                     break;
+
+                 }
+                case "OFICINA1":
+                {
+                    var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                    OtherOffice1Dto = new ObservableCollection<CompanyDto>(oficina);
+                    break;
+                }
+                case "OFICINA2":
+                {
+                    var oficina2 = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                    OtherOffice2Dto = new ObservableCollection<CompanyDto>(oficina2);
+                        break;
+                }
+                case "OFICINA3":
+                {
+                    var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                    OtherOffice3Dto = new ObservableCollection<CompanyDto>(oficina);
+                    break;
+                }
+                case "SITUATION":
+                {
+                    var sit = await helperDataServices.GetMappedAllAsyncHelper<CurrentSituationDto,SITUACION>();
+                    CurrentSituationDto = new ObservableCollection<CurrentSituationDto>(sit);
+                    break;
+                }
+                case "ROAD_TAXES_CITY":
+                    {
+                        var prov = await helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                        RoadTaxesCityDto = new ObservableCollection<CityDto>(prov);
+                        break;
+                    }
+                case "ROAD_TAXES_ZONAOFI":
+                {
+                    var oficinas = await helperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
+                    RoadTaxesOfficeZoneDto = new ObservableCollection<ZonaOfiDto>(oficinas);
+                    break;
                 }
                 case "VENDEDOR":
                 {
@@ -513,6 +550,31 @@ namespace MasterModule.ViewModels
                     VendedorDtos = new ObservableCollection<ResellerDto>(cli);
                     break;
                 }
+            }
+        }
+
+        public ObservableCollection<ZonaOfiDto> RoadTaxesOfficeZoneDto
+        {
+            get
+            {
+                return _officeZoneRoadTaxes;
+            }
+            set
+            {
+                _officeZoneRoadTaxes = value;
+                RaisePropertyChanged();
+            }
+        }
+        public ObservableCollection<CurrentSituationDto> SituationDto
+        {
+            get
+            {
+                return _situationDto;
+            }
+            set
+            {
+                _situationDto = value;
+                RaisePropertyChanged();
             }
         }
         private async Task<ObservableCollection<SupplierSummaryDto>> FetchSupplierCollection()
@@ -802,8 +864,8 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
-
-        public string UniqueId { get; set; }
+        // FIXME: try to see if ivent ok.
+         public string UniqueId { get; set; }
 
         public ObservableCollection<CityDto> CityDto
         {
@@ -816,9 +878,53 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-   
 
+        public ObservableCollection<CityDto> RoadTaxesCityDto
+        {
+            get
+            {
+                return _roadTaxesCities;
+            }
+            set
+            {
+                _roadTaxesCities = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ObservableCollection<CurrentSituationDto> CurrentSituationDto
+        {
+            get { return _situationDto; }
+            set { _situationDto = value; RaisePropertyChanged(); }
+        }
 
+        /// <summary>
+        /// Other office 1 dto
+        /// </summary>
+        public ObservableCollection<CompanyDto> OtherOffice1Dto
+        {
+            get { return _otherOffice1Dto; }
+            set { _otherOffice1Dto = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Other office 2 dto
+        /// </summary>
+        public ObservableCollection<CompanyDto> OtherOffice2Dto
+        {
+            get { return _otherOffice2Dto; }
+            set { _otherOffice2Dto = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        /// Other office 3 dto
+        /// </summary>
+        public ObservableCollection<CompanyDto> OtherOffice3Dto
+        {
+            get { return _otherOffice3Dto; }
+            set { _otherOffice3Dto = value; RaisePropertyChanged(); }
+        }
         // move this to the upper interface.
         /// <summary>
         /// Incoming payload

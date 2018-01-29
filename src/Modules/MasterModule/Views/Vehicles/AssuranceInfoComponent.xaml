@@ -46,7 +46,7 @@
                                           IsReadOnlySecond="True"
                                           AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          AssistProperties="Code,Nombre"
+                                          AssistProperties="Codigo,Nombre,Direccion,Poblacion,Pais,Telefono,Email"
                                           ItemChangedCommand="{Binding Path=ItemChangedCommand}"
                                           MagnifierCommand="{Binding Path=MagnifierCommand}" 
                                           DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

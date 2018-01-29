@@ -102,6 +102,7 @@
     <Compile Include="DataTransferObject\ClientZoneDto.cs" />
     <Compile Include="DataTransferObject\ColorDto.cs" />
     <Compile Include="DataTransferObject\ComisioDto.cs" />
+    <Compile Include="DataTransferObject\CommissionAgentSummaryDto.cs" />
     <Compile Include="DataTransferObject\CompanyCardDto.cs" />
     <Compile Include="DataTransferObject\CompanyDto.cs" />
     <Compile Include="DataTransferObject\ContactsDto.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="DataTransferObject\CountryDto.cs" />
     <Compile Include="DataTransferObject\CreditCardDto.cs" />
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
+    <Compile Include="DataTransferObject\CurrentSituationDto.cs" />
     <Compile Include="DataTransferObject\DeliveringFormDto.cs" />
     <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />

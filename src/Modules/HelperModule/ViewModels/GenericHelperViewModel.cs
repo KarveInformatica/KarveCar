@@ -167,8 +167,11 @@ namespace HelperModule.ViewModels
         {
             
             HelperView = LoadView();
-            PreviousValue = CurrentValue;
-            CurrentValue = HelperView.FirstOrDefault();
+            if (HelperView != null)
+            {
+                PreviousValue = CurrentValue;
+                CurrentValue = HelperView.FirstOrDefault();
+            }
         }
         /// <summary>
         ///  Helper dto.

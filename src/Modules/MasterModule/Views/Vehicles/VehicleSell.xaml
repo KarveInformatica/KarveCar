@@ -11,7 +11,7 @@
              xmlns:common="clr-namespace:MasterModule.Common"
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="900">
+             d:DesignHeight="250" d:DesignWidth="900">
     <Grid d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
         <Grid.Resources>
 
@@ -19,8 +19,20 @@
 
 
         <GroupBox Grid.Row="0" Header="{Binding StringConstants_VentaVehiculo, Source={StaticResource ResourceLanguage}}">
-            <WrapPanel>
-                <kc:DualFieldSearchBox LabelText="{Binding StringConstants.Buyer}" 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto">
+                        
+                    </RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <kc:DualFieldSearchBox LabelText="{Binding StringConstants.Buyer}" 
                                        LabelTextWidth="100"
                                        TextContentFirstWidth="50"
                                        TextContentSecondWidth="150"
@@ -35,10 +47,10 @@
                                        SourceView="{Binding ClientsDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        Margin="5,0,0,0"
-                                       Height="25"
-                                       AssistProperties="Code, Nombre"
+                                       Height="30"
+                                       AssistProperties="Codigo, Nombre"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-                <kc:DataField TextContentWidth="150" 
+                        <kc:DataField TextContentWidth="150" 
                               LabelTextWidth="50"
                               LabelText="{Binding StringConstants.Price}"
                               LabelVisible="True"
@@ -46,32 +58,36 @@
                               DataSourcePath="precio"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                              DataFieldHeight="25"/>
-                <kc:DataField LabelText="{Binding StringConstants.BillNumber}" 
-                              TextContentWidth="100"
-                              LabelTextWidth="110"
-                              DataSourcePath="FRAVEN"
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DataFieldHeight="25"
-                              Margin="5,5,5,0"/>
-                <kc:DataDatePicker DataDatePickerHeight="25"
-                                   LabelText="{Binding StringConstants.BillingDate}"
-                                   LabelVisible="True"
-                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FFRA"
-                />
-                <kc:DataField LabelText="{Binding StringConstants.StretPrice}"
+                              Height="30"/>
+                        <kc:DataField LabelText="{Binding StringConstants.StretPrice}"
                               TextContentWidth="150" 
                               LabelTextWidth="120"
                               DataSourcePath="PVP"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
                                  
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DataFieldHeight="25"
+                              Height="30"
                               Margin="10,0,0,0"/>
-                <kc:DualFieldSearchBox
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <kc:DataField LabelText="{Binding StringConstants.BillNumber}" 
+                              TextContentWidth="100"
+                              LabelTextWidth="110"
+                              DataSourcePath="FRAVEN"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Height="25"
+                              Margin="5,5,5,0"/>
+                        <kc:DataDatePicker DataDatePickerHeight="25"
+                                   LabelText="{Binding StringConstants.BillingDate}"
+                                   LabelVisible="True"
+                                   Height="40"        
+                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="FFRA"
+                />
+                       
+                        <kc:DualFieldSearchBox
                     LabelText="{Binding StringConstants.Reseller}" 
                     LabelTextWidth="80"
                     TextContentFirstWidth="50"
@@ -86,36 +102,40 @@
                     AssistQuery="{Binding SellerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                     AssistDataFieldFirst="num_vende"
                     AssistDataFieldSecond="nombre"
-                    AssistProperties="Numero, Nombre, Direccion, Poblacion, Provincia, Pais, Telefono, Email"
+                    AssistProperties="Code,Name,Direction,City.Poblacion, Provincia, City.Pais, Phone, Email"
                     ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}" Height="25"/>
-                <GroupBox>
+                    </StackPanel>
+                </Grid>
+            <GroupBox Grid.Row="1">
                     <WrapPanel>
-                        <kc:DataDatePicker DataDatePickerHeight="25" 
+                        <kc:DataDatePicker Height="40" 
                                            LabelText="{Binding StringConstants.TrafficRenounce}"
                                            LabelVisible="True"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FTRAFB"       />
                         <kc:DataDatePicker LabelText="{Binding StringConstants.AssuranceRenount}" 
-                                           DataDatePickerHeight="25"
+                                           Height="40"
                                            LabelVisible="True"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath=""/>
                         <kc:DataDatePicker LabelText="{Binding StringConstants.BankTransfer}" DataDatePickerHeight="25"
                                            LabelVisible="True"
+                                           Height="40"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FTRANS"/>
                         <kc:DataDatePicker LabelText="{Binding StringConstants.DeliveringDate}" DataDatePickerHeight="25"  
                                            LabelVisible="True"
+                                           Height="40"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="FENTREGA_VEHI"/>
                     </WrapPanel>
                 </GroupBox>
 
-            </WrapPanel>
+          </Grid>
         </GroupBox>
 
     </Grid>

@@ -337,15 +337,15 @@
                             </WrapPanel>
                             <karveControls:DualFieldSearchBox 
                                 LabelText="{Binding lidioma, Source={StaticResource ResourceLanguage}}" 
-                                LabelTextWidth="100"
+                                LabelTextWidth="80"
                                 LabelVisible="True"
                                 DataFieldFirst="IDIOMA" 
                                 AssistDataFieldFirst="CODIGO"
                                 AssistDataFieldSecond="NOMBRE" 
                                 AssistTableName="IDIOMAS"
-                                AssistProperties="Code,Nombre"
+                                AssistProperties="Codigo,Nombre"
                                 TextContentFirstWidth="50"
-                                TextContentSecondWidth="100"
+                                TextContentSecondWidth="150"
                                 ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                 MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -744,7 +744,7 @@
                                     AssistTableName="PRODUCTS"
                                     AssistDataFieldFirst="CODIGO_PRD"
                                     AssistDataFieldSecond="NOMBRE_PRD"
-                                    AssistProperties="Code,Nombre"
+                                    AssistProperties="Codigo,Nombre"
                                     ButtonImage="{Binding MagnifierButtonImage}"
                                     MagnifierCommand="{Binding MagnifierCommand}"
                                     ItemChangedCommand="{Binding ItemChangedCommand}">

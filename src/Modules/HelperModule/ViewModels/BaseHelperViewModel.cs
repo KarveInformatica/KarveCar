@@ -80,6 +80,10 @@ namespace HelperModule.ViewModels
         /// </summary>
         public bool CreateRegionManagerScope => true;
 
+
+        // Event handler.
+        protected PropertyChangedEventHandler SaveChangedEventHandler;
+
         /// <summary>
         ///  Current state of the view model to be showed to the user:
         ///     1. Insert. (in Spanish, Agregar) 
@@ -139,7 +143,7 @@ namespace HelperModule.ViewModels
 
         protected void SaveItem(DataPayLoad payLoad)
         {
-            HelperUpdateNotifier =  NotifyTaskCompletion.Create(HandleSaveOrUpdate(payLoad), null);
+            HelperUpdateNotifier =  NotifyTaskCompletion.Create(HandleSaveOrUpdate(payLoad), SaveChangedEventHandler);
         }
         protected async void HandlePayLoadMessage(DataPayLoad payLoad)
         {

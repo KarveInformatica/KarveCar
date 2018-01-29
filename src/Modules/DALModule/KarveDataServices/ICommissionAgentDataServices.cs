@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using System.Collections.Generic;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
@@ -88,5 +89,10 @@ namespace KarveDataServices
         /// <param name="commissionAgent"></param>
         /// <returns></returns>
         Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent);
+        /// <summary>
+        ///  CommissionAgentSummaryDto.
+        /// </summary>
+        /// <returns></returns>
+        Task<CommissionAgentSummaryDto> GetCommissionAgentSummaryDo();
     }
 }

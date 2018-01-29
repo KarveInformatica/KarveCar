@@ -24,12 +24,14 @@ namespace KarveControls
             /// </summary>
             public MagnifierPressEventArgs() : base()
             {
+                AssistQuery = string.Empty;
             }
             /// <summary>
             /// MagnifierPressEventsArgs. Event constructor 
             /// </summary>
             public MagnifierPressEventArgs(RoutedEvent routedEvent) : base(routedEvent)
             {
+                AssistQuery = string.Empty;
             }
             /// <summary>
             ///  Parameters to be conveyed.

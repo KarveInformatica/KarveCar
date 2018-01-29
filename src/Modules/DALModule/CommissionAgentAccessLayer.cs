@@ -9,9 +9,12 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Transactions;
 using AutoMapper;
 using Dapper;
 using DataAccessLayer.Model;
+using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
 using NLog;
 
 
@@ -106,6 +109,18 @@ namespace DataAccessLayer
             return dataset;
         }
 
+        public async Task<KarveDataServices.DataTransferObject.CommissionAgentSummaryDto> GetCommissionAgentSummaryDo()
+        {
+            CommissionAgentSummaryDto summary = new CommissionAgentSummaryDto();
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    summary = await connection.GetAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery);
+                }
+            }
+            return summary;
+        }
         /// <summary>
         /// This is the generation of an unique identifier.
         /// </summary>

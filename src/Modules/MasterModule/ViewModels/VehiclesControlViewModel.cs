@@ -110,9 +110,14 @@ namespace MasterModule.ViewModels
         {
             string name = KarveLocale.Properties.Resources.VehiclesControlViewModel_NewItem_NuevoVehiculos;
             string codigo = DataServices.GetSupplierDataServices().GetNewId();
-            VehicleInfoView view = _container.Resolve<VehicleInfoView>();
+            //VehicleInfoView view = _container.Resolve<VehicleInfoView>();
             string viewNameValue = name + "." + codigo;
-            ConfigurationService.AddMainTab(view, viewNameValue);
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("id", codigo);
+            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
+            var uri = new Uri(typeof(VehicleInfoView).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.RequestNavigate("TabRegion", uri);
+           // ConfigurationService.AddMainTab(view, viewNameValue);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;

@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ZONAOFI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ZONAOFI")]
 	public class ZONAOFI 
 	{
 	
 	/// <summary>
     ///  Set or get the COD_ZONAOFI property.
     /// </summary>
-    
+        [Key]
 		public string COD_ZONAOFI { get; set; }
  
 	/// <summary>

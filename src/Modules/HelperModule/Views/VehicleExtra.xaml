@@ -53,20 +53,7 @@
                                              TextContentWidth="100"></karveControls:DataField>
                     
                     
-                     <karveControls:DualFieldSearchBox
-                        LabelText="Tipo Vehiculo"
-                        LabelTextWidth="80"
-                        DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        DataFieldFirst="Code"
-                        AssistTableName="VEHICLETYPE"
-                        AssistProperties="Code,Name"
-                        SourceView="{Binding VehicleTypeDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                        MaxHeight="30"
-                        MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                        TextContentFirstWidth="60"
-                        TextContentSecondWidth="100">
-                    </karveControls:DualFieldSearchBox>
+             
                    
                 </StackPanel>
                 <karveControls:DataArea DataAreaTitle="Observaciones"

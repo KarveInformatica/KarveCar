@@ -150,44 +150,14 @@ namespace MasterModule.ViewModels
                 EventManager.RegisterMailBox(_currentName, MailBoxHandler);
                 DataObject = payLoad.DataObject as ICommissionAgent;
                 _subsystem = payLoad.Subsystem;
-                if (DataObject is ICommissionAgent)
-                {
-                    NotifyTaskCompletion.Create(HandleCommission(DataObject));
-                }
-                else if (DataObject is ISupplierData)
-                {
-                    NotifyTaskCompletion.Create(HandleSupplier(DataObject));
-                }
+                NotifyTaskCompletion.Create(HandleCommission(DataObject));
+                
             }
         }
         public void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(_currentName);
             EventManager.DeleteObserver(this);
-        }
-        /// <summary>
-        ///  This is a supplier handler.
-        /// </summary>
-        /// <param name="dataObject">Data Object as supplier</param>
-        /// <returns></returns>
-        private async Task HandleSupplier(object dataObject)
-        {
-           /* ISupplierData supplier = dataObject as ISupplierData;
-            DataObject = supplier;
-            PathCode = "NUM_PROVEE";
-            PathPerson = "COMERCIAL";
-            LabelTypeSearch = "Tipo.Proveedor";
-            DataFieldSearch = "TIPOPROVE";
-            AssistDataFieldFirst = "NUM_TIPROVE";
-            AssistDataFieldSecond = "NOMBRE";
-            AssistTable = "TIPOPROVE";
-            var supplierValue = supplier.Type.FirstOrDefault().Number;
-            string value = string.Format("SELECT NUM_TIPROVE, NOMBRE FROM TIPOPROVE WHERE NUM_TIPROVE='{0}'", supplierValue);
-            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-            var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
-            SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
-            */
-            await Task.Delay(1);
         }
         /// <summary>
         ///  This is a commission handler
@@ -200,7 +170,7 @@ namespace MasterModule.ViewModels
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
           
             PathCode = "NUM_COMI";
-            PathPerson = "NOMBRE";
+            PathPerson = "PERSONA";
             LabelTypeSearch = KarveLocale.Properties.Resources.UpperBarViewModel_HandleCommission_TipoComm;
             DataFieldSearch = "TIPOCOMI";
             AssistDataFieldFirst = "NUM_TICOMI";
@@ -238,17 +208,13 @@ namespace MasterModule.ViewModels
                 if (currentData != null)
                 {
                     string assistQuery = currentData[AssistQuery] as string;
-                    // TODO: replace conditional with polymorphism. Introduce an assistSmasher delegate.
+                    // TODO: replace conditional with polymorphism. 
                      if (assistQuery.Contains("TIPOCOMI"))
                     {
                         var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(assistQuery);
-                        SourceView = Mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
+                        SourceView = _mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
                     }
-                    else if (assistQuery.Contains("TIPOPROVE"))
-                    {
-                        var tipoProve = await helperDataServices.GetAsyncHelper<TIPOPROVE>(assistQuery);
-                        SourceView = Mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(tipoProve);
-                }
+                   
                     _status = UpperBarViewModelState.Loaded;
                 }
             

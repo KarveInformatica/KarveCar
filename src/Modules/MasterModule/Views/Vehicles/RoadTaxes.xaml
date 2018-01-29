@@ -49,10 +49,13 @@
                                         LabelVisible="True"
                                         AssistDataFieldFirst="CP"
                                         AssistDataFieldSecond="POBLA"
-                                        AssistQuery="{Binding AssistQueryPoblacion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         DataFieldFirst="CP"
-                                        AssistProperties="Numero, Poblacion, Code, Pais"
+                                        MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        AssistTableName="ROAD_TAXES_CITY"
+                                        SourceView="{Binding RoadTaxesCityDto, Mode=OneWay}"
+                                        AssistProperties="Code,Poblacion,Country.CountryName"
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
@@ -63,9 +66,13 @@
                                         LabelVisible="True"
                                         DataFieldFirst="ZONA_IMP"
                                         AssistDataFieldFirst="COD_ZONAOFI"
-                                        AssistProperties="Nome, Zona"
+                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        AssistProperties="Codigo, Nombre"
+                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         AssistDataFieldSecond="NOM_ZONA"
-                                        AssistQuery="{Binding AssitQueryZonas, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                           AssistTableName="ROAD_TAXES_ZONAOFI"
+                                           SourceView="{Binding RoadTaxesOfficeZoneDto, Mode=OneWay}"
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 

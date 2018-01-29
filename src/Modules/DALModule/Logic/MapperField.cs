@@ -186,6 +186,7 @@ namespace DataAccessLayer.Logic
             ContactsDto contacts = new ContactsDto();
             contacts.ContactId = source.ccoIdContacto;
             contacts.ContactName = source.ccoContacto;
+            
            /*
             branchesDto.BranchId = source.cldIdDelega.ToString();
             branchesDto.Branch = source.cldDelegacion;
@@ -545,7 +546,6 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
                 cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
-
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing( new ZonaOfiConverter());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
@@ -575,7 +575,63 @@ namespace DataAccessLayer.Logic
                     tipoComi.User = src.USUARIO;
                     return tipoComi;
                 });
- 
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
+                {
+                    var marcas = new BrandVehicleDto
+                    {
+                        Code = src.CODIGO,
+                        Name = src.NOMBRE,
+                        LastModification =  src.ULTMODI,
+                        User = src.USUARIO
+                    };
+                    return marcas;
+                });
+                cfg.CreateMap<SITUACION, CurrentSituationDto>().ConvertUsing(src =>
+                {
+                    var marcas = new CurrentSituationDto()
+                    {
+                        Code = src.NUMERO,
+                        Name = src.NOMBRE,
+                        LastModification = src.ULTMODI,
+                        User = src.USUARIO
+                    };
+                    return marcas;
+                });
+                cfg.CreateMap<CurrentSituationDto, SITUACION>().ConvertUsing(src =>
+                {
+                    var marcas = new SITUACION()
+                    {
+                        NUMERO = src.Code,
+                        NOMBRE = src.Name,
+                        ULTMODI = src.LastModification,
+                        USUARIO = src.User
+                    };
+                    return marcas;
+                });
+
+                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
+                {
+                    var vehicle = new ModelVehicleDto
+                    {
+                        Codigo = src.CODIGO,
+                        Variante = src.VARIANTE,
+                        Nombre = src.NOMBRE,
+                        Marca = src.MARCA,
+                        NomeMarca = src.NOMMARCA,
+                        Categoria = src.CATEGORIA
+                    };
+                    return vehicle;
+                });
+                cfg.CreateMap<GRUPOS, VehicleGroupDto>().ConvertUsing(
+                    src =>
+                    {
+                        var grupos = new VehicleGroupDto()
+                        {
+                            Codigo = src.CODIGO,
+                            Nombre = src.NOMBRE
+                        };
+                        return grupos;
+                    });
                 cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
                 {
                     var tipoComi = new SupplierTypeDto();
@@ -674,8 +730,8 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
                 {
                     var model = new ColorDto();
-                    model.Name = src.CODIGO;
-                    model.Code = src.NOMBRE;
+                    model.Code = src.CODIGO;
+                    model.Name = src.NOMBRE;
                     var colorType = src.TIPOCOLOR;
                     model.NoCoating = colorType == "S";
                     model.PowderCoating = colorType == "M";

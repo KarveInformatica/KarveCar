@@ -390,6 +390,8 @@
                                                           LabelText="{Binding loficinas, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="150"
+                                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"          
                                                           Height="25"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
@@ -397,17 +399,7 @@
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                                           SourceView="{Binding OfficeDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MagnifierPress">
-
-                                            <mvvm1:InvokeCommandAction Command="{Binding AssistCommand}" 
-                                                               TriggerParameterPath="AssistParameters" />
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
-                                                               TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                    
 
                                 </karveControls:DualFieldSearchBox>
                                 <karveControls:DataArea 

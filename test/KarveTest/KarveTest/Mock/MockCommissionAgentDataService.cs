@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.Mock
 {
@@ -61,6 +62,11 @@ namespace KarveTest.Mock
         }
 
         public Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CommissionAgentSummaryDto> GetCommissionAgentSummaryDo()
         {
             throw new NotImplementedException();
         }

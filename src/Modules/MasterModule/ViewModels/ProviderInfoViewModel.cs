@@ -42,7 +42,7 @@ namespace MasterModule.ViewModels
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private INotifyTaskCompletion<ISupplierData> _initializationTable;
         // FIXME: move to data layer.
-        private string _accountAssistQuery = "SELECT CODIGO, DESCRIP FROM CU1;";
+        private string _accountAssistQuery = "SELECT CODIGO, DESCRIP, CC FROM CU1;";
         private bool _delegationReadonly;
         private DataSet _delegationSet;
         private string _delegationQuery = "";
@@ -50,7 +50,7 @@ namespace MasterModule.ViewModels
         private object _dataObject;
         private Visibility _visibility;
         private IEnumerable<ProvinciaDto> _provinciaDtos = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<OfficeDtos> _officeDtos;
+        private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
         private IEnumerable<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
         private IEnumerable<CompanyDto> _companyDto;
 
@@ -522,6 +522,7 @@ namespace MasterModule.ViewModels
                     }
                 case "OFICINAS":
                     {
+                       
                         var office = await dto.HandleAssist<OFICINAS>(assist);
                         OfficeDtos = mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office.ResultList());
                         break;
@@ -572,7 +573,7 @@ namespace MasterModule.ViewModels
                     }
                 case "CU1":
                     {
-                        assist.Query = AccountAssistQuery;
+                        assist.Query = GenericSql.AccountSummaryQuery;
                         var cu = await dto.HandleAssist<CU1>(assist);
                         Account1Dtos = mapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(cu.ResultList());
                         break;

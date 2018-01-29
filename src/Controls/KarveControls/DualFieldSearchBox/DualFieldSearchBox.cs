@@ -747,7 +747,7 @@ namespace KarveControls
         private Image PopUpButtonImage;
         private TextBlock SearchLabel;
         private IEnumerable<object> _currentSourceView;
-
+        private IncrementalList<object> _incrementalList;
         static DualFieldSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DualFieldSearchBox), new FrameworkPropertyMetadata(typeof(DualFieldSearchBox)));
@@ -760,6 +760,7 @@ namespace KarveControls
             _componentFiller = new ComponentFiller();
             PopUpCloseCommand = new DelegateCommand(ButtonBase_OnClick);
             PopUpOpenCommand = new DelegateCommand(PopUpButton_OnClick);
+            _incrementalList = new IncrementalList<object>(LoadMoreItems);
         }
 
 
@@ -791,7 +792,7 @@ namespace KarveControls
              //   MagnifierGrid.AutoGeneratingColumn += MagnifierGrid_AutoGeneratingColumn; ;
             }
             _bootUp = true;
-           // RaiseKeyAssist();
+             //RaiseKeyAssist();
            // RaiseMagnifierPressEvent();
            // this.Res
           //  OnResize(EventArgs.Empty);
@@ -938,7 +939,7 @@ namespace KarveControls
         /// <summary>
         ///  Read only both fields
         /// </summary>
-        public bool IsReadOnly
+        public new bool IsReadOnly
         {
             get { return (bool)GetValue(IsReadOnlyProperty); }
             set { SetValue(IsReadOnlyProperty, value); }
@@ -1103,7 +1104,7 @@ namespace KarveControls
         {
           
             DataTable currentTable = null;
-        
+            
             if (_textMode)
             {
                 _textMode = false;
@@ -1133,8 +1134,9 @@ namespace KarveControls
                 }
                 if (MagnifierGrid != null)
                 {
+//                    new GridVirtualizingCollectionView(_orders);
 
-//                    IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
+                    //                   IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems);
                     MagnifierGrid.ItemsSource = new GridVirtualizingCollectionView(enumerableValue);
                     
                     if (_buttonManifierState == 1)
@@ -1143,7 +1145,7 @@ namespace KarveControls
                         if (Popup != null)
                         {
                             this.Popup.IsOpen = true;
-
+                            this.Popup.Width = MagnifierGrid.ActualWidth + 30;
                             _buttonManifierState = 0;
                         }
                         
@@ -1217,6 +1219,7 @@ namespace KarveControls
             if (this.Popup.IsOpen)
                 return;
             MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
+            
             if (string.IsNullOrEmpty(this.AssistQuery))
             {
                 AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
@@ -1224,6 +1227,8 @@ namespace KarveControls
             if (!string.IsNullOrEmpty(AssistQuery))
             {
                 args.AssistQuery = this.AssistQuery;
+            }
+          
                 args.TableName = AssistTableName;
                 args.AssistParameters.Add("AssistFieldFirst", AssistDataFieldFirst);
                 _buttonManifierState = 1;
@@ -1244,7 +1249,7 @@ namespace KarveControls
                 {
                     RaiseEvent(args);
                 }
-            }
+            
            
         }
 

@@ -33,7 +33,7 @@ namespace MasterModule.ViewModels
     public class ProvidersControlViewModel : MasterViewModuleBase, IProvidersViewModel
     {
         private const string ProviderNameColumn = "Nombre";
-        private const string ProviderColumnCode = "Code";
+        private const string ProviderColumnCode = "Codigo";
         private const string ProviderModuleRoutePrefix = "ProviderModule:";
         private const int GridIdentifier = 1; 
         /// <summary>
