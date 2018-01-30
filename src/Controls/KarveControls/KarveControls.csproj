@@ -224,6 +224,7 @@
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
     <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
+    <Compile Include="KarveSearchBox\KarveSearchBox.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridColumnFilterBehaviour.cs" />
     <Compile Include="HelperButtonControl\HelperButtonControl.cs" />

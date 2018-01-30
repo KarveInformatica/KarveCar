@@ -223,6 +223,8 @@ namespace MasterModule.ViewModels
 
         private IRegionManager _regionManager;
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
+        private string _mailBoxName;
+
         protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
         //
@@ -260,6 +262,12 @@ namespace MasterModule.ViewModels
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
          
+        }
+        public override void DisposeEvents()
+        {
+            EventManager.DeleteObserver(this);
+            EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
+            DeleteMailBox(_mailBoxName);
         }
 
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
@@ -820,10 +828,10 @@ namespace MasterModule.ViewModels
                 if (PrimaryKeyValue.Length == 0)
                 {
                     PrimaryKeyValue = payload.PrimaryKeyValue;
-                    string mailboxName = "CommissionAgents." + PrimaryKeyValue;
+                    _mailBoxName = "CommissionAgents." + PrimaryKeyValue;
                     if (MailBoxHandler != null)
                     {
-                        EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
+                        EventManager.RegisterMailBox(_mailBoxName, MailBoxHandler);
                     }
                 }
                 // here i can fix the primary key
@@ -950,10 +958,7 @@ namespace MasterModule.ViewModels
                 _primaryKeyValue = "";
             }
         }
-        public override void DisposeEvents()
-        {
-
-        }
+        
         public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
             throw new NotImplementedException();
@@ -965,9 +970,9 @@ namespace MasterModule.ViewModels
 
         public string Error { get; }
         /// <summary>
-        ///  UniqueId.
+        ///  FIXME: UniqueId.
         /// </summary>
-        public string UniqueId
+        public new string UniqueId
         {
             get => _uniqueId; set => _uniqueId = value;
         }

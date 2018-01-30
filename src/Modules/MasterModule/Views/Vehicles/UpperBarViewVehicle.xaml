@@ -64,6 +64,8 @@
 
 
             </karveControls:DualFieldSearchBox>
+               
+               
                 <karveControls:DualFieldSearchBox x:Name="Modelo"
                                                   TextContentFirstWidth="50"
                                                   TextContentSecondWidth="150"
@@ -83,6 +85,13 @@
                                                   AssistDataFieldFirst="Code"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
                 </karveControls:DualFieldSearchBox>
+                <karveControls:DataField x:Name="Variante" 
+                                         DataFieldHeight="30"
+                                         TextContent="{Binding ElementName=Modelo, Path=SelectedItem.Variante}"
+                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         DataSourcePath="" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                    </karveControls:DataField>
+
                 </WrapPanel>
 <WrapPanel Grid.Row="1">
     

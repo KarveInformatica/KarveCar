@@ -255,6 +255,9 @@
     <Compile Include="Views\Clients\DriverDataUserControl.xaml.cs">
       <DependentUpon>DriverDataUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Clients\GeneralInfoView.xaml.cs">
+      <DependentUpon>GeneralInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Clients\InvoicePeriod.xaml.cs">
       <DependentUpon>InvoicePeriod.xaml</DependentUpon>
     </Compile>
@@ -266,6 +269,9 @@
     </Compile>
     <Compile Include="Views\Clients\ReplacementCard.xaml.cs">
       <DependentUpon>ReplacementCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Clients\UpperBarViewClient.xaml.cs">
+      <DependentUpon>UpperBarViewClient.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
@@ -393,6 +399,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Clients\GeneralInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Clients\InvoicePeriod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -406,6 +416,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Clients\ReplacementCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Clients\UpperBarViewClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

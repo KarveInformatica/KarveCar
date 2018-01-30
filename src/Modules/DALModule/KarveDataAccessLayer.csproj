@@ -106,7 +106,9 @@
     <Compile Include="Assist\AssistHandlerRegistry.cs" />
     <Compile Include="Assist\AssistResponse.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
+    <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
+    <Compile Include="DataLoader.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="DataObjects\CK_PERMCONCEP.cs" />
     <Compile Include="DataObjects\CK_PERMCONCEP_INF.cs" />
     <Compile Include="DataObjects\CLASIFICACLI.cs" />
+    <Compile Include="DataObjects\ClientPoco.cs" />
     <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />

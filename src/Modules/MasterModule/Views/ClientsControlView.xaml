@@ -75,7 +75,7 @@
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
 
-                <syncfusion:GridTemplateColumn HeaderText="Matricula" MappingName="Matricula"
+                <syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="Nombre"
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}">
                     <syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -88,7 +88,7 @@
 
                 </syncfusion:GridTemplateColumn>
 
-                <syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="C" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>

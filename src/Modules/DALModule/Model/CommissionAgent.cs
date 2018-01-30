@@ -479,6 +479,7 @@ namespace DataAccessLayer.Model
             if ((!string.IsNullOrEmpty(comisio.CLIENTE)))
             {
                 tmpQuery = string.Format(_queryComiDapper, Client1, DefaultClientes1Fields, "NUMERO_CLI", comisio.CLIENTE);
+                // FIXME: this shall be a client poco.
                 _clientes = await _dbConnection.QueryAsync<CLIENTES1>(tmpQuery);
                 ClientsDto = _mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientesDto>>(_clientes);
 

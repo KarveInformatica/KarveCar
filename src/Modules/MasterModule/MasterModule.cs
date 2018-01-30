@@ -37,6 +37,8 @@ namespace MasterModule
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
             _container.RegisterType<object, VehicleInfoView>(typeof(VehicleInfoView).FullName);
             _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
+
+      
          //   _regionManager.RegisterViewWithRegion("PaymentDirectionRegion", typeof(DirectionInfo));
          //   _regionManager.RegisterViewWithRegion("ClaimsDirectionRegion", typeof(DirectionInfo));
          //   _regionManager.RegisterViewWithRegion("ReturnDirectionRegion", typeof(DirectionInfo));

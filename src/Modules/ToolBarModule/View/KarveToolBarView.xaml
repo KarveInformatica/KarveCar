@@ -55,7 +55,7 @@
             </Button>
             <Button x:Name="tbbtnBorrar" 
                     HorizontalAlignment="Left"
-                    IsEnabled="{Binding IsNewEnabled}" >
+                    IsEnabled="{Binding IsDeleteEnabled}" >
                 <StackPanel>
                     <Image Source="/KarveCar;component/Images/bt_delete.png" Stretch="Fill" Height="20" />
                 </StackPanel>

@@ -114,6 +114,10 @@
                         Email="Value.MAIL">
                     </kc:DirectionInfo>
                 </TabItem>
+                <TabItem Header="DirectionItemTriple">
+                    
+                    
+                </TabItem>
             </TabControl>
             <!--
            <kc:AutoCompleteSearchBox  

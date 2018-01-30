@@ -301,38 +301,30 @@
                                                      TextContentWidth="200" 
                                                      LabelText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" 
                                                      DataSourcePath="MOVIL"
+                                                     ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                      TableName="{Binding TableName}"
                                                      />
                             
                             <WrapPanel Orientation="Horizontal">
-                                        <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
+                                            <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
                                                               DataDatePickerHeight="30" 
                                                               LabelTextWidth="100" 
                                                               LabelVisible="True"
                                                               PickerContentWidth="100"
                                                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.DataSourcePath="Value.ALTA_COMI"
+                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                               >
-
-                                    <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </karveControls:DataDatePicker>
+                                            </karveControls:DataDatePicker>
                                         <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}"
                                                               LabelVisible="True"
                                                               LabelTextWidth="100" 
                                                               PickerContentWidth="100" 
                                                               DataDatePickerHeight="30"
                                                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                               karveControls:ControlExt.DataSourcePath="Value.BAJA_COMI">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
                                 </karveControls:DataDatePicker>
                             </WrapPanel>
                             <karveControls:DualFieldSearchBox 

@@ -28,7 +28,11 @@ namespace DataAccessLayer
         /// Vehicle data services. 
         /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
-     
+
+
+        private readonly IClientDataServices _clientDataServices;
+
+
         private ISqlExecutor _executor;
         private object _serviceConf;
 
@@ -50,6 +54,8 @@ namespace DataAccessLayer
             _commissionAgentDataServices = new CommissionAgentAccessLayer(sqlExecutor);
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
             _settingsDataService = new SettingsDataService(sqlExecutor);
+            _clientDataServices = new ClientDataAccessLayer(sqlExecutor);
+
         }
         /// <summary>
         ///  Get the vehicles data services that represent all vehicles.

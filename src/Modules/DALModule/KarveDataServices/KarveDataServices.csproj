@@ -71,6 +71,7 @@
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="DataLayerException.cs" />
     <Compile Include="DataObjects\IBranchesData.cs" />
+    <Compile Include="DataObjects\IClientData.cs" />
     <Compile Include="DataObjects\ICommissionAgent.cs" />
     <Compile Include="DataObjects\ICommissionAgentTypeData.cs" />
     <Compile Include="DataObjects\IContactsData.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="DataTransferObject\ClientesDto.cs" />
     <Compile Include="DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
+    <Compile Include="DataTransferObject\ClientSummaryDto.cs" />
     <Compile Include="DataTransferObject\ClientZoneDto.cs" />
     <Compile Include="DataTransferObject\ColorDto.cs" />
     <Compile Include="DataTransferObject\ComisioDto.cs" />
@@ -148,6 +150,9 @@
     <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
     <Compile Include="DataTransferObject\VisitTypeDto.cs" />
+    <Compile Include="IClientDataServices.cs" />
+    <Compile Include="IDataDeleter.cs" />
+    <Compile Include="IDataLoader.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />

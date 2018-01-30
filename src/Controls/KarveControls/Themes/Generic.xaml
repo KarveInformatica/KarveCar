@@ -7,6 +7,7 @@
   xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:interactivity="http://prismlibrary.com/"
   mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
@@ -178,9 +179,9 @@
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
 
-                                                 BorderBrush="DeepSkyBlue" 
+                                                 BorderBrush="CadetBlue" 
 
-                                                 Background="DeepSkyBlue" VerticalAlignment="Top" 
+                                                 Background="CadetBlue" VerticalAlignment="Top" 
 
                                                  CornerRadius="5,5,0,0" Margin="-2,-2,-2,0">
 
@@ -265,6 +266,52 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--
+        <Style TargetType="{x:Type local:KarveSearchBox}">
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:KarveSearchBox}">
+                    <StackPanel Orientation="Horizontal">
+                        <local:DataField x:Name="PART_DataField"
+                                        LabelTextWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Path=LabelWidth, 
+                                                    Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        LabelText="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Path=Text, 
+                                                    Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                        DataSource="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Path=DataSource, 
+                                                    Mode=TwoWay}"
+                                        ItemChangedCommand="{Binding 
+                                                            RelativeSource={RelativeSource TemplatedParent}, 
+                                                            Path=Command}"
+                                        TextContentWidth="50" 
+                                        Margin="10,0,0,0">
+                        </local:DataField>
+                        <local:DualFieldSearchBox x:Name="PART_SearchBox"
+                                                  LabelVisible="False"
+                                                  DataSource="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Path=DataSource, 
+                                                    Mode=TwoWay}"
+                                                  TextContentFirstWidth="50"
+                                                  TextContentSecondWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                                  Path=TextWidth, 
+                                                  Mode=TwoWay}"
+                                                  ButtonImage="/KarveControls;component/Images/search.png">
+                       </local:DualFieldSearchBox>
+                    </StackPanel>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    -->
     <Style TargetType="{x:Type local:DirectionInfo}">
         <Style.Resources>
             <ObjectDataProvider x:Key="ResourceLanguage" 
@@ -438,5 +485,7 @@
         </Setter>
     </Style>
 </ResourceDictionary>
+    
+    
     
     

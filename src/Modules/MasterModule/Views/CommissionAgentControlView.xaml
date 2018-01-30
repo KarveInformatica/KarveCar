@@ -30,7 +30,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
-                               ColumnSizer="AutoWithLastColumnFill"
+                               ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"

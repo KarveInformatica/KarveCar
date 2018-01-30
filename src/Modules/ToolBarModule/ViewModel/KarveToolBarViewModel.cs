@@ -57,6 +57,8 @@ namespace ToolBarModule
 
         public ICommand SaveValueCommand { get; set; }
         private IRegionManager _regionManager;
+        private bool _isDeleteEnabled;
+
         /// <summary>
         /// KarveToolBarViewModel is a view model to modle the toolbar behaviour.
         /// </summary>
@@ -86,6 +88,9 @@ namespace ToolBarModule
             this.CurrentSaveImagePath = currentSaveImage;
             _regionManager = regionManager;
             _states = ToolbarStates.None;
+            this.IsSaveEnabled = false;
+            this.IsDeleteEnabled = false;
+            this.IsNewEnabled = false;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             Confirmation request = new Confirmation
             {
@@ -208,6 +213,15 @@ namespace ToolBarModule
             get { return _isNewEnabled; }
             set { _isNewEnabled = value; RaisePropertyChanged("IsNewEnabled"); }
         }
+
+        /// <summary>
+        /// Return true when is a delete enabled.
+        /// </summary>
+        public bool IsDeleteEnabled
+        {
+            get { return _isDeleteEnabled; }
+            set { _isDeleteEnabled = value; RaisePropertyChanged("IsDeleteEnabled"); }
+        }
         /// <summary>
         /// Return true when save is enabled
         /// </summary>
@@ -256,7 +270,7 @@ namespace ToolBarModule
             if (this.IsSaveEnabled)
             {
                 this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-                this.IsSaveEnabled = false;
+               // this.IsSaveEnabled = false;
                 DataPayLoad payLoad = _careKeeper.GetScheduledPayload();
                 if ((_careKeeper.GetScheduledPayloadType() == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
                 {
@@ -361,6 +375,7 @@ namespace ToolBarModule
                             }
                         }
                         IsNewEnabled = true;
+                        IsDeleteEnabled = true;
                         break;
                     }
                 case DataPayLoad.Type.UnregisterPayload:
