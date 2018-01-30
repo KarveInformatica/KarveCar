@@ -788,7 +788,7 @@ namespace KarveControls
             if (MagnifierGrid != null)
             {
                 MagnifierGrid.SelectionChanged += MagnifierGrid_OnSelectionRowChanged;
-                
+                MagnifierGrid.MouseDoubleClick += MagnifierGrid_MouseDoubleClick;
              //   MagnifierGrid.AutoGeneratingColumn += MagnifierGrid_AutoGeneratingColumn; ;
             }
             _bootUp = true;
@@ -796,6 +796,23 @@ namespace KarveControls
            // RaiseMagnifierPressEvent();
            // this.Res
           //  OnResize(EventArgs.Empty);
+        }
+
+        private void MagnifierGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (Popup != null)
+            {
+                if (Popup.IsOpen)
+                {
+                    var value = MagnifierGrid.SelectedItem;
+                    if (value == null)
+                    {
+                        return;
+                    }
+                    HandleObjectValue(value);
+                    Popup.IsOpen = false;
+                }
+            }
         }
 
         private void MagnifierGrid_AutoGeneratingColumn(object sender, AutoGeneratingColumnArgs e)
@@ -1127,11 +1144,12 @@ namespace KarveControls
                 {
                     HandleSourceViewAsEnumerable(enumerableValue, DataSource);
                 }
-                if (_bootUp)
+             /*   if (_bootUp)
                 {
                     _bootUp = false;
                     return;
                 }
+                */
                 if (MagnifierGrid != null)
                 {
 //                    new GridVirtualizingCollectionView(_orders);
