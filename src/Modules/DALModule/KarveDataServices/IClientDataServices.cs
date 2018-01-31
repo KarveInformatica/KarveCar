@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,10 @@ namespace KarveDataServices
     public interface IClientDataServices
     {
         /// <summary>
-        ///  This it will give you the list of the clients
+        ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<IClientData>> GetClientAsyncSummaryDo();
+        Task<DataSet> GetAsyncAllClientSummary();
         /// <summary>
         ///  This create a new client.
         /// </summary>
@@ -25,13 +26,13 @@ namespace KarveDataServices
         /// <summary>
         ///  This is a delete client.
         /// </summary>
-        Task<bool> DeleteClient(IClientData commissionAgent);
+        Task<bool> DeleteClientAsyncDo(IClientData commissionAgent);
         /// <summary>
         ///  This save the client data.
         /// </summary>
         /// <param name="clientData"></param>
         /// <returns>true or false in case of a client.</returns>
-        Task<bool> Save(IClientData clientData);
+        Task<bool> SaveAsync(IClientData clientData);
 
     }
 }

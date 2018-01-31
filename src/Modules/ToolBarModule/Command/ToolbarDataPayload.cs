@@ -88,7 +88,17 @@ namespace ToolBarModule.Command
                     eventManager.SendMessage(EventSubsystem.SuppliersSummaryVm, payLoad);
                     break;
                 }
+                case DataSubSystem.ClientSubsystem:
+                {
+                    eventManager.SendMessage(EventSubsystem.ClientSubSytsem, payLoad);
+                    break;
+                }
             }
+        }
+
+        protected void SendError(string message)
+        {
+            OnErrorExecuting?.Invoke(message);
         }
         public event ErrorExecuting OnErrorExecuting;
         public abstract void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad);       

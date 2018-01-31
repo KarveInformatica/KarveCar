@@ -33,7 +33,8 @@ namespace ToolBarModule.Command
                 { DataSubSystem.SupplierSubsystem, new SupplierDataPayload() },
                 { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
                 { DataSubSystem.VehicleSubsystem, new VehicleDataPayload() },
-                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad() }
+                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad() },
+                { DataSubSystem.ClientSubsystem, new ClientDataPayload() }
             };
 
         /// <summary>
@@ -126,12 +127,12 @@ namespace ToolBarModule.Command
         /// <param name="errorType"></param>
         private void HandlerOnOnErrorExecuting(string errorType)
         {
-
+            // FIXME: use the configuration service messagebox service.
             MessageBox.Show(errorType, "Error while saving", MessageBoxButton.OK);
         }
 
         /// <summary>
-        /// Unexecute the save command. In this case we no rollback.
+        /// Unexecute the save command. In this case we have no undo.
         /// </summary>
         /// <returns>true if the execution has been correct</returns>
         public override bool UnExecute()

@@ -460,10 +460,10 @@ namespace DataAccessLayer.Model
                     try
                     {
                         int ret = await connection.InsertAsync(vehiculo1);
-                        retValue = ret == 0 ;
+                        retValue = ret > 0 ;
                         ret = await connection.InsertAsync(vehiculo2);
                         transactionScope.Complete();
-                        retValue = retValue && (ret == 0);
+                        retValue = retValue && (ret > 0);
                     }
                     catch (TransactionException ex)
                     {
@@ -636,7 +636,7 @@ namespace DataAccessLayer.Model
             }
         }
         /// <summary>
-        /// Convert to the new vehiculo1.
+        /// Convert to the new vehiculo1. TODO: remove an use the generic version.
         /// </summary>
         private class PocoToVehiculo1 : ITypeConverter<VehiclePoco, VEHICULO1>
         {

@@ -2471,4 +2471,7 @@
   <data name="VehicleTypes_TipoDeVehiculos" xml:space="preserve">
     <value>Tipi di veicoli</value>
   </data>
+  <data name="lrisk" xml:space="preserve">
+    <value>Rischio</value>
+  </data>
 </root>

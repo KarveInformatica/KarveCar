@@ -2532,4 +2532,7 @@
   <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
     <value>Claves de presuppuesto</value>
   </data>
+  <data name="lrisk" xml:space="preserve">
+    <value>Riesgo</value>
+  </data>
 </root>

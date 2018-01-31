@@ -12,10 +12,26 @@ namespace KarveCommon.Services
     /// </summary>
     public class EventSubsystem
     {
+        /// <summary>
+        ///  Commission agent subsytem name
+        /// </summary>
         public const string CommissionAgentSummaryVm = "CommisionAgentSummaryVm";
+        /// <summary>
+        ///  Supplier subsystem name
+        /// </summary>
         public const string SuppliersSummaryVm = "ProvidersControlViewModel";
+        /// <summary>
+        ///  Vehicle subsystem name
+        /// </summary>
         public const string VehichleSummaryVm = "VehicleControlViewModel";
+        /// <summary>
+        ///  Helper subsystem name
+        /// </summary>
         public const string HelperSubsystem = "HelperSubsystem";
+        /// <summary>
+        ///  Client subsystem name.
+        /// </summary>
+        public const string ClientSubSytsem = "ClientsControlViewModel";
     }
     /// <summary>
     /// Interface for communication between view models.

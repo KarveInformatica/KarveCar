@@ -461,7 +461,8 @@
                                     Height="25"
                 SourceView="{Binding Path=PaymentDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORPA"/>
-
+                            
+                                       
                                         <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO"

@@ -41,6 +41,7 @@ namespace ToolBarModule.Command
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
             }
+            // FIXME: unify the update and the insert.
             switch (payLoad.PayloadType)
             {
                 case DataPayLoad.Type.Update:

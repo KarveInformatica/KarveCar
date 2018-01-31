@@ -10,7 +10,6 @@ using KarveCommon.Command;
 using KarveCommon.Generic;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
-using ToolBarModule.Properties;
 
 namespace ToolBarModule
 {
@@ -290,10 +289,7 @@ namespace ToolBarModule
                     SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
                         this._eventManager, this._configurationService);
                     _careKeeper.Do(new CommandWrapper(dataCommand));
-                  /*  
-                   *  payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                   *  DeliverIncomingNotify(payLoad.Subsystem, payLoad);
-                   */
+                 
                 }
                 // in case of the helper subsystem it is the same view model to handle the stuff,
                 if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)

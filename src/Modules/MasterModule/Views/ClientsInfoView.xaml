@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:clients="clr-namespace:MasterModule.Views.Clients"
              xmlns:mvvm1="http://prismlibrary.com/"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -13,7 +14,7 @@
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              x:Class="MasterModule.Views.ClientsInfoView"
              mc:Ignorable="d" 
-             d:DesignHeight="1400" d:DesignWidth="800">
+             d:DesignHeight="2000" d:DesignWidth="1200">
     <UserControl.Resources>
 
         <ResourceDictionary>
@@ -22,7 +23,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -35,44 +35,49 @@
         </i:Interaction.Triggers>
         <StackPanel Orientation="Vertical">
 
-            <ContentControl prism:RegionManager.RegionName="ClientUpperRegion" />
-            
+            <ContentControl mvvm1:RegionManager.RegionName="ClientUpperRegion" />
 
             <TabControl x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
-                <!--   <dragablz:TabablzControl.ItemContainerStyle>
-                <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
-                  <Setter Property="Width" Value="100" />
-                    <Setter Property="Height" Value="40" />
-                    <Setter Property="FontFamily" Value="Arial"/>
-                        <Setter Property="Background" Value="Blue"></Setter>
-                    
-                </Style>
-            </dragablz:TabablzControl.ItemContainerStyle>
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-            -->
+
                 <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <ScrollViewer>
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Seleciona" Margin="10,0,0,10" Width="150"></TextBlock>
-                                <ComboBox Width="200" KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Seleciona" Margin="10,0,0,10" Width="150"></TextBlock>
+                            <ComboBox Width="200" KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                           KarveControls:ControlExt.DataSourcePath="Value.ALTA_COMI">
-                                    <ComboBoxItem Content="Persona" IsSelected="True" Width="200"></ComboBoxItem>
-                                    <ComboBoxItem Content="Empresa" Width="200"></ComboBoxItem>
-                                </ComboBox>
-                            </StackPanel>
-                                                
-                            <StackPanel Orientation="Horizontal">
-                            <KarveControls:DataFieldCheckBox>
-                                Moroso
+                                <ComboBoxItem  IsSelected="True" Width="200">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/MasterModule;component/Images/contacts.png" Height="25"></Image>
+                                        <TextBlock Text="Persona" Foreground="Black"></TextBlock>
+                                    </StackPanel>
+                                </ComboBoxItem>
+                                <ComboBoxItem Width="200">
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/MasterModule;component/Images/corporation.png" Height="25"></Image>
+                                        <TextBlock Text="Empresa" Foreground="Black">></TextBlock>
+                                    </StackPanel>
+
+                                </ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <clients:GeneralInfoView />
+
+                        <StackPanel Orientation="Horizontal">
+                            <KarveControls:DataFieldCheckBox Content="Moroso"   
+                                                 KarveControls:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 KarveControls:ControlExt.DataSourcePath="PowderCoating">
                             </KarveControls:DataFieldCheckBox>
-                            <KarveControls:DataFieldCheckBox>
-                                Bloqueado
+
+                            <KarveControls:DataFieldCheckBox Content="Bloqueado"   
+                                                 KarveControls:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 KarveControls:ControlExt.DataSourcePath="PowderCoating">
                             </KarveControls:DataFieldCheckBox>
-                            </StackPanel>
-                            <KarveControls:DataArea 
+                        </StackPanel>
+
+                        <KarveControls:DataArea 
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                             Margin="5,0,0,0"
@@ -80,7 +85,7 @@
                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             KarveControls:ControlExt.DataSourcePath="NOTAS"
                             KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <KarveControls:DataArea 
+                        <KarveControls:DataArea 
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                             Margin="5,5,0,0"
@@ -89,99 +94,16 @@
                             KarveControls:ControlExt.DataSourcePath="OBSERVA"
                             KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <GroupBox Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}">
-                                <KarveControls:CreditCardUserControl/>
-                            </GroupBox>
-                            <GroupBox>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                        <KarveControls:DataDatePicker LabelText="Fecha Expediente NIF" Height="35" Width="200"/>
-                                        <KarveControls:DataField 
-                                                  DataSourcePath="DIRECCION" 
-                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="En"
-                                                  Height="35"
-                                                  LabelTextWidth="40"
-                                                  Margin="10,5,0,0"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TextContentWidth="200"
-                                                  IsReadOnly="False"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                        
-                                        <KarveControls:DataDatePicker LabelText="Fecha Nacimiento" Height="35" Width="200"/>
-                                        <KarveControls:DataField 
-                                                  DataSourcePath="DIRECCION" 
-                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="En"
-                                                  Height="35"
-                                                  LabelTextWidth="40"
-                                                  Margin="10,5,0,0"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TextContentWidth="200"
-                                                  IsReadOnly="False">
-                                        </KarveControls:DataField>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="2">
-                                        
-                                        <GroupBox Header="Permiso de conducir">
-                                            <StackPanel Orientation="Vertical">
-                                                <KarveControls:DataField  DataSourcePath="DIRECCION" 
-                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="Categoria"
-                                                  LabelTextWidth="150"
-                                                  Margin="0,5,0,0"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TextContentWidth="250"
-                                                  IsReadOnly="False">
-                                                </KarveControls:DataField>
-                                                <KarveControls:DataField  DataSourcePath="DIRECCION" 
-                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="Numero"
-                                                  LabelTextWidth="150"
-                                                  Margin="0,5,0,0"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TextContentWidth="250"
-                                                  IsReadOnly="False">
-                                                </KarveControls:DataField>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <KarveControls:DataDatePicker 
-                                                    LabelText="Fecha Expiration Permiso" 
-                                                    Height="50" 
-                                                    MinWidth="250"
-                                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                    KarveControls:ControlExt.DataSourcePath="Value.BAJA_COMI"/>
+                        <GroupBox Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}">
+                            <KarveControls:CreditCardUserControl/>
+                        </GroupBox>
+                        <clients:DriverDataUserControl></clients:DriverDataUserControl>
 
-                                                    <KarveControls:DataDatePicker LabelText="Fecha Caducidad Permiso" 
-                                                                              Height="50" MinWidth="250"
-                                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="Value.BAJA_COMI" />
-                                                </StackPanel>
-                                                <KarveControls:DataField  DataSourcePath="DIRECCION" 
-                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="En"
-                                                  LabelTextWidth="150"
-                                                  Margin="0,5,0,0"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TextContentWidth="250"
-                                                  IsReadOnly="False"/>
-                                            </StackPanel>
-                                        </GroupBox>
-                                    </StackPanel>
-
-                                </Grid>
-
-                            </GroupBox>
-                        </StackPanel>
-                    </ScrollViewer>
+                    </StackPanel>
                 </TabItem>
-
-
+                <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <clients:OtherData></clients:OtherData>
+                </TabItem>
             </TabControl>
         </StackPanel>
 

@@ -136,6 +136,7 @@
     <Compile Include="Base\TestEnviromentVariables.cs" />
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
+    <Compile Include="DAL\TestDataCRUD.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="Mock\MockEventManger.cs" />
     <Compile Include="Mock\MockModel\VehicleMock.cs" />

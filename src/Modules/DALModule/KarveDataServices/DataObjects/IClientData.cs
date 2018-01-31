@@ -16,26 +16,30 @@ namespace KarveDataServices.DataObjects
     public interface IClientData
     {
         /// <summary>
+        /// Load value
+        /// </summary>
+        /// <param name="code">Client code primary key</param>
+        /// <returns></returns>
+        Task<bool> LoadValue(string code);
+        /// <summary>
         ///  This returns in case of saving a sigle client.
         /// </summary>
         /// <returns>true if the it has been successfully saved.</returns>
-        Task<bool> Save();
+        Task<bool> SaveAll();
         /// <summary>
-        ///  This saves the changes in case of a client.
-        /// </summary>
-        /// <returns>true if it has been successfully saved.</returns>
-        Task<bool> SaveChanges();
-
         /// <summary>
-        /// Vehicle Data.
+        /// ClientData Data.
         /// </summary>
         ClientesDto Value { set; get; }
-
         /// <summary>
         ///  This tells us if the data is valid or not.
         /// </summary>
         bool Valid { get; set; }
-  
+        /// <summary>
+        ///  Delete asynchronous thing.s
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteAsync();
     }
 
 }

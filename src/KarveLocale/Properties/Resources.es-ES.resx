@@ -2109,4 +2109,7 @@
   <data name="ClientInvoiceBlocks_BloqueDeFacturacion" xml:space="preserve">
     <value>Bloque de Facturacion</value>
   </data>
+  <data name="lrisk" xml:space="preserve">
+    <value>Riesgo</value>
+  </data>
 </root>

@@ -102,6 +102,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\ClientDataPayload.cs" />
     <Compile Include="Command\CommissionAgentPayload.cs" />
     <Compile Include="Command\GridSaveDataCommand.cs" />
     <Compile Include="Command\HelperDataPayLoad.cs" />

@@ -51,6 +51,6 @@
             <TextBlock  Text="ZIP/Postal code" FontSize="10"></TextBlock>
             <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=PostalCode, Mode=TwoWay}"></TextBox>
         </StackPanel>
-        <Button Grid.Row="5" Command="{Binding Path=ValidateFrom}" Content="Send" Height="25"></Button>
+        <Button Grid.Row="5" Command="{Binding Path=ValidateFrom}" Content="Invia" Height="25"></Button>
     </Grid>
 </UserControl>

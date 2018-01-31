@@ -16,6 +16,8 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Vehicle data service subsystem</returns>       
         IVehicleDataServices GetVehicleDataServices();
+        IClientDataServices GetClientDataServices();
+
         /// <summary>
         ///  Returns the interface that is needed for the suppliers.
         /// </summary>

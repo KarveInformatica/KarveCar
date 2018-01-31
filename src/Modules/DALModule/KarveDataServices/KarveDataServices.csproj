@@ -153,6 +153,7 @@
     <Compile Include="IClientDataServices.cs" />
     <Compile Include="IDataDeleter.cs" />
     <Compile Include="IDataLoader.cs" />
+    <Compile Include="IDataSaver.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />

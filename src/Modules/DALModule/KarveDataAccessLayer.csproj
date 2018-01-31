@@ -108,6 +108,7 @@
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
+    <Compile Include="DataDeleter.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
@@ -1078,6 +1079,7 @@
     <Compile Include="DataObjects\_TmpEstProdFacVehiOfi.cs" />
     <Compile Include="DataObjects\_TMPSC.cs" />
     <Compile Include="DataObjects\_TMPXX.cs" />
+    <Compile Include="DataSaver.cs" />
     <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="DataTranslationLoader.cs" />
     <Compile Include="Exception\CommissionAgentException.cs" />

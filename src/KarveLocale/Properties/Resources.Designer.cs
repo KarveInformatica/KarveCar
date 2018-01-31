@@ -4804,6 +4804,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Riesgo.
+        /// </summary>
+        public static string lrisk {
+            get {
+                return ResourceManager.GetString("lrisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuración.
         /// </summary>
         public static string lrmnbtnConfiguracion {

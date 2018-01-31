@@ -7,6 +7,7 @@ using System.Text;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices.DataTransferObject;
+using System.Reflection;
 
 namespace DataAccessLayer.Logic
 {
@@ -174,7 +175,7 @@ namespace DataAccessLayer.Logic
             contacts.ccoMovil = source.Movil;
             contacts.ccoCargo = source.Responsability;
             contacts.ccoIdCliente = source.ContactsKeyId;
-            
+
             return contacts;
 
         }
@@ -186,20 +187,20 @@ namespace DataAccessLayer.Logic
             ContactsDto contacts = new ContactsDto();
             contacts.ContactId = source.ccoIdContacto;
             contacts.ContactName = source.ccoContacto;
-            
-           /*
-            branchesDto.BranchId = source.cldIdDelega.ToString();
-            branchesDto.Branch = source.cldDelegacion;
-            branchesDto.Province.Code = source.PROV.SIGLAS;
-            branchesDto.Province.Name = source.PROV.PROV;
-            branchesDto.Province.Country = source.PROV.PAIS;
-            branchesDto.Address = source.cldDireccion1;
-            branchesDto.Address2 = source.cldDireccion2;
-            branchesDto.Phone = source.cldTelefono1;
-            branchesDto.Phone2 = source.cldTelefono2;
-            branchesDto.Email = source.cldEMail;
-            branchesDto.City = source.cldPoblacion;
-           */
+
+            /*
+             branchesDto.BranchId = source.cldIdDelega.ToString();
+             branchesDto.Branch = source.cldDelegacion;
+             branchesDto.Province.Code = source.PROV.SIGLAS;
+             branchesDto.Province.Name = source.PROV.PROV;
+             branchesDto.Province.Country = source.PROV.PAIS;
+             branchesDto.Address = source.cldDireccion1;
+             branchesDto.Address2 = source.cldDireccion2;
+             branchesDto.Phone = source.cldTelefono1;
+             branchesDto.Phone2 = source.cldTelefono2;
+             branchesDto.Email = source.cldEMail;
+             branchesDto.City = source.cldPoblacion;
+            */
             return contacts;
 
         }
@@ -263,6 +264,100 @@ namespace DataAccessLayer.Logic
             return destinationDto;
         }
     }
+    /// <summary>
+    ///  Converter for the the new vehiculo2.
+    /// </summary>
+    public class GenericBackConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
+    {
+        public Entity Convert(Dto source, Entity destination, ResolutionContext context)
+        {
+            Entity e = new Entity();
+            PropertyInfo[] currentProperties = e.GetType().GetProperties();
+            foreach (PropertyInfo property in currentProperties)
+            {
+                var currentSource = source.GetType();
+                var propertyInfo = currentSource.GetProperty(property.Name);
+                if (propertyInfo != null)
+                {
+                    var tmpValue = propertyInfo.GetValue(source);
+                    e.GetType().GetProperty(property.Name).SetValue(e, tmpValue);
+                }
+
+            }
+            return e;
+        }
+    }
+
+    /// <summary>
+    /// Convert the generic conversion.
+    /// </summary>
+    public class GenericConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
+    {
+
+        public Entity Convert(Dto source, Entity destination, ResolutionContext context)
+        {
+            Entity e = new Entity();
+            Type dtoSourceType = source.GetType();
+            PropertyInfo[] currentProperties = e.GetType().GetProperties();
+            for (int i = 0; i < currentProperties.Length; ++i)
+            {
+                // destination property
+                var prop = currentProperties[i];
+                // source Value
+                var sourceValueProperty = dtoSourceType.GetProperty(prop.Name);
+                if (sourceValueProperty != null)
+                {
+                    var destinationProperty = e.GetType().GetProperty(prop.Name);
+                    destinationProperty?.SetValue(e, sourceValueProperty.GetValue(source));
+                }
+            }
+            return e;
+        }
+    }
+    /// POCO to Dto converter for the client domain object to merge both.
+    public class ClientToClientes1 : ITypeConverter<CLIENTES1, ClientesDto>
+    {
+        public ClientesDto Convert(CLIENTES1 source, ClientesDto destination, ResolutionContext context)
+        {
+            GenericConverter<CLIENTES1, ClientesDto> gc = new GenericConverter<CLIENTES1, ClientesDto>();
+            var v = gc.Convert(source, destination, context);
+            return v;
+        }
+    }
+    /// POCO to Dto converter for the client domain object to merge both.
+    public class ClientToClientes2 : ITypeConverter<CLIENTES2, ClientesDto>
+    {
+        public ClientesDto Convert(CLIENTES2 source, ClientesDto destination, ResolutionContext context)
+        {
+            GenericConverter<CLIENTES2, ClientesDto> gc = new GenericConverter<CLIENTES2, ClientesDto>();
+            var v = gc.Convert(source, destination, context);
+            return v;
+        }
+    }
+    ///
+    /// Dto to POCO converter.
+    /// 
+    public class ClientDtoToClientes1 : ITypeConverter<ClientesDto, CLIENTES1>
+    {
+        public CLIENTES1 Convert(ClientesDto source, CLIENTES1 destination, ResolutionContext context)
+        {
+            var entityConverter = new GenericBackConverter<ClientesDto, CLIENTES1>();
+            var entity = entityConverter.Convert(source, destination, context);
+            return entity;
+        }
+    }
+    ///
+    /// Dto to POCO converter.
+    /// 
+    public class ClientDtoToClientes2 : ITypeConverter<ClientesDto, CLIENTES2>
+    {
+        public CLIENTES2 Convert(ClientesDto source, CLIENTES2 destination, ResolutionContext context)
+        {
+            var entityConverter = new GenericBackConverter<ClientesDto, CLIENTES2>();
+            var entity = entityConverter.Convert(source, destination, context);
+            return entity;
+        }
+    }
 
     /// <summary>
     /// POCO to Dto converter for the client domain object
@@ -299,7 +394,7 @@ namespace DataAccessLayer.Logic
         public BusinessDto Convert(NEGOCIO source, BusinessDto destination, ResolutionContext context)
         {
             BusinessDto businessDto = new BusinessDto();
-            businessDto.Code= source.CODIGO;
+            businessDto.Code = source.CODIGO;
             businessDto.Name = source.NOMBRE;
             return businessDto;
         }
@@ -348,7 +443,7 @@ namespace DataAccessLayer.Logic
             }
             if (context.Items.ContainsKey("POCO"))
             {
-                comiPoco =  context.Items["POCO"] as IEnumerable<ContactsComiPoco>;
+                comiPoco = context.Items["POCO"] as IEnumerable<ContactsComiPoco>;
             }
             int contactIdentifier = Int32.Parse(source.ContactId);
             ContactsComiPoco contacts = comiPoco.FirstOrDefault(c => c.CONTACTO == contactIdentifier);
@@ -356,12 +451,12 @@ namespace DataAccessLayer.Logic
             comiContact.NOM_CONTACTO = source.ContactName;
             comiContact.EMAIL = source.Email;
             comiContact.NOM_CONTACTO = source.ContactName;
-            comiContact.DELEGA_CC = contacts?.DELEGA_CC; 
+            comiContact.DELEGA_CC = contacts?.DELEGA_CC;
             comiContact.FAX = source.Fax;
             comiContact.CARGO = contacts?.CARGO;
             comiContact.USUARIO = source.User;
             comiContact.ULTMODI = DateTime.Now.ToString();
-            comiContact.NIF = source.Nif; 
+            comiContact.NIF = source.Nif;
             comiContact.MOVIL = source.Movil;
             comiContact.FAX = source.Fax;
             comiContact.EMAIL = source.Email;
@@ -389,9 +484,9 @@ namespace DataAccessLayer.Logic
         public LanguageDto Convert(IDIOMAS source, LanguageDto destination, ResolutionContext context)
         {
             LanguageDto languageDto = new LanguageDto();
-            languageDto.Codigo= source.CODIGO.ToString();
+            languageDto.Codigo = source.CODIGO.ToString();
             languageDto.Nombre = source.NOMBRE;
-           
+
             return languageDto;
         }
     }
@@ -434,7 +529,7 @@ namespace DataAccessLayer.Logic
             {
                 idComi = context.Items["RefId"] as string;
             }
-            
+
             COMI_DELEGA dest = new COMI_DELEGA();
             dest.cldDelegacion = source.Branch;
             dest.cldDireccion1 = source.Address;
@@ -463,7 +558,7 @@ namespace DataAccessLayer.Logic
     /// </summary>
     public class VisitaCommissionConverter : ITypeConverter<VisitasComiPoco, VisitsDto>
     {
-        
+
         public VisitsDto Convert(VisitasComiPoco source, VisitsDto destination, ResolutionContext context)
         {
             VisitsDto visitsDto = new VisitsDto();
@@ -502,8 +597,8 @@ namespace DataAccessLayer.Logic
 
         }
     }
-    
-    public class BrandVehicle2Poco : ITypeConverter<BrandVehicleDto,  MARCAS>
+
+    public class BrandVehicle2Poco : ITypeConverter<BrandVehicleDto, MARCAS>
     {
         public MARCAS Convert(BrandVehicleDto source, MARCAS destination, ResolutionContext context)
         {
@@ -520,7 +615,7 @@ namespace DataAccessLayer.Logic
             return marcas;
         }
     }
-    public class Poco2BrandVehicle: ITypeConverter<MARCAS, BrandVehicleDto>
+    public class Poco2BrandVehicle : ITypeConverter<MARCAS, BrandVehicleDto>
     {
         public BrandVehicleDto Convert(MARCAS source, BrandVehicleDto destination, ResolutionContext context)
         {
@@ -534,10 +629,27 @@ namespace DataAccessLayer.Logic
             return brandVehicleDto;
         }
     }
+    /// <summary>
+    ///  Singleton class for the conversion from transfer object to dto.
+    /// </summary>
     public static class MapperField
     {
         private static IMapper Instance = null;
+
+        /// <summary>
+        ///  Get the map if instantiated otherwise build one.
+        /// </summary>
+        /// <returns>Map to be built.</returns>
         public static IMapper GetMapper()
+        {
+            if (Instance == null)
+            {
+                Instance = BuildMapping();
+            }
+            return Instance;
+        }
+
+        private static IMapper BuildMapping()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -547,24 +659,29 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
                 cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
-                cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing( new ZonaOfiConverter());
+                cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
-                cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
+                //cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientesConverter());
                 cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
                 cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
                 cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
                 cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
                 cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
                 cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
-                cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter() );
+                cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
                 cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
                 cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
+                cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientToClientes1());
+                cfg.CreateMap<CLIENTES2, ClientesDto>().ConvertUsing(new ClientToClientes2());
+                cfg.CreateMap<ClientesDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
+                cfg.CreateMap<ClientesDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
+                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
                 {
@@ -581,7 +698,7 @@ namespace DataAccessLayer.Logic
                     {
                         Code = src.CODIGO,
                         Name = src.NOMBRE,
-                        LastModification =  src.ULTMODI,
+                        LastModification = src.ULTMODI,
                         User = src.USUARIO
                     };
                     return marcas;
@@ -664,7 +781,7 @@ namespace DataAccessLayer.Logic
                     model.GridName = src.GRID_NAME;
                     if (src.SERILIZED_DATA != null)
                     {
-                      model.XmlBase64 = src.SERILIZED_DATA;
+                        model.XmlBase64 = src.SERILIZED_DATA;
                     }
                     return model;
                 });
@@ -688,7 +805,7 @@ namespace DataAccessLayer.Logic
                 {
                     var model = new VEHI_ACC();
                     model.COD_ACC = Convert.ToInt32(src.Code);
-                    model.NOM_ACC= src.Name;
+                    model.NOM_ACC = src.Name;
                     return model;
                 });
                 cfg.CreateMap<ACTIVEHI, VehicleActivitiesDto>().ConvertUsing(src =>
@@ -703,7 +820,7 @@ namespace DataAccessLayer.Logic
                     model.Compute = (c == 0);
                     model.ActityAlquiler = src.ACTIVI_ALQ;
                     model.Assurance = src.SEGURO_ANUAL;
-                    
+
                     return model;
                 });
                 cfg.CreateMap<VehicleActivitiesDto, ACTIVEHI>().ConvertUsing(src =>
@@ -716,7 +833,7 @@ namespace DataAccessLayer.Logic
                     model.USUARIO = src.User;
                     model.SEGURO_ANUAL = src.Assurance;
                     model.SIGLAS_ACT = src.ActivitySigle;
-        
+
                     return model;
                 });
                 cfg.CreateMap<VehicleToolDto, VEHI_ACC>().ConvertUsing(src =>
@@ -768,7 +885,7 @@ namespace DataAccessLayer.Logic
                     model.User = src.USUARIO;
                     model.Reference = src.REFERENCIA;
                     model.Notes = src.OBS;
-                    model.VehicleType= new VehicleTypeDto();
+                    model.VehicleType = new VehicleTypeDto();
                     model.VehicleType.Code = src.CODIGO.ToString();
                     return model;
                 });
@@ -779,7 +896,7 @@ namespace DataAccessLayer.Logic
                     model.NOMBRE = src.Name;
                     model.ULTMODI = src.LastModification;
                     model.USUARIO = src.User;
-                    model.REFERENCIA= src.Reference;
+                    model.REFERENCIA = src.Reference;
                     model.OBS = src.Notes;
                     model.TIPO_VEHI = src.VehicleType.Code;
                     return model;
@@ -799,17 +916,17 @@ namespace DataAccessLayer.Logic
                     var model = new USO_ALQUILER();
                     model.CODIGO = Convert.ToByte(src.Code);
                     model.NOMBRE = src.Name;
-                    model.ULTMODI= src.LastModification;
+                    model.ULTMODI = src.LastModification;
                     model.USUARIO = src.User;
                     return model;
                 });
                 cfg.CreateMap<ResellerDto, VENDEDOR>().ConvertUsing(src =>
                 {
-            
+
                     var model = new VENDEDOR();
                     model.NUM_VENDE = src.Code;
                     model.NOMBRE = src.Name;
-                    model.ULTMODI= src.LastModification;
+                    model.ULTMODI = src.LastModification;
                     model.USUARIO = src.User;
                     model.FECHALTA = src.StartDate;
                     model.FECHABAJA = src.LeaveDate;
@@ -824,7 +941,7 @@ namespace DataAccessLayer.Logic
                     model.NOTAS = src.Notes;
                     model.FAX = src.Fax;
                     model.WEB = src.Web;
-                    
+
                     return model;
                 });
                 cfg.CreateMap<OrigenDto, ORIGEN>().ConvertUsing(src =>
@@ -878,7 +995,7 @@ namespace DataAccessLayer.Logic
                     model.Code = src.NUM_ZONA;
                     model.Name = src.NOMBRE;
                     model.LastModification = src.ULTMODI;
-                    model.User= src.USUARIO;
+                    model.User = src.USUARIO;
                     return model;
                 });
                 cfg.CreateMap<VisitTypeDto, TIPOVISITAS>().ConvertUsing(src =>
@@ -948,15 +1065,15 @@ namespace DataAccessLayer.Logic
                     model.NOMBRE = src.Name;
                     return model;
                 });
-                cfg.CreateMap<BANCO,BanksDto>().ConvertUsing(src =>
-                {
-                    var model = new BanksDto();
-                    model.Code = src.CODBAN;
-                    model.Name = src.NOMBRE;
-                    model.Swift = src.SWIFT;
-                    model.LastModification = src.ULTMODI;
-                    return model;
-                });
+                cfg.CreateMap<BANCO, BanksDto>().ConvertUsing(src =>
+                 {
+                     var model = new BanksDto();
+                     model.Code = src.CODBAN;
+                     model.Name = src.NOMBRE;
+                     model.Swift = src.SWIFT;
+                     model.LastModification = src.ULTMODI;
+                     return model;
+                 });
                 cfg.CreateMap<CLAVEPTO, BudgetKeyDto>().ConvertUsing(src =>
                 {
                     var model = new BudgetKeyDto();
@@ -989,7 +1106,7 @@ namespace DataAccessLayer.Logic
                 {
                     var model = new ChannelDto();
                     model.Code = src.CODIGO;
-                    model.Name= src.NOMBRE;
+                    model.Name = src.NOMBRE;
                     model.LastModification = src.ULTMODI;
                     model.User = src.USUARIO;
                     return model;
@@ -1011,7 +1128,7 @@ namespace DataAccessLayer.Logic
 
                 cfg.CreateMap<BLOQUEFAC, InvoiceBlockDto>().ConvertUsing(src =>
                 {
-                    var model = new  InvoiceBlockDto();
+                    var model = new InvoiceBlockDto();
                     model.Code = src.CODIGO;
                     model.Name = src.NOMBRE;
                     model.LastModification = src.ULTMODI;
@@ -1051,7 +1168,7 @@ namespace DataAccessLayer.Logic
                     model.NOM_MOT = src.Name;
                     return model;
                 });
-                
+
 
                 cfg.CreateMap<CATEGO, VehicleTypeDto>().ConvertUsing(src =>
                 {
@@ -1061,7 +1178,7 @@ namespace DataAccessLayer.Logic
                     model.WebName = src.NOMWEB;
                     model.OfferMargin = src.DIAS_MARGEN;
                     model.LastModification = src.ULTMODI;
-                   // model.TerminationDate = src.
+                    // model.TerminationDate = src.
                     return model;
                 });
                 cfg.CreateMap<VehicleTypeDto, CATEGO>().ConvertUsing(src =>
@@ -1150,7 +1267,7 @@ namespace DataAccessLayer.Logic
                     model.NUMERO_MES = src.NUMERO_MES;
                     return model;
                 });
-              
+
                 cfg.CreateMap<FORMAS, PaymentFormDto>().ConvertUsing(src =>
                 {
                     var model = new PaymentFormDto();
@@ -1198,11 +1315,9 @@ namespace DataAccessLayer.Logic
                 });
 
             });
-            if (Instance == null)
-            {
-                Instance = config.CreateMapper();
-            }
-            return Instance;
+            var mappingConfig = config.CreateMapper();
+
+            return mappingConfig;
         }
     }
 
@@ -1219,4 +1334,3 @@ namespace DataAccessLayer.Logic
     }
 }
 
-    

@@ -1,45 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using System.Data;
 using System.Threading.Tasks;
+using DataAccessLayer.Model;
+using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 
-
 namespace DataAccessLayer
 {
-    /*
-     *  This class has the responsability of loading and delting, creating a new client.
-     *  It use interface segregation principle for decoupling the delete from the load.
-     */
+     /// <summary>
+     /// This class has the resposability to handle the client wrapper and delete, insert, update the values. 
+     /// </summary>
     internal class ClientDataAccessLayer : IClientDataServices
     {
-        private ISqlExecutor sqlExecutor;
-        private IDataDeleter<IClientData> _dataDeleter;
-        private IDataLoader<IClientData> dataLoader;
-
+        /// <summary>
+        ///  Sql executor.
+        /// </summary>
+        private readonly ISqlExecutor _sqlExecutor;
+       
+        /// <summary>
+        ///  Constructor
+        /// </summary>
+        /// <param name="sqlExecutor">SqlExecutor value</param>
         public ClientDataAccessLayer(ISqlExecutor sqlExecutor)
         {
-            this.sqlExecutor = sqlExecutor;
-          
+            _sqlExecutor = sqlExecutor;
         }
-
-        public async Task<bool> DeleteClient(IClientData commissionAgent)
+        /// <summary>
+        ///  Delete the client.
+        /// </summary>
+        /// <param name="clientData">The client value to delete</param>
+        /// <returns>True if the data has been deleted correctly</returns>
+        public async Task<bool> DeleteClientAsyncDo(IClientData clientData)
         {
-            throw new System.NotImplementedException();
+           return await clientData.DeleteAsync();
         }
-
-        public Task<IEnumerable<IClientData>> GetClientAsyncSummaryDo()
+        /// <summary>
+        ///  Get async client summary.
+        /// </summary>
+        /// <returns>A dataset containing the complete list of clients</returns>
+        public async Task<DataSet> GetAsyncAllClientSummary()
         {
-            throw new System.NotImplementedException();
+            string str = GenericSql.ClientsSummaryQuery;
+            DataSet summary = await _sqlExecutor.AsyncDataSetLoad(str).ConfigureAwait(false);
+            return summary;
         }
-
+        /// <summary>
+        ///  This return a single client.
+        /// </summary>
+        /// <returns>True if the data has been saved correctly</returns>
         public IClientData GetNewClientAgentDo()
         {
-            throw new System.NotImplementedException();
+           IClientData varClientData= new Client(_sqlExecutor);
+           return varClientData;
         }
-
-        public Task<bool> Save(IClientData clientData)
+        /// <summary>
+        ///  Value to save in the client data.
+        /// </summary>
+        /// <param name="clientData"></param>
+        /// <returns>True if the data has been saved correctly</returns>
+    
+        public async Task<bool> SaveAsync(IClientData clientData)
         {
-            throw new System.NotImplementedException();
+            return await clientData.SaveAll();
         }
     }
 }

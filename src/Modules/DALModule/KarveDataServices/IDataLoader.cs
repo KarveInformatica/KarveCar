@@ -16,5 +16,11 @@ namespace DataAccessLayer
         /// <param name="code">PrimaryKey value of the value to load.</param>
         /// <returns></returns>
         Task<T> LoadValueAsync(string code);
+        /// <summary>
+        ///  This is load async data.
+        /// </summary>
+        /// <param name="query"> This load the query.</param>
+        /// <returns></returns>
+        Task<IEnumerable<T>> LoadAsyncAll(string query);
     }
 }

@@ -17,14 +17,16 @@ namespace ToolBarModule
         private ICareKeeperService _careKeeper;
         private IEventManager _eventManager;
         private IConfigurationService _configurationService;
+        // FIXME: move the payload handlers in an upper class.
         private ISqlValidationRule<DataPayLoad> _sqlValidationRule;
-
+        // FIXME: move the payload handlers in an upper class.
         private IDictionary<DataSubSystem, IDataPayLoadHandler> payLoadHandlers =
             new Dictionary<DataSubSystem, IDataPayLoadHandler>()
             {
                 {DataSubSystem.SupplierSubsystem, new SupplierDataPayload()},
                 {DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
-                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad()}
+                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad()},
+                { DataSubSystem.ClientSubsystem,  new ClientDataPayload() }
             };
         /// <summary>
         /// This is the configuratin of an insert command.
