@@ -5,9 +5,9 @@
                     xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
                     xmlns:mvvm1="http://prismlibrary.com/"
                     xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls">
-
+<!--
     <common:BillingIntervalConverter x:Key="BillingConverter"/>
-
+-->
 
     <DataTemplate x:Key="DataFieldDataTemplate">
         <KarveControls:DataField LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

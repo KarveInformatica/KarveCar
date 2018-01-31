@@ -234,40 +234,6 @@
                 </StackPanel>
 
             </GroupBox>
-            <GroupBox Header="Opciones">
-                <StackPanel>
-                    <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto" />
-                    <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"/>
-                    <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias" />
-                    <KarveControls:DataFieldCheckBox Content="No Censado" />
-                    <GroupBox Header="Logo en Factura">
-                        <StackPanel Orientation="Horizontal">
-                        <RadioButton Content="Yes" Width="100"/>
-                            <RadioButton Content="No" Width="100"/>
-                        </StackPanel>
-                    </GroupBox>
-                    <StackPanel Orientation="Horizontal">
-                        <KarveControls:DataField x:Name="EmailField" 
-                                             LabelText="Email Mantenimiento:"
-                                             DataObject="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                             LabelTextWidth="120"
-                                             LabelVisible="True"
-                                             DataAllowed="Email"
-                                             ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                             IsReadOnly="False"
-                                             TextContentWidth="150"
-                                             DataFieldHeight="25"
-                                             DataSourcePath="EMAIL">
-                        </KarveControls:DataField>
-                        <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
-                            <Image Source="/KarveControls;component/Images/email.png" Height="25" Width="19"/>
-                        </Button>
                     </StackPanel>
-                   
-                   
-                </StackPanel>
-
-            </GroupBox>
-        </StackPanel>
     </Grid>
 </UserControl>

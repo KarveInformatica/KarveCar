@@ -58,38 +58,6 @@
             </DataTemplate>
 
            
-            <!--
-
-            <Style x:Key="KarveTabItemStyle"  TargetType="TabItem">
-                <Setter Property="Width" Value="40" />
-
-
-                <Setter Property="HeaderTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center"
-                                            Margin="0,0,7,0" Content="{Binding}"/>
-                                <Button Grid.Column="1" Content="Press">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <local:CloseTabAction/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-
-                            </Grid>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-
-            </Style>
-            -->
-        
 
             <Style x:Key="PdfCheckBox" 
                TargetType="{x:Type CheckBox}">
@@ -137,22 +105,7 @@
         -->
             <StackPanel Orientation="Vertical">
                 <!-- "NUM_PROVEE", "COMERCIAL", "NIF",  "TIPO"-->
-
-                <local:UpperBarViewSupplier Margin="100,10,0,0" 
-                            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
-                                               TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-
-                        <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-
-                    </i:Interaction.Triggers>
-                </local:UpperBarViewSupplier>
+                <ContentControl mvvm1:RegionManager.RegionName="UpperBarViewSupplier"></ContentControl>
                 <TabControl TabStripPlacement="Left" BorderThickness="0">
                     <TabItem Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid ShowGridLines="False">
