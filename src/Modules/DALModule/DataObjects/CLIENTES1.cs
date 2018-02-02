@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a CLIENTES1.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class CLIENTES1 
+    /// <summary>
+    /// Represents a CLIENTES1.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("CLIENTES1")]
+    public class CLIENTES1 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO_CLI property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("7")]
 		public string NUMERO_CLI { get; set; }
  
 	/// <summary>

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using KarveDataServices.DataTransferObject;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -83,12 +85,30 @@ namespace KarveDataServices
         /// <param name="entity">Entity from which we generate the id.</param>
         /// <returns></returns>
         Task<string> GetMappedUniqueId<DtoTransfer, T>(DtoTransfer entity) where T : class;
+
+        /// <summary>
+        /// Return a single value from the code and map to the data transfer object. 
+        /// </summary>
+        /// <typeparam name="DtoTransfer">Data Transfer Object to be mapped</typeparam>
+        /// <typeparam name="T">Entity to be mapped</typeparam>
+        /// <param name="code">Code to select the single entity</param>
+        /// <returns></returns>
+
+        Task<DtoTransfer> GetSingleMappedAsyncHelper<DtoTransfer, T>(string code) where T : class
+            where DtoTransfer : class, new();
+        /// <summary>
+        /// Given a set of code and names, it generates the queries and get the value. 
+        /// </summary>
+        /// <param name="value">Dictionary of code to lookup and list.</param>
+        /// <returns></returns>
+        Task<IDictionary<string, DtoTransfer>> GetAsyncBatchData<DtoTransfer>(IDictionary<string, string> value);
         /// <summary>
         ///  This returns all the entities that are presnet in a table mapped as data transfer object.
         /// </summary>
         /// <typeparam name="DtoTransfer">Type of the data transfer object.</typeparam>
         /// <typeparam name="T"> Type of the entity to be mapped.</typeparam>
         /// <returns></returns>
+        /// 
         Task<IEnumerable<DtoTransfer>> GetMappedAllAsyncHelper<DtoTransfer, T>() where DtoTransfer : class 
                                                                                  where T : class;
     }

@@ -10,8 +10,11 @@ namespace KarveDataServices.DataTransferObject
     ///  Base Data Transfer Object use foreach object that we need..
     /// </summary>
     [Serializable]
-    public class BaseDto
+    public class BaseDto : IValueObject
     {
+        public BaseDto()
+        {
+        }
         /// <summary>
         ///  LastModification
         /// </summary>

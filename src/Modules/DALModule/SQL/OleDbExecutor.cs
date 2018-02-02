@@ -14,7 +14,7 @@ namespace DataAccessLayer.SQL
     /// <summary>
     /// This is the ole db query executor for the connection.
     /// </summary>
-    public class OleDbExecutor : AbstractSqlExecutor
+    public class OleDbExecutor : AbstractSqlExecutor, IDisposable
     {
         private SAConnection _connection;
         private readonly object asyncBatchLock = new object();
@@ -452,7 +452,6 @@ namespace DataAccessLayer.SQL
             finally
             {
                 cmd.Dispose();
-                cmd = null;
                 _connection.Close();
             }
 
@@ -632,6 +631,22 @@ namespace DataAccessLayer.SQL
         {
             get { return _connection; }
             set { _connection = (SAConnection) value; }
+        }
+        /// <summary>
+        ///  Dispose the connection data and be sure to close 
+        /// </summary>
+        public void Dispose()
+        {
+            if (_connection != null)
+            {
+                if (_connection.State != ConnectionState.Closed)
+                {
+                    _connection.Close();
+                }
+                _connection?.Dispose();
+            }
+            _command?.Dispose();
+            _transaction?.Dispose();
         }
     }
 }

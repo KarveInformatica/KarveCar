@@ -51,7 +51,7 @@
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehicleSummary, Path=SelectedItem}"/>
+                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -64,11 +64,9 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
-           
-
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn HeaderText="Numero" 
-                                           MappingName="Numero" 
+                                           MappingName="Codigo" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
@@ -82,16 +80,54 @@
                             <TextBlock FontStyle="Italic"
                                        FontWeight="SemiBold"
                                        Padding="2,0"
-                                       Text="{Binding Matricula}" />
+                                       Text="{Binding Nombre}" />
                         </DataTemplate>
                     </syncfusion:GridTemplateColumn.CellTemplate>
 
                 </syncfusion:GridTemplateColumn>
 
-                <syncfusion:GridTextColumn HeaderText="C" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridDateTimeColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="NIF" MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Direccion" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Provincia" MappingName="Provincia" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Poblacion" MappingName="Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Pais" MappingName="Pais" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTemplateColumn HeaderText="Telefono" MappingName="Telefono"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/MasterModule;component/Images/phone.png">
+                                    
+                                </Image>
+                                    <TextBlock FontStyle="Italic"
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Telefono}" />
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+
+                </syncfusion:GridTemplateColumn>
+                <syncfusion:GridTemplateColumn HeaderText="Movil" MappingName="Movil"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/MasterModule;component/Images/cellphone.png">
+
+                                </Image>
+                                <TextBlock FontStyle="Italic"
+                                           FontWeight="SemiBold"
+                                           Padding="2,0"
+                                           Text="{Binding Movil}" />
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+
+                </syncfusion:GridTemplateColumn>
+
             </syncfusion:SfDataGrid.Columns>
 
         </syncfusion:SfDataGrid>

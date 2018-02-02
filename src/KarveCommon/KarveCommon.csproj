@@ -52,6 +52,8 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz">
       <HintPath>..\..\lib\Dragablz.dll</HintPath>
     </Reference>
@@ -87,11 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="Generic\AssistMapper.cs" />
+    <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\GridIdentifiers.cs" />
+    <Compile Include="Generic\IAssistMapper.cs" />
     <Compile Include="Generic\KarveGridParameters.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
     <Compile Include="Generic\LinqToTreeEnumerableExtensions.cs" />
@@ -127,6 +132,7 @@
     <Compile Include="Converter\SqlInjectionConverter.cs" />
     <Compile Include="Generic\IDataGridRowChange.cs" />
     <Compile Include="Generic\KarveIntertTabClient.cs" />
+    <Compile Include="Validation\EmptyValidationRule.cs" />
     <Compile Include="Validation\Iban.cs" />
     <Compile Include="Validation\IbanLibrary.cs" />
     <Compile Include="Validation\IBANValidationRule.cs" />

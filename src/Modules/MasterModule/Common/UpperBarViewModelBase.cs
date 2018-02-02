@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Mvvm;
@@ -10,7 +11,7 @@ using Prism.Mvvm;
 namespace MasterModule.Common
 {
 
-    public abstract class UpperBarViewModelBase: BindableBase
+    public abstract class UpperBarViewModelBase: KarveViewModelBase
     {
         protected IEnumerable _sourceView= new List<object>();
         private object _dataObject = new object();
@@ -18,6 +19,7 @@ namespace MasterModule.Common
         protected IDataServices DataServices;
         protected DataSubSystem _subsystem;
         protected const string AssistQuery = "AssistQuery";
+       
         protected MailBoxMessageHandler MailBoxHandler;
         protected string PrimaryKeyValue = "";
 
@@ -30,13 +32,12 @@ namespace MasterModule.Common
         private ICommand _assistCommand;
         private ICommand _itemChangedHandler;
         private ICommand _itemChangedCommand;
-
         /// <summary>
         ///  Constructor view model for the upper bar in the tabs of the master registry.
         /// </summary>
         /// <param name="eventManager"></param>
         /// <param name="dataServices"></param>
-        public UpperBarViewModelBase(IEventManager eventManager, IDataServices dataServices)
+        public UpperBarViewModelBase(IEventManager eventManager, IDataServices dataServices): base(dataServices)
         {
 
             EventManager = eventManager;

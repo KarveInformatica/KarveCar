@@ -112,20 +112,6 @@ namespace MasterModule.ViewModels
         {
             // we dont use here any data object.
         }
-
-        /// <summary>
-        ///  Return the selected columns summary view for the suppliers. It might be paged.
-        /// </summary>
-        public DataTable SummaryView
-        {
-            get
-            {
-
-                return _extendedSupplierDataTable;
-
-            }
-            private set { _extendedSupplierDataTable = value; RaisePropertyChanged(); }
-        }
         /// <summary>
         ///  This route a name.
         /// </summary>

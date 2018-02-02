@@ -113,7 +113,6 @@ namespace KarveControls.Generic
                 Type type = obj.GetType();
                 PropertyInfo info = type.GetProperty(part);
                 if (info == null) { return null; }
-
                 obj = info.GetValue(obj, null);
             }
             return obj;

@@ -2535,4 +2535,25 @@
   <data name="lrisk" xml:space="preserve">
     <value>Riesgo</value>
   </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>Nuevo Cliente</value>
+  </data>
+  <data name="lotherData" xml:space="preserve">
+    <value>Otros Datos</value>
+  </data>
+  <data name="Facturacion" xml:space="preserve">
+    <value>Facturacion</value>
+  </data>
+  <data name="ConductorDe" xml:space="preserve">
+    <value>Conductor de</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Fecha Nacimiento</value>
+  </data>
+  <data name="lposicionGPS" xml:space="preserve">
+    <value>Posicion GPS</value>
+  </data>
+  <data name="ltipoCliente" xml:space="preserve">
+    <value>Tipo Cliente</value>
+  </data>
 </root>

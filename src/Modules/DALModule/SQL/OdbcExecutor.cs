@@ -195,15 +195,11 @@ namespace DataAccessLayer.SQL
                     dataAdapter.Fill(table);
                 }).ConfigureAwait(false);
             }
-            catch (System.Exception e)
-            {
-                Close();
-            }
             finally
             {
                 Close();
                 dataAdapter?.Dispose();
-             
+
                 cmd?.Dispose();
             }
             return table;

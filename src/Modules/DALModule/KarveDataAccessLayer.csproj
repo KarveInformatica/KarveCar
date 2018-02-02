@@ -59,6 +59,9 @@
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper.SqlBuilder, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.SqlBuilder.1.50.4\lib\net451\Dapper.SqlBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
     </Reference>
@@ -100,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
+    <Compile Include="AssistDataService.cs" />
     <Compile Include="Assist\Assist.cs" />
     <Compile Include="Assist\AssistResponseBase.cs" />
     <Compile Include="Assist\AssistResult.cs" />
@@ -228,7 +232,6 @@
     <Compile Include="DataObjects\CLIENTES_VIASPAGO.cs" />
     <Compile Include="DataObjects\CLIENTE_COMERCIAL.cs" />
     <Compile Include="DataObjects\CLIENTE_HIST_MANDATO.cs" />
-    <Compile Include="DataObjects\ClientTypeDto.cs" />
     <Compile Include="DataObjects\CLI_EURO.cs" />
     <Compile Include="DataObjects\CLI_GARAN.cs" />
     <Compile Include="DataObjects\CLI_INDESEABLES.cs" />
@@ -1084,7 +1087,7 @@
     <Compile Include="DataTranslationLoader.cs" />
     <Compile Include="Exception\CommissionAgentException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
-    <Compile Include="FakeHelperDataAccessLayer.cs" />
+    <Compile Include="Fake\FakeHelperDataAccessLayer.cs" />
     <Compile Include="GruposDAL.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
@@ -1100,6 +1103,7 @@
     <Compile Include="Model\DomainObject.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />
     <Compile Include="Model\MagnifierSettings.cs" />
+    <Compile Include="Model\NullClient.cs" />
     <Compile Include="Model\NullCommissionAgentTypeData.cs" />
     <Compile Include="Model\Supplier.cs" />
     <Compile Include="Model\SupplierPoco.cs" />
@@ -1120,10 +1124,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Assist\READ.ME" />
     <None Include="packages.config" />
     <None Include="providers.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="READ.ME" />
     <None Include="SqlMap.config">
       <SubType>Designer</SubType>
     </None>

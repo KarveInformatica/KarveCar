@@ -17,6 +17,11 @@ namespace KarveTest.Mock
              return new MockVehicleDataService();
         }
 
+        public IClientDataServices GetClientDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
         public ISupplierDataServices GetSupplierDataServices()
         {
              return new MockSupplierDataServices();
@@ -39,6 +44,11 @@ namespace KarveTest.Mock
         public T GetDataService<T>()
         {
             return Activator.CreateInstance<T>();   
+        }
+
+        public IAssistDataService GetAssistDataService()
+        {
+            throw new NotImplementedException();
         }
     }
 }

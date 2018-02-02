@@ -15,7 +15,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the NUMERO_CLI property.
         /// </summary>
-
+        [PrimaryKey]
         public string NUMERO_CLI { get; set; }
 
         /// <summary>
@@ -1735,9 +1735,9 @@ namespace KarveDataServices.DataTransferObject
         public string SEGURO { get; set; }
 
         /// <summary>
-        ///  Set or get the NUMERO_CLI property.
+        ///  CLIENTES2
         /// </summary>
-        
+
         /// <summary>
         ///  Set or get the CENTRO property.
         /// </summary>

@@ -14,20 +14,39 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Image Source="/KarveControls;component/Images/creditcards.png" Height="25" Grid.Row="0"></Image>
         <StackPanel Grid.Row="1" Orientation="Vertical">
-            <TextBlock Text="Titolare" FontSize="10"></TextBlock>
-            <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=CardOwner, Mode=TwoWay}"></TextBox>
+            <TextBlock Text="Tipo" FontSize="10"></TextBlock>
+            <local:DualFieldSearchBox LabelVisible="False"
+                                      DataFieldFirst="TARTI"
+                                      AssistProperties="Code, Name"
+                                      AssistTableName="CREDIT_CARD"
+                                      LabelTextWidth="0"
+                                      TextContentFirstWidth="60"
+                                      TextContentSecondWidth="180"
+                                      MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                                      SourceView="{Binding CreditCardDto, Mode=OneWay}"
+                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                                      DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+            </local:DualFieldSearchBox>
+            <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=DataObject.Value.TARTI, Mode=TwoWay}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="2">
+
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <TextBlock Text="Titolare" FontSize="10"></TextBlock>
+            
+            <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=DataObject.Value.TARTI, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="3">
             <TextBlock  Text="Numero en la carta" FontSize="10"></TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=CardNumber, Mode=TwoWay}" Width="242.963"></TextBox>
+                <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=DataObject.Value.TARTINUM, Mode=TwoWay}" Width="242.963"></TextBox>
                 <Image Source="/KarveControls;component/Images/visa.png" Width="25"></Image>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="3">
+        <StackPanel Grid.Row="4">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
@@ -44,13 +63,16 @@
                     <TextBlock Text="/" Height="25"></TextBlock>
                     <TextBox Height="25" Margin="10,5,10,5" Width="50"  Text="{Binding Path=ExpiryYear, Mode=TwoWay}"></TextBox>
                 </StackPanel>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SecurityCode}" Height="25" Width="100"></TextBox>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <TextBox Text="{Binding Path=DataObject.Value.TARCODI, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
+                    <TextBox Text="{Binding Path=DataObject.Value.TARCODI2, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
+                </StackPanel>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="4">
-            <TextBlock  Text="ZIP/Postal code" FontSize="10"></TextBlock>
-            <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=PostalCode, Mode=TwoWay}"></TextBox>
+        <StackPanel Grid.Row="5">
+            <TextBlock  Text="Card Token" FontSize="10"></TextBlock>
+            <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=DataObject.Value.TARPUN, Mode=TwoWay}"></TextBox>
         </StackPanel>
-        <Button Grid.Row="5" Command="{Binding Path=ValidateFrom}" Content="Invia" Height="25"></Button>
-    </Grid>
+        <Button Grid.Row="6" Command="{Binding Path=ValidateFrom}" Content="Tokenizer" Height="25"></Button>
+        </Grid>
 </UserControl>

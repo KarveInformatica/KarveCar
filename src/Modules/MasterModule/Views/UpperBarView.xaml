@@ -10,17 +10,10 @@
              mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="900">
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>            
-                <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-
-        </Grid.Resources>
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
-        <StackPanel Name="ContextLayout" Orientation="Horizontal">
             
+        <StackPanel Name="ContextLayout" Orientation="Horizontal">
+           
             <karveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      DataSourcePath="NUM_COMI" 
@@ -52,6 +45,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
+           
             <karveControls:DualFieldSearchBox x:Name="Tipo" 
                                               TextContentSecondWidth="200"
                                               TextContentFirstWidth="100"
@@ -71,7 +65,7 @@
                                               ButtonImage="/MasterModule;component/Images/search.png">
               
             </karveControls:DualFieldSearchBox>
-            
+         
         </StackPanel>
         </GroupBox>
     </Grid>

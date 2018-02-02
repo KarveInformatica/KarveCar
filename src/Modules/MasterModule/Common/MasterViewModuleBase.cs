@@ -18,6 +18,8 @@ using Dragablz;
 using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
+using DataAccessLayer.DataObjects;
+using Prism.Commands;
 
 namespace MasterModule.Common
 {
@@ -35,7 +37,6 @@ namespace MasterModule.Common
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
 
        
-
         protected PropertyChangedEventHandler DeleteEventHandler;
 
         protected ControlExt.GridOp _delegationGridState = ControlExt.GridOp.Any;
@@ -54,10 +55,6 @@ namespace MasterModule.Common
         /// </summary>
         protected IConfigurationService ConfigurationService;
 
-        /// <summary>
-        ///  This is a command for open a new window.
-        /// </summary>
-        protected ICommand OpenItemCommand;
 
         /// <summary>
         /// The event manager is responsabile to implement the communication between different view models
@@ -106,6 +103,19 @@ namespace MasterModule.Common
             set { _primaryKey = value; }
             get { return _primaryKey; }
         }
+        /// <summary>
+        ///  Summary View used from all the control view models.
+        ///  
+        /// </summary>
+        public DataTable SummaryView
+        {
+            get { return ExtendedDataTable; }
+            set
+            {
+                ExtendedDataTable = value; RaisePropertyChanged();
+                
+            }
+        }
 
         private int _notifyState;
 
@@ -115,6 +125,61 @@ namespace MasterModule.Common
        
         protected const string OperationConstKey = "Operation";
 
+        public ICommand AssistCommand { set; get; }
+
+        /// <summary>
+        ///  This is a command for open a new window.
+        /// </summary>
+        public ICommand OpenItemCommand { set; get; }
+
+
+        // shall be in a separate service.
+
+        protected void ConfigureAssist()
+        {
+            // here the parameter query is never used.
+
+            AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                return helper;
+            });
+            AssistMapper.Configure("CITY_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                return helper;
+            });
+            AssistMapper.Configure("COUNTRY_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                return helper;
+            });
+            AssistMapper.Configure("COMPANY_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                return helper;
+            });
+            AssistMapper.Configure("OFFICE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+                return helper;
+            });
+            AssistMapper.Configure("BROKER_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ComisioDto, COMISIO>();
+                return helper;
+            });
+            AssistMapper.Configure("ORIGIN_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<OrigenDto, ORIGEN>();
+                return helper;
+            });
+            AssistMapper.Configure("MARKET_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<MercadoDto, MERCADO>();
+                return helper;
+            });
+            AssistMapper.Configure("RESELLER_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                return helper;
+            });
+        }
         /// <summary>
         /// Object to warrant the notifications.
         /// </summary>
@@ -128,6 +193,37 @@ namespace MasterModule.Common
             set { _notifyState = 0; }
             get { return _notifyState; }
         }
+
+        protected void LaunchMailClient(object value)
+        {
+            if (value != null)
+            {
+                string email = value as string;
+                string emailUrl = "mailto:" + email + "?subject=KarveCar";
+
+                System.Diagnostics.Process.Start(emailUrl);
+            }
+        }
+        protected void LaunchWebBrowser(object value)
+        {
+            if (value != null)
+            {
+                string webBrowser = value as string;
+                if (webBrowser.Length > 0)
+                {
+
+                    System.Diagnostics.Process.Start(webBrowser);
+                }
+            }
+        }
+        /// <summary>
+        ///  Command to launch the web
+        /// </summary>
+        public ICommand EmailCommand { set; get; }
+        /// <summary>
+        /// command to launch the web.
+        /// </summary>
+        public ICommand ClickSearchWebAddressCommand { get; private set; }
 
         /// <summary>
         /// ViewModel base for the master registry.
@@ -148,7 +244,8 @@ namespace MasterModule.Common
             RegionManager = regionManager;
             _notifyState = 0;
             CurrentOperationalState = DataPayLoad.Type.Show;
-           
+            EmailCommand = new Prism.Commands.DelegateCommand<object>(LaunchMailClient);
+            ClickSearchWebAddressCommand = new Prism.Commands.DelegateCommand<object>(LaunchWebBrowser);
         }
 
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
@@ -441,11 +538,13 @@ namespace MasterModule.Common
                 if (InitializationNotifier.IsSuccessfullyCompleted)
                 {
                     var result = InitializationNotifier.Task.Result;
+                    // TODO: check if this is really needed.
                     SetDataObject(result);
                     lock (NotifyStateObject)
                     {
                         NotifyState = 0;
                     }
+                    // END TODO
                     DataPayLoad payLoad = new DataPayLoad
                     {
                         HasDataObject = true,

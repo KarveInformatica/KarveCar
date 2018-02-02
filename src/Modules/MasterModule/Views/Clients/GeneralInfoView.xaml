@@ -11,15 +11,17 @@
              xmlns:mvvm1="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="900">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
         <StackPanel Orientation="Vertical">
             <KarveControls:DataField  DataSourcePath="NOMBRE" 
                                                       DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -47,12 +49,8 @@
                 </Grid.ColumnDefinitions>
                 <KarveControls:DualFieldSearchBox x:Name="CitySearchBox"
                                                           DataFieldFirst="CP"
-                                                          DataFieldSecond="POBLACION"
-                                                          AssistTableName="POBLACIONES"
-                                                          AssistDataFieldFirst="CP"
-                                                          AssistDataFieldSecond="POBLA"
+                                                          AssistTableName="CITY_ASSIST"
                                                           AssistProperties="Code,Poblacion"
-                                                         
                                                           LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="135"       
@@ -68,9 +66,7 @@
 
             </Grid>
             <KarveControls:DualFieldSearchBox DataFieldFirst="PROVINCIA"
-                                                          AssistTableName="PROVINCIA"
-                                                          AssistDataFieldFirst="SIGLAS"
-                                                          AssistDataFieldSecond="PROV"
+                                                          AssistTableName="PROVINCE_ASSIST"
                                                           AssistProperties="Code,Name"
                                                           LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
                                                           LabelTextWidth="135"
@@ -86,10 +82,8 @@
             </KarveControls:DualFieldSearchBox>
             <KarveControls:DualFieldSearchBox LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
                                                                 LabelTextWidth="135" 
-                                                                DataFieldFirst="NACIOPER" 
-                                                                AssistDataFieldFirst="SIGLAS"
-                                                                AssistDataFieldSecond="PAIS" 
-                                                                AssistTableName="PAIS"
+                                                                DataFieldFirst="NACIODOMI" 
+                                                                AssistTableName="COUNTRY_ASSIST"
                                                                 AssistProperties="Code,CountryName"
                                                                 TextContentFirstWidth="100"
                                                                 TextContentSecondWidth="300"
@@ -97,7 +91,7 @@
                                                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
+                                                                SourceView="{Binding CountryDto, UpdateSourceTrigger=PropertyChanged}"
                                                                 ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}">
             </KarveControls:DualFieldSearchBox>
 
@@ -126,8 +120,29 @@
                                                       LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
-                                                      IsReadOnly="False">
-            </KarveControls:DataField>
+                                                      IsReadOnly="False"/>
+                <KarveControls:DataField  DataSourcePath="PASAPORTE" 
+                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                          LabelText="Pasaporte"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="150"
+                                          TextContentWidth="400"
+                                          Margin="0,5,0,0"
+                                          IsReadOnly="False"/>
+            <StackPanel Orientation="Horizontal">
+                <KarveControls:DataField  DataSourcePath="COORDGPS" 
+                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                          LabelText="{Binding lposicionGPS, Source={StaticResource ResourceLanguage}}" 
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="150"
+                                          TextContentWidth="400"
+                                          Margin="0,5,0,0"
+                                          IsReadOnly="False"/>
+                <Button Command="{Binding LaunchMap, Mode=OneWay}">
+                    <Image Source="/MasterModule;component/Images/maps.png" Height="24">
+                    </Image>
+                </Button>
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <KarveControls:DataField  DockPanel.Dock="Left" DataSourcePath="WEB" 
                                                       DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -139,11 +154,7 @@
                                                       IsReadOnly="False">
                 </KarveControls:DataField>
                 <Button Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="{Binding DataObject.Value.WEB}">
-                    <materialDesign:PackIcon
-		                            Width="24"
-		                            Height="22"
-	                                	Kind="Web" />
-
+                    <Image Source="/MasterModule;component/Images/web.png" Height="19"/>
                 </Button>
 
             </StackPanel>
@@ -207,9 +218,7 @@
                 </KarveControls:DataDatePicker>
             </StackPanel>
             <KarveControls:DualFieldSearchBox DataFieldFirst="SUBLICEN"
-                                                          AssistTableName="SUBLICEN"
-                                                          AssistDataFieldFirst="CODIGO"
-                                                          AssistDataFieldSecond="NOMBRE"
+                                                          AssistTableName="COMPANY_ASSIST"
                                                           AssistProperties="Code,Name"
                                                           LabelText="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
@@ -220,26 +229,24 @@
                                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding CompanyDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding CompanyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             </KarveControls:DualFieldSearchBox>
             <KarveControls:DualFieldSearchBox DataFieldFirst="OFICINA"
-                                                          AssistTableName="OFICINAS"
-                                                          AssistDataFieldFirst="CODIGO"
-                                                          AssistDataFieldSecond="NOMBRE"
-                                                          AssistProperties="Code,Nombre"
+                                                          AssistTableName="OFFICE_ASSIST"
+                                                          AssistProperties="Codigo,Nombre"
                                                           LabelText="{Binding loficinas, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                                           LabelTextWidth="150"
-                                                          Height="25"
+                                                          Height="35"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
                                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding OfficeDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding OfficeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             </KarveControls:DualFieldSearchBox>

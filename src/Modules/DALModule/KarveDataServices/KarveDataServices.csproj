@@ -101,6 +101,7 @@
     <Compile Include="DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryDto.cs" />
+    <Compile Include="DataTransferObject\ClientTypeDto.cs" />
     <Compile Include="DataTransferObject\ClientZoneDto.cs" />
     <Compile Include="DataTransferObject\ColorDto.cs" />
     <Compile Include="DataTransferObject\ComisioDto.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
     <Compile Include="DataTransferObject\GridSettingsDto.cs" />
+    <Compile Include="DataTransferObject\IDataTransferObject.cs" />
     <Compile Include="DataTransferObject\InvoiceBlockDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LocaleDataDto.cs" />
@@ -150,6 +152,8 @@
     <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />
     <Compile Include="DataTransferObject\VisitTypeDto.cs" />
+    <Compile Include="DataTransferObject\ZonaDto.cs" />
+    <Compile Include="IAssistDataService.cs" />
     <Compile Include="IClientDataServices.cs" />
     <Compile Include="IDataDeleter.cs" />
     <Compile Include="IDataLoader.cs" />
@@ -158,6 +162,7 @@
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />
     <Compile Include="ISettingsDataService.cs" />
+    <Compile Include="DataObjects\IValueObject.cs" />
     <Compile Include="SqlValidationRule.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />
     <Compile Include="DataTransferObject\ResellerDto.cs" />

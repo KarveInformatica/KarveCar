@@ -149,54 +149,7 @@ namespace MasterModule.ViewModels
         private void InitMapping()
         {
             _mapper = MapperField.GetMapper();
-            /*
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
-                {
-                    var vehicle = new ModelVehicleDto
-                    {
-                        Codigo = src.CODIGO,
-                        Variante = src.VARIANTE,
-                        Nombre = src.NOMBRE,
-                        Marca = src.MARCA,
-                        NomeMarca =  src.NOMMARCA,
-                        Categoria =  src.CATEGORIA
-                    };
-                    return vehicle;
-                });
-                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
-                {
-                    var marcas = new BrandVehicleDto
-                    {
-                        Code= src.CODIGO,
-                        Name = src.NOMBRE
-                    };
-                    return marcas;
-                });
-                cfg.CreateMap<GRUPOS, VehicleGroupDto>().ConvertUsing(
-                    src =>
-                    {
-                        var grupos = new VehicleGroupDto()
-                        {
-                            Codigo = src.CODIGO,
-                            Nombre = src.NOMBRE
-                        };
-                        return grupos;
-                    });
-                cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
-                {
-                    var color = new ColorDto
-                    {
-                        Code = src.CODIGO,
-                        Name = src.NOMBRE
-                    };
-                    return color;
-                });
-
-            });
-            */
-
+          
 
         }
 

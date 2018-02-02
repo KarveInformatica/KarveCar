@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views.Clients
+namespace MasterModule.Views
 {
     /// <summary>
     /// Interaction logic for UpperBarViewClient.xaml
     /// </summary>
-    public partial class UpperBarViewClient : UserControl
+    public partial class UpperBarClientView : UserControl
     {
-        public UpperBarViewClient()
+        public UpperBarClientView()
         {
             InitializeComponent();
         }

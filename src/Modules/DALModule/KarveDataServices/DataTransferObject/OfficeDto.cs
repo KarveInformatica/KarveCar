@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class OfficeDtos
+    public class OfficeDtos: BaseDto
     {
         [Display(GroupName = "Codigo Oficina")]
         public string Codigo { get; set; }

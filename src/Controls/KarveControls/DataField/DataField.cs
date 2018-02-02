@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Windows.Input;
+using KarveCommon.Validation;
 
 namespace KarveControls
 {
@@ -622,6 +623,25 @@ namespace KarveControls
             get { return (string)GetValue(LabelTextWidthDependencyProperty); }
             set { SetValue(LabelTextWidthDependencyProperty, value); }
         }
+        #endregion
+
+        #region ValidationRules
+        /// <summary>
+        ///  Text content width dependency property.
+        /// </summary>
+        public string ValidationRule
+        {
+            get { return (string)GetValue(TextContentWidthDependencyProperty); }
+            set { SetValue(TextContentWidthDependencyProperty, value); }
+        }
+        /// <summary>
+        ///  This is the validation rules.
+        /// </summary>
+        public static readonly DependencyProperty ValidationRuleDependencyProperty =
+            DependencyProperty.Register(
+                "ValidationRule",
+                typeof(ValidationRule),
+                typeof(DataField), new PropertyMetadata(new EmptyValidationRule()));
         #endregion
 
         #region TextContentWidth

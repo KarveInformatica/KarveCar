@@ -24,5 +24,7 @@ namespace MasterModule.Views
         {
             InitializeComponent();
         }
+        public string Header
+        { set; get; }
     }
 }

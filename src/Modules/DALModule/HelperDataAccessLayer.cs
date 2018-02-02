@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Dapper;
+using KarveDapper;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
@@ -16,7 +18,8 @@ namespace DataAccessLayer
 {
     /// <summary>
     ///  This class has some helper methods that retrives values needed. The so called auxiliares.
-    /// </summary>
+  
+    /// </summary>  
     class HelperDataAccessLayer :  IHelperDataServices
     {
         private readonly ISqlExecutor _sqlExecutor;
@@ -83,7 +86,7 @@ namespace DataAccessLayer
 
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                scopedId = await connection.UniqueId<T>(entity);
+                scopedId = await connection.UniqueIdAsync<T>(entity);
                 scope.Complete();
             }
             return scopedId;
@@ -243,7 +246,7 @@ namespace DataAccessLayer
             if (isOpen)
             {
                 connection = _sqlExecutor.Connection;
-                // TODO: exception handling.
+               
                 try
                 {
                     result = await connection.QueryAsync<T>(assistQuery);
@@ -255,14 +258,22 @@ namespace DataAccessLayer
             }
             return result;
         }
-
+        /// <summary>
+        ///  Get the data transfer entity and checks for the 
+        /// </summary>
+        /// <typeparam name="DtoTransfer"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<DtoTransfer>> GetMappedAsyncHelper<DtoTransfer, T>(string query) where DtoTransfer : class
         {
             IDbConnection connection = _sqlExecutor.Connection;
             IEnumerable<DtoTransfer> result = null;
+            bool needToClose = false;
             if ((connection == null) || ((connection.State != ConnectionState.Open)))
             {
                 connection = _sqlExecutor.OpenNewDbConnection();
+                needToClose = true;
             }
             try
             {
@@ -271,19 +282,27 @@ namespace DataAccessLayer
             }
             finally
             {
-                connection.Close();
+                if (needToClose)
+                {
+                    connection.Close();
+                }
             }
             return result;
         }
+        
+     
+
 
         public async Task<IEnumerable<DtoTransfer>> GetMappedAllAsyncHelper<DtoTransfer, T>() where DtoTransfer : class
                                                                                               where T: class
         {
             IDbConnection connection = _sqlExecutor.Connection;
             IEnumerable<DtoTransfer> result = null;
+            bool needToClose = false;
             if ((connection == null) || ((connection.State != ConnectionState.Open)))
             {
                 connection = _sqlExecutor.OpenNewDbConnection();
+                needToClose = true;
             }
             try
             {
@@ -292,7 +311,10 @@ namespace DataAccessLayer
             }
             finally
             {
-                connection.Close();
+                if (needToClose)
+                {
+                    connection.Close();
+                }
             }
             return result;
         }
@@ -310,6 +332,30 @@ namespace DataAccessLayer
             return set;
         }
 
-        
+        public  async Task<DtoTransfer> GetSingleMappedAsyncHelper<DtoTransfer, T>(string code) where T : class
+                                                                                        where DtoTransfer: class, new() 
+        {
+            IDbConnection connection = _sqlExecutor.Connection;
+            DtoTransfer result = new DtoTransfer();
+            if ((connection == null) || ((connection.State != ConnectionState.Open)))
+            {
+                connection = _sqlExecutor.OpenNewDbConnection();
+            }
+            try
+            {
+                var value = await connection.GetAsync<T>(code);
+                result = _mapper.Map<DtoTransfer>(value);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return result;
+        }
+
+        public Task<IDictionary<string, DtoTransfer>> GetAsyncBatchData<DtoTransfer>(IDictionary<string, string> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

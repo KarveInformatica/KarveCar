@@ -195,9 +195,7 @@ namespace MasterModule.ViewModels
             get { return ClosingTabItemHandlerImpl; }
         }
 
-        public ICommand AssistCommand { set; get; }
-
-        public ICommand EmailCommand { set; get; }
+      
 
         public string Header
         {
@@ -240,7 +238,6 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitVmCommands()
         {
-            EmailCommand = new Prism.Commands.DelegateCommand<object>(LaunchMailClient);
             ClickSearchWebAddressCommand = new Prism.Commands.DelegateCommand<object>(LaunchWebBrowser);
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(OnChangedField);
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
@@ -390,13 +387,13 @@ namespace MasterModule.ViewModels
 
             }
         }
-
+        
         private void EmailLookupRequestHandler(string email)
         {
             LaunchMailClient(email);
         }
         /// <summary>
-        ///  
+        ///  TODO: move all this to the assist map.
         /// </summary>
         /// <param name="assistTableName"></param>
         /// <param name="assistQuery"></param>
@@ -675,28 +672,8 @@ namespace MasterModule.ViewModels
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
         }
-        private void LaunchMailClient(object value)
-        {
-            if (value != null)
-            {
-                string email = value as string;
-                string emailUrl = "mailto:" + email + "?subject=KarveCar";
 
-                System.Diagnostics.Process.Start(emailUrl);
-            }
-        }
-        private void LaunchWebBrowser(object value)
-        {
-            if (value != null)
-            {
-                string webBrowser = value as string;
-                if (webBrowser.Length > 0)
-                {
-
-                    System.Diagnostics.Process.Start(webBrowser);
-                }
-            }
-        }
+        
         public IEnumerable<BranchesDto> DelegationCollection { get; set; }
         public IEnumerable<VisitsDto> VisitCollection { get; set; }
         public IEnumerable<ContactsDto> ContactsCollection { get; set; }

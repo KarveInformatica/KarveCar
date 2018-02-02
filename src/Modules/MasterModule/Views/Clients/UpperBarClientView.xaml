@@ -1,11 +1,14 @@
-﻿<UserControl x:Class="MasterModule.Views.Clients.UpperBarViewClient"
+﻿<UserControl x:Class="MasterModule.Views.UpperBarClientView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views.Clients"
               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:mvvm="http://prismlibrary.com/"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:UserObjects="clr-namespace:KarveControls.UIObjects;assembly=KarveControls"
              xmlns:mvvm1="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
@@ -22,13 +25,14 @@
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
             
                 </KarveControls:DataField>
-                <KarveControls:DataField x:Name="Nombre" TextContentWidth="150" DataObject="{Binding DataObject, 
+                <KarveControls:DataField x:Name="Name" TextContentWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}" DataObject="{Binding DataObject, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" 
                                             ItemChangedCommand="{Binding ChangedItem}"
                                                               Height="30"
             
                                          LabelTextWidth="50" LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 </KarveControls:DataField>
+                    
                 <KarveControls:DataField x:Name="Nif"  LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                   Height="30"
@@ -38,7 +42,26 @@
                                          LabelVisible="True">
                    
                 </KarveControls:DataField>
-               
+                <KarveControls:DualFieldSearchBox x:Name="TipoClienteSearch" 
+                                                  TextContentSecondWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}"
+                                                  TextContentFirstWidth="50"
+                                                  LabelTextWidth="70"
+                                                  LabelText="{Binding ltipoCliente, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="25"
+                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                                  LabelVisible="True"
+                                                  AssistProperties="Code,Name"
+                                                  MagnifierCommand="{Binding AssistCommandUpper, Mode=OneWay}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="TIPOCLI"
+                                                  AssistTableName="TIPOCLI"
+                                                  AssistDataFieldFirst="NUM_TICLI"
+                                                  AssistDataFieldSecond="NOMBRE"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                </KarveControls:DualFieldSearchBox>
+
+
             </StackPanel>
         </GroupBox>
 

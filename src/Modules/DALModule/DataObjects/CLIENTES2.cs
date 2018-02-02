@@ -1,12 +1,14 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a CLIENTES2.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class CLIENTES2 
+    /// <summary>
+    /// Represents a CLIENTES2.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("CLIENTES2")]
+    public class CLIENTES2 
 	{
 	
 	/// <summary>
@@ -60,7 +62,8 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the NUMERO_CLI property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("7")]
 		public string NUMERO_CLI { get; set; }
  
 	/// <summary>

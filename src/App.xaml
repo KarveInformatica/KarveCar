@@ -27,7 +27,6 @@
                     
                     <!-- Include the Dragablz Material Design style -->
                     <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
-
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="ResourceLanguage" 
                                         ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
@@ -59,8 +58,10 @@
                         </Style.Triggers>
                     </Style>
 
-
+    
                 </ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <!--Converters-->

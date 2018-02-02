@@ -35,8 +35,8 @@ namespace KarveDapper.Extensions
             {
                 var key = GetSingleKey<T>(nameof(GetAsync));
                 var name = GetTableName(type);
-
-                sql = $"SELECT * FROM {name} WHERE {key.Name} = @id";
+        
+                sql = $"SELECT * FROM {name} WHERE {key.Name} = ?id?";
                 GetQueries[type.TypeHandle] = sql;
             }
 
@@ -63,6 +63,8 @@ namespace KarveDapper.Extensions
 
             return obj;
         }
+
+         
 
         /// <summary>
         /// Returns a list of entites from table "Ts".  
@@ -272,7 +274,7 @@ namespace KarveDapper.Extensions
         /// <param name="transaction">Transaction</param>
         /// <param name="commandTimeout">Timeout</param>
         /// <returns></returns>
-        public static async Task<string> UniqueId<T>(this IDbConnection connection, T entityValue,
+        public static async Task<string> UniqueIdAsync<T>(this IDbConnection connection, T entityValue,
             IDbTransaction transaction = null,
             int? commandTimeout = null) where T : class
         {
@@ -321,9 +323,70 @@ namespace KarveDapper.Extensions
             } while ((collection.Count() !=0) && (tries < 10));
             return id;
         }
+        /// <summary>
+        ///  This method is used for generate an unique number for  a primary key:
+        ///  1. It generate 8 bytes from a crypto random generator.
+        ///  2. Converts to long
+        ///  3. Truncate the bytes to the primary key fieldsize or to 6.
+        ///  4. Check if an entity with that value exists.
+        /// </summary>
+        /// <typeparam name="T">Entity type to be checked</typeparam>
+        /// <param name="connection">Connection to be extended.</param>
+        /// <param name="entityValue">EntityValue</param>
+        /// <param name="transaction">Transaction</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <returns></returns>
+        public static string UniqueId<T>(this IDbConnection connection, T entityValue,
+            IDbTransaction transaction = null,
+            int? commandTimeout = null) where T : class
+        {
+
+            var type = typeof(T);
+            var name = GetTableName(type);
+            PropertyInfo info = GetKeyAttribute<T>(entityValue);
+            int fieldSize = GetFieldSize<T>(entityValue);
+            StringBuilder builder = new StringBuilder();
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            ulong value = 0;
+            IEnumerable<T> collection = null;
+            int tries = 0;
+            string id = String.Empty;
+            do
+            {
+                var byteArray = new byte[8];
+                provider.GetBytes(byteArray);
+                //convert 8 bytes to a long
+                try
+                {
+                    value = BitConverter.ToUInt64(byteArray, 0);
+
+                }
+                catch (Exception e)
+                {
+                    var v = e;
+                }
+                if (info != null)
+                {
+                    // ok this is a unique id. 6 is the default field size.
+                    if (fieldSize == 0)
+                    {
+                        fieldSize = 6;
+                    }
+                    id = value.ToString().Substring(0, fieldSize);
+                    id = id.PadLeft(fieldSize, '0');
+                    builder.Append(" WHERE ");
+                    builder.Append(info.Name);
+                    builder.Append("=");
+                    builder.Append(string.Format("'{0}'", id));
+                    var statement = $"select * from {name} " + builder.ToString();
+                    collection = connection.Query<T>(statement);
+                    ++tries;
+                }
+            } while ((collection.Count() != 0) && (tries < 10));
+            return id;
+        }
 
 
-       
 
         /// <summary>
         /// Delete entity in table "Ts" asynchronously using .NET 4.5 Task.

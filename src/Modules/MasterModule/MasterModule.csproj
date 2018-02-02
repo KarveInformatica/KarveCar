@@ -206,7 +206,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\BillingIntervalConverter.cs" />
     <Compile Include="Common\ChangeFieldHandler.cs" />
     <Compile Include="Common\ChangeFieldHandlerDo.cs" />
     <Compile Include="Common\CommissionAgentConstants.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\UpperBarViewModelBase.cs" />
+    <Compile Include="DataStore\DataStore\DataStore.xaml.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentUpperPartBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionMiddlePageBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiDfSearch.cs" />
@@ -227,6 +227,9 @@
     <Compile Include="Interfaces\IProvidersViewModel.cs" />
     <Compile Include="Interfaces\ISupplierInfoView.cs" />
     <Compile Include="MasterModule.cs" />
+    <Compile Include="ViewModels\ClientsControlViewModel.cs" />
+    <Compile Include="ViewModels\ClientsInfoViewModel.cs" />
+    <Compile Include="ViewModels\UpperBarClientViewModel.cs" />
     <Compile Include="ViewModels\CommissionAgentControlViewModel.cs" />
     <Compile Include="Interfaces\ICommissionAgentView.cs" />
     <Compile Include="ViewModels\CommissionAgentInfoViewModel.cs" />
@@ -281,8 +284,8 @@
     <Compile Include="Views\Clients\ReplacementCard.xaml.cs">
       <DependentUpon>ReplacementCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Clients\UpperBarViewClient.xaml.cs">
-      <DependentUpon>UpperBarViewClient.xaml</DependentUpon>
+    <Compile Include="Views\Clients\UpperBarClientView.xaml.cs">
+      <DependentUpon>UpperBarClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
@@ -386,9 +389,18 @@
     <Compile Include="Views\Vehicles\VehicleSell.xaml.cs">
       <DependentUpon>VehicleSell.xaml</DependentUpon>
     </Compile>
+    <Page Include="DataStore\DataStore\DataStore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Generic\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProjectDataSources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <ContainsDataSources>True</ContainsDataSources>
     </Page>
     <Page Include="Views\ClientsInfoView.xaml">
       <SubType>Designer</SubType>
@@ -438,7 +450,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Clients\UpperBarViewClient.xaml">
+    <Page Include="Views\Clients\UpperBarClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -593,6 +605,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="DataStore\DataStore\DataStore.xsd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -720,6 +733,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\helpicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cellphone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\corporation.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

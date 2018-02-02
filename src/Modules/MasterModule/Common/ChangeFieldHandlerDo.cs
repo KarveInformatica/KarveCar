@@ -72,6 +72,19 @@ namespace MasterModule.Common
             _currentSubsystem = subSystem;
 
         }
+        /// <summary>
+        /// Change field handler do.
+        /// </summary>
+        /// <param name="ev">Events.</param>
+        /// <param name="vmQueries">Queries.</param>
+        /// <param name="subSystem">Kind of subsystem.</param>
+        public ChangeFieldHandlerDo(IEventManager ev,  DataSubSystem subSystem)
+        {
+            _eventManager = ev;
+            _viewModelQueries = null;
+            _currentSubsystem = subSystem;
+
+        }
 
         /// <summary>
         /// The action to handle a changed payload on insert

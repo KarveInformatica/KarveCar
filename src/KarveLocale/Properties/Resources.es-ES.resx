@@ -2112,4 +2112,19 @@
   <data name="lrisk" xml:space="preserve">
     <value>Riesgo</value>
   </data>
+  <data name="lotherData" xml:space="preserve">
+    <value>Otros Datos</value>
+  </data>
+  <data name="ConductorDe" xml:space="preserve">
+    <value>Conductor</value>
+  </data>
+  <data name="lposicionGPS" xml:space="preserve">
+    <value>Posicion GPS</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Fecha de Nacimiento</value>
+  </data>
+  <data name="ltipoCliente" xml:space="preserve">
+    <value>Tipo Cliente</value>
+  </data>
 </root>

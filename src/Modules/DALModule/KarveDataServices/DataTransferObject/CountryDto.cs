@@ -5,7 +5,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// Country Data Transfer object.
     /// </summary>
-    public class CountryDto: ICountryData
+    public class CountryDto: BaseDto, ICountryData
     {
         private string _cname = string.Empty; 
         /// <summary>

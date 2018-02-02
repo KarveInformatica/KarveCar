@@ -1,14 +1,9 @@
 ﻿<UserControl
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:cal="clr-namespace:Microsoft.Practices.Composite.Presentation.Commands;assembly=Microsoft.Practices.Composite.Presentation"
-                xmlns:local="clr-namespace:PortfolioAnalyzer.StockListModule"
+                x:Class="MasterModule.Views.Clients.ClientBilling"
                 xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-                xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" x:Class="MasterModule.Views.Clients.ClientBilling"
-                x:Name="Stock"
-                FontFamily="Verdana"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"             
-    d:DesignHeight="900" d:DesignWidth="1100"
+                xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" 
                 syncfusion:DockingManager.DesiredWidthInDockedMode="600"
                 syncfusion:DockingManager.Header="StockList Module"
                 syncfusion:DockingManager.SideInDockedMode="Right"
@@ -40,7 +35,7 @@
 
                         </KarveControls:DataField>
                         <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                     DataSourcePath="PLAZO2"
+                                                     DataSourcePath="PLAZO3"
                                                      LabelVisible="False"
                                                          Margin="0,5,0,0"
                                                      TextContentWidth="50"
@@ -81,7 +76,7 @@
                         </KarveControls:DataField>
                     </StackPanel>
 
-                
+
                 </DataTemplate>
             </ResourceDictionary>
 
@@ -93,7 +88,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
 
         </Grid.RowDefinitions>
-        
+
         <Grid Margin="10,10,0,0"
               VerticalAlignment="Top" 
               Grid.Row="0" >
@@ -101,15 +96,15 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-           
+
             <KarveControls:DataField x:Name="Risk"   
                                      LabelText="Riesgo" 
                                      LabelVisible="True" 
                                      LabelTextWidth="103"
                                      Height="35"
                                      Grid.Column="0"
-                                     DataSourcePath="NOMBRE" 
-                                     DataObject="{Binding DataObject}" 
+                                     DataSourcePath="RIESGOIMP" 
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      TextContentWidth="200"/>
             <syncfusion:CurrencyTextBox 
                 x:Name="CurrentBox" Grid.Column="1" 
@@ -118,27 +113,35 @@
                 CurrencySymbol="€" 
                 HorizontalAlignment="Left" Height="35"  
                 Text="€" 
-                Value="1.00" 
+                Value="{Binding DataObject.Value.RIESGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 VerticalAlignment="Top" Width="100"/>
         </Grid>
-        <StackPanel Orientation="Vertical" Grid.Row="1">
-            <KarveControls:DataField x:Name="ImportePedido"   
-                                     LabelText="Importe Pedido" LabelVisible="True" 
-                                     LabelTextWidth="112"
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <KarveControls:DataField x:Name="ImportePendiente"   
+                                     LabelText="Importe Pendiente" LabelVisible="True" 
+                                     LabelTextWidth="120"
+                                     TextContent="{Binding PendentSum}"
                                      Height="35"
-                                     DataSourcePath="NOMBRE" 
-                                     DataObject="{Binding DataObject}" 
+                                     IsReadOnly="True"
                                      TextContentWidth="200"/>
-            
+            <KarveControls:DataField x:Name="CompanyCode"   
+                                     LabelText="Codigo Sociedad" 
+                                     LabelVisible="True" 
+                                     LabelTextWidth="112"
+                                     DataSourcePath="COD_SOCIEDAD"
+                                     Height="35"
+                                     IsReadOnly="True"
+                                     TextContentWidth="200"/>
+
             <KarveControls:DualFieldSearchBox
-                                             LabelText ="Forma de Cobro"
+                                             LabelText ="Forma de Pago"
                                              LabelVisible="True"
                                              LabelTextWidth="100"
-                                             DataFieldFirst="{Binding DataField}"
-                                             AssistDataFieldFirst="{Binding AssistDataFieldFirst}" 
-                                             AssistDataFieldSecond="{Binding AssistDataFieldSecond}"
-                                             AssistTableName="{Binding AssistTableName}"
-                                             AssistProperties="{Binding AssistProperties}"
+                                             DataFieldFirst="FPAGO"
+                                             AssistDataFieldFirst="CODIGO" 
+                                             AssistDataFieldSecond="NOMBRE"
+                                             AssistTableName="FORMAS"
+                                             AssistProperties="Code,Name"
                                              TextContentFirstWidth="100"
                                              TextContentSecondWidth="200"
                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
@@ -148,10 +151,14 @@
                                              SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             </KarveControls:DualFieldSearchBox>
 
-            
+
         </StackPanel>
         <Grid Grid.Row="2">
-            <StackPanel  Orientation="Horizontal">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="257*"/>
+                <ColumnDefinition Width="293*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2">
                 <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
                 <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO"
@@ -212,7 +219,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                 </KarveControls:DataField>
-                
+
                 <!--
                 <TextBlock>
                 <ContentControl>
@@ -228,10 +235,10 @@
             </StackPanel>
 
         </Grid>
-        
-        
 
-            <KarveControls:DataField Grid.Row="3" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+
+        <KarveControls:DataField Grid.Row="3" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DTO"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="True"
@@ -241,9 +248,9 @@
                                                      Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-            </KarveControls:DataField>
+        </KarveControls:DataField>
 
-        
+
 
     </Grid>
 

@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views.Clients"
-             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" xmlns:ItemsControl="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls" x:Class="MasterModule.Views.Clients.BillingDates"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" 
+             x:Class="MasterModule.Views.Clients.BillingDates"
              mc:Ignorable="d" 
              d:DesignHeight="870" d:DesignWidth="1152">
     <Grid>
@@ -75,14 +76,9 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
 
-           
+
 
 
         </StackPanel>
-
-
-
-
-
     </Grid>
 </UserControl>

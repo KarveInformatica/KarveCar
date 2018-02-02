@@ -2473,4 +2473,19 @@
   <data name="lrisk" xml:space="preserve">
     <value>Risiko</value>
   </data>
+  <data name="lotherData" xml:space="preserve">
+    <value>Anderes Datum</value>
+  </data>
+  <data name="ConductorDe" xml:space="preserve">
+    <value>Fahrer </value>
+  </data>
+  <data name="lposicionGPS" xml:space="preserve">
+    <value>GPS Location</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Geburgstag</value>
+  </data>
+  <data name="ltipoCliente" xml:space="preserve">
+    <value>Art des Kunden</value>
+  </data>
 </root>

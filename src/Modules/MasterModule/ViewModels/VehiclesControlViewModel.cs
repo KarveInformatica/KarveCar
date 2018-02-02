@@ -95,14 +95,7 @@ namespace MasterModule.ViewModels
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChanged);
 
         }
-        /// <summary>
-        ///  This returns the summary view for vehicles.
-        /// </summary>
-        public DataTable SummaryView
-        {
-            set { ExtendedDataTable = value; RaisePropertyChanged(); }
-            get { return ExtendedDataTable; }
-        }
+        
         /// <summary>
         ///  This add a new item fresh from zero about vehicles.
         /// </summary>
@@ -159,10 +152,7 @@ namespace MasterModule.ViewModels
             string routedName = VehiclesModuleRoutePrefix + name;
             return routedName;
 
-        }
-
-        public string UniqueId { get; set; }
-       
+        }       
         /// <summary>
         ///  Message incoming from different 
         /// </summary>

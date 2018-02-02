@@ -264,10 +264,68 @@ namespace DataAccessLayer.Logic
             return destinationDto;
         }
     }
+
     /// <summary>
-    ///  Converter for the the new vehiculo2.
+    /// Merge two entities.
     /// </summary>
-    public class GenericBackConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
+    public class MergePOCO<Entity> where Entity : class, new()
+    {
+        public static string EntityName = "POCOToMerge";
+
+        public Entity Convert(Entity source, IDictionary<string, Entity> context)
+        {
+            Entity entity = new Entity();
+            PropertyInfo[] currentProperties = source.GetType().GetProperties();
+            foreach (PropertyInfo property in currentProperties)
+            {
+                var currentSource = source.GetType();
+                var propertyInfo = currentSource.GetProperty(property.Name);
+                if (propertyInfo != null)
+                {
+                    var tmpValue = propertyInfo.GetValue(source);
+                    if (tmpValue != null)
+                    {
+                        entity.GetType().GetProperty(property.Name).SetValue(entity, tmpValue);
+                    }
+
+                }
+
+            }
+            // add the second pococ
+            var secondPoco = context[EntityName];
+            if (secondPoco == null)
+            {
+                return entity;
+            }
+            PropertyInfo[] currentProperties2 = secondPoco.GetType().GetProperties();
+
+            foreach (PropertyInfo property in currentProperties2)
+            {
+                var currentSource = secondPoco.GetType();
+                var propertyInfo = currentSource.GetProperty(property.Name);
+                if (property.Name == "ALTA")
+                {
+                    var v = 1;
+                }
+                if (propertyInfo != null)
+                {
+                    var tmpValue = propertyInfo.GetValue(secondPoco);
+                    if (tmpValue != null)
+                    {
+                        entity.GetType().GetProperty(property.Name).SetValue(entity, tmpValue);
+                    }
+
+                }
+
+            }
+            return entity;
+        }
+    }
+
+    /// <summary>
+        ///  Converter for the the new vehiculo2.
+        /// </summary>
+        public class GenericBackConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
     {
         public Entity Convert(Dto source, Entity destination, ResolutionContext context)
         {
@@ -308,7 +366,11 @@ namespace DataAccessLayer.Logic
                 if (sourceValueProperty != null)
                 {
                     var destinationProperty = e.GetType().GetProperty(prop.Name);
-                    destinationProperty?.SetValue(e, sourceValueProperty.GetValue(source));
+                    var tmpValue = sourceValueProperty.GetValue(source);
+                    if (tmpValue != null)
+                    {
+                        destinationProperty?.SetValue(e, tmpValue);
+                    }
                 }
             }
             return e;
@@ -822,6 +884,18 @@ namespace DataAccessLayer.Logic
                     model.Assurance = src.SEGURO_ANUAL;
 
                     return model;
+                });
+                cfg.CreateMap<ClientPoco, ClientesDto>();
+
+                cfg.CreateMap<CLIENTES1, ClientPoco>().ConvertUsing(src =>
+                {
+                    var clientPoco = new GenericConverter<CLIENTES1, ClientPoco>();
+                    return clientPoco.Convert(src, null, null);
+                });
+                cfg.CreateMap<CLIENTES2, ClientPoco>().ConvertUsing(src =>
+                {
+                    var clientPoco = new GenericConverter<CLIENTES2, ClientPoco>();
+                    return clientPoco.Convert(src, null, null);
                 });
                 cfg.CreateMap<VehicleActivitiesDto, ACTIVEHI>().ConvertUsing(src =>
                 {

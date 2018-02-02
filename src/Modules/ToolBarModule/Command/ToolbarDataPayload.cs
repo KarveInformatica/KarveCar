@@ -90,7 +90,7 @@ namespace ToolBarModule.Command
                 }
                 case DataSubSystem.ClientSubsystem:
                 {
-                    eventManager.SendMessage(EventSubsystem.ClientSubSytsem, payLoad);
+                    eventManager.SendMessage(EventSubsystem.ClientSummaryVm, payLoad);
                     break;
                 }
             }

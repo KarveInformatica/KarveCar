@@ -16,6 +16,10 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Vehicle data service subsystem</returns>       
         IVehicleDataServices GetVehicleDataServices();
+        /// <summary>
+        ///  Client data service.
+        /// </summary>
+        /// <returns></returns>
         IClientDataServices GetClientDataServices();
 
         /// <summary>
@@ -28,7 +32,6 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         ISettingsDataService GetSettingsDataService();
-
         /// <summary>
         /// Returns the Helper data services. Helper data services all other services that might be used as helper 
         /// </summary>
@@ -46,6 +49,12 @@ namespace KarveDataServices
         /// <typeparam name="T">Type the service</typeparam>
         /// <returns></returns>
         T GetDataService<T>();
+        /// <summary>
+        ///  This returns a data service.
+        /// </summary>
+        /// <returns></returns>
+        IAssistDataService GetAssistDataService();
+
     }
 
 }

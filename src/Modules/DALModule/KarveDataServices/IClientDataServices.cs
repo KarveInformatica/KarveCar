@@ -19,10 +19,11 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<DataSet> GetAsyncAllClientSummary();
         /// <summary>
-        ///  This create a new client.
+        /// This return a client with a new code.
         /// </summary>
+        /// <param name="code">Code to return.</param>
         /// <returns></returns>
-        IClientData GetNewClientAgentDo();
+        IClientData GetNewClientAgentDo(string code);
         /// <summary>
         ///  This is a delete client.
         /// </summary>
@@ -33,6 +34,16 @@ namespace KarveDataServices
         /// <param name="clientData"></param>
         /// <returns>true or false in case of a client.</returns>
         Task<bool> SaveAsync(IClientData clientData);
-
+        /// <summary>
+        ///  Client data object
+        /// </summary>
+        /// <param name="clientIndentifier">Identifier a client</param>
+        /// <returns>Client data to receive</returns>
+        Task<IClientData> GetAsyncClientDo(string clientIndentifier);
+        /// <summary>
+        ///  This generate an unique id following the entity.
+        /// </summary>
+        /// <returns></returns>
+        string GetNewId();
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace KarveDataServices.DataObjects
 {
@@ -36,10 +37,41 @@ namespace KarveDataServices.DataObjects
         /// </summary>
         bool Valid { get; set; }
         /// <summary>
-        ///  Delete asynchronous thing.s
+        ///  Helpers.
         /// </summary>
         /// <returns></returns>
         Task<bool> DeleteAsync();
+        /// Value object related to this.
+        /// <summary>
+        ///  Provincia.
+        /// </summary>
+        ObservableCollection<ProvinciaDto> ProvinciaDto { get; }
+        /// <summary>
+        ///  Country.
+        /// </summary>
+        ObservableCollection<CountryDto> CountryDto { get; }
+        /// <summary>
+        /// City
+        /// </summary>
+        ObservableCollection<CityDto> CityDto { get; }
+        /// <summary>
+        /// Zone
+        /// </summary>
+        ObservableCollection<ClientZoneDto> ZoneDto { get; }
+        /// <summary>
+        ///  Origen
+        /// </summary>
+        ObservableCollection<OrigenDto> OrigenDto { get; }
+       /// <summary>
+       ///  Broker
+       /// </summary>
+        ObservableCollection<ComisioDto> BrokerDto { get; }
+        /// <summary>
+        ///  ClientMarket
+        /// </summary>
+        ObservableCollection<MercadoDto> ClientMarketDto { get; set; }
+        ObservableCollection<ResellerDto> ResellerDto { get; }
+        ObservableCollection<ClientTypeDto> ClientTypeDto { get; }
     }
 
 }

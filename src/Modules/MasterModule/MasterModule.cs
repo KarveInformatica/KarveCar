@@ -7,6 +7,7 @@ using KarveControls;
 using MasterModule.Interfaces;
 using MasterModule.ViewModels;
 using MasterModule.Views;
+using MasterModule.Views.Clients;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -37,11 +38,9 @@ namespace MasterModule
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
             _container.RegisterType<object, VehicleInfoView>(typeof(VehicleInfoView).FullName);
             _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
+            _container.RegisterType<object, ClientsInfoView>(typeof(ClientsInfoView).FullName);
+            _container.RegisterType<object, UpperBarClientView>(typeof(UpperBarClientView).FullName);
 
-      
-         //   _regionManager.RegisterViewWithRegion("PaymentDirectionRegion", typeof(DirectionInfo));
-         //   _regionManager.RegisterViewWithRegion("ClaimsDirectionRegion", typeof(DirectionInfo));
-         //   _regionManager.RegisterViewWithRegion("ReturnDirectionRegion", typeof(DirectionInfo));
         }
         public void Initialize()
         {

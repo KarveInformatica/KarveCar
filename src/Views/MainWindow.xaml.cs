@@ -16,13 +16,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using KarveCar.Utility;
 using MahApps.Metro.Controls;
+using Syncfusion.Windows.Shared;
+
 
 namespace KarveCar.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : ChromelessWindow
     {
         public MainWindow()
         {

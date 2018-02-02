@@ -11,46 +11,51 @@
         <GroupBox Header="Periocidiad para Facturacion">
             <StackPanel>
                 <WrapPanel>
-            <KarveControls:DataFieldCheckBox Content="Una per contracto" />
-            <KarveControls:DataFieldCheckBox Content="Per periodo" />
+            <KarveControls:DataFieldCheckBox Content="Una per contracto" 
+                                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             KarveControls:ControlExt.DataSourcePath=""
+                           />
+                    <KarveControls:DataFieldCheckBox Content="Por Delegacion del Cliente" 
+                                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                     KarveControls:ControlExt.DataSourcePath=""
+                    />
+                    <KarveControls:DataFieldCheckBox Content="Per periodo" />
                 </WrapPanel>
                 <KarveControls:DualFieldSearchBox x:Name="InvoceBloq" 
                                               LabelText="Bloque Fact." 
                                               Height="25" 
                                           Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_PROVEE"
+                                          AssistDataFieldFirst="CODIGO"
                                           AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistTableName="BILLING_BLOCK"
                                           IsReadOnlySecond="True"
-                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="BLOQUEFAC"
                                           AssistProperties="Code,Nombre"
                                           ItemChangedCommand="{Binding Path=ItemChangedCommand}"
                                           MagnifierCommand="{Binding Path=MagnifierCommand}" 
                                           DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="100"
+                                          SourceView="{Binding BillingBlockDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="120"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png">
 
                 </KarveControls:DualFieldSearchBox>
                 <KarveControls:DualFieldSearchBox x:Name="AbbComision" 
-                                              LabelText="Abinar Comision a" 
+                                              LabelText="Abonar Comision a" 
                                               Height="25" 
                                           Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_PROVEE"
-                                          AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistDataFieldFirst="NUM_COMI"
+                                          AssistDataFieldSecond="CODIGO"
+                                          AssistTableName="BROKER"
                                           IsReadOnlySecond="True"
-                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          AssistProperties="Code,Nombre"
+                                          DataFieldFirst="COMISIO"
+                                          AssistProperties="Codigo,Name"
                                           ItemChangedCommand="{Binding Path=ItemChangedCommand}"
                                           MagnifierCommand="{Binding Path=MagnifierCommand}" 
-                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="100"
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding BrokersDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="120"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png">
@@ -59,25 +64,48 @@
                                               LabelText="Tarifa " 
                                               Height="25" 
                                           Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_PROVEE"
-                                          AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          DataFieldFirst="GRUTARI_CLI"        
+                                          AssistTableName="GRUPOS_TARI"
                                           IsReadOnlySecond="True"
-                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           AssistProperties="Code,Nombre"
                                           ItemChangedCommand="{Binding Path=ItemChangedCommand}"
                                           MagnifierCommand="{Binding Path=MagnifierCommand}" 
-                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="100"
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding FareDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="120"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png">
 
                 </KarveControls:DualFieldSearchBox>
-                <KarveControls:DataDatePicker LabelText="De" LabelTextWidth="90" Margin="15,5,0,0" DataDatePickerHeight="35"/>
-                <KarveControls:DataDatePicker LabelText="A" LabelTextWidth="90" Margin="15,5,0,0" DataDatePickerHeight="35"/>
+                <KarveControls:DualFieldSearchBox x:Name="UsoFormaCobro"
+                                                  LabelText="No Usar Forma Cobro " 
+                                                  Height="25" 
+                                                  Margin="0,5,0,0"
+                                                  DataFieldFirst="NO_USAR_F_COBRO"        
+                                                  AssistTableName="GRUPOS_TARI"
+                                                  IsReadOnlySecond="True"
+                                                  AssistProperties="Code,Nombre"
+                                                  ItemChangedCommand="{Binding Path=ItemChangedCommand}"
+                                                  MagnifierCommand="{Binding Path=MagnifierCommand}" 
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding ChargeFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  LabelTextWidth="120"
+                                                  TextContentFirstWidth="60" 
+                                                  TextContentSecondWidth="150"
+                                                  ButtonImage="/KarveCar;component/Images/search.png">
+                </KarveControls:DualFieldSearchBox>
+                <KarveControls:DataDatePicker 
+                    LabelText="De" 
+                    LabelTextWidth="90" 
+                    Margin="15,5,0,0" 
+                    DataDatePickerHeight="35"
+                    />
+                <KarveControls:DataDatePicker 
+                    LabelText="A" 
+                    LabelTextWidth="90" 
+                    Margin="15,5,0,0" 
+                    DataDatePickerHeight="35"/>
             
             </StackPanel>
         </GroupBox>

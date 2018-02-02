@@ -97,10 +97,61 @@
                 </GroupBox>
                 <GroupBox Header="Opciones">
                     <StackPanel>
-                        <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto" />
-                        <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"/>
-                        <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias" />
-                        <KarveControls:DataFieldCheckBox Content="No Censado" />
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias" />
+                                <KarveControls:DataFieldCheckBox Content="No Censado" />
+                                <KarveControls:DataFieldCheckBox 
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="CORTA"
+                                    Content="Corta duración"
+                                />
+                                <KarveControls:DataFieldCheckBox 
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="LARGA"
+                                    Content="Larga duración "/>
+                                <KarveControls:DataFieldCheckBox 
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="NO_FACT_MULTAS"
+                                    Content="No facturar multas"/>
+                                <KarveControls:DataFieldCheckBox 
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="ENVIAR"
+                                    Content="No enviar mailing"/>
+                                <KarveControls:DataFieldCheckBox 
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="NOIMPRFAC"
+                                    Content="No Imprimir mensaje en Factura"/>
+                            </StackPanel>
+                            <WrapPanel Grid.Column="1" Orientation="Vertical">
+                                <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto" />
+                                <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"/>
+
+                                <KarveControls:DataFieldCheckBox 
+                                    Content="Exportación"
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.DataSourcePath="EXPORTA_CLI" />
+                                <KarveControls:DataFieldCheckBox Content="Factura sin I.V.A."
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="EXPORTA_CLI" 
+                                />
+                                <KarveControls:DataFieldCheckBox Content="No permitir cobros"/>
+                                <KarveControls:DataFieldCheckBox Content="Contra pendiente cobros"/>
+                            </WrapPanel>
+                        </Grid>
+
                         <GroupBox Header="Logo en Factura">
                             <StackPanel Orientation="Horizontal">
                                 <RadioButton Content="Yes" Width="100"/>

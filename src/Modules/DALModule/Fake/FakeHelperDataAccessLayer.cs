@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Fake
 {
     /// <summary>
     ///  This is a mock class for data access layer
@@ -70,7 +70,17 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
+        public Task<DtoTransfer> GetSingleMappedAsyncHelper<DtoTransfer, T>(string code) where DtoTransfer : class, new() where T : class
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<DtoTransfer>> GetMappedAllAsyncHelper<DtoTransfer, T>() where DtoTransfer : class where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IDictionary<string, DtoTransfer>> GetAsyncBatchData<DtoTransfer>(IDictionary<string, string> value)
         {
             throw new NotImplementedException();
         }

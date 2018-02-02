@@ -24,5 +24,10 @@ namespace MasterModule.Views
         {
             InitializeComponent();
         }
+        public string Header
+        {
+            get { return KarveLocale.Properties.Resources.lrgrMaestrosClientes; }
+
+        }
     }
 }

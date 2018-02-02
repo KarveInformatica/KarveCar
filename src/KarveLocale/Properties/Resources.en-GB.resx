@@ -2113,4 +2113,13 @@
   <data name="lrisk" xml:space="preserve">
     <value>Risk</value>
   </data>
+  <data name="lotherData" xml:space="preserve">
+    <value>Other Data</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Birthdate</value>
+  </data>
+  <data name="ltipoCliente" xml:space="preserve">
+    <value>Kind of Client</value>
+  </data>
 </root>

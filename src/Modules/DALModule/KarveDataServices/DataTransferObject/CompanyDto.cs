@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class CompanyDto
+    public class CompanyDto: BaseDto
     {
         public string Code { get; set; }
         /// <summary>

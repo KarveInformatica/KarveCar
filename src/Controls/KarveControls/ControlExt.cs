@@ -37,6 +37,8 @@ namespace KarveControls
             Update,
             Any
         }
+
+        public const string AssistName = "AssistTable";
         /// <summary>
         ///  Email data type
         /// </summary>

@@ -1,29 +1,34 @@
-﻿<Controls:MetroWindow x:Class="KarveCar.Views.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KarveCar.Views"
-        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-                      xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
-        xmlns:prism="http://prismlibrary.com/"
-        prism:ViewModelLocator.AutoWireViewModel="True"
-        xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
-        xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:uc="clr-namespace:KarveCar.View"
+﻿<syncfusion:ChromelessWindow x:Class="KarveCar.Views.MainWindow"     UseNativeChrome="True"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:SkinStorage.VisualStyle="Metro" WindowState="Maximized" 
+                             WindowStartupLocation="CenterScreen"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:local="clr-namespace:KarveCar.Views"
+                             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+                             xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
+                             xmlns:prism="http://prismlibrary.com/"
+                             prism:ViewModelLocator.AutoWireViewModel="True"
+                             xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+                             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             mc:Ignorable="d"
+                             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                             xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+                             xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
+                             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                             xmlns:uc="clr-namespace:KarveCar.View"
         
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
+                             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                             xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
        
-        xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        Background="{DynamicResource MaterialDesignCardBackground}"
-        Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="1200" MinHeight="900">
+                             xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
+                             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                             Background="{DynamicResource MaterialDesignCardBackground}"
+                             Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="1200" MinHeight="900"
+>
+    
     <Window.Resources>
         <ResourceDictionary>
 
@@ -79,7 +84,9 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <DockPanel x:Name="RibbonWindow">
+       
+        
+        <DockPanel x:Name="RibbonWindow" Grid.Column="1">
             <!--Permite hacer scroll entre las diferentes tabs de la ribbon-->
             <!--StatusBar-->
             <StatusBar DockPanel.Dock="Bottom" x:Name="stbrInicio">
@@ -352,7 +359,9 @@
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnClientes" 
                                             Label="{Binding lrbtnClientes, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
+                                            HorizontalAlignment="Left"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Clients"
                                             SmallImageSource="/KarveCar;component/Images/new.png"/>
                                 <RibbonButton x:Name="rbtnEntradaRapida" 
                                             Label="{Binding lrbtnEntradaRapida, Source={StaticResource ResourceLanguage}}" 
@@ -1768,4 +1777,4 @@
         </DockPanel>
 
     </Grid>
-</Controls:MetroWindow>
+</syncfusion:ChromelessWindow>

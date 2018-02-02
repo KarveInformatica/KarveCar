@@ -59,8 +59,10 @@
                         </ResourceDictionary>
                     </Syncfusion:SfDataGrid.Resources>
                     <i:Interaction.Behaviors>
+                        <!--
                         <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </i:Interaction.Behaviors>
+                   -->
+                        </i:Interaction.Behaviors>
                     <Syncfusion:SfDataGrid.Columns>
                         <Syncfusion:GridTextColumn HeaderText="Codigo" 
                                                    MappingName="Code" 

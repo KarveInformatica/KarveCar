@@ -10,6 +10,7 @@ using KarveCommon.Generic;
 using System.Reflection;
 using System.Globalization;
 using System;
+using System.Runtime.InteropServices;
 using DataAccessLayer;
 using DataAccessLayer.SQL;
 using KarveCar.Logic.Generic;
@@ -25,7 +26,7 @@ namespace KarveCar
     class Bootstrapper : UnityBootstrapper
     {
 
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
         /// <summary>
@@ -73,8 +74,8 @@ namespace KarveCar
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
-                InjectionConstructor injectionConstructorDB = new InjectionConstructor(currentValue);
-                Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDB);
+                InjectionConstructor injectionConstructorDb = new InjectionConstructor(currentValue);
+                Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDb);
                 object[] values = new object[1];
                 values[0] = Container.Resolve<ISqlExecutor>();
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
@@ -98,7 +99,8 @@ namespace KarveCar
             base.ConfigureViewModelLocator();
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(x =>
             {
-                var viewName = x.FullName;
+                
+                var viewName = string.IsNullOrEmpty(x.FullName) ? "": x.FullName;
                 viewName = viewName.Replace(".Views.", ".ViewModels.");
                 var viewAssemblyName = x.GetTypeInfo().Assembly.FullName;
                 var suffix = viewName.EndsWith("View") ? "Model" : "ViewModel";

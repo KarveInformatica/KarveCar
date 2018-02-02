@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MasterModule.Common
 {
+    /// <summary>
+    ///  Common constants for the master module
+    /// </summary>
     public class MasterModuleConstants
     {
         public MasterModuleConstants()
@@ -23,10 +26,13 @@ namespace MasterModule.Common
         internal const string CommissionAgentSystemName = "CommissionAgentSystem";
         internal const string CommissionAgentInfoView = "CommissionAgentInfoView";
         internal const string VehiclesSystemName = "VehiclesSystemName";
+        
         internal const string VehiclesSystemInfoView = "CommissionAgentInfoView";
         internal const string FareSystemName = "VehiclesSystemName";
         internal const string FareSystemInfoView = "CommissionAgentInfoView";
         internal const string CommissionAgentControlVm= "CommissionAgentControlViewModel";
+        internal static string ClientSubSystemName = "ClientSystemName";
+
         public static string ImagePath => _imagePath;
         public static string CopyPath => _copyCool;
         public static string EmailImagePath => emailImagePath;

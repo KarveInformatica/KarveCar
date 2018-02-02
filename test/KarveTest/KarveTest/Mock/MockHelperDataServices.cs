@@ -217,6 +217,12 @@ namespace KarveTest.Mock
             string value = Convert.ToString(data);
             return value;
         }
+
+        public Task<DtoTransfer> GetSingleMappedAsyncHelper<DtoTransfer, T>(string code) where DtoTransfer : class, new() where T : class
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// GetMapped unique async helper.
         /// </summary>
@@ -228,6 +234,11 @@ namespace KarveTest.Mock
           var list = CraftListOfType<DtoTransfer>();
           await Task.Delay(1);
           return list;
+        }
+
+        public Task<IDictionary<string, DtoTransfer>> GetAsyncBatchData<DtoTransfer>(IDictionary<string, string> value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

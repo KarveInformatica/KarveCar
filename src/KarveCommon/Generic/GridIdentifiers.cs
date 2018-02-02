@@ -73,5 +73,9 @@ namespace KarveCommon.Generic
         ///  Vehicle Repostaje.
         /// </summary>
         public static long VehicleRepostaje = 0xFC;
+        /// <summary>
+        ///  Client Control View.
+        /// </summary>
+        public static long ClientSummaryGrid = 0xFF;
     }
 }

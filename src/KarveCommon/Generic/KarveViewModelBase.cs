@@ -9,6 +9,7 @@ using System.Windows.Input;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
+using Prism.Commands;
 using Prism.Mvvm;
 namespace KarveCommon.Generic
 {
@@ -17,6 +18,22 @@ namespace KarveCommon.Generic
     /// </summary>
     public class KarveViewModelBase: BindableBase, IDisposeEvents
     {
+
+        protected const string InsertState = "Estado Agregar.";
+        protected const string UpdateState = " Estado Modificar.";
+        protected const string DeletedSuccess = "Valor borrado con exito.";
+        protected const string DefaultState = "Estado consultar.";
+
+
+        /// <summary>
+        ///  Magnifier reference
+        /// </summary>
+        protected IHelperDataServices HelperDataServices;
+        /// <summary>
+        ///  Assis mapper / mapeo de las lupas.
+        /// </summary>
+        protected IAssistMapper<BaseDto> AssistMapper = new AssistMapper<BaseDto>();
+
         /// <summary>
         ///  SqlQuery. This is an assist query.
         /// </summary>
@@ -44,8 +61,16 @@ namespace KarveCommon.Generic
 
         protected Guid Guid;
         private KarveGridParameters _gridParm = new KarveGridParameters();
-        private long _gridIdentifer = long.MinValue;
-
+        private long _gridIdentifer = Int64.MinValue;
+        /// <summary>
+        ///  emptu constructro.
+        /// </summary>
+        public KarveViewModelBase()
+        {
+            Guid = Guid.NewGuid();
+            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
+            GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
+        }
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
         /// </summary>
@@ -54,10 +79,11 @@ namespace KarveCommon.Generic
         {
             DataServices = services;
             Guid = Guid.NewGuid();
-            GridResizeCommand = new Prism.Commands.DelegateCommand<object>(OnGridResize);
-            GridRegisterCommand = new Prism.Commands.DelegateCommand<object>(OnGridRegister);
+            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
+            GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
+            HelperDataServices = services.GetHelperDataServices();
         }
-
+       
         /// <summary>
         ///  Unique Id for the helpers.
         /// </summary>
@@ -93,7 +119,7 @@ namespace KarveCommon.Generic
                 }
             } while (RegisteredGridIds.Contains(value));
             // in case we have a minvalue.
-            if (value == long.MinValue)
+            if (value == Int64.MinValue)
             {
                 maxTries = 0;
             }
@@ -111,7 +137,7 @@ namespace KarveCommon.Generic
         /// <summary>
         /// CurrentGrid Settings
         /// </summary>
-        public ObservableCollection<GridSettingsDto>  CurrentGridSettings
+        public ObservableCollection<GridSettingsDto> CurrentGridSettings
         {
             set
             {

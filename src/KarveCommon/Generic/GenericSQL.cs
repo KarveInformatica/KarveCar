@@ -88,7 +88,7 @@ namespace KarveCommon.Generic
             "select TOP {0} START AT {1} vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +
             "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
 
-        public const string ClientsSummaryQuery = "select NUMERO_CLI as Code, " +
+        public const string ClientsSummaryQuery = "select NUMERO_CLI as Codigo, " +
                                                   "NOMBRE as Nombre, " +
                                                   "NIF as Nif," +
                                                   "DIRECCION as Direccion, " +
@@ -96,7 +96,7 @@ namespace KarveCommon.Generic
                                                   "PROVINCIA.PROV as Provincia, " +
                                                   "PAIS.PAIS as Pais, " +
                                                   "TELEFONO as Telefono, " +
-                                                  "MOVIL as Movil" +
+                                                  "MOVIL as Movil " +
                                                   "from CLIENTES1 " +
                                                   "LEFT OUTER JOIN PROVINCIA " +
                                                   "ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA " +

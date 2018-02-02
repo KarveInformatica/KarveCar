@@ -63,22 +63,15 @@ namespace MasterModule.ViewModels
         get { return OpenItemCommand; }
 
         }
-        /// <summary>
-        ///  SummaryView data table.
-        /// </summary>
-        public DataTable SummaryView
-        {
-            set { ExtendedDataTable = value; RaisePropertyChanged(); }
-            get { return ExtendedDataTable; }
-        }
+        
         /// <summary>
         /// Init the view model.
         /// </summary>
         private void InitViewModel()
         {
             _settings = ConfigurationService.GetUserSettings();
-            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.CommissionAgent;
-            GridId = KarveCommon.Generic.GridIdentifiers.CommissionAgent;
+            GridIdentifier = GridIdentifiers.CommissionAgent;
+            GridId = GridIdentifiers.CommissionAgent;
             MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
             MessageHandlerMailBox += CommissionAgentMailBox;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
@@ -224,7 +217,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Get the routed name for the toolbar.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Name of the view</param>
         /// <returns></returns>
         protected override string GetRouteName(string name)
         {
@@ -232,7 +225,7 @@ namespace MasterModule.ViewModels
         }
 
         /// <summary>
-        /// DeleteAsync comissio ageny
+        /// Delete a single commission agent/broker
         /// </summary>
         /// <param name="commissionId"></param>
         /// <param name="payLoad"></param>
@@ -244,10 +237,6 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             return retValue;
         }
-
-        
-
-
         // create a scope for navigation.
         public bool CreateRegionManagerScope {
             get
@@ -256,9 +245,5 @@ namespace MasterModule.ViewModels
             }
         }
 
-        /// <summary>
-        ///  UniqueId. Unique Identifier.
-        /// </summary>
-        public string UniqueId { get; set; } = "CommissionAgentControlViewModel." + Guid.NewGuid().ToString();
     }
 }

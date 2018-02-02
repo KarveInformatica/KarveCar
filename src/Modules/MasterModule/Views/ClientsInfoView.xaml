@@ -7,11 +7,9 @@
              xmlns:clients="clr-namespace:MasterModule.Views.Clients"
              xmlns:mvvm1="http://prismlibrary.com/"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ItemsControl="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
-             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              x:Class="MasterModule.Views.ClientsInfoView"
              mc:Ignorable="d" 
              d:DesignHeight="2000" d:DesignWidth="1200">
@@ -26,25 +24,23 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-
-    <StackPanel Orientation="Vertical">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <StackPanel Orientation="Vertical">
-
-            <ContentControl mvvm1:RegionManager.RegionName="ClientUpperRegion" />
-
+            <local:UpperBarClientView></local:UpperBarClientView>
+                    
             <TabControl x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
                 <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Seleciona" Margin="10,0,0,10" Width="150"></TextBlock>
-                            <ComboBox Width="200" KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                          KarveControls:ControlExt.DataSourcePath="Value.ALTA_COMI">
+                            <ComboBox Width="200">
                                 <ComboBoxItem  IsSelected="True" Width="200">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/MasterModule;component/Images/contacts.png" Height="25"></Image>
@@ -61,52 +57,66 @@
                                 </ComboBoxItem>
                             </ComboBox>
                         </StackPanel>
-                        <clients:GeneralInfoView />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Header="Datos Cliente" Grid.Column="0">
+                                <StackPanel>                                    <clients:GeneralInfoView />
+                                    <karveControls:DataArea 
+                                        DataAreaWidth="400"
+                                        DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
+                                        Margin="5,0,0,0"
+                                        LabelVisible="False"
+                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        karveControls:ControlExt.DataSourcePath="NOTAS"
+                                    ></karveControls:DataArea>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <KarveControls:DataFieldCheckBox Content="Moroso"   
-                                                 KarveControls:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 KarveControls:ControlExt.DataSourcePath="PowderCoating">
-                            </KarveControls:DataFieldCheckBox>
+                                </GroupBox>
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <GroupBox  Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}">
+                                        <karveControls:CreditCardUserControl/>
+                                    </GroupBox>
 
-                            <KarveControls:DataFieldCheckBox Content="Bloqueado"   
-                                                 KarveControls:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 KarveControls:ControlExt.DataSourcePath="PowderCoating">
-                            </KarveControls:DataFieldCheckBox>
-                        </StackPanel>
+                                    <karveControls:DataArea 
+                                    DataAreaWidth="400"
+                                    DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
+                                    Margin="5,5,0,0"
+                                    LabelVisible="False"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    karveControls:ControlExt.DataSourcePath="OBSERVA"
+                                />
 
-                        <KarveControls:DataArea 
-                            DataAreaWidth="400"
-                            DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
-                            Margin="5,0,0,0"
-                            LabelVisible="False"
-                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            KarveControls:ControlExt.DataSourcePath="NOTAS"
-                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <KarveControls:DataArea 
-                            DataAreaWidth="400"
-                            DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
-                            Margin="5,5,0,0"
-                            LabelVisible="False"
-                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            KarveControls:ControlExt.DataSourcePath="OBSERVA"
-                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+                        
 
-                        <GroupBox Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}">
-                            <KarveControls:CreditCardUserControl/>
-                        </GroupBox>
+                                               
+
+                        <!--
                         <clients:DriverDataUserControl></clients:DriverDataUserControl>
-
+                        -->
                     </StackPanel>
                 </TabItem>
-                <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <!--    <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <clients:OtherData></clients:OtherData>
                 </TabItem>
-            </TabControl>
+                <TabItem x:Name="Facturacion" Header="{Binding Facturacion,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                </TabItem>
+                <TabItem x:Name="Contactos" >
+                    <ContentControl x:Name="ClientContactGrid"  Content="{StaticResource ContactGrid}"></ContentControl>
+                </TabItem>
+                <TabItem x:Name="Delegaciones">
+                    <ContentControl x:Name="ClientDelegatcion" Content="{StaticResource BranchGrid}"></ContentControl>
+                </TabItem>
+             -->
+                </TabControl>
+           
         </StackPanel>
 
 
     </StackPanel>
+        </ScrollViewer>
 </UserControl>

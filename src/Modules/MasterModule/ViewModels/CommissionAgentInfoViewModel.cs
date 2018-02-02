@@ -18,8 +18,6 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Win32;
 using Prism.Regions;
 using Syncfusion.Windows.Shared;
 using DelegateCommand = Prism.Commands.DelegateCommand;

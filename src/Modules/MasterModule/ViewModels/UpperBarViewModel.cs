@@ -22,6 +22,7 @@ using MasterModule.Common;
 
 namespace MasterModule.ViewModels
 {
+    /// TODO: this shall be unified as generic view model.
     /// <summary>
     ///  UpperBarView model.
     /// </summary>
@@ -40,6 +41,8 @@ namespace MasterModule.ViewModels
         protected IMapper _mapper;
         private ICommissionAgent _commissionAgentCurrent;
 
+
+        
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
         /// </summary>

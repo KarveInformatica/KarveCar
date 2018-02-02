@@ -53,7 +53,7 @@ namespace MasterModule.Views
         }
         private void OnViewSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.Tipo.SourceView = e.NewValue;
+          //  this.Tipo.SourceView = e.NewValue;
         }
 
         /// <summary>

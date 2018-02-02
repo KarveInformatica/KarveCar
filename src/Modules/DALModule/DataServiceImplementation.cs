@@ -29,25 +29,29 @@ namespace DataAccessLayer
         /// </summary>
         private readonly IVehicleDataServices _vehicleDataServices;
 
-
+        /// <summary>
+        ///  Client data service
+        /// </summary>
         private readonly IClientDataServices _clientDataServices;
+        /// <summary>
+        ///  Assist data service.
+        /// </summary>
+        private readonly IAssistDataService _assistDataService;
 
+        /// <summary>
+        ///  SqlExecutor.
+        /// </summary>
 
-        private ISqlExecutor _executor;
-        private object _serviceConf;
+        private readonly ISqlExecutor _executor;
+       
 
         /// <summary>
         /// DataService Implementation
         /// </summary>
         /// <param name="sqlExecutor">Sql executor</param>
-        /// <param name="configurationService">Configuration service. Global services for the application</param>
+        
         public DataServiceImplementation(ISqlExecutor sqlExecutor)
         {
-            /* move to generic all this a good schema might be 
-                _supplierDataServices = new DataAccessLayer<ISupplierData>(sqlExecutor);
-                _helperDataServices = new DataAccessLayer<IHelperData>(sqlExecutor);
-                _DataServices = new DataAccessLayer<I>(sqlExecutor);
-             */
             _executor = sqlExecutor;
             _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor);
             _helperDataServices = new HelperDataAccessLayer(sqlExecutor);
@@ -55,6 +59,7 @@ namespace DataAccessLayer
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
             _settingsDataService = new SettingsDataService(sqlExecutor);
             _clientDataServices = new ClientDataAccessLayer(sqlExecutor);
+            _assistDataService = new AssistDataService(_helperDataServices);
 
         }
         /// <summary>
@@ -89,7 +94,10 @@ namespace DataAccessLayer
         {
            return _commissionAgentDataServices;
         }
-
+        /// <summary>
+        ///  This return the data access layer for the settings
+        /// </summary>
+        /// <returns></returns>
         public ISettingsDataService GetSettingsDataService()
         {
             return _settingsDataService;
@@ -99,6 +107,22 @@ namespace DataAccessLayer
         {
             var value = (T)Activator.CreateInstance(typeof(T), new object[] { _executor });
             return value;
+        }
+        /// <summary>
+        ///  This returns the client data services.
+        /// </summary>
+        /// <returns></returns>
+        public IClientDataServices GetClientDataServices()
+        {
+            return _clientDataServices;
+        }
+        /// <summary>
+        ///  Assist data service.
+        /// </summary>
+        /// <returns></returns>
+        public IAssistDataService GetAssistDataService()
+        {
+            return _assistDataService;
         }
     }
 }

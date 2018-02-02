@@ -130,7 +130,7 @@
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MagnifierPress">
 
-                                                    <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                                        <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                                TriggerParameterPath="AssistParameters" />
 
                                                 </i:EventTrigger>
@@ -161,35 +161,35 @@
                         
                         <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommisionRightPart"  Grid.Column="0" Orientation="Vertical">
 
-                                    <karveControls:DataField LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
+                                        <karveControls:DataField LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                        LabelTextWidth="100" 
                                                        DataSourcePath="NOMBRE" 
                                                        DataObject="{Binding DataObject}" 
                                                        TextContentWidth="200">
 
-                              <i:Interaction.Triggers>
-                                  <i:EventTrigger EventName="DataFieldChanged">
-                                      <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                  </i:EventTrigger>
-                              </i:Interaction.Triggers>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="DataFieldChanged">
+                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
 
-                            </karveControls:DataField>
+                                        </karveControls:DataField>
 
-                                    <karveControls:DataField LabelText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
+                                        <karveControls:DataField LabelText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                      LabelTextWidth="100" 
                                                      DataSourcePath="DIRECCION" 
                                                      DataObject="{Binding DataObject}" 
                                                      TextContentWidth="200">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </karveControls:DataField>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="DataFieldChanged">
+                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </karveControls:DataField>
 
-                                    <StackPanel Orientation="Horizontal">
-                                        <karveControls:DualFieldSearchBox 
+                                        <StackPanel Orientation="Horizontal">
+                                            <karveControls:DualFieldSearchBox 
                                             x:Name="CitySearchBox"
                                             DataFieldFirst="CP"
                                             AssistTableName="POBLACIONES"
@@ -207,18 +207,18 @@
                                             TextContentSecondWidth="200"
                                             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                             SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                            DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                            <i:Interaction.Triggers>
+                                            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                <i:Interaction.Triggers>
 
-                                                <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                                TriggerParameterPath="ChangedValuesObjects"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                        </karveControls:DualFieldSearchBox>
-                            </StackPanel>
-                                    <karveControls:DualFieldSearchBox LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" 
+                                            </karveControls:DualFieldSearchBox>
+                                        </StackPanel>
+                                        <karveControls:DualFieldSearchBox LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" 
                                                                   LabelTextWidth="100" 
                                                                   TextContentFirstWidth="50"
                                                                   TextContentSecondWidth="200"
@@ -238,12 +238,12 @@
 
                                         </i:EventTrigger>
 
-                                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </karveControls:DualFieldSearchBox>
-                                    <karveControls:DualFieldSearchBox LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
+                                                <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </karveControls:DualFieldSearchBox>
+                                        <karveControls:DualFieldSearchBox LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
                                                                 LabelTextWidth="100" 
                                                                 DataFieldFirst="NACIOPER" 
                                                                 AssistDataFieldFirst="SIGLAS"
@@ -255,48 +255,48 @@
                                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
                                                                 ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                                  <i:Interaction.Triggers>
-                                      <i:EventTrigger EventName="MagnifierPress">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MagnifierPress">
 
-                                          <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                    <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                      TriggerParameterPath="AssistParameters" />
 
-                                      </i:EventTrigger>
+                                                </i:EventTrigger>
 
-                                      <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                                          <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                      </i:EventTrigger>
-                                  </i:Interaction.Triggers>
-                              </karveControls:DualFieldSearchBox>
-                              <StackPanel>
-                                        <karveControls:DataField LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
+                                                <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </karveControls:DualFieldSearchBox>
+                                        <StackPanel>
+                                            <karveControls:DataField LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                        DataSourcePath="TELEFONO" 
                                                        LabelTextWidth="100" 
                                                        TextContentWidth="200" 
                                                        DataObject="{Binding DataObject}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </karveControls:DataField>
-                                        <karveControls:DataField LabelText="{Binding lfax, Source={StaticResource ResourceLanguage}}" 
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="DataFieldChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </karveControls:DataField>
+                                            <karveControls:DataField LabelText="{Binding lfax, Source={StaticResource ResourceLanguage}}" 
                                                            LabelVisible="True" 
                                                            DataSourcePath="FAX"
                                                            LabelTextWidth="100" 
                                                            TextContentWidth="200"
                                                            DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                      <i:Interaction.Triggers>
-                                          <i:EventTrigger EventName="DataFieldChanged">
-                                              <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                          </i:EventTrigger>
-                                      </i:Interaction.Triggers>
-                                  </karveControls:DataField>
-                                
-                                </StackPanel>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="DataFieldChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </karveControls:DataField>
+
+                                        </StackPanel>
 
 
-                                <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                      LabelTextWidth="100" 
                                                      TextContentWidth="200" 
                                                      LabelText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" 
@@ -306,25 +306,34 @@
                                                      />
                             
                             <WrapPanel Orientation="Horizontal">
-                                            <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
+                                        <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
                                                               DataDatePickerHeight="30" 
                                                               LabelTextWidth="100" 
                                                               LabelVisible="True"
                                                               PickerContentWidth="100"
                                                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.DataSourcePath="Value.ALTA_COMI"
-                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                               >
-                                            </karveControls:DataDatePicker>
+
+                                    <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="DataDatePickerChanged">
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </karveControls:DataDatePicker>
                                         <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}"
                                                               LabelVisible="True"
                                                               LabelTextWidth="100" 
                                                               PickerContentWidth="100" 
                                                               DataDatePickerHeight="30"
                                                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                               karveControls:ControlExt.DataSourcePath="Value.BAJA_COMI">
 
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="DataFieldChanged">
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </karveControls:DataDatePicker>
                             </WrapPanel>
                             <karveControls:DualFieldSearchBox 
@@ -353,190 +362,190 @@
                                 TextContentWidth="100"
                                 DataObject="{Binding DataObject}">
 
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="DataFieldChanged">
-                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                            </karveControls:DataField>
-                                    <GroupBox Header="{Binding Opciones, Source={StaticResource ResourceLanguage}}">
-                                    <WrapPanel Orientation="Vertical">
-                                            <karveControls:DataFieldCheckBox Content="{Binding livaenlistado, Source={StaticResource ResourceLanguage}}" 
-                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  karveControls:ControlExt.DataSourcePath="Value.IVASINO">
-
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lretencionenlistado, Source={StaticResource ResourceLanguage}}" 
-                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                         karveControls:ControlExt.DataSourcePath="Value.RETENSINO">
-
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lesnacional, Source={StaticResource ResourceLanguage}}" 
-                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                         karveControls:ControlExt.DataSourcePath="Value.NACIONAL">
                                             <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                <i:EventTrigger EventName="DataFieldChanged">
                                                     <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
-                                        </karveControls:DataFieldCheckBox>
-                                        <karveControls:DataFieldCheckBox Content="{Binding lsiesclienteesagencia, Source={StaticResource ResourceLanguage}}" 
+
+                                        </karveControls:DataField>
+                                        <GroupBox Header="{Binding Opciones, Source={StaticResource ResourceLanguage}}">
+                                            <WrapPanel Orientation="Vertical">
+                                                <karveControls:DataFieldCheckBox Content="{Binding livaenlistado, Source={StaticResource ResourceLanguage}}" 
+                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                  karveControls:ControlExt.DataSourcePath="Value.IVASINO">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lretencionenlistado, Source={StaticResource ResourceLanguage}}" 
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="Value.RETENSINO">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lesnacional, Source={StaticResource ResourceLanguage}}" 
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="Value.NACIONAL">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lsiesclienteesagencia, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.CONCEPTOS_COND">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lesagenciadeviaje, Source={StaticResource ResourceLanguage}}"  
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lesagenciadeviaje, Source={StaticResource ResourceLanguage}}"  
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.AGENCIA">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                        <karveControls:DataFieldCheckBox Content="{Binding ltraduceconceptosweb, Source={StaticResource ResourceLanguage}}"  
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding ltraduceconceptosweb, Source={StaticResource ResourceLanguage}}"  
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.TRADUCE_WS">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding ltrackrentalbroker, Source={StaticResource ResourceLanguage}}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding ltrackrentalbroker, Source={StaticResource ResourceLanguage}}"
                                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  karveControls:ControlExt.DataSourcePath="Value.TRUCK_RENTAL_BROKER">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lcombustibleprepagoobligatorioplusde, Source={StaticResource ResourceLanguage}}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lcombustibleprepagoobligatorioplusde, Source={StaticResource ResourceLanguage}}"
                                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  karveControls:ControlExt.DataSourcePath="Value.COMBUS_PREPAGO_COMI">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lnogenerarautofacturas, Source={StaticResource ResourceLanguage}}" 
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lnogenerarautofacturas, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.NO_GENERAR_AUTOFAC">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lcotizartodoslosextras, Source={StaticResource ResourceLanguage}}" 
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lcotizartodoslosextras, Source={StaticResource ResourceLanguage}}" 
                                                                          Visibility="Visible"
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.TODOS_EXTRAS">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                        TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
+                                                </karveControls:DataFieldCheckBox>
 
-                                            <karveControls:DataFieldCheckBox Content="{Binding lonewayautomatico, Source={StaticResource ResourceLanguage}}" 
+                                                <karveControls:DataFieldCheckBox Content="{Binding lonewayautomatico, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lmostrarsóloincluidosalcotizartodoslosgrupos, Source={StaticResource ResourceLanguage}}" 
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lmostrarsóloincluidosalcotizartodoslosgrupos, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.COT_INCLUIDOS_SIN_GRUPO">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
+                                                </karveControls:DataFieldCheckBox>
 
-                                            <karveControls:DataFieldCheckBox Content="{Binding lnoenviarreservas, Source={StaticResource ResourceLanguage}}" 
+                                                <karveControls:DataFieldCheckBox Content="{Binding lnoenviarreservas, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.NO_MAIL_RES">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                                            <karveControls:DataFieldCheckBox Content="{Binding lautofacturasiniva, Source={StaticResource ResourceLanguage}}" 
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lautofacturasiniva, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.AUTOFAC_SIN_IVA">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
                                     </karveControls:DataFieldCheckBox>
                                             <karveControls:DataFieldCheckBox Content="{Binding lcomisionsiniva, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                          karveControls:ControlExt.DataSourcePath="Value.COMISION_SIN_IVA_COM">
 
-                                    <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataFieldCheckBox>
-                            </WrapPanel>
-                            </GroupBox>
+                                                </karveControls:DataFieldCheckBox>
+                                            </WrapPanel>
+                                        </GroupBox>
 
-                        </VirtualizingStackPanel>
-                    </Grid>
-                </Grid>
-                </ScrollViewer>
+                                    </VirtualizingStackPanel>
+                                </Grid>
+                            </Grid>
+                        </ScrollViewer>
 
-            </TabItem>
+                    </TabItem>
 
                 <TabItem Name="Comisiones" Header="{Binding Commisiones, Source={StaticResource ResourceLanguage}}">
                 <ScrollViewer>
@@ -580,8 +589,8 @@
                             </i:Interaction.Triggers>
                        </karveControls:DualFieldSearchBox>
                                 -->
-                                <StackPanel Orientation="Horizontal">
-                                    <karveControls:DataField
+                                            <StackPanel Orientation="Horizontal">
+                                                <karveControls:DataField
                                         LabelText="{Binding lporcentaje, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -602,14 +611,14 @@
                                         DataSourcePath="PORCENLO"
                                         ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataFieldChanged">
-                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataField>
-                                    <karveControls:DataField
+                                                </karveControls:DataField>
+                                                <karveControls:DataField
                                         LabelText="{Binding lpercentcl, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -618,14 +627,14 @@
                                         DataSourcePath="PORCENCL"
                                         ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataFieldChanged">
-                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataField>
-                                    <karveControls:DataField
+                                                </karveControls:DataField>
+                                                <karveControls:DataField
                                         LabelText="{Binding lpercentsub, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -634,16 +643,16 @@
                                         DataSourcePath="POR_SUBCONTRA"
                                         ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataFieldChanged">
-                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataField>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <karveControls:DataField
+                                                </karveControls:DataField>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <karveControls:DataField
                                         LabelText="{Binding limportecomision, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -652,51 +661,51 @@
                                         DataSourcePath="IMP_COMI"
                                         ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataFieldChanged">
-                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataField>
-                                    <karveControls:DataField
+                                                </karveControls:DataField>
+                                                <karveControls:DataField
                                         LabelText="{Binding lpercentsubcontractados, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
-                                        DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="200"
                                         DataSourcePath="IMP_COMI"
                                         ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="DataFieldChanged">
-                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                    </karveControls:DataField>
-                                </StackPanel>
-                                <karveControls:DataField
+                                                </karveControls:DataField>
+                                            </StackPanel>
+                                            <karveControls:DataField
                                     LabelText="{Binding lreferenciacliente, Source={StaticResource ResourceLanguage}}"
                                     LabelVisible="True"
-                                    DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelTextWidth="200" 
                                     TextContentWidth="200"
                                     DataSourcePath="REF_A_CLI"
                                     ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="DataFieldChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
 
-                                </karveControls:DataField>
-                                <karveControls:DualFieldSearchBox 
+                                            </karveControls:DataField>
+                                            <karveControls:DualFieldSearchBox 
                                     LabelText="{Binding lcliente, Source={StaticResource ResourceLanguage}}"
                                     LabelVisible="True"
                                     SourceView="{Binding ClientOne, UpdateSourceTrigger=PropertyChanged}" 
-                                    DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelTextWidth="200" 
                                     TextContentFirstWidth="200"
                                     TextContentSecondWidth="200"
@@ -709,21 +718,21 @@
                                     ButtonImage="{Binding MagnifierButtonImage}"
                                     MagnifierCommand="{Binding MagnifierCommand}"
                                     ItemChangedCommand="{Binding ItemChangedCommand}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MagnifierPress">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MagnifierPress">
 
-                                            <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                        <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                        TriggerParameterPath="AssistParameters" />
 
-                                        </i:EventTrigger>
-                                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                                    </i:EventTrigger>
+                                                    <i:EventTrigger EventName="DataSearchTextBoxChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                        TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </karveControls:DualFieldSearchBox>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </karveControls:DualFieldSearchBox>
 
-                                        <karveControls:DualFieldSearchBox 
+                                            <karveControls:DualFieldSearchBox 
                                     LabelText="{Binding lproductocomi, Source={StaticResource ResourceLanguage}}"
                                     LabelTextWidth="200"
                                     LabelVisible="True"
@@ -905,26 +914,26 @@
                     </ScrollViewer>
             </TabItem>
 
-                <TabItem Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
-                <ScrollViewer>
-                <Grid>
-                    <Grid.Resources>
-                        <ResourceDictionary>
-                            <ObjectDataProvider x:Key="FilterMode"
+                    <TabItem Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <ObjectDataProvider x:Key="FilterMode"
                                                 MethodName="GetValues"
                                                 ObjectType="{x:Type system:Enum}">
-                                <ObjectDataProvider.MethodParameters>
-                                    <x:Type TypeName="syncfusion:FilterMode" />
-                                </ObjectDataProvider.MethodParameters>
-                            </ObjectDataProvider>
+                                            <ObjectDataProvider.MethodParameters>
+                                                <x:Type TypeName="syncfusion:FilterMode" />
+                                            </ObjectDataProvider.MethodParameters>
+                                        </ObjectDataProvider>
 
-                            <Style x:Key="DelegationCodeStyle" TargetType="syncfusion:GridFilterControl">
-                                <Setter Property="FilterMode" Value="Both" />
-                            </Style>
-                        </ResourceDictionary>
-                    </Grid.Resources>
-                    <StackPanel Orientation="Vertical">
-<!--
+                                        <Style x:Key="DelegationCodeStyle" TargetType="{x:Type syncfusion:GridFilterControl}">
+                                            <Setter Property="FilterMode" Value="Both" />
+                                        </Style>
+                                    </ResourceDictionary>
+                                </Grid.Resources>
+                                <StackPanel Orientation="Vertical">
+                                    <!--
                         x:Name="DelegationSummary"
                                                     ColumnSizer="Star"
                                                     AllowDraggingColumns="True"
@@ -941,7 +950,7 @@
                                                     ItemsSource="{Binding DataObject.BranchesDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     AutoGenerateColumns="False"
                         -->
-                                <syncfusion:SfDataGrid  x:Name="DelegationSummary"
+                                    <syncfusion:SfDataGrid  x:Name="DelegationSummary"
                                                ColumnSizer="Star"
                                                AllowDraggingColumns="True"
                                                AllowEditing="True"
@@ -959,117 +968,121 @@
                         >
 
 
-                            <syncfusion:SfDataGrid.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.MergedDictionaries>
-                                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                                    </ResourceDictionary.MergedDictionaries>
-                                    <Style TargetType="syncfusion:AddNewRowControl">
-                                        <Setter Property="FontSize" Value="12" />
-                                        <Setter Property="Foreground" Value="#FF808080" />
-                                        <Setter Property="BorderBrush" Value="#FF7fd0de" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="syncfusion:AddNewRowControl">
-                                                    <Grid>
-                                                        <VisualStateManager.VisualStateGroups>
-                                                            <VisualStateGroup x:Name="AddNewRowStates">
-                                                                <VisualState x:Name="Normal" />
-                                                                <VisualState x:Name="Edit">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                                <VisualState x:Name="HasError">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                                <VisualState x:Name="NoError">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                            </VisualStateGroup>
-                                                            <VisualStateGroup x:Name="BorderStates">
-                                                                <VisualState x:Name="NormalRow" />
-                                                                <VisualState x:Name="FooterRow">
-                                                                    <Storyboard BeginTime="0">
-                                                                        <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                        <syncfusion:SfDataGrid.Resources>
+                                            <ResourceDictionary>
+                                                <ResourceDictionary.MergedDictionaries>
+                                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                                </ResourceDictionary.MergedDictionaries>
+                                                <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
+                                                    <Setter Property="FontSize" Value="12" />
+                                                    <Setter Property="Foreground" Value="#FF808080" />
+                                                    <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type syncfusion:AddNewRowControl}">
+                                                                <Grid>
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup x:Name="AddNewRowStates">
+                                                                            <VisualState x:Name="Normal" />
+                                                                            <VisualState x:Name="Edit">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="HasError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="NoError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                        <VisualStateGroup x:Name="BorderStates">
+                                                                            <VisualState x:Name="NormalRow" />
+                                                                            <VisualState x:Name="FooterRow">
+                                                                                <Storyboard BeginTime="0">
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
                                                                                                           Duration="1"
                                                                                                           Storyboard.TargetName="PART_AddNewRowBorder"
                                                                                                           Storyboard.TargetProperty="BorderThickness">
-                                                                            <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
-                                                                        </ThicknessAnimationUsingKeyFrames>
-                                                                        <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
                                                                                                           Duration="1"
                                                                                                           Storyboard.TargetName="PART_AddNewRowBorder"
                                                                                                           Storyboard.TargetProperty="Margin">
-                                                                            <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
-                                                                        </ThicknessAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                            </VisualStateGroup>
-                                                        </VisualStateManager.VisualStateGroups>
-                                                        <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                    <Border Background="{TemplateBinding RowSelectionBrush}"
                                                                 Clip="{TemplateBinding SelectionBorderClipRect}"
                                                                 Visibility="{TemplateBinding SelectionBorderVisiblity}" />
-                                                        <Border x:Name="PART_InValidBorder"
+                                                                    <Border x:Name="PART_InValidBorder"
                                                                 Margin="0,0,1,1"
                                                                 Background="Transparent"
                                                                 BorderBrush="Red"
                                                                 BorderThickness="1"
                                                                 Visibility="Collapsed" />
-                                                        <Border x:Name="PART_AddNewRowBorder"
+                                                                    <Border x:Name="PART_AddNewRowBorder"
                                                                 Background="{TemplateBinding Background}"
                                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                                 BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <ContentPresenter />
-                                                        </Border>
-                                                        <Border x:Name="PART_AddNewRowTextBorder"
+                                                                        <ContentPresenter />
+                                                                    </Border>
+                                                                    <Border x:Name="PART_AddNewRowTextBorder"
                                                                 Background="#FFE5E5E5"
                                                                 BorderBrush="Transparent"
                                                                 BorderThickness="0,0,1,1"
                                                                 Clip="{TemplateBinding TextBorderClip}"
                                                                 IsHitTestVisible="False">
-                                                            <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                        <ContentPresenter Margin="{TemplateBinding TextMargin}"
                                                                               HorizontalAlignment="Left"
                                                                               VerticalAlignment="Center"
                                                                               Content="{TemplateBinding AddNewRowText}" />
-                                                        </Border>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ResourceDictionary>
-                            </syncfusion:SfDataGrid.Resources>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ResourceDictionary>
+                                        </syncfusion:SfDataGrid.Resources>
 
 
-                            <syncfusion:SfDataGrid.Columns>
-                                <!-- 
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <!--    
+                                <syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Name"/>
+                                        <syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Pais"/>
+                                -->
+                                            <!-- 
                                 
                                 AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
                                                                                Mode=TwoWay,
@@ -1084,7 +1097,7 @@
                                                    MappingName="OrderID"
                                 -->
 
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
                                                            MappingName="BranchId" 
                                                            TextAlignment="Left"
                                                            AllowFiltering="True"
@@ -1092,48 +1105,43 @@
                                                            FilterPopupStyle="{StaticResource DelegationCodeStyle}"
                                                            AllowEditing="True"
                                                            AllowGrouping="True"/>
-                                        <syncfusion:GridTemplateColumn HeaderText="{Binding ldelegacion, Source={StaticResource ResourceLanguage}}" MappingName="Branch"
+                                            <syncfusion:GridTemplateColumn HeaderText="{Binding ldelegacion, Source={StaticResource ResourceLanguage}}" MappingName="Branch"
                                                                FilterPopupStyle="{StaticResource DelegationCodeStyle}">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock FontStyle="Italic"
+                                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock FontStyle="Italic"
                                                        FontWeight="SemiBold"
                                                        Padding="2,0"
                                                        Text="{Binding Branch}" />
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                    <syncfusion:GridTemplateColumn.EditTemplate>
-                                        <DataTemplate>
-                                            <Grid HorizontalAlignment="Stretch"
+                                                    </DataTemplate>
+                                                </syncfusion:GridTemplateColumn.CellTemplate>
+                                                <syncfusion:GridTemplateColumn.EditTemplate>
+                                                    <DataTemplate>
+                                                        <Grid HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch"
-                                                  FocusManager.FocusedElement="{Binding ElementName=textBox}">
-                                                <TextBox x:Name="textBox"
+                                                  >
+                                                            <TextBox x:Name="textBox"
                                                          FontStyle="Italic"
                                                          FontWeight="SemiBold"
                                                          Padding="2,0"
-                                                         Text="{Binding Branch,
-                                                                Mode=TwoWay}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.EditTemplate>
-                                </syncfusion:GridTemplateColumn>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Address"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding ldireccion2, Source={StaticResource ResourceLanguage}}" MappingName="Address2"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding ltelefono2, Source={StaticResource ResourceLanguage}}" MappingName="Phone2"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
-                                <!--    
-                                <syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Name"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Provincia.Pais"/>
-                                -->
-                                    </syncfusion:SfDataGrid.Columns>
-                            <!--
+                                                         Text="{Binding Branch, Mode=TwoWay}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </syncfusion:GridTemplateColumn.EditTemplate>
+                                            </syncfusion:GridTemplateColumn>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Address"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding ldireccion2, Source={StaticResource ResourceLanguage}}" MappingName="Address2"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding ltelefono2, Source={StaticResource ResourceLanguage}}" MappingName="Phone2"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                        <!--
                             <i:Interaction.Behaviors>
                                 <common:MaintenanceValidationBehavior />
                             </i:Interaction.Behaviors>
                             -->
-                        </syncfusion:SfDataGrid>
-                        </StackPanel>
+                                    </syncfusion:SfDataGrid>
+                                </StackPanel>
                                 <!--
                             <karveGrid:KarveGridView Grid.Row="1"
                                              x:Name="DelegationSummary" PageSize="25" Grid.IsSharedSizeScope="True"
@@ -1147,31 +1155,31 @@
                                 </i:Interaction.Triggers>
                             </karveGrid:KarveGridView>
                                              
-                        -->        
-                </Grid>
-                    </ScrollViewer>
-            </TabItem>
-                <TabItem Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
-                <ScrollViewer>
-                    <Grid>
-                        <Grid.Resources>
-                            <ResourceDictionary>
-                                <ObjectDataProvider x:Key="FilterMode"
+                        -->
+                            </Grid>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <ObjectDataProvider x:Key="FilterMode"
                                                     MethodName="GetValues"
                                                     ObjectType="{x:Type system:Enum}">
-                                    <ObjectDataProvider.MethodParameters>
-                                        <x:Type TypeName="syncfusion:FilterMode" />
-                                    </ObjectDataProvider.MethodParameters>
-                                </ObjectDataProvider>
+                                            <ObjectDataProvider.MethodParameters>
+                                                <x:Type TypeName="syncfusion:FilterMode" />
+                                            </ObjectDataProvider.MethodParameters>
+                                        </ObjectDataProvider>
 
-                                <Style x:Key="ContactCodeStyle" TargetType="syncfusion:GridFilterControl">
-                                    <Setter Property="FilterMode" Value="Both" />
-                                </Style>
-                            </ResourceDictionary>
-                        </Grid.Resources>
-                        <StackPanel Orientation="Vertical">
+                                        <Style x:Key="ContactCodeStyle" TargetType="{x:Type syncfusion:GridFilterControl}">
+                                            <Setter Property="FilterMode" Value="Both" />
+                                        </Style>
+                                    </ResourceDictionary>
+                                </Grid.Resources>
+                                <StackPanel Orientation="Vertical">
 
-                            <!--
+                                    <!--
                               <Syncfusion:SfDataGrid  x:Name="ContactsSummary"
                                                             ColumnSizer="Star"
                                                             AllowDraggingColumns="True"
@@ -1189,7 +1197,7 @@
                                                             ItemsSource="{Binding DataObject.ContactsDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                             AutoGenerateColumns="False">
                             -->
-                            <syncfusion:SfDataGrid  x:Name="ContactsSummary"
+                                    <syncfusion:SfDataGrid  x:Name="ContactsSummary"
                                                     ColumnSizer="Star"
                                                     AllowDraggingColumns="True"
                                                     AllowEditing="True"
@@ -1207,117 +1215,117 @@
                             >
 
 
-                                <syncfusion:SfDataGrid.Resources>
-                                    <ResourceDictionary>
-                                        <ResourceDictionary.MergedDictionaries>
-                                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                                        </ResourceDictionary.MergedDictionaries>
-                                        <Style TargetType="syncfusion:AddNewRowControl">
-                                            <Setter Property="FontSize" Value="12" />
-                                            <Setter Property="Foreground" Value="#FF808080" />
-                                            <Setter Property="BorderBrush" Value="#FF7fd0de" />
-                                            <Setter Property="BorderThickness" Value="0" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="syncfusion:AddNewRowControl">
-                                                        <Grid>
-                                                            <VisualStateManager.VisualStateGroups>
-                                                                <VisualStateGroup x:Name="AddNewRowStates">
-                                                                    <VisualState x:Name="Normal" />
-                                                                    <VisualState x:Name="Edit">
-                                                                        <Storyboard>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                    <DiscreteObjectKeyFrame.Value>
-                                                                                        <Visibility>Collapsed</Visibility>
-                                                                                    </DiscreteObjectKeyFrame.Value>
-                                                                                </DiscreteObjectKeyFrame>
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="HasError">
-                                                                        <Storyboard>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                    <DiscreteObjectKeyFrame.Value>
-                                                                                        <Visibility>Collapsed</Visibility>
-                                                                                    </DiscreteObjectKeyFrame.Value>
-                                                                                </DiscreteObjectKeyFrame>
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="NoError">
-                                                                        <Storyboard>
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                    <DiscreteObjectKeyFrame.Value>
-                                                                                        <Visibility>Collapsed</Visibility>
-                                                                                    </DiscreteObjectKeyFrame.Value>
-                                                                                </DiscreteObjectKeyFrame>
-                                                                            </ObjectAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                </VisualStateGroup>
-                                                                <VisualStateGroup x:Name="BorderStates">
-                                                                    <VisualState x:Name="NormalRow" />
-                                                                    <VisualState x:Name="FooterRow">
-                                                                        <Storyboard BeginTime="0">
-                                                                            <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                        <syncfusion:SfDataGrid.Resources>
+                                            <ResourceDictionary>
+                                                <ResourceDictionary.MergedDictionaries>
+                                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                                </ResourceDictionary.MergedDictionaries>
+                                                <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
+                                                    <Setter Property="FontSize" Value="12" />
+                                                    <Setter Property="Foreground" Value="#FF808080" />
+                                                    <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type syncfusion:AddNewRowControl}">
+                                                                <Grid>
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup x:Name="AddNewRowStates">
+                                                                            <VisualState x:Name="Normal" />
+                                                                            <VisualState x:Name="Edit">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="HasError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="NoError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                        <VisualStateGroup x:Name="BorderStates">
+                                                                            <VisualState x:Name="NormalRow" />
+                                                                            <VisualState x:Name="FooterRow">
+                                                                                <Storyboard BeginTime="0">
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
                                                                                                               Duration="1"
                                                                                                               Storyboard.TargetName="PART_AddNewRowBorder"
                                                                                                               Storyboard.TargetProperty="BorderThickness">
-                                                                                <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
-                                                                            </ThicknessAnimationUsingKeyFrames>
-                                                                            <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
                                                                                                               Duration="1"
                                                                                                               Storyboard.TargetName="PART_AddNewRowBorder"
                                                                                                               Storyboard.TargetProperty="Margin">
-                                                                                <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
-                                                                            </ThicknessAnimationUsingKeyFrames>
-                                                                        </Storyboard>
-                                                                    </VisualState>
-                                                                </VisualStateGroup>
-                                                            </VisualStateManager.VisualStateGroups>
-                                                            <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                    <Border Background="{TemplateBinding RowSelectionBrush}"
                                                                     Clip="{TemplateBinding SelectionBorderClipRect}"
                                                                     Visibility="{TemplateBinding SelectionBorderVisiblity}" />
-                                                            <Border x:Name="PART_InValidBorder"
+                                                                    <Border x:Name="PART_InValidBorder"
                                                                     Margin="0,0,1,1"
                                                                     Background="Transparent"
                                                                     BorderBrush="Red"
                                                                     BorderThickness="1"
                                                                     Visibility="Collapsed" />
-                                                            <Border x:Name="PART_AddNewRowBorder"
+                                                                    <Border x:Name="PART_AddNewRowBorder"
                                                                     Background="{TemplateBinding Background}"
                                                                     BorderBrush="{TemplateBinding BorderBrush}"
                                                                     BorderThickness="{TemplateBinding BorderThickness}">
-                                                                <ContentPresenter />
-                                                            </Border>
-                                                            <Border x:Name="PART_AddNewRowTextBorder"
+                                                                        <ContentPresenter />
+                                                                    </Border>
+                                                                    <Border x:Name="PART_AddNewRowTextBorder"
                                                                     Background="#FFE5E5E5"
                                                                     BorderBrush="Transparent"
                                                                     BorderThickness="0,0,1,1"
                                                                     Clip="{TemplateBinding TextBorderClip}"
                                                                     IsHitTestVisible="False">
-                                                                <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                        <ContentPresenter Margin="{TemplateBinding TextMargin}"
                                                                                   HorizontalAlignment="Left"
                                                                                   VerticalAlignment="Center"
                                                                                   Content="{TemplateBinding AddNewRowText}" />
-                                                            </Border>
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ResourceDictionary>
-                                </syncfusion:SfDataGrid.Resources>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ResourceDictionary>
+                                        </syncfusion:SfDataGrid.Resources>
 
 
-                                <syncfusion:SfDataGrid.Columns>
-                                    <!-- 
+                                        <syncfusion:SfDataGrid.Columns>
+                                            <!-- 
                                 
                                 AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
                                                                                Mode=TwoWay,
@@ -1333,23 +1341,23 @@
                                 -->
 
 
-                                        
-                                    <syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}" MappingName="Responsability"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Telefono"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" MappingName="Movil"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lfax, Source={StaticResource ResourceLanguage}}" MappingName="Fax"/>
-                                    </syncfusion:SfDataGrid.Columns>
-                                <!--
+
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}" MappingName="Responsability"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Telefono"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" MappingName="Movil"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lemail, Source={StaticResource ResourceLanguage}}" MappingName="Email"/>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lfax, Source={StaticResource ResourceLanguage}}" MappingName="Fax"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                        <!--
                             <i:Interaction.Behaviors>
                                 <common:MaintenanceValidationBehavior />
                             </i:Interaction.Behaviors>
                             -->
-                            </syncfusion:SfDataGrid>
-                        </StackPanel>
-                        <!--
+                                    </syncfusion:SfDataGrid>
+                                </StackPanel>
+                                <!--
                             <karveGrid:KarveGridView Grid.Row="1"
                                              x:Name="DelegationSummary" PageSize="25" Grid.IsSharedSizeScope="True"
                                              MinHeight="400"  ReadOnly="False" ColumnWidth="100" S
@@ -1363,262 +1371,237 @@
                             </karveGrid:KarveGridView>
                                              
                         -->
-                    </Grid>
-                     
-                </ScrollViewer>
-            </TabItem>
-            <!---
-                <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
-                <ScrollViewer>
-                <Grid>
-                    <Grid.Resources>
-                        <ResourceDictionary>
-                            <ObjectDataProvider x:Key="FilterMode"
-                                                MethodName="GetValues"
-                                                ObjectType="{x:Type system:Enum}">
-                                <ObjectDataProvider.MethodParameters>
-                                    <x:Type TypeName="syncfusion:FilterMode" />
-                                </ObjectDataProvider.MethodParameters>
-                            </ObjectDataProvider>
+                            </Grid>
 
-                            <Style x:Key="ContactCodeStyle" TargetType="syncfusion:GridFilterControl">
-                                <Setter Property="FilterMode" Value="Both" />
-                            </Style>
-                        </ResourceDictionary>
-                    </Grid.Resources>
-                    <StackPanel Orientation="Vertical">
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
+                        <ScrollViewer>
+                            <Grid>
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <ObjectDataProvider x:Key="FilterMode"
+                                                            MethodName="GetValues"
+                                                            ObjectType="{x:Type system:Enum}">
+                                            <ObjectDataProvider.MethodParameters>
+                                                <x:Type TypeName="syncfusion:FilterMode" />
+                                            </ObjectDataProvider.MethodParameters>
+                                        </ObjectDataProvider>
 
-                        <syncfusion:SfDataGrid  x:Name="VisitsSummary"
-                                                ColumnSizer="Star"
-                                                AllowDraggingColumns="True"
-                                                AllowEditing="False"
-                                                AllowFiltering="True"
-                                                AllowResizingColumns="True"
-                                                AllowSorting="True"
-                                                AllowGrouping="True"
-                                                NavigationMode="Row"
-                                                AddNewRowPosition="Top"
-                                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, 
+                                        <Style x:Key="ContactCodeStyle" TargetType="syncfusion:GridFilterControl">
+                                            <Setter Property="FilterMode" Value="Both" />
+                                        </Style>
+                                    </ResourceDictionary>
+                                </Grid.Resources>
+                                <StackPanel Orientation="Vertical">
+
+                                    <syncfusion:SfDataGrid  x:Name="VisitsSummary"
+                                                            ColumnSizer="Star"
+                                                            AllowDraggingColumns="True"
+                                                            AllowEditing="False"
+                                                            AllowFiltering="True"
+                                                            AllowResizingColumns="True"
+                                                            AllowSorting="True"
+                                                            AllowGrouping="True"
+                                                            NavigationMode="Row"
+                                                            AddNewRowPosition="Top"
+                                                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, 
                                                 UpdateSourceTrigger=PropertyChanged}"
-                                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                AutoGenerateColumns="False">
+                                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            AutoGenerateColumns="False">
 
 
-                            <syncfusion:SfDataGrid.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.MergedDictionaries>
-                                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                                    </ResourceDictionary.MergedDictionaries>
-                                    <Style TargetType="syncfusion:AddNewRowControl">
-                                        <Setter Property="FontSize" Value="12" />
-                                        <Setter Property="Foreground" Value="#FF808080" />
-                                        <Setter Property="BorderBrush" Value="#FF7fd0de" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="syncfusion:AddNewRowControl">
-                                                    <Grid>
-                                                        <VisualStateManager.VisualStateGroups>
-                                                            <VisualStateGroup x:Name="AddNewRowStates">
-                                                                <VisualState x:Name="Normal" />
-                                                                <VisualState x:Name="Edit">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                                <VisualState x:Name="HasError">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                                <VisualState x:Name="NoError">
-                                                                    <Storyboard>
-                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                                <DiscreteObjectKeyFrame.Value>
-                                                                                    <Visibility>Collapsed</Visibility>
-                                                                                </DiscreteObjectKeyFrame.Value>
-                                                                            </DiscreteObjectKeyFrame>
-                                                                        </ObjectAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                            </VisualStateGroup>
-                                                            <VisualStateGroup x:Name="BorderStates">
-                                                                <VisualState x:Name="NormalRow" />
-                                                                <VisualState x:Name="FooterRow">
-                                                                    <Storyboard BeginTime="0">
-                                                                        <ThicknessAnimationUsingKeyFrames BeginTime="0"
-                                                                                                          Duration="1"
-                                                                                                          Storyboard.TargetName="PART_AddNewRowBorder"
-                                                                                                          Storyboard.TargetProperty="BorderThickness">
-                                                                            <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
-                                                                        </ThicknessAnimationUsingKeyFrames>
-                                                                        <ThicknessAnimationUsingKeyFrames BeginTime="0"
-                                                                                                          Duration="1"
-                                                                                                          Storyboard.TargetName="PART_AddNewRowBorder"
-                                                                                                          Storyboard.TargetProperty="Margin">
-                                                                            <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
-                                                                        </ThicknessAnimationUsingKeyFrames>
-                                                                    </Storyboard>
-                                                                </VisualState>
-                                                            </VisualStateGroup>
-                                                        </VisualStateManager.VisualStateGroups>
-                                                        <Border Background="{TemplateBinding RowSelectionBrush}"
-                                                                Clip="{TemplateBinding SelectionBorderClipRect}"
-                                                                Visibility="{TemplateBinding SelectionBorderVisiblity}" />
-                                                        <Border x:Name="PART_InValidBorder"
-                                                                Margin="0,0,1,1"
-                                                                Background="Transparent"
-                                                                BorderBrush="Red"
-                                                                BorderThickness="1"
-                                                                Visibility="Collapsed" />
-                                                        <Border x:Name="PART_AddNewRowBorder"
-                                                                Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <ContentPresenter />
-                                                        </Border>
-                                                        <Border x:Name="PART_AddNewRowTextBorder"
-                                                                Background="#FFE5E5E5"
-                                                                BorderBrush="Transparent"
-                                                                BorderThickness="0,0,1,1"
-                                                                Clip="{TemplateBinding TextBorderClip}"
-                                                                IsHitTestVisible="False">
-                                                            <ContentPresenter Margin="{TemplateBinding TextMargin}"
-                                                                              HorizontalAlignment="Left"
-                                                                              VerticalAlignment="Center"
-                                                                              Content="{TemplateBinding AddNewRowText}" />
-                                                        </Border>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </ResourceDictionary>
-                            </syncfusion:SfDataGrid.Resources>
+                                        <syncfusion:SfDataGrid.Resources>
+                                            <ResourceDictionary>
+                                                <ResourceDictionary.MergedDictionaries>
+                                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                                </ResourceDictionary.MergedDictionaries>
+                                                <Style TargetType="syncfusion:AddNewRowControl">
+                                                    <Setter Property="FontSize" Value="12" />
+                                                    <Setter Property="Foreground" Value="#FF808080" />
+                                                    <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                                                    <Setter Property="BorderThickness" Value="0" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="syncfusion:AddNewRowControl">
+                                                                <Grid>
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup x:Name="AddNewRowStates">
+                                                                            <VisualState x:Name="Normal" />
+                                                                            <VisualState x:Name="Edit">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="HasError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="NoError">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Collapsed</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                        <VisualStateGroup x:Name="BorderStates">
+                                                                            <VisualState x:Name="NormalRow" />
+                                                                            <VisualState x:Name="FooterRow">
+                                                                                <Storyboard BeginTime="0">
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                                      Duration="1"
+                                                                                                                      Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                                      Storyboard.TargetProperty="BorderThickness">
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                                      Duration="1"
+                                                                                                                      Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                                      Storyboard.TargetProperty="Margin">
+                                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                    <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                                            Clip="{TemplateBinding SelectionBorderClipRect}"
+                                                                            Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                                                                    <Border x:Name="PART_InValidBorder"
+                                                                            Margin="0,0,1,1"
+                                                                            Background="Transparent"
+                                                                            BorderBrush="Red"
+                                                                            BorderThickness="1"
+                                                                            Visibility="Collapsed" />
+                                                                    <Border x:Name="PART_AddNewRowBorder"
+                                                                            Background="{TemplateBinding Background}"
+                                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                                        <ContentPresenter />
+                                                                    </Border>
+                                                                    <Border x:Name="PART_AddNewRowTextBorder"
+                                                                            Background="#FFE5E5E5"
+                                                                            BorderBrush="Transparent"
+                                                                            BorderThickness="0,0,1,1"
+                                                                            Clip="{TemplateBinding TextBorderClip}"
+                                                                            IsHitTestVisible="False">
+                                                                        <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                                          HorizontalAlignment="Left"
+                                                                                          VerticalAlignment="Center"
+                                                                                          Content="{TemplateBinding AddNewRowText}" />
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ResourceDictionary>
+                                        </syncfusion:SfDataGrid.Resources>
 
 
-                            <syncfusion:SfDataGrid.Columns>
+                                        <syncfusion:SfDataGrid.Columns>
 
-                                        <syncfusion:GridTemplateColumn HeaderText="{Binding lcontacto, Source={StaticResource ResourceLanguage}}"
-                                                               FilterPopupStyle="{StaticResource ContactCodeStyle}">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ListBox Name="ListBox" Width="200" Height="30"  
-                                                      VerticalAlignment="Top" HorizontalAlignment="Left"  
-                                                      Margin="10,10,0,0">
-                                                <ListBox.ItemTemplate>
+                                            <syncfusion:GridTemplateColumn HeaderText="{Binding lcontacto, Source={StaticResource ResourceLanguage}}"
+                                                                           FilterPopupStyle="{StaticResource ContactCodeStyle}">
+                                                <syncfusion:GridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Grid Margin="0,2">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="50*" />
-                                                                <ColumnDefinition Width="50*" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Column="0"  Text="{Binding Codigo}" />
-                                                            <TextBox   Grid.Column="1"  Text="{Binding Completion}" />
-                                                        </Grid>
+                                                        <ListBox Name="ListBox" Width="200" Height="30"  
+                                                                 VerticalAlignment="Top" HorizontalAlignment="Left"  
+                                                                 Margin="10,10,0,0">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid Margin="0,2">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="50*" />
+                                                                            <ColumnDefinition Width="50*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0"  Text="{Binding Codigo}" />
+                                                                        <TextBox   Grid.Column="1"  Text="{Binding Completion}" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
                                                     </DataTemplate>
-                                                    </ListBox.ItemTemplate>
-                                                    </ListBox>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                    <syncfusion:GridTemplateColumn.EditTemplate>
-                                                <DataTemplate>
-                                                    <ListBox Name="ListBox" Width="200" Height="30"  
-                                                     VerticalAlignment="Top" HorizontalAlignment="Left"  
-                                                     Margin="10,10,0,0">
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid Margin="0,2">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="50*" />
-                                                                        <ColumnDefinition Width="50*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0"  Text="{Binding ContactCode}" />
-                                                                    <TextBox   Grid.Column="1"  Text="{Binding CompletionCode}" />
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
-                                                </DataTemplate>
-                                            </syncfusion:GridTemplateColumn.EditTemplate>
-                                </syncfusion:GridTemplateColumn>
-                                        <syncfusion:GridTextColumn HeaderText="{Binding lname, Source={StaticResource ResourceLanguage}}" MappingName="Name"/>
-                                        <syncfusion:GridDateTimeColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}" MappingName="Date"/>
-                                        <syncfusion:GridTemplateColumn HeaderText="{Binding ltipo, Source={StaticResource ResourceLanguage}}"
-                                                               FilterPopupStyle="{StaticResource ContactCodeStyle}">
-                                            <syncfusion:GridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <ListBox Name="ListBox" Width="200" Height="30"  
-                                                     VerticalAlignment="Top" HorizontalAlignment="Left"  
-                                                     Margin="10,10,0,0">
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid Margin="0,2">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="50*" />
-                                                                        <ColumnDefinition Width="50*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0"  Text="{Binding Codigo}" />
-                                                                    <TextBox   Grid.Column="1"  Text="{Binding Completion}" />
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
-                                                </DataTemplate>
-                                            </syncfusion:GridTemplateColumn.CellTemplate>
-                                        </syncfusion:GridTemplateColumn>
-                                        <syncfusion:GridDateTimeColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
-                            </syncfusion:SfDataGrid.Columns>
-                        </syncfusion:SfDataGrid>
-                    </StackPanel>
-                  
-                </Grid>
-               
-                </ScrollViewer>
-            </TabItem>
-    -->
-            <!--
-            <TabItem Header="Acumulados">
-                <ScrollViewer>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <WrapPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.Column="0">
-                    <local:CumulativeSummaryControl local:SummaryEx.CheckedArray="{Binding CheckedArray}" 
-                                                    local:SummaryEx.DateArray ="{Binding DateArray}"
-                                                    CustomMarkCommand="{Binding CommandMark}"
-                                                    CustomUnmarkCommand="{Binding Unmark}">
-                    </local:CumulativeSummaryControl>
-                    </WrapPanel>
-                    <karveGrid:KarveGridView x:Name="CumulativeSummary" Grid.Column="1" 
-                                             PageSize="25" Grid.IsSharedSizeScope="True" 
-                                              ReadOnly="True" ColumnWidth="100" SourceView="{Binding CumulativeSummary}"/>
+                                                </syncfusion:GridTemplateColumn.CellTemplate>
+                                                <syncfusion:GridTemplateColumn.EditTemplate>
+                                                    <DataTemplate>
+                                                        <ListBox Name="ListBox" Width="200" Height="30"  
+                                                                 VerticalAlignment="Top" HorizontalAlignment="Left"  
+                                                                 Margin="10,10,0,0">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid Margin="0,2">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="50*" />
+                                                                            <ColumnDefinition Width="50*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0"  Text="{Binding ContactCode}" />
+                                                                        <TextBox   Grid.Column="1"  Text="{Binding CompletionCode}" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                    </DataTemplate>
+                                                </syncfusion:GridTemplateColumn.EditTemplate>
+                                            </syncfusion:GridTemplateColumn>
+                                            <syncfusion:GridTextColumn HeaderText="{Binding lname, Source={StaticResource ResourceLanguage}}" MappingName="Name"/>
+                                            <syncfusion:GridDateTimeColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}" MappingName="Date"/>
+                                            <syncfusion:GridTemplateColumn HeaderText="{Binding ltipo, Source={StaticResource ResourceLanguage}}"
+                                                                           FilterPopupStyle="{StaticResource ContactCodeStyle}">
+                                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ListBox Name="ListBox" Width="200" Height="30"  
+                                                                 VerticalAlignment="Top" HorizontalAlignment="Left"  
+                                                                 Margin="10,10,0,0">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid Margin="0,2">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="50*" />
+                                                                            <ColumnDefinition Width="50*" />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Grid.Column="0"  Text="{Binding Codigo}" />
+                                                                        <TextBox   Grid.Column="1"  Text="{Binding Completion}" />
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                    </DataTemplate>
+                                                </syncfusion:GridTemplateColumn.CellTemplate>
+                                            </syncfusion:GridTemplateColumn>
+                                            <syncfusion:GridDateTimeColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
+                                </StackPanel>
 
-                </Grid>
-                </ScrollViewer>
-            </TabItem>
-            -->
-        </TabControl>
-        </StackPanel>    
+                            </Grid>
+
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>    
         </Grid>
         </ScrollViewer>
 </UserControl>
