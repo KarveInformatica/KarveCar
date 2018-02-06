@@ -153,11 +153,13 @@
     <Compile Include="DataTransferObject\ViaDto.cs" />
     <Compile Include="DataTransferObject\VisitTypeDto.cs" />
     <Compile Include="DataTransferObject\ZonaDto.cs" />
+    <Compile Include="DomainWrapperFactory.cs" />
     <Compile Include="IAssistDataService.cs" />
     <Compile Include="IClientDataServices.cs" />
     <Compile Include="IDataDeleter.cs" />
     <Compile Include="IDataLoader.cs" />
     <Compile Include="IDataSaver.cs" />
+    <Compile Include="IHelperData.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />

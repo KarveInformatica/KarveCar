@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HelperModule.Views
+namespace MasterModule.Views
 {
     /// <summary>
-    /// Interaction logic for VehicleBrand.xaml
+    /// Interaction logic for DriversControlView.xaml
     /// </summary>
-    public partial class VehicleBrand : UserControl
+    public partial class DriversControlView : UserControl
     {
-        public VehicleBrand()
+        public DriversControlView()
         {
             InitializeComponent();
         }

@@ -918,7 +918,8 @@
                                             Label="{Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
                                             SmallImageSource="/KarveCar;component/Images/new.png" 
-                                            DataContext="{StaticResource marcaViewModel}" >
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="VehicleBrand" >
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding MarcaCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding MarcaCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>

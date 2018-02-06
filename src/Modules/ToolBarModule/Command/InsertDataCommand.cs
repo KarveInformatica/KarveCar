@@ -66,7 +66,6 @@ namespace ToolBarModule
         public override bool CanExecute(object parameter)
         {
             DataPayLoad param = (DataPayLoad) parameter;
-            // chain of resposability design pattern.
             bool validate = _sqlValidationRule.Validate(param);
             return validate;
         }

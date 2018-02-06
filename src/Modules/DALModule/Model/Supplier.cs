@@ -362,6 +362,10 @@ namespace DataAccessLayer.Model
                     {
                         transactionScope.Dispose();
                     }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
             return value;

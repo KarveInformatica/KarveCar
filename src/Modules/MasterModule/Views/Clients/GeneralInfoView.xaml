@@ -52,7 +52,7 @@
                                                           AssistTableName="CITY_ASSIST"
                                                           AssistProperties="Code,Poblacion"
                                                           LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
-                                                          Margin="0,5,0,0"
+                                                          Margin="0,5,-29,0"
                                                           LabelTextWidth="135"       
 				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
                                                           MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
@@ -60,8 +60,8 @@
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                          SourceView="{Binding Path=ClientHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
 
 
             </Grid>
@@ -77,7 +77,7 @@
                                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding ProvinceDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding Path=ClientHelper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </KarveControls:DualFieldSearchBox>
             <KarveControls:DualFieldSearchBox LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
@@ -91,7 +91,7 @@
                                                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SourceView="{Binding CountryDto, UpdateSourceTrigger=PropertyChanged}"
+                                                                SourceView="{Binding Path=ClientHelper.CountryDto, UpdateSourceTrigger=PropertyChanged}"
                                                                 ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}">
             </KarveControls:DualFieldSearchBox>
 
@@ -121,7 +121,7 @@
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
                                                       IsReadOnly="False"/>
-                <KarveControls:DataField  DataSourcePath="PASAPORTE" 
+            <KarveControls:DataField  DataSourcePath="PASAPORTE" 
                                           DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                           LabelText="Pasaporte"
                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -138,7 +138,7 @@
                                           TextContentWidth="400"
                                           Margin="0,5,0,0"
                                           IsReadOnly="False"/>
-                <Button Command="{Binding LaunchMap, Mode=OneWay}">
+                <Button Command="{Binding LaunchMap, Mode=OneWay}" Height="35" Width="30">
                     <Image Source="/MasterModule;component/Images/maps.png" Height="24">
                     </Image>
                 </Button>
@@ -149,9 +149,9 @@
                                                       LabelText="{Binding lwebsite, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="150"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      TextContentWidth="380"
+                                                      TextContentWidth="400"
                                                       Margin="0,5,0,0"
-                                                      IsReadOnly="False">
+                                                      IsReadOnly="False" Width="563">
                 </KarveControls:DataField>
                 <Button Command="{Binding ClickSearchWebAddressCommand}" CommandParameter="{Binding DataObject.Value.WEB}">
                     <Image Source="/MasterModule;component/Images/web.png" Height="19"/>
@@ -193,7 +193,7 @@
                                                               Margin="155,0,0,0"
                                                               PickerContentWidth="100"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="Value.ALTA"
+                                                              KarveControls:ControlExt.DataSourcePath="ALTA"
                                                               >
 
                     <i:Interaction.Triggers>
@@ -208,7 +208,7 @@
                                                               PickerContentWidth="100" 
                                                               DataDatePickerHeight="30"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="Value.BAJA">
+                                                              KarveControls:ControlExt.DataSourcePath="BAJA">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
@@ -229,7 +229,7 @@
                                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding CompanyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding Path=ClientHelper.CompanyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             </KarveControls:DualFieldSearchBox>
@@ -246,7 +246,7 @@
                                                           MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding OfficeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding Path=ClientHelper.OfficeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             </KarveControls:DualFieldSearchBox>

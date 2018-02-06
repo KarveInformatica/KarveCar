@@ -16,8 +16,8 @@ namespace ToolBarModule.Command
         private ISupplierDataServices _dataServices = null;
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
-
         public event ErrorExecuting OnErrorExecuting;
+
         private Logger log = LogManager.GetCurrentClassLogger();
         
         

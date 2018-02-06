@@ -184,6 +184,7 @@
     <Reference Include="XamlBuildTask" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\VehicleBrandViewModel.cs" />
     <Compile Include="ViewModels\CitiesViewModel.cs" />
     <Compile Include="ViewModels\ClientZoneViewModel.cs" />
     <Compile Include="ViewModels\DirectionBaseViewModel.cs" />
@@ -230,6 +231,9 @@
     </Compile>
     <Compile Include="Views\CreditCard.xaml.cs">
       <DependentUpon>CreditCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehicleBrandView.xaml.cs">
+      <DependentUpon>VehicleBrandView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehicleExtra.xaml.cs">
       <DependentUpon>VehicleExtra.xaml</DependentUpon>
@@ -290,9 +294,6 @@
     </Compile>
     <Compile Include="Views\VehicleActivities.xaml.cs">
       <DependentUpon>VehicleActivities.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VehicleBrand.xaml.cs">
-      <DependentUpon>VehicleBrand.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehicleColors.xaml.cs">
       <DependentUpon>VehicleColors.xaml</DependentUpon>
@@ -364,6 +365,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VehicleBrandView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VehicleExtra.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -419,10 +424,6 @@
     <Page Include="Views\VehicleActivities.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\VehicleBrand.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VehicleColors.xaml">
       <SubType>Designer</SubType>

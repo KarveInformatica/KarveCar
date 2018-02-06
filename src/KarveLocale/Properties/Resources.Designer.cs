@@ -214,6 +214,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Permiso.
+        /// </summary>
+        public static string DrivingLicense {
+            get {
+                return ResourceManager.GetString("DrivingLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abreviatura.
         /// </summary>
         public static string dttcAbreviatura {
@@ -5592,6 +5601,15 @@ namespace KarveLocale.Properties {
         public static string msgSaveCintaOpcionesOK {
             get {
                 return ResourceManager.GetString("msgSaveCintaOpcionesOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documento de Identidad.
+        /// </summary>
+        public static string NationalId {
+            get {
+                return ResourceManager.GetString("NationalId", resourceCulture);
             }
         }
         

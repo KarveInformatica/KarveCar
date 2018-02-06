@@ -403,7 +403,11 @@ namespace DataAccessLayer.SQL
             }
             return table;
         }
-
+        /// <summary>
+        /// Execute a query and return the name of the first column.
+        /// </summary>
+        /// <param name="sqlQuery">Query to be executed</param>
+        /// <returns>Param of the first column</returns>
         public override string ExecuteQueryDataTable(string sqlQuery)
         {
             DataSet dts = LoadDataSet(sqlQuery);
@@ -416,13 +420,7 @@ namespace DataAccessLayer.SQL
             }
             return executeQueryString;
         }
-        public override IList<string> ExecuteQueryFields(string sqlQuery)
-        {
-            IList<string> sList = new List<string>();
-            DataSet dts = LoadDataSet(sqlQuery);
-            // now we have to load the data set 
-            return sList;
-        }
+
         /// <summary>
         /// Execute an insert, update, delete with OdbcParameters. It returns with 
         /// </summary>

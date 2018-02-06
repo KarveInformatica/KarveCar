@@ -28,12 +28,16 @@ namespace MasterModule.ViewModels
     class UpperBarClientViewModel : UpperBarViewModelBase, IEventObserver, IDisposeEvents
     {
         private IClientData _currentClientData;
-        private IMapper _mapper;
         private string _currentName;
-        private INotifyTaskCompletion<ObservableCollection<ClientTypeDto>> ClientNotifyTask;
+        private INotifyTaskCompletion<ObservableCollection<ClientTypeDto>> _clientNotifyTask;
         private IEnumerable _currentView;
 
         public const string Name = "master://UpperBarClientViewModel";
+
+        public UpperBarClientViewModel():base()
+        {
+            
+        }
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish
         /// </summary>
@@ -106,7 +110,7 @@ namespace MasterModule.ViewModels
                     EventManager.DeleteMailBoxSubscription(Name);
                     _currentName = Name + "." + payLoad.PrimaryKeyValue;
                     EventManager.RegisterMailBox(_currentName, MailBoxHandler);
-                    ClientNotifyTask = NotifyTaskCompletion.Create(HandleUpperBar(DataObject), LoadedEventHandler);
+                    _clientNotifyTask = NotifyTaskCompletion.Create(HandleUpperBar(DataObject), LoadedEventHandler);
                 }
             }
         }
@@ -121,7 +125,7 @@ namespace MasterModule.ViewModels
             string propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
-                if (ClientNotifyTask.IsSuccessfullyCompleted)
+                if (_clientNotifyTask.IsSuccessfullyCompleted)
                 {
                     if (value != null)
                     {
@@ -132,14 +136,14 @@ namespace MasterModule.ViewModels
             }
             else if (propertyName.Equals("IsSuccessfullyCompleted"))
             {
-                var result = value.Task.Result;
+                var result = value?.Task.Result;
                 SourceView = result;
             }
             else
             {
-                if (ClientNotifyTask.IsFaulted)
+                if (_clientNotifyTask.IsFaulted)
                 {
-                    MessageBox.Show(ClientNotifyTask.ErrorMessage);
+                    MessageBox.Show(_clientNotifyTask.ErrorMessage);
                 }
             }
             Contract.Ensures(SourceView!=null, "SourceView shall be present");
@@ -148,12 +152,12 @@ namespace MasterModule.ViewModels
         {
 
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-           IClientData data = dataObject as IClientData;
+           ClientesDto data = dataObject as ClientesDto;
             var view = new ObservableCollection<ClientTypeDto>();
 
             if (data != null)
             {
-                var value = await helperDataServices.GetSingleMappedAsyncHelper<ClientTypeDto,TIPOCLI>(data.Value.NUMERO_CLI);
+                var value = await helperDataServices.GetSingleMappedAsyncHelper<ClientTypeDto,TIPOCLI>(data.NUMERO_CLI);
  
                 view.Add(value);
             }
@@ -174,13 +178,10 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitMapping()
         {
-            _mapper = MapperField.GetMapper();
             _status = UpperBarViewModelState.Init;
         }
 
-        
-
-
+      
         protected override void UpdateDataObject(object currentObject)
         {
 
@@ -197,6 +198,9 @@ namespace MasterModule.ViewModels
             }
             get { return _currentClientData; }
         }
+        /// <summary>
+        ///  Sourceview for the searchbox
+        /// </summary>
         public override IEnumerable SourceView {
             get { return _currentView; }
             set

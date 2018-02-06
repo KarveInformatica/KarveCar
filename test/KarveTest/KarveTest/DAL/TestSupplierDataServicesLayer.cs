@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.Threading.Tasks;
 using DataAccessLayer;
@@ -10,10 +7,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using NUnit.Framework;
 using KarveCommon.Services;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 using MasterModule.ViewModels;
 using Microsoft.Practices.Unity;
@@ -61,6 +55,7 @@ namespace KarveTest.DAL
             IEnumerable<SupplierSummaryDto> collection = providersControlViewModel.SummaryCollection;
             Assert.GreaterOrEqual(collection.Distinct().Count(), 1);
         }
+        /*
         [Test]
         public async Task Should_Give_Me_A_SupplierCollection()
         {
@@ -77,8 +72,8 @@ namespace KarveTest.DAL
             var invalidDataShallBeNull = invalidData.FirstOrDefault();
             Assert.Null(invalidDataShallBeNull);
 
-        }
-
+        }*/
+        /*
         [Test]
         public async Task Should_Give_Dtos_Supplier()
         {
@@ -98,22 +93,24 @@ namespace KarveTest.DAL
             Assert.GreaterOrEqual(country.Distinct().Count(), 1);
             var paymentForm = data.PaymentDtos;
             Assert.GreaterOrEqual(paymentForm.Distinct().Count(), 1);
-        }
+        }*/
 
+            /*
         [Test]
         public async Task Should_Give_Me_A_SupplierCollectionIds_Unique()
         {
             IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
             var grouping = supplierCollection.GroupBy(item => (item.Value.NUM_PROVEE)).GroupBy(t => t).Where(t => t.Count() != 1);
             Assert.Null(grouping.FirstOrDefault());
-        }
+        }*/
+
         [Test]
         public async Task Should_Give_Me_SupplierSummaryDts()
         {
             IEnumerable<SupplierSummaryDto> supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
             Assert.GreaterOrEqual(supplierCollection.Distinct().Count(),1);
         }
-
+/*
         [Test]
         public async Task Should_Delete_A_SupplieDo()
         {
@@ -124,6 +121,7 @@ namespace KarveTest.DAL
             bool value = await _supplierDataServices.DeleteAsyncSupplierDo(supplierData);
             Assert.True(value);
         }
+        */
         [Test]
         public async Task Should_Insert_And_Save_A_Supplier()
         {
@@ -137,6 +135,7 @@ namespace KarveTest.DAL
         ///  Should udpate and save a vehicle.
         /// </summary>
         /// <returns></returns>
+        /*
         public async Task Should_Update_Save_A_Vehicle()
         {
             IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
@@ -144,7 +143,8 @@ namespace KarveTest.DAL
             Assert.NotNull(supplierData);
             bool value = await _supplierDataServices.SaveChanges(supplierData);
 
-        }
+        }*/
+        /*
         [Test]
         public async Task Should_Give_Me_A_Valid_Supplier()
         {
@@ -155,7 +155,7 @@ namespace KarveTest.DAL
             ISupplierData supplier = await _supplierDataServices.GetAsyncSupplierDo(validSupplier.Value.NUM_PROVEE);
             Assert.True(supplier.Valid);
             Assert.AreEqual(validSupplier, supplier);
-        }
+        }*/
 
         // <summary>
         // This is an asynchronous test where for each supplier we get the information for its supplierId.

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MasterModule.Views.Clients
 {
     /// <summary>
-    /// Interaction logic for AutorizationDate.xaml
+    /// Interaction logic for CompanyDrivers.xaml
     /// </summary>
-    public partial class AutorizationDate : UserControl
+    public partial class CompanyDrivers : UserControl
     {
-        public AutorizationDate()
+        public CompanyDrivers()
         {
             InitializeComponent();
         }

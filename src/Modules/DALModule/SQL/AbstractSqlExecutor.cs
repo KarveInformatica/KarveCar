@@ -11,6 +11,11 @@ namespace DataAccessLayer.SQL
     public abstract class AbstractSqlExecutor : ISqlExecutor
     {
         protected IList<ISqlCommand> CommandList;
+        /// <summary>
+        ///  Load a data set from a query.
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <returns></returns>
         public abstract Task<DataSet> AsyncDataSetLoad(string sqlQuery);
         public abstract ConnectionState State { get; }
         public abstract IDbConnection Connection { get; set; }
@@ -58,7 +63,6 @@ namespace DataAccessLayer.SQL
             return outMessage;
         }
 
-        public abstract IList<string> ExecuteQueryFields(string sqlQuery);
         public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
     }
 }

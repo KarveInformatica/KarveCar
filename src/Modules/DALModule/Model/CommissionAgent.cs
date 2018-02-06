@@ -845,7 +845,9 @@ namespace DataAccessLayer.Model
                     catch (TransactionException ex)
                     {
                         logger.Error("Transaction scope error during deleting data.");
+
                         transactionScope.Dispose();
+                         
                         return retValue;
                     }
                     catch (System.Exception ex)

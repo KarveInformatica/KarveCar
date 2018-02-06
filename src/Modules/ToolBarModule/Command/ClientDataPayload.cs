@@ -7,6 +7,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace ToolBarModule.Command
 {
@@ -40,7 +41,7 @@ namespace ToolBarModule.Command
         {
             bool result = false;
             bool isInsert = payLoad.PayloadType == DataPayLoad.Type.Insert;
-            IClientData clientData = payLoad.DataObject as IClientData;
+            ClientesDto clientData = payLoad.DataObject as ClientesDto;
             // pre: DataServices and vehicle shall be present.
             if ((DataServices == null))
             {
@@ -55,21 +56,25 @@ namespace ToolBarModule.Command
                 return new NullDataPayload();
             }
             // FIXME: check for the law of demeter.
-            var clientDo = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(clientData.Value.Numero);
+            var clientDo = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(clientData.NUMERO_CLI);
             if (clientDo == null)
             {
                 payLoad.PayloadType = DataPayLoad.Type.Insert;
             }
-            result = await DataServices.GetClientDataServices().SaveAsync(clientData);
+            AbstractDomainWrapperFactory factory = AbstractDomainWrapperFactory.GetFactory(DataServices);
+            IClientData clientWrapper = await factory.CreateClientAsync(clientData);
+            clientWrapper.Value = clientData;
+            result = await DataServices.GetClientDataServices().SaveAsync(clientWrapper);
             if(result)
             {
 
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                CurrentPayload = payLoad;
                 CurrentPayload.HasDataObject = true;
                 CurrentPayload.DataObject = clientDo;
                 CurrentPayload.Subsystem = payLoad.Subsystem;
-                CurrentPayload = payLoad;
+                
             }
             else
             {

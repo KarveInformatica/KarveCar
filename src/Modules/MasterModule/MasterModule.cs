@@ -40,13 +40,13 @@ namespace MasterModule
             _container.RegisterType<object, UpperBarViewModel>("UpperBarViewModel");
             _container.RegisterType<object, ClientsInfoView>(typeof(ClientsInfoView).FullName);
             _container.RegisterType<object, UpperBarClientView>(typeof(UpperBarClientView).FullName);
-
+            _container.RegisterType<object, DriversControlView>(typeof(DriversControlView).FullName);
+            _container.RegisterType<object, RightDetailView>(typeof(RightDetailView).FullName);
         }
         public void Initialize()
         {
             RegisterViewsAndServices();
         }
-
         
     }
 

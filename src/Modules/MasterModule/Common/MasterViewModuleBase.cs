@@ -179,6 +179,55 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
                 return helper;
             });
+            AssistMapper.Configure("ACTIVITY_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ActividadDto, ACTIVI>();
+                return helper;
+            });
+            AssistMapper.Configure("RENT_USAGE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<RentingUseDto, USO_ALQUILER>();
+                return helper;
+            });
+            AssistMapper.Configure("OFFICE_ZONE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_ZONE", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientZoneDto, ZONAS>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_ZONE", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientZoneDto, ZONAS>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_INVOICE_BLOCKS", async (query) => {
+
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<InvoiceBlockDto, BLOQUEFAC>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_BROKER", async (query) =>
+            {
+                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                return helper;
+            });
+            AssistMapper.Configure("CHANNEL_TYPE", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ChannelDto, CANAL>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_BUDGET", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                return helper;
+            });
+            AssistMapper.Configure("CREDIT_CARD", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CreditCardDto, TARCREDI>();
+                return helper;
+            });
         }
         /// <summary>
         /// Object to warrant the notifications.
@@ -627,6 +676,7 @@ namespace MasterModule.Common
             // each module notify the toolbar.
             DataPayLoad payLoad = new DataPayLoad();
             SetRegistrationPayLoad(ref payLoad);
+            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             EventManager.NotifyToolBar(payLoad);
             Logger.Log(LogLevel.Info, "Toolbar notified and subsystem active " + payLoad.Subsystem);
         }

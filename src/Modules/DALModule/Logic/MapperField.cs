@@ -355,21 +355,25 @@ namespace DataAccessLayer.Logic
         public Entity Convert(Dto source, Entity destination, ResolutionContext context)
         {
             Entity e = new Entity();
-            Type dtoSourceType = source.GetType();
-            PropertyInfo[] currentProperties = e.GetType().GetProperties();
-            for (int i = 0; i < currentProperties.Length; ++i)
+
+            if (source != null)
             {
-                // destination property
-                var prop = currentProperties[i];
-                // source Value
-                var sourceValueProperty = dtoSourceType.GetProperty(prop.Name);
-                if (sourceValueProperty != null)
+                Type dtoSourceType = source.GetType();
+                PropertyInfo[] currentProperties = e.GetType().GetProperties();
+                for (int i = 0; i < currentProperties.Length; ++i)
                 {
-                    var destinationProperty = e.GetType().GetProperty(prop.Name);
-                    var tmpValue = sourceValueProperty.GetValue(source);
-                    if (tmpValue != null)
+                    // destination property
+                    var prop = currentProperties[i];
+                    // source Value
+                    var sourceValueProperty = dtoSourceType.GetProperty(prop.Name);
+                    if (sourceValueProperty != null)
                     {
-                        destinationProperty?.SetValue(e, tmpValue);
+                        var destinationProperty = e.GetType().GetProperty(prop.Name);
+                        var tmpValue = sourceValueProperty.GetValue(source);
+                        if (tmpValue != null)
+                        {
+                            destinationProperty?.SetValue(e, tmpValue);
+                        }
                     }
                 }
             }
@@ -1348,8 +1352,31 @@ namespace DataAccessLayer.Logic
                     model.Codigo = src.CODIGO;
                     model.Nombre = src.NOMBRE;
                     model.Cuenta = src.CUENTA;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
                     return model;
                 });
+                cfg.CreateMap<PaymentFormDto, FORMAS>().ConvertUsing(src =>
+                {
+                    var model = new FORMAS();
+                    model.CODIGO = src.Codigo;
+                    model.NOMBRE = src.Nombre;
+                    model.CUENTA = src.Cuenta;
+                 
+                    return model;
+                });
+                /*
+                cfg.CreateMap<InvoiceBlockDto, BLOQUEFAC>().ConvertUsing(src =>
+                {
+                    var model = new FORMAS();
+                    model.CODIGO = src.Codigo;
+                    model.NOMBRE = src.Nombre;
+                    model.CUENTA = src.Cuenta;
+
+                    return model;
+                });
+                */
+
                 cfg.CreateMap<POBLACIONES, CityDto>().ConvertUsing(src =>
                 {
                     var model = new CityDto();

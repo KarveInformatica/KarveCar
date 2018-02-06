@@ -75,7 +75,6 @@ namespace DataAccessLayer.Model
             string currentQueryAgent = "";
             IList<IVehicleData> list = new List<IVehicleData>();
             string vehiclesFields = fields["VEHICULO1"] + "," + fields["VEHICULO2"];
-            int i = 0;
             if (maxLimit == 0)
             {
                 currentQueryAgent = string.Format(VehicleIds, vehiclesFields);
@@ -523,14 +522,18 @@ namespace DataAccessLayer.Model
                         }
                         catch (System.Exception other)
                         {
-                            return retValue;
+                            string message = "Save Exception in Vehicle Update. Reason: " + other.Message;
+                            DataLayerExecutionException dataLayer = new DataLayerExecutionException(message, other);
+                            throw dataLayer;
                         }
                     }
                 }
             }
             catch (System.Exception other2)
             {
-                return false;
+                string message = "Connection Exception in Vehicle Update. Reason: " + other2.Message;
+                DataLayerExecutionException dataLayer = new DataLayerExecutionException(message, other2);
+                throw dataLayer;
             }
             return retValue;
         }
@@ -571,7 +574,7 @@ namespace DataAccessLayer.Model
                     }
 
                     /*
-                     *  See if for the lookup tables. we can avoid mapping.
+                     *  See if for the lookup tables. we shall try to use multiple query,
                      */
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);

@@ -1,7 +1,8 @@
 ﻿using KarveDataServices.DataObjects;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using KarveDataServices;
 
 namespace DataAccessLayer.Model
 {
@@ -33,24 +34,26 @@ namespace DataAccessLayer.Model
         {
             get; set;
         }
+        public IEnumerable<ProvinciaDto> ProvinciaDto { get ; set ; }
+        public IEnumerable<CountryDto> CountryDto { get ; set; }
+        public IEnumerable<CityDto> CityDto { get ; set; }
+        public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
+        public IEnumerable<OrigenDto> OrigenDto { get; set; }
+      
+        public IEnumerable<MercadoDto> ClientMarketDto { get; set; }
+        public IEnumerable<ResellerDto> ResellerDto { get; set; }
+        public IEnumerable<ActividadDto> ActivityDto { get; set; }
+        public IEnumerable<ClientTypeDto> ClientTypeDto { get ; set; }
+        public IEnumerable<CompanyDto> CompanyDto { get; set; }
+        public IEnumerable<OfficeDtos> OfficeDto { get; set; }
+        public IEnumerable<BusinessDto> BusinessDto { get; set; }
+        public IEnumerable<ChannelDto> ChannelDto { get; set; }
+        public IEnumerable<BudgetKeyDto> BudgetKey { get; set; }
+        public IEnumerable<PaymentFormDto> ClientPaymentForm { get; set; }
+        public IEnumerable<CreditCardDto> CreditCardType { get; set; }
+        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get ; set; }
+        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set ; }
 
-        public ObservableCollection<ProvinciaDto> ProvinciaDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<CountryDto> CountryDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<CityDto> CityDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<ClientZoneDto> ZoneDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<OrigenDto> OrigenDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<ComisioDto> BrokerDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<MercadoDto> ClientMarketDto { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-        public ObservableCollection<ResellerDto> ResellerDto => throw new System.NotImplementedException();
-
-        public ObservableCollection<ClientTypeDto> ClientTypeDto => throw new System.NotImplementedException();
 
         /// <summary>
         ///  Delete asynchronous value.

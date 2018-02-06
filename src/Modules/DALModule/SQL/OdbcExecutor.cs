@@ -250,6 +250,7 @@ namespace DataAccessLayer.SQL
             catch (System.Exception e)
             {
                 set = null;
+                throw new DataLayerException(e.Message, e);
             }
             finally
             {
@@ -283,10 +284,12 @@ namespace DataAccessLayer.SQL
             }
             catch (System.Exception ex)
             {
-                Close();
+               
+               throw new DataLayerException(ex.Message, ex);
             }
             finally
             {
+                Close();
                 table.Dispose();
             }
             return table;
@@ -349,15 +352,7 @@ namespace DataAccessLayer.SQL
             }
         }
 
-       
-
-       
-        public override IList<string> ExecuteQueryFields(string sqlQuery)
-        {
-            throw new NotImplementedException();
-        }
-
-       
+   
    
 
 

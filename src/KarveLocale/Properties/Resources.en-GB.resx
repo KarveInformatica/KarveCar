@@ -2122,4 +2122,10 @@
   <data name="ltipoCliente" xml:space="preserve">
     <value>Kind of Client</value>
   </data>
+  <data name="DrivingLicense" xml:space="preserve">
+    <value>Driving License</value>
+  </data>
+  <data name="NationalId" xml:space="preserve">
+    <value>Identification Document</value>
+  </data>
 </root>

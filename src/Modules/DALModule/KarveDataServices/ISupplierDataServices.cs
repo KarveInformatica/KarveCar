@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -23,19 +20,6 @@ namespace KarveDataServices
         /// <returns></returns>
         /// 
         Task<DataSet> GetAsyncAllSupplierSummary();
-        
-        /// <summary>
-        /// Return synchnously the suppliers paged at 200 page size.
-        /// </summary>
-        /// <param name="startPos">Start position where compute the page</param>
-        /// <returns></returns>
-        DataSet GetSuppliersSummaryPaged(long startPos);
-       
-        /// <summary>
-        /// Returns the complete suppliers information paged for 200 items.
-        /// </summary>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncSuppliersSummaryPaged();
         
         //ISupplierData GetAsyncSupplierInfo()
         /// <summary>
@@ -133,11 +117,5 @@ namespace KarveDataServices
         /// <param name="supplierData"></param>
         /// <returns></returns>
         Task<bool> SaveChanges(ISupplierData supplierData);
-
-        /// <summary>
-        ///  This method shall return the complete list of suppliers.
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection();
     }
 }

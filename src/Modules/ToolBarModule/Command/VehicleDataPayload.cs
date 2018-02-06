@@ -13,8 +13,8 @@ namespace ToolBarModule.Command
         private IVehicleDataServices _vehicleDataServices;
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
-
         public event ErrorExecuting OnErrorExecuting;
+
 
         public VehicleDataPayload(): base()
         {

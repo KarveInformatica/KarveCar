@@ -34,6 +34,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                         </KarveControls:DataField>
+                        
                         <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO3"
                                                      LabelVisible="False"
@@ -104,6 +105,7 @@
                                      Height="35"
                                      Grid.Column="0"
                                      DataSourcePath="RIESGOIMP" 
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      TextContentWidth="200"/>
             <syncfusion:CurrencyTextBox 
@@ -113,7 +115,10 @@
                 CurrencySymbol="€" 
                 HorizontalAlignment="Left" Height="35"  
                 Text="€" 
-                Value="{Binding DataObject.Value.RIESGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                Value="{Binding DataObject.RIESGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay}"
+                KarveControls:ControlExt.DataSourcePath="RIESGO"
                 VerticalAlignment="Top" Width="100"/>
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
@@ -122,7 +127,8 @@
                                      LabelTextWidth="120"
                                      TextContent="{Binding PendentSum}"
                                      Height="35"
-                                     IsReadOnly="True"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     IsReadOnly="False"
                                      TextContentWidth="200"/>
             <KarveControls:DataField x:Name="CompanyCode"   
                                      LabelText="Codigo Sociedad" 
@@ -130,7 +136,7 @@
                                      LabelTextWidth="112"
                                      DataSourcePath="COD_SOCIEDAD"
                                      Height="35"
-                                     IsReadOnly="True"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
                                      TextContentWidth="200"/>
 
             <KarveControls:DualFieldSearchBox
@@ -140,15 +146,15 @@
                                              DataFieldFirst="FPAGO"
                                              AssistDataFieldFirst="CODIGO" 
                                              AssistDataFieldSecond="NOMBRE"
-                                             AssistTableName="FORMAS"
-                                             AssistProperties="Code,Name"
+                                             AssistTableName="CLIENT_PAYMENT_FORM"
+                                             AssistProperties="Codigo,Nombre"
                                              TextContentFirstWidth="100"
                                              TextContentSecondWidth="200"
                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
-                                             ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
-                                             DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding ClientHelper.ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             </KarveControls:DualFieldSearchBox>
 
 

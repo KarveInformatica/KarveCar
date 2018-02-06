@@ -157,7 +157,7 @@ namespace MasterModule.ViewModels
                 
             }
         }
-        public void DisposeEvents()
+        public override void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(_currentName);
             EventManager.DeleteObserver(this);

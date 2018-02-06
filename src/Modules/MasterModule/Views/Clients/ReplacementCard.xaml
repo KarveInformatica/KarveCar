@@ -16,7 +16,7 @@
                                           Margin="0,5,0,0"
                                           AssistDataFieldFirst="NUM_PROVEE"
                                           AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistTableName="REPLACEMENT_CARD_TYPE"
                                           IsReadOnlySecond="True"
                                           AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

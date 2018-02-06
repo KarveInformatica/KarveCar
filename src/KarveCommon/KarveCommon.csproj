@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\ByteToBooleanConverter.cs" />
+    <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
+    <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Generic\AssistMapper.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />

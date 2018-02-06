@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="MasterModule.Views.Clients.CompanyDrivers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <KarveControls:DataArea x:Name="ContentArea"
+                                            DataAreaTitle="Lista de contactos"
+                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}"
+                                        LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            </KarveControls:DataArea>
+            <Button Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left">
+                <StackPanel>
+                    <TextBlock>Lista conductores</TextBlock>
+                    <Image HorizontalAlignment="Left" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="280"></Image>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

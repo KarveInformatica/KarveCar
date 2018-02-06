@@ -10,7 +10,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Forma de pago dto.
     /// </summary>
-    public class PaymentFormDto
+    public class PaymentFormDto: BaseDto
     {
         /// <summary>
         ///  Set or get the CODIGO property.
@@ -23,19 +23,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string Nombre { get; set; }
-
-        /// <summary>
-        ///  Set or get the ULTMODI property.
-        /// </summary>
-
-        public string UltimaVersion { get; set; }
-
-        /// <summary>
-        ///  Set or get the USUARIO property.
-        /// </summary>
-
-        public string Usuario { get; set; }
-
+        
         /// <summary>
         ///  Set or get the CUENTA property.
         /// </summary>

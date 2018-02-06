@@ -747,7 +747,6 @@ namespace KarveControls
         private Image PopUpButtonImage;
         private TextBlock SearchLabel;
         private IEnumerable<object> _currentSourceView;
-        private IncrementalList<object> _incrementalList;
         static DualFieldSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DualFieldSearchBox), new FrameworkPropertyMetadata(typeof(DualFieldSearchBox)));
@@ -760,7 +759,7 @@ namespace KarveControls
             _componentFiller = new ComponentFiller();
             PopUpCloseCommand = new DelegateCommand(ButtonBase_OnClick);
             PopUpOpenCommand = new DelegateCommand(PopUpButton_OnClick);
-            _incrementalList = new IncrementalList<object>(LoadMoreItems);
+         
         }
 
 
@@ -815,14 +814,7 @@ namespace KarveControls
             }
         }
 
-        private void MagnifierGrid_AutoGeneratingColumn(object sender, AutoGeneratingColumnArgs e)
-        {
-            
-            if ((e.Column.MappingName != _codeFirst) || (e.Column.MappingName!=_codeSecond))
-            {
-                e.Cancel = true;
-            }     
-        }
+       
         
        private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1112,11 +1104,7 @@ namespace KarveControls
             }
 
         }
-        void LoadMoreItems(uint count, int baseIndex)
-        {
-            var list = _currentSourceView.Skip(baseIndex).Take(50).ToList();
-            //IncrementalItemsSource.LoadItems(list);
-        }
+       
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
           
@@ -1152,9 +1140,6 @@ namespace KarveControls
                 */
                 if (MagnifierGrid != null)
                 {
-//                    new GridVirtualizingCollectionView(_orders);
-
-                    //                   IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems);
                     MagnifierGrid.ItemsSource = new GridVirtualizingCollectionView(enumerableValue);
                     
                     if (_buttonManifierState == 1)
@@ -1490,12 +1475,6 @@ namespace KarveControls
             {
                 return;
             }
-            /*
-            if (_firstSelection)
-            {
-                _firstSelection = false;
-                return;
-            }*/
             HandleObjectValue(value);
         }
         private static void OnSearchTextBoxDataFieldFirstChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

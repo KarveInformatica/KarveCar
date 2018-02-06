@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="HelperModule.Views.VehicleBrandView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HelperModule.Views"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <Grid>
+        <GroupBox Header="{Binding lrbtnMarcas, Source={StaticResource ResourceLanguage}}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="Codigo" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
+                        <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
+                             Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
+                             karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
+
+
+                        <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
+                    ></TextBlock>
+                        <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
+                             karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                             Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
+                    </StackPanel>
+                    <karveControls:DataDatePicker  
+                                   Grid.Row="1" 
+                                   PickerContentWidth="150"
+                                   LabelText="Fecha Baja"
+                                   LabelTextWidth="120">
+                    </karveControls:DataDatePicker>
+
+                    <Syncfusion:SfDataGrid Grid.Row="2" 
+                                       x:Name="Summary"                       
+                                       ColumnSizer="Star"
+                                       AllowDraggingColumns="True"
+                                       AllowEditing="False"
+                                       AllowFiltering="True"
+                                       AllowResizingColumns="True"
+                                       AllowSorting="True"
+                                       AllowGrouping="True"
+                                       ShowGroupDropArea="True"
+                                       NavigationMode="Row"
+                                       ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       AutoGenerateColumns="False">
+                        <Syncfusion:SfDataGrid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </Syncfusion:SfDataGrid.Resources>
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </i:Interaction.Behaviors>
+                        <Syncfusion:SfDataGrid.Columns>
+                            <Syncfusion:GridTextColumn HeaderText="Codigo" 
+                                                   MappingName="Code" 
+                                                   TextAlignment="Left"
+                                                   AllowFiltering="True"                                
+                                                   AllowEditing="False"
+                                                   AllowGrouping="True"/>
+                            <Syncfusion:GridTextColumn HeaderText="Nombre" 
+                                                   MappingName="Name" 
+                                                   TextAlignment="Left"
+                                                   AllowEditing="False"
+                                                   AllowGrouping="True"
+                        />
+
+                        </Syncfusion:SfDataGrid.Columns>
+
+                    </Syncfusion:SfDataGrid>
+                </Grid>
+
+                <Grid Grid.Column="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+
+                    <karveControls:DualFieldSearchBox Grid.Row="0"
+                                                              Margin="0,15,0,0"
+                            LabelText="Provveedor"
+                            LabelTextWidth="60"
+                            DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            AssistTableName="SUPPLIER"
+                            SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                            MaxHeight="30"
+                            MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                            TextContentFirstWidth="60"
+                            TextContentSecondWidth="100">
+
+                    </karveControls:DualFieldSearchBox>
+                    <karveControls:DataArea  Grid.Row="1" 
+                                             DataAreaTitle="Condiciones Generales"
+                                              Height="100"
+                                              DataAreaWidth="120"
+                                              
+                                              TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              ></karveControls:DataArea>
+                    <karveControls:DataField  Grid.Row="2" 
+                                              LabelText="Pactadas con"
+                                              MaxHeight="30"
+                                              LabelTextWidth="120"
+                                                                                            TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              TextContentWidth="150"></karveControls:DataField>
+
+                    <karveControls:DataField  Grid.Row="3" 
+                                              LabelText="Interlocutor"
+                                              MaxHeight="30"
+                                              LabelTextWidth="120"
+                                                                                            DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              TextContentWidth="150"></karveControls:DataField>
+                    <karveControls:DataDatePicker Grid.Row="4" 
+                                                  LabelText="Fecha"
+                                                  Margin="10,0,0,0" 
+                                                  LabelTextWidth="110">
+                        <karveControls:DataArea DataAreaTitle="Observaciones" 
+                                            DataAreaWidth="200" 
+                                            Height="100">
+
+                        </karveControls:DataArea>
+
+                    </karveControls:DataDatePicker>
+                </Grid>
+            </Grid>
+
+        </GroupBox>
+    </Grid>
+
+
+</UserControl>

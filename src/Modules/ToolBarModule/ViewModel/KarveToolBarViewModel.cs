@@ -27,7 +27,6 @@ namespace ToolBarModule
         };
 
         private ToolbarStates _states;
-
         private ICareKeeperService _careKeeper;
         private IDataServices _dataServices;
         private bool _buttonEnabled = false;
@@ -335,6 +334,10 @@ namespace ToolBarModule
             {
                 _eventManager.SendMessage(EventSubsystem.VehichleSummaryVm, payLoad);
             }
+            if (subSystem == DataSubSystem.ClientSubsystem)
+            {
+                _eventManager.SendMessage(EventSubsystem.ClientSummaryVm, payLoad);
+            }
         }
         
         /// <summary>
@@ -353,6 +356,7 @@ namespace ToolBarModule
         /// <param name="payload"></param>
         public void IncomingPayload(DataPayLoad payload)
         {
+            
             IsNewEnabled = true;
             CurrentPayLoad = payload;
             switch (payload.PayloadType)

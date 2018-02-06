@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using AutoMapper;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
@@ -13,6 +14,11 @@ using MasterModule.Common;
 using Prism.Regions;
 using DataAccessLayer.Logic;
 using Prism.Commands;
+using System.Windows;
+using System.Windows.Controls;
+using KarveCommon.Generic;
+using MasterModule.Views;
+using Syncfusion.Windows.PdfViewer;
 
 namespace MasterModule.ViewModels
 {
@@ -23,12 +29,15 @@ namespace MasterModule.ViewModels
     {
         private IClientData _clientData;
         private IClientDataServices _clientDataServices;
+        private IHelperData _helperData;
         private object _province;
         private object _country;
         private object _company;
         private object _clientZone;
         private object _origenDto;
         private object _office;
+        private bool _stateVisible;
+        private string _clientRegion;
 
         /// <summary>
         ///  Constructor
@@ -46,7 +55,41 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ClientSubSystemName, this);
             _clientDataServices = dataServices.GetClientDataServices();
             InitVmCommands();
+            Guid uid = Guid.NewGuid();
+            ClientInfoRightRegionName = CreateNameRightDetailRegion();
+             StateVisible = true;
         }
+
+        private string CreateNameRightDetailRegion()
+        {
+            Guid uid = Guid.NewGuid();
+            var uri = typeof(RightDetailView).FullName + "."+uid.ToString();
+            return uri;
+        }
+        /// <summary>
+        /// Navigate to the view.
+        /// </summary>
+        /// <param name="viewName">Viewname to view</param>
+        private void NavigateToRightDetail(string viewName)
+        {
+            var navigationParameters = new NavigationParameters();
+            Guid uid = Guid.NewGuid();
+            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, uid.ToString());
+            var uri = new Uri(ClientInfoRightRegionName + navigationParameters, UriKind.Relative);
+            RegionManager.RequestNavigate("ClientInfoRightRegion", uri);
+        }
+        /// <summary>
+        /// Navigate to drivers.
+        /// </summary>
+        /// <param name="viewName">Viewname to view</param>
+        private void NavigateToDrivers(string viewName)
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewName);
+            var uri = new Uri(typeof(DriversControlView).FullName + navigationParameters, UriKind.Relative);
+            RegionManager.RequestNavigate("DriversControlView", uri);
+        }
+
         /// <summary>
         ///  Initialize view model.
         /// </summary>
@@ -54,14 +97,92 @@ namespace MasterModule.ViewModels
         {
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(OnChangedField);
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
+            SelectCompanyOrDriver = new DelegateCommand<object>(OnCompanyOrDriver);
+            CurrentOperationalState = DataPayLoad.Type.Show;
+            _helperData = new HelperData();
+            NavigateToRightDetail("RightDetailView");
         }
         /// <summary>
-        /// 
+        ///  Select company or driver.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="selectionEvent">Event to be selected</param>
+        private void OnCompanyOrDriver(object selectionEvent)
+        {
+            SelectionChangedEventArgs ev = selectionEvent as SelectionChangedEventArgs;
+            ComboBox item = ev?.Source as ComboBox;
+            if (item != null)
+            {
+                StateVisible = (item.SelectedIndex == 0);
+            }
+        }
+        /// <summary>
+        ///  Helper data .
+        /// </summary>
+        public IHelperData ClientHelper
+        {
+            get { return _helperData; }
+            set { _helperData = value; RaisePropertyChanged(); }
+        }
+
         private void OnChangedField(object obj)
         {
-           
+            IDictionary<string, object> eventDictionary = (IDictionary<string, object>)obj;
+            if (eventDictionary.ContainsKey(OperationConstKey))
+            {
+                var value = eventDictionary["DataSourcePath"] as string;
+
+                /*if (value == "ContactsDtos")
+                {
+                    ContactsChangedCommandHandler(eventDictionary);
+                }
+                else
+                {
+                    DelegationChangedCommandHandler(eventDictionary);
+                }*/
+            }
+            else
+            {
+                OnChangedField(eventDictionary);
+            }
+        }
+        /// <summary>
+        /// Dictionary of events.
+        /// </summary>
+        /// <param name="eventDictionary"></param>
+        private void OnChangedField(IDictionary<string, object>  eventDictionary)
+        {
+            DataPayLoad payLoad = new DataPayLoad();
+            payLoad.Subsystem = DataSubSystem.ClientSubsystem;
+            payLoad.SubsystemName = MasterModuleConstants.ClientSubSystemName;
+            payLoad.PayloadType = DataPayLoad.Type.Update;
+            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
+            {
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+
+            }
+            if (eventDictionary.ContainsKey("DataObject"))
+            {
+                if (eventDictionary["DataObject"] == null)
+                {
+                    MessageBox.Show("DataObject is null.");
+                }
+                payLoad.DataObject = eventDictionary["DataObject"];
+                payLoad.HasDataObject = true;
+
+            }
+            ChangeFieldHandlerDo<ClientesDto> handlerDo = new ChangeFieldHandlerDo<ClientesDto>(EventManager,
+                DataSubSystem.ClientSubsystem);
+
+            if (CurrentOperationalState == DataPayLoad.Type.Insert)
+            {
+                handlerDo.OnInsert(payLoad, eventDictionary);
+
+            }
+            else
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+                handlerDo.OnUpdate(payLoad, eventDictionary);
+            }
         }
         // move to the master,
         private async void OnAssistCommand(object param)
@@ -70,55 +191,101 @@ namespace MasterModule.ViewModels
             string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
             bool value = await AssistQueryRequestHandler(assistTableName, assistQuery);
+            if (!value)
+            {
+                MessageBox.Show("Assist Invalid!");
+            }
         }
 
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
-            IEnumerable<BaseDto> value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
-            /*
-             * TODO: Think a way to avoid this .. suppose a view model has 400 searchbox different, doenst make sense.
-             */
+            var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
+            
             if (value != null)
             {
                 switch (assistTableName)
                 {
                     case "CITY_ASSIST":
                     {
-                        CityDto = value ;
+                        ClientHelper.CityDto = (List<CityDto>) value;
                         break;
                     }
                     case "COUNTRY_ASSIST":
                     {
-                        CountryDto = value;
+                        ClientHelper.CountryDto = (List<CountryDto>) value;
                         break;
                     }
                     case "PROVINCE_ASSIST":
                     {
-                        ProvinceDto = value;
+                        ClientHelper.ProvinciaDto = (List<ProvinciaDto>) value;
                         break;
                     }
                     case "COMPANY_ASSIST":
                     {
-                        CompanyDto = value;
+                        ClientHelper.CompanyDto = (List<CompanyDto>) value;
                         break;
                     }
                     case "OFFICE_ASSIST":
                     {
-                        OfficeDto = value;
+                        ClientHelper.OfficeDto = (List<OfficeDtos>) value;
+                        break;
+                    }
+                    case "CLIENT_ZONE":
+                    {
+                        ClientHelper.ZoneDto = (List<ClientZoneDto>) value;
+                        break;
+                    }
+                    case "CLIENT_TYPE":
+                    {
+                        ClientHelper.ClientTypeDto = (List<ClientTypeDto>) value;
+                        break;
+                    }
+                    case "CHANNEL_TYPE":
+                    {
+                        ClientHelper.ChannelDto = (List<ChannelDto>) value;
+                        break;
+                    }
+                    case "CLIENT_CREDIT_CARD":
+                    {
+                        ClientHelper.CreditCardType = (List<CreditCardDto>) value;
+                        break;
+                    }
+                    case "CLIENT_PAYMENT_FORM":
+                    {
+                        ClientHelper.ClientPaymentForm = (List<PaymentFormDto>) value;
+                        break;
+                    }
+                    case "CLIENT_INVOICE_BLOCKS":
+                    {
+                        ClientHelper.InvoiceBlock = (List<InvoiceBlockDto>) value;
+                        break;
+                    }
+
+                    case "CLIENT_BROKER":
+                    {
+                        ClientHelper.BrokerDto = (List<CommissionAgentSummaryDto>) value;
+                        break;
+                    }
+                    case "CREDIT_CARD":
+                    {
+                        ClientHelper.CreditCardType = (List<CreditCardDto>) value;
                         break;
                     }
                 }
+           
+                RaisePropertyChanged("ClientHelper");
                 return true;
             }
             return false;
         }
         /// <summary>
         ///  This returns the client data.
+        ///  We have decied starting from this form to use just the dtos outside and not a complete model wrapper.
         /// </summary>
-        public IClientData DataObject
+        public ClientesDto DataObject
         {
-            get { return _clientData; }
-            set { _clientData = value; RaisePropertyChanged(); }
+            get { return _clientData.Value; }
+            set { _clientData.Value = value; RaisePropertyChanged(); }
         }
         /// <summary>
         ///  This register the primary key
@@ -162,7 +329,7 @@ namespace MasterModule.ViewModels
                     {
                         if (payload.HasDataObject)
                         {
-                            var clientData = payload.DataObject as IClientData;
+                            var clientData = payload.DataObject as ClientesDto;
                             DataObject = clientData;
                         }
                         break;
@@ -203,72 +370,68 @@ namespace MasterModule.ViewModels
             }
 
         }
-        // All helpers values.
-        public object ProvinceDto
-        {
-            set { _province = value; RaisePropertyChanged(); }
-            get { return _province; }
-        }
-
-        public object OfficeDto
-        {
-            set { _office = value; RaisePropertyChanged(); }
+        public ICommand ContentAreaCommand { get; set; }
+        public ICommand ItemChangedCommand { get; set; }
+        public ICommand SelectCompanyOrDriver { get; set; }
+        /// <summary>
+        /// ClientInfoRightRegionName
+        /// </summary>
+        public string ClientInfoRightRegionName {
             get
             {
-                return _office;
+                return _clientRegion;
             }
+            set { _clientRegion = value; RaisePropertyChanged(); }
         }
 
-        public object CountryDto
+        public bool StateVisible
         {
-            set { _country = value; RaisePropertyChanged(); }
-            get { return _country; }
-           
+            set { _stateVisible = value; RaisePropertyChanged(); }
+            get { return _stateVisible; }
         }
 
-        public object CityDto
+        public object CompanyOrDriver
         {
-            set { _country = value; RaisePropertyChanged(); }
-            get { return _country; }
-           
-        }
-
-        public object CompanyDto
-        {
-            set { _company = value; RaisePropertyChanged(); }
+            set { _company = value; }
             get { return _company; }
-
         }
-
-        public object ClientZoneDto
-        {
-            set { _clientZone = value; RaisePropertyChanged(); }
-            get { return _clientZone; }
-        }
-
-        private object OrigenDto
-        {
-            set { _origenDto = value; RaisePropertyChanged(); }
-            get { return _origenDto; }
-        }
-        private object BrokerDto { set; get; }
-        private object ClientMarketDto { set; get; }
-        private object ResellerDto { set; get; }
-        private object ClientTypeDto { set; get; }
-        public DelegateCommand<object> ItemChangedCommand { get; set; }
-
         public void Init(string primaryKey, DataPayLoad payload, bool isInsert)
         {
             if (payload.HasDataObject)
             {
                 Logger.Info("ClientInfoViewModel has received payload type " + payload.PayloadType.ToString());
                 var clientData = payload.DataObject as IClientData;
-                DataObject = clientData;
-                EventManager.SendMessage(UpperBarClientViewModel.Name, payload);
-                Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
-                            payload.PayloadType.ToString());
-                ActiveSubSystem();
-
+                if (clientData != null)
+                {
+                    _clientData = clientData;
+                    DataObject = clientData.Value;
+                    // in this way we trigger just one time the raiseproperty changed.
+                    var clientHelper = clientData;
+                    /*
+                    clientHelper.ActivityDto = clientData.ActivityDto;
+                    clientHelper.BrokerDto = clientData.BrokerDto;
+                    clientHelper.CityDto = clientData.CityDto;
+                   
+                    clientHelper.ClientMarketDto = clientData.ClientMarketDto;
+                    clientHelper.ClientTypeDto = clientData.ClientTypeDto;
+                    clientHelper.CompanyDto = clientData.CompanyDto;
+                    clientHelper.CountryDto = clientData.CountryDto;
+                    clientHelper.OrigenDto = clientData.OrigenDto;
+                    clientHelper.ResellerDto = clientData.ResellerDto;
+                    clientHelper.BudgetKey = clientData.BudgetKey;
+                    clientHelper.BusinessDto = clientData.BusinessDto;
+                    clientHelper.ChannelDto = clientData.ChannelDto;
+    */                
+                    ClientHelper = clientHelper;
+                    // When the view model receive a message broadcast to its child view models.                
+                    EventManager.SendMessage(UpperBarClientViewModel.Name, payload);
+                    
+                    string rightDetailUri = "master://" + typeof(RightDetailViewModel).FullName;
+                    EventManager.SendMessage(rightDetailUri, payload);
+                    Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
+                                payload.PayloadType.ToString());
+                    ActiveSubSystem();
+                }
             }
         }
     }

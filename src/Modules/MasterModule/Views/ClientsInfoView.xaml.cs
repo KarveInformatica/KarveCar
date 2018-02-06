@@ -22,7 +22,14 @@ namespace MasterModule.Views
     {
         public ClientsInfoView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                var v = e.Message;
+            }
         }
         public string Header
         { set; get; }

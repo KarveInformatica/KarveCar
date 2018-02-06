@@ -66,7 +66,7 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<CommissionAgentSummaryDto> GetCommissionAgentSummaryDo()
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo()
         {
             throw new NotImplementedException();
         }

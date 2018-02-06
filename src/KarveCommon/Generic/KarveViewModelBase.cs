@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
@@ -24,6 +25,11 @@ namespace KarveCommon.Generic
         protected const string DeletedSuccess = "Valor borrado con exito.";
         protected const string DefaultState = "Estado consultar.";
 
+        /// <summary>
+        /// Each view model has a mailbox. 
+        /// A mailbox is a way to receive messages through the event manager/ event dispatcher.
+        /// </summary>
+        protected MailBoxMessageHandler MailBoxHandler;
 
         /// <summary>
         ///  Magnifier reference

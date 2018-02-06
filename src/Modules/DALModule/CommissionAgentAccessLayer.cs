@@ -7,6 +7,7 @@ using KarveDataServices.DataObjects;
 using Model;
 using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Transactions;
@@ -109,14 +110,14 @@ namespace DataAccessLayer
             return dataset;
         }
 
-        public async Task<KarveDataServices.DataTransferObject.CommissionAgentSummaryDto> GetCommissionAgentSummaryDo()
+        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo()
         {
-            CommissionAgentSummaryDto summary = new CommissionAgentSummaryDto();
+            IEnumerable<CommissionAgentSummaryDto> summary = new ObservableCollection<CommissionAgentSummaryDto>();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    summary = await connection.GetAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery);
+                    summary = await connection.QueryAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery);
                 }
             }
             return summary;

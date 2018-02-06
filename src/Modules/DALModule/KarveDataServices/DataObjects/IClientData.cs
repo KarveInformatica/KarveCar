@@ -14,7 +14,7 @@ namespace KarveDataServices.DataObjects
     ///  to a model domain element.
     ///  In this case is the client. 
     /// </summary>
-    public interface IClientData
+    public interface IClientData: IHelperData
     {
         /// <summary>
         /// Load value
@@ -41,37 +41,9 @@ namespace KarveDataServices.DataObjects
         /// </summary>
         /// <returns></returns>
         Task<bool> DeleteAsync();
-        /// Value object related to this.
-        /// <summary>
-        ///  Provincia.
-        /// </summary>
-        ObservableCollection<ProvinciaDto> ProvinciaDto { get; }
-        /// <summary>
-        ///  Country.
-        /// </summary>
-        ObservableCollection<CountryDto> CountryDto { get; }
-        /// <summary>
-        /// City
-        /// </summary>
-        ObservableCollection<CityDto> CityDto { get; }
-        /// <summary>
-        /// Zone
-        /// </summary>
-        ObservableCollection<ClientZoneDto> ZoneDto { get; }
-        /// <summary>
-        ///  Origen
-        /// </summary>
-        ObservableCollection<OrigenDto> OrigenDto { get; }
-       /// <summary>
-       ///  Broker
-       /// </summary>
-        ObservableCollection<ComisioDto> BrokerDto { get; }
-        /// <summary>
-        ///  ClientMarket
-        /// </summary>
-        ObservableCollection<MercadoDto> ClientMarketDto { get; set; }
-        ObservableCollection<ResellerDto> ResellerDto { get; }
-        ObservableCollection<ClientTypeDto> ClientTypeDto { get; }
+       
+        
     }
 
+   
 }

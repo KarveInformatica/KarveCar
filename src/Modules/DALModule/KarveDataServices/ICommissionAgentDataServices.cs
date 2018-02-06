@@ -90,9 +90,9 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent);
         /// <summary>
-        ///  CommissionAgentSummaryDto.
+        ///  Return a list of all fields in the commission agent.
         /// </summary>
         /// <returns></returns>
-        Task<CommissionAgentSummaryDto> GetCommissionAgentSummaryDo();
+        Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo();
     }
 }

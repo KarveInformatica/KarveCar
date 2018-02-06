@@ -13,11 +13,11 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <GroupBox Header="Facturacion Cliente">
+                <GroupBox Header="Facturacion">
                     <local:ClientBilling></local:ClientBilling>
                 </GroupBox>
                 <GroupBox Header="Periocidad de Facturacion">
@@ -28,17 +28,14 @@
                                               LabelText="Bloque Facturacion" 
                                               Height="30" 
                                           Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_PROVEE"
-                                          AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistTableName="CLIENT_INVOICE_BLOCKS"
                                           IsReadOnlySecond="True"
-                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          AssistProperties="Code,Nombre"
+                                          DataFieldFirst="BLOQUEFAC"
+                                          AssistProperties="Code,Name"
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
-                                          MagnifierCommand="{Binding MagnifierCommand}" 
-                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          MagnifierCommand="{Binding AssistCommand}" 
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="115"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -55,16 +52,17 @@
                                                       IsReadOnly="False"/>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <!-- necesito un converter -->
                                 <KarveControls:DataFieldCheckBox Content="Una per contracto" 
                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
-                                                 KarveControls:ControlExt.DataSourcePath="PATH"
+                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
                                                  HorizontalAlignment="Left"
                                                  VerticalAlignment="Top"/>
                                 <KarveControls:DataFieldCheckBox Content="Por periodo"
                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
-                                                 KarveControls:ControlExt.DataSourcePath="PATH"
+                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
                                                  HorizontalAlignment="Left"
                                                  VerticalAlignment="Top"
                                              />
@@ -73,25 +71,18 @@
                                               LabelText="Abonar a" 
                                               Height="30" 
                                           Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_PROVEE"
-                                          AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="{Binding AssuranceKind, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          AssistTableName="CLIENT_BROKER"
                                           IsReadOnlySecond="True"
-                                          AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          DataFieldFirst="{Binding AssuranceCompanyPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          AssistProperties="Code,Nombre"
+                                          DataFieldFirst="COMISIO"
+                                          AssistProperties="Numero,Nombre,Persona,Nif,Direccion,Poblacion,Provincia,Pais"
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
-                                          MagnifierCommand="{Binding MagnifierCommand}" 
-                                          DataSource="{Binding DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding AssuranceCompanyList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          MagnifierCommand="{Binding AssistCommand}" 
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding ClientHelper.BrokerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="50"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
-
-
-
-                          
                         </StackPanel>
                     </Grid>
                 </GroupBox>
@@ -134,8 +125,16 @@
                                     Content="No Imprimir mensaje en Factura"/>
                             </StackPanel>
                             <WrapPanel Grid.Column="1" Orientation="Vertical">
-                                <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto" />
-                                <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"/>
+                                <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="IMPOCON"
+                                                                 />
+                                <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="CONTRA_IMPORTES_SIN_VALORAR"
+                                                                 />
 
                                 <KarveControls:DataFieldCheckBox 
                                     Content="Exportación"
@@ -145,19 +144,20 @@
                                 <KarveControls:DataFieldCheckBox Content="Factura sin I.V.A."
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 KarveControls:ControlExt.DataSourcePath="EXPORTA_CLI" 
+                                                                 KarveControls:ControlExt.DataSourcePath="LOGOENFAC" 
                                 />
-                                <KarveControls:DataFieldCheckBox Content="No permitir cobros"/>
-                                <KarveControls:DataFieldCheckBox Content="Contra pendiente cobros"/>
+                                
                             </WrapPanel>
                         </Grid>
-
+<!--
                         <GroupBox Header="Logo en Factura">
                             <StackPanel Orientation="Horizontal">
-                                <RadioButton Content="Yes" Width="100"/>
-                                <RadioButton Content="No" Width="100"/>
+                                <RadioButton Content="Yes" Width="100" IsChecked="{Binding DataObject.LOGOENFAC, Mode=TwoWay}"/>
+                                <RadioButton Content="No" Width="100" IsChecked="{Binding DataObject.LOGOENFAC, Mode=TwoWay}"/>
                             </StackPanel>
                         </GroupBox>
+                        -->
+                        
                         <StackPanel Orientation="Horizontal">
                             <KarveControls:DataField x:Name="EmailField" 
                                              LabelText="Email Mantenimiento:"
@@ -174,17 +174,18 @@
                             <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
                                 <Image Source="/KarveControls;component/Images/email.png" Height="25" Width="19"/>
                             </Button>
-                        </StackPanel>
+                           
 
+                        </StackPanel>
+                        
 
                     </StackPanel>
                 </GroupBox>
 
             </StackPanel>
+            
             <StackPanel Grid.Column="1">
                 <local:ActivitySector></local:ActivitySector>
-
-
 
             </StackPanel>
         </Grid>

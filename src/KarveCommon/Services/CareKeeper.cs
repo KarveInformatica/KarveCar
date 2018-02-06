@@ -1,6 +1,8 @@
 ﻿using System;
 using KarveCommon.Command;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Windows;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 
@@ -62,12 +64,17 @@ namespace KarveCommon.Services
         }
         public void Schedule(DataPayLoad payload)
         {
-            if (_currentState != State.Executing)
+            // pre. 
+            if ((payload != null) && (payload.DataObject!=null))
             {
-                _payLoad = payload;
-                _scheduledPayLoad = true;
-                _currentState = State.Executing;
+                if (_currentState != State.Executing)
+                {
+                     _payLoad = payload;
+                    _scheduledPayLoad = true;
+                    _currentState = State.Executing;
+                }
             }
+            Contract.Ensures(_payLoad!=null);
         }
     }
 }

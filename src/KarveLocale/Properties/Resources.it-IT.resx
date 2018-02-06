@@ -2489,4 +2489,10 @@
   <data name="ltipoCliente" xml:space="preserve">
     <value>Genere di Cliente</value>
   </data>
+  <data name="DrivingLicense" xml:space="preserve">
+    <value>Patente di Guida</value>
+  </data>
+  <data name="NationalId" xml:space="preserve">
+    <value>Documento di Identita</value>
+  </data>
 </root>

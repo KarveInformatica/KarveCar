@@ -14,7 +14,7 @@
              d:DesignHeight="300" d:DesignWidth="800">
     <Grid>
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
-            <StackPanel Name="ContextLayout" Orientation="Horizontal">
+            <WrapPanel Name="ContextLayout">
 
                 <KarveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -23,7 +23,7 @@
                                      Height="30"
                                      ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-            
+
                 </KarveControls:DataField>
                 <KarveControls:DataField x:Name="Name" TextContentWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}" DataObject="{Binding DataObject, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" 
@@ -32,7 +32,7 @@
             
                                          LabelTextWidth="50" LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 </KarveControls:DataField>
-                    
+
                 <KarveControls:DataField x:Name="Nif"  LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                   Height="30"
@@ -40,7 +40,7 @@
                                          DataSourcePath="NIF" LabelTextWidth="50"  
                                          ItemChangedCommand="{Binding ChangedItem}"
                                          LabelVisible="True">
-                   
+
                 </KarveControls:DataField>
                 <KarveControls:DualFieldSearchBox x:Name="TipoClienteSearch" 
                                                   TextContentSecondWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}"
@@ -60,10 +60,23 @@
                                                   AssistDataFieldSecond="NOMBRE"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
                 </KarveControls:DualFieldSearchBox>
+                <KarveControls:DataField x:Name="Rapres"  LabelText="Representante Legal" TextContentWidth="120"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Height="30"
+                                         DataSourcePath="REPRESENTANTE" LabelTextWidth="160"  
+                                         ItemChangedCommand="{Binding ChangedItem}"
+                                         LabelVisible="True">
+                </KarveControls:DataField>
+                <KarveControls:DataField x:Name="DNI"  LabelText="DNI" TextContentWidth="100" 
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Height="30"
+                                         DataSourcePath="DNIREPRE" LabelTextWidth="50"  
+                                         ItemChangedCommand="{Binding ChangedItem}"
+                                         LabelVisible="True">
+                </KarveControls:DataField>
 
 
-            </StackPanel>
+            </WrapPanel>
         </GroupBox>
-
     </Grid>
 </UserControl>

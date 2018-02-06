@@ -19,7 +19,7 @@ namespace ToolBarModule.Command
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
         private readonly PropertyChangedEventHandler _onExecutedPayload;
         private ICommissionAgentDataServices _commissionAgentDataServices;
-       
+        public event ErrorExecuting OnErrorExecuting;
         /// <summary>
         ///  This execute a payload.
         /// </summary>
@@ -127,7 +127,7 @@ namespace ToolBarModule.Command
             return payLoad;
         }
 
-        public event ErrorExecuting OnErrorExecuting;
+       
         
     }
 }

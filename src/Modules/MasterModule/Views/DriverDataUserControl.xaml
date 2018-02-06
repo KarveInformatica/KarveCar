@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MasterModule.Views.Clients"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
@@ -12,6 +11,7 @@
     <Grid>
         <GroupBox Header="Conductores">
             <Grid x:Name="Layout">
+                <!--
                 <i:Interaction.Behaviors>
                     <ei:DataStateBehavior Binding="{Binding ShowDrivingDetails}" 
                                   Value="True" 
@@ -59,6 +59,7 @@
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
+                -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>

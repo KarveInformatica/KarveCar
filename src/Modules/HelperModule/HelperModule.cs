@@ -45,7 +45,7 @@ namespace HelperModule
             _container.RegisterType<object, VisitType>("VisitType");
             _container.RegisterType<object, Province>("Province");
             _container.RegisterType<object, VehicleActivities>("VehicleActivities");
-            _container.RegisterType<object, VehicleBrand>("VehicleBrand");
+            _container.RegisterType<object, VehicleBrandView>("VehicleBrand");
             _container.RegisterType<object, VehicleColors>("VehicleColors");
             _container.RegisterType<object, VehicleGroup>("VehicleGroup");
             _container.RegisterType<object, VehicleManteinanceCode>("VehicleMantienanceCode");

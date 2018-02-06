@@ -143,10 +143,22 @@ namespace KarveControls.Generic
             {
                 Type type = obj.GetType();
                 PropertyInfo info = type.GetProperty(propName);
+                var currentValue = value;
+                if (value is bool)
+                {
+                    currentValue = Convert.ToByte(value);
+                }
                 if (info != null)
                 {
-                    info.SetValue(obj, value);
-
+                    try
+                    {
+                        info.SetValue(obj, currentValue);
+                    }
+                    catch(Exception e)
+                    {
+                        string var = value.ToString();
+                        info.SetValue(obj, var);
+                    }
                 }
                 //obj.GetType().GetProperty(propName).SetValue(obj, value);
             }
@@ -205,7 +217,9 @@ namespace KarveControls.Generic
                             info.SetValue(obj, currentValue);
                             if ((i - 2) >= 0)
                             {
-                                tmp.GetType().GetProperty(nameParts[i - 2]).SetValue(tmp, obj);
+                                Type t = tmp.GetType();
+                                PropertyInfo valueProperty = t.GetProperty(nameParts[i - 2]);
+                                valueProperty?.SetValue(tmp, obj);
                             }
                         }
                     }

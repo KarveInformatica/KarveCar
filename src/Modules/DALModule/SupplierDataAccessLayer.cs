@@ -10,11 +10,9 @@ using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
-using EnvConfig = KarveCommon.Generic.EnvironmentConfig;
 using NLog;
 namespace DataAccessLayer
 {
@@ -251,7 +249,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList)
         {
-            DataSet set = await _executor.AsyncDataSetLoadBatch(queryList);
+            DataSet set = await _executor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
             string supplierId = GetNewId();
             for (int i = 0; i < set.Tables.Count; ++i)
             {
@@ -323,20 +321,10 @@ namespace DataAccessLayer
             DataSet summary = await _executor.AsyncDataSetLoad(str).ConfigureAwait(false);
             return summary;
         }
-
-        public DataSet GetSuppliersSummaryPaged(long startPos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataSet> GetAsyncSuppliersSummaryPaged()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public async Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList)
         {
-            DataSet summary = await _executor.AsyncDataSetLoadBatch(queryList);
+            DataSet summary = await _executor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
             return summary;
         }
 
@@ -390,24 +378,10 @@ namespace DataAccessLayer
             IEnumerable<SupplierSummaryDto> queryAsync = null;
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
+                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
             }
             return queryAsync;
         }
-        /// <summary>
-        ///  FIXME find a the correct algorithm for this.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<ISupplierData>> GetAsyncSupplierCollection()
-        {
-            IEnumerable<ISupplierData> supplierDatas = null;
-            IDbConnection connection = _executor.Connection;
-            if (connection.State != ConnectionState.Open)
-            {
-                
-            }
-       
-            return supplierDatas;
-        }
+        
     }
 }
