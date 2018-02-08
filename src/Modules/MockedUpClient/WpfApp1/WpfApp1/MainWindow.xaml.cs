@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views.Clients
+namespace WpfApp1
 {
     /// <summary>
-    /// Interaction logic for DriverDataUserControl.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class DriverDataUserControl : UserControl
+    public partial class MainWindow : Window
     {
-        public DriverDataUserControl()
+        public MainWindow()
         {
             InitializeComponent();
         }

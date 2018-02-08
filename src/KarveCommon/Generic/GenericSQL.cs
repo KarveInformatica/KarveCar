@@ -103,6 +103,28 @@ namespace KarveCommon.Generic
                                                   "LEFT OUTER JOIN PAIS " +
                                                   "ON PAIS.SIGLAS = CLIENTES1.NACIOPER";
 
+        public const string ExtendedClientsSummaryQuery = "select NUMERO_CLI as Code, " +
+                                                  "NOMBRE as Name, " +
+                                                  "NIF as Nif," +
+                                                  "DIRECCION as Direction, " +
+                                                  "POBLACION as City, " +
+                                                  "TARNUM as NumberCreditCard, "+
+                                                  "TARTI as CreditCardType, " +
+                                                  "CONTABLE as AccountableAccount, "+
+                                                  "CP as Zip, "+
+                                                  "SECTOR as Sector, " +
+                                                  "PROVINCIA.PROV as Province, " +
+                                                  "PAIS.PAIS as Country, " +
+                                                  "TELEFONO as Phone, " +
+                                                  "OFICINA as Oficina, " +
+                                                  "VENDIDOR as Vendidor, " +
+                                                  "ALTA as Falta, " +
+                                                  "MOVIL as Movil " +
+                                                  "from CLIENTES1 " +
+                                                  "LEFT OUTER JOIN PROVINCIA " +
+                                                  "ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA " +
+                                                  "LEFT OUTER JOIN PAIS " +
+                                                  "ON PAIS.SIGLAS = CLIENTES1.NACIOPER";
         public const string BanksSql = "select * from banco";
     }
 }

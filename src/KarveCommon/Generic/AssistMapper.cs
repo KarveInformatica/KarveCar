@@ -37,7 +37,7 @@ namespace KarveCommon.Generic
             Func<object, Task<IEnumerable<DataTransfer>>> transfer = null;
 
             var value = _assitMapper.TryGetValue(name, out transfer);
-            var emptyValue = new ObservableCollection<DataTransfer>();
+            var emptyValue = new List<DataTransfer>();
             if (value)
             {
                 return await transfer.Invoke(arg);

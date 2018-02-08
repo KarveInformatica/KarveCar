@@ -683,7 +683,7 @@ namespace DataAccessLayer.Model
                     }
                     catch (System.Exception ex)
                     {
-                        retValue = false;
+                        
                         logger.Info("Cannot open database connection while saving " + ex.Message);
                         throw new CommissionAgentException(ex.Message);
                     }
@@ -845,10 +845,7 @@ namespace DataAccessLayer.Model
                     catch (TransactionException ex)
                     {
                         logger.Error("Transaction scope error during deleting data.");
-
-                        transactionScope.Dispose();
-                         
-                        return retValue;
+                        throw  new DataLayerException(ex.Message, ex);
                     }
                     catch (System.Exception ex)
                     {

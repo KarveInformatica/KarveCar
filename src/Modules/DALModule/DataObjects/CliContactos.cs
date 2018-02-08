@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a CliContactos.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
-	public class CliContactos 
-	{
-	
+	[Table("CliContactos")]
+	public class CliContactos
+    { 
 	/// <summary>
     ///  Set or get the ccoIdContacto property.
     /// </summary>
-    
+           
+        [Key]
 		public string ccoIdContacto { get; set; }
  
 	/// <summary>

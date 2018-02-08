@@ -12,19 +12,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace MasterModule.Views
 {
     /// <summary>
     /// Interaction logic for Clients.xaml
     /// </summary>
+    ///
     public partial class ClientsInfoView : UserControl
     {
+        private Stopwatch watch = new Stopwatch();
         public ClientsInfoView()
         {
             try
             {
+                watch.Start();
                 InitializeComponent();
+                watch.Stop();
+                long elapsed = watch.ElapsedMilliseconds;
+                
             }
             catch (Exception e)
             {

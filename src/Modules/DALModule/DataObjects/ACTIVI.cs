@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ACTIVI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("ACTIVI")]
 	public class ACTIVI 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_ACTIVI property.
     /// </summary>
-    
+        [Key]
 		public string NUM_ACTIVI { get; set; }
  
 	/// <summary>

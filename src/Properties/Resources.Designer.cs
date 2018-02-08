@@ -205,6 +205,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter Search Term.
+        /// </summary>
+        public static string EnterSearchTerm {
+            get {
+                return ResourceManager.GetString("EnterSearchTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inicio.
         /// </summary>
         public static string lrapmnInicio {
@@ -3324,6 +3333,15 @@ namespace KarveCar.Properties {
         public static string rmnbtnMaestrosComisionistas {
             get {
                 return ResourceManager.GetString("rmnbtnMaestrosComisionistas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         

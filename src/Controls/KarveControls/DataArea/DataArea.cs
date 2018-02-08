@@ -1,30 +1,39 @@
-﻿using KarveControls.Generic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
+using KarveControls.Generic;
+using Xceed.Wpf.Toolkit;
+using System.Text.RegularExpressions;
 
 namespace KarveControls
 {
-    /// <summary>
-    /// Interaction logic for DataArea.xaml
-    /// </summary>
-    public partial class DataArea : UserControl
+    [TemplatePart(Name = "PART_AreaTitle", Type = typeof(GroupBox))]
+    [TemplatePart(Name = "PART_SearchTerm", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_TextField", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_SearchButton", Type = typeof(Button))]
+    [TemplatePart(Name = "PART_DataAreaText", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_EditorText", Type = typeof(MultiLineTextEditor))]
+    public class DataArea: TextBox
     {
         private double _dataAreaWidth;
         private string _dataAreaLabel;
-       
         private bool _dataAreaChanged = false;
         private object _itemSource;
         private string _DataArea = string.Empty;
         private string _previousDataArea = string.Empty;
+        private MultiLineTextEditor _editorText;
+        private Button _searchButton;
 
-
+        static DataArea()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DataArea), new FrameworkPropertyMetadata(typeof(DataArea)));
+        }
         /// <summary>
         /// Routed Event fired when any change in data field happen.
         /// </summary>
@@ -36,21 +45,78 @@ namespace KarveControls
                 typeof(DataArea));
 
         /// <summary>
-        ///  
+        ///  Command to be executed when  a data aread changes
         /// </summary>
         public static DependencyProperty ItemChangedCommandDependencyProperty = DependencyProperty.
-            Register("ItemChangedCommand", 
-            typeof(ICommand), 
-            typeof(DataArea));
+            Register("ItemChangedCommand",
+                typeof(ICommand),
+                typeof(DataArea));
 
         /// <summary>
         ///  Event triggered when a data field changes.
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            get { return (ICommand) GetValue(ItemChangedCommandDependencyProperty); }
+            get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
             set { SetValue(ItemChangedCommandDependencyProperty, value); }
         }
+
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
+        public string SearchTerm
+        {
+            get { return (string)GetValue(SearchTermDependencyProperty); }
+            set { SetValue(SearchTermDependencyProperty, value); }
+        }
+        /// <summary>
+        ///  Dependency property used for storing a search term.
+        /// </summary>
+        public static DependencyProperty SearchTermDependencyProperty = DependencyProperty.
+            Register("SearchTerm",
+                typeof(string),
+                typeof(DataArea));
+
+
+        /// <summary>
+        ///  Data area.
+        /// </summary>
+        public DataArea()
+        {
+            
+            _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+            if (_editorText != null)
+            {
+                _editorText.LostFocus += EditorTextOnLostFocus;
+                _editorText.GotFocus += EditorTextOnGotFocus;
+            }
+            _searchButton = GetTemplateChild("PART_SearchButton") as Button;
+            if (_searchButton != null)
+            {
+                _searchButton.Click += OnSearchTerm;
+            }
+        }
+
+
+        private void OnSearchTerm(object sender, RoutedEventArgs routedEventArgs)
+        {
+            MultiLineTextEditor editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+            if (editorText != null)
+            {
+
+                var termToFind = GetValue(SearchTermDependencyProperty) as string;
+                if (termToFind != null)
+                {
+                    Match match = Regex.Match(editorText.Text, termToFind);
+                    if (match.Success)
+                    {
+                        
+                    }
+                }
+
+            }
+        }
+
         /// <summary>
         ///  Event triggered when a data field changes.
         /// </summary>
@@ -96,7 +162,7 @@ namespace KarveControls
 
 
         #endregion
-        
+
         #region DataAreaTitle
         public static readonly DependencyProperty DataAreaTitleDependencyProperty =
             DependencyProperty.Register(
@@ -122,48 +188,15 @@ namespace KarveControls
         }
         private void OnDateAreaTitleChanged(DependencyPropertyChangedEventArgs e)
         {
-            this.GBox.Header = e.NewValue;
-        }
-
-        #endregion
-        
-        #region IsReadOnly
-        /// <summary>
-        ///  Readonly dependency property for the control.
-        /// </summary>
-        public static readonly DependencyProperty IsReadOnlyDependencyProperty =
-            DependencyProperty.Register(
-                "IsReadOnly",
-                typeof(bool),
-                typeof(DataArea),
-                new PropertyMetadata(false, IsReadOnlyDependencyPropertyChange));
-
-        private static void IsReadOnlyDependencyPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
+            GroupBox groupBox = GetTemplateChild("PART_AreaTitle") as GroupBox;
+            if (groupBox != null)
             {
-                control.OnIsReadOnlyChanged(e);
+                groupBox.Header = e.NewValue;
             }
         }
 
-        private void OnIsReadOnlyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            bool value = Convert.ToBoolean(e.NewValue);
-            if (value)
-            {
-                this.IsReadOnly=value;
-            }
-        }
-        /// <summary>
-        ///  It is a read only control.
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get { return (bool)GetValue(IsReadOnlyDependencyProperty); }
-            set { SetValue(IsReadOnlyDependencyProperty, value); }
-        }
         #endregion
+
         #region DataArea
         /// <summary>
         ///  Path of the control.
@@ -194,16 +227,26 @@ namespace KarveControls
         /// <summary>
         /// CheckAndAssignText.
         /// </summary>
-        /// <param name="sourceNew"></param>
-        /// <param name="path"></param>
+        /// <param name="sourceNew">Property to be assigned</param>
+        /// <param name="path">Path of the property.</param>
         private void CheckAndAssignText(object sourceNew, string path)
         {
-            path = "Value." + path;
+            // first try without the value part
             string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
-            if (!string.IsNullOrEmpty(propValue))
+            if (string.IsNullOrEmpty(propValue))
             {
-              TextContent = propValue;
+                path = "Value." + path;
+                propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
+                if (!string.IsNullOrEmpty(propValue))
+                {
+                    TextContent = propValue;
+                }
             }
+            else
+            {
+                TextContent = propValue;
+            }
+
         }
         private void OnDataAreaPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -244,8 +287,15 @@ namespace KarveControls
 
         private void OnLabelTextChanged(DependencyPropertyChangedEventArgs e)
         {
-            string value = e.NewValue as string;
-            LabelComponent.Content = value;
+            TextBlock block = GetTemplateChild("PART_DataAreaText") as TextBlock;
+            if (block != null)
+            {
+                string value = e.NewValue as string;
+                if (value != null)
+                {
+                    block.Text = value;
+                }
+            }
         }
 
         #endregion
@@ -276,7 +326,15 @@ namespace KarveControls
         private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            DataAreaWidth = Convert.ToDouble(value);
+            if (value != null)
+            {
+                DataAreaWidth = Convert.ToDouble(value);
+                TextBox searchTerm = GetTemplateChild("PART_SearchTerm") as TextBox;
+                if (searchTerm != null)
+                {
+                    searchTerm.Width = DataAreaWidth - 80;
+                }
+            }
         }
         #endregion
         #region LabelVisible
@@ -310,18 +368,60 @@ namespace KarveControls
         private void OnLabelVisibleChanged(DependencyPropertyChangedEventArgs e)
         {
             bool isVisible = Convert.ToBoolean(e.NewValue);
-            if (isVisible)
+            TextBlock block = GetTemplateChild("PART_DataAreaText") as TextBlock;
+            if (block != null)
             {
-                this.LabelComponent.Visibility = Visibility.Visible;
+                if (isVisible)
+                {
+                    block.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    block.Visibility = Visibility.Collapsed;
+                }
+                string value = e.NewValue as string;
+                if (value != null)
+                {
+                    block.Text = value;
+                }
             }
-            else
-            {
-                LabelComponent.Visibility = Visibility.Collapsed;
-            }
+      
         }
 
         #endregion
-      
+
+        #region SearchBoxHeight
+        /// <summary>
+        ///  SearchBoxHeight dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SearchBoxHeightDependencyProperty =
+            DependencyProperty.Register(
+                "SearchBoxHeight",
+                typeof(double),
+                typeof(DataArea),
+                new PropertyMetadata(30D));
+        public double SearchBoxHeight
+        {
+            get { return (double)GetValue(SearchBoxHeightDependencyProperty); }
+            set { SetValue(SearchBoxHeightDependencyProperty, value); }
+        }
+        #endregion
+
+        #region SearchBoxWidth
+
+        public static readonly DependencyProperty SearchBoxWidthDependencyProperty =
+            DependencyProperty.Register(
+                "SearchBoxWidth",
+                typeof(double),
+                typeof(DataArea),
+                new PropertyMetadata(150D));
+        public double SearchBoxWidth
+        {
+            get { return (double)GetValue(SearchBoxWidthDependencyProperty); }
+            set { SetValue(SearchBoxWidthDependencyProperty, value); }
+        }
+        #endregion
+
         /// <summary>
         ///  Text content dependency property
         /// </summary>
@@ -341,9 +441,6 @@ namespace KarveControls
             get { return (string)GetValue(TextContentDependencyProperty); }
             set { SetValue(TextContentDependencyProperty, value); }
         }
-
-        
-
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataArea control = d as DataArea;
@@ -355,52 +452,48 @@ namespace KarveControls
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            this.EditorText.Text = value;
-            _DataArea = EditorText.Text;
+            MultiLineTextEditor editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+            if ((editorText != null) &&  (value!=null))
+            {
+                editorText.Text = value;
+                _DataArea = value;
+            }
         }
         #endregion
-        /// <summary>
-        ///  Data area.
-        /// </summary>
-        public DataArea()
-        {
-            Stopwatch startStopwatch = new Stopwatch();
-            startStopwatch.Start();
-            InitializeComponent();
-            this.DataAreaLayout.DataContext = this;
-            this.EditorText.LostFocus +=EditorTextOnLostFocus;
-            this.EditorText.GotFocus+=EditorTextOnGotFocus;
-            startStopwatch.Stop();
-            long console = startStopwatch.ElapsedMilliseconds;
-         //   Console.WriteLine(console);
-        }
 
+        
         private void EditorTextOnGotFocus(object sender, RoutedEventArgs routedEventArgs)
         {
             _dataAreaChanged = false;
             RaiseEvent(routedEventArgs);
         }
 
-
         private void EditorTextOnLostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(_previousDataArea) && (string.IsNullOrEmpty(this._DataArea)))
                 return;
+            if (_editorText == null)
+            {
+                _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+            }
+            if (_editorText == null)
+                return;
+
             // ok 
-            _dataAreaChanged = _previousDataArea != EditorText.Text;
-            
+            _dataAreaChanged = _previousDataArea != _editorText.Text;
+
             if (_dataAreaChanged)
             {
                 _previousDataArea = _DataArea;
-                _DataArea = EditorText.Text;
-                if (EditorText.Text != null)
+                _DataArea = _editorText.Text;
+                if (_editorText.Text != null)
                 {
                     DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs(DataAreaChangedEvent);
-                    ev.FieldData = EditorText.Text;
+                    ev.FieldData = _editorText.Text;
                     ComponentFiller filler = new ComponentFiller();
-                    var dataObject=DataSource;
+                    var dataObject = DataSource;
 
-                    filler.FillDataObject(EditorText.Text, DataSourcePath, ref dataObject);
+                    filler.FillDataObject(_editorText.Text, DataSourcePath, ref dataObject);
                     DataSource = dataObject;
 
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
@@ -408,11 +501,11 @@ namespace KarveControls
                     valueDictionary["Field"] = DataSourcePath;
                     valueDictionary["DataTable"] = DataSource;
                     valueDictionary["DataObject"] = DataSource;
-                    valueDictionary["ChangedValue"] = EditorText.Text;
-                    
+                    valueDictionary["ChangedValue"] = _editorText.Text;
+
                     ev.ChangedValuesObjects = valueDictionary;
 
-                    if (ItemChangedCommand!=null)
+                    if (ItemChangedCommand != null)
                     {
                         ICommand ex = ItemChangedCommand;
                         if (ex.CanExecute(valueDictionary))
@@ -425,12 +518,6 @@ namespace KarveControls
                 }
             }
         }
-
-        private void EditorTextOnDataContextChanged(object sender, RoutedEventArgs e)
-        {
-            _dataAreaChanged = true;
-            RaiseEvent(e);
-        }
         /// <summary>
         ///  Width do the data area.
         /// </summary>
@@ -439,9 +526,19 @@ namespace KarveControls
             get { return _dataAreaWidth; }
             set
             {
-             _dataAreaWidth = value;
-             EditorText.Width = _dataAreaWidth;
-            }
+                _dataAreaWidth = value;
+                _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+                TextBox searchTerm = GetTemplateChild("PART_SearchTerm") as TextBox;
+                if (_editorText != null)
+                {
+                    _editorText.Width = _dataAreaWidth;
+                }
+                if (searchTerm != null)
+                {
+                    searchTerm.Width = _dataAreaWidth - 80;
+                }
+
+                            }
         }
         /// <summary>
         ///  Label of the area
@@ -455,8 +552,15 @@ namespace KarveControls
             set
             {
                 _dataAreaLabel = value;
-                 LabelComponent.Content = value;
+                var label = GetTemplateChild("PART_DataAreaText") as TextBlock;
+                if (label != null)
+                {
+                    label.Width = _dataAreaWidth;
+                    label.Text = value;
+                }
+                
             }
         }
+
     }
 }

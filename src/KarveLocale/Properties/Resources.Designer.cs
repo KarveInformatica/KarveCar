@@ -88,6 +88,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bloqueado.
+        /// </summary>
+        public static string Bloqueado {
+            get {
+                return ResourceManager.GetString("Bloqueado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Claves de presuppuesto.
         /// </summary>
         public static string BudgetKey_ClaveDePresuppuesto {
@@ -381,6 +390,15 @@ namespace KarveLocale.Properties {
         public static string EmiteYPagaEmpresa {
             get {
                 return ResourceManager.GetString("EmiteYPagaEmpresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Busqueda.
+        /// </summary>
+        public static string EnterSearchTerm {
+            get {
+                return ResourceManager.GetString("EnterSearchTerm", resourceCulture);
             }
         }
         
@@ -1524,6 +1542,24 @@ namespace KarveLocale.Properties {
         public static string lintraco {
             get {
                 return ResourceManager.GetString("lintraco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lista conductores.
+        /// </summary>
+        public static string ListaConductores {
+            get {
+                return ResourceManager.GetString("ListaConductores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lista de contactos.
+        /// </summary>
+        public static string ListaDeContactos {
+            get {
+                return ResourceManager.GetString("ListaDeContactos", resourceCulture);
             }
         }
         
@@ -5407,6 +5443,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moroso.
+        /// </summary>
+        public static string Moroso {
+            get {
+                return ResourceManager.GetString("Moroso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El código ya existe.
         /// </summary>
         public static string msgEditarRegistroCodigoRepetido {
@@ -5610,6 +5655,15 @@ namespace KarveLocale.Properties {
         public static string NationalId {
             get {
                 return ResourceManager.GetString("NationalId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nif Extranjero.
+        /// </summary>
+        public static string NifExtranjero {
+            get {
+                return ResourceManager.GetString("NifExtranjero", resourceCulture);
             }
         }
         

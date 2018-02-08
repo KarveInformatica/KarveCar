@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MasterModule.Views.Clients.DriverDataUserControl"
+﻿<UserControl x:Class="MasterModule.Views.Clients.DriverLicenseView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,57 +9,8 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
              d:DesignHeight="900" d:DesignWidth="800">
     <Grid>
-        <GroupBox Header="Conductores">
+                    <GroupBox Header="Conductores">
             <Grid x:Name="Layout">
-                <!--
-                <i:Interaction.Behaviors>
-                    <ei:DataStateBehavior Binding="{Binding ShowDrivingDetails}" 
-                                  Value="True" 
-                                  TrueState="ShowDrivingLicenceDetail" FalseState="HideDrivingLicenceDetail"/>
-                </i:Interaction.Behaviors>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="StatusStates">
-                        <VisualStateGroup.Transitions>
-                            <VisualTransition From="ShowDrivingLicenceDetail" To="HideDrivingLicenceDetail">
-                                <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DrivingLicenseLayout">
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <Visibility>Collapsed</Visibility>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualTransition>
-                            <VisualTransition From="HideDrivingLicenceDetail" To="ShowDrivingLicenceDetail">
-                                <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DrivingLicenseLayout">
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <Visibility>Visible</Visibility>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </VisualTransition>
-                        </VisualStateGroup.Transitions>
-                        <VisualState x:Name="ShowDrivingLicenceDetail"/>
-                        <VisualState x:Name="HideDrivingLicenceDetail">
-                            <Storyboard>
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DrivingLicenseLayout">
-                                    <DiscreteObjectKeyFrame KeyTime="0">
-                                        <DiscreteObjectKeyFrame.Value>
-                                            <Visibility>Visible</Visibility>
-                                        </DiscreteObjectKeyFrame.Value>
-                                    </DiscreteObjectKeyFrame>
-                                </ObjectAnimationUsingKeyFrames>
-
-                            </Storyboard>
-
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-                -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -72,18 +23,18 @@
                                     ButtonImage="/MasterModule;component/Images/search.png"
                                     LabelText="{Binding ConductorDe, Source={StaticResource ResourceLanguage}}"
                                     DataFieldFirst = "CLIENTEFAC"
-                                    AssistTableName = "CLIENTES"
-                                    MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    AssistProperties="{Binding DriverAssistProperties, Mode=OneTime}"
+                                    AssistTableName = "CLIENT_DRIVER"
+                                    ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    MagnifierCommand="{Binding AssistCommand}" 
+                                    AssistProperties="Code,Name,Direction,Zip,City,Telefono,CellPhone,Email,CreditCardType,NumberCreditCard,AccountableAccount"
                                     IsReadOnlySecond="True"   
-                                    ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneTime}"                                                 
                                     LabelTextWidth="80"
                                     TextContentFirstWidth="80"
                                     TextContentSecondWidth="150"
-                                    SourceView="{Binding Path=Driver1Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    SourceView="{Binding Path=ClientHelper.Drivers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <CheckBox Content="Sin Permiso de conducir"
-                                                          Margin="10,0,0,43.5"
+                                                         Margin="10,0,0,0"
                                                           Height="30" 
                                                          Grid.Row="1"  
                                                          KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
@@ -132,7 +83,7 @@
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="En"
                                                   LabelTextWidth="30"
-                                                  Margin="0,12.571,0,7.571"
+                                                  Margin="0"
                                                   Height="30"                                                    
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
@@ -142,7 +93,7 @@
                         <DockPanel Grid.Row="2" x:Name="BirthDate">
                             <KarveControls:DataDatePicker DockPanel.Dock ="Left" LabelText="{Binding BirthDate, Source={StaticResource ResourceLanguage}}"
                                                   LabelTextWidth="138"
-                                                              Height="50" MinWidth="250"
+                                                              Height="50" 
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FENAC" Margin="0,0.071" Width="290.274" />
                             
@@ -185,7 +136,6 @@
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="NRC"
                                                   LabelTextWidth="30"
-                                                  Margin="0,12.571,0,7.571"
                                                   Height="30"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"

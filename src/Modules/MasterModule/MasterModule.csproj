@@ -269,8 +269,8 @@
     <Compile Include="Views\Clients\CompanyDrivers.xaml.cs">
       <DependentUpon>CompanyDrivers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DriverDataUserControl.xaml.cs">
-      <DependentUpon>DriverDataUserControl.xaml</DependentUpon>
+    <Compile Include="Views\Clients\DriverLicenseView.xaml.cs">
+      <DependentUpon>DriverLicenseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Clients\GeneralInfoView.xaml.cs">
       <DependentUpon>GeneralInfoView.xaml</DependentUpon>
@@ -436,7 +436,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DriverDataUserControl.xaml">
+    <Page Include="Views\Clients\DriverLicenseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

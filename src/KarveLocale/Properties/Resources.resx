@@ -2562,4 +2562,22 @@
   <data name="NationalId" xml:space="preserve">
     <value>Documento de Identidad</value>
   </data>
+  <data name="ListaDeContactos" xml:space="preserve">
+    <value>Lista de contactos</value>
+  </data>
+  <data name="ListaConductores" xml:space="preserve">
+    <value>Lista conductores</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Busqueda</value>
+  </data>
+  <data name="Moroso" xml:space="preserve">
+    <value>Moroso</value>
+  </data>
+  <data name="Bloqueado" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="NifExtranjero" xml:space="preserve">
+    <value>Nif Extranjero</value>
+  </data>
 </root>

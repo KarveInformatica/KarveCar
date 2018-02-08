@@ -2495,4 +2495,13 @@
   <data name="NationalId" xml:space="preserve">
     <value>Documento di Identita</value>
   </data>
+  <data name="ListaConductores" xml:space="preserve">
+    <value>Lista di Conducenti</value>
+  </data>
+  <data name="ListaDeContactos" xml:space="preserve">
+    <value>Lista de Contactos</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

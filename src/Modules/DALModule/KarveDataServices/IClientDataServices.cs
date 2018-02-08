@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
@@ -45,5 +46,13 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         string GetNewId();
+        /// <summary>
+        ///  Get the summary of clients.
+        /// </summary>
+        /// <param name="clientsSummaryQuery">String of a client data to load.</param>
+        /// <returns>A list of enumerable clients.</returns>
+        Task<IEnumerable<ClientSummaryDto>> GetClientSummaryDo(string clientsSummaryQuery);
+
     }
+
 }

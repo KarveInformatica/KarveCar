@@ -10,7 +10,188 @@
 <!--
     <common:BillingIntervalConverter x:Key="BillingConverter"/>
 -->
+    <DataTemplate x:Key="BankAccountData">
+        
+    </DataTemplate>
+    <DataTemplate x:Key="Risk">
+        <Grid Margin="10,10,0,0"
+              VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
+            <KarveControls:DataField x:Name="Risk"   
+                                     LabelText="Riesgo" 
+                                     LabelVisible="True" 
+                                     LabelTextWidth="103"
+                                     Height="30"
+                                     Grid.Column="0"
+                                     DataSourcePath="RIESGOIMP" 
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextContentWidth="200"/>
+            <Syncfusion:CurrencyTextBox 
+                x:Name="CurrentBox" Grid.Column="0" 
+                CurrencyGroupSeparator="," 
+                CurrencyDecimalSeparator="." 
+                CurrencySymbol="€" 
+                HorizontalAlignment="Left" Height="23"  
+                Text="€" 
+                Value="{Binding DataObject.RIESGO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay}"
+                KarveControls:ControlExt.DataSourcePath="RIESGO"
+                VerticalAlignment="Top" Width="100" Margin="312,3,0,0" Grid.ColumnSpan="2"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="ClientBilling">
+        <Grid x:Name="BillingLayout">
+            <Grid.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <ContentControl ContentTemplate="{StaticResource Risk}" Grid.Row="0"></ContentControl>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <KarveControls:DataField x:Name="ImportePendiente"   
+                                         LabelText="Importe Pendiente" LabelVisible="True" 
+                                         LabelTextWidth="120"
+                                         TextContent="{Binding PendentSum}"
+                                         Height="35"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         IsReadOnly="False"
+                                         TextContentWidth="200"/>
+                <KarveControls:DataField x:Name="CompanyCode"   
+                                         LabelText="Codigo Sociedad" 
+                                         LabelVisible="True" 
+                                         LabelTextWidth="112"
+                                         DataSourcePath="COD_SOCIEDAD"
+                                         Height="35"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         TextContentWidth="200"/>
+
+                <KarveControls:DualFieldSearchBox
+                    LabelText ="Forma de Pago"
+                    LabelVisible="True"
+                    LabelTextWidth="100"
+                    DataFieldFirst="FPAGO"
+                    AssistDataFieldFirst="CODIGO" 
+                    AssistDataFieldSecond="NOMBRE"
+                    AssistTableName="CLIENT_PAYMENT_FORM"
+                    AssistProperties="Codigo,Nombre"
+                    TextContentFirstWidth="100"
+                    TextContentSecondWidth="200"
+                    MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                    ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    SourceView="{Binding ClientHelper.ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                </KarveControls:DualFieldSearchBox>
+
+
+            </StackPanel>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="PLAZO"
+                                             LabelVisible="False"
+                                             TextContentWidth="50"
+                                             Margin="0,5,0,0"
+                                             Height="30"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="PLAZO2"
+                                             LabelVisible="False"
+                                             TextContentWidth="50"
+                                             Height="30"
+                                             Margin="0,5,0,0"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="PLAZO2"
+                                             LabelVisible="False"
+                                             Margin="0,5,0,0"
+                                             TextContentWidth="50"
+                                             Height="30"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+                    <TextBlock Text="{Binding ldiadepago, Source={StaticResource ResourceLanguage}}" Margin="5,0,0,5"></TextBlock>
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="DIA"
+                                             Margin="0,5,0,0"
+                                             LabelVisible="False"
+                                             TextContentWidth="50"
+                                             Height="30"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="DIA2"
+                                             Margin="0,5,0,0"
+                                             LabelVisible="False"
+                                             TextContentWidth="50"
+                                             Height="30"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+
+
+                    <KarveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             DataSourcePath="DIA3"
+                                             Margin="0,5,0,0"
+                                             LabelVisible="False"
+                                             TextContentWidth="50"
+                                             Height="30"
+                                             ItemChangedCommand="{Binding ItemChangedCommand}">
+
+                    </KarveControls:DataField>
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+            <KarveControls:DataField Grid.Row="3" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     DataSourcePath="DTO"
+                                     Margin="0,5,0,0"
+                                     LabelVisible="True"
+                                     LabelText="{Binding ldescuento, Source={StaticResource ResourceLanguage}}"
+                                     LabelTextWidth="90"
+                                     TextContentWidth="100"
+                                     Height="30"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}">
+
+            </KarveControls:DataField>
+
+
+
+        </Grid>
+
+    </DataTemplate>
+    
+  
+
+    
     <DataTemplate x:Key="VisitsGrid">
         <ScrollViewer>
             <Grid>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -131,8 +132,10 @@ namespace MasterModule.ViewModels
         private async void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
+            Stopwatch watch = new Stopwatch();
             if (rowView != null)
             {
+                watch.Start();
                 DataRow row = rowView.Row;
                 string name = row[ClientNameColumn] as string;
                 string clientId = row[ClientColumnCode] as string;
@@ -143,10 +146,13 @@ namespace MasterModule.ViewModels
                 var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
                 _regionManager.RequestNavigate("TabRegion", uri);
                 IClientData provider = await _clientDataServices.GetAsyncClientDo(clientId);
+                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Data loaded: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
                 currentPayload.PrimaryKeyValue = clientId;
                 currentPayload.Sender = _mailBoxName;
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Client Tab: " + clientId);
+                watch.Stop();
+                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Client Tab: " + clientId+ "Elapsed time: "+watch.ElapsedMilliseconds);
+                
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
             }
         }

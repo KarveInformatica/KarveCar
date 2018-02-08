@@ -7,18 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left">
+            <StackPanel>
+                <TextBlock Text="{Binding ListaConductores, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                <Image HorizontalAlignment="Left" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="280"></Image>
+            </StackPanel>
+        </Button>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
             <KarveControls:DataArea x:Name="ContentArea"
-                                            DataAreaTitle="Lista de contactos"
-                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}"
-                                        LabelText="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                   
+                                            DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
+                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}" TextChanged="ContentArea_TextChanged">
             </KarveControls:DataArea>
-            <Button Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left">
-                <StackPanel>
-                    <TextBlock>Lista conductores</TextBlock>
-                    <Image HorizontalAlignment="Left" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="280"></Image>
-                </StackPanel>
-            </Button>
+       
         </StackPanel>
     </Grid>
 </UserControl>

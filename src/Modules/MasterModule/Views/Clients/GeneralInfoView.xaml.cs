@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Diagnostics;
 namespace MasterModule.Views.Clients
 {
     /// <summary>
@@ -22,7 +22,12 @@ namespace MasterModule.Views.Clients
     {
         public GeneralInfoView()
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             InitializeComponent();
+            watch.Stop();
+            var elapsed = watch.ElapsedMilliseconds;
+            var times = elapsed;
         }
     }
 }

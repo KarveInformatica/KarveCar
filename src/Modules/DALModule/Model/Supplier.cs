@@ -11,10 +11,8 @@ using DataAccessLayer.DataObjects;
 using DesignByContract;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
-using KarveDapper;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
-using Model;
 using AutoMapper;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
@@ -361,6 +359,7 @@ namespace DataAccessLayer.Model
                     catch (System.Exception e)
                     {
                         transactionScope.Dispose();
+                        throw new DataLayerException(e.Message, e);
                     }
                     finally
                     {
@@ -436,6 +435,7 @@ namespace DataAccessLayer.Model
 
                 {
                     int value = await connection.InsertAsync(delega);
+                   
                 }
                 catch (System.Exception e)
                 {

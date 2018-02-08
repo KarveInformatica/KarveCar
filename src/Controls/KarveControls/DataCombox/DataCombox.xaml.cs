@@ -20,7 +20,6 @@ namespace KarveControls
         private ObservableCollection<string> _currentItems = new ObservableCollection<string>();
         private DataTable _itemSource = new DataTable();
         private string _dataField = "";
-        private ComponentFiller _componentFiller;
         private string _tableName = "";
         private DataType _dataAllowed;
         private ICommand _selectionChangedCommand;
@@ -147,7 +146,8 @@ namespace KarveControls
             {
                 if (table != null)
                 {
-                    _componentFiller.FillComboxBox(table, _dataField, ref this.KarveComboBox);
+                    var componentFiller = new ComponentFiller();
+                    componentFiller.FillComboxBox(table, _dataField, ref this.KarveComboBox);
                 }
             }
         }
@@ -211,7 +211,8 @@ namespace KarveControls
                     DataColumnCollection collection = _itemSource.Columns;
                     if (collection.Contains(_dataField))
                     {
-                        _componentFiller.FillComboxBox(_itemSource, _dataField, ref KarveComboBox);
+                        ComponentFiller componentFiller = new ComponentFiller();
+                        componentFiller.FillComboxBox(_itemSource, _dataField, ref KarveComboBox);
                     }
                 }
             }

@@ -18,7 +18,8 @@ namespace DataAccessLayer
         Spanish = 0, English, Portoguese, LatinSpanish, French, German, Catala, ChileanSpanish, Bulgarian, Italian
     }
     /// <summary>
-    ///  This is a locale data service.
+    ///  This is a locale data service. This is loacal data service for the database. 
+    ///  Currently is not used.
     /// </summary>
     internal sealed class LocaleDataService: ILocaleDataServices
     {
@@ -41,7 +42,7 @@ namespace DataAccessLayer
             {"pt-BR", 3},
             {"de-DE", 5}
         };
-        private INotifyTaskCompletion<IList<LocaleDataDto>> _initializationNotifier;
+       // private INotifyTaskCompletion<IList<LocaleDataDto>> _initializationNotifier;
         /// <summary>
         ///  Locale data service
         /// </summary>

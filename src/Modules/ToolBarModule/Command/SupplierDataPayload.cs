@@ -16,7 +16,7 @@ namespace ToolBarModule.Command
         private ISupplierDataServices _dataServices = null;
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
-        public event ErrorExecuting OnErrorExecuting;
+        public new event ErrorExecuting OnErrorExecuting;
 
         private Logger log = LogManager.GetCurrentClassLogger();
         
@@ -44,18 +44,20 @@ namespace ToolBarModule.Command
             bool result = false;
             bool isInsert = false;
             ISupplierData supplierData = payLoad.DataObject as ISupplierData;
-           
-            log.Log(LogLevel.Debug, "SDP:PobPago:"+ supplierData.Value.POB_PAGO);
-            // pre: DataServices and vehicle shall be present.
-            if (DataServices == null)
-            {
-                DataPayLoad nullDataPayLoad = new NullDataPayload();
-                return nullDataPayLoad;
-            }
             if (supplierData == null)
             {
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
+                return new DataPayLoad();
+            }
+
+            log.Log(LogLevel.Debug, "SDP:PobPago:"+ supplierData.Value.POB_PAGO);
+            // pre: DataServices and vehicle shall be present.
+
+            if (DataServices == null)
+            {
+                DataPayLoad nullDataPayLoad = new NullDataPayload();
+                return nullDataPayLoad;
             }
             var checkedSupplierData = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierData.Value.NUM_PROVEE);
             if (checkedSupplierData.Value == null)

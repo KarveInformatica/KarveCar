@@ -1568,4 +1568,10 @@
   <data name="VencimentoSeguro" xml:space="preserve">
     <value>Vencimento Seguro</value>
   </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Enter Search Term</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

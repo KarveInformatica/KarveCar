@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,12 @@ namespace MasterModule.Views.Clients
     {
         public OtherData()
         {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             InitializeComponent();
+            watch.Start();
+            var value = watch.ElapsedMilliseconds;
+         
         }
     }
 }

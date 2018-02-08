@@ -30,9 +30,8 @@ namespace KarveControls
                 typeof(string),
                 typeof(KarveSearchBox), new PropertyMetadata(string.Empty, OnFieldCollectionChange));
 
-
-        // <summary>
-        ///  SourceCollection. This is a collection of fields.
+        /// <summary>
+        /// Collection source.
         /// </summary>
         public static readonly DependencyProperty SourceCollectionDependencyProperty =
             DependencyProperty.Register(

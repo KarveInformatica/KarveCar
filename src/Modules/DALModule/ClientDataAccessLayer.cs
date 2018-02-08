@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
@@ -62,11 +62,34 @@ namespace DataAccessLayer
             {
                 return client;
             }
-            else
-            {
+            
                 return new NullClient();
-            }
         }
+        /// <summary>
+        ///  Get client summary
+        /// </summary>
+        /// <param name="clientsSummaryQuery">Query of the client summary.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<ClientSummaryDto>> GetClientSummaryDo(string clientsSummaryQuery)
+        {
+          
+            IEnumerable<ClientSummaryDto> summaryDtos = new List<ClientSummaryDto>();
+
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                try
+                {
+                    summaryDtos = await connection.QueryAsync<ClientSummaryDto>(clientsSummaryQuery);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return summaryDtos;
+        }
+
+
         public IClientData GetNewClientAgentDo(string code)
         {
             IClientData varClientData = new Client(_sqlExecutor);

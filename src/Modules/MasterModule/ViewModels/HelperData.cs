@@ -10,7 +10,6 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal class HelperData : BindableBase, IHelperData
     {
-        private IEnumerable<ProvinciaDto> _province;
 
         /// <summary>
         ///  Provincia Data Transfer Object.
@@ -70,7 +69,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Budget key data transfer objectg.
         /// </summary>
-        public IEnumerable<BudgetKeyDto> BudgetKey { get; set; }
+        public IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
         /// <summary>
         ///  Credit transfer object.
         /// </summary>
@@ -91,5 +90,17 @@ namespace MasterModule.ViewModels
         ///  Commissionagent dto.
         /// </summary>
         public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get ; set ; }
+        /// <summary>
+        ///  Rent usage.
+        /// </summary>
+        public IEnumerable<RentingUseDto> RentUsageDto { get; set; }
+        /// <summary>
+        /// Language usage.
+        /// </summary>
+        public IEnumerable<LanguageDto> LanguageDto { get; set; }
+        /// <summary>
+        ///  Gives you the list of drivers.
+        /// </summary>
+        public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
     }
 }

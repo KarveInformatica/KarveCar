@@ -35,12 +35,11 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical">
-            <TextBlock Text="Titolare" FontSize="10"></TextBlock>
-            
+            <TextBlock Text="Titular" FontSize="10"></TextBlock>
             <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="3">
-            <TextBlock  Text="Numero en la carta" FontSize="10"></TextBlock>
+            <TextBlock  Text="Numero" FontSize="10"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=DataObject.TARTINUM, Mode=TwoWay}" Width="242.963"></TextBox>
                 <Image Source="/KarveControls;component/Images/visa.png" Width="25"></Image>

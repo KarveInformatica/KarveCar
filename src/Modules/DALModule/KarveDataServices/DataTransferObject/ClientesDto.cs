@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 namespace KarveDataServices.DataTransferObject
@@ -6,6 +8,12 @@ namespace KarveDataServices.DataTransferObject
     [DataContract]
     public class ClientesDto: BaseDto
     {
+        public ClientesDto()
+        {
+            VisitsDto = new ObservableCollection<VisitsDto>();
+            ContactsDto = new ObservableCollection<ContactsDto>();
+            BranchesDto = new ObservableCollection<BranchesDto>();
+        }
         [DataMember]
         public string Numero { get; set; }
         [DataMember]
@@ -2445,6 +2453,19 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public Double? RIESGOIMP2 { get; set; }
+
+        /// <summary>
+        ///  Visit dto.
+        /// </summary>
+        public IEnumerable<VisitsDto> VisitsDto { get; set; }
+        /// <summary>
+        /// Contacts dto.
+        /// </summary>
+        public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        /// <summary>
+        /// BranchesDto
+        /// </summary>
+        public IEnumerable<BranchesDto> BranchesDto { get; set; }
 
     }
 }

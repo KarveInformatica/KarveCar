@@ -8,17 +8,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1175">
     <UserControl.Resources>
-      
-    </UserControl.Resources>
+            <ResourceDictionary>
+
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+
+            </ResourceDictionary>
+        </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <GroupBox Header="Facturacion">
-                    <local:ClientBilling></local:ClientBilling>
+                    <ContentControl ContentTemplate="{StaticResource ClientBilling}"></ContentControl>
                 </GroupBox>
                 <GroupBox Header="Periocidad de Facturacion">
                     <Grid>
@@ -95,8 +102,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Vertical">
-                                <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias" />
-                                <KarveControls:DataFieldCheckBox Content="No Censado" />
+                                <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="CORTA"
+                                                                 />
+                                <KarveControls:DataFieldCheckBox Content="No Censado"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="CORTA"
+                                                                 />
                                 <KarveControls:DataFieldCheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

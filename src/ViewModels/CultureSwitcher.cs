@@ -1,13 +1,9 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using System.Windows.Data;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using Prism.Commands;
-using Prism.Mvvm;
-using KarveDataServices;
 using KarveLocale;
 
 namespace KarveCar.ViewModels
@@ -23,21 +19,15 @@ namespace KarveCar.ViewModels
         private KarveLocale.Properties.Resources _resources;
 
         /// <summary>
-        ///  Object data providers
-        /// </summary>
-        private ObjectDataProvider _objectDataProvider;
-
-        /// <summary>
         ///  Configuration service
         /// </summary>
-        private IConfigurationService _configurationService;
+        private readonly IConfigurationService _configurationService;
 
+        private readonly IEventManager _eventManager;
         /// <summary>
-        /// Command service for the resources.
+        ///  Data object provider.
         /// </summary>
-        private ICommand _commandService;
-
-        private IEventManager _eventManager;
+        private ObjectDataProvider _objectDataProvider;
 
         /// <summary>
         ///  Constructor for the configuration service.
@@ -50,24 +40,17 @@ namespace KarveCar.ViewModels
         }
 
         /// <summary>
-        /// 
+        /// Command for changing the language
         /// </summary>
-        public ICommand ChangeLanguageCommand
-        {
-            get { return _commandService; }
-            set { _commandService = value; }
-        }
+        public ICommand ChangeLanguageCommand { get; set; }
 
         /// <summary>
         ///  This is a resource in Karve
         /// </summary>
         public KarveLocale.Properties.Resources Resources
         {
-            get { return _resources; }
-            set
-            {
-                _resources = value;
-            }
+            get => _resources; 
+            set => _resources = value;
         }
 
         /// <summary>
@@ -103,7 +86,10 @@ namespace KarveCar.ViewModels
             get { return _objectDataProvider; }
 
         }
-
+        /// <summary>
+        ///  Execute the culture part
+        /// </summary>
+        /// <param name="param">Parameter to change</param>
         public void Execute(object param)
         {
             OnChangeCommand(param);
@@ -116,7 +102,7 @@ namespace KarveCar.ViewModels
         public static void ChangeCulture(CultureInfo culture)
         {
             KarveLocale.Properties.Resources.Culture = culture;
-            // _o.Refresh();
+           
         }
     }
 }

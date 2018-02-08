@@ -74,7 +74,7 @@ namespace KarveDataServices
         /// <summary>
         /// Budget Keys.
         /// </summary>
-        IEnumerable<BudgetKeyDto> BudgetKey { get; set; }
+        IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
         /// <summary>
         /// ClientPaymentForm
         /// </summary>
@@ -83,7 +83,18 @@ namespace KarveDataServices
         /// InvoiceBlock
         /// </summary>
         IEnumerable<InvoiceBlockDto> InvoiceBlock { get; set; }
-   
+        /// <summary>
+        ///  Rent usage.
+        /// </summary>
+        IEnumerable<RentingUseDto> RentUsageDto { get; set; }
+        /// <summary>
+        ///  Language Dto
+        /// </summary>
+        IEnumerable<LanguageDto> LanguageDto { get; set; }
+        /// <summary>
+        ///  Drivers Dto.
+        /// </summary>
+        IEnumerable<ClientSummaryDto> DriversDto { get; set; }
     }
 
 }

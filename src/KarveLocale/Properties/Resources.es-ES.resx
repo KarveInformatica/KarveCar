@@ -2133,4 +2133,13 @@
   <data name="NationalId" xml:space="preserve">
     <value>Documento de Identidad</value>
   </data>
+  <data name="ListaConductores" xml:space="preserve">
+    <value>Lista de conductores</value>
+  </data>
+  <data name="ListaDeContactos" xml:space="preserve">
+    <value>Lista de contactos</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

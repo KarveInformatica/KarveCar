@@ -9,7 +9,6 @@ using Dapper;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
-using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -22,8 +21,8 @@ namespace DataAccessLayer
     /// </summary>
     internal class SupplierDataAccessLayer : AbstractDataAccessLayer, ISupplierDataServices
     {
-        private IConfigurationService _service;
-        private ISqlExecutor _executor;
+      
+        private readonly ISqlExecutor _executor;
         
         public const string SupplierTable1 = "PROVEE1";
         public const string SupplierTable2 = "PROVEE2";
@@ -41,8 +40,8 @@ namespace DataAccessLayer
                                               "CP_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6," +
                                               "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
 
-        private ISupplierData _currentSupplierData = null;
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+      
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
 
         /// <summary>
@@ -365,6 +364,7 @@ namespace DataAccessLayer
             catch (System.Exception e)
             {
                 _executor.Rollback();
+                _logger.Error("Error deleting a supplier");
                 throw new DataLayerExecutionException("Error deleting a supplier", e);
             }
 

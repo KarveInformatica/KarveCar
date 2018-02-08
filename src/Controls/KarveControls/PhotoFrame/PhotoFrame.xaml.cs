@@ -316,8 +316,6 @@ namespace KarveControls.PhotoFrame
         private ImageSource ByteToArrayImage(byte[] byteArrayIn)
         {
             ImageSource img = null;
-            try
-            {
                 using (var ms = new MemoryStream(byteArrayIn))
                 {
 
@@ -334,11 +332,8 @@ namespace KarveControls.PhotoFrame
                         img = bi;
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                return img;
-            }
+            
+            
             return img;
         }
        

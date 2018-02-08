@@ -19,8 +19,8 @@ namespace KarveControls
         private bool _isChanged;
         static DataFieldCheckBox()
         {
-          ///   DefaultStyleKeyProperty.OverrideMetadata(typeof(DataFieldCheckBox), 
-          ///                                                 new FrameworkPropertyMetadata(typeof(DataFieldCheckBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DataFieldCheckBox), 
+                                                           new FrameworkPropertyMetadata(typeof(DataFieldCheckBox)));
         }
         /// <summary>
         /// Data object properties.
@@ -113,9 +113,11 @@ namespace KarveControls
                 if (path != null)
                 {
                     var tmp = ControlExt.GetDataSource(this);
-
-                    ComponentUtils.SetPropValue(tmp, path, _isChecked);
-                    DataObject = tmp;
+                    if (tmp != null)
+                    {
+                        ComponentUtils.SetPropValue(tmp, path, _isChecked);
+                        DataObject = tmp;
+                    }
                 }
                 IDictionary<string, object> values = new Dictionary<string, object>();
                 values.Add("DataObject", DataObject);

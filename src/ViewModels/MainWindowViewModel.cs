@@ -1,27 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Dragablz;
-using KarveCar.Logic.Generic;
-using KarveCar.Properties;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
-using KarveLocale;
-using MasterModule.Common;
 
 namespace KarveCar.ViewModels
 {

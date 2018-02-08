@@ -57,7 +57,7 @@ namespace MasterModule.ViewModels
         private static long _uniqueCounter = 0;
 
         public ICommand ItemChangedCommand { set; get; }
-        public ICommand ClickSearchWebAddressCommand { set; get; }
+      
         private IMapper mapper;
         
 
@@ -677,7 +677,7 @@ namespace MasterModule.ViewModels
         public IEnumerable<BranchesDto> DelegationCollection { get; set; }
         public IEnumerable<VisitsDto> VisitCollection { get; set; }
         public IEnumerable<ContactsDto> ContactsCollection { get; set; }
-        public string UniqueId { get; set; }
+    
         public IEnumerable<ProvinciaDto> ProvinceDto
         {
             get { return _provinciaDtos; }

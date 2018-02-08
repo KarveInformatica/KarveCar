@@ -9,11 +9,10 @@
              xmlns:clients="clr-namespace:MasterModule.Views.Clients"
              xmlns:mvvm1="http://prismlibrary.com/"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
-              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
-              mvvm1:ViewModelLocator.AutoWireViewModel="True"
-             
-              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
-              mc:Ignorable="d" 
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+             mc:Ignorable="d" 
              d:DesignHeight="2000" d:DesignWidth="1300">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -22,25 +21,22 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical">
-            
+
             <i:Interaction.Triggers>
-           
+
                 <i:EventTrigger EventName="Loaded">
                     <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <StackPanel Orientation="Vertical">
                 <local:UpperBarClientView></local:UpperBarClientView>
-                <!--
-                                    SelectedValue="{Binding CompanyOrDriver, Mode=TwoWay, Converter={StaticResource SelectionConverter}}"
-                                          SelectedValuePath="Content"
-                                    -->
                 <TabControl x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
                     <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -63,7 +59,7 @@
                                     <ComboBoxItem x:Name="Company" Width="200">
                                         <StackPanel Orientation="Horizontal" x:Name="ShowCompany">
                                             <Image Source="/MasterModule;component/Images/corporation.png" Height="25"></Image>
-                                            <TextBlock  Text="Empresa" Foreground="Black">></TextBlock>
+                                            <TextBlock  Text="Empresa" Foreground="Black"></TextBlock>
                                         </StackPanel>
 
                                     </ComboBoxItem>
@@ -72,7 +68,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition ></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="Datos Cliente" Grid.Column="0">
                                     <StackPanel>
@@ -84,15 +80,16 @@
                                                     <RowDefinition></RowDefinition>
                                                 </Grid.RowDefinitions>
                                                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                                    
-                                                    <karveControls:DataFieldCheckBox Content="Moroso"  
+
+                                                    <karveControls:DataFieldCheckBox x:Name="Defaulting"  Content="{Binding Moroso,  Source={StaticResource ResourceLanguage}}"
+                                                                                    
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                      karveControls:ControlExt.DataSourcePath="MOROSO"/>
-                                                        <karveControls:DataFieldCheckBox Content="Bloqueado"  
+                                                    <karveControls:DataFieldCheckBox x:Name="Blocked" Content="{Binding Bloqueado, Source={StaticResource ResourceLanguage}}"  
                                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                          karveControls:ControlExt.DataSourcePath="BLOQUADO_CLI"/>
 
-                                                    <karveControls:DataFieldCheckBox Content="Nif Extranjero"  
+                                                    <karveControls:DataFieldCheckBox Content="{Binding NifExtranjero, Source={StaticResource ResourceLanguage}}"  
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                      karveControls:ControlExt.DataSourcePath="NIF_EXTRANJERO"/>
                                                     <karveControls:DataField 
@@ -109,50 +106,54 @@
                                                              Converter={StaticResource ByteToBooleanConverter}}"/>
                                                 </StackPanel>
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <RadioButton Content="Client" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
+                                                    <RadioButton Content="Client" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
                                                     Converter={StaticResource ByteToBooleanConverter}}"/>
-                                                <RadioButton Content="Conductor" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
+                                                    <RadioButton Content="Conductor" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
                                                              Converter={StaticResource ByteToBooleanConverter}}"/>
-                                            </StackPanel>
+                                                </StackPanel>
                                             </Grid>
                                         </GroupBox>
 
                                         <karveControls:DataArea 
-                                        DataAreaWidth="400"
+                                        DataAreaWidth="500"
+                                            SearchBoxWidth="100"
+                                           Height="96"
                                         DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                                         Margin="5,0,0,0"
                                         LabelVisible="False"
                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        karveControls:ControlExt.DataSourcePath="NOTAS">
+                                        karveControls:ControlExt.DataSourcePath="NOTAS" Width="582">
 
                                         </karveControls:DataArea>
                                         <karveControls:DataArea 
-                                            DataAreaWidth="400"
+                                            DataAreaWidth="500"
                                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                                             Margin="5,5,0,0"
                                             LabelVisible="False"
                                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            karveControls:ControlExt.DataSourcePath="OBSERVA"
+                                            karveControls:ControlExt.DataSourcePath="OBSERVA" Width="582"
                                         />
+                                       
                                     </StackPanel>
 
                                 </GroupBox>
-                                <GroupBox Header="Conductores" Grid.Column="1">
-                                    <ContentControl mvvm1:RegionManager.RegionName="{Binding ClientInfoRightRegionName, UpdateSourceTrigger=PropertyChanged}"></ContentControl>
-                                </GroupBox>
+                                
 
+                                <ContentControl Grid.Column="1" mvvm1:RegionManager.RegionName="{Binding ClientInfoRightRegionName, Mode=TwoWay}"></ContentControl>
+                               
 
                             </Grid>
 
 
                         </StackPanel>
                     </TabItem>
+                    
                     <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <clients:OtherData></clients:OtherData>
                     </TabItem>
 
                     <TabItem x:Name="Delegaciones" Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="ClientDelegatcion" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
+                        <ContentControl x:Name="ClientDelegacion" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
                     </TabItem>
 
 
@@ -161,7 +162,7 @@
                     </TabItem>
 
                     <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="VisitGrid"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
+                        <ContentControl x:Name="VisitGrid"  ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
                     </TabItem>
                     <TabItem Header="Permiso">
                         <Grid>
@@ -172,8 +173,8 @@
                             </Grid.RowDefinitions>
 
 
-                            <photoframe:PhotoFrame Grid.Row="0" HorizontalAlignment="Center"></photoframe:PhotoFrame>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                            <photoframe:PhotoFrame Grid.Row="0" HorizontalAlignment="Left" Width="514"></photoframe:PhotoFrame>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
                                 <Button>Carga..</Button>
                                 <Button>Adquirir..</Button>
                             </StackPanel>
@@ -185,13 +186,14 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <photoframe:PhotoFrame></photoframe:PhotoFrame>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
-                            <Button>Carga..</Button>
-                            <Button>Adquirir..</Button>
-                        </StackPanel>
+                            <photoframe:PhotoFrame Margin="20,0,566,0" Width="666" HorizontalAlignment="Left"></photoframe:PhotoFrame>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
+                                <Button>Carga..</Button>
+                                <Button>Adquirir..</Button>
+                            </StackPanel>
                         </Grid>
                     </TabItem>
+                    
                 </TabControl>
             </StackPanel>
         </StackPanel>

@@ -45,11 +45,7 @@ namespace MasterModule.Common
         /// </summary>
         protected DataPayLoad.Type CurrentOperationalState;
 
-        /// <summary>
-        ///  Each view model receives messages in a mailbox. This allows any part of the system to comunicate with each view model.
-        /// </summary>
-        protected MailBoxMessageHandler MailBoxHandler;
-
+       
         /// <summary>
         ///  The configuration service is a way to set/get configurartions
         /// </summary>
@@ -139,6 +135,10 @@ namespace MasterModule.Common
         {
             // here the parameter query is never used.
 
+            AssistMapper.Configure("LANGUAGE_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
+                return helper;
+            });
             AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
                 return helper;
@@ -175,6 +175,11 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
                 return helper;
             });
+            AssistMapper.Configure("BUSINESS_ASSIST", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BusinessDto, NEGOCIO>();
+                return helper;
+            });
             AssistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
                 return helper;
@@ -191,12 +196,9 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
                 return helper;
             });
+            
             AssistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
-                return helper;
-            });
-            AssistMapper.Configure("CLIENT_ZONE", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientZoneDto, ZONAS>();
                 return helper;
             });
             AssistMapper.Configure("CLIENT_ZONE", async (query) => {
@@ -213,6 +215,16 @@ namespace MasterModule.Common
                 var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
                 return helper;
             });
+            AssistMapper.Configure("CLIENT_TYPE", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                return helper;
+            });
+            AssistMapper.Configure("BUDGET_KEY", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                return helper;
+            });
             AssistMapper.Configure("CHANNEL_TYPE", async (query) =>
             {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ChannelDto, CANAL>();
@@ -226,6 +238,11 @@ namespace MasterModule.Common
             AssistMapper.Configure("CREDIT_CARD", async (query) =>
             {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<CreditCardDto, TARCREDI>();
+                return helper;
+            });
+            AssistMapper.Configure("CLIENT_DRIVER", async (query) =>
+            {
+                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery); 
                 return helper;
             });
         }
@@ -272,7 +289,7 @@ namespace MasterModule.Common
         /// <summary>
         /// command to launch the web.
         /// </summary>
-        public ICommand ClickSearchWebAddressCommand { get; private set; }
+        public ICommand ClickSearchWebAddressCommand { get; set; }
 
         /// <summary>
         /// ViewModel base for the master registry.

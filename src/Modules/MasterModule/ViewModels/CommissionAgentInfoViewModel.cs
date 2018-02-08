@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -212,6 +211,16 @@ namespace MasterModule.ViewModels
                 return _rightObservableCollection;
             }
         }
+
+        /// <summary>
+        ///  Primary  key on branches
+        /// </summary>
+        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        /// <summary>
+        ///  Primary key on contacts.
+        /// </summary>
+        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+
         /// <summary>
         ///  
         /// </summary>
@@ -223,8 +232,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
         private string _mailBoxName;
 
-        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
-        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+       
         //
         // A part of the ui is made up different objects inserted in a observable collection.
         //
@@ -261,6 +269,11 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserver(this);
          
         }
+
+        private void OnPrintCommand(object obj)
+        {
+        }
+
         public override void DisposeEvents()
         {
             EventManager.DeleteObserver(this);
@@ -278,10 +291,7 @@ namespace MasterModule.ViewModels
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
 
-        private void OnPrintCommand(object obj)
-        { 
-        }
-
+        
         
 
         /// <summary>
@@ -357,6 +367,7 @@ namespace MasterModule.ViewModels
         /// This item is enabled to the magnifier command. When the user press the magnifier.
         /// </summary>
         /// <param name="param">Parameter of the command</param>
+        /// 
         private async void MagnifierCommandHandler(object param)
         {
             IDictionary<string, string> values = (Dictionary<string, string>)param;
@@ -560,10 +571,7 @@ namespace MasterModule.ViewModels
         {
             get { return MasterModuleConstants.ImagePath; }
         }
-        /// <summary>
-        ///  Command to be associated to on change.
-        /// </summary>
-        public ICommand AssistCommand { set; get; }
+       
         /// <summary>
         /// This item changed command.
         /// </summary>

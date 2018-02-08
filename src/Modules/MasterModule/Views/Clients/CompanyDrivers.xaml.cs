@@ -24,5 +24,10 @@ namespace MasterModule.Views.Clients
         {
             InitializeComponent();
         }
+
+        private void ContentArea_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

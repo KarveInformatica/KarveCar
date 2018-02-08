@@ -56,6 +56,12 @@
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -202,9 +208,7 @@
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreditCardControl\CreditFieldEventArgs.cs" />
-    <Compile Include="DataArea\DataArea.xaml.cs">
-      <DependentUpon>DataArea.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DataArea\DataArea.cs" />
     <Compile Include="DataArea\DataAreaFieldEventsArgs.cs" />
     <Compile Include="DataCheckBox\DataFieldCheckBox.cs" />
     <Compile Include="DataCheckBox\DataFieldCheckBoxEventArgs.cs" />
@@ -224,7 +228,6 @@
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
     <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
-    <Compile Include="KarveSearchBox\KarveSearchBox.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridColumnFilterBehaviour.cs" />
     <Compile Include="HelperButtonControl\HelperButtonControl.cs" />
@@ -279,10 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="CreditCardControl\CreditCardUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DataArea\DataArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

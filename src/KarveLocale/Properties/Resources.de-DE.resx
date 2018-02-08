@@ -2494,4 +2494,13 @@
   <data name="NationalId" xml:space="preserve">
     <value>Ausweisdokument</value>
   </data>
+  <data name="ListaConductores" xml:space="preserve">
+    <value>Fahrerliste</value>
+  </data>
+  <data name="ListaDeContactos" xml:space="preserve">
+    <value>Liste Kontact</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

@@ -209,16 +209,11 @@ namespace MasterModule.ViewModels
                 IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
                 IDictionary<string, string> currentData = assistData as Dictionary<string, string>;
                 if (currentData != null)
+                
                 {
-                    string assistQuery = currentData[AssistQuery] as string;
-                    // TODO: replace conditional with polymorphism. 
-                     if (assistQuery.Contains("TIPOCOMI"))
-                    {
-                        var tipoComi = await helperDataServices.GetAsyncHelper<TIPOCOMI>(assistQuery);
-                        SourceView = _mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(tipoComi);
-                    }
-                   
-                    _status = UpperBarViewModelState.Loaded;
+                   var tipoComi = await helperDataServices.GetMappedAllAsyncHelper<CommissionTypeDto, TIPOCOMI>();
+                    SourceView = tipoComi;
+                   _status = UpperBarViewModelState.Loaded;
                 }
             
         }

@@ -220,9 +220,6 @@ namespace KarveControls
         private static void CurrentDataGrid_RecordDeleted(object sender, RecordDeletedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
-            RowColumnIndex rowColumnIndex = new RowColumnIndex();
-            bool valueName = dataGrid.View.IsAddingNew;
-
             if (dataGrid != null)
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
@@ -476,7 +473,7 @@ namespace KarveControls
             string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
             if (!string.IsNullOrEmpty(propValue))
             {
-                dataAreaFiled.EditorText.Text = propValue;
+                dataAreaFiled.TextContent = propValue;
             }
         }
         /// <summary>
@@ -498,10 +495,10 @@ namespace KarveControls
                 return;
             }
             var propValue = ComponentUtils.GetPropValue(sourceNew, path);
-            DateTime timeValue = DateTime.Now;
+           
             if (propValue != null)
             {
-
+                DateTime timeValue = DateTime.Now;
                 if (propValue is string)
                 {
                     try

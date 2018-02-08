@@ -65,6 +65,11 @@
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -81,6 +86,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\KarveDapper\bin\Debug\KarveDapper.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -89,9 +103,16 @@
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
@@ -216,6 +237,8 @@
     <Compile Include="DataObjects\CK_PERMCONCEP.cs" />
     <Compile Include="DataObjects\CK_PERMCONCEP_INF.cs" />
     <Compile Include="DataObjects\CLASIFICACLI.cs" />
+    <Compile Include="DataObjects\CliContactsPoco.cs" />
+    <Compile Include="DataObjects\CliDelegaPoco.cs" />
     <Compile Include="DataObjects\ClientPoco.cs" />
     <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
@@ -1110,6 +1133,15 @@
     <Compile Include="Model\SupplierPoco.cs" />
     <Compile Include="Model\Vehicle.cs" />
     <Compile Include="Model\VehiclePoco.cs" />
+    <Compile Include="MongoDB\AssistMongoDBServices.cs" />
+    <Compile Include="MongoDB\ClientMongoDBServices.cs" />
+    <Compile Include="MongoDB\CommisionAgentMongoDBServices.cs" />
+    <Compile Include="MongoDB\HelperMongoDBServices.cs" />
+    <Compile Include="MongoDB\INoSqlExecutor.cs" />
+    <Compile Include="MongoDB\MongoDataServiceImplementation.cs" />
+    <Compile Include="MongoDB\SettingsMongoDBServices.cs" />
+    <Compile Include="MongoDB\SupplierMongoDBServices.cs" />
+    <Compile Include="MongoDB\VehicleMongoDBServices.cs" />
     <Compile Include="SettingsDataService.cs" />
     <Compile Include="SQL\AbstractSqlExecutor.cs" />
     <Compile Include="SQL\DataDescription.cs" />

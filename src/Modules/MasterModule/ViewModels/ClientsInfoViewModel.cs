@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using AutoMapper;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
@@ -12,13 +12,16 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using Prism.Regions;
-using DataAccessLayer.Logic;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
+using Dapper;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using MasterModule.Views;
+using MasterModule.Views.Clients;
 using Syncfusion.Windows.PdfViewer;
+
 
 namespace MasterModule.ViewModels
 {
@@ -30,14 +33,19 @@ namespace MasterModule.ViewModels
         private IClientData _clientData;
         private IClientDataServices _clientDataServices;
         private IHelperData _helperData;
-        private object _province;
-        private object _country;
         private object _company;
-        private object _clientZone;
-        private object _origenDto;
-        private object _office;
         private bool _stateVisible;
         private string _clientRegion;
+        private ClientesDto _currentClientDo = new ClientesDto();
+        /// <summary>
+        ///  Primary  key on branches
+        /// </summary>
+        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        /// <summary>
+        ///  Primary key on contacts.
+        /// </summary>
+        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+
 
         /// <summary>
         ///  Constructor
@@ -52,31 +60,42 @@ namespace MasterModule.ViewModels
 
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
+            _onBranchesPrimaryKey += ClientOnBranchesPrimaryKey;
+            _onContactsPrimaryKey += ClientOnContactsPrimaryKey;
+            IsVisible = Visibility.Collapsed;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ClientSubSystemName, this);
             _clientDataServices = dataServices.GetClientDataServices();
             InitVmCommands();
-            Guid uid = Guid.NewGuid();
-            ClientInfoRightRegionName = CreateNameRightDetailRegion();
-             StateVisible = true;
+            ClientInfoRightRegionName = CreateNameRegion("RightRegion");
+            DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
+            StateVisible = true;
+            _clientData =_clientDataServices.GetNewClientAgentDo("0");
+            
         }
 
-        private string CreateNameRightDetailRegion()
+        private void ClientOnContactsPrimaryKey(ref ContactsDto primaryKey)
+        {
+            primaryKey.ContactsKeyId = PrimaryKeyValue;
+        }
+
+        private void ClientOnBranchesPrimaryKey(ref BranchesDto primaryKey)
+        {
+            primaryKey.BranchKeyId = PrimaryKeyValue;
+        }
+
+        private string CreateNameRegion(string regionName)
         {
             Guid uid = Guid.NewGuid();
-            var uri = typeof(RightDetailView).FullName + "."+uid.ToString();
+            var uri = regionName + "."+uid.ToString();
             return uri;
         }
         /// <summary>
         /// Navigate to the view.
         /// </summary>
         /// <param name="viewName">Viewname to view</param>
-        private void NavigateToRightDetail(string viewName)
+        private void NavigateToRightDetail()
         {
-            var navigationParameters = new NavigationParameters();
-            Guid uid = Guid.NewGuid();
-            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, uid.ToString());
-            var uri = new Uri(ClientInfoRightRegionName + navigationParameters, UriKind.Relative);
-            RegionManager.RequestNavigate("ClientInfoRightRegion", uri);
+            RegionManager.RequestNavigate(ClientInfoRightRegionName, "RightDetail");
         }
         /// <summary>
         /// Navigate to drivers.
@@ -87,7 +106,7 @@ namespace MasterModule.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewName);
             var uri = new Uri(typeof(DriversControlView).FullName + navigationParameters, UriKind.Relative);
-            RegionManager.RequestNavigate("DriversControlView", uri);
+            RegionManager.RequestNavigate("ContentRegion",typeof(DriversControlView).FullName);
         }
 
         /// <summary>
@@ -99,9 +118,17 @@ namespace MasterModule.ViewModels
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
             SelectCompanyOrDriver = new DelegateCommand<object>(OnCompanyOrDriver);
             CurrentOperationalState = DataPayLoad.Type.Show;
+            ContentAreaCommand = new DelegateCommand<object>(OnContentAreaCommand);
             _helperData = new HelperData();
-            NavigateToRightDetail("RightDetailView");
+            NavigateToRightDetail();
         }
+
+        private void OnContentAreaCommand(object obj)
+        {
+            var value = typeof(DriversControlView).FullName;
+            RegionManager.RequestNavigate(DriverZoneRegionName, value);
+        }
+
         /// <summary>
         ///  Select company or driver.
         /// </summary>
@@ -112,9 +139,20 @@ namespace MasterModule.ViewModels
             ComboBox item = ev?.Source as ComboBox;
             if (item != null)
             {
+               
                 StateVisible = (item.SelectedIndex == 0);
             }
+            if (StateVisible)
+            {
+                RegionManager.RequestNavigate(DriverZoneRegionName, "DrivingLicense");
+            }
+            else
+            {
+                RegionManager.RequestNavigate(DriverZoneRegionName, "CompanyDrivers");
+            }
         }
+
+       
         /// <summary>
         ///  Helper data .
         /// </summary>
@@ -131,19 +169,60 @@ namespace MasterModule.ViewModels
             {
                 var value = eventDictionary["DataSourcePath"] as string;
 
-                /*if (value == "ContactsDtos")
+                if (value == "ContactsDtos")
                 {
                     ContactsChangedCommandHandler(eventDictionary);
                 }
                 else
                 {
                     DelegationChangedCommandHandler(eventDictionary);
-                }*/
+                }
             }
             else
             {
                 OnChangedField(eventDictionary);
             }
+        }
+        /// <summary>
+        ///  Handle the delegation grid changes.
+        /// </summary>
+        /// <param name="obj">This send a delegation fo the changed command</param>
+        private async void DelegationChangedCommandHandler(object obj)
+        {
+            Tuple<bool, BranchesDto> retValue = await GridChangedCommand<BranchesDto, cliDelega>(obj,
+                _onBranchesPrimaryKey,
+                DataSubSystem.ClientSubsystem);
+            if (retValue.Item1)
+            {
+                if ((_currentClientDo != null) && (_currentClientDo.BranchesDto != null))
+                {
+                    var tmp = _currentClientDo.BranchesDto;
+                    Union<BranchesDto>(ref tmp, retValue.Item2);
+                    _currentClientDo.BranchesDto = tmp;
+                }
+
+            }
+        }
+
+        // FIXME: move GridChangedCommand to a lower level
+
+        private async void ContactsChangedCommandHandler(object obj)
+        {
+            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, CliContactos>(obj,
+                _onContactsPrimaryKey,
+                DataSubSystem.ClientSubsystem);
+            if (retValue.Item1)
+            {
+                if ((_currentClientDo != null) && (_currentClientDo.ContactsDto != null))
+                {
+                    var contactDto = retValue.Item2;
+                    contactDto.ContactsKeyId = PrimaryKeyValue;
+                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
+                    Union<ContactsDto>(ref contactsDtos, contactDto);
+                    _currentClientDo.ContactsDto = contactsDtos;
+                }
+            }
+
         }
         /// <summary>
         /// Dictionary of events.
@@ -207,70 +286,120 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                     {
-                        ClientHelper.CityDto = (List<CityDto>) value;
-                        break;
-                    }
-                    case "COUNTRY_ASSIST":
-                    {
-                        ClientHelper.CountryDto = (List<CountryDto>) value;
-                        break;
-                    }
-                    case "PROVINCE_ASSIST":
-                    {
-                        ClientHelper.ProvinciaDto = (List<ProvinciaDto>) value;
-                        break;
-                    }
-                    case "COMPANY_ASSIST":
-                    {
-                        ClientHelper.CompanyDto = (List<CompanyDto>) value;
-                        break;
-                    }
-                    case "OFFICE_ASSIST":
-                    {
-                        ClientHelper.OfficeDto = (List<OfficeDtos>) value;
-                        break;
-                    }
-                    case "CLIENT_ZONE":
-                    {
-                        ClientHelper.ZoneDto = (List<ClientZoneDto>) value;
-                        break;
-                    }
-                    case "CLIENT_TYPE":
-                    {
-                        ClientHelper.ClientTypeDto = (List<ClientTypeDto>) value;
+                        ClientHelper.CityDto = (IEnumerable<CityDto>) value;
                         break;
                     }
                     case "CHANNEL_TYPE":
                     {
-                        ClientHelper.ChannelDto = (List<ChannelDto>) value;
+                        ClientHelper.ChannelDto= (IEnumerable<ChannelDto>) value;
+                        break;
+                    }
+                    case "COUNTRY_ASSIST":
+                    {
+                        ClientHelper.CountryDto = (IEnumerable<CountryDto>) value;
+                        break;
+                    }
+                    case "PROVINCE_ASSIST":
+                    {
+                        ClientHelper.ProvinciaDto = (IEnumerable<ProvinciaDto>) value;
+                        break;
+                    }
+                    case "COMPANY_ASSIST":
+                    {
+                        ClientHelper.CompanyDto = (IEnumerable<CompanyDto>) value;
+                        break;
+                    }
+                    case "ACTIVITY_ASSIST":
+                    {
+                        ClientHelper.ActivityDto = (IEnumerable<ActividadDto>) value;
+                        break;
+                    }
+                    case "OFFICE_ASSIST":
+                    {
+                        ClientHelper.OfficeDto = (IEnumerable<OfficeDtos>) value;
+                        break;
+                    }
+                    case "BUDGET_KEY":
+                    {
+                        ClientHelper.BudgetKeyDto = (IEnumerable<BudgetKeyDto>) value;
+                        break;
+                    }
+                    case "CLIENT_ZONE":
+                    {
+                        ClientHelper.ZoneDto = (IEnumerable<ClientZoneDto>) value;
+                        break;
+                    }
+                    case "RENT_USAGE_ASSIST":
+                    {
+                        ClientHelper.RentUsageDto = (IEnumerable<RentingUseDto>) value;
+                        break;
+                    }
+                    case "CLIENT_TYPE":
+                    {
+                        ClientHelper.ClientTypeDto = (IEnumerable<ClientTypeDto>) value;
                         break;
                     }
                     case "CLIENT_CREDIT_CARD":
                     {
-                        ClientHelper.CreditCardType = (List<CreditCardDto>) value;
+                        ClientHelper.CreditCardType = (IEnumerable<CreditCardDto>) value;
                         break;
                     }
                     case "CLIENT_PAYMENT_FORM":
                     {
-                        ClientHelper.ClientPaymentForm = (List<PaymentFormDto>) value;
+                        ClientHelper.ClientPaymentForm = (IEnumerable<PaymentFormDto>) value;
                         break;
                     }
                     case "CLIENT_INVOICE_BLOCKS":
                     {
-                        ClientHelper.InvoiceBlock = (List<InvoiceBlockDto>) value;
+                        ClientHelper.InvoiceBlock = (IEnumerable<InvoiceBlockDto>) value;
                         break;
                     }
-
+                    case "ORIGIN_ASSIST":
+                    {
+                        ClientHelper.OrigenDto = (IEnumerable<OrigenDto>) value;
+                        break;
+                    }
+                    case "MARKET_ASSIST":
+                    {
+                        ClientHelper.ClientMarketDto = (IEnumerable<MercadoDto>) value;
+                        break;
+                    }
+                    case "RESELLER_ASSIST":
+                    {
+                        ClientHelper.ResellerDto = (IEnumerable<ResellerDto>)value;
+                        break;
+                    }
+                    case "CLIENT_BUDGET":
+                    {
+                        ClientHelper.BudgetKeyDto = (IEnumerable<BudgetKeyDto>)value;
+                        break;
+                    }
+                    case "BUSINESS_ASSIST":
+                    {
+                        ClientHelper.BusinessDto = (IEnumerable<BusinessDto>)value;
+                        break;
+                    }
+                    case "LANGUAGE_ASSIST":
+                    {
+                        ClientHelper.LanguageDto = (IEnumerable<LanguageDto>) value;
+                        break;
+                    }
                     case "CLIENT_BROKER":
                     {
-                        ClientHelper.BrokerDto = (List<CommissionAgentSummaryDto>) value;
+                        ClientHelper.BrokerDto = (IEnumerable<CommissionAgentSummaryDto>) value;
+                        break;
+                    }
+                    case "CLIENT_DRIVER":
+                    {
+                        ClientHelper.DriversDto = (IEnumerable<ClientSummaryDto>) value;
                         break;
                     }
                     case "CREDIT_CARD":
                     {
-                        ClientHelper.CreditCardType = (List<CreditCardDto>) value;
+                        ClientHelper.CreditCardType = (IEnumerable<CreditCardDto>) value;
                         break;
                     }
+                   
                 }
            
                 RaisePropertyChanged("ClientHelper");
@@ -384,6 +513,8 @@ namespace MasterModule.ViewModels
             set { _clientRegion = value; RaisePropertyChanged(); }
         }
 
+        public string DriverZoneRegionName { get; private set; }
+
         public bool StateVisible
         {
             set { _stateVisible = value; RaisePropertyChanged(); }
@@ -395,6 +526,9 @@ namespace MasterModule.ViewModels
             set { _company = value; }
             get { return _company; }
         }
+
+        public Visibility IsVisible { get; private set; }
+
         public void Init(string primaryKey, DataPayLoad payload, bool isInsert)
         {
             if (payload.HasDataObject)
@@ -404,33 +538,22 @@ namespace MasterModule.ViewModels
                 if (clientData != null)
                 {
                     _clientData = clientData;
+                   
                     DataObject = clientData.Value;
                     // in this way we trigger just one time the raiseproperty changed.
-                    var clientHelper = clientData;
-                    /*
-                    clientHelper.ActivityDto = clientData.ActivityDto;
-                    clientHelper.BrokerDto = clientData.BrokerDto;
-                    clientHelper.CityDto = clientData.CityDto;
-                   
-                    clientHelper.ClientMarketDto = clientData.ClientMarketDto;
-                    clientHelper.ClientTypeDto = clientData.ClientTypeDto;
-                    clientHelper.CompanyDto = clientData.CompanyDto;
-                    clientHelper.CountryDto = clientData.CountryDto;
-                    clientHelper.OrigenDto = clientData.OrigenDto;
-                    clientHelper.ResellerDto = clientData.ResellerDto;
-                    clientHelper.BudgetKey = clientData.BudgetKey;
-                    clientHelper.BusinessDto = clientData.BusinessDto;
-                    clientHelper.ChannelDto = clientData.ChannelDto;
-    */                
+                    var clientHelper = clientData;                
                     ClientHelper = clientHelper;
                     // When the view model receive a message broadcast to its child view models.                
                     EventManager.SendMessage(UpperBarClientViewModel.Name, payload);
-                    
+                    RegionManager.RequestNavigate(ClientInfoRightRegionName, "RightDetail");
                     string rightDetailUri = "master://" + typeof(RightDetailViewModel).FullName;
                     EventManager.SendMessage(rightDetailUri, payload);
                     Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
+
+                    
+                    RaisePropertyChanged("ClientHelper");
                 }
             }
         }

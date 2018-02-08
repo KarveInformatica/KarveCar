@@ -48,11 +48,15 @@ namespace DataAccessLayer.Model
         public IEnumerable<OfficeDtos> OfficeDto { get; set; }
         public IEnumerable<BusinessDto> BusinessDto { get; set; }
         public IEnumerable<ChannelDto> ChannelDto { get; set; }
-        public IEnumerable<BudgetKeyDto> BudgetKey { get; set; }
+        public IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
         public IEnumerable<PaymentFormDto> ClientPaymentForm { get; set; }
         public IEnumerable<CreditCardDto> CreditCardType { get; set; }
         public IEnumerable<InvoiceBlockDto> InvoiceBlock { get ; set; }
+        public IEnumerable<RentingUseDto> RentUsage { get; set; }
         public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set ; }
+        public IEnumerable<RentingUseDto> RentUsageDto { get ; set ; }
+        public IEnumerable<LanguageDto> LanguageDto { get; set ; }
+        public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
 
 
         /// <summary>

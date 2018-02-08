@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
@@ -14,11 +10,13 @@ namespace KarveDataServices.DataTransferObject
     {
 
         [Display(Name = "Numero Cliente")]
-        public string Number { set; get; }
+        public string Code { set; get; }
         [Display(Name = "Nombre Cliente")]
         public string Name { set; get; }
         [Display(Name = "Nif")]
         public string Nif { set; get; }
+        [Display(Name = "Direccion")]
+        public string Direction { set; get; }
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefono")]
         public string Telefono { set; get; }
@@ -36,10 +34,7 @@ namespace KarveDataServices.DataTransferObject
         // conta contable.
         [Display(Name = "Conta Contable")]
         public string AccountableAccount { set; get; }
-        [Display(Name = "Vehiculo Sustitivo")]
-        public bool ReplacementVeichle { set; get; }
-        [Display(Name = "Direccion")]
-        public string Direction { set; get; }
+       
         [Display(Name = "Codigo Postal")]
         public string Zip { set; get; }
         [Display(Name = "Poblacion")]
@@ -51,9 +46,10 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Oficina")]
         public string Office { set; get; }
         [Display(Name = "Fecha Alta")]
-        public DateTime Falta { set; get; }
+        public DateTime? Falta { set; get; }
+        /*
         [Display(Name = "Fecha Nacimento")]
         public DateTime FNacimiento { set; get; }
-
+        */
     }
 }

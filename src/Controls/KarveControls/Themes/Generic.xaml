@@ -8,6 +8,7 @@
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
+  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
@@ -89,7 +90,7 @@
                                         Path=LabelTextWidth}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
                            Padding="2,0,0,0"
-                           FontStyle="Italic" />
+                            />
                                 <Border x:Name="PART_DataFieldBorder"
                         BorderThickness="1"
                         Padding="1"
@@ -107,6 +108,114 @@
                             </StackPanel>
 
                         </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:DataArea}">
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4,0,0,0"/>
+        <Setter Property="SearchBoxHeight" Value="30"></Setter>
+        <Setter Property="SearchBoxWidth" Value="150"></Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                
+                <ControlTemplate TargetType="{x:Type local:DataArea}">
+                    <Grid x:Name="DataAreaLayout">
+                        <GroupBox x:Name="PART_AreaTitle" Header="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaTitle}"
+                                  Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal"  
+                                            Background="White"
+                                            Grid.Row="0">
+                                    
+                                    <TextBox x:Name="PART_SearchTerm" 
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchTerm}" 
+                                             VerticalAlignment="Center" 
+                                             VerticalContentAlignment="Center"
+                                             Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxWidth}"
+                                             Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxHeight}"
+                                             Margin="5"/>
+                                    <Button x:Name="PART_SearchButton"
+                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchCommand}"
+                                            Margin="5"
+                                            Width="60"
+                                            VerticalAlignment="Center">
+                                        <Image Source="/KarveControls;component/Images/searchImage.png"></Image>
+                                    </Button>
+                                </StackPanel>
+
+
+
+                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+
+                                <TextBlock HorizontalAlignment="Left" x:Name="PART_DataAreaText"
+                                           Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaLabel}"
+                                           Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}"
+                                           Margin="5"
+                                           Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}"/>
+
+                                    <xctk:MultiLineTextEditor x:Name="PART_EditorText" 
+                                                              TextWrapping="Wrap"
+                                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
+                                                              Content="{Binding Text, RelativeSource={RelativeSource Self}}"  
+                                                              HorizontalContentAlignment="Left" 
+                                                              VerticalContentAlignment="Center"
+                                                              DropDownWidth="300"
+                                                             
+                                                              Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}" />
+                                </StackPanel>
+                            </Grid>
+                            </GroupBox>
+
+
+                        <!--
+                        <Border x:Name="Border"
+                                Padding="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
+                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                <TextBlock x:Name="PART_LabelField"
+                                           Width="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=LabelTextWidth}"
+                                           Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
+                                           Padding="2,0,0,0"
+                                />
+                                <Border x:Name="PART_DataFieldBorder"
+                                        BorderThickness="1"
+                                        Padding="1"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch">
+                                    <TextBox x:Name="PART_TextField"
+                            
+                                             Width="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=TextContentWidth}"
+                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContent, Mode=TwoWay}"
+                                             IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsReadOnly}">
+
+                                    </TextBox>
+                                </Border>
+                            </StackPanel>
+
+                        </Border> -->
+                        
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

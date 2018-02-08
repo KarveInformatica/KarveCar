@@ -418,13 +418,8 @@ namespace KarveControls
             DependencyProperty.Register(
                 "CitySourceView",
                 typeof(IEnumerable<CityDto>),
-                typeof(DirectionInfo), new PropertyMetadata(null, OnCityCallback));
-
-        private static void OnCityCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var v = 1;
-        }
-
+                typeof(DirectionInfo));
+        
         public IEnumerable<CityDto> CitySourceView
         {
             set

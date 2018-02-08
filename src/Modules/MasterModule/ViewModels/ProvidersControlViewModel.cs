@@ -35,7 +35,7 @@ namespace MasterModule.ViewModels
         private const string ProviderNameColumn = "Nombre";
         private const string ProviderColumnCode = "Codigo";
         private const string ProviderModuleRoutePrefix = "ProviderModule:";
-        private const int GridIdentifier = 1; 
+       
         /// <summary>
         ///  Type of payment data services.
         /// </summary>

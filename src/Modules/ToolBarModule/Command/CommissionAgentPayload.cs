@@ -19,7 +19,7 @@ namespace ToolBarModule.Command
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
         private readonly PropertyChangedEventHandler _onExecutedPayload;
         private ICommissionAgentDataServices _commissionAgentDataServices;
-        public event ErrorExecuting OnErrorExecuting;
+        public new event ErrorExecuting OnErrorExecuting;
         /// <summary>
         ///  This execute a payload.
         /// </summary>
@@ -55,12 +55,7 @@ namespace ToolBarModule.Command
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
             }
-            /*
-            var checkedData = await _commissionAgentDataServices.GetCommissionAgentDo(payLoad.PrimaryKeyValue);
-            if (checkedData == null)
-            {
-                payLoad.PayloadType = DataPayLoad.Type.Insert;
-            }*/
+       
 
             switch (payLoad.PayloadType)
             {
@@ -79,7 +74,7 @@ namespace ToolBarModule.Command
                 {
                     isInsert = true;
                     BranchesDto branches = payLoad.RelatedObject as BranchesDto;
-                    // this shall be moved to supplier dataservices.
+                    
                     if (branches != null)
                     {
                         result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<BranchesDto, COMI_DELEGA>(branches).ConfigureAwait(false);

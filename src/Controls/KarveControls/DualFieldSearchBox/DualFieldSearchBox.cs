@@ -42,6 +42,7 @@ namespace KarveControls
     // private SfDataGrid MagnifierGrid = new SfDataGrid();
     // most of the shared ones shall be moved as attached properties 
     private Logger logger = LogManager.GetCurrentClassLogger();
+        private bool triggerLoad = false;
         /// <summary>
         ///  Magnifier command dependency property.
         /// </summary>
@@ -204,8 +205,8 @@ namespace KarveControls
 
         private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e, bool firstValue)
         {
-            ControlExt.DataType dataType;
-            dataType = (ControlExt.DataType)Enum.Parse(typeof(ControlExt.DataType), e.NewValue.ToString());
+           
+            var dataType = (ControlExt.DataType)Enum.Parse(typeof(ControlExt.DataType), e.NewValue.ToString());
             if (firstValue)
             {
                 _dataAllowedFirst = dataType;
@@ -244,7 +245,7 @@ namespace KarveControls
         /// <summary>
         ///  Set or Get if the control is made readonly. Both first or second field.
         /// </summary>
-        public static DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
+        public new static DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
             "IsReadOnly",
             typeof(bool),
             typeof(DualFieldSearchBox),
@@ -399,8 +400,8 @@ namespace KarveControls
         /// </summary>
         public event RoutedEventHandler MagnifierPress
         {
-            add { AddHandler(MagnifierPressEvent, value); }
-            remove { RemoveHandler(MagnifierPressEvent, value); }
+            add => AddHandler(MagnifierPressEvent, value);
+            remove => RemoveHandler(MagnifierPressEvent, value);
         }
         /// <summary>
         ///  Button image to be associated to the magnifier
@@ -738,7 +739,7 @@ namespace KarveControls
         private ControlExt.DataType _dataAllowedSecond;
         private readonly ComponentFiller _componentFiller;
         private bool _firstSelection = true;
-        private bool _bootUp = true;
+       
         private bool _textMode = false;
         private TextBox SearchTextFirst;
         private TextBox SearchTextSecond;
@@ -746,7 +747,7 @@ namespace KarveControls
         private SfDataGrid MagnifierGrid;
         private Image PopUpButtonImage;
         private TextBlock SearchLabel;
-        private IEnumerable<object> _currentSourceView;
+       
         static DualFieldSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DualFieldSearchBox), new FrameworkPropertyMetadata(typeof(DualFieldSearchBox)));
@@ -759,7 +760,7 @@ namespace KarveControls
             _componentFiller = new ComponentFiller();
             PopUpCloseCommand = new DelegateCommand(ButtonBase_OnClick);
             PopUpOpenCommand = new DelegateCommand(PopUpButton_OnClick);
-         
+           
         }
 
 
@@ -788,13 +789,11 @@ namespace KarveControls
             {
                 MagnifierGrid.SelectionChanged += MagnifierGrid_OnSelectionRowChanged;
                 MagnifierGrid.MouseDoubleClick += MagnifierGrid_MouseDoubleClick;
-             //   MagnifierGrid.AutoGeneratingColumn += MagnifierGrid_AutoGeneratingColumn; ;
+            
             }
-            _bootUp = true;
-             //RaiseKeyAssist();
-           // RaiseMagnifierPressEvent();
-           // this.Res
-          //  OnResize(EventArgs.Empty);
+            triggerLoad = true;      
+            RaiseMagnifierPressEvent();
+            triggerLoad = false;
         }
 
         private void MagnifierGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -903,6 +902,7 @@ namespace KarveControls
                     Popup.IsOpen = true;
                 }
                 
+              
                 
             }
         }
@@ -1234,8 +1234,11 @@ namespace KarveControls
           
                 args.TableName = AssistTableName;
                 args.AssistParameters.Add("AssistFieldFirst", AssistDataFieldFirst);
+            if (!triggerLoad)
+            {
                 _buttonManifierState = 1;
-                IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
+            }
+            IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
                 valueDictionary["AssistTable"] = AssistTableName;
                 valueDictionary["DataFieldFirst"] = DataFieldFirst;
                 valueDictionary["DataFieldSecond"] = DataFieldSecond;
