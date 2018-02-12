@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
@@ -45,10 +47,6 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
-                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
-                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
-                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
-                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding Drivers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 
@@ -137,6 +135,8 @@
 
         </Syncfusion:SfDataGrid>
 
-        <Button Command="{Binding GoForwardCommand}" Grid.Row="1" Margin="10" Width="75">Atras</Button>
+        <Button Command="{Binding GoBackCommand}" Grid.Row="1" Margin="10" Width="75" Height="25" HorizontalAlignment="Left">
+            <Image Source="/MasterModule;component/Images/backarrow.png"></Image>
+        </Button>
     </Grid>
 </UserControl>

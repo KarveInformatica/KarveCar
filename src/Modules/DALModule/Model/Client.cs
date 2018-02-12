@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,12 @@ using AutoMapper;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
+using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using NLog;
 
 namespace DataAccessLayer.Model
 {
@@ -23,6 +26,7 @@ namespace DataAccessLayer.Model
     /// </summary>
     public class Client : DomainObject, IClientData
     {
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         private const string Clientes =
             " SELECT {0} FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI=CLIENTES2.NUMERO_CLI {1}";
@@ -42,6 +46,9 @@ namespace DataAccessLayer.Model
                                          "LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO " +
                                          "LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA " +
                                          "AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente = '{0}' ORDER BY CC.ccoContacto";
+
+
+
         /// <summary>
         /// Branches fields
         /// </summary>
@@ -115,6 +122,128 @@ namespace DataAccessLayer.Model
             return poco;
         }
 
+        private async Task<ClientPoco> LoadEntity(IDbConnection conn, string code)
+        {
+            QueryStore clientPocoQueryStore = new QueryStore();
+            clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient1, code);
+            clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient2, code);
+            var query = clientPocoQueryStore.BuildQuery();
+            var pocoReader = await conn.QueryMultipleAsync(query);
+            var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
+            var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
+            var poco1 = _mapper.Map<CLIENTES1, ClientPoco>(clients1);
+            var poco2 = _mapper.Map<CLIENTES2, ClientPoco>(clients2);
+            MergePOCO<ClientPoco> merger = new MergePOCO<ClientPoco>();
+            IDictionary<string, ClientPoco> ctx = new Dictionary<string, ClientPoco>();
+            ctx.Add(MergePOCO<ClientPoco>.EntityName, poco2);
+            ClientPoco poco = merger.Convert(poco1, ctx);
+            return poco;
+        }
+
+        private string ValueToString(byte? b)
+        {
+            if (b.HasValue)
+            {
+                if (b == 0)
+                    return "0";
+
+                return "1";
+            }
+            return string.Empty;
+        }
+        private QueryStore CreateQueryStore(ClientPoco clientPoco)
+        {
+            QueryStore store = new QueryStore();
+            store.AddParam(QueryStore.QueryType.QueryCity, clientPoco.CP);
+            store.AddParam(QueryStore.QueryType.QueryClientType, clientPoco.TIPOCLI);
+            store.AddParam(QueryStore.QueryType.QueryMarket, clientPoco.MERCADO);
+            store.AddParam(QueryStore.QueryType.QueryZone, clientPoco.ZONA);
+            store.AddParam(QueryStore.QueryType.QueryLanguage, ValueToString(clientPoco.IDIOMA));
+            store.AddParam(QueryStore.QueryType.QueryCreditCard, clientPoco.TARTI);
+            store.AddParam(QueryStore.QueryType.QueryChannel, clientPoco.CANAL);
+            store.AddParam(QueryStore.QueryType.QueryCompany, clientPoco.SUBLICEN);
+            store.AddParam(QueryStore.QueryType.QueryOffice, clientPoco.OFICINA);
+            store.AddParam(QueryStore.QueryType.QueryRentingUse, ValueToString(clientPoco.USO_ALQUILER));
+            store.AddParam(QueryStore.QueryType.QueryActivity, clientPoco.SECTOR);
+            store.AddParam(QueryStore.QueryType.QueryClientSummary, clientPoco.CLIENTEFAC);
+            store.AddParam(QueryStore.QueryType.QueryClientContacts, clientPoco.NUMERO_CLI);
+            store.AddParam(QueryStore.QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
+            return store;
+        }
+
+        /// <summary>
+        ///  Set the transfer objects. We create the transfer object from the entity.
+        /// </summary>
+        /// <param name="reader">GridReader reader of dapper results</param>
+        /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
+        /// 
+        private void SetDataTransferObject(SqlMapper.GridReader reader, ClientPoco clientPoco)
+        {
+            if (reader == null)
+                return;
+            if (!string.IsNullOrEmpty(clientPoco.CP))
+            {
+               
+                CitiesDto = GetMappedValue<POBLACIONES, CityDto>(reader.Read<POBLACIONES>()
+                    .FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.TIPOCLI))
+            {
+                ClientTypeDto = GetMappedValue<TIPOCLI, ClientTypeDto>(reader.Read<TIPOCLI>()
+                    .FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.MERCADO))
+            {
+                ClientMarketDto = GetMappedValue<MERCADO, MercadoDto>(reader.Read<MERCADO>()
+                    .FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.ZONA))
+            {
+                ClientZonaDto =  GetMappedValue<ZONAS, ClientZoneDto>(reader.Read<ZONAS>().FirstOrDefault());
+            }
+            if (clientPoco.IDIOMA.HasValue)
+            {
+                LanguageDto = GetMappedValue<IDIOMAS, LanguageDto>(reader.Read<IDIOMAS>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.TARTI))
+            {
+                CreditCardDto = GetMappedValue<TARCREDI, CreditCardDto>(reader.Read<TARCREDI>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.CANAL))
+            {
+                ChannelDto = GetMappedValue<CANAL, ChannelDto>(reader.Read<CANAL>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.SUBLICEN))
+            {
+                CompanyDto = GetMappedValue<SUBLICEN, CompanyDto>(reader.Read<SUBLICEN>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.OFICINA))
+            {
+                OfficeDto = GetMappedValue<OFICINAS, OfficeDtos>(reader.Read<OFICINAS>().FirstOrDefault());
+            }
+            if ((clientPoco.USO_ALQUILER.HasValue) && (clientPoco.USO_ALQUILER > 0))
+            {
+                RentUsageDto =
+                    GetMappedValue<USO_ALQUILER, RentingUseDto>(reader.Read<USO_ALQUILER>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.SECTOR))
+            {
+                ActivityDto = GetMappedValue<ACTIVI, ActividadDto>(reader.Read<ACTIVI>().FirstOrDefault());
+            }
+            if (!string.IsNullOrEmpty(clientPoco.CLIENTEFAC))
+            {
+                var cli = reader.Read<ClientSummaryDto>().FirstOrDefault();
+                var drivers = new ObservableCollection<ClientSummaryDto>();
+                drivers.Add(cli);
+                DriversDto = drivers;
+            }
+            IEnumerable<CliContactsPoco> con = reader.Read<CliContactsPoco>();
+            ContactsDto = _mapper.Map<IEnumerable<CliContactsPoco>, IEnumerable<ContactsDto>>(con);
+            if (_currentPoco.FPAGO.HasValue)
+            {
+                PaymentFormDto = GetMappedValue<FORMAS, PaymentFormDto>(reader.Read<FORMAS>().FirstOrDefault());
+            }
+        }
         /// <summary>
         /// This load the value of clients.
         /// </summary>
@@ -122,9 +251,7 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public async Task<bool> LoadValue(string code)
         {
-            Contract.Assert(!string.IsNullOrEmpty(code), "Client code shall be not unique");
-            //var whereClause = string.Format(WhereClause, code);
-            // var query = string.Format(Clientes, _currentFlags, whereClause);
+            Contract.Assert(!string.IsNullOrEmpty(code), "Client code shall be not empty");
             IDbConnection conn = null;
             bool returnValue = false;
             if (_sqlExecutor.Connection.State == ConnectionState.Open)
@@ -138,50 +265,17 @@ namespace DataAccessLayer.Model
             }
             if (conn != null)
             {
-                var clients1 = await conn.GetAsync<CLIENTES1>(code);
-                var clients2 = await conn.GetAsync<CLIENTES2>(code);
-                var poco1 = _mapper.Map<CLIENTES1, ClientPoco>(clients1);
-                var poco2 = _mapper.Map<CLIENTES2, ClientPoco>(clients2);
-                // merges clients to a single entity.
-                MergePOCO<ClientPoco> merger = new MergePOCO<ClientPoco>();
-                IDictionary<string, ClientPoco> ctx = new Dictionary<string, ClientPoco>();
-                ctx.Add(MergePOCO<ClientPoco>.EntityName, poco2);
-                _currentPoco = merger.Convert(poco1, ctx);
+
+                Stopwatch wait = new Stopwatch();
+                wait.Start();
+                _currentPoco = await LoadEntity(conn, code);
                 if (_currentPoco != null)
                 {
-                    // load helpers.
-                    CitiesDto = await GetMappedAsync<POBLACIONES, CityDto>(_currentPoco.CP, conn).ConfigureAwait(false);
-                    ClientTypeDto = await GetMappedAsync<TIPOCLI, ClientTypeDto>(_currentPoco.TIPOCLI, conn)
-                        .ConfigureAwait(false);
-                    ClientMarketDto = await GetMappedAsync<MERCADO, MercadoDto>(_currentPoco.MERCADO, conn)
-                        .ConfigureAwait(false);
-
-                    ClientZonaDto = await GetMappedAsync<ZONAS, ClientZoneDto>(_currentPoco.ZONA, conn)
-                        .ConfigureAwait(false);
-                    CreditCardDto = await GetMappedAsync<TARCREDI, CreditCardDto>(_currentPoco.TARTI, conn)
-                        .ConfigureAwait(false);
-                    LanguageDto = await GetMappedAsync<IDIOMAS, LanguageDto>(_currentPoco.IDIOMA.ToString(), conn);
-                    ClientPoco clientPoco = await GetClientAsync(conn, _currentPoco.CLIENTEFAC);
-                    var cli = _mapper.Map<ClientPoco, ClientSummaryDto>(clientPoco);
-                    var drivers = new ObservableCollection<ClientSummaryDto>();
-                    drivers.Add(cli);
-                    DriversDto = drivers;
-                    ResellerDto = await GetMappedAsync<VENDEDOR, ResellerDto>(_currentPoco.VENDEDOR, conn);
-                    CompanyDto = await GetMappedAsync<SUBLICEN, CompanyDto>(_currentPoco.SUBLICEN, conn);
-                    OfficeDto = await GetMappedAsync<OFICINAS, OfficeDtos>(_currentPoco.OFICINA, conn);
-                    ProvinciaDto = await GetMappedAsync<PROVINCIA, ProvinciaDto>(_currentPoco.PROVINCIA, conn);
-                    if (_currentPoco.FPAGO.HasValue)
-                    {
-                        PaymentFormDto = await GetMappedAsync<FORMAS, PaymentFormDto>(_currentPoco.FPAGO.Value, conn);
-                    }
-                    ActivityDto = await GetMappedAsync<ACTIVI, ActividadDto>(_currentPoco.SECTOR, conn);
-                    ClientMarketDto = await GetMappedAsync<MERCADO, MercadoDto>(_currentPoco.MERCADO, conn);
-                    ChannelDto = await GetMappedAsync<CANAL, ChannelDto>(_currentPoco.MERCADO, conn);
-                    if (_currentPoco.USO_ALQUILER.HasValue)
-                    {
-                        var rentingUsage = _currentPoco.USO_ALQUILER.Value;
-                        RentUsageDto = await GetMappedAsync<USO_ALQUILER, RentingUseDto>(rentingUsage, conn);
-                    }
+                    SqlMapper.GridReader reader = null;
+                    QueryStore store = CreateQueryStore(_currentPoco);
+                    string multipleQuery = store.BuildQuery();
+                    reader = await conn.QueryMultipleAsync(multipleQuery);
+                    SetDataTransferObject(reader, _currentPoco);
                     string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
                     var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
                         (branch, prov) =>
@@ -189,14 +283,10 @@ namespace DataAccessLayer.Model
                             branch.PROV = prov;
                             return branch;
                         }, splitOn: "SIGLAS");
+
                     if (delegations != null)
                     {
                         BranchesDto = _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
-                    }
-                    var contacts = await conn.QueryAsync<CliContactsPoco>(_queryContactos);
-                    if (contacts != null)
-                    {
-                        ContactsDto = _mapper.Map<IEnumerable<CliContactsPoco>, IEnumerable<ContactsDto>>(contacts);
                     }
                 }
                 if (_currentPoco != null)
@@ -214,19 +304,36 @@ namespace DataAccessLayer.Model
         private async Task<ObservableCollection<DataTransfer>> GetMappedAsync<T, DataTransfer>(string id, IDbConnection connection) where T : class
             where DataTransfer : class, new()
         {
+
             Contract.Assert(connection != null, "Connection shall be not null!");
             ObservableCollection<DataTransfer> transfer = new ObservableCollection<DataTransfer>();
             if (string.IsNullOrEmpty(id))
             {
                 return transfer;
             }
-            var current = await connection.GetAsync<T>(id);
+            var current = await connection.GetCodeNameAsync<T>(id);
             if (current != null)
             {
                 var value = _mapper.Map<T, DataTransfer>(current);
                 transfer.Add(value);
                 Contract.Ensures(transfer.Count > 0, "Count is not null");
             }
+            return transfer;
+        }
+
+        private ObservableCollection<DataTransfer> GetMappedValue<T, DataTransfer>(T entity) where T : class
+            where DataTransfer : class, new()
+        {
+
+
+            ObservableCollection<DataTransfer> transfer = new ObservableCollection<DataTransfer>();
+            if (entity == null)
+            {
+                return transfer;
+            }
+            var value = _mapper.Map<T, DataTransfer>(entity);
+            transfer.Add(value);
+            Contract.Ensures(transfer.Count > 0, "Count is not null");
             return transfer;
         }
         private async Task<ObservableCollection<DataTransfer>> GetMappedAsync<T, DataTransfer>(byte id, IDbConnection connection) where T : class
@@ -243,7 +350,22 @@ namespace DataAccessLayer.Model
             }
             return transfer;
         }
+        private async Task<ObservableCollection<DataTransfer>> GetMappedTableAsync<T, DataTransfer>(string id,
+            string table, IDbConnection connection) where T : class
+            where DataTransfer : class, new()
+        {
 
+            Contract.Assert(connection != null, "Connection shall be not null!");
+            ObservableCollection<DataTransfer> transfer = new ObservableCollection<DataTransfer>();
+            var current = await connection.GetCodeNameAsync<T>(id);
+            if (current != null)
+            {
+                var value = _mapper.Map<T, DataTransfer>(current);
+                transfer.Add(value);
+                Contract.Ensures(transfer.Count > 0, "Count is not null");
+            }
+            return transfer;
+        }
         /// <summary>
         ///  This save all clients.
         /// </summary>
@@ -367,7 +489,7 @@ namespace DataAccessLayer.Model
         public bool Valid { get; set; }
 
         public IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
-        public IEnumerable<PaymentFormDto> PaymentFormDto { get; private set; }
+        public IEnumerable<PaymentFormDto> PaymentFormDto { get; set; }
         public IEnumerable<CountryDto> CountryDto { get; set; }
         public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
         public IEnumerable<OrigenDto> OrigenDto { get; set; }

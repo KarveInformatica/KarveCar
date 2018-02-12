@@ -12,6 +12,7 @@ using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using MasterModule.Views;
+using Microsoft.Practices.Unity;
 using NLog;
 using Prism.Commands;
 using Prism.Regions;
@@ -28,6 +29,8 @@ namespace MasterModule.ViewModels
         ///  Region manager to the region
         /// </summary>
         private IRegionManager _regionManager;
+
+        private IUnityContainer _container;
         /// <summary>
         ///  Mailbox for this cleint view model.
         /// </summary>
@@ -52,13 +55,14 @@ namespace MasterModule.ViewModels
         /// <param name="eventManager">The event manager implements the mediator design pattern</param>
         /// <param name="services">Data access layer interface. It provide an abstraction to database access</param>
         /// <param name="regionManager">The region manager is useful to manage regions and navigate/create new views.</param>
-        public ClientsControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
+        public ClientsControlViewModel(IUnityContainer container, IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
 
         {
             _clientDataServices = services.GetClientDataServices();
             _regionManager = regionManager;
             _mailBoxName = EventSubsystem.ClientSummaryVm;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
+            _container = container;
             InitViewModel();
         }
 
@@ -67,6 +71,8 @@ namespace MasterModule.ViewModels
             // each grid needs an unique identifier for setting the grid change in the database.
             GridIdentifier = GridIdentifiers.ClientSummaryGrid;
             StartAndNotify();
+            
+            //Navigate("new","new");
         }
 
         /// <summary>
@@ -74,6 +80,8 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void StartAndNotify()
         {
+            // this is a trick to speed up further creations and load prism.
+            _container.Resolve<ClientsInfoView>();
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.ClientSummaryVm, MessageHandlerMailBox);
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_clientDataServices.GetAsyncAllClientSummary(), InitializationNotifierOnPropertyChanged);
@@ -108,8 +116,9 @@ namespace MasterModule.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("id", code);
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewName);
-            var uri = new Uri(typeof(VehicleInfoView).FullName + navigationParameters, UriKind.Relative);
-            _regionManager.RequestNavigate("TabRegion", uri);
+            var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.
+                RequestNavigate("TabRegion", uri);
         }
         /// <summary>
         ///  Delete Async a new item.
@@ -144,7 +153,9 @@ namespace MasterModule.ViewModels
                 navigationParameters.Add("Id", clientId);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
                 var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Before navigation: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
                 _regionManager.RequestNavigate("TabRegion", uri);
+                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Data before: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
                 IClientData provider = await _clientDataServices.GetAsyncClientDo(clientId);
                 Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Data loaded: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);

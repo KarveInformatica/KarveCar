@@ -103,24 +103,25 @@ namespace KarveCommon.Generic
                                                   "LEFT OUTER JOIN PAIS " +
                                                   "ON PAIS.SIGLAS = CLIENTES1.NACIOPER";
 
-        public const string ExtendedClientsSummaryQuery = "select NUMERO_CLI as Code, " +
+        public const string ExtendedClientsSummaryQuery = "select CLIENTES1.NUMERO_CLI as Code, " +
                                                   "NOMBRE as Name, " +
                                                   "NIF as Nif," +
                                                   "DIRECCION as Direction, " +
                                                   "POBLACION as City, " +
                                                   "TARNUM as NumberCreditCard, "+
                                                   "TARTI as CreditCardType, " +
-                                                  "CONTABLE as AccountableAccount, "+
-                                                  "CP as Zip, "+
-                                                  "SECTOR as Sector, " +
+                                                  "CLIENTES1.CP as Zip, "+
+                                                  "CLIENTES2.SECTOR as Sector, " +
                                                   "PROVINCIA.PROV as Province, " +
                                                   "PAIS.PAIS as Country, " +
                                                   "TELEFONO as Phone, " +
                                                   "OFICINA as Oficina, " +
-                                                  "VENDIDOR as Vendidor, " +
+                                                  "CLIENTES2.VENDEDOR as Vendidor, " +
                                                   "ALTA as Falta, " +
                                                   "MOVIL as Movil " +
                                                   "from CLIENTES1 " +
+                                                  "INNER JOIN CLIENTES2 " +
+                                                  "ON CLIENTES2.NUMERO_CLI = CLIENTES1.NUMERO_CLI "+
                                                   "LEFT OUTER JOIN PROVINCIA " +
                                                   "ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA " +
                                                   "LEFT OUTER JOIN PAIS " +

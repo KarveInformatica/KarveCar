@@ -19,9 +19,7 @@
 
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-                
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -32,11 +30,13 @@
             <i:Interaction.Triggers>
 
                 <i:EventTrigger EventName="Loaded">
-                    <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
+                    <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <StackPanel Orientation="Vertical">
-                <local:UpperBarClientView></local:UpperBarClientView>
+                
+                    <local:UpperBarClientView></local:UpperBarClientView>
+                
                 <TabControl x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
                     <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -46,7 +46,7 @@
                                 <ComboBox Width="200" x:Name="CompanyAndDriver">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding SelectCompanyOrDriver,Mode=OneWay,PresentationTraceSources.TraceLevel=High}"/>
+                                            <mvvm1:InvokeCommandAction Command="{Binding SelectCompanyOrDriver,Mode=OneWay}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
 
@@ -72,6 +72,7 @@
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="Datos Cliente" Grid.Column="0">
                                     <StackPanel>
+                                        
                                         <clients:GeneralInfoView />
                                         <GroupBox Header="Opcion Cliente">
                                             <Grid>
@@ -133,13 +134,23 @@
                                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             karveControls:ControlExt.DataSourcePath="OBSERVA" Width="582"
                                         />
-                                       
+                                     
                                     </StackPanel>
 
                                 </GroupBox>
-                                
 
-                                <ContentControl Grid.Column="1" mvvm1:RegionManager.RegionName="{Binding ClientInfoRightRegionName, Mode=TwoWay}"></ContentControl>
+                                <Grid Grid.Column="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl mvvm1:RegionManager.RegionName="{Binding DriverZoneRegionName}" Grid.Row="0"></ContentControl>
+                                    <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
+                                        <karveControls:CreditCardUserControl Margin="-2,0,0,0"/>
+                                    </GroupBox>
+                                   
+                                </Grid>
+                                
                                
 
                             </Grid>
@@ -193,6 +204,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
+                   
                     
                 </TabControl>
             </StackPanel>

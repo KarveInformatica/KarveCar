@@ -21,7 +21,7 @@
             <KarveControls:DataArea x:Name="ContentArea"
                    
                                             DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
-                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}" TextChanged="ContentArea_TextChanged">
+                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}">
             </KarveControls:DataArea>
        
         </StackPanel>

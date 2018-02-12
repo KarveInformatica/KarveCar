@@ -1187,11 +1187,12 @@ namespace KarveControls
 
         private void RaiseKeyAssist()
         {
-            /*
+           /*
             if ((Popup != null) && Popup.IsOpen)
             {
                 return;
             }*/
+
             if (string.IsNullOrEmpty(this.AssistQuery))
             {
                 AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
@@ -1219,8 +1220,14 @@ namespace KarveControls
         }
         private void RaiseMagnifierPressEvent()
         {
-            if (this.Popup.IsOpen)
+            Popup = GetTemplateChild("PART_PopUp") as Popup;
+            if (Popup == null)
                 return;
+            if (Popup.IsOpen)
+            {
+                return;
+            }
+         
             MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
             
             if (string.IsNullOrEmpty(this.AssistQuery))

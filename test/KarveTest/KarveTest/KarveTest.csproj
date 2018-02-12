@@ -136,6 +136,7 @@
     <Compile Include="Base\TestEnviromentVariables.cs" />
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
+    <Compile Include="DAL\TestBuildQuery.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />

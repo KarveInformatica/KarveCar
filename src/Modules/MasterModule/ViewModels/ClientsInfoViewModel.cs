@@ -37,6 +37,8 @@ namespace MasterModule.ViewModels
         private bool _stateVisible;
         private string _clientRegion;
         private ClientesDto _currentClientDo = new ClientesDto();
+        private string _driverZone;
+
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
@@ -92,10 +94,10 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Navigate to the view.
         /// </summary>
-        /// <param name="viewName">Viewname to view</param>
-        private void NavigateToRightDetail()
+       
+        private void NavigateDefault()
         {
-            RegionManager.RequestNavigate(ClientInfoRightRegionName, "RightDetail");
+            RegionManager.RequestNavigate(DriverZoneRegionName, "DriverLicense");
         }
         /// <summary>
         /// Navigate to drivers.
@@ -120,7 +122,7 @@ namespace MasterModule.ViewModels
             CurrentOperationalState = DataPayLoad.Type.Show;
             ContentAreaCommand = new DelegateCommand<object>(OnContentAreaCommand);
             _helperData = new HelperData();
-            NavigateToRightDetail();
+            NavigateDefault();
         }
 
         private void OnContentAreaCommand(object obj)
@@ -144,7 +146,7 @@ namespace MasterModule.ViewModels
             }
             if (StateVisible)
             {
-                RegionManager.RequestNavigate(DriverZoneRegionName, "DrivingLicense");
+                RegionManager.RequestNavigate(DriverZoneRegionName, "DriverLicense");
             }
             else
             {
@@ -513,7 +515,16 @@ namespace MasterModule.ViewModels
             set { _clientRegion = value; RaisePropertyChanged(); }
         }
 
-        public string DriverZoneRegionName { get; private set; }
+        public string DriverZoneRegionName
+        {
+            get { return _driverZone; }
+
+            set
+            {
+                _driverZone = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public bool StateVisible
         {
@@ -545,9 +556,6 @@ namespace MasterModule.ViewModels
                     ClientHelper = clientHelper;
                     // When the view model receive a message broadcast to its child view models.                
                     EventManager.SendMessage(UpperBarClientViewModel.Name, payload);
-                    RegionManager.RequestNavigate(ClientInfoRightRegionName, "RightDetail");
-                    string rightDetailUri = "master://" + typeof(RightDetailViewModel).FullName;
-                    EventManager.SendMessage(rightDetailUri, payload);
                     Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();

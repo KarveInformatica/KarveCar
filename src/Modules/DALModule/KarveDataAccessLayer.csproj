@@ -1149,6 +1149,7 @@
     <Compile Include="SQL\OleDbExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\RuleDAL.cs" />
+    <Compile Include="SQL\QueryStore.cs" />
     <Compile Include="SQL\SQLExecutorException.cs" />
     <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="Exception\SupplierDataServiceAccessDeniedException.cs" />
@@ -1187,6 +1188,7 @@
   <ItemGroup>
     <Folder Include="Attributes\" />
     <Folder Include="DataAccessLayer\" />
+    <Folder Include="Test\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

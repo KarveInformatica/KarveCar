@@ -764,6 +764,9 @@
   <ItemGroup>
     <Resource Include="Images\companydrivers.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\backarrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -22,12 +22,13 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
         [Key]
         [FieldSize("7")]
+        [MagnifierCode]
 		public string CP { get; set; }
  
 	/// <summary>
     ///  Set or get the POBLA property.
     /// </summary>
-    
+        [MagnifierValue]
 		public string POBLA { get; set; }
  
 	/// <summary>

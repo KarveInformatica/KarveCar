@@ -14,6 +14,7 @@
              d:DesignHeight="300" d:DesignWidth="800">
     <Grid>
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+           
             <WrapPanel Name="ContextLayout">
 
                 <KarveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
@@ -77,6 +78,7 @@
 
 
             </WrapPanel>
+           
         </GroupBox>
     </Grid>
 </UserControl>

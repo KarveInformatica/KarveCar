@@ -16,7 +16,8 @@ namespace DataAccessLayer.DataObjects
         /// </summary>
         [FieldSize("2")]
         [Key]
-		public string NUM_TICLI { get; set; }
+        [MagnifierCode]
+        public string NUM_TICLI { get; set; }
 	    /// <summary>
         ///  Set or get the ULTMODI property.
         /// </summary>
@@ -25,12 +26,11 @@ namespace DataAccessLayer.DataObjects
         ///  Set or get the USUARIO property.
         /// </summary>
 		public string USUARIO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the NOMBRE property.
-    /// </summary>
-    
-		public string NOMBRE { get; set; }
+        /// <summary>
+        ///  Set or get the NOMBRE property.
+        /// </summary>
+        [MagnifierValue]
+        public string NOMBRE { get; set; }
  
 	/// <summary>
     ///  Set or get the COLORLUPAS property.

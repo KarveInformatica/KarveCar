@@ -632,6 +632,32 @@ namespace KarveDapper.Extensions
             }
             return 0;
         }
+        /// <summary>
+        ///  This get the property that contains the magnifier
+        /// </summary>
+        public static Tuple<PropertyInfo, PropertyInfo> GetMagnifierCodeName<T>(string method)
+        {
+            var type = typeof(T);
+            if (type.IsArray)
+            {
+                type = type.GetElementType();
+            }
+            else if (type.IsGenericType)
+            {
+                type = type.GetGenericArguments()[0];
+            }
+            var allProperties = TypePropertiesCache(type);
+            var codeProperties = allProperties.Where(p => p.GetCustomAttributes(true).Any(a => a is MagnifierCodeAttribute)).ToList();
+            var valueProperties = allProperties.Where(p => p.GetCustomAttributes(true).Any(a => a is MagnifierValueAttribute)).ToList();
+            var firstValue = codeProperties.FirstOrDefault();
+            var secondValue = valueProperties.FirstOrDefault();
+            if ((firstValue == null) || (secondValue == null))
+            {
+                throw new DataException($"{method}<T> is a null value.");
+            }
+            Tuple<PropertyInfo, PropertyInfo> firstOrDefault = new Tuple<PropertyInfo, PropertyInfo>(firstValue, secondValue);
+            return firstOrDefault;
+        }
 
         /// <summary>
         ///  Gives that is present. TODO: add post condition.
@@ -910,6 +936,21 @@ namespace KarveDapper.Extensions
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class ExplicitKeyAttribute : Attribute
+    {
+    }
+    /// <summary>
+    /// Specifies that this field is a explicitly used as code in the magnifier.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class MagnifierCodeAttribute : Attribute
+    {
+    }
+
+    /// <summary>
+    /// Specifies that this field is a explicitly used as value in the magnifier.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class MagnifierValueAttribute : Attribute
     {
     }
 

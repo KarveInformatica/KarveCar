@@ -19,6 +19,7 @@ namespace DataAccessLayer.DataObjects
         /// </summary>
         [Key]
         [FieldSize("2")]
+        [MagnifierCode]
 		public string CODIGO { get; set; }
  
 	/// <summary>
@@ -30,7 +31,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the NOMBRE property.
     /// </summary>
-    
+        [MagnifierValue]
 		public string NOMBRE { get; set; }
 	}
 }

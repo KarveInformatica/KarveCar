@@ -41,7 +41,7 @@ namespace MasterModule
             _container.RegisterType<object, ClientsInfoView>(typeof(ClientsInfoView).FullName);
             _container.RegisterType<object, UpperBarClientView>(typeof(UpperBarClientView).FullName);
             _container.RegisterType<object, DriversControlView>(typeof(DriversControlView).FullName);
-            _container.RegisterType<object, RightDetailView>("RightDetail");
+           // _container.RegisterType<object, RightDetailView>("RightDetail");
             _container.RegisterType<object, CompanyDrivers>("CompanyDrivers");
             _container.RegisterType<object, DriverLicenseView>("DriverLicense");
 

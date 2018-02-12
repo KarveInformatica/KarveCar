@@ -1767,7 +1767,9 @@
                         </dragablz:TabablzControl>-->
 
 
-            <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" prism:RegionManager.RegionName="TabRegion" ClosingItemCallback="{Binding ClosingTabItemHandler}">
+            <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
+                                     prism:RegionManager.RegionName="TabRegion" 
+                                     ClosingItemCallback="{Binding ClosingTabItemHandler}">
                 <dragablz:TabablzControl.InterTabController>
                     <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
                 </dragablz:TabablzControl.InterTabController>

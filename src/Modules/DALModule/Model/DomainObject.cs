@@ -11,7 +11,8 @@ namespace DataAccessLayer.Model
     /// </summary>
     public abstract class DomainObject: BindableBase, IRevertibleChangeTracking, INotifyDataErrorInfo
     {
-        /// <summary>
+
+        
         ///  Get the errors relative to a property.
         /// </summary>
         /// <param name="propertyName"></param>
