@@ -15,7 +15,7 @@ namespace DataAccessLayer
     /// <summary>
     ///  Abstract class for the common interface in the data access layer.
     /// </summary>
-    public class AbstractDataAccessLayer
+    internal class AbstractDataAccessLayer
     {
         private ISqlExecutor _executor;
         protected DataLoader _sqlFieldLoader = new DataLoader();

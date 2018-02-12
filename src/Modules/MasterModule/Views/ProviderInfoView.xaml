@@ -112,12 +112,14 @@
 
 
                             <StackPanel>
-                                <karveControls:DataField  DataSourcePath="NOMBRE" 
+                                <karveControls:DataField   
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}"
-                                                      LabelTextWidth="150"
-                                                      TextContentWidth="400"
-                                                      Margin="0,5,0,0"
+                                                      
+                                    TextContent="{Binding Path=DataObject.NOMBRE, 
+                                                        Mode=TwoWay, ValidatesOnDataErrors=True, 
+                                    ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                                                          Margin="0,5,0,0"
                                                       IsReadOnly="False">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="DataFieldChanged">

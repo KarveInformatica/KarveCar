@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Transactions;
 using Dapper;
 using DataAccessLayer.Model;
-using Model;
 using DesignByContract;
 using KarveCommon.Generic;
 using KarveDataServices;
@@ -18,7 +14,7 @@ namespace DataAccessLayer
     /// <summary>
     /// This is an implementation of the data access layer for the data services.
     /// </summary>
-    public class VehiclesDataAccessLayer : AbstractDataAccessLayer, IVehicleDataServices
+    internal class VehiclesDataAccessLayer : AbstractDataAccessLayer, IVehicleDataServices
     {
         private readonly ISqlExecutor _sqlExecutor;
         private const string PrimaryKey = "CODIINT";

@@ -236,9 +236,6 @@
     </Compile>
     <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
-    <Compile Include="DualDataField\DualDataField.xaml.cs">
-      <DependentUpon>DualDataField.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
     <Compile Include="Generic\ComponentUtils.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
@@ -253,6 +250,7 @@
     <Compile Include="MapControl\MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PhotoFrame\PhotoFrameException.cs" />
     <Compile Include="PhotoFrame\PhotoFrame.xaml.cs">
       <DependentUpon>PhotoFrame.xaml</DependentUpon>
     </Compile>
@@ -306,10 +304,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DataRatingsControl\StarsControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DualDataField\DualDataField.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

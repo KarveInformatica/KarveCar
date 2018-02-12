@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using DevExpress.Emf;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
@@ -95,6 +93,10 @@ namespace KarveDataServices
         ///  Drivers Dto.
         /// </summary>
         IEnumerable<ClientSummaryDto> DriversDto { get; set; }
+        /// <summary>
+        /// ContactsDto.
+        /// </summary>
+        IEnumerable<ContactsDto> ContactsDto { get; set; }
     }
 
 }

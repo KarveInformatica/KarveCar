@@ -1,36 +1,11 @@
 ﻿using System.Collections.Generic;
-using KarveDataServices.DataObjects;
+using KarveDataServices;
 using KarveDataServices.DataTransferObject;
-using NLog;
 
-namespace DataAccessLayer.Model
+namespace DataAccessLayer.Crud.Clients
 {
-
-    public class ClientFactory
+    internal class ClientHelperData : IHelperData
     {
-        /// <summary>
-        ///  Create a client wrapper from a data transfer object.
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        static IClientData CreateClient(ClientDto dto)
-        {
-           var value = new Client();
-           value.Value = dto;
-           return value;
-        }
-    }
-    /// <summary>
-    ///  Wrapper of the domain object for the client.
-    ///  It is useful for detecting changes and working with client related tables. 
-    /// </summary>
-    public class Client : DomainObject, IClientData
-    {
-        protected Logger Logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>
-        ///  Helpper setter and getter.
-        /// </summary>
         public IEnumerable<ActividadDto> ActivityDto { get; set; }
         public IEnumerable<ClientTypeDto> ClientTypeDto { get; set; }
         public IEnumerable<CreditCardDto> CreditCardType { get; set; }
@@ -53,14 +28,5 @@ namespace DataAccessLayer.Model
         public IEnumerable<LanguageDto> LanguageDto { get; set; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
-        /// <summary>
-        ///  Value of the client data trasnfer object.
-        /// </summary>
-        public ClientDto Value { get; set; }
-        /// <summary>
-        ///  get/set if the object is valid
-        /// </summary>
-        public bool Valid { get; set; }
-
     }
 }

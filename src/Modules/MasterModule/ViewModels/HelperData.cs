@@ -102,5 +102,8 @@ namespace MasterModule.ViewModels
         ///  Gives you the list of drivers.
         /// </summary>
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
+        // Contacts dto.
+
+        public IEnumerable<ContactsDto> ContactsDto { get ; set; }
     }
 }

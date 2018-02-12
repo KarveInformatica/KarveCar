@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a Visitas.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("Visitas")]
 	public class Visitas 
 	{
 	
 	/// <summary>
     ///  Set or get the visIdVisita property.
     /// </summary>
-    
+        [Key]
 		public string visIdVisita { get; set; }
  
 	/// <summary>

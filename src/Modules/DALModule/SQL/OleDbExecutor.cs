@@ -106,7 +106,7 @@ namespace DataAccessLayer.SQL
             }
             catch (System.Exception e)
             {
-                Logger.Info(e.Message);
+                Logger.Error(e.Message);
                 return false;
             }
             return true;

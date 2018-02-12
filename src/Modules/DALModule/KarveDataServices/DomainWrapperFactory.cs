@@ -52,7 +52,7 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="dto">Data transfer object for clients</param>
         /// <returns></returns>
-        public virtual async Task<IClientData> CreateClientAsync(ClientesDto dto)
+        public virtual async Task<IClientData> CreateClientAsync(ClientDto dto)
         {
             IClientData data = await _services.GetClientDataServices().GetAsyncClientDo(dto.NUMERO_CLI);
           

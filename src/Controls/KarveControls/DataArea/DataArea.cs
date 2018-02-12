@@ -24,8 +24,7 @@ namespace KarveControls
         private double _dataAreaWidth;
         private string _dataAreaLabel;
         private bool _dataAreaChanged = false;
-        private object _itemSource;
-        private string _DataArea = string.Empty;
+        private string _currentDataArea = string.Empty;
         private string _previousDataArea = string.Empty;
         private MultiLineTextEditor _editorText;
         private Button _searchButton;
@@ -125,9 +124,9 @@ namespace KarveControls
             add { AddHandler(DataAreaChangedEvent, value); }
             remove { RemoveHandler(DataAreaChangedEvent, value); }
         }
-        #region ItemSource
+        #region DataSource
         /// <summary>
-        ///  Item source dependency property.
+        ///  Data source dependency property.
         /// </summary>
         public static DependencyProperty ItemSourceDependencyProperty
             = DependencyProperty.Register(
@@ -156,7 +155,7 @@ namespace KarveControls
         }
         private void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
         {
-            this._itemSource = e.NewValue;
+            
             CheckAndAssignText(DataSource, DataSourcePath);
         }
 
@@ -231,6 +230,8 @@ namespace KarveControls
         /// <param name="path">Path of the property.</param>
         private void CheckAndAssignText(object sourceNew, string path)
         {
+            if (string.IsNullOrEmpty(path))
+                return;
             // first try without the value part
             string propValue = ComponentUtils.GetPropValue(sourceNew, path) as string;
             if (string.IsNullOrEmpty(propValue))
@@ -456,7 +457,7 @@ namespace KarveControls
             if ((editorText != null) &&  (value!=null))
             {
                 editorText.Text = value;
-                _DataArea = value;
+                _currentDataArea = value;
             }
         }
         #endregion
@@ -468,9 +469,17 @@ namespace KarveControls
             RaiseEvent(routedEventArgs);
         }
 
+        private IDictionary<string, object> CreateDictionary(object source, string newValue, string oldValue)
+        {
+            IDictionary<string, object> valueDictionary= new Dictionary<string, object>();
+            valueDictionary["DataObject"] = source;
+            valueDictionary["ChangedValue"] = newValue;
+            valueDictionary["OldChangedValue"] = oldValue;
+            return valueDictionary;
+        }
         private void EditorTextOnLostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_previousDataArea) && (string.IsNullOrEmpty(this._DataArea)))
+            if (string.IsNullOrEmpty(_previousDataArea) && (string.IsNullOrEmpty(this._currentDataArea)))
                 return;
             if (_editorText == null)
             {
@@ -484,40 +493,57 @@ namespace KarveControls
 
             if (_dataAreaChanged)
             {
-                _previousDataArea = _DataArea;
-                _DataArea = _editorText.Text;
+                _previousDataArea = _currentDataArea;
+                _currentDataArea = _editorText.Text;
                 if (_editorText.Text != null)
                 {
                     DataAreaFieldEventsArgs ev = new DataAreaFieldEventsArgs(DataAreaChangedEvent);
                     ev.FieldData = _editorText.Text;
                     ComponentFiller filler = new ComponentFiller();
-                    var dataObject = DataSource;
 
-                    filler.FillDataObject(_editorText.Text, DataSourcePath, ref dataObject);
-                    DataSource = dataObject;
 
-                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-
-                    valueDictionary["Field"] = DataSourcePath;
-                    valueDictionary["DataTable"] = DataSource;
-                    valueDictionary["DataObject"] = DataSource;
-                    valueDictionary["ChangedValue"] = _editorText.Text;
-
-                    ev.ChangedValuesObjects = valueDictionary;
-
-                    if (ItemChangedCommand != null)
+                    if (!string.IsNullOrEmpty(DataSourcePath))
                     {
-                        ICommand ex = ItemChangedCommand;
-                        if (ex.CanExecute(valueDictionary))
+                        var dataObject = DataSource;
+
+                        filler.FillDataObject(_editorText.Text, DataSourcePath, ref dataObject);
+                        DataSource = dataObject;
+
+                        IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
+
+                        valueDictionary["Field"] = DataSourcePath;
+                        valueDictionary["DataObject"] = DataSource;
+                        valueDictionary["ChangedValue"] = _editorText.Text;
+                        valueDictionary["OldChangedValue"] = _previousDataArea;
+                        ev.ChangedValuesObjects = valueDictionary;
+
+                        if (ItemChangedCommand != null)
                         {
-                            ex.Execute(valueDictionary);
+                            ICommand ex = ItemChangedCommand;
+                            if (ex.CanExecute(valueDictionary))
+                            {
+                                ex.Execute(valueDictionary);
+                            }
+                        }
+                        RaiseEvent(ev);
+                        _dataAreaChanged = false;
+                    }
+                    else
+                    {
+                        IDictionary<string, object> valueDictionary = CreateDictionary(DataSource, _editorText.Text, _previousDataArea);
+                        if (ItemChangedCommand != null)
+                        {
+                            ICommand ex = ItemChangedCommand;
+                            if (ex.CanExecute(valueDictionary))
+                            {
+                                ex.Execute(valueDictionary);
+                            }
                         }
                     }
-                    RaiseEvent(ev);
-                    _dataAreaChanged = false;
                 }
             }
         }
+
         /// <summary>
         ///  Width do the data area.
         /// </summary>

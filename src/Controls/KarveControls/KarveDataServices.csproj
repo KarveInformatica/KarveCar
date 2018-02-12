@@ -90,7 +90,7 @@
     <Compile Include="DataTransferObject\ChannelDto.cs" />
     <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
-    <Compile Include="DataTransferObject\ClientesDto.cs" />
+    <Compile Include="DataTransferObject\ClientDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
     <Compile Include="DataTransferObject\ColorDto.cs" />
     <Compile Include="DataTransferObject\ComisioDto.cs" />

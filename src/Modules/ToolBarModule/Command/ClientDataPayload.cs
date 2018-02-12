@@ -41,7 +41,7 @@ namespace ToolBarModule.Command
         {
             bool result = false;
             bool isInsert = payLoad.PayloadType == DataPayLoad.Type.Insert;
-            ClientesDto clientData = payLoad.DataObject as ClientesDto;
+            ClientDto clientData = payLoad.DataObject as ClientDto;
             // pre: DataServices and vehicle shall be present.
             if ((DataServices == null))
             {

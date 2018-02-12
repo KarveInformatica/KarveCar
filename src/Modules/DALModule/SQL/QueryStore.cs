@@ -32,7 +32,10 @@ namespace DataAccessLayer.SQL
             QueryClientSummary,
             QueryClientContacts,
             QueryClient1,
-            QueryClient2
+            QueryClient2,
+            DeleteClientContacts,
+            DeleteClientBranches,
+            DeleteClientVisits,
         }
 
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
@@ -109,9 +112,19 @@ namespace DataAccessLayer.SQL
                 _dictionary.TryGetValue(typeOfQuery, out valueofQuery);
                 if (!string.IsNullOrEmpty(valueofQuery))
                 {
-                    var value = string.Format(valueofQuery, codeList[i++]);
+                    var value = string.Empty;
+                    if (string.IsNullOrEmpty(codeList[i]))
+                    {
+                        value = valueofQuery;
+                    }
+                    else
+                    {
+                        value = string.Format(valueofQuery, codeList[i++]);
+                    }
+                    
                     currentList.Add(value);
                 }
+                
             }
             return currentList;
         }
@@ -159,6 +172,10 @@ namespace DataAccessLayer.SQL
             return value;
         }
 
-        
+
+        public void AddParam(QueryType query)
+        {
+            _memoryStore.Add(query, string.Empty);
+        }
     }
 }

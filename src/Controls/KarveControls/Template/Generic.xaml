@@ -13,16 +13,8 @@
                              LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                              IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                              DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                             DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                             ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="DataFieldChanged">
-                    <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
+                             ItemChangedCommand="{Binding ChangedItem}"
+                             DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
         </karveControls:DataField>
     </DataTemplate>
     <DataTemplate x:Key="DoubleDataFieldDataTemplate">
@@ -36,7 +28,6 @@
                                  IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
@@ -54,7 +45,6 @@
                                  IsReadOnly="{Binding IsReadOnlyRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataFieldHeight="{Binding HeightRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataSourcePath="{Binding DataFieldRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 ItemSource="{Binding ItemSourceRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
@@ -76,7 +66,6 @@
                                  IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                  DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
         >
 

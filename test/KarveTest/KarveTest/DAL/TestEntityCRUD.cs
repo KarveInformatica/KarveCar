@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DataAccessLayer;
+using DataAccessLayer.Crud;
 using DataAccessLayer.Model;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using KarveDataServices;
 using System.Data;
-using KarveDapper.Extensions;
+using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Dapper;
 using DataAccessLayer.Logic;
-namespace DataAccessLayer
+using KarveDapper.Extensions;
+using KarveDataServices;
+
+namespace DataAccessLayer.Crud
 {
     /// <summary>
     ///  DataLoader. This load asynchronsoly all the data.
@@ -17,7 +18,11 @@ namespace DataAccessLayer
     {
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
-
+        /// <summary>
+        ///  Load all entities from a query and maps directly to a dto.
+        /// </summary>
+        /// <param name="query">Query.</param>
+        /// <returns></returns>
 
         public async Task<IEnumerable<Dto>> LoadAsyncAll(string query)
         {
@@ -74,15 +79,13 @@ namespace DataAccessLayer
 
             try
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
                     if (conn != null)
                     {
                         var values = await conn.GetAllAsync<T>();
                         var outValues = _mapper.Map<IEnumerable<T>, IEnumerable<Dto>>(values);
                         return outValues;
                     }
-                }
+                
             }
             finally
             {
@@ -136,6 +139,7 @@ namespace DataAccessLayer
             _sqlExecutor = executor;
             this._mapper = MapperField.GetMapper();
         }
+
        
     }
 }

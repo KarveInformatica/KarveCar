@@ -1,6 +1,4 @@
 ﻿using System;
-using DevExpress.Xpo;
-
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
@@ -8,9 +6,6 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class VehicleExtraDto : BaseDto
     {
-        public VehicleExtraDto() 
-        {
-        }
         /// <summary>
         ///  Code of the extra
         /// </summary>

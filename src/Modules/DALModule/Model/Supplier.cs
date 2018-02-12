@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -19,6 +21,7 @@ using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveDapper.Extensions;
 using NLog;
+using Prism.Mvvm;
 
 namespace DataAccessLayer.Model
 {
@@ -86,7 +89,7 @@ namespace DataAccessLayer.Model
 
 
     }
-    public class Supplier : DomainObject, ISupplierData
+    public class Supplier : BindableBase, ISupplierData
     {
         // TODO: Craft a query container, query builder.
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -854,5 +857,7 @@ namespace DataAccessLayer.Model
             get { return _deliveringFormDto; }
             set { _deliveringFormDto = value; RaisePropertyChanged(); }
         }
+
+        
     }
 }

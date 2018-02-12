@@ -59,6 +59,7 @@
     <Compile Include="ILinqToTree.cs" />
     <Compile Include="IMagnifierHandler.cs" />
     <Compile Include="IRegionManagerAware.cs" />
+    <Compile Include="IValidationChain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

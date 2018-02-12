@@ -12,11 +12,17 @@
     <Grid x:Name="AssuranceInfoLayout">
         <WrapPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock  Text="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"></TextBlock>
-                <TextBox x:Name="PolizaBox" Width="100" Height="25"
-                         kc:ControlExt.DataSource="{Binding  DataObjectValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         kc:ControlExt.DataSourcePath="{Binding AssurancePolicyPath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                </TextBox>
+                <kc:DataField x:Name="PolizaBox"
+                    LabelText="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"
+                    ItemChangedCommand="{Binding Path=ItemChangedCommand}"
+                    TextContent="{Binding  Path=DataObjectValue, 
+                                           ValidatesOnExceptions=true,
+                                           ValidatesOnNotifyDataErrors=True,
+                                           ValidatesOnDataErrors=True,
+                                           Mode=TwoWay, 
+                                           UpdateSourceTrigger=PropertyChanged}">
+                    
+                </kc:DataField>
             </StackPanel>
 
 <!--

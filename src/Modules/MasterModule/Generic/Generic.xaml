@@ -781,22 +781,7 @@
 
 
                         <Syncfusion:SfDataGrid.Columns>
-                            <!-- 
-                                
-                                AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
-                                                                               Mode=TwoWay,
-                                                                               Path=IsChecked}"
-                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterOrderID},
-                                                                            Mode=TwoWay,
-                                                                            Path=IsChecked}"
-                                                   FilterPopupStyle="{StaticResource popupstyleforOrderID}"
-                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
-                                                                                         Mode=TwoWay,
-                                                   Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
-                                                   MappingName="OrderID"
-                                -->
-
-
+                         
 
                             <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"/>
                             <Syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif"/>
@@ -825,9 +810,7 @@
                                          LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="{Binding DataField, Mode=OneWay,PresentationTraceSources.TraceLevel=High,UpdateSourceTrigger=PropertyChanged}"
-                                         ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                         DataSourcePath="{Binding DataField, Mode=OneWay,PresentationTraceSources.TraceLevel=High,UpdateSourceTrigger=PropertyChanged}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DataFieldChanged">
@@ -857,7 +840,7 @@
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
                                                      Height="25"
-                                                         Margin="0,5,0,0"
+                                                     Margin="0,5,0,0"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
             </KarveControls:DataField>
@@ -935,9 +918,7 @@
                                              LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
@@ -953,9 +934,7 @@
                                              LabelVisible="{Binding LabelVisibleRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              IsReadOnly="{Binding IsReadOnlyRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataFieldHeight="{Binding HeightRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             DataSourcePath="{Binding DataFieldRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             ItemSource="{Binding ItemSourceRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             DataSourcePath="{Binding DataFieldRight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
@@ -977,9 +956,7 @@
                                              IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataSourcePath="{Binding DataField, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             >
+                                            >
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
@@ -1006,7 +983,6 @@
                                                   DataAllowedSecond="{Binding DataTypeSecond, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentFirst="{Binding TextContentFirst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentSecond="{Binding TextContentSecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  TableName="{Binding TableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   AssistTableName="{Binding AssistTableName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   AssistQuery="{Binding AssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentFirstWidth="{Binding TextContentFirstWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1016,7 +992,7 @@
                                                   Visibility="{Binding IsVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                  >
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MagnifierPress">

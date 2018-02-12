@@ -49,8 +49,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -97,7 +95,7 @@
     <Compile Include="DataTransferObject\CityCountryDto.cs" />
     <Compile Include="DataTransferObject\CityDto.cs" />
     <Compile Include="DataTransferObject\ClavePtoDto.cs" />
-    <Compile Include="DataTransferObject\ClientesDto.cs" />
+    <Compile Include="DataTransferObject\ClientDto.cs" />
     <Compile Include="DataTransferObject\ClientOriginDto.cs" />
     <Compile Include="DataTransferObject\ClientsSummaryDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryDto.cs" />
@@ -182,6 +180,12 @@
     <Compile Include="DataObjects\IVehicleData.cs" />
     <Compile Include="IVehicleDataServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -394,21 +394,21 @@ namespace DataAccessLayer.Logic
         }
     }
     /// POCO to Dto converter for the client domain object to merge both.
-    public class ClientToClientes1 : ITypeConverter<CLIENTES1, ClientesDto>
+    public class ClientToClientes1 : ITypeConverter<CLIENTES1, ClientDto>
     {
-        public ClientesDto Convert(CLIENTES1 source, ClientesDto destination, ResolutionContext context)
+        public ClientDto Convert(CLIENTES1 source, ClientDto destination, ResolutionContext context)
         {
-            GenericConverter<CLIENTES1, ClientesDto> gc = new GenericConverter<CLIENTES1, ClientesDto>();
+            GenericConverter<CLIENTES1, ClientDto> gc = new GenericConverter<CLIENTES1, ClientDto>();
             var v = gc.Convert(source, destination, context);
             return v;
         }
     }
     /// POCO to Dto converter for the client domain object to merge both.
-    public class ClientToClientes2 : ITypeConverter<CLIENTES2, ClientesDto>
+    public class ClientToClientes2 : ITypeConverter<CLIENTES2, ClientDto>
     {
-        public ClientesDto Convert(CLIENTES2 source, ClientesDto destination, ResolutionContext context)
+        public ClientDto Convert(CLIENTES2 source, ClientDto destination, ResolutionContext context)
         {
-            GenericConverter<CLIENTES2, ClientesDto> gc = new GenericConverter<CLIENTES2, ClientesDto>();
+            GenericConverter<CLIENTES2, ClientDto> gc = new GenericConverter<CLIENTES2, ClientDto>();
             var v = gc.Convert(source, destination, context);
             return v;
         }
@@ -416,11 +416,11 @@ namespace DataAccessLayer.Logic
     ///
     /// Dto to POCO converter.
     /// 
-    public class ClientDtoToClientes1 : ITypeConverter<ClientesDto, CLIENTES1>
+    public class ClientDtoToClientes1 : ITypeConverter<ClientDto, CLIENTES1>
     {
-        public CLIENTES1 Convert(ClientesDto source, CLIENTES1 destination, ResolutionContext context)
+        public CLIENTES1 Convert(ClientDto source, CLIENTES1 destination, ResolutionContext context)
         {
-            var entityConverter = new GenericBackConverter<ClientesDto, CLIENTES1>();
+            var entityConverter = new GenericBackConverter<ClientDto, CLIENTES1>();
             var entity = entityConverter.Convert(source, destination, context);
             return entity;
         }
@@ -428,11 +428,11 @@ namespace DataAccessLayer.Logic
     ///
     /// Dto to POCO converter.
     /// 
-    public class ClientDtoToClientes2 : ITypeConverter<ClientesDto, CLIENTES2>
+    public class ClientDtoToClientes2 : ITypeConverter<ClientDto, CLIENTES2>
     {
-        public CLIENTES2 Convert(ClientesDto source, CLIENTES2 destination, ResolutionContext context)
+        public CLIENTES2 Convert(ClientDto source, CLIENTES2 destination, ResolutionContext context)
         {
-            var entityConverter = new GenericBackConverter<ClientesDto, CLIENTES2>();
+            var entityConverter = new GenericBackConverter<ClientDto, CLIENTES2>();
             var entity = entityConverter.Convert(source, destination, context);
             return entity;
         }
@@ -441,15 +441,15 @@ namespace DataAccessLayer.Logic
     /// <summary>
     /// POCO to Dto converter for the client domain object
     /// </summary>
-    public class ClientesConverter : ITypeConverter<CLIENTES1, ClientesDto>
+    public class ClientesConverter : ITypeConverter<CLIENTES1, ClientDto>
     {
-        public ClientesDto Convert(CLIENTES1 source, ClientesDto destination, ResolutionContext context)
+        public ClientDto Convert(CLIENTES1 source, ClientDto destination, ResolutionContext context)
         {
-            ClientesDto clientesDto = new ClientesDto();
-            clientesDto.Numero = source.NUMERO_CLI;
-            clientesDto.Nombre = source.NOMBRE;
-            clientesDto.Movil = source.MOVIL;
-            return clientesDto;
+            ClientDto clientDto = new ClientDto();
+            clientDto.Numero = source.NUMERO_CLI;
+            clientDto.Nombre = source.NOMBRE;
+            clientDto.Movil = source.MOVIL;
+            return clientDto;
         }
     }
     /// <summary>
@@ -775,10 +775,10 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
-                cfg.CreateMap<CLIENTES1, ClientesDto>().ConvertUsing(new ClientToClientes1());
-                cfg.CreateMap<CLIENTES2, ClientesDto>().ConvertUsing(new ClientToClientes2());
-                cfg.CreateMap<ClientesDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
-                cfg.CreateMap<ClientesDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
+                cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
+                cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());
+                cfg.CreateMap<ClientDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
+                cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
                 cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
@@ -951,7 +951,7 @@ namespace DataAccessLayer.Logic
 
                     return model;
                 });
-                cfg.CreateMap<ClientPoco, ClientesDto>();
+                cfg.CreateMap<ClientPoco, ClientDto>();
 
                 cfg.CreateMap<CLIENTES1, ClientPoco>().ConvertUsing(src =>
                 {

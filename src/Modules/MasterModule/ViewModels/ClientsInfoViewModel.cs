@@ -36,7 +36,7 @@ namespace MasterModule.ViewModels
         private object _company;
         private bool _stateVisible;
         private string _clientRegion;
-        private ClientesDto _currentClientDo = new ClientesDto();
+        private ClientDto _currentClientDo = new ClientDto();
         private string _driverZone;
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace MasterModule.ViewModels
                 payLoad.HasDataObject = true;
 
             }
-            ChangeFieldHandlerDo<ClientesDto> handlerDo = new ChangeFieldHandlerDo<ClientesDto>(EventManager,
+            ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
                 DataSubSystem.ClientSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
@@ -413,7 +413,7 @@ namespace MasterModule.ViewModels
         ///  This returns the client data.
         ///  We have decied starting from this form to use just the dtos outside and not a complete model wrapper.
         /// </summary>
-        public ClientesDto DataObject
+        public ClientDto DataObject
         {
             get { return _clientData.Value; }
             set { _clientData.Value = value; RaisePropertyChanged(); }
@@ -460,7 +460,7 @@ namespace MasterModule.ViewModels
                     {
                         if (payload.HasDataObject)
                         {
-                            var clientData = payload.DataObject as ClientesDto;
+                            var clientData = payload.DataObject as ClientDto;
                             DataObject = clientData;
                         }
                         break;

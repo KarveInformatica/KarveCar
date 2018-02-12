@@ -2580,4 +2580,13 @@
   <data name="NifExtranjero" xml:space="preserve">
     <value>Nif Extranjero</value>
   </data>
+  <data name="DatosCliente" xml:space="preserve">
+    <value>Datos Cliente</value>
+  </data>
+  <data name="Carga" xml:space="preserve">
+    <value>Carga..</value>
+  </data>
+  <data name="RepresentanteLegal" xml:space="preserve">
+    <value>Representante Legal</value>
+  </data>
 </root>

@@ -25,7 +25,7 @@ namespace DataAccessLayer
                 return new ConcreteDomainFactory(services);     
         }
 
-        public override async Task<IClientData> CreateClientAsync(ClientesDto dto)
+        public override async Task<IClientData> CreateClientAsync(ClientDto dto)
         {
             IClientData data = await _services.GetClientDataServices().GetAsyncClientDo(dto.NUMERO_CLI);
             return data;

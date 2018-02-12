@@ -2,6 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 using Dapper;
+using DataAccessLayer.Crud.Clients;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
@@ -13,10 +14,14 @@ using KarveDataServices.DataTransferObject;
 namespace DataAccessLayer
 {
      /// <summary>
-     /// This class has the resposability to handle the client wrapper and delete, insert, update the values. 
+     /// This class has the resposability to handle the client wrapper and delete, insert, update values. 
      /// </summary>
     internal class ClientDataAccessLayer : IClientDataServices
     {
+        private IDataLoader<ClientDto> _dataLoader;
+        private IDataSaver<ClientDto> _dataSaver;
+        private IDataDeleter<ClientDto> _dataDeleter;
+
         /// <summary>
         ///  Sql executor.
         /// </summary>
@@ -29,6 +34,9 @@ namespace DataAccessLayer
         public ClientDataAccessLayer(ISqlExecutor sqlExecutor)
         {
             _sqlExecutor = sqlExecutor;
+            _dataLoader = new ClientDataLoader(sqlExecutor);
+            _dataSaver = new ClientDataSaver(sqlExecutor);
+            _dataDeleter= new ClientDeleter(sqlExecutor);
         }
         /// <summary>
         ///  Delete the client.
@@ -37,7 +45,7 @@ namespace DataAccessLayer
         /// <returns>True if the data has been deleted correctly</returns>
         public async Task<bool> DeleteClientAsyncDo(IClientData clientData)
         {
-           return await clientData.DeleteAsync();
+            return await _dataDeleter.DeleteAsync(clientData.Value);
         }
         /// <summary>
         ///  Get async client summary.
@@ -49,21 +57,19 @@ namespace DataAccessLayer
             DataSet summary = await _sqlExecutor.AsyncDataSetLoad(str).ConfigureAwait(false);
             return summary;
         }
+
+     
         /// <summary>
-        /// 
+        /// This code return a client model wrapper.
         /// </summary>
         /// <param name="clientIndentifier"></param>
         /// <returns></returns>
         public async Task<IClientData> GetAsyncClientDo(string clientIndentifier)
         {
-            IClientData client = new Client(_sqlExecutor);
-            bool retValue = await client.LoadValue(clientIndentifier);
-            if (retValue)
-            {
-                return client;
-            }
-            
-                return new NullClient();
+            ClientDto dto = await _dataLoader.LoadValueAsync(clientIndentifier);
+            IClientData client = new Client();
+            client.Value = dto;
+            return client;
         }
         /// <summary>
         ///  Get client summary
@@ -74,7 +80,6 @@ namespace DataAccessLayer
         {
           
             IEnumerable<ClientSummaryDto> summaryDtos = new List<ClientSummaryDto>();
-
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try
@@ -88,19 +93,17 @@ namespace DataAccessLayer
             }
             return summaryDtos;
         }
-
-
         public IClientData GetNewClientAgentDo(string code)
         {
-            IClientData varClientData = new Client(_sqlExecutor);
-            varClientData.Value = new ClientesDto();
+            IClientData varClientData = new Client();
+            varClientData.Value = new ClientDto();
             varClientData.Value.NUMERO_CLI = code;
             return varClientData;
         }
         /// <summary>
         ///  Generate an unique id from the entity key.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return a string with the client dto.</returns>
         public string GetNewId()
         {
             CLIENTES1  value = new CLIENTES1();
@@ -129,7 +132,7 @@ namespace DataAccessLayer
 
         public async Task<bool> SaveAsync(IClientData clientData)
         {
-            return await clientData.SaveAll();
+            return await _dataSaver.SaveAsync(clientData.Value);
         }
     }
 }

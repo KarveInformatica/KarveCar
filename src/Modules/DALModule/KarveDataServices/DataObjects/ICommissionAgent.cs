@@ -74,7 +74,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         /// Clientes data transfer object.
         /// </summary>
-        IEnumerable<ClientesDto> ClientsDto { get; set; }
+        IEnumerable<ClientDto> ClientsDto { get; set; }
 
         /// <summary>
         /// Visits dataa trasnfer object.

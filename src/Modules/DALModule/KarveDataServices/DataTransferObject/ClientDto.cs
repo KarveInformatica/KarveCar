@@ -6,9 +6,9 @@ using System.Runtime.Serialization;
 namespace KarveDataServices.DataTransferObject
 {
     [DataContract]
-    public class ClientesDto: BaseDto
+    public class ClientDto: BaseDto
     {
-        public ClientesDto()
+        public ClientDto()
         {
             VisitsDto = new ObservableCollection<VisitsDto>();
             ContactsDto = new ObservableCollection<ContactsDto>();

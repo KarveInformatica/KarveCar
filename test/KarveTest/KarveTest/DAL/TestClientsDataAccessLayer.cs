@@ -109,17 +109,17 @@ namespace KarveTest.DAL
                 IEnumerable<CLIENTES1> value = await dbConnection.GetAllAsync<CLIENTES1>();
                 var singleValue = value.FirstOrDefault();
                 IClientData data = await _clientDataServices.GetAsyncClientDo(singleValue.NUMERO_CLI);
-                ClientesDto dtoClientes = data.Value;
-                Assert.AreEqual(dtoClientes.NUMERO_CLI, singleValue.NUMERO_CLI);
-                dtoClientes.APELLIDO2 = "Zoppi";
-                data.Value = dtoClientes;
+                ClientDto dtoClient = data.Value;
+                Assert.AreEqual(dtoClient.NUMERO_CLI, singleValue.NUMERO_CLI);
+                dtoClient.APELLIDO2 = "Zoppi";
+                data.Value = dtoClient;
                 // Act
                 bool retValue = await _clientDataServices.SaveAsync(data);
-                IClientData dataValue = await _clientDataServices.GetAsyncClientDo(dtoClientes.NUMERO_CLI);
+                IClientData dataValue = await _clientDataServices.GetAsyncClientDo(dtoClient.NUMERO_CLI);
                 // Assert
                 Assert.IsTrue(retValue);
                 Assert.AreEqual(dataValue.Value.NUMERO_CLI, data.Value.NUMERO_CLI);
-                Assert.AreEqual(dataValue.Value.APELLIDO2, dtoClientes.APELLIDO2);
+                Assert.AreEqual(dataValue.Value.APELLIDO2, dtoClient.APELLIDO2);
             }
         }
 
@@ -131,7 +131,7 @@ namespace KarveTest.DAL
                 IEnumerable<CLIENTES1> value = await dbConnection.GetAllAsync<CLIENTES1>();
                 var singleValue = value.FirstOrDefault();
                 IClientData data = await _clientDataServices.GetAsyncClientDo(singleValue.NUMERO_CLI);
-                ClientesDto dtoClientes = data.Value;
+                ClientDto dtoClient = data.Value;
                 var identifier = _clientDataServices.GetNewId();
                 IClientData newClient = _clientDataServices.GetNewClientAgentDo(identifier);
                 newClient.Value.NOMBRE = "Giorgio";

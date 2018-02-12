@@ -70,7 +70,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition ></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <GroupBox Header="Datos Cliente" Grid.Column="0">
+                                <GroupBox Header="{Binding DatosCliente, Source={StaticResource ResourceLanguage}}" Grid.Column="0">
                                     <StackPanel>
                                         
                                         <clients:GeneralInfoView />
@@ -96,8 +96,11 @@
                                                     <karveControls:DataField 
                                                         LabelText="Codigo Externo"
                                                         TextContentWidth="200"
-                                                        DataObject="{Binding DataObject, Mode=TwoWay}"
-                                                        DataSourcePath="CODIGOEXTRENO"></karveControls:DataField>
+                                                        TextContent="{Binding DataObject.CODIGOEXTRENO, 
+                                                        Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                        DataObject="{Binding DataObject, Mode=TwoWay}">
+                                                        
+                                                    </karveControls:DataField>
 
                                                 </StackPanel>
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -122,17 +125,25 @@
                                         DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                                         Margin="5,0,0,0"
                                         LabelVisible="False"
+                                        TextContent="{Binding DataObject.NOTAS, Mode=TwoWay, 
+                                            ValidatesOnDataErrors=True, 
+                                            ValidatesOnNotifyDataErrors=True, 
+                                            ValidatesOnExceptions=True, 
+                                            UpdateSourceTrigger=PropertyChanged}"
                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        karveControls:ControlExt.DataSourcePath="NOTAS" Width="582">
+                                        >
 
                                         </karveControls:DataArea>
                                         <karveControls:DataArea 
                                             DataAreaWidth="500"
+                                            TextContent="{Binding DataObject.OBSERVA, 
+                                                          Mode=TwoWay, 
+                                                          ValidatesOnDataErrors=True, 
+                                                           ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                                             Margin="5,5,0,0"
                                             LabelVisible="False"
-                                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            karveControls:ControlExt.DataSourcePath="OBSERVA" Width="582"
+                                            Width="582"
                                         />
                                      
                                     </StackPanel>
@@ -186,7 +197,7 @@
 
                             <photoframe:PhotoFrame Grid.Row="0" HorizontalAlignment="Left" Width="514"></photoframe:PhotoFrame>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button>Carga..</Button>
+                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}"/>
                                 <Button>Adquirir..</Button>
                             </StackPanel>
                         </Grid>

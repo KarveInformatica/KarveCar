@@ -9,7 +9,6 @@ namespace KarveControls
     /// </summary>
     public class DataAreaFieldEventsArgs : KarveRoutedEventsArgs
     {
-        private string _fieldData = "";
         private IDictionary<string, object> _changedValues = new Dictionary<string, object>();
         /// <summary>
         ///  Public event raised.

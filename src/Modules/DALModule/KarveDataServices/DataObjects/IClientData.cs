@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using KarveCommonInterfaces;
 
 namespace KarveDataServices.DataObjects
 {
@@ -16,33 +17,19 @@ namespace KarveDataServices.DataObjects
     /// </summary>
     public interface IClientData: IHelperData
     {
+       
         /// <summary>
-        /// Load value
-        /// </summary>
-        /// <param name="code">Client code primary key</param>
-        /// <returns></returns>
-        Task<bool> LoadValue(string code);
-        /// <summary>
-        ///  This returns in case of saving a sigle client.
-        /// </summary>
-        /// <returns>true if the it has been successfully saved.</returns>
-        Task<bool> SaveAll();
-        /// <summary>
+        ///  Vale of the data transfer object.
         /// <summary>
         /// ClientData Data.
         /// </summary>
-        ClientesDto Value { set; get; }
+        ClientDto Value { set; get; }
         /// <summary>
         ///  This tells us if the data is valid or not.
         /// </summary>
         bool Valid { get; set; }
-        /// <summary>
-        ///  Helpers.
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> DeleteAsync();
-       
-        
+   
+
     }
 
    

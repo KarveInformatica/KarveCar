@@ -163,6 +163,7 @@ namespace KarveDapper.Extensions
             return list;
         }
 
+       
         /// <summary>
         /// Inserts an entity into table "Ts" asynchronously using .NET 4.5 Task and returns identity id.
         /// </summary>
@@ -542,6 +543,7 @@ namespace KarveDapper.Extensions
             return affectedRows;
         }
 
+       
         }
 
         public partial class SqlServerAdapter

@@ -11,7 +11,7 @@ namespace DataAccessLayer.Model
     /// </summary>
     public class NullClient : DomainObject, IClientData
     {
-       private ClientesDto _clientesDto = new ClientesDto();
+       private ClientDto _clientDto = new ClientDto();
         /// <summary>
         ///  Null client.s
         /// </summary>
@@ -22,10 +22,10 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Value is the value of the clients.
         /// </summary>
-        public ClientesDto Value
+        public ClientDto Value
         {
-            get => _clientesDto;
-            set { _clientesDto = value; }
+            get => _clientDto;
+            set { _clientDto = value; }
         }
         /// <summary>
         ///  Valid
@@ -57,6 +57,7 @@ namespace DataAccessLayer.Model
         public IEnumerable<RentingUseDto> RentUsageDto { get ; set ; }
         public IEnumerable<LanguageDto> LanguageDto { get; set ; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
+        public IEnumerable<ContactsDto> ContactsDto { get; set; }
 
 
         /// <summary>

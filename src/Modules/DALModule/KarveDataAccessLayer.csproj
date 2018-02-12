@@ -65,8 +65,6 @@
     <Reference Include="DesignByContract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DesignByContract.1.0.1\lib\DesignByContract.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
@@ -84,7 +82,7 @@
     </Reference>
     <Reference Include="KarveDapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\KarveDapper\bin\Debug\KarveDapper.dll</HintPath>
+      <HintPath>..\..\..\KarveDapper\obj\Debug\KarveDapper.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
@@ -134,8 +132,13 @@
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="ConcreteDomainFactory.cs" />
-    <Compile Include="DataDeleter.cs" />
-    <Compile Include="DataLoader.cs" />
+    <Compile Include="Crud\Clients\ClientDataLoader.cs" />
+    <Compile Include="Crud\Clients\ClientDataSaver.cs" />
+    <Compile Include="Crud\Clients\ClientDeleter.cs" />
+    <Compile Include="Crud\Clients\ClientHelperData.cs" />
+    <Compile Include="Crud\Clients\DataLayerInvalidClientException.cs" />
+    <Compile Include="Crud\DataDeleter.cs" />
+    <Compile Include="Crud\DataLoader.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -1106,7 +1109,7 @@
     <Compile Include="DataObjects\_TmpEstProdFacVehiOfi.cs" />
     <Compile Include="DataObjects\_TMPSC.cs" />
     <Compile Include="DataObjects\_TMPXX.cs" />
-    <Compile Include="DataSaver.cs" />
+    <Compile Include="Crud\DataSaver.cs" />
     <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="DataTranslationLoader.cs" />
     <Compile Include="Exception\CommissionAgentException.cs" />
@@ -1119,6 +1122,7 @@
     <Compile Include="Logic\GenericDAL.cs" />
     <Compile Include="HelperDataAccessLayer.cs" />
     <Compile Include="Logic\MapperField.cs" />
+    <Compile Include="MapperUtils.cs" />
     <Compile Include="MarcasDAL.cs" />
     <Compile Include="Logic\SQL_EditDAL.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
@@ -1169,6 +1173,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
@@ -1187,6 +1195,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
+    <Folder Include="Crud\CommissionAgent\" />
+    <Folder Include="Crud\Suppliers\" />
+    <Folder Include="Crud\Vehicles\" />
     <Folder Include="DataAccessLayer\" />
     <Folder Include="Test\" />
   </ItemGroup>

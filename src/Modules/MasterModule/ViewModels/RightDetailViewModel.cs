@@ -18,7 +18,7 @@ namespace MasterModule.ViewModels
         private IEventManager _eventManager;
         private IDataServices _dataServices;
         private IRegionManager _regionManager;
-        private ClientesDto _dataObject;
+        private ClientDto _dataObject;
 
         /// <summary>
         ///  This returns a name.
@@ -49,7 +49,7 @@ namespace MasterModule.ViewModels
         {
             if (payLoad.HasDataObject)
             {
-                DataObject = payLoad.DataObject as ClientesDto;
+                DataObject = payLoad.DataObject as ClientDto;
                 _eventManager.DeleteMailBoxSubscription(Name);
                 // Each view model shall have a unique uri to locate it.
                 Uri uri = new Uri(Name);
@@ -66,10 +66,10 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object to be refreshed.
         /// </summary>
-        public ClientesDto DataObject
+        public ClientDto DataObject
         {
             get { return _dataObject; }
-            set { _dataObject = (ClientesDto)value; RaisePropertyChanged(); }
+            set { _dataObject = (ClientDto)value; RaisePropertyChanged(); }
         }
 
         public override void DisposeEvents()

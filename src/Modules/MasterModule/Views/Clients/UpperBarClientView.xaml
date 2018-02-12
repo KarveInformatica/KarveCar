@@ -19,15 +19,17 @@
 
                 <KarveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="NUMERO_CLI"
+                                     TextContent="{Binding DataObject.NUMERO_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                      LabelTextWidth="50" 
                                      Height="30"
                                      ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
                 </KarveControls:DataField>
-                <KarveControls:DataField x:Name="Name" TextContentWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}" DataObject="{Binding DataObject, 
-                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NOMBRE" 
+                <KarveControls:DataField x:Name="Name" 
+                                         TextContent="{Binding DataObject.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}" DataObject="{Binding DataObject, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                                             ItemChangedCommand="{Binding ChangedItem}"
                                                               Height="30"
             
@@ -35,10 +37,12 @@
                 </KarveControls:DataField>
 
                 <KarveControls:DataField x:Name="Nif"  LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
+                                         TextContent="{Binding DataObject.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                   Height="30"
             
-                                         DataSourcePath="NIF" LabelTextWidth="50"  
+                                         LabelTextWidth="50"  
                                          ItemChangedCommand="{Binding ChangedItem}"
                                          LabelVisible="True">
 
@@ -61,17 +65,19 @@
                                                   AssistDataFieldSecond="NOMBRE"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
                 </KarveControls:DualFieldSearchBox>
-                <KarveControls:DataField x:Name="Rapres"  LabelText="Representante Legal" TextContentWidth="120"
+                <KarveControls:DataField x:Name="Rapres"  LabelText="{Binding RepresentanteLegal, Source={StaticResource ResourceLanguage}}" TextContentWidth="120"
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          Height="30"
-                                         DataSourcePath="REPRESENTANTE" LabelTextWidth="160"  
+                                         TextContent="{Binding Path=DataObject.REPRESENTANTE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         LabelTextWidth="160"  
                                          ItemChangedCommand="{Binding ChangedItem}"
                                          LabelVisible="True">
                 </KarveControls:DataField>
                 <KarveControls:DataField x:Name="DNI"  LabelText="DNI" TextContentWidth="100" 
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          Height="30"
-                                         DataSourcePath="DNIREPRE" LabelTextWidth="50"  
+                                         TextContent="{Binding Path=DataObject.DNIREPRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         LabelTextWidth="50"  
                                          ItemChangedCommand="{Binding ChangedItem}"
                                          LabelVisible="True">
                 </KarveControls:DataField>

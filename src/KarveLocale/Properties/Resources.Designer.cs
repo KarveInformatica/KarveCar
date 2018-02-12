@@ -106,6 +106,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Carga...
+        /// </summary>
+        public static string Carga {
+            get {
+                return ResourceManager.GetString("Carga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bloque de Facturacion.
         /// </summary>
         public static string ClientInvoiceBlocks_BloqueDeFacturacion {
@@ -183,6 +192,15 @@ namespace KarveLocale.Properties {
         public static string DatoGenerales {
             get {
                 return ResourceManager.GetString("DatoGenerales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datos Cliente.
+        /// </summary>
+        public static string DatosCliente {
+            get {
+                return ResourceManager.GetString("DatosCliente", resourceCulture);
             }
         }
         
@@ -5763,6 +5781,15 @@ namespace KarveLocale.Properties {
         public static string Recalcular {
             get {
                 return ResourceManager.GetString("Recalcular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Representante Legal.
+        /// </summary>
+        public static string RepresentanteLegal {
+            get {
+                return ResourceManager.GetString("RepresentanteLegal", resourceCulture);
             }
         }
         

@@ -302,7 +302,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Clients Dto
         /// </summary>
-        public IEnumerable<ClientesDto> ClientsDto { get; set; }
+        public IEnumerable<ClientDto> ClientsDto { get; set; }
 
         public IEnumerable<VisitsDto> VisitsDto { get; set; }
 
@@ -481,7 +481,7 @@ namespace DataAccessLayer.Model
                 tmpQuery = string.Format(_queryComiDapper, Client1, DefaultClientes1Fields, "NUMERO_CLI", comisio.CLIENTE);
                 // FIXME: this shall be a client poco.
                 _clientes = await _dbConnection.QueryAsync<CLIENTES1>(tmpQuery);
-                ClientsDto = _mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientesDto>>(_clientes);
+                ClientsDto = _mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientDto>>(_clientes);
 
             }
             if ((!string.IsNullOrEmpty(comisio.NEGOCIO)))

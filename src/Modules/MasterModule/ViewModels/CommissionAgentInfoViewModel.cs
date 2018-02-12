@@ -52,7 +52,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<ProvinciaDto> _provincia = new List<ProvinciaDto>();
         private IEnumerable<CountryDto> _country = new List<CountryDto>();
         private IEnumerable<TIPOCOMI> _tipoComi = new List<TIPOCOMI>();
-        private IEnumerable<ClientesDto> _clientOne = new List<ClientesDto>();
+        private IEnumerable<ClientDto> _clientOne = new List<ClientDto>();
         private IEnumerable<ProductsDto> _products = new List<ProductsDto>();
         private IEnumerable<BusinessDto> _negocios = new List<BusinessDto>();
         private IEnumerable<MercadoDto> _mercados = new List<MercadoDto>();
@@ -161,7 +161,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// ClientOne
         /// </summary>
-        public IEnumerable<ClientesDto> ClientOne
+        public IEnumerable<ClientDto> ClientOne
         {
             get { return _clientOne; }
             set { _clientOne = value; RaisePropertyChanged(); }
@@ -447,7 +447,7 @@ namespace MasterModule.ViewModels
                 case "CLIENTES1":
                     {
                         var clientes = await helperDataServices.GetAsyncHelper<CLIENTES1>(assistQuery);
-                        IEnumerable<ClientesDto> cli = mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientesDto>>
+                        IEnumerable<ClientDto> cli = mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientDto>>
                             (clientes);
                         ClientOne = cli;
                         currentView = ClientOne;

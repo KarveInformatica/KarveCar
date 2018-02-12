@@ -152,7 +152,7 @@ namespace MasterModule.ViewModels
         {
 
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-           ClientesDto data = dataObject as ClientesDto;
+           ClientDto data = dataObject as ClientDto;
             var view = new ObservableCollection<ClientTypeDto>();
 
             if (data != null)

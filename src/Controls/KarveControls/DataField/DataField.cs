@@ -33,7 +33,7 @@ namespace KarveControls
         static DataField()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataField), new FrameworkPropertyMetadata(typeof(DataField)));
-            //TabStripPlacementProperty.AddOwner(typeof(TabControl), new FrameworkPropertyMetadata(Dock.Top, new PropertyChangedCallback(OnTabStripPlacementChanged)));
+          
         }
         /// <summary>
         /// Routed Event fired when any change in data field happen.
@@ -59,10 +59,6 @@ namespace KarveControls
         ///  It is true if the text content has been changed.
         /// </summary>
         private bool _textContentChanged = false;
-        /// <summary>
-        /// Data Table to be used.
-        /// </summary>
-        private object _itemSource;
         /// <summary>
         /// Data object to be used.
         /// </summary>
@@ -95,7 +91,18 @@ namespace KarveControls
         /// Data object dependency properties.
         /// </summary>
         public static readonly DependencyProperty DataObjectDependencyProperty =
-            DependencyProperty.Register("DataObject", typeof(object), typeof(DataField), new PropertyMetadata(null, OnItemSourceDoChanged));
+            DependencyProperty.Register("DataObject", typeof(object), typeof(DataField), new UIPropertyMetadata(null, OnDataObjectChanged));
+
+        private static void OnDataObjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataField control = d as DataField;
+            if (control != null)
+            {
+                control.OnItemSourceDoChanged(e);
+            }
+           
+        }
+        
         /// <summary>
         ///  This returns a data object.
         /// </summary>
@@ -132,47 +139,7 @@ namespace KarveControls
             set { SetValue(DataAllowedDependencyProperty, value); }
         }
         #endregion
-        #region ItemSource
-        /// <summary>
-        ///  Item Source. DataTable to be binded with this component.
-        /// </summary>
-        public static DependencyProperty ItemSourceDependencyProperty
-            = DependencyProperty.Register(
-                "ItemSource",
-                typeof(object),
-                typeof(DataField),
-                new PropertyMetadata(null, OnItemSourceChanged));
-        /// <summary>
-        ///  Item Source. DataTable to be binded with this
-        /// </summary>
-        public object ItemSource
-        {
-            get { return GetValue(ItemSourceDependencyProperty); }
-            set { SetValue(ItemSourceDependencyProperty, value); }
-        }
-
-        private static void OnItemSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnItemSourceChanged(e);
-            }
-        }
-        /// <summary>
-        /// Call back for each change.
-        /// </summary>
-        /// <param name="d">Dependency Object to be used.</param>
-        /// <param name="e">Event triggered by the change/</param>
-        private static void OnItemSourceDoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataField control = d as DataField;
-            if (control != null)
-            {
-                control.OnItemSourceDoChanged(e);
-            }
-        }
-
+      
         private void SetTextContent(object dataObject, string path)
         {
             object value = ComponentUtils.GetPropValue(_dataObject, path);
@@ -201,9 +168,11 @@ namespace KarveControls
             {
                 return;
             }
+            _dataObject = e.NewValue;
+            // in case the field is not provided we skip any assignment to TextContent.
             if (string.IsNullOrEmpty(_dataField))
                 return;
-            _dataObject = e.NewValue;
+    
 
             Type dataType = _dataObject.GetType();
             /*
@@ -261,50 +230,7 @@ namespace KarveControls
             }
 
         }
-        /// <summary>
-        ///  Call back after the change of the property item source
-        /// </summary>
-        /// <param name="e">Event to be handled</param>
-        protected virtual void OnItemSourceChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null)
-                return;
-
-            
-            if (string.IsNullOrEmpty(_dataField))
-                return;
-
-            object objectValue = e.NewValue;
-            if (objectValue is DataTable)
-            {
-
-                DataTable table = e.NewValue as DataTable;
-
-                this._itemSource = table;
-                if (!string.IsNullOrEmpty(_dataField))
-                {
-                    if (table != null)
-                    {
-                        DataColumnCollection collection = table.Columns;
-                        if (collection.Contains(_dataField))
-                        {
-                            DataRow dataRow = table.Rows[0];
-                            string colName = _dataField;
-                            string value = _filler.FetchDataFieldValue(table, _dataField);
-                            if (DataAllowed == ControlExt.DataType.Email)
-                            {
-                                value = value.Replace("#", "@");
-                            }
-                            TextContent = value;
-
-                        }
-                    }
-                }
-            }
-        }
-
-
-        #endregion
+        
         #region TableName
         /// <summary>
         ///  Dependency property for the table name.
@@ -453,27 +379,7 @@ namespace KarveControls
             if (DataObject != null)
             {
                 TextContent = ComponentUtils.GetTextDo(this.DataObject, _dataField, DataAllowed);
-            }
-            DataTable itemSource = _itemSource as DataTable;
-            if (itemSource != null)
-            {
-                if (!string.IsNullOrEmpty(_dataField))
-                {
-                    DataColumnCollection collection = itemSource.Columns;
-                    if (collection.Contains(_dataField))
-                    {
-                        string value = _filler.FetchDataFieldValue(itemSource, _dataField);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            if (DataAllowed == ControlExt.DataType.Email)
-                            {
-                                value = value.Replace("#", "@");
-                            }
-                            TextContent = value;
-                        }
-                    }
-                }
-            }
+            } 
         }
         #endregion
         #endregion
@@ -524,26 +430,20 @@ namespace KarveControls
 
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            // type validation is missing here.
             string value = e.NewValue as string;
+            if (value == null)
+            {
+                return;
+            }
             TextBox textField = GetTemplateChild("PART_TextField") as TextBox;
             if (textField != null)
             {
-                textField.Text = value;
-            }
-            if ((_itemSource != null) && (!String.IsNullOrEmpty(this._dataField)))
-            {
-                if (!string.IsNullOrEmpty(value))
+                string tmpValue = value;
+                if (DataAllowed == ControlExt.DataType.Email)
                 {
-                    // here we go.
-                    string tmpValue = value;
-                    if (DataAllowed == ControlExt.DataType.Email)
-                    {
-                        tmpValue = value.Replace("@", "#");
-                    }
-                    DataTable itemSource = (DataTable)_itemSource;
-                    itemSource.Rows[0][_dataField] = tmpValue;
+                    tmpValue = value.Replace("@", "#");
                 }
+                textField.Text = tmpValue;
             }
            
         }
@@ -612,73 +512,50 @@ namespace KarveControls
         public readonly static DependencyProperty LabelTextWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelTextWidth",
-                typeof(string),
+                typeof(double),
                 typeof(DataField),
-                new PropertyMetadata(string.Empty));
+                new UIPropertyMetadata(100d));
         /// <summary>
         ///  LabelTextWidth dependency properties.
         /// </summary>
-        public string LabelTextWidth
+        public double LabelTextWidth
         {
-            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            get { return (double)GetValue(LabelTextWidthDependencyProperty); }
             set { SetValue(LabelTextWidthDependencyProperty, value); }
         }
-        #endregion
-
-        #region ValidationRules
-        /// <summary>
-        ///  Text content width dependency property.
-        /// </summary>
-        public string ValidationRule
-        {
-            get { return (string)GetValue(TextContentWidthDependencyProperty); }
-            set { SetValue(TextContentWidthDependencyProperty, value); }
-        }
-        /// <summary>
-        ///  This is the validation rules.
-        /// </summary>
-        public static readonly DependencyProperty ValidationRuleDependencyProperty =
-            DependencyProperty.Register(
-                "ValidationRule",
-                typeof(ValidationRule),
-                typeof(DataField), new PropertyMetadata(new EmptyValidationRule()));
         #endregion
 
         #region TextContentWidth
         /// <summary>
         ///  Text content width dependency property.
         /// </summary>
-        public string TextContentWidth
+        public double TextContentWidth
         {
-            get { return (string)GetValue(TextContentWidthDependencyProperty); }
+            get { return (double)GetValue(TextContentWidthDependencyProperty); }
             set { SetValue(TextContentWidthDependencyProperty, value); }
         }
 
         public static readonly DependencyProperty TextContentWidthDependencyProperty =
             DependencyProperty.Register(
                 "TextContentWidth",
-                typeof(string),
-                typeof(DataField), new PropertyMetadata(string.Empty, OnChangedTextWidth));
+                typeof(double),
+                typeof(DataField), new PropertyMetadata(100d, OnChangedTextWidth));
 
         private static void OnChangedTextWidth(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataField df = d as DataField;
-            df.ChangeTextWidth(e.NewValue);
+            df?.ChangeTextWidth(e.NewValue);
         }
 
         private void ChangeTextWidth(object eNewValue)
         {
-            string tmp = eNewValue as string;
-            if (tmp != null)
-            {
-                double width = Convert.ToDouble(tmp);
-                object value = GetTemplateChild("PART_TextField");
+                double width = Convert.ToDouble(eNewValue);
                 TextBox textField = GetTemplateChild("PART_TextField") as TextBox;
                 if (textField != null)
                 {
                     textField.Width = width;
                 }
-            }
+           
         }
 
         #endregion
@@ -758,7 +635,6 @@ namespace KarveControls
             {
                 [TABLENAME] = TableName,
                 [FIELD] = DataSourcePath,
-                [DATATABLE] = ItemSource,
                 [CHANGED_VALUE] = textField,
                 [DATAOBJECT] = dataObject
             };
@@ -767,6 +643,11 @@ namespace KarveControls
         // fill the data object if the data source path is ready
         private void FillDo(string value, ref object dataObject)
         {
+            var source = DataSourcePath;
+            if (string.IsNullOrEmpty(source))
+            {
+                return;
+            }
             if (!string.IsNullOrEmpty(value))
             {
                 _filler.FillDataObject(value, DataSourcePath, ref dataObject);
@@ -782,12 +663,13 @@ namespace KarveControls
                 {
                     FieldData = textField.Text
                 };
-                FillDo(textField.Text, ref _dataObject);
-                DataObject = _dataObject;
+                // This shall be not needed.
+                //  FillDo(textField.Text, ref _dataObject);
+                //   DataObject = _dataObject;
                 var valueDictionary = InitValueDictionary(textField.Text, DataObject);
                 ev.ChangedValuesObjects = valueDictionary;
                
-                if (this.ItemChangedCommand != null)
+                if (ItemChangedCommand != null)
                 {
                     if (ItemChangedCommand.CanExecute(valueDictionary))
                     {

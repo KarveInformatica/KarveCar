@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Microsoft.Win32;
-using Prism;
-using Prism.Commands;
-using KarveControls;
-using Image = System.Drawing.Image;
 
 namespace KarveControls.PhotoFrame
 {
@@ -374,9 +367,7 @@ namespace KarveControls.PhotoFrame
             }
             catch (Exception cException)
             {
-                MessageBox.Show("No se puede abrir el fichero");
-
-                // MessageBox.Show(PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_NoSePuedeAbrirElFichero + openFileDialog.FileName+ PhotoFrameControl.Properties.Resources.PhotoFrame_ImageButton_Click_Motivacion+ cException.Message);
+                throw new PhotoFrameException("Cannot open the file.", cException.InnerException);
             }
             
         }

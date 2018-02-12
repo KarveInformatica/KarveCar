@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataAccessLayer;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
 using KarveDataServices;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Crud
 {
-    
         /// <summary>
-        /// DataDeleter
+        /// Generic data deleter for entities.
         /// </summary>
         /// <typeparam name="T">Type of the entity</typeparam>
         /// <typeparam name="Dto">Data Transfer object</typeparam>
@@ -68,6 +68,5 @@ namespace DataAccessLayer
                 }
                 return value;
             }
-        }
-    
+        }   
 }
