@@ -1,7 +1,5 @@
 ﻿using System;
-using DevExpress.Xpo;
 using KarveDataServices;
-
 namespace DataAccessLayer.MongoDB
 {
     /// <summary>

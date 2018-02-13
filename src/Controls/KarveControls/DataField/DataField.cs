@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Windows.Input;
-using KarveCommon.Validation;
 
+/// <summary>
+/// When we wanted to back a property by dp and provide a default value, use PropertyMetadata, if you want to specify animation behavior, use UIPropertyMetadata,
+/// but if some property affects wpf framework level stuffs eg element layout, parent layout or databinding, use FrameworkPropertyMetadata.
+/// </summary>
 namespace KarveControls
 {
     /// <summary>
@@ -407,7 +402,7 @@ namespace KarveControls
                 "TextContent",
                 typeof(string),
                 typeof(DataField),
-                new PropertyMetadata(string.Empty, OnTextContentChange));
+                new FrameworkPropertyMetadata(string.Empty, OnTextContentChange));
 
         /// <summary>
         /// TextContent. This is the content of the text.
@@ -539,7 +534,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "TextContentWidth",
                 typeof(double),
-                typeof(DataField), new PropertyMetadata(100d, OnChangedTextWidth));
+                typeof(DataField), new FrameworkPropertyMetadata(200d, OnChangedTextWidth));
 
         private static void OnChangedTextWidth(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

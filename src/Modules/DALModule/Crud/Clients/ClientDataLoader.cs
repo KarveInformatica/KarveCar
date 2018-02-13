@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics.Contracts;
@@ -12,12 +13,14 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
+
+
 namespace DataAccessLayer.Crud.Clients
 {
     /// <summary>
     /// This load and expose a client wrapper.
     /// </summary>
-    sealed class ClientDataLoader : IDataLoader<ClientDto>
+    sealed class ClientDataLoader : IDataLoader<ClientsDto>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -41,9 +44,7 @@ namespace DataAccessLayer.Crud.Clients
 
         // set if the load is valid or not.
         public bool Valid { set; get; }
-        /// <summary>
-        ///  Helper data.
-        /// </summary>
+
         public IHelperData Helper
         {
             get { return _helper; }
@@ -57,10 +58,7 @@ namespace DataAccessLayer.Crud.Clients
         private const string DefaultDelegation =
             "cldIdCliente, cldDelegacion, cldDireccion1, cldDireccion2, cldCP, cldPoblacion, cldIdProvincia,cldTelefono1, cldTelefono2, cldFax, cldEMail, cldMovil";
         private IEnumerable<BranchesDto> branchesDto;
-        /// <summary>
-        ///  Open a client data loader.
-        /// </summary>
-        /// <param name="executor"></param>
+
         public ClientDataLoader(ISqlExecutor executor)
         {
             _sqlExecutor = executor;
@@ -69,10 +67,7 @@ namespace DataAccessLayer.Crud.Clients
             Valid = true;
 
         }
-        /// <summary>
-        ///  Open a connection.
-        /// </summary>
-        /// <returns></returns>
+
         public IDbConnection OpenConnection()
         {
             IDbConnection conn = null;
@@ -214,9 +209,9 @@ namespace DataAccessLayer.Crud.Clients
         ///  Return all dtos mapped from the entities.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
+        public async Task<IEnumerable<ClientesDto>> LoadAsyncAll()
         {
-            ObservableCollection<ClientDto> dtoCollection =  new ObservableCollection<ClientDto>();
+            ObservableCollection<ClientesDto> dtoCollection =  new ObservableCollection<ClientesDto>();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
                 IEnumerable<CLIENTES1> cli1 = await conn.GetAsyncAll<CLIENTES1>();
@@ -238,7 +233,7 @@ namespace DataAccessLayer.Crud.Clients
                     second = iter.Current;
                     mergedValue.Add(poco);
                 }
-                _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(mergedValue, dtoCollection);
+                _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientesDto>>(mergedValue, dtoCollection);
                 iter.Dispose();
 
             }
@@ -246,14 +241,14 @@ namespace DataAccessLayer.Crud.Clients
         }
 
        
-        public async Task<ClientDto> LoadValueAsync(string code)
+        public async Task<ClientesDto> LoadValueAsync(string code)
         {
-            var dto = new ClientDto();
+            var dto = new ClientesDto();
             var clientPoco = await LoadValue(code);
             var mapper = MapperField.GetMapper();
             if (clientPoco)
             {
-                dto = mapper.Map<ClientPoco, ClientDto>(_currentPoco);
+                dto = mapper.Map<ClientPoco, ClientesDto>(_currentPoco);
             }
             return dto;
         }
@@ -295,8 +290,15 @@ namespace DataAccessLayer.Crud.Clients
         }
         private string ValueToString(byte? b)
         {
-           var v =  (b.HasValue) ? "1" : "0";
-            return v;
+            if (b.HasValue)
+            {
+                if (b == 0)
+                {
+                    return "0";
+                }
+                return "1";
+            }
+            return string.Empty;
         }
     }
 

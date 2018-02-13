@@ -53,6 +53,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
@@ -215,9 +217,7 @@
     <Compile Include="DataCombox\DataCombox.xaml.cs">
       <DependentUpon>DataCombox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataDatePicker\DataDatePicker.xaml.cs">
-      <DependentUpon>DataDatePicker.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DataDatePicker\DataDatePicker.cs" />
     <Compile Include="DataFieldItemsControl\DataFieldItemsControl.xaml.cs">
       <DependentUpon>DataFieldItemsControl.xaml</DependentUpon>
     </Compile>
@@ -284,10 +284,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataCombox\DataCombox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="DataDatePicker\DataDatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>

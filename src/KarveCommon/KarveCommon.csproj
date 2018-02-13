@@ -92,6 +92,7 @@
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
+    <Compile Include="Converter\StringToIntegerConverter.cs" />
     <Compile Include="Generic\AssistMapper.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />

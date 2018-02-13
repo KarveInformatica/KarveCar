@@ -19,15 +19,18 @@ namespace KarveControls
     [TemplatePart(Name = "PART_SearchButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_DataAreaText", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_EditorText", Type = typeof(MultiLineTextEditor))]
+    [TemplatePart(Name = "PART_SearchTextBlock", Type = typeof(TextBlock))]
+
     public class DataArea: TextBox
     {
-        private double _dataAreaWidth;
+       
         private string _dataAreaLabel;
         private bool _dataAreaChanged = false;
         private string _currentDataArea = string.Empty;
         private string _previousDataArea = string.Empty;
         private MultiLineTextEditor _editorText;
         private Button _searchButton;
+        private TextBlock _searchTextBlock;
 
         static DataArea()
         {
@@ -44,6 +47,22 @@ namespace KarveControls
                 typeof(DataArea));
 
         /// <summary>
+        /// DataArea Width dependency property.
+        /// </summary>
+        public static DependencyProperty DataAreaWidthDependencyProperty = DependencyProperty.
+            Register("DataAreaWidth",
+                typeof(double),
+                typeof(DataArea));
+
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
+        public double DataAreaWidth
+        {
+            get { return (double)GetValue(DataAreaWidthDependencyProperty); }
+            set { SetValue(DataAreaWidthDependencyProperty, value); }
+        }
+        /// <summary>
         ///  Command to be executed when  a data aread changes
         /// </summary>
         public static DependencyProperty ItemChangedCommandDependencyProperty = DependencyProperty.
@@ -59,6 +78,25 @@ namespace KarveControls
             get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
             set { SetValue(ItemChangedCommandDependencyProperty, value); }
         }
+
+        /// <summary>
+        ///  Command to be executed when  a data aread changes
+        /// </summary>
+        public static DependencyProperty SearchCommandDependencyProperty = DependencyProperty.
+            Register("SearchCommand",
+                typeof(ICommand),
+                typeof(DataArea));
+
+        /// <summary>
+        ///  Event triggered when a data field changes.
+        /// </summary>
+        public ICommand SearchCommand
+        {
+            get { return (ICommand)GetValue(SearchCommandDependencyProperty); }
+            set { SetValue(SearchCommandDependencyProperty, value); }
+        }
+
+
 
         /// <summary>
         ///  Event triggered when a data field changes.
@@ -80,9 +118,16 @@ namespace KarveControls
         /// <summary>
         ///  Data area.
         /// </summary>
-        public DataArea()
+        public DataArea(): base()
         {
             
+            
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
             _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
             if (_editorText != null)
             {
@@ -94,6 +139,8 @@ namespace KarveControls
             {
                 _searchButton.Click += OnSearchTerm;
             }
+            _searchTextBlock = GetTemplateChild("PART_SearchTextBlock") as TextBlock;
+
         }
 
 
@@ -109,7 +156,11 @@ namespace KarveControls
                     Match match = Regex.Match(editorText.Text, termToFind);
                     if (match.Success)
                     {
-                        
+                        if (_searchTextBlock != null)
+                        {
+                            _searchTextBlock.Visibility = Visibility.Visible;
+                            _searchTextBlock.Text = editorText.Text.Substring(match.Index);
+                        }
                     }
                 }
 
@@ -306,7 +357,7 @@ namespace KarveControls
                 "LabelTextWidth",
                 typeof(string),
                 typeof(DataArea),
-                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+                new PropertyMetadata(string.Empty));
         /// <summary>
         /// Width of text to be present in the area.
         /// </summary>
@@ -315,28 +366,8 @@ namespace KarveControls
             get { return (string)GetValue(LabelTextWidthDependencyProperty); }
             set { SetValue(LabelTextWidthDependencyProperty, value); }
         }
-        private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DataArea control = d as DataArea;
-            if (control != null)
-            {
-                control.OnLabelTextWidthChanged(e);
-            }
-        }
+       
 
-        private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
-        {
-            string value = e.NewValue as string;
-            if (value != null)
-            {
-                DataAreaWidth = Convert.ToDouble(value);
-                TextBox searchTerm = GetTemplateChild("PART_SearchTerm") as TextBox;
-                if (searchTerm != null)
-                {
-                    searchTerm.Width = DataAreaWidth - 80;
-                }
-            }
-        }
         #endregion
         #region LabelVisible
         /// <summary>
@@ -543,29 +574,6 @@ namespace KarveControls
                 }
             }
         }
-
-        /// <summary>
-        ///  Width do the data area.
-        /// </summary>
-        public double DataAreaWidth
-        {
-            get { return _dataAreaWidth; }
-            set
-            {
-                _dataAreaWidth = value;
-                _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
-                TextBox searchTerm = GetTemplateChild("PART_SearchTerm") as TextBox;
-                if (_editorText != null)
-                {
-                    _editorText.Width = _dataAreaWidth;
-                }
-                if (searchTerm != null)
-                {
-                    searchTerm.Width = _dataAreaWidth - 80;
-                }
-
-                            }
-        }
         /// <summary>
         ///  Label of the area
         /// </summary>
@@ -581,12 +589,12 @@ namespace KarveControls
                 var label = GetTemplateChild("PART_DataAreaText") as TextBlock;
                 if (label != null)
                 {
-                    label.Width = _dataAreaWidth;
                     label.Text = value;
                 }
                 
             }
         }
 
+        public TextBlock SearchTextBlock { get; private set; }
     }
 }

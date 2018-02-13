@@ -114,6 +114,33 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type local:DataDatePicker}">
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+            <ControlTemplate TargetType="{x:Type local:DataDatePicker}">
+                <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
+                    <DatePicker x:Name="PART_DatePicker"  
+                                Height="50"
+                                SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
+                    </DatePicker>
+                </StackPanel>
+                </Grid>
+            </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type local:DataArea}">
         <Style.Resources>
             <ObjectDataProvider x:Key="ResourceLanguage" 
@@ -122,11 +149,10 @@
             </ObjectDataProvider>
         </Style.Resources>
         <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="100"/>
+        <Setter Property="Height" Value="200"/>
         <Setter Property="Margin" Value="4"/>
         <Setter Property="Padding" Value="4,0,0,0"/>
-        <Setter Property="SearchBoxHeight" Value="30"></Setter>
-        <Setter Property="SearchBoxWidth" Value="150"></Setter>
+       
 
         <Setter Property="Template">
             <Setter.Value>
@@ -158,6 +184,9 @@
                                             VerticalAlignment="Center">
                                         <Image Source="/KarveControls;component/Images/searchImage.png"></Image>
                                     </Button>
+                                    <TextBlock x:Name="PART_SearchTextBlock"
+                                               Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxHeight}"
+                                               Visibility="Collapsed"></TextBlock>
                                 </StackPanel>
 
 
@@ -167,7 +196,7 @@
                                 <TextBlock HorizontalAlignment="Left" x:Name="PART_DataAreaText"
                                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaLabel}"
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}"
-                                           Margin="5"
+                                           Visibility="Collapsed"
                                            Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}"/>
 
                                     <xctk:MultiLineTextEditor x:Name="PART_EditorText" 
@@ -177,7 +206,7 @@
                                                               HorizontalContentAlignment="Left" 
                                                               VerticalContentAlignment="Center"
                                                               DropDownWidth="300"
-                                                             
+                                                              Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaWidth, Mode=TwoWay}"
                                                               Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}" />
                                 </StackPanel>
                             </Grid>

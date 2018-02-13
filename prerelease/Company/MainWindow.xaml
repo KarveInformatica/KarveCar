@@ -1,0 +1,227 @@
+﻿<Window x:Class="Company.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Company"
+        xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+        xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="900" Width="1200">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <karveCommon:StringToIntegerConverter x:Key="StringToInteger">
+                </karveCommon:StringToIntegerConverter>
+                <DataTemplate x:Key="BrokerDualSearchBox">
+                    <KarveControls:DualFieldSearchBox DataFieldFirst="COMISIO"
+                                                      AssistTableName="COMISIO_ASSIST"
+                                                      AssistProperties="Code,Name"
+                                                      LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="86"   
+                                                      Margin="0,5,0,0"
+                                                      IsReadOnlySecond="True"
+                                                      TextContentFirstWidth="100"
+                                                      TextContentSecondWidth="300"
+                                                      MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding Path=ClientHelper.CommissionAgentDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataTemplate>
+                <DataTemplate x:Key="ClientDualSearchBox">
+                    <KarveControls:DualFieldSearchBox DataFieldFirst="PROVINCIA"
+                                                      AssistTableName="CLIENT_ASSIST"
+                                                      AssistProperties="Code,Name"
+                                                      LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
+                                                      LabelTextWidth="86"   
+                                                      Margin="0,5,0,0"
+                                                      IsReadOnlySecond="True"
+                                                      TextContentFirstWidth="100"
+                                                      TextContentSecondWidth="300"
+                                                      MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding Path=ClientHelper.ClientDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </DataTemplate>
+            </ResourceDictionary>
+
+        </Grid.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <KarveControls:DataField LabelText="Nombre"
+                                     DataObject="{Binding DataObject, Mode=TwoWay}"
+                                     TextContent="{Binding Path=DataObject.NOMBRE, Mode=TwoWay, 
+                ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                     Grid.Row="0" Grid.Column="0" Height="30" x:Name="Nombre" />
+            <KarveControls:DataField Grid.Column="1"
+                                     DataObject="{Binding DataObject, Mode=TwoWay}"
+                                     LabelText="Commercial"
+                                     LabelTextWidth="100"
+                                     TextContent="{Binding Path=DataObject.NOMCOMER, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  
+                                     Height="30" x:Name="CommercialName" Margin="0,0,112,0" />
+            <KarveControls:DataField LabelTextWidth="100" 
+                                     LabelText="Nif" 
+                                     TextContent="{Binding Path=DataObject.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, 
+                ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Grid.Row="2" Height="30" x:Name="Nif" />
+
+            <KarveControls:DataField LabelText="Direccion" LabelTextWidth="100" Grid.Column="0"  Grid.Row="3" 
+                                     TextContent="{Binding Path=DataObject.DIRECCION, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="dIRECCION" />
+
+            <KarveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="4" x:Name="CitySearchBox"
+                                              DataFieldFirst="CP"
+                                              AssistTableName="CITY_ASSIST"
+                                              AssistProperties="Code,Poblacion"
+                                              LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
+                                              Margin="0,5,-29,0"
+                                              LabelTextWidth="86"
+                                         
+                                              
+                                              ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                              IsReadOnlySecond="True"
+                                              TextContentFirstWidth="100"
+                                              TextContentSecondWidth="300"
+                                                         
+                                              SourceView="{Binding Path=ClientHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30"/>
+
+            <KarveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="5" DataFieldFirst="PROVINCIA"
+                                              AssistTableName="PROVINCE_ASSIST"
+                                              AssistProperties="Code,Name"
+                                              LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
+                                              LabelTextWidth="86"
+                                              Margin="0,5,0,0"
+                                              IsReadOnlySecond="True"
+                                              TextContentFirstWidth="100"
+                                              TextContentSecondWidth="300"
+                                              MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=ClientHelper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30">
+            </KarveControls:DualFieldSearchBox>
+            <KarveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="6" 
+                LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
+                                              LabelTextWidth="86" 
+                                              DataFieldFirst="NACIO" 
+                                              AssistTableName="COUNTRY_ASSIST"
+                                              AssistProperties="Code,CountryName"
+                                              TextContentFirstWidth="100"
+                                              TextContentSecondWidth="300"
+                                              Height="30"
+                                              IsReadOnlySecond="True"
+                                              MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=ClientHelper.CountryDto, UpdateSourceTrigger=PropertyChanged}"
+            >
+            </KarveControls:DualFieldSearchBox>
+            <KarveControls:DataField Grid.Column="0"  Grid.Row="7" LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
+                                     TextContent="{Binding Path=DataObject.TELEFONO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                     Height="30" x:Name="tELEFONO" />
+            <KarveControls:DataField  Grid.Column="0"  Grid.Row="8" 
+                                      LabelText="{Binding lfax, Source={StaticResource ResourceLanguage}}"  
+                                      TextContent="{Binding Path=DataObject.FAX, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                      Height="30" x:Name="fAX" />
+            <StackPanel Grid.Column="0" Grid.Row="9" Orientation="Horizontal">
+                <KarveControls:DataDatePicker  LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding Path=DataObject.FEC_ALTA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_ALTA" />
+                <KarveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_BAJA" />
+            </StackPanel>
+            <KarveControls:DataArea Grid.Column="0" Grid.Row="10" DataAreaTitle="Observaciones" DataAreaWidth="200" Height="Auto" TextContent="{Binding Path=DataObject.OBS1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="oBS1" Margin="1,5,1,2" Width="Auto" />
+
+            <GroupBox Grid.Row="12" Header="Credenciales Web" HorizontalAlignment="Left" Height="92" Margin="0,7.25,0,0"  VerticalAlignment="Top" Width="540" Grid.RowSpan="2">
+                <StackPanel>
+                    <KarveControls:DataField LabelText="Usuario Web"   TextContent="{Binding DataObject.USUARIOWEB_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
+                    <KarveControls:DataField LabelText="Password Web" TextContent="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="pWDWEB_EMP"/>
+                </StackPanel>
+            </GroupBox>
+
+            <KarveControls:DataField Grid.Column="1" LabelText="Codigo Sociedad" TextContent="{Binding Path=DataObject.COD_SOCIEDAD, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="cOD_SOCIEDAD" Margin="0,0,0,8" Grid.Row="9"/>
+            <ContentControl Grid.Row="2" ContentTemplate="{StaticResource ClientDualSearchBox}" Grid.ColumnSpan="2" Margin="525,0,15,0" />
+            <ContentControl Grid.Row="3" ContentTemplate="{StaticResource BrokerDualSearchBox}" Grid.ColumnSpan="2" Margin="525,0.25,15,34.75" Grid.RowSpan="2"/>
+            <GroupBox Header="Aportaciones"  Grid.Column="1" Grid.Row="7">
+                <StackPanel>
+                    <KarveControls:DataField LabelText="% Royality"  LabelTextWidth="200" TextContent="{Binding Path=DataObject.ROYALTY, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="rOYALTY"  />
+                    <KarveControls:DataField   LabelText="Aportacion Publicidad" LabelTextWidth="200" TextContent="{Binding Path=DataObject.APORTACION, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="Aportacion"  />
+                    <KarveControls:DataDatePicker Width="Auto" LabelTextWidth="200" LabelText="Fecha Aportacion" SelectedDate="{Binding Path=DataObject.FEAPOR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEAPOR"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Grid.Row="10" Header="Datos Empresa" HorizontalAlignment="Left" Height="234.84" Margin="5,0,0,0" VerticalAlignment="Top" Width="540" Grid.RowSpan="2">
+                <StackPanel>
+                    <KarveControls:DataField LabelText="Numero Empleados" LabelTextWidth="110" TextContent="{Binding DataObject.NUM_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="nUM_EMP"/>
+                    <KarveControls:DataField LabelText="Numero Oficinas" LabelTextWidth="110" TextContent="{Binding DataObject.NUM_OFI, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="nUM_OFI" />
+                    <KarveControls:DataField LabelText="Facturacion Prevista" LabelTextWidth="110" TextContent="{Binding Path=DataObject.FAC_PREV, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fAC_PREV"/>
+                    <KarveControls:DataFieldCheckBox Content="Empresa de Prospeccion" IsChecked="{Binding Path=DataObject.PROSPECCION, Mode=TwoWay}" Height="30" x:Name="pROSPECCION" />
+
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="0" Grid.Row="11">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Lugar" />
+                    <ComboBox SelectedItem="{Binding Path=TIPO1, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" x:Name="tIPO1">
+                        <ComboBoxItem>Costa</ComboBoxItem>
+                        <ComboBoxItem>Ciudad</ComboBoxItem>
+                        <ComboBoxItem>Isla</ComboBoxItem>
+                    </ComboBox>
+                    <Label Content="Apartenencia" Grid.Row="1" />
+                    <ComboBox SelectedIndex="{Binding Path=TIPO2, Mode=TwoWay, Converter={StaticResource StringToInteger}}" 
+                              Grid.Column="1" Grid.Row="1" x:Name="tIPO2">
+                        <ComboBoxItem>Del grupo</ComboBoxItem>
+                        <ComboBoxItem>Fuera del grupo</ComboBoxItem>
+                    </ComboBox>
+                    <Label Content="Dimension" Grid.Row="2" />
+                    <ComboBox SelectedItem="{Binding Path=TIPO3, Mode=TwoWay}"  Grid.Column="1" Grid.Row="2" x:Name="tIPO3">
+                        <ComboBoxItem>Pequena</ComboBoxItem>
+                        <ComboBoxItem>Mediana</ComboBoxItem>
+                        <ComboBoxItem>Grande</ComboBoxItem>
+                    </ComboBox>
+                    <Label Content="Estado" Grid.Row="3"/>
+                    <ComboBox SelectedItem="{Binding Path=TIPO1, Mode=TwoWay}"  Grid.Column="1" Grid.Row="3" x:Name="tIPO4">
+                        <ComboBoxItem>Ya Existente</ComboBoxItem>
+                        <ComboBoxItem>Nuevo</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Multas" HorizontalAlignment="Left" Height="128.75" Grid.Row="1" VerticalAlignment="Top" Width="475" Margin="10,0,0,0" Grid.Column="1">
+                <StackPanel>
+                    <KarveControls:DataField  LabelText="Responsable" TextContent="{Binding Path=DataObject.RESPONSA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" />
+                    <KarveControls:DataField  LabelText="DNI" TextContent="{Binding Path=DataObject.RESPDNI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30"/>
+                    <KarveControls:DataField LabelText="Multas" TextContent="{Binding Path=DataObject.MULTAS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="mULTAS" />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
