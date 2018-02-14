@@ -1,0 +1,1577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lrapmnInicio" xml:space="preserve">
+    <value>Inicio</value>
+    <comment>ApplicationMenu\Inicio</comment>
+  </data>
+  <data name="lrapmnitAbrir" xml:space="preserve">
+    <value>Abrir Archivo</value>
+    <comment>ApplicationMenu\Abrir Archivo</comment>
+  </data>
+  <data name="lrapmnitGuardar" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>ApplicationMenu\Guardar</comment>
+  </data>
+  <data name="lrapmnitRelogin" xml:space="preserve">
+    <value>Relogin</value>
+    <comment>ApplicationMenu\Relogin</comment>
+  </data>
+  <data name="lrapmnitReconectar" xml:space="preserve">
+    <value>Reconectar</value>
+    <comment>ApplicationMenu\Reconectar</comment>
+  </data>
+  <data name="lrapmnitIrAlquiler" xml:space="preserve">
+    <value>Ir a Alquiler</value>
+    <comment>ApplicationMenu\Ir a Alquiler</comment>
+  </data>
+  <data name="lrapmnitIrContabilidad" xml:space="preserve">
+    <value>Ir a Contabilidad</value>
+    <comment>ApplicationMenu\Ir a Contabilidad</comment>
+  </data>
+  <data name="lrapmnitIrTaller" xml:space="preserve">
+    <value>Ir a Taller</value>
+    <comment>ApplicationMenu\Ir a Taller</comment>
+  </data>
+  <data name="lrapmnitSalir" xml:space="preserve">
+    <value>Salir </value>
+    <comment>ApplicationMenu\Salir </comment>
+  </data>
+  <data name="lrbtnHelpTitle" xml:space="preserve">
+    <value>Ayuda</value>
+    <comment>Ribbon\Ayuda\Ayuda</comment>
+  </data>
+  <data name="lrbtnHelpDescr" xml:space="preserve">
+    <value>Aquí ponemos algún texto…</value>
+    <comment>Ribbon\Ayuda\Aquí ponemos algún texto…</comment>
+  </data>
+  <data name="lrbtnHelpFooterTitle" xml:space="preserve">
+    <value>Más información</value>
+    <comment>Ribbon\Ayuda\Más información</comment>
+  </data>
+  <data name="lrbtnHelpFooterDescr" xml:space="preserve">
+    <value>Pulse F1 para más ayuda…</value>
+    <comment>Ribbon\Ayuda\Pulse F1 para más ayuda…</comment>
+  </data>
+  <data name="ltbbtnNuevo" xml:space="preserve">
+    <value>Nuevo</value>
+    <comment>ToolBar\Acciones\Nuevo</comment>
+  </data>
+  <data name="ltbbtnEditar" xml:space="preserve">
+    <value>Editar</value>
+    <comment>ToolBar\Acciones\Editar</comment>
+  </data>
+  <data name="ltbbtnGuardar" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>ToolBar\Acciones\Guardar</comment>
+  </data>
+  <data name="ltbbtnCancelar" xml:space="preserve">
+    <value>Cancelar</value>
+    <comment>ToolBar\Acciones\Cancelar</comment>
+  </data>
+  <data name="ltbbtnImprimir" xml:space="preserve">
+    <value>Imprimir</value>
+    <comment>ToolBar\Acciones\Imprimir</comment>
+  </data>
+  <data name="ltbbtnEliminar" xml:space="preserve">
+    <value>Eliminar</value>
+    <comment>ToolBar\Acciones\Eliminar</comment>
+  </data>
+  <data name="ltbbtnAnterior" xml:space="preserve">
+    <value>Anterior</value>
+    <comment>ToolBar\Acciones\Anterior</comment>
+  </data>
+  <data name="ltbbtnSiguiente" xml:space="preserve">
+    <value>Siguiente</value>
+    <comment>ToolBar\Acciones\Siguiente</comment>
+  </data>
+  <data name="ltbbtnSalir" xml:space="preserve">
+    <value>Salir </value>
+    <comment>ToolBar\Acciones\Salir </comment>
+  </data>
+  <data name="ltbbtnBuscar" xml:space="preserve">
+    <value>Buscar</value>
+    <comment>ToolBar\Acciones\Buscar</comment>
+  </data>
+  <data name="lrbtbMaestros" xml:space="preserve">
+    <value>Maestros</value>
+    <comment>Ribbon\Maestros\Centros de Alquiler\Maestros</comment>
+  </data>
+  <data name="lrgrCentrosAlquiler" xml:space="preserve">
+    <value>Centros de Alquiler</value>
+    <comment>Ribbon\Maestros\Centros de Alquiler\Centros de Alquiler</comment>
+  </data>
+  <data name="lrbtnEmpresas" xml:space="preserve">
+    <value>Empresas</value>
+    <comment>Ribbon\Maestros\Centros de Alquiler\Empresas</comment>
+  </data>
+  <data name="lrbtnOficinas" xml:space="preserve">
+    <value>Oficinas</value>
+    <comment>Ribbon\Maestros\Centros de Alquiler\Oficinas</comment>
+  </data>
+  <data name="lrbtnZonasOficina" xml:space="preserve">
+    <value>Zonas Oficina</value>
+    <comment>Ribbon\Maestros\Centros de Alquiler\Zonas Oficina</comment>
+  </data>
+  <data name="lrgrMaestrosClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Maestros\Clientes\Clientes</comment>
+  </data>
+  <data name="lrmnbtnMaestrosClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Maestros\Clientes\Clientes</comment>
+  </data>
+  <data name="lrbtnBancosClientes" xml:space="preserve">
+    <value>Bancos</value>
+    <comment>Ribbon\Maestros\Clientes\Bancos</comment>
+  </data>
+  <data name="lrbtnBloqueFacturacion" xml:space="preserve">
+    <value>Bloque de Facturación</value>
+    <comment>Ribbon\Maestros\Clientes\Bloque de Facturación</comment>
+  </data>
+  <data name="lrbtnCambioCodigoCliente" xml:space="preserve">
+    <value>Cambio Código de Cliente</value>
+    <comment>Ribbon\Maestros\Clientes\Cambio Código de Cliente</comment>
+  </data>
+  <data name="lrbtnCanales" xml:space="preserve">
+    <value>Canales</value>
+    <comment>Ribbon\Maestros\Clientes\Canales</comment>
+  </data>
+  <data name="lrbtnCargosPersonal" xml:space="preserve">
+    <value>Cargos del Personal</value>
+    <comment>Ribbon\Maestros\Clientes\Cargos del Personal</comment>
+  </data>
+  <data name="lrbtnCCAA" xml:space="preserve">
+    <value>Comunidades Autónomas</value>
+    <comment>Ribbon\Maestros\Clientes\CCAA</comment>
+  </data>
+  <data name="lrbtnClavesPresupuesto" xml:space="preserve">
+    <value>Claves de Presupuesto</value>
+    <comment>Ribbon\Maestros\Clientes\Claves de Presupuesto</comment>
+  </data>
+  <data name="lrbtnClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Maestros\Clientes\Clientes</comment>
+  </data>
+  <data name="lrbtnEntradaRapida" xml:space="preserve">
+    <value>Entrada Rápida</value>
+    <comment>Ribbon\Maestros\Clientes\Entrada Rápida</comment>
+  </data>
+  <data name="lrbtnFormasCobroClientes" xml:space="preserve">
+    <value>Formas de Cobro a Clientes</value>
+    <comment>Ribbon\Maestros\Clientes\Formas de Cobro a Clientes</comment>
+  </data>
+  <data name="lrbtnMercados" xml:space="preserve">
+    <value>Mercados</value>
+    <comment>Ribbon\Maestros\Clientes\Mercados</comment>
+  </data>
+  <data name="lrbtnNegocios" xml:space="preserve">
+    <value>Negocios</value>
+    <comment>Ribbon\Maestros\Clientes\Negocios</comment>
+  </data>
+  <data name="lrbtnOrigenClientes" xml:space="preserve">
+    <value>Origen de Clientes</value>
+    <comment>Ribbon\Maestros\Clientes\Origen de Clientes</comment>
+  </data>
+  <data name="lrbtnPaises" xml:space="preserve">
+    <value>Países</value>
+    <comment>Ribbon\Maestros\Clientes\Países</comment>
+  </data>
+  <data name="lrbtnPoblaciones" xml:space="preserve">
+    <value>Poblaciones</value>
+    <comment>Ribbon\Maestros\Clientes\Poblaciones</comment>
+  </data>
+  <data name="lrbtnProvincias" xml:space="preserve">
+    <value>Provincias</value>
+    <comment>Ribbon\Maestros\Clientes\Provincias</comment>
+  </data>
+  <data name="lrbtnSectoresActividad" xml:space="preserve">
+    <value>Sectores de Actividad</value>
+    <comment>Ribbon\Maestros\Clientes\Sectores de Actividad</comment>
+  </data>
+  <data name="lrbtnTarjetasCredito" xml:space="preserve">
+    <value>Tarjetas de Crédito</value>
+    <comment>Ribbon\Maestros\Clientes\Tarjetas de Crédito</comment>
+  </data>
+  <data name="lrbtnTarjetasEmpresa" xml:space="preserve">
+    <value>Tarjetas de Empresa</value>
+    <comment>Ribbon\Maestros\Clientes\Tarjetas de Empresa</comment>
+  </data>
+  <data name="lrbtnTiposCliente" xml:space="preserve">
+    <value>Tipos de Cliente</value>
+    <comment>Ribbon\Maestros\Clientes\Tipos de Cliente</comment>
+  </data>
+  <data name="lrbtnTiposContacto" xml:space="preserve">
+    <value>Tipos de Contacto</value>
+    <comment>Ribbon\Maestros\Clientes\Tipos de Contacto</comment>
+  </data>
+  <data name="lrbtnTiposVisita" xml:space="preserve">
+    <value>Tipos de Visita</value>
+    <comment>Ribbon\Maestros\Clientes\Tipos de Visita</comment>
+  </data>
+  <data name="lrbtnUsoAlquiler" xml:space="preserve">
+    <value>Uso Alquiler</value>
+    <comment>Ribbon\Maestros\Clientes\Uso Alquiler</comment>
+  </data>
+  <data name="lrbtnVendedores" xml:space="preserve">
+    <value>Vendedores</value>
+    <comment>Ribbon\Maestros\Clientes\Vendedores</comment>
+  </data>
+  <data name="lrbtnZonasCliente" xml:space="preserve">
+    <value>Zonas Cliente</value>
+    <comment>Ribbon\Maestros\Clientes\Zonas Cliente</comment>
+  </data>
+  <data name="lrgrMaestrosComisionistas" xml:space="preserve">
+    <value>Comisionistas</value>
+    <comment>Ribbon\Maestros\Comisionistas\Comisionistas</comment>
+  </data>
+  <data name="rmnbtnMaestrosComisionistas" xml:space="preserve">
+    <value>Comisionistas</value>
+    <comment>Ribbon\Maestros\Comisionistas\Comisionistas</comment>
+  </data>
+  <data name="lrbtnComisionistas" xml:space="preserve">
+    <value>Comisionistas</value>
+    <comment>Ribbon\Maestros\Comisionistas\Comisionistas</comment>
+  </data>
+  <data name="lrbtnEmpleadosAgencia" xml:space="preserve">
+    <value>Empleados de Agencia</value>
+    <comment>Ribbon\Maestros\Comisionistas\Empleados de Agencia</comment>
+  </data>
+  <data name="lrbtnTipoComisionista" xml:space="preserve">
+    <value>Tipos Comisionista</value>
+    <comment>Ribbon\Maestros\Comisionistas\Tipos Comisionista</comment>
+  </data>
+  <data name="lrgrMaestrosContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Maestros\Contratos\Contratos</comment>
+  </data>
+  <data name="lrmnbtnMaestrosContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Maestros\Contratos\Contratos</comment>
+  </data>
+  <data name="lrbtnAccesorios" xml:space="preserve">
+    <value>Accesorios</value>
+    <comment>Ribbon\Maestros\Contratos\Accesorios</comment>
+  </data>
+  <data name="lrbtnLugaresEntrega" xml:space="preserve">
+    <value>Lugares de Entrega</value>
+    <comment>Ribbon\Maestros\Contratos\Lugares de Entrega</comment>
+  </data>
+  <data name="lrbtnMotivosAnulacionContratos" xml:space="preserve">
+    <value>Motivos Anulación</value>
+    <comment>Ribbon\Maestros\Contratos\Motivos Anulación</comment>
+  </data>
+  <data name="lrbtnMotivosCambioVehiculo" xml:space="preserve">
+    <value>Motivos Cambio de Vehículo</value>
+    <comment>Ribbon\Maestros\Contratos\Motivos Cambio de Vehículo</comment>
+  </data>
+  <data name="lrbtnMotivosCancelacion" xml:space="preserve">
+    <value>Motivos Cancelación</value>
+    <comment>Ribbon\Maestros\Contratos\Motivos Cancelación</comment>
+  </data>
+  <data name="lrbtnMotivosImproductivo" xml:space="preserve">
+    <value>Motivos Improductivo</value>
+    <comment>Ribbon\Maestros\Contratos\Motivos Improductivo</comment>
+  </data>
+  <data name="lrbtnTipoImpresoContrato" xml:space="preserve">
+    <value>Tipo Impreso de Contrato</value>
+    <comment>Ribbon\Maestros\Contratos\Tipo Impreso de Contrato</comment>
+  </data>
+  <data name="lrgrMaestrosIncidencias" xml:space="preserve">
+    <value>Incidencias</value>
+    <comment>Ribbon\Maestros\Incidencias\Incidencias</comment>
+  </data>
+  <data name="lrmnbtnMaestrosIncidencias" xml:space="preserve">
+    <value>Incidencias</value>
+    <comment>Ribbon\Maestros\Incidencias\Incidencias</comment>
+  </data>
+  <data name="lrbtnTiposIncidenciasClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Maestros\Incidencias\Clientes</comment>
+  </data>
+  <data name="lrbtnTiposIncidenciasContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Maestros\Incidencias\Contratos</comment>
+  </data>
+  <data name="lrbtnTiposIncidenciasProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Maestros\Incidencias\Proveedores</comment>
+  </data>
+  <data name="lrbtnTiposIncidenciasReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Maestros\Incidencias\Reservas</comment>
+  </data>
+  <data name="lrgrMaestrosProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Maestros\Proveedores\Proveedores</comment>
+  </data>
+  <data name="lrmnbtnMaestrosProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Maestros\Proveedores\Proveedores</comment>
+  </data>
+  <data name="lrbtnDivisas" xml:space="preserve">
+    <value>Divisas</value>
+    <comment>Ribbon\Maestros\Proveedores\Divisas</comment>
+  </data>
+  <data name="lrbtnFormaPagoProveedor" xml:space="preserve">
+    <value>Formas de Pago</value>
+    <comment>Ribbon\Maestros\Proveedores\Formas de Pago</comment>
+  </data>
+  <data name="lrbtnProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Maestros\Proveedores\Proveedores</comment>
+  </data>
+  <data name="lrbtnTiposProveedores" xml:space="preserve">
+    <value>Tipos Proveedor</value>
+    <comment>Ribbon\Maestros\Proveedores\Tipos Proveedor</comment>
+  </data>
+  <data name="lrgrMaestrosReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Maestros\Reservas\Reservas</comment>
+  </data>
+  <data name="lrmnbtnMaestrosReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Maestros\Reservas\Reservas</comment>
+  </data>
+  <data name="lrbtnClavesFee" xml:space="preserve">
+    <value>Claves de Fee</value>
+    <comment>Ribbon\Maestros\Reservas\Claves de Fee</comment>
+  </data>
+  <data name="lrbtnMediosRecepcion" xml:space="preserve">
+    <value>Medios de Recepción</value>
+    <comment>Ribbon\Maestros\Reservas\Medios de Recepción</comment>
+  </data>
+  <data name="lrbtnMotivosAnulacionReservas" xml:space="preserve">
+    <value>Motivos de Anulación</value>
+    <comment>Ribbon\Maestros\Reservas\Motivos de Anulación</comment>
+  </data>
+  <data name="lrbtnMotivosNoServicio" xml:space="preserve">
+    <value>Motivos de No Servicio</value>
+    <comment>Ribbon\Maestros\Reservas\Motivos de No Servicio</comment>
+  </data>
+  <data name="lrgrMaestrosTarifas" xml:space="preserve">
+    <value>Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Tarifas</comment>
+  </data>
+  <data name="lrmnbtnMaestrosTarifas" xml:space="preserve">
+    <value>Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Tarifas</comment>
+  </data>
+  <data name="lrbtnCambioCodigoTarifas" xml:space="preserve">
+    <value>Cambio Código de Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Cambio Código de Tarifas</comment>
+  </data>
+  <data name="lrbtnConceptosFacturacion" xml:space="preserve">
+    <value>Conceptos Facturación</value>
+    <comment>Ribbon\Maestros\Tarifas\Conceptos Facturación</comment>
+  </data>
+  <data name="lrbtnCrearTarifaDesdeOtraTarifa" xml:space="preserve">
+    <value>Crear Tarifa a Partir Otra</value>
+    <comment>Ribbon\Maestros\Tarifas\Crear Tarifa a Partir Otra</comment>
+  </data>
+  <data name="lrbtnGruposTarifa" xml:space="preserve">
+    <value>Grupos de Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Grupos de Tarifas</comment>
+  </data>
+  <data name="lrbtnIncrementoPrecios" xml:space="preserve">
+    <value>Incremento Precios</value>
+    <comment>Ribbon\Maestros\Tarifas\Incremento Precios</comment>
+  </data>
+  <data name="lrbtnTarifas" xml:space="preserve">
+    <value>Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Tarifas</comment>
+  </data>
+  <data name="lrbtnTarifaCliente" xml:space="preserve">
+    <value>Tarifa por Cliente</value>
+    <comment>Ribbon\Maestros\Tarifas\Tarifa por Cliente</comment>
+  </data>
+  <data name="lrbtnTarifasComisionista" xml:space="preserve">
+    <value>Tarifas por Comisionista</value>
+    <comment>Ribbon\Maestros\Tarifas\Tarifas por Comisionista</comment>
+  </data>
+  <data name="lrbtnVerTarifa" xml:space="preserve">
+    <value>Ver Tarifa</value>
+    <comment>Ribbon\Maestros\Tarifas\Ver Tarifa</comment>
+  </data>
+  <data name="lrbtnVincularClienteTarifa" xml:space="preserve">
+    <value>Vincular Cliente a Tarifas</value>
+    <comment>Ribbon\Maestros\Tarifas\Vincular Cliente a Tarifas</comment>
+  </data>
+  <data name="lrgrMaestrosVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Maestros\Vehículos\Vehículos</comment>
+  </data>
+  <data name="lrmnbtnMaestrosVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Maestros\Vehículos\Vehículos</comment>
+  </data>
+  <data name="lrbtnAccesoriosVehiculos" xml:space="preserve">
+    <value>Accesorios Vehículos</value>
+    <comment>Ribbon\Maestros\Vehiculos\Accesorios Vehículos</comment>
+  </data>
+  <data name="lrbtnActividadesVehiculos" xml:space="preserve">
+    <value>Actividades Vehículos</value>
+    <comment>Ribbon\Maestros\Vehiculos\Actividades Vehículos</comment>
+  </data>
+  <data name="lrbtnCambioCodigoVehiculo" xml:space="preserve">
+    <value>Cambio Código de Vehículo</value>
+    <comment>Ribbon\Maestros\Vehículos\Cambio Código de Vehículo</comment>
+  </data>
+  <data name="lrbtnCodigosInmovilizacion" xml:space="preserve">
+    <value>Códigos Inmovilización</value>
+    <comment>Ribbon\Maestros\Vehiculos\Códigos Inmovilización</comment>
+  </data>
+  <data name="lrbtnCodigosMantenimiento" xml:space="preserve">
+    <value>Códigos Mantenimiento</value>
+    <comment>Ribbon\Maestros\Vehiculos\Códigos Mantenimiento</comment>
+  </data>
+  <data name="lrbtnColores" xml:space="preserve">
+    <value>Colores</value>
+    <comment>Ribbon\Maestros\Vehiculos\Colores</comment>
+  </data>
+  <data name="lrbtnExtras" xml:space="preserve">
+    <value>Extras</value>
+    <comment>Ribbon\Maestros\Vehiculos\Extras</comment>
+  </data>
+  <data name="lrbtnFormasTraslado" xml:space="preserve">
+    <value>Formas Traslado</value>
+    <comment>Ribbon\Maestros\Vehiculos\Formas Traslado</comment>
+  </data>
+  <data name="lrbtnGruposVehiculos" xml:space="preserve">
+    <value>Grupos Vehículos</value>
+    <comment>Ribbon\Maestros\Vehiculos\Grupos Vehículos</comment>
+  </data>
+  <data name="lrbtnMarcas" xml:space="preserve">
+    <value>Marcas</value>
+    <comment>Ribbon\Maestros\Vehiculos\Marcas</comment>
+  </data>
+  <data name="lrbtnModelos" xml:space="preserve">
+    <value>Modelos</value>
+    <comment>Ribbon\Maestros\Vehiculos\Modelos</comment>
+  </data>
+  <data name="lrbtnModificacionMasivaAux" xml:space="preserve">
+    <value>Modificación Masiva</value>
+    <comment>Ribbon\Maestros\Vehículos\Modificación Masiva</comment>
+  </data>
+  <data name="lrbtnMotivosRepostaje" xml:space="preserve">
+    <value>Motivos Repostaje</value>
+    <comment>Ribbon\Maestros\Vehiculos\Motivos Repostaje</comment>
+  </data>
+  <data name="lrbtnPropietarios" xml:space="preserve">
+    <value>Propietarios</value>
+    <comment>Ribbon\Maestros\Vehiculos\Propietarios</comment>
+  </data>
+  <data name="lrbtnRecalculoMantenimiento" xml:space="preserve">
+    <value>Recálculo Mantenimiento</value>
+    <comment>Ribbon\Maestros\Vehículos\Recálculo Mantenimiento</comment>
+  </data>
+  <data name="lrbtnTiposVehiculos" xml:space="preserve">
+    <value>Tipos de Vehículo</value>
+    <comment>Ribbon\Maestros\Vehiculos\Tipos de Vehículo</comment>
+  </data>
+  <data name="lrbtnVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Maestros\Vehículos\Vehículos</comment>
+  </data>
+  <data name="lrgrMaestrosVarios" xml:space="preserve">
+    <value>Varios</value>
+    <comment>Ribbon\Maestros\Varios\Varios</comment>
+  </data>
+  <data name="lrmnbtnMaestrosVarios" xml:space="preserve">
+    <value>Varios</value>
+    <comment>Ribbon\Maestros\Varios\Varios</comment>
+  </data>
+  <data name="lrbtnCategoriasPersonal" xml:space="preserve">
+    <value>Entrega de Contratos a Oficina</value>
+    <comment>Ribbon\Contratos\Varios\Entrega de Contratos a Oficina</comment>
+  </data>
+  <data name="lrbtnConceptosSalidaCaja" xml:space="preserve">
+    <value>Conceptos Salida Caja</value>
+    <comment>Ribbon\Maestros\Varios\Conceptos Salida Caja</comment>
+  </data>
+  <data name="lrbtnTextosEstandars" xml:space="preserve">
+    <value>Textos Estandars</value>
+    <comment>Ribbon\Maestros\Varios\Textos Estandars</comment>
+  </data>
+  <data name="lrbtnTipoContactoPotencial" xml:space="preserve">
+    <value>Tipo Contacto Potencial</value>
+    <comment>Ribbon\Maestros\Varios\Tipo Contacto Comercial</comment>
+  </data>
+  <data name="lrbtnTiposDocumentos" xml:space="preserve">
+    <value>Tipos de Documentos</value>
+    <comment>Ribbon\Maestros\Varios\Tipos de Documentos</comment>
+  </data>
+  <data name="lrbtnTipoImpresoFactura" xml:space="preserve">
+    <value>Tipos Impreso Factura</value>
+    <comment>Ribbon\Maestros\Varios\Tipos Impreso Factura</comment>
+  </data>
+  <data name="lrbtbContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Contratos\Contratos\Contratos</comment>
+  </data>
+  <data name="lrgrContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Contratos\Contratos\Contratos</comment>
+  </data>
+  <data name="lrbtnAbrirContrato" xml:space="preserve">
+    <value>Abrir Contrato</value>
+    <comment>Ribbon\Contratos\Contratos\Abrir Contrato</comment>
+  </data>
+  <data name="lrbtnAnularContrato" xml:space="preserve">
+    <value>Anular Contrato</value>
+    <comment>Ribbon\Contratos\Contratos\Anular Contrato</comment>
+  </data>
+  <data name="lrbtnCerrarContrato" xml:space="preserve">
+    <value>Cerrar Contrato</value>
+    <comment>Ribbon\Contratos\Contratos\Cerrar Contrato</comment>
+  </data>
+  <data name="lrbtnConcultarContrato" xml:space="preserve">
+    <value>Consultar Contrato</value>
+    <comment>Ribbon\Contratos\Contratos\Consultar Contrato</comment>
+  </data>
+  <data name="lrbtnReAbrirContrato" xml:space="preserve">
+    <value>Reabrir Contrato</value>
+    <comment>Ribbon\Contratos\Contratos\Reabrir Contrato</comment>
+  </data>
+  <data name="lrgrCambiosContratos" xml:space="preserve">
+    <value>Cambios</value>
+    <comment>Ribbon\Contratos\Cambios\Cambios</comment>
+  </data>
+  <data name="lrbtnCambioConductor" xml:space="preserve">
+    <value>Cambio Conductor</value>
+    <comment>Ribbon\Contratos\Cambios\Cambio Conductor</comment>
+  </data>
+  <data name="lrbtnCambioNumeroContrato" xml:space="preserve">
+    <value>Cambio Número Contrato</value>
+    <comment>Ribbon\Contratos\Cambios\Cambio Número Contrato</comment>
+  </data>
+  <data name="lrbtnCambioOficinaContrato" xml:space="preserve">
+    <value>Cambio Oficina Contrato</value>
+    <comment>Ribbon\Contratos\Cambios\Cambio Oficina Contrato</comment>
+  </data>
+  <data name="lrbtnCambioVehiculo" xml:space="preserve">
+    <value>Cambio Vehículo</value>
+    <comment>Ribbon\Contratos\Cambios\Cambio Vehículo</comment>
+  </data>
+  <data name="lrgrVariosContratos" xml:space="preserve">
+    <value>Varios Contratos</value>
+    <comment>Ribbon\Contratos\Varios\Varios Contratos</comment>
+  </data>
+  <data name="lrbtnImpresionBloqueContratos" xml:space="preserve">
+    <value>Impresión en Bloque de Contratos</value>
+    <comment>Ribbon\Contratos\Varios\Impresión en Bloque de Contratos</comment>
+  </data>
+  <data name="lrbtnPlantilla" xml:space="preserve">
+    <value>Plantilla</value>
+    <comment>Ribbon\Contratos\Varios\Plantilla</comment>
+  </data>
+  <data name="lrbtnProcesoCierreContratos" xml:space="preserve">
+    <value>Proceso Cierre Contratos</value>
+    <comment>Ribbon\Contratos\Varios\Proceso Cierre Contratos</comment>
+  </data>
+  <data name="lrbtnProlongacionAutomaticaContratos" xml:space="preserve">
+    <value>Prolongación Automática de Contratos</value>
+    <comment>Ribbon\Contratos\Varios\Prolongación Automática de Contratos</comment>
+  </data>
+  <data name="lrbtbReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Reservas\Reservas</comment>
+  </data>
+  <data name="lrgrReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Reservas\Reservas</comment>
+  </data>
+  <data name="lrbtnReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Reservas\Reservas</comment>
+  </data>
+  <data name="lrbtnAnularReserva" xml:space="preserve">
+    <value>Anular Reserva</value>
+    <comment>Ribbon\Reservas\Anular Reserva</comment>
+  </data>
+  <data name="lrbtnConvertirReservaContrato" xml:space="preserve">
+    <value>Convertir Reserva a Contrato</value>
+    <comment>Ribbon\Reservas\Convertir Reserva a Contrato</comment>
+  </data>
+  <data name="lrbtnCotizacionComparada" xml:space="preserve">
+    <value>Cotización Comparada</value>
+    <comment>Ribbon\Reservas\Cotización Comparada</comment>
+  </data>
+  <data name="lrbtnEliminarReservasNoShow" xml:space="preserve">
+    <value>Eliminar Reservas No Show</value>
+    <comment>Ribbon\Reservas\Eliminar Reservas No Show</comment>
+  </data>
+  <data name="lrbtnPeticiones" xml:space="preserve">
+    <value>Peticiones</value>
+    <comment>Ribbon\Reservas\Peticiones</comment>
+  </data>
+  <data name="lrbtbAtipicos" xml:space="preserve">
+    <value>Atípicos</value>
+    <comment>Ribbon\Atípicos\Atípicos</comment>
+  </data>
+  <data name="lrgrAtipicos" xml:space="preserve">
+    <value>Atípicos</value>
+    <comment>Ribbon\Atípicos\Atípicos</comment>
+  </data>
+  <data name="lrbtnAlquilerBicicletas" xml:space="preserve">
+    <value>Alquiler Bicicletas</value>
+    <comment>Ribbon\Atípicos\Alquiler Bicicletas</comment>
+  </data>
+  <data name="lrbtnFacturasAtipicas" xml:space="preserve">
+    <value>Facturas Atípicas</value>
+    <comment>Ribbon\Atípicos\Facturas Atípicas</comment>
+  </data>
+  <data name="lrbtnImpresionBloque" xml:space="preserve">
+    <value>Impresión en Bloque</value>
+    <comment>Ribbon\Atípicos\Impresión en Bloque</comment>
+  </data>
+  <data name="lrbtnSalidaCaja" xml:space="preserve">
+    <value>Salida Caja</value>
+    <comment>Ribbon\Atípicos\Salida Caja</comment>
+  </data>
+  <data name="lrbtnSeriesAtipicos" xml:space="preserve">
+    <value>Series de Atípicos</value>
+    <comment>Ribbon\Atípicos\Series de Atípicos</comment>
+  </data>
+  <data name="lrbtbComercial" xml:space="preserve">
+    <value>Comercial</value>
+    <comment>Ribbon\Comercial\Comercial</comment>
+  </data>
+  <data name="lrgrComercial" xml:space="preserve">
+    <value>Comercial</value>
+    <comment>Ribbon\Comercial\Comercial</comment>
+  </data>
+  <data name="lrbtnCustomerService" xml:space="preserve">
+    <value>Customer Service</value>
+    <comment>Ribbon\Comercial\Customer Service</comment>
+  </data>
+  <data name="lrbtnEntregaBonos" xml:space="preserve">
+    <value>Entrega Bonos</value>
+    <comment>Ribbon\Comercial\Entrega Bonos</comment>
+  </data>
+  <data name="lrbtnEMailingClientes" xml:space="preserve">
+    <value>e-Mailing Clientes</value>
+    <comment>Ribbon\Comercial\e-Mailing Clientes</comment>
+  </data>
+  <data name="lrbtneEMailingPotenciales" xml:space="preserve">
+    <value>e-Mailing Potenciales</value>
+    <comment>Ribbon\Comercial\e-Mailing Potenciales</comment>
+  </data>
+  <data name="lrbtnPotenciales" xml:space="preserve">
+    <value>Potenciales</value>
+    <comment>Ribbon\Comercial\Potenciales</comment>
+  </data>
+  <data name="lrbtbFacturacion" xml:space="preserve">
+    <value>Facturación</value>
+    <comment>Ribbon\Facturación\Facturación\Facturación</comment>
+  </data>
+  <data name="lrgrFacturacion" xml:space="preserve">
+    <value>Facturación</value>
+    <comment>Ribbon\Facturación\Facturación\Facturación</comment>
+  </data>
+  <data name="rmnbtnFacturas" xml:space="preserve">
+    <value>Facturas</value>
+    <comment>Ribbon\Facturación\Facturación\Facturas</comment>
+  </data>
+  <data name="lrbtnAbonarFactura" xml:space="preserve">
+    <value>Abonar Factura</value>
+    <comment>Ribbon\Facturación\Facturación\Abonar Factura</comment>
+  </data>
+  <data name="lrbtnBorrarFacturasPeriodo" xml:space="preserve">
+    <value>Borrar Facturas en un Periodo</value>
+    <comment>Ribbon\Facturación\Facturación\Borrar Facturas en un Periodo</comment>
+  </data>
+  <data name="lrbtnCambioNumeroFactura" xml:space="preserve">
+    <value>Cambio Número Factura</value>
+    <comment>Ribbon\Facturación\Facturación\Cambio Número Factura</comment>
+  </data>
+  <data name="lrbtnCambioVendedorFacturas" xml:space="preserve">
+    <value>Cambio Vendedor en Facturas</value>
+    <comment>Ribbon\Facturación\Facturación\Cambio Vendedor en Facturas</comment>
+  </data>
+  <data name="lrbtnCartaPendientes" xml:space="preserve">
+    <value>Cartas Pendientes</value>
+    <comment>Ribbon\Facturación\Facturación\Cartas Pendientes</comment>
+  </data>
+  <data name="lrbtnConsultaModificacion" xml:space="preserve">
+    <value>Consulta / Modificación</value>
+    <comment>Ribbon\Facturación\Facturación\Consulta / Modificación</comment>
+  </data>
+  <data name="lrbtnModificarEmpresaOficinaFactura" xml:space="preserve">
+    <value>Modificar Empresa / Oficina Factura</value>
+    <comment>Ribbon\Facturación\Facturación\Modificar Empresa / Oficina Factura</comment>
+  </data>
+  <data name="lrbtnModificarFacturaContrato" xml:space="preserve">
+    <value>Modificar Factura en Contrato</value>
+    <comment>Ribbon\Facturación\Facturación\Modificar Factura en Contrato</comment>
+  </data>
+  <data name="lrbtnProcesoFacturacion" xml:space="preserve">
+    <value>Proceso Facturación</value>
+    <comment>Ribbon\Facturación\Facturación\Proceso Facturación</comment>
+  </data>
+  <data name="lrgrRecibosCartera" xml:space="preserve">
+    <value>Recibos / Cartera</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Recibos / Cartera</comment>
+  </data>
+  <data name="lrmnbtnRecibosCartera" xml:space="preserve">
+    <value>Recibos Cartera</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Recibos Cartera</comment>
+  </data>
+  <data name="lrbtnRecibos" xml:space="preserve">
+    <value>Recibos</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Recibos</comment>
+  </data>
+  <data name="lrbtnCobrosIndividuales" xml:space="preserve">
+    <value>Cobros Individuales</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Cobros Individuales</comment>
+  </data>
+  <data name="lrbtnGestionImpagados" xml:space="preserve">
+    <value>Gestión de Impagados</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Gestión de Impagados</comment>
+  </data>
+  <data name="lrbtnRefundirRecibosNoCobrados" xml:space="preserve">
+    <value>Refundir Recibos No Cobrados</value>
+    <comment>Ribbon\Facturación\Recibos Cartera\Refundir Recibos No Cobrados</comment>
+  </data>
+  <data name="lrgrRemesas" xml:space="preserve">
+    <value>Remesas</value>
+    <comment>Ribbon\Facturación\Remesas\Remesas</comment>
+  </data>
+  <data name="lrmnbtnRemesas" xml:space="preserve">
+    <value>Remesas</value>
+    <comment>Ribbon\Facturación\Remesas\Remesas</comment>
+  </data>
+  <data name="lrbtnRemesas" xml:space="preserve">
+    <value>Remesas</value>
+    <comment>Ribbon\Facturación\Remesas\Remesas</comment>
+  </data>
+  <data name="lrbtnAnulacionPaseRemesaContabilidad" xml:space="preserve">
+    <value>Anulación Pase Remesa a Contabilidad</value>
+    <comment>Ribbon\Facturación\Remesas\Anulación Pase Remesa a Contabilidad</comment>
+  </data>
+  <data name="lrbtnBancosRemesas" xml:space="preserve">
+    <value>Bancos de Remesas</value>
+    <comment>Ribbon\Facturación\Remesas\Bancos de Remesas</comment>
+  </data>
+  <data name="lrbtnPaseSoporteMagnetico" xml:space="preserve">
+    <value>Pase a Soporte Magnético</value>
+    <comment>Ribbon\Facturación\Remesas\Pase a Soporte Magnético</comment>
+  </data>
+  <data name="rbtnPaseRemesaContabilidad" xml:space="preserve">
+    <value>Pase Remesa a Contabilidad</value>
+    <comment>Ribbon\Facturación\Remesas\Pase Remesa a Contabilidad</comment>
+  </data>
+  <data name="lrgrEnlacesContables" xml:space="preserve">
+    <value>Enlaces Contables</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Enlaces Contables</comment>
+  </data>
+  <data name="lrmnbtnEnlacesContables" xml:space="preserve">
+    <value>Enlaces Contables</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Enlaces Contables</comment>
+  </data>
+  <data name="lrbtnAnulacionPase" xml:space="preserve">
+    <value>Anulación de Pase</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Anulación de Pase</comment>
+  </data>
+  <data name="lrbtnPaseCobrosRecibos" xml:space="preserve">
+    <value>Pase de Cobros (Recibos)</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Pase de Cobros (Recibos)</comment>
+  </data>
+  <data name="lrbtnPaseFacturas" xml:space="preserve">
+    <value>Pase de Facturas</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Pase de Facturas</comment>
+  </data>
+  <data name="lrbtnPaseFacturasAtipicas" xml:space="preserve">
+    <value>Pase de Facturas Atípicas</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Pase de Facturas Atípicas</comment>
+  </data>
+  <data name="lrbtnPaseTesoreriaCaja" xml:space="preserve">
+    <value>Pase de Tesorería (Caja)</value>
+    <comment>Ribbon\Facturación\Enlaces Contables\Pase de Tesorería (Caja)</comment>
+  </data>
+  <data name="lrgrExportacion" xml:space="preserve">
+    <value>Exportación</value>
+    <comment>Ribbon\Facturación\Exportación\Exportación</comment>
+  </data>
+  <data name="lrbtnExportacionFichero340" xml:space="preserve">
+    <value>Exportación Fichero 340</value>
+    <comment>Ribbon\Facturación\Exportación\Exportación Fichero 340</comment>
+  </data>
+  <data name="lrbtnExportacionFichero347" xml:space="preserve">
+    <value>Exportación Fichero 347</value>
+    <comment>Ribbon\Facturación\Exportación\Exportación Fichero 347</comment>
+  </data>
+  <data name="lrgrImpresion" xml:space="preserve">
+    <value>Impresión</value>
+    <comment>Ribbon\Facturación\Impresión\Impresión</comment>
+  </data>
+  <data name="lrbtnImpresionBloqueFacturas" xml:space="preserve">
+    <value>Impresión en Bloque Facturas</value>
+    <comment>Ribbon\Facturación\Impresión\Impresión en Bloque Facturas</comment>
+  </data>
+  <data name="lrbtnImpresionBloqueRecibos" xml:space="preserve">
+    <value>Impresión en Bloque Recibos</value>
+    <comment>Ribbon\Facturación\Impresión\Impresión en Bloque Recibos</comment>
+  </data>
+  <data name="lrgrEstadisticasFacturas" xml:space="preserve">
+    <value>Estadísticas</value>
+    <comment>Ribbon\Facturación\Estadísticas\Estadísticas</comment>
+  </data>
+  <data name="lrbtnGeneradorEstadisticasFacturas" xml:space="preserve">
+    <value>Generador Estadísticas</value>
+    <comment>Ribbon\Facturación\Estadísticas\Generador Estadísticas</comment>
+  </data>
+  <data name="lrbtbFlota" xml:space="preserve">
+    <value>Flota</value>
+    <comment>Ribbon\Flota\Flota</comment>
+  </data>
+  <data name="lrgrInmovilizaciones" xml:space="preserve">
+    <value>Inmovilizaciones</value>
+    <comment>Ribbon\Flota\Inmovilizaciones\Inmovilizaciones</comment>
+  </data>
+  <data name="lrbtnInmovilizaciones" xml:space="preserve">
+    <value>Inmovilizaciones</value>
+    <comment>Ribbon\Flota\Inmovilizaciones\Inmovilizaciones</comment>
+  </data>
+  <data name="lrbtnEntradaGastosVehiculo" xml:space="preserve">
+    <value>Entrada Gastos por Vehículo</value>
+    <comment>Ribbon\Flota\Inmovilizaciones\Entrada Gastos por Vehículo</comment>
+  </data>
+  <data name="lrbtnGeneradorEstadisticasInmovilizaciones" xml:space="preserve">
+    <value>Generador Estadísticas</value>
+    <comment>Ribbon\Flota\Inmovilizaciones\Generador Estadísticas</comment>
+  </data>
+  <data name="lrgrUtilidades" xml:space="preserve">
+    <value>Utilidades</value>
+    <comment>Ribbon\Flota\Utilidades\Utilidades</comment>
+  </data>
+  <data name="lrbtnActualizarVtoITV" xml:space="preserve">
+    <value>Actualizar Vto ITV</value>
+    <comment>Ribbon\Flota\Utilidades\Actualizar Vto ITV</comment>
+  </data>
+  <data name="lrbtnBastidorRadioLlave" xml:space="preserve">
+    <value>Bastidor, Radio, Llave</value>
+    <comment>Ribbon\Flota\Utilidades\Bastidor, Radio, Llave</comment>
+  </data>
+  <data name="lrbtnCambioFechaBajaVehiculo" xml:space="preserve">
+    <value>Cambio Fecha Baja Vehículo</value>
+    <comment>Ribbon\Flota\Utilidades\Cambio Fecha Baja Vehículo</comment>
+  </data>
+  <data name="lrbtnCambioUbicacionKMSituacion" xml:space="preserve">
+    <value>Cambio Ubicación, KM, Situación</value>
+    <comment>Ribbon\Flota\Utilidades\Cambio Ubicación, KM, Situación</comment>
+  </data>
+  <data name="lrbtnDatosSeguros" xml:space="preserve">
+    <value>Datos de Seguros</value>
+    <comment>Ribbon\Flota\Utilidades\Datos de Seguros</comment>
+  </data>
+  <data name="lrbtnFlotaVtoRecibosSeguros" xml:space="preserve">
+    <value>Flota Vto Recibos Seguros</value>
+    <comment>Ribbon\Flota\Utilidades\Flota Vto Recibos Seguros</comment>
+  </data>
+  <data name="lrbtnModificacionMasivaFlota" xml:space="preserve">
+    <value>Modificación Masiva</value>
+    <comment>Ribbon\Flota\Utilidades\Modificación Masiva</comment>
+  </data>
+  <data name="lrbtnTraslados" xml:space="preserve">
+    <value>Traslados</value>
+    <comment>Ribbon\Flota\Utilidades\Traslados</comment>
+  </data>
+  <data name="lrgrVariosFlota" xml:space="preserve">
+    <value>Varios</value>
+    <comment>Ribbon\Flota\Varios\Varios</comment>
+  </data>
+  <data name="lrbtnCambioEmpresa" xml:space="preserve">
+    <value>Cambio de Empresa</value>
+    <comment>Ribbon\Flota\Varios\Cambio de Empresa</comment>
+  </data>
+  <data name="lrbtnCambioUbicacion" xml:space="preserve">
+    <value>Cambio de Ubicación</value>
+    <comment>Ribbon\Flota\Varios\Cambio de Ubicación</comment>
+  </data>
+  <data name="lrbtnHistoricoSeguros" xml:space="preserve">
+    <value>Histórico Seguros</value>
+    <comment>Ribbon\Flota\Varios\Histórico Seguros</comment>
+  </data>
+  <data name="lrbtnImpresionLlaveros" xml:space="preserve">
+    <value>Impresión de Llaveros</value>
+    <comment>Ribbon\Flota\Varios\Impresión de Llaveros</comment>
+  </data>
+  <data name="lrbtnPrevisionEntradas" xml:space="preserve">
+    <value>Previsión Entradas</value>
+    <comment>Ribbon\Flota\Varios\Previsión Entradas</comment>
+  </data>
+  <data name="lrbtnRecalculoSituación" xml:space="preserve">
+    <value>Recálculo de Situación</value>
+    <comment>Ribbon\Flota\Varios\Recálculo de Situación</comment>
+  </data>
+  <data name="lrbtnRepostaje" xml:space="preserve">
+    <value>Repostaje</value>
+    <comment>Ribbon\Flota\Varios\Repostaje</comment>
+  </data>
+  <data name="lrbtnSiniestros" xml:space="preserve">
+    <value>Siniestros</value>
+    <comment>Ribbon\Flota\Varios\Siniestros</comment>
+  </data>
+  <data name="lrbtbIncidencias" xml:space="preserve">
+    <value>Incidencias</value>
+    <comment>Ribbon\Incidencias\Incidencias</comment>
+  </data>
+  <data name="lrgrIncidencias" xml:space="preserve">
+    <value>Incidencias</value>
+    <comment>Ribbon\Incidencias\Incidencias</comment>
+  </data>
+  <data name="lrbtnIncidenciasClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Incidencias\Clientes</comment>
+  </data>
+  <data name="lrbtnIncidenciasContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Incidencias\Contratos</comment>
+  </data>
+  <data name="lrbtnIncidenciasProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Incidencias\Proveedores</comment>
+  </data>
+  <data name="lrbtnIncidenciasReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Incidencias\Reservas</comment>
+  </data>
+  <data name="lrbtnIncidenciasVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Incidencias\Vehículos</comment>
+  </data>
+  <data name="lrbtbEstadisticas" xml:space="preserve">
+    <value>Estadísticas</value>
+    <comment>Ribbon\Estadísticas\Estadísticas</comment>
+  </data>
+  <data name="lrgrEstadisticas" xml:space="preserve">
+    <value>Estadísticas</value>
+    <comment>Ribbon\Estadísticas\Estadísticas</comment>
+  </data>
+  <data name="lrbtnEstadisticasAnaliticas" xml:space="preserve">
+    <value>Analíticas</value>
+    <comment>Ribbon\Estadísticas\Analíticas</comment>
+  </data>
+  <data name="lrbtnEstadisticasClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Estadísticas\Clientes</comment>
+  </data>
+  <data name="lrbtnEstadisticasContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Estadísticas\Contratos</comment>
+  </data>
+  <data name="lrbtnEstadisticasFacturas" xml:space="preserve">
+    <value>Facturas</value>
+    <comment>Ribbon\Estadísticas\Facturas</comment>
+  </data>
+  <data name="lrbtnEstadisticasPeticiones" xml:space="preserve">
+    <value>Peticiones</value>
+    <comment>Ribbon\Estadísticas\Peticiones</comment>
+  </data>
+  <data name="lrbtnEstadisticasProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Estadísticas\Proveedores</comment>
+  </data>
+  <data name="lrbtnEstadisticasReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Estadísticas\Reservas</comment>
+  </data>
+  <data name="lrbtnEstadisticasUtilitarios" xml:space="preserve">
+    <value>Utilitarios</value>
+    <comment>Ribbon\Estadísticas\Utilitarios</comment>
+  </data>
+  <data name="lrbtnEstadisticasVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Estadísticas\Vehículos</comment>
+  </data>
+  <data name="lrbtbListados" xml:space="preserve">
+    <value>Listados</value>
+    <comment>Ribbon\Listados\Listados</comment>
+  </data>
+  <data name="lrgrListados" xml:space="preserve">
+    <value>Listados</value>
+    <comment>Ribbon\Listados\Listados</comment>
+  </data>
+  <data name="lrbtnListadosClientes" xml:space="preserve">
+    <value>Clientes</value>
+    <comment>Ribbon\Listados\Clientes</comment>
+  </data>
+  <data name="lrbtnListadosComisionistas" xml:space="preserve">
+    <value>Comisionistas</value>
+    <comment>Ribbon\Listados\Comisionistas</comment>
+  </data>
+  <data name="lrbtnListadosContratos" xml:space="preserve">
+    <value>Contratos</value>
+    <comment>Ribbon\Listados\Contratos</comment>
+  </data>
+  <data name="lrbtnListadosFicherosAuxiliares" xml:space="preserve">
+    <value>Ficheros Auxiliares</value>
+    <comment>Ribbon\Listados\Ficheros Auxiliares</comment>
+  </data>
+  <data name="lrbtnListadosFacturas" xml:space="preserve">
+    <value>Facturas</value>
+    <comment>Ribbon\Listados\Facturas</comment>
+  </data>
+  <data name="lrbtnListadosPeticiones" xml:space="preserve">
+    <value>Peticiones</value>
+    <comment>Ribbon\Listados\Peticiones</comment>
+  </data>
+  <data name="lrbtnListadosPotenciales" xml:space="preserve">
+    <value>Potenciales</value>
+    <comment>Ribbon\Listados\Potenciales</comment>
+  </data>
+  <data name="lrbtnListadosProveedores" xml:space="preserve">
+    <value>Proveedores</value>
+    <comment>Ribbon\Listados\Proveedores</comment>
+  </data>
+  <data name="lrbtnListadosReservas" xml:space="preserve">
+    <value>Reservas</value>
+    <comment>Ribbon\Listados\Reservas</comment>
+  </data>
+  <data name="lrbtnListadosVehiculos" xml:space="preserve">
+    <value>Vehículos</value>
+    <comment>Ribbon\Listados\Vehículos</comment>
+  </data>
+  <data name="lrbtbServicios" xml:space="preserve">
+    <value>Servicios</value>
+    <comment>Ribbon\Servicios\Servicios</comment>
+  </data>
+  <data name="lrgrServicios" xml:space="preserve">
+    <value>Servicios</value>
+    <comment>Ribbon\Servicios\Servicios</comment>
+  </data>
+  <data name="lrbtnDescargarMultas" xml:space="preserve">
+    <value>Descargar Multas</value>
+    <comment>Ribbon\Servicios\Descargar Multas</comment>
+  </data>
+  <data name="lrbtnMantenimientoServicios" xml:space="preserve">
+    <value>Mantenimiento Servicios</value>
+    <comment>Ribbon\Servicios\Mantenimiento Servicios</comment>
+  </data>
+  <data name="lrbtnMultas" xml:space="preserve">
+    <value>Multas</value>
+    <comment>Ribbon\Servicios\Multas</comment>
+  </data>
+  <data name="lrbtnNeumaticos" xml:space="preserve">
+    <value>Neumáticos</value>
+    <comment>Ribbon\Servicios\Neumaticos</comment>
+  </data>
+  <data name="lrbtnTarjetaCombustible" xml:space="preserve">
+    <value>Tarjeta Combustible</value>
+    <comment>Ribbon\Servicios\Tarjeta Combustible</comment>
+  </data>
+  <data name="lrbtnVehiculoSustitucion" xml:space="preserve">
+    <value>Vehículo de Sustitución</value>
+    <comment>Ribbon\Servicios\Vehiculo Sustitucion</comment>
+  </data>
+  <data name="lrbtbConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>Ribbon\Configuración\Configuración</comment>
+  </data>
+  <data name="lrgrConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>Ribbon\Configuración\Configuración\Configuración</comment>
+  </data>
+  <data name="lrmnbtnConfiguracion" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>Ribbon\Configuración\Configuración\Configuración</comment>
+  </data>
+  <data name="lrbtnCinta" xml:space="preserve">
+    <value>Cinta Opciones</value>
+    <comment>Ribbon\Configuración\Configuración\Cinta Opciones</comment>
+  </data>
+  <data name="lrbtnCodigosIniciales" xml:space="preserve">
+    <value>Códigos Iniciales</value>
+    <comment>Ribbon\Configuración\Configuración\Códigos Iniciales</comment>
+  </data>
+  <data name="lrbtnEmpresa" xml:space="preserve">
+    <value>Empresa</value>
+    <comment>Ribbon\Configuración\Configuración\Empresa</comment>
+  </data>
+  <data name="lrbtnEnlaceContabilidad" xml:space="preserve">
+    <value>Enlace Contabilidad</value>
+    <comment>Ribbon\Configuración\Configuración\Enlace Contabilidad</comment>
+  </data>
+  <data name="lrbtnEquipo" xml:space="preserve">
+    <value>Equipo</value>
+    <comment>Ribbon\Configuración\Configuración\Equipo</comment>
+  </data>
+  <data name="lrbtnFacturacion" xml:space="preserve">
+    <value>Facturación</value>
+    <comment>Ribbon\Configuración\Configuración\Facturación</comment>
+  </data>
+  <data name="lrbtnbiImpresion" xml:space="preserve">
+    <value>Impresión</value>
+    <comment>Ribbon\Configuración\Configuración\Impresión</comment>
+  </data>
+  <data name="lrbtnKarve" xml:space="preserve">
+    <value>Karve</value>
+    <comment>Ribbon\Configuración\Configuración\Karve</comment>
+  </data>
+  <data name="lrbtnMaestros" xml:space="preserve">
+    <value>Maestros</value>
+    <comment>Ribbon\Configuración\Configuración\Maestros</comment>
+  </data>
+  <data name="lrbtnOficina" xml:space="preserve">
+    <value>Oficina</value>
+    <comment>Ribbon\Configuración\Configuración\Oficina</comment>
+  </data>
+  <data name="lrbtnOperaciones" xml:space="preserve">
+    <value>Operaciones</value>
+    <comment>Ribbon\Configuración\Configuración\Operaciones</comment>
+  </data>
+  <data name="lrbtnOtros" xml:space="preserve">
+    <value>Otros</value>
+    <comment>Ribbon\Configuración\Configuración\Otros</comment>
+  </data>
+  <data name="lrmnbtnPermisos" xml:space="preserve">
+    <value>Permisos</value>
+    <comment>Ribbon\Configuración\Permisos\Permisos</comment>
+  </data>
+  <data name="lrbtnInformes" xml:space="preserve">
+    <value>Informes</value>
+    <comment>Ribbon\Configuración\Permisos\Informes</comment>
+  </data>
+  <data name="lrbtnPrograma" xml:space="preserve">
+    <value>Programa</value>
+    <comment>Ribbon\Configuración\Permisos\Programa</comment>
+  </data>
+  <data name="lrgrIdiomas" xml:space="preserve">
+    <value>Idiomas</value>
+    <comment>Ribbon\Configuración\Idiomas\Idiomas</comment>
+  </data>
+  <data name="lrmnbtnIdiomas" xml:space="preserve">
+    <value>Idiomas</value>
+    <comment>Ribbon\Configuración\Idiomas\Idiomas</comment>
+  </data>
+  <data name="lrbtnIdiomaESES" xml:space="preserve">
+    <value>Español</value>
+    <comment>Ribbon\Configuración\Idiomas\Español</comment>
+  </data>
+  <data name="lrbtnIdiomaCAES" xml:space="preserve">
+    <value>Catalán</value>
+    <comment>Ribbon\Configuración\Idiomas\Catalán</comment>
+  </data>
+  <data name="lrbtnIdiomaENGB" xml:space="preserve">
+    <value>Inglés</value>
+    <comment>Ribbon\Configuración\Idiomas\Inglés</comment>
+  </data>
+  <data name="lrgrPersonal" xml:space="preserve">
+    <value>Personal</value>
+    <comment>Ribbon\Configuración\Personal\Personal</comment>
+  </data>
+  <data name="lrbtnMailingPersonal" xml:space="preserve">
+    <value>Mailing a Personal</value>
+    <comment>Ribbon\Configuración\Personal\Mailing a Personal</comment>
+  </data>
+  <data name="lrbtnPersonal" xml:space="preserve">
+    <value>Personal</value>
+    <comment>Ribbon\Configuración\Personal\Personal</comment>
+  </data>
+  <data name="lrgrUtilitarios" xml:space="preserve">
+    <value>Utilitarios</value>
+    <comment>Ribbon\Configuración\Utilitarios\Utilitarios</comment>
+  </data>
+  <data name="lrmnbtnUtilitarios" xml:space="preserve">
+    <value>Utilitarios</value>
+    <comment>Ribbon\Configuración\Utilitarios\Utilitarios</comment>
+  </data>
+  <data name="lrbtnBorrarFicherosEnvioEmail" xml:space="preserve">
+    <value>Borrar Ficheros Envío Email</value>
+    <comment>Ribbon\Configuración\Utilitarios\Borrar Ficheros Envío Email</comment>
+  </data>
+  <data name="lrbtnCambiarIVA" xml:space="preserve">
+    <value>Cambiar IVA</value>
+    <comment>Ribbon\Configuración\Utilitarios\Cambiar IVA</comment>
+  </data>
+  <data name="lrbtnComunicacionPolicia" xml:space="preserve">
+    <value>Comunicación Policía</value>
+    <comment>Ribbon\Configuración\Utilitarios\Comunicación Policía</comment>
+  </data>
+  <data name="lrbtnConsultaSQL" xml:space="preserve">
+    <value>Consulta SQL</value>
+    <comment>Ribbon\Configuración\Utilitarios\Consulta SQL</comment>
+  </data>
+  <data name="lrbtnDesbloquearContratosFacturando" xml:space="preserve">
+    <value>Desbloquear Contratos Facturando</value>
+    <comment>Ribbon\Configuración\Utilitarios\Desbloquear Contratos Facturando</comment>
+  </data>
+  <data name="lrbtnDeteccionHuecos" xml:space="preserve">
+    <value>Detección de Huecos</value>
+    <comment>Ribbon\Configuración\Utilitarios\Detección de Huecos</comment>
+  </data>
+  <data name="lrbtnDeteccionInconsistencias" xml:space="preserve">
+    <value>Detección de Inconsistencias</value>
+    <comment>Ribbon\Configuración\Utilitarios\Detección de Inconsistencias</comment>
+  </data>
+  <data name="lrbtnDesvincularContratosReservas" xml:space="preserve">
+    <value>Desvincular Contratos de Reservas</value>
+    <comment>Ribbon\Configuración\Utilitarios\Desvincular Contratos de Reservas</comment>
+  </data>
+  <data name="lrbtnLimpiarInformacionAntigua" xml:space="preserve">
+    <value>Limpiar Información Antigua</value>
+    <comment>Ribbon\Configuración\Utilitarios\Limpiar Información Antigua</comment>
+  </data>
+  <data name="lrbtnLimpiarCodigosReserva" xml:space="preserve">
+    <value>Limpiar Códigos Reserva</value>
+    <comment>Ribbon\Configuración\Utilitarios\Limpiar Códigos Reserva</comment>
+  </data>
+  <data name="lrbtnRecalcularMantenimientos" xml:space="preserve">
+    <value>Recalcular Mantenimientos</value>
+    <comment>Ribbon\Configuración\Utilitarios\Recalcular Mantenimientos</comment>
+  </data>
+  <data name="lrbtnRecalcularPendientes" xml:space="preserve">
+    <value>Recalcular Pendientes</value>
+    <comment>Ribbon\Configuración\Utilitarios\Recalcular Pendientes</comment>
+  </data>
+  <data name="lrbtnRehacerIndices" xml:space="preserve">
+    <value>Rehacer Índices</value>
+    <comment>Ribbon\Configuración\Utilitarios\Rehacer Índices</comment>
+  </data>
+  <data name="lrbtnRelojesActivos" xml:space="preserve">
+    <value>Relojes Activos</value>
+    <comment>Ribbon\Configuración\Utilitarios\Relojes Activos</comment>
+  </data>
+  <data name="lrbtnVincularContratosReservas" xml:space="preserve">
+    <value>Vincular Contratos a Reservas</value>
+    <comment>Ribbon\Configuración\Utilitarios\Vincular Contratos a Reservas</comment>
+  </data>
+  <data name="lrbtnVincularContratosReservasNoVinculadas" xml:space="preserve">
+    <value>Vincular Contratos a Reservas No Vinculadas</value>
+    <comment>Ribbon\Configuración\Utilitarios\Vincular Contratos a Reservas No Vinculadas</comment>
+  </data>
+  <data name="lrgrVariosConfiguracion" xml:space="preserve">
+    <value>Varios</value>
+    <comment>Ribbon\Configuración\Varios\Varios</comment>
+  </data>
+  <data name="lrbtnCambiarContrasenyas" xml:space="preserve">
+    <value>Cambiar Contraseñas</value>
+    <comment>Ribbon\Configuración\Varios\Cambiar Contraseñas</comment>
+  </data>
+  <data name="lrbtnPreciosCombustible" xml:space="preserve">
+    <value>Precios Combustible</value>
+    <comment>Ribbon\Configuración\Varios\Precios Combustible</comment>
+  </data>
+  <data name="lrbtnUsuarios" xml:space="preserve">
+    <value>Usuarios</value>
+    <comment>Ribbon\Configuración\Varios\Usuarios</comment>
+  </data>
+  <data name="lrgrKarve" xml:space="preserve">
+    <value>Karve</value>
+    <comment>Ribbon\Configuración\Karve\Karve</comment>
+  </data>
+  <data name="lrmnbtnKarve" xml:space="preserve">
+    <value>Karve</value>
+    <comment>Ribbon\Configuración\Karve\Karve</comment>
+  </data>
+  <data name="lrbtnAcercaDe" xml:space="preserve">
+    <value>Acerca de...</value>
+    <comment>Ribbon\Configuración\Karve\Acerca de...</comment>
+  </data>
+  <data name="lrbtnContrasenyasKarve" xml:space="preserve">
+    <value>Contraseñas Karve</value>
+    <comment>Ribbon\Configuración\Karve\Contraseñas Karve</comment>
+  </data>
+  <data name="lrbtnDescargarActualizacion" xml:space="preserve">
+    <value>Descargar Actualización</value>
+    <comment>Ribbon\Configuración\Karve\Descargar Actualización</comment>
+  </data>
+  <data name="lrbtnMensajeEntrada" xml:space="preserve">
+    <value>Mensaje de Entrada</value>
+    <comment>Ribbon\Configuración\Karve\Mensaje de Entrada</comment>
+  </data>
+  <data name="lrbtnNovedades" xml:space="preserve">
+    <value>Novedades</value>
+    <comment>Ribbon\Configuración\Karve\Novedades</comment>
+  </data>
+  <data name="lrbtnReservasWeb" xml:space="preserve">
+    <value>Reservas Web: 123</value>
+    <comment>Ribbon\Reservas Web\Reservas Web: 123</comment>
+  </data>
+  <data name="lrbtnValidar" xml:space="preserve">
+    <value>Validar</value>
+    <comment>Ribbon\Reservas Web\Validar</comment>
+  </data>
+  <data name="dttcAbreviatura" xml:space="preserve">
+    <value>Abreviatura</value>
+    <comment>dttcAbreviatura</comment>
+  </data>
+  <data name="dttcBicSwift" xml:space="preserve">
+    <value>BIC/Swift</value>
+    <comment>dttcBicSwift</comment>
+  </data>
+  <data name="dttcCapital" xml:space="preserve">
+    <value>Capital</value>
+    <comment>dttcCapital</comment>
+  </data>
+  <data name="dttcCodigo" xml:space="preserve">
+    <value>Código</value>
+    <comment>dttcCode</comment>
+  </data>
+  <data name="dttcCompra" xml:space="preserve">
+    <value>Compra</value>
+    <comment>dttcCompra</comment>
+  </data>
+  <data name="dttcCondiciones" xml:space="preserve">
+    <value>Condiciones</value>
+    <comment>dttcCondiciones</comment>
+  </data>
+  <data name="dttcDefinicion" xml:space="preserve">
+    <value>Definición</value>
+    <comment>dttcDefinicion</comment>
+  </data>
+  <data name="dttcDescripcion" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>dttcDescripcion</comment>
+  </data>
+  <data name="dttcObservaciones" xml:space="preserve">
+    <value>Observaciones</value>
+    <comment>dttcObservaciones</comment>
+  </data>
+  <data name="dttcPrecio" xml:space="preserve">
+    <value>Precio</value>
+    <comment>dttcPrecio</comment>
+  </data>
+  <data name="dttcPrefijo" xml:space="preserve">
+    <value>Prefijo</value>
+    <comment>dttcPrefijo</comment>
+  </data>
+  <data name="dttcTipoColor" xml:space="preserve">
+    <value>Tipo de Color</value>
+    <comment>dttcTipoColor</comment>
+  </data>
+  <data name="dttcUltModi" xml:space="preserve">
+    <value>Fecha Última Modificación</value>
+    <comment>dttcUltModi</comment>
+  </data>
+  <data name="dttcUsuario" xml:space="preserve">
+    <value>Usuario</value>
+    <comment>dttcUsuario</comment>
+  </data>
+  <data name="dttcVenta" xml:space="preserve">
+    <value>Venta</value>
+    <comment>dttcVenta</comment>
+  </data>
+  <data name="msgSaveCintaOpcionesOK" xml:space="preserve">
+    <value>El orden de los grupos de las pestañas de la cinta seleccionadas, se han restaurado a su posición inicial.</value>
+    <comment>Ribbon\Configuración\Configuración\Cinta Opciones</comment>
+  </data>
+  <data name="msgSalir" xml:space="preserve">
+    <value>¿Está seguro que desea salir de la aplicación?</value>
+    <comment>msgSalir</comment>
+  </data>
+  <data name="msgEliminarRegistro" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar este registro?</value>
+    <comment>msgEliminarRegistro</comment>
+  </data>
+  <data name="msgEliminarRegistroTitulo" xml:space="preserve">
+    <value>Eliminar registro</value>
+    <comment>msgEliminarRegistroTitulo</comment>
+  </data>
+  <data name="msgEditarRegistroValorVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos</value>
+    <comment>msgEditarRegistroValorVacio</comment>
+  </data>
+  <data name="msgEditarRegistroValorRepetido" xml:space="preserve">
+    <value>No se admiten valores repetidos</value>
+    <comment>msgEditarRegistroValorRepetido</comment>
+  </data>
+  <data name="msgEditarRegistroCodigoVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos en el campo código</value>
+    <comment>msgEditarRegistroCodeVacio</comment>
+  </data>
+  <data name="msgEditarRegistroCodigoRepetido" xml:space="preserve">
+    <value>El código ya existe</value>
+    <comment>msgEditarRegistroCodeRepetido</comment>
+  </data>
+  <data name="msgEditarRegistroTitulo" xml:space="preserve">
+    <value>Editar registro</value>
+    <comment>msgEditarRegistroTitulo</comment>
+  </data>
+  <data name="msgInsertarRegistroCampoVacio" xml:space="preserve">
+    <value>No se admiten valores vacíos en este campo</value>
+    <comment>msgInsertarRegistroCampoVacio</comment>
+  </data>
+  <data name="msgInsertarRegistroRepetido" xml:space="preserve">
+    <value>No se admiten registros repetidos</value>
+    <comment>msgInsertarRegistroRepetido</comment>
+  </data>
+  <data name="msgInsertarRegistroTitulo" xml:space="preserve">
+    <value>Insertar registro</value>
+    <comment>msgInsertarRegistroTitulo</comment>
+  </data>
+  <data name="lrdbCintaOpcionesMarcarTodos" xml:space="preserve">
+    <value>Marcar Todos</value>
+    <comment>Ribbon\Configuración\Configuración\Cinta Opciones</comment>
+  </data>
+  <data name="lrdbCintaOpcionesDesmarcarTodos" xml:space="preserve">
+    <value>Desmarcar Todos</value>
+    <comment>Ribbon\Configuración\Configuración\Cinta Opciones</comment>
+  </data>
+  <data name="msgErrorTitulo" xml:space="preserve">
+    <value>Mensaje de Error</value>
+    <comment>Título Mensaje de Error</comment>
+  </data>
+  <data name="msgError83" xml:space="preserve">
+    <value>No se encuentra la Base de Datos</value>
+    <comment>Specified DataBase not found</comment>
+  </data>
+  <data name="msgError100" xml:space="preserve">
+    <value>No se encuentra el Servidor de la Base de Datos</value>
+    <comment>DataBase Server not found</comment>
+  </data>
+  <data name="msgError103" xml:space="preserve">
+    <value>Incorrecto Id de usuario y/o contraseña</value>
+    <comment>Invalid User Id or Password</comment>
+  </data>
+  <data name="msgError131" xml:space="preserve">
+    <value>Error de sintaxi en sentencia SQL</value>
+    <comment>Syntax Error in SQL sentence</comment>
+  </data>
+  <data name="msgError141" xml:space="preserve">
+    <value>No se encuentra la Tabla</value>
+    <comment>Table not found</comment>
+  </data>
+  <data name="msgError157" xml:space="preserve">
+    <value>No se puede convertir un texto a formato de fecha</value>
+    <comment>Cannot convert a text to a date</comment>
+  </data>
+  <data name="msgError158" xml:space="preserve">
+    <value>Valor fuera de rango</value>
+    <comment>Value out of range for destination</comment>
+  </data>
+  <data name="msgError193" xml:space="preserve">
+    <value>Clave primaria ya existe</value>
+    <comment>Primary key already exists</comment>
+  </data>
+  <data name="msgError683" xml:space="preserve">
+    <value>Cadena de texto excede el tamaño establecido</value>
+    <comment>String too long</comment>
+  </data>
+  <data name="Commisiones" xml:space="preserve">
+    <value>Commisiones</value>
+  </data>
+  <data name="VencimentoSeguro" xml:space="preserve">
+    <value>Vencimento Seguro</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Enter Search Term</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+</root>

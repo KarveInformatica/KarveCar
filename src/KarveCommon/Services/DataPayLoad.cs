@@ -21,7 +21,9 @@ namespace KarveCommon.Services
         SupplierSubsystem = 3,
         CommissionAgentSubystem = 4,
         ClientSubsystem = 5,
-        None = 6,
+        OfficeSubsystem = 6,
+        CompanySubsystem = 7,
+        None = 8,
     };
 
 

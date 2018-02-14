@@ -1,0 +1,127 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KarveCar.Properties" GeneratedClassName="Settings">
+  <Profiles/>
+  <Settings>
+    <Setting Name="Language" Type="System.String" Scope="User">
+      <Value Profile="(Default)">es-ES</Value>
+    </Setting>
+    <Setting Name="CadenaConexion" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Dsn=DBRENT_NET16;uid=cv;pwd=1929&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Dsn=DBRENT_NET16;uid=cv;pwd=1929</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosCentrosAlquiler</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosClientes</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosComisionistas</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosContratos</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosIncidencias</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosProveedores</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros6" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosReservas</Value>
+    </Setting>
+    <Setting Name="rbtbContratos0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrContratos</Value>
+    </Setting>
+    <Setting Name="rbtbContratos1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrCambiosContratos</Value>
+    </Setting>
+    <Setting Name="rbtbContratos2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrVariosContratos</Value>
+    </Setting>
+    <Setting Name="rbtbReservas0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrReservas</Value>
+    </Setting>
+    <Setting Name="rbtbAtipicos0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrAtipicos</Value>
+    </Setting>
+    <Setting Name="rbtbComercial0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrComercial</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrFacturacion</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrRecibosCartera</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrRemesas</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrEnlacesContables</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrExportacion</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrImpresion</Value>
+    </Setting>
+    <Setting Name="rbtbFacturacion6" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrEstadisticasFacturas</Value>
+    </Setting>
+    <Setting Name="rbtbFlota0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrInmovilizaciones</Value>
+    </Setting>
+    <Setting Name="rbtbFlota1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrUtilidades</Value>
+    </Setting>
+    <Setting Name="rbtbFlota2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrVariosFlota</Value>
+    </Setting>
+    <Setting Name="rbtbIncidencias0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrIncidencias</Value>
+    </Setting>
+    <Setting Name="rbtbEstadisticas0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrEstadisticas</Value>
+    </Setting>
+    <Setting Name="rbtbListados0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrListados</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrConfiguracion</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrIdiomas</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrPersonal</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrUtilitarios</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrVariosConfiguracion</Value>
+    </Setting>
+    <Setting Name="rbtbConfiguracion5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrKarve</Value>
+    </Setting>
+    <Setting Name="Usuario" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cv</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros7" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosTarifas</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros8" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosVehiculos</Value>
+    </Setting>
+    <Setting Name="rbtbMaestros9" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrMaestrosVarios</Value>
+    </Setting>
+    <Setting Name="rbtbServicios0" Type="System.String" Scope="User">
+      <Value Profile="(Default)">rgrServicios</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

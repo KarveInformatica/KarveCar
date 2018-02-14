@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ using AutoMapper;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects.Wrapper;
-using DesignByContract;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -111,8 +111,8 @@ namespace DataAccessLayer.Model
         /// <returns>A commmission agent data transfer object</returns>
         public async Task<IVehicleData> GetVehicle(IDictionary<string, string> fields, string vehicleId)
         {
-            Dbc.Requires(fields.Count > 0, "Fields not valid");
-            Dbc.Requires(!string.IsNullOrEmpty(vehicleId), "VehicleId valid");
+            Contract.Requires(fields.Count > 0, "Fields not valid");
+            Contract.Requires(!string.IsNullOrEmpty(vehicleId), "VehicleId valid");
             Vehicle agent = new Vehicle(_sqlExecutor);
             bool loaded = await agent.LoadValue(fields, vehicleId).ConfigureAwait(false);
             agent.Valid = loaded;
@@ -446,8 +446,8 @@ namespace DataAccessLayer.Model
             VEHICULO1 vehiculo1 = _vehicleMapper.Map<VehiclePoco, VEHICULO1>(_vehicleValue);
             VEHICULO2 vehiculo2 = _vehicleMapper.Map<VehiclePoco, VEHICULO2>(_vehicleValue);
             vehiculo2.CODIINT = vehiculo1.CODIINT;
-            Dbc.Requires(vehiculo1.CODIINT != null, "Null PrimaryKey before Saving");
-            Dbc.Requires(vehiculo2.CODIINT != null, "Null PrimaryKey before Saving");
+            Contract.Requires(vehiculo1.CODIINT != null, "Null PrimaryKey before Saving");
+            Contract.Requires(vehiculo2.CODIINT != null, "Null PrimaryKey before Saving");
             bool retValue = false;
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -556,9 +556,9 @@ namespace DataAccessLayer.Model
             Stopwatch stopwatch= new Stopwatch();
             stopwatch.Start();
             
-            Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO1"]));
-            Dbc.Requires(!string.IsNullOrEmpty(fields["VEHICULO2"]));
-            Dbc.Requires(_vehicleMapper != null);
+            Contract.Requires(!string.IsNullOrEmpty(fields["VEHICULO1"]));
+            Contract.Requires(!string.IsNullOrEmpty(fields["VEHICULO2"]));
+            Contract.Requires(_vehicleMapper != null);
 
             string fieldsValue = fields["VEHICULO1"] + "," + fields["VEHICULO2"];
             string vehicleQuery = string.Format(VehicleQueryFormat, fieldsValue, codeVehicle);

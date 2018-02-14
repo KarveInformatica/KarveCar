@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Model;
-using DesignByContract;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -88,7 +88,7 @@ namespace DataAccessLayer
         /// <returns>A vehicle data objett</returns>
         public async Task<IVehicleData> GetVehicleDo(string vehicleId, IDictionary<string, string> queryDictionary)
         {
-            Dbc.Requires(!string.IsNullOrEmpty(vehicleId), "A valid id is needed");
+            Contract.Requires(!string.IsNullOrEmpty(vehicleId), "A valid id is needed");
 
             IDictionary<string, string> queries;
             if (queryDictionary == null)
@@ -135,7 +135,7 @@ namespace DataAccessLayer
         /// <returns>True when the vehicle has been saved correctly</returns>
         public async Task<bool> SaveChanges(IVehicleData data)
         {
-            Dbc.Requires(data != null, "Cant save a null vehicle");
+            Contract.Requires(data != null, "Cant save a null vehicle");
             bool ret = await data.SaveChanges();
             return ret;
         }
@@ -146,7 +146,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> SaveVehicle(IVehicleData vehicleData)
         {
-            Dbc.Requires(vehicleData != null, "Cant save a null vehicle");
+            Contract.Requires(vehicleData != null, "Cant save a null vehicle");
             bool changedTask = await vehicleData.Save();
             return changedTask;
         }

@@ -16,7 +16,7 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     ///  This class has the single resposability to delete a client
     /// </summary>
-    sealed class ClientDeleter : IDataDeleter<ClientDto>
+    internal sealed class ClientDeleter : IDataDeleter<ClientDto>
     {
         private IMapper _mapper;
         private ISqlExecutor _executor;

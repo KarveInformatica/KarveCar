@@ -14,7 +14,7 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Exception;
 using DataAccessLayer.Logic;
-using DesignByContract;
+using System.Diagnostics.Contracts;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -60,8 +60,8 @@ namespace DataAccessLayer.Model
         public async Task<IList<ICommissionAgent>> CreateCommissionAgentList(
             IDictionary<string, string> fields, int maxLimit = 0, int offset = 0)
         {
-            DesignByContract.Dbc.Requires(fields.Count > 0, "Fields not valid");
-            DesignByContract.Dbc.Requires(_sqlExecutor.Connection != null, "Null Connection");
+            Contract.Requires(fields.Count > 0, "Fields not valid");
+            Contract.Requires(_sqlExecutor.Connection != null, "Null Connection");
             logger.Debug("Creating Commission List.");
             IDbConnection connection = _sqlExecutor.Connection;
             string currentQueryAgent = "";
@@ -109,7 +109,7 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public ICommissionAgent NewCommissionAgent(string id)
         {
-            Dbc.Requires(id.Length > 0, "Id length shall be ok.");
+            Contract.Requires(id.Length > 0, "Id length shall be ok.");
             CommissionAgent agent = new CommissionAgent(_sqlExecutor, id);
             return agent;
         }
@@ -124,8 +124,8 @@ namespace DataAccessLayer.Model
         /// <returns>A commmission agent data transfer object</returns>
         public async Task<ICommissionAgent> GetCommissionAgent(IDictionary<string, string> fields, string commissionId)
         {
-            Dbc.Requires(fields.Count > 0, "Fields not valid");
-            Dbc.Requires(!string.IsNullOrEmpty(commissionId), "Null Connection");
+           Contract.Requires(fields.Count > 0, "Fields not valid");
+           Contract.Requires(!string.IsNullOrEmpty(commissionId), "Null Connection");
             CommissionAgent agent = new CommissionAgent(_sqlExecutor);
             logger.Debug("Loading CommissionAgent Value for id: " + commissionId);
 
@@ -537,8 +537,8 @@ namespace DataAccessLayer.Model
         {
             // in the commission query already i have a commission id.
             bool preCondition = commissionDictionary.ContainsKey(Comisio);
-            Dbc.Requires(preCondition, "The dictionary used is not correct");
-            Dbc.Requires(!string.IsNullOrEmpty(commissionId), "The commission is is not ok");
+           Contract.Requires(preCondition, "The dictionary used is not correct");
+            Contract.Requires(!string.IsNullOrEmpty(commissionId), "The commission is is not ok");
             logger.Info("Load Agent for ID" + commissionId);
             
             string commisionQueryFields = commissionDictionary[Comisio];
@@ -553,6 +553,7 @@ namespace DataAccessLayer.Model
             }
             // now between the two
 
+            // TODO: all this is pretty slow. Just use query store and load it.
             if (isOpen)
             {
                 try
@@ -650,7 +651,7 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public async Task<bool> Save()
         {
-            Dbc.Requires(_currentComisio != null, "Current CommissionAgent is null");
+            Contract.Requires(_currentComisio != null, "Current CommissionAgent is null");
 
             bool retValue = false;
             var delegations = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<COMI_DELEGA>>(DelegationDto, res => res.Items.Add("RefId", _currentComisio.NUM_COMI));
@@ -707,7 +708,7 @@ namespace DataAccessLayer.Model
         private async Task<bool> SaveBranches(IDbConnection conn, IEnumerable<BranchesDto> dto, 
             string currentComi, IEnumerable<ComiDelegaPoco> delegations)
         {
-            Dbc.Requires(_mapper != null, "Conversion Map shall be allocated");
+            Contract.Requires(_mapper != null, "Conversion Map shall be allocated");
             logger.Debug("Saving branches..");
             bool retValue = false;
             var branchesDtos = dto as BranchesDto[] ?? dto.ToArray();
@@ -729,9 +730,9 @@ namespace DataAccessLayer.Model
         private async Task<bool> SaveContacts(IDbConnection conn, IEnumerable<ContactsDto> dto, string currentComi, 
             IEnumerable<ContactsComiPoco> contactos)
         {
-            Dbc.Requires(_mapper != null, "Conversion Map shall be allocated");
-            Dbc.Requires(!string.IsNullOrEmpty(currentComi), "Conversion Map shall be allocated");
-            Dbc.Requires(conn != null, "The connection shall be not null");
+            Contract.Requires(_mapper != null, "Conversion Map shall be allocated");
+            Contract.Requires(!string.IsNullOrEmpty(currentComi), "Conversion Map shall be allocated");
+            Contract.Requires(conn != null, "The connection shall be not null");
             logger.Debug("Saving Contacts..");
             var contactsDtos = dto as ContactsDto[] ?? dto.ToArray();
             if (contactsDtos.Length == 0)

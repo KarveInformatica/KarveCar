@@ -157,7 +157,7 @@
                                     </Grid.RowDefinitions>
                                     <ContentControl mvvm1:RegionManager.RegionName="{Binding DriverZoneRegionName}" Grid.Row="0"></ContentControl>
                                     <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
-                                        <karveControls:CreditCardUserControl Margin="-2,0,0,0"/>
+                                        <karveControls:CreditCardUserControl/>
                                     </GroupBox>
                                    
                                 </Grid>

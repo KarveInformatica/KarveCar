@@ -143,14 +143,12 @@
                     <karveControls:DataDatePicker Grid.Row="4" 
                                                   LabelText="Fecha"
                                                   Margin="10,0,0,0" 
-                                                  LabelTextWidth="110">
+                                                  LabelTextWidth="110"/>
                         <karveControls:DataArea DataAreaTitle="Observaciones" 
                                             DataAreaWidth="200" 
-                                            Height="100">
+                                            Height="100"/>
 
-                        </karveControls:DataArea>
-
-                    </karveControls:DataDatePicker>
+                    
                 </Grid>
             </Grid>
 

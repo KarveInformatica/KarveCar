@@ -32,6 +32,22 @@ namespace KarveCommon.Services
         ///  Client subsystem name.
         /// </summary>
         public const string ClientSummaryVm = "ClientsControlViewModel";
+        /// <summary>
+        ///  Name of the office
+        /// </summary>
+        public const string OfficeSummaryVm = "OfficeControlViewModel";
+        /// <summary>
+        ///  Name of the company
+        /// </summary>
+        public const string CompanySummaryVm = "CompanyControlViewModel";
+        /// <summary>
+        /// Fare control view model
+        /// </summary>
+        public const string FareSummaryVm = "FareControlViewModel";
+        /// <summary>
+        ///  Contract control view model
+        /// </summary>
+        public const string ContractSummaryVm = "ContractControlViewModel";
     }
     /// <summary>
     /// Interface for communication between view models.

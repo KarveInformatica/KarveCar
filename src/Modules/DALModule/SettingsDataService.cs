@@ -11,7 +11,6 @@ using AutoMapper;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
-using DesignByContract;
 using KarveCommon.Generic;
 using KarveDapper.Extensions;
 using KarveDapper;

@@ -2,7 +2,10 @@
 using KarveCar.Logic.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveTest.Mock;
+using Moq;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace KarveTest.ViewModels
 {
@@ -11,7 +14,19 @@ namespace KarveTest.ViewModels
     /// </summary>
     public class TestBase
     {
-       
+        /// <summary>
+        ///  EventManager
+        /// </summary>
+        protected IEventManager EventManager = new MockEventManager();
+        /// <summary>
+        ///  MockDataServices
+        /// </summary>
+        protected MockDataServices DataServices = new MockDataServices();
+        /// <summary>
+        ///  Region Manager
+        /// </summary>
+        protected  Mock<IRegionManager> RegionManager = new Mock<IRegionManager>();
+
         protected IConfigurationService SetupConfigurationService()
         {
             IConfigurationService configurationService = new ConfigurationService();

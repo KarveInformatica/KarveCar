@@ -1,0 +1,30 @@
+﻿<Window x:Class="KarveControlsDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KarveControlsDemo"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+        xmlns:holidays="clr-namespace:KarveControls.HolidayCalendar;assembly=KarveControls..NETFramework,Version=v4.6.1"
+        xmlns:holidayCalendar="clr-namespace:KarveControls.HolidayCalendar;assembly=KarveControls"
+        xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+        mc:Ignorable="d"
+        Title="KarveControlsDemo" Height="350" Width="525">
+    
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <kc:DataDatePicker Grid.Row="0"></kc:DataDatePicker>
+        <holidayCalendar:HolidayCalendar Grid.Row="1">
+            
+        </holidayCalendar:HolidayCalendar>
+        
+    </Grid>
+</Window>

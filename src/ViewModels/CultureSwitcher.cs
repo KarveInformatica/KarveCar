@@ -27,7 +27,7 @@ namespace KarveCar.ViewModels
         /// <summary>
         ///  Data object provider.
         /// </summary>
-        private ObjectDataProvider _objectDataProvider;
+        private readonly ObjectDataProvider _objectDataProvider = new ObjectDataProvider();
 
         /// <summary>
         ///  Constructor for the configuration service.
@@ -79,7 +79,7 @@ namespace KarveCar.ViewModels
         }
 
         /// <summary>
-        /// Devuelve el ObjectDataProvider en uso.
+        /// Devuelve el ObjectDataProvider en uso. TODO: see who is using this,
         /// </summary>
         public ObjectDataProvider ObjectDataProvider
         {

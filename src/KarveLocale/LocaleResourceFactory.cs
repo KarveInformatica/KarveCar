@@ -90,10 +90,10 @@ namespace KarveLocale
 
             if (_objectDataProvider == null)
             {
-               
-                    _objectDataProvider = (ObjectDataProvider)Application.Current.FindResource("ResourceLanguage");
+                var value =  Application.Current.FindResource("ResourceLanguage");
 
-               
+              _objectDataProvider = (ObjectDataProvider) Application.Current.FindResource("ResourceLanguage");
+              //  _objectDataProvider = LocaleResourceFactory.BuildObjectDataProvider();
             }
             ILocaleDataProvider localeDataProvider = _resourceDataProviders[Enumerations.ResourceSource.File];
             res = localeDataProvider.GetLanguageResource();

@@ -47,6 +47,7 @@ namespace KarveCar
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
+           // catalog.AddModule(typeof(NavigationBarM.TreeViewModule));
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
@@ -66,8 +67,7 @@ namespace KarveCar
                 Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
                 // The dal service is used to access to the database
                 logger.Debug("Resolving configuration container");
-
-               Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
+                Container.RegisterType<IUserSettingsLoader,UserSettingsLoader>();
                 Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
                 Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());

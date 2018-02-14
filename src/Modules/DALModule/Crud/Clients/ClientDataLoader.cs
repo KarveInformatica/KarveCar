@@ -20,12 +20,12 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     /// This load and expose a client wrapper.
     /// </summary>
-    sealed class ClientDataLoader : IDataLoader<ClientsDto>
+    internal sealed class ClientDataLoader : IDataLoader<ClientDto>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
         private ClientPoco _currentPoco;
-        private IHelperData _helper = new ClientHelperData();
+        private IHelperData _helper = new ClientHelper();
         /// <summary>
         ///  Query delegation.
         /// </summary>
@@ -209,9 +209,9 @@ namespace DataAccessLayer.Crud.Clients
         ///  Return all dtos mapped from the entities.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<ClientesDto>> LoadAsyncAll()
+        public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
         {
-            ObservableCollection<ClientesDto> dtoCollection =  new ObservableCollection<ClientesDto>();
+            ObservableCollection<ClientDto> dtoCollection =  new ObservableCollection<ClientDto>();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
                 IEnumerable<CLIENTES1> cli1 = await conn.GetAsyncAll<CLIENTES1>();
@@ -233,7 +233,7 @@ namespace DataAccessLayer.Crud.Clients
                     second = iter.Current;
                     mergedValue.Add(poco);
                 }
-                _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientesDto>>(mergedValue, dtoCollection);
+                _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(mergedValue, dtoCollection);
                 iter.Dispose();
 
             }
@@ -241,14 +241,14 @@ namespace DataAccessLayer.Crud.Clients
         }
 
        
-        public async Task<ClientesDto> LoadValueAsync(string code)
+        public async Task<ClientDto> LoadValueAsync(string code)
         {
-            var dto = new ClientesDto();
+            var dto = new ClientDto();
             var clientPoco = await LoadValue(code);
             var mapper = MapperField.GetMapper();
             if (clientPoco)
             {
-                dto = mapper.Map<ClientPoco, ClientesDto>(_currentPoco);
+                dto = mapper.Map<ClientPoco, ClientDto>(_currentPoco);
             }
             return dto;
         }

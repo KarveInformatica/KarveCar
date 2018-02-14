@@ -10,7 +10,7 @@ namespace KarveTest.Mock
     /// <summary>
     ///  MockDataServices.
     /// </summary>
-    class MockDataServices: IDataServices
+    public class MockDataServices: IDataServices
     {
         public IVehicleDataServices GetVehicleDataServices()
         {

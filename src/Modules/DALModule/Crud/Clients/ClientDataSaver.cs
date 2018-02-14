@@ -16,11 +16,11 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     /// Client data save. This class has the single responsability to save the data.
     /// </summary>
-    public class ClientDataSaver: IDataSaver<ClientDto>
+    internal sealed class ClientDataSaver: IDataSaver<ClientDto>
     {
         private ISqlExecutor _executor;
         private IMapper _mapper;
-        private IValidationChain<ClientDto> _validationChain;
+         private IValidationChain<ClientDto> _validationChain;
         /// <summary>
         /// Client data saver
         /// </summary>
@@ -149,6 +149,14 @@ namespace DataAccessLayer.Crud.Clients
                 retValue = value > 0;
             }
             return retValue;
+        }
+    }
+
+    public class DataLayerInvalidClientException : System.Exception
+    {
+        public DataLayerInvalidClientException(object errors)
+        {
+           
         }
     }
 }

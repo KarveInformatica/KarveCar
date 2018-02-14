@@ -28,23 +28,23 @@
                              Background="{DynamicResource MaterialDesignCardBackground}"
                              Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="1200" MinHeight="900"
 >
-    
+
     <Window.Resources>
         <ResourceDictionary>
 
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
-        
-            
-        </karvecm:KarveInterTabClient>
-        
-        <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
+            <karvecm:KarveInterTabClient x:Key="KarveInterTabClient">
+
+
+            </karvecm:KarveInterTabClient>
+
+            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
                 <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
                 </Setter>
-        </Style>
-        
+            </Style>
+
             <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
                 <Setter Property="ShowDefaultCloseButton" Value="True" />
 
@@ -84,8 +84,8 @@
     </i:Interaction.Triggers>
 
     <Grid>
-       
-        
+
+
         <DockPanel x:Name="RibbonWindow" Grid.Column="1">
             <!--Permite hacer scroll entre las diferentes tabs de la ribbon-->
             <!--StatusBar-->
@@ -1648,7 +1648,7 @@
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                             </RibbonMenuButton>
-                            
+
                         </RibbonGroup>
                         <RibbonGroup x:Name="rgrPersonal" Header="{Binding lrgrPersonal, Source={StaticResource ResourceLanguage}}" LargeImageSource="..\Images\open.png" GroupSizeDefinitions="{StaticResource RibbonGroupLayoutLarge}">
                             <RibbonButton x:Name="rbtnMailingPersonal" 
@@ -1765,16 +1765,20 @@
                                 <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
                             </dragablz:TabablzControl.InterTabController>
                         </dragablz:TabablzControl>-->
-
-
-            <dragablz:TabablzControl x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ContentControl Grid.Column="0" prism:RegionManager.RegionName="LeftTreeView"></ContentControl>
+                <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
                                      prism:RegionManager.RegionName="TabRegion" 
                                      ClosingItemCallback="{Binding ClosingTabItemHandler}">
-                <dragablz:TabablzControl.InterTabController>
-                    <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
-                </dragablz:TabablzControl.InterTabController>
-            </dragablz:TabablzControl>
-
+                    <dragablz:TabablzControl.InterTabController>
+                        <dragablz:InterTabController InterTabClient="{StaticResource KarveInterTabClient}"/>
+                    </dragablz:TabablzControl.InterTabController>
+                </dragablz:TabablzControl>
+            </Grid>
 
 
         </DockPanel>

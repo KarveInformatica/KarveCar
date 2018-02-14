@@ -288,6 +288,7 @@
     <Compile Include="ViewModels\CultureSwitcher.cs" />
     <Compile Include="ViewModels\GrupoVehiculoDataObject.cs" />
     <Compile Include="ViewModels\GrupoVehiculoViewModel.cs" />
+    <Compile Include="ViewModels\LeftTreeViewModel.cs" />
     <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MarcaDataObject.cs" />

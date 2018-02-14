@@ -24,10 +24,7 @@ namespace KarveTest.ViewModels
         [OneTimeSetUp]
         public void SetUp()
         {
-
-         // _mockDataServices.Setup(foo => foo.Name).Returns("bar");
         }
-
         /// <summary>
         /// Should correct and point out other subsystem.
         /// </summary>

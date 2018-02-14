@@ -1,0 +1,19 @@
+﻿<Window x:Class="KarveControls.HolidayCalendar.TestHolidayCalendar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KarveControls.HolidayCalendar"
+        mc:Ignorable="d"
+        Title="TestHolidayCalendar" Height="300" Width="300"
+        >
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <local:TestViewModel x:Key="ViewModel"></local:TestViewModel>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <local:HolidayCalendar DataContext="ViewModel">
+        </local:HolidayCalendar>
+    </Grid>
+</Window>

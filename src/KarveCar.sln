@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperModule", "Modules\Hel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveLocale", "KarveLocale\KarveLocale.csproj", "{D1D7504F-994C-42FB-A78F-B6078F460F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationModule", "Modules\NavigationModule\NavigationModule.csproj", "{B351BF58-2327-4560-A98A-D8836357C3A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,18 @@ Global
 		{D1D7504F-994C-42FB-A78F-B6078F460F7F}.Release|x64.Build.0 = Release|Any CPU
 		{D1D7504F-994C-42FB-A78F-B6078F460F7F}.Release|x86.ActiveCfg = Release|Any CPU
 		{D1D7504F-994C-42FB-A78F-B6078F460F7F}.Release|x86.Build.0 = Release|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|x86.ActiveCfg = Debug|x86
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Debug|x86.Build.0 = Debug|x86
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|x64.Build.0 = Release|Any CPU
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|x86.ActiveCfg = Release|x86
+		{B351BF58-2327-4560-A98A-D8836357C3A2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,11 +224,12 @@ Global
 		{59B99363-3561-4B1F-94FB-136BECBAA675} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{082CB8C5-29D4-4D51-BE0A-06DEB8D7F871} = {31310D87-8201-43E3-A023-DC5B6999B02C}
 		{4EAA0821-1DCD-4E61-BA42-05BFD973A399} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+		{B351BF58-2327-4560-A98A-D8836357C3A2} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
-		RESX_DuplicateKeyHandling = Fail
-		RESX_NeutralResourcesLanguage = es-ES
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
 	EndGlobalSection
 EndGlobal

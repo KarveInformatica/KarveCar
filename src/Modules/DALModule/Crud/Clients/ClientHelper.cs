@@ -8,7 +8,7 @@ using KarveDataServices.DataTransferObject;
 
 namespace DataAccessLayer.Crud.Clients
 {
-    class ClientHelper: IHelperData
+    internal class ClientHelper: IHelperData
     {
         public IEnumerable<ActividadDto> ActivityDto { get; set; }
         public IEnumerable<ClientTypeDto> ClientTypeDto { get; set; }

@@ -338,6 +338,10 @@ namespace ToolBarModule
             {
                 _eventManager.SendMessage(EventSubsystem.ClientSummaryVm, payLoad);
             }
+            if (subSystem == DataSubSystem.OfficeSubsystem)
+            {
+                _eventManager.SendMessage(EventSubsystem.OfficeSummaryVm, payLoad);
+            }
         }
         
         /// <summary>

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 using Dapper;
 using DataAccessLayer.DataObjects;
-using DesignByContract;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveDataAccessLayer.DataObjects;
@@ -60,8 +58,6 @@ namespace DataAccessLayer.Model
         {
             logger.Debug("Creating a new supplier with id" + id);
             ISupplierData data = new Supplier(_sqlExecutor, id);
-            //SupplierDto dto = new SupplierDto();
-            // dto.NUM_PROVEE = id;
             data.Valid = true;
             //data.Value = dto;
             return data;
@@ -77,8 +73,8 @@ namespace DataAccessLayer.Model
         /// <returns>A commmission agent data transfer object</returns>
         public async Task<ISupplierData> GetSupplier(IDictionary<string, string> fields, string supplierId)
         {
-            Dbc.Requires(fields.Count > 0, "Fields not valid");
-            Dbc.Requires(!string.IsNullOrEmpty(supplierId), "SupplierId valid");
+            Contract.Requires(fields.Count > 0, "Fields not valid");
+            Contract.Requires(!string.IsNullOrEmpty(supplierId), "SupplierId valid");
             ISupplierData agent = new Supplier(_sqlExecutor);
             bool loaded = await agent.LoadValue(fields, supplierId).ConfigureAwait(false);
             agent.Valid = loaded;
@@ -91,7 +87,8 @@ namespace DataAccessLayer.Model
     }
     public class Supplier : BindableBase, ISupplierData
     {
-        // TODO: Craft a query container, query builder.
+        // all those queries goes to a query store.
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private const string TipoProveSelect = "SELECT NUM_TIPROVE as Number, NOMBRE as Name, " +

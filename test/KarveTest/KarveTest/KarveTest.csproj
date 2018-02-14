@@ -137,10 +137,12 @@
     <Compile Include="DAL\GruposTS.cs" />
     <Compile Include="DAL\MarcasTS.cs" />
     <Compile Include="DAL\TestBuildQuery.cs" />
+    <Compile Include="DAL\TestClientDataLoader.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
+    <Compile Include="Locale\TestCultureSwitcher.cs" />
     <Compile Include="Mock\MockEventManger.cs" />
     <Compile Include="Mock\MockModel\VehicleMock.cs" />
     <Compile Include="DAL\TestBase.cs" />
@@ -164,7 +166,9 @@
     <Compile Include="UI\UiObjectSerializationTests.cs" />
     <Compile Include="UI\VehicleUITests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
+    <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
+    <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleTypeViewModel.cs" />
     <Compile Include="ViewModels\TestKarveToolbarViewModel.cs" />
     <Compile Include="ViewModels\TestProviderControlViewModel.cs" />

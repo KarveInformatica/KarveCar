@@ -9,6 +9,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+  xmlns:calendar="clr-namespace:KarveControls.Calendar"
   mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
@@ -573,6 +574,212 @@
                             </StackPanel>
                         </Border>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- CalendarDayButton Style -->
+    <Style x:Key="FsCalendarDayButtonStyle" TargetType="{x:Type CalendarDayButton}">
+        <Setter Property="MinWidth" Value="5" />
+        <Setter Property="MinHeight" Value="5" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CalendarDayButton}">
+
+                    <!-- Added for FsCalendar -->
+                    <ControlTemplate.Resources>
+                        <calendar:HighlightDateConverter x:Key="HighlightDate" />
+                    </ControlTemplate.Resources>
+                    <!-- End addition -->
+
+                    <Grid x:Name="CalendarDayButtonGrid">
+
+                        <!-- Added for FsCalendar -->
+                        <Grid.ToolTip>
+                            <MultiBinding Converter="{StaticResource HighlightDate}">
+                                <MultiBinding.Bindings>
+                                    <Binding />
+                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type calendar:KarveCalendar}}" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Grid.ToolTip>
+                        <!-- End addition -->
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightBackground" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightBackground" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HighlightBackground" />
+                                        <DoubleAnimation Duration="0" To=".35" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalText" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To=".75" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBackground" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CalendarButtonFocusStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="CalendarButtonFocused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DayButtonFocusVisual">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CalendarButtonUnfocused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DayButtonFocusVisual">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ActiveStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Active" />
+                                <VisualState x:Name="Inactive">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0" To="#FF777777" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="NormalText" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DayStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="RegularDay" />
+                                <VisualState x:Name="Today">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TodayBackground" />
+                                        <ColorAnimation Duration="0" To="#FFFFFFFF" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="NormalText" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="BlackoutDayStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="NormalDay" />
+                                <VisualState x:Name="BlackoutDay">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To=".2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Blackout" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="TodayBackground" Fill="#FFAAAAAA" Opacity="0" RadiusY="1" RadiusX="1" />
+
+                        <!-- Added for FsCalendar -->
+                        <Rectangle x:Name="AccentBackground" RadiusX="1" RadiusY="1" IsHitTestVisible="False" Fill="{Binding RelativeSource={RelativeSource AncestorType=calendar:KarveCalendar}, Path=DateHighlightBrush}" />
+                        <!-- End addition -->
+
+                        <Rectangle x:Name="SelectedBackground" Fill="#FFBADDE9" Opacity="0" RadiusY="1" RadiusX="1" />
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" />
+                        <Rectangle x:Name="HighlightBackground" Fill="#FFBADDE9" Opacity="0" RadiusY="1" RadiusX="1" />
+                        <ContentPresenter x:Name="NormalText" TextElement.Foreground="#FF333333" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="5,1,5,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Path x:Name="Blackout" Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z" Fill="#FF000000" HorizontalAlignment="Stretch" Margin="3" Opacity="0" RenderTransformOrigin="0.5,0.5" Stretch="Fill" VerticalAlignment="Stretch" />
+                        <Rectangle x:Name="DayButtonFocusVisual" IsHitTestVisible="false" RadiusY="1" RadiusX="1" Stroke="#FF45D6FA" Visibility="Collapsed" />
+                    </Grid>
+
+                    <!-- Added for FsCalendar -->
+                    <ControlTemplate.Triggers>
+
+                        <!-- No tooltips if tooltips turned off -->
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=calendar:KarveCalendar}, Path=ShowHighlightedDateText}" Value="False">
+                            <Setter TargetName="CalendarDayButtonGrid" Property="ToolTipService.IsEnabled" Value="False" />
+                        </DataTrigger>
+
+                        <!-- No highlighting if IValueConverter returned null -->
+                        <DataTrigger Value="{x:Null}">
+                            <DataTrigger.Binding>
+                                <MultiBinding Converter="{StaticResource HighlightDate}">
+                                    <MultiBinding.Bindings>
+                                        <Binding />
+                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type calendar:KarveCalendar}}" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+
+                            </DataTrigger.Binding>
+                            <Setter TargetName="AccentBackground" Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+
+                    </ControlTemplate.Triggers>
+                    <!-- End addition -->
+
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Calendar Style -->
+    <Style TargetType="{x:Type calendar:KarveCalendar}">
+        <Setter Property="CalendarDayButtonStyle" Value="{StaticResource FsCalendarDayButtonStyle}" />
+        <Setter Property="Foreground" Value="#FF333333" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE4EAF0" Offset="0" />
+                    <GradientStop Color="#FFECF0F4" Offset="0.16" />
+                    <GradientStop Color="#FFFCFCFD" Offset="0.16" />
+                    <GradientStop Color="#FFFFFFFF" Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFA3AEB9" Offset="0" />
+                    <GradientStop Color="#FF8399A9" Offset="0.375" />
+                    <GradientStop Color="#FF718597" Offset="0.375" />
+                    <GradientStop Color="#FF617584" Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Calendar}">
+                    <StackPanel x:Name="PART_Root" HorizontalAlignment="Center">
+                        <CalendarItem x:Name="PART_CalendarItem" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Style="{TemplateBinding CalendarItemStyle}" />
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

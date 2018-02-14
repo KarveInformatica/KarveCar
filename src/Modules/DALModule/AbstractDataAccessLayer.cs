@@ -8,7 +8,7 @@ using AutoMapper;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
-using DesignByContract;
+using System.Diagnostics.Contracts;
 using KarveDataServices;
 namespace DataAccessLayer
 {
@@ -30,7 +30,7 @@ namespace DataAccessLayer
         /// <param name="executor"></param>
         internal AbstractDataAccessLayer(ISqlExecutor executor)
         {
-            Dbc.Requires(executor != null, "AbstractQuery query executor is null");
+            Contract.Requires(executor != null, "AbstractQuery query executor is null");
             _executor = executor;
            
         }
@@ -41,7 +41,7 @@ namespace DataAccessLayer
        /// <param name="pathFile">Path file to be used</param>
         protected void InitData(string pathFile)
         {
-            Dbc.Requires(!string.IsNullOrEmpty(pathFile), "Path name is not valied");
+            Contract.Requires(!string.IsNullOrEmpty(pathFile), "Path name is not valied");
             var currentAssemblyPath = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             StringBuilder builder = new StringBuilder();

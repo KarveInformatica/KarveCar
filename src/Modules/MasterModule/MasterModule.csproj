@@ -227,6 +227,7 @@
     <Compile Include="Interfaces\IProvidersViewModel.cs" />
     <Compile Include="Interfaces\ISupplierInfoView.cs" />
     <Compile Include="MasterModule.cs" />
+    <Compile Include="ViewModels\CompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\ClientsControlViewModel.cs" />
     <Compile Include="ViewModels\ClientsInfoViewModel.cs" />
     <Compile Include="ViewModels\DriversControlViewModel.cs" />
@@ -293,8 +294,23 @@
     <Compile Include="Views\CompaniesControlView.xaml.cs">
       <DependentUpon>CompaniesControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CompanyInfoView.xaml.cs">
+      <DependentUpon>CompanyInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CompanyControlView.xaml.cs">
+      <DependentUpon>CompanyControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DriversControlView.xaml.cs">
       <DependentUpon>DriversControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Offices\DeliveryPlaces.xaml.cs">
+      <DependentUpon>DeliveryPlaces.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Offices\HolidayDates.xaml.cs">
+      <DependentUpon>HolidayDates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OfficeView.xaml.cs">
+      <DependentUpon>OfficeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RightDetailView.xaml.cs">
       <DependentUpon>RightDetailView.xaml</DependentUpon>
@@ -476,7 +492,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CompanyInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CompanyControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DriversControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Offices\DeliveryPlaces.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Offices\HolidayDates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OfficeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -734,6 +770,7 @@
     <Resource Include="Images\copycool.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Converters\" />
     <Folder Include="UIObjects\Suppliers\" />
   </ItemGroup>
   <ItemGroup>

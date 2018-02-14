@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KarveControlsTest"
         xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
         Title="TestWindow" Height="400" Width="400">
     <Window.Resources>
@@ -19,7 +20,38 @@
     </Window.DataContext>
     <Grid>
 
-        <StackPanel>
+        
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        <syncfusion:SfNavigationDrawer x:Name="drawer">
+        <syncfusion:SfNavigationDrawer.DrawerHeaderView>
+            <Grid Background="#31ade9">
+                <Image Source="/Assets/NavigationDrawer/User.png" Height="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5" />
+            </Grid>
+        </syncfusion:SfNavigationDrawer.DrawerHeaderView>
+        <syncfusion:SfNavigationDrawer.DrawerContentView>
+            <Grid Background="Black">
+                    <TreeView ItemsSource="{Binding Contents}">
+                
+            </TreeView>
+                <ListBox x:Name="list" ItemsSource="{Binding Contents}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding Name}" Padding="15" TextAlignment="Center" FontSize="23" Foreground="White"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </syncfusion:SfNavigationDrawer.DrawerContentView>
+        <syncfusion:SfNavigationDrawer.DrawerFooterView>
+            <Grid Background="#31ade9">
+                <Image Source="/Assets/NavigationDrawer/User.png" Height="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5" />
+            </Grid>
+        </syncfusion:SfNavigationDrawer.DrawerFooterView>
+        </syncfusion:SfNavigationDrawer>
+        <StackPanel Grid.Column="1">
             <TabControl>
                 
                 <TabItem Header="SearchBox">
