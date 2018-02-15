@@ -21,6 +21,7 @@ namespace DataAccessLayer.SQL
             QueryLanguage,
             QueryCreditCard,
             QueryZone,
+            QueryOfficeZone,
             QuerySeller,
             QueryOffice,
             QueryActivity,
@@ -36,10 +37,18 @@ namespace DataAccessLayer.SQL
             DeleteClientContacts,
             DeleteClientBranches,
             DeleteClientVisits,
+            QueryPagedClient,
+            QueryClientPagedSummary,
+            QueryPagedCompany,
+            QueryCompanySummary,
+            QueryCountry,
+            QueryOffices,
         }
 
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
+            
+            { QueryType.QueryPagedClient, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI, * FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI ORDER BY CLIENTES1.NUMERO_CLI" },
             {QueryType.QueryClient1, @"SELECT * FROM CLIENTES1 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryClient2, @"SELECT * FROM CLIENTES2 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryCity, @"SELECT CP,POBLA FROM POBLACIONES WHERE CP = '{0}'" },
@@ -51,11 +60,43 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryZone, @"SELECT NUM_ZONA,NOMBRE FROM ZONAS WHERE  NUM_ZONA='{0}'"},
             {QueryType.QuerySeller, @"SELECT NUM_VENDE, NOMBRE FROM VENDEDOR WHERE NUM_VENDE='{0}'"},
             {QueryType.QueryOffice, @"SELECT CODIGO, NOMBRE FROM OFICINAS WHERE CODIGO='{0}'" },
+            {QueryType.QueryOfficeZone, @"SELECT COD_ZONAOFI, NOM_ZONA FROM ZONAOFI WHERE COD_ZONAOFI='{0}'" },
             {QueryType.QueryActivity, @"SELECT NUM_ACTIVI,NOMBRE FROM ACTIVI WHERE NUM_ACTIVI='{0}'" },
             {QueryType.QueryProvince, @"SELECT SIGLAS,PROV FROM PROVINCIA WHERE SIGLAS='{0}'" },
+            {QueryType.QueryCountry, @"SELECT SIGLAS,PAIS FROM PAIS WHERE SIGLAS='{0}'" },
             {QueryType.QueryPaymentForm, @"SELECT CODIGO,NOMBRE FROM FORMAS WHERE CODIGO='{0}'" },
+            {QueryType.QueryOffices, @"SELECT * FROM OFICINAS WHERE SUBLICEN = '{0}'"},
             {QueryType.QueryChannel, @"SELECT CODIGO,NOMBRE FROM CANAL WHERE CODIGO='{0}'" },
+            {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, 
+                                              SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country 
+                                              from SUBLICEN
+                                              LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS 
+                                              LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
             {QueryType.QueryClientSummary, @"SELECT CLIENTES1.NUMERO_CLI as Code, 
+                                                    NOMBRE as Name, 
+                                                    NIF as Nif,
+                                                    DIRECCION as Direction,
+                                                    POBLACION as City, 
+                                                    TARNUM as NumberCreditCard, 
+                                                    TARTI as CreditCardType, 
+                                                    CLIENTES1.CP as Zip, 
+                                                    CLIENTES2.SECTOR as Sector, 
+                                                    PROVINCIA.PROV as Province, 
+                                                    PAIS.PAIS as Country, 
+                                                    TELEFONO as Phone, 
+                                                    OFICINA as Oficina, 
+                                                    CLIENTES2.VENDEDOR as Vendidor, 
+                                                    ALTA as Falta, 
+                                                    MOVIL as Movil 
+                                                    from CLIENTES1 
+                                                    INNER JOIN CLIENTES2 
+                                                    ON CLIENTES2.NUMERO_CLI = CLIENTES1.NUMERO_CLI 
+                                                    LEFT OUTER JOIN PROVINCIA 
+                                                    ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA 
+                                                    LEFT OUTER JOIN PAIS 
+                                                    ON PAIS.SIGLAS = CLIENTES1.NACIOPER WHERE CLIENTES1.NUMERO_CLI='{0}'"
+                                                    },
+            {QueryType.QueryClientPagedSummary, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI as Code, 
                                                     NOMBRE as Name, 
                                                     NIF as Nif,
                                                     DIRECCION as Direction,
@@ -145,12 +186,26 @@ namespace DataAccessLayer.SQL
             }
             return builder.ToString();
         }
+
         /// <summary>
-        /// Add a parameter to build in the memory store.
+        ///  Add the query range
         /// </summary>
-        /// <param name="queryCity">Kind of query type</param>
-        /// <param name="code">Code of the query</param>
-        public void AddParam(QueryType queryCity, string code)
+        /// <param name="query">Type of the query</param>
+        /// <param name="start">start position</param>
+        /// <param name="stop">End position.</param>
+        public void AddParamRange(QueryType query, long start, long stop)
+        {
+            var tmpQuery = "";
+            _dictionary.TryGetValue(query, out tmpQuery);
+            tmpQuery = string.Format(tmpQuery, start, stop);
+            _memoryStore.Add(query, tmpQuery);
+        }
+    /// <summary>
+    /// Add a parameter to build in the memory store.
+    /// </summary>
+    /// <param name="queryCity">Kind of query type</param>
+    /// <param name="code">Code of the query</param>
+    public void AddParam(QueryType queryCity, string code)
         {
             if (!string.IsNullOrEmpty(code))
             {

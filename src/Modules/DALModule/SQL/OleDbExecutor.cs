@@ -14,7 +14,7 @@ namespace DataAccessLayer.SQL
     /// <summary>
     /// This is the ole db query executor for the connection.
     /// </summary>
-    public class OleDbExecutor : AbstractSqlExecutor, IDisposable
+    public class OleDbExecutor : AbstractSqlExecutor
     {
         private SAConnection _connection;
         private readonly object asyncBatchLock = new object();
@@ -246,7 +246,11 @@ namespace DataAccessLayer.SQL
             }
         }
 
-
+        /// <summary>
+        ///  Load asynchronously a data table
+        /// </summary>
+        /// <param name="sqlQuery">Query to be use executed</param>
+        /// <returns>a data table.</returns>
        public override async Task<DataTable> QueryAsyncForDataTable(string sqlQuery)
         {
             DataSet set = new DataSet();
@@ -459,12 +463,22 @@ namespace DataAccessLayer.SQL
             }
             return false;
         }
-
+        /// <summary>
+        ///  Execute a DML query
+        /// </summary>
+        /// <param name="CommandName">Name of the command</param>
+        /// <param name="cmdType">Type of the command</param>
+        /// <param name="pars">Parameters of the command</param>
+        /// <returns></returns>
         public override bool ExecuteNonQuery(string CommandName, CommandType cmdType, DataParameter pars)
         {
             return ExecuteNonQuery(CommandName, cmdType, pars.OleDbParameters);
         }
-
+        /// <summary>
+        ///  Load a bunch of data tables asynchronously
+        /// </summary>
+        /// <param name="queryList">List of queries to be used.</param>
+        /// <returns></returns>
         public override async Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList)
         {
             DataSet completeSet = null;
@@ -522,6 +536,13 @@ namespace DataAccessLayer.SQL
             }
             return result.Task;
         }
+        /// <summary>
+        ///  Fill asynchronously a data set
+        /// </summary>
+        /// <param name="dta">DataSet adapert</param>
+        /// <param name="dataSet">Data set </param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns></returns>
         public Task<DataSet> FillAsync(SADataAdapter dta, DataSet dataSet, CancellationToken cancellationToken)
         {
             var result = new TaskCompletionSource<DataSet>();

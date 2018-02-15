@@ -5452,6 +5452,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zona.
+        /// </summary>
+        public static string lzone {
+            get {
+                return ResourceManager.GetString("lzone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mantenimiento.
         /// </summary>
         public static string Mantenimiento {

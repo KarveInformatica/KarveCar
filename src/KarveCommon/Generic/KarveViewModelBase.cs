@@ -39,6 +39,17 @@ namespace KarveCommon.Generic
         ///  Assis mapper / mapeo de las lupas.
         /// </summary>
         protected IAssistMapper<BaseDto> AssistMapper = new AssistMapper<BaseDto>();
+        /*
+         * Notify task completion to avoid async void. Async void is bad:
+         * Async void methods have different error-handling semantics. Exceptions are very awkward to handle.
+         *  Async void methods have different composing semantics. This is an argument centered around code maintainability an * reuse.Async void methods are difficult to test.
+         The return type of an assist is true or false.
+             */
+
+        protected INotifyTaskCompletion<bool> AssistNotifierInitialized;
+        protected PropertyChangedEventHandler AssistExecuted;
+
+
 
         /// <summary>
         ///  SqlQuery. This is an assist query.
@@ -136,6 +147,12 @@ namespace KarveCommon.Generic
             }
             return value;
         }
+
+        /// <summary>
+        ///  Command to detect a change.
+        /// </summary>
+        public ICommand ItemChangedCommand { set; get; }
+
         /// <summary>
         ///  Grid register command
         /// </summary>
@@ -279,7 +296,7 @@ namespace KarveCommon.Generic
         /// </summary>
         public ICommand GridResizeCommand { set; get; }
         /// <summary>
-        ///  Each view model can have an assist query.
+        ///  Property useful for doing an assist query and bind it to the xaml.
         /// </summary>
         public string AssistQuery
         {

@@ -128,13 +128,22 @@
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
+    <Compile Include="CompanyDataService.cs" />
     <Compile Include="ConcreteDomainFactory.cs" />
     <Compile Include="Crud\Clients\ClientDataLoader.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
-    <Compile Include="Crud\Clients\ClientHelper.cs" />
+    <Compile Include="Crud\HelperBase.cs" />
+    <Compile Include="Crud\Clients\DataLayerInvalidClientException.cs" />
+    <Compile Include="Crud\Company\CompanyDataDeleter.cs" />
+    <Compile Include="Crud\Company\CompanyDataLoader.cs" />
+    <Compile Include="Crud\Company\CompanyDataSaver.cs" />
+    <Compile Include="Crud\CrudFactory.cs" />
     <Compile Include="Crud\DataDeleter.cs" />
     <Compile Include="Crud\DataLoader.cs" />
+    <Compile Include="Crud\Office\OfficeDataDeleter.cs" />
+    <Compile Include="Crud\Office\OfficeDataLoader.cs" />
+    <Compile Include="Crud\Office\OfficeDataSaver.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -1142,6 +1151,7 @@
     <Compile Include="MongoDB\SettingsMongoDBServices.cs" />
     <Compile Include="MongoDB\SupplierMongoDBServices.cs" />
     <Compile Include="MongoDB\VehicleMongoDBServices.cs" />
+    <Compile Include="OfficeDataService.cs" />
     <Compile Include="SettingsDataService.cs" />
     <Compile Include="SQL\AbstractSqlExecutor.cs" />
     <Compile Include="SQL\DataDescription.cs" />
@@ -1195,7 +1205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="DataAccessLayer\" />
     <Folder Include="Test\" />
   </ItemGroup>
   <ItemGroup>

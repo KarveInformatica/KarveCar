@@ -130,7 +130,7 @@
                                             ValidatesOnNotifyDataErrors=True, 
                                             ValidatesOnExceptions=True, 
                                             UpdateSourceTrigger=PropertyChanged}"
-                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="587"
                                         >
 
                                         </karveControls:DataArea>
@@ -202,7 +202,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Documento">
+                    <TabItem Header="Documento" Height="24" VerticalAlignment="Bottom">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>

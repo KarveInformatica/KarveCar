@@ -2589,4 +2589,7 @@
   <data name="RepresentanteLegal" xml:space="preserve">
     <value>Representante Legal</value>
   </data>
+  <data name="lzone" xml:space="preserve">
+    <value>Zona</value>
+  </data>
 </root>

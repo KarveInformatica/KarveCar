@@ -17,6 +17,7 @@ namespace KarveDataServices.DataTransferObject
     [Serializable]
     public class BaseDto : IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking
     {
+      
         public BaseDto()
         {
         }
@@ -28,7 +29,10 @@ namespace KarveDataServices.DataTransferObject
         ///  User
         /// </summary>
         public string User { set; get; }
-
+        /// <summary>
+        ///  This specify if the dto is dirty.
+        /// </summary>
+        public virtual bool IsDirty { set; get; }
         /// <summary>
         ///  This return the value of the object itself.
         /// </summary>
@@ -51,5 +55,6 @@ namespace KarveDataServices.DataTransferObject
         public virtual void RejectChanges()
         {
         }
+        
     }
 }

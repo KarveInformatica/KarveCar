@@ -4,7 +4,7 @@ using System.Data.Common;
 using System.Data.Odbc;
 using System.Threading.Tasks;
 using iAnywhere.Data.SQLAnywhere;
-
+using System;
 
 namespace KarveDataServices
 {
@@ -25,7 +25,7 @@ namespace KarveDataServices
     /// <summary>
     /// This is the sql executor needed for the opening and interfacing the database.
     /// </summary>
-    public interface ISqlExecutor
+    public interface ISqlExecutor: IDisposable
     {
         /// <summary>
         /// This value returns the current connection state.

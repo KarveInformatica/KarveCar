@@ -227,6 +227,7 @@
     <Compile Include="Interfaces\IProvidersViewModel.cs" />
     <Compile Include="Interfaces\ISupplierInfoView.cs" />
     <Compile Include="MasterModule.cs" />
+    <Compile Include="ViewModels\CompanyControlViewModel.cs" />
     <Compile Include="ViewModels\CompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\ClientsControlViewModel.cs" />
     <Compile Include="ViewModels\ClientsInfoViewModel.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="ViewModels\SupplierDataPayload.cs" />
     <Compile Include="ViewModels\UiCommissionAgentLeftPartBuilder.cs" />
     <Compile Include="ViewModels\UiCommissionAgentRightPartBuilder.cs" />
+    <Compile Include="ViewModels\UpperBarCompanyViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewSupplierViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />

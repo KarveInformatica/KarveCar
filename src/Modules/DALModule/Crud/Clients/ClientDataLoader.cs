@@ -13,7 +13,7 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
-
+using DataAccessLayer.Crud;
 
 namespace DataAccessLayer.Crud.Clients
 {
@@ -25,7 +25,8 @@ namespace DataAccessLayer.Crud.Clients
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
         private ClientPoco _currentPoco;
-        private IHelperData _helper = new ClientHelper();
+        private IHelperData _helper = new HelperBase();
+        private long _currentQueryPos;
         /// <summary>
         ///  Query delegation.
         /// </summary>
@@ -58,16 +59,22 @@ namespace DataAccessLayer.Crud.Clients
         private const string DefaultDelegation =
             "cldIdCliente, cldDelegacion, cldDireccion1, cldDireccion2, cldCP, cldPoblacion, cldIdProvincia,cldTelefono1, cldTelefono2, cldFax, cldEMail, cldMovil";
         private IEnumerable<BranchesDto> branchesDto;
-
+        /// <summary>
+        /// This load a client using a valid executro.
+        /// </summary>
+        /// <param name="executor">Sql executor</param>
         public ClientDataLoader(ISqlExecutor executor)
         {
             _sqlExecutor = executor;
             _mapper = MapperField.GetMapper();
             _currentPoco = new ClientPoco();
             Valid = true;
-
+            _currentQueryPos = 0;
         }
-
+        /// <summary>
+        ///  Open a connection.
+        /// </summary>
+        /// <returns>This open a client connection.</returns>
         public IDbConnection OpenConnection()
         {
             IDbConnection conn = null;
@@ -82,6 +89,11 @@ namespace DataAccessLayer.Crud.Clients
             }
             return conn;
         }
+        /// <summary>
+        ///  Load a single client value
+        /// </summary>
+        /// <param name="code">Code to load</param>
+        /// <returns></returns>
         public async Task<bool> LoadValue(string code)
         {
             Contract.Assert(!string.IsNullOrEmpty(code), "Client code shall be not empty");
@@ -208,7 +220,7 @@ namespace DataAccessLayer.Crud.Clients
         /// <summary>
         ///  Return all dtos mapped from the entities.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>This returns a list of entities</returns>
         public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
         {
             ObservableCollection<ClientDto> dtoCollection =  new ObservableCollection<ClientDto>();
@@ -299,6 +311,25 @@ namespace DataAccessLayer.Crud.Clients
                 return "1";
             }
             return string.Empty;
+        }
+        /// <summary>
+        /// It load at most n entities. It retains the state in order to support paging.
+        /// </summary>
+        /// <param name="n">Number of state.</param>
+        /// <returns>It returns a list of n client data transfer objects</returns>
+        public async Task<IEnumerable<ClientDto>> LoadValueAtMostAsync(int n, int back)
+        {
+            IEnumerable<ClientDto> dtoCollection = new List<ClientDto>();
+            QueryStore store = new QueryStore();
+            store.AddParamRange(QueryStore.QueryType.QueryPagedClient, _currentQueryPos, n);
+            var query = store.BuildQuery();
+            _currentQueryPos = _currentQueryPos + n - back; 
+            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            {
+               var currentPoco  = await conn.QueryAsync<ClientPoco>(query);
+               dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(currentPoco);
+            }   
+            return dtoCollection;
         }
     }
 

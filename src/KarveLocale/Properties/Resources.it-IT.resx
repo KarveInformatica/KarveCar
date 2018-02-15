@@ -2504,4 +2504,7 @@
   <data name="EnterSearchTerm" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="lzone" xml:space="preserve">
+    <value>Zona</value>
+  </data>
 </root>

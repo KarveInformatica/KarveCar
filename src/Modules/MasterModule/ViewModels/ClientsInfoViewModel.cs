@@ -15,13 +15,9 @@ using Prism.Regions;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
-using Dapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using MasterModule.Views;
-using MasterModule.Views.Clients;
-using Syncfusion.Windows.PdfViewer;
-
 
 namespace MasterModule.ViewModels
 {
@@ -30,6 +26,7 @@ namespace MasterModule.ViewModels
     /// </summary>
     class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
+        #region Private Fields
         private IClientData _clientData;
         private IClientDataServices _clientDataServices;
         private IHelperData _helperData;
@@ -38,6 +35,7 @@ namespace MasterModule.ViewModels
         private string _clientRegion;
         private ClientDto _currentClientDo = new ClientDto();
         private string _driverZone;
+        #endregion
 
         /// <summary>
         ///  Primary  key on branches
@@ -502,7 +500,7 @@ namespace MasterModule.ViewModels
 
         }
         public ICommand ContentAreaCommand { get; set; }
-        public ICommand ItemChangedCommand { get; set; }
+       
         public ICommand SelectCompanyOrDriver { get; set; }
         /// <summary>
         /// ClientInfoRightRegionName

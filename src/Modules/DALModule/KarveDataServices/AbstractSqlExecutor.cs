@@ -123,12 +123,20 @@ namespace KarveDataServices
             string outMessage = message + " at line " + lineNumber + " (" + caller + ")";
             return outMessage;
         }
-
+        /// <summary>
+        /// Get a list of fields form a sql query
+        /// </summary>
+        /// <param name="sqlQuery">Query to be tokenized</param>
+        /// <returns></returns>
         public abstract IList<string> ExecuteQueryFields(string sqlQuery);
         /// <summary>
         ///  Open a new database connection
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return a new connection from ADO.NET connection pool</returns>
         public abstract IDbConnection OpenNewDbConnection();
+        /// <summary>
+        ///  Dispose 
+        /// </summary>
+        public abstract void Dispose();
     }
 }

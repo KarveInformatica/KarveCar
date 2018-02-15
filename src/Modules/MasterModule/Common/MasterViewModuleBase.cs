@@ -35,8 +35,9 @@ namespace MasterModule.Common
         protected INotifyTaskCompletion InitializationNotifierDo;
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
+        protected PropertyChangedEventHandler InitEventHandler;
 
-       
+
         protected PropertyChangedEventHandler DeleteEventHandler;
 
         protected ControlExt.GridOp _delegationGridState = ControlExt.GridOp.Any;
@@ -121,8 +122,11 @@ namespace MasterModule.Common
        
         protected const string OperationConstKey = "Operation";
 
+        /// <summary>
+        /// Command to detect and assist in case of a window.
+        /// </summary>
         public ICommand AssistCommand { set; get; }
-
+        
         /// <summary>
         ///  This is a command for open a new window.
         /// </summary>

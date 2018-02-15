@@ -29,9 +29,8 @@ namespace MasterModule.ViewModels
     /// CommissionAgentInfoViewModel
     public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IDataErrorInfo, IEventObserver
     {
-        private const string TableNameComisio = "COMISIO";
+        
         private Visibility _visibility;
-        private DataTable _commissionTable;
         private IDictionary<string, string> _queries;
         private string _primaryKeyValue = "";
         private bool _isInsertion = false;
@@ -221,9 +220,6 @@ namespace MasterModule.ViewModels
         /// </summary>
         protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
 
-        /// <summary>
-        ///  
-        /// </summary>
         public ICommand PrintAssociate { set; get; }
 
         public ICommand DelegationChangedRowsCommand { set; get; }
@@ -550,18 +546,7 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
-        /// <summary>
-        ///  This returns a data table for binding the objects.
-        /// </summary>
-        public DataTable CommissionTable
-        {
-            get
-            {
-                return _commissionTable;
-            }
-            set { _commissionTable = value; }
-
-        }
+    
 
 
         /// <summary>
@@ -585,13 +570,7 @@ namespace MasterModule.ViewModels
             set { _visibility = value; RaisePropertyChanged(); }
         }
 
-        /// <summary>
-        ///  Return the commissionist table.
-        /// </summary>
-        public string TableName
-        {
-            get { return TableNameComisio; }
-        }
+       
         /// <summary>
         ///  Assistant queries. Set of the queries related to the magnifier.
         /// </summary>
@@ -719,24 +698,6 @@ namespace MasterModule.ViewModels
             }
         }
 
-
-
-        /// <summary>
-        ///  This method answer to the lookup of the assist query
-        /// </summary>
-        /// <param name="assistTableName">Assit TableName</param>
-        /// <param name="assistQuery">Assist query</param>
-        /// <param name="primaryKey">Primary Key of the table</param>
-        private async void AssistQueryRequestHandler(string assistTableName, string assistQuery, string primaryKey)
-        {
-            IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-            DataSet dataSetAssistant = await helperDataServices.GetAsyncHelper(assistQuery, assistTableName);
-            if ((dataSetAssistant != null) && (dataSetAssistant.Tables.Count > 0))
-            {
-                //UpdateSource(dataSetAssistant, primaryKey, ref UpperPartObservableCollection);
-
-            }
-        }
 
 
         /// <summary>

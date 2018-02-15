@@ -7,7 +7,7 @@ namespace KarveDataServices
     /// <summary>
     ///  Helper interface for the magnifiers.
     /// </summary>
-    public interface IHelperData
+    public interface IHelperData : IHelperBase
     {
         /// <summary>
         ///  Activity Data Trasfer Object
@@ -21,25 +21,6 @@ namespace KarveDataServices
         ///  Credit Card Data Transfer Object.
         /// </summary>
         IEnumerable<CreditCardDto> CreditCardType { get; set; }
-        /// <summary>
-        ///  Province Data Transfer Object.
-        /// </summary>
-        IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
-
-        /// <summary>
-        ///  Country Data Transfer Object.
-        /// </summary>
-        IEnumerable<CountryDto> CountryDto { get; set; }
-
-        /// <summary>
-        /// City Data Transfer Object.
-        /// </summary>
-        IEnumerable<CityDto> CityDto { get; set; }
-        /// <summary>
-        /// Zone Data Transfer Object
-        /// </summary>
-        IEnumerable<ClientZoneDto> ZoneDto { get; set; }
-
         /// <summary>
         ///  Origen Data Transfer Object
         /// </summary>

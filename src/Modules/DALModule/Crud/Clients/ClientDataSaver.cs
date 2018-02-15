@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -149,14 +148,6 @@ namespace DataAccessLayer.Crud.Clients
                 retValue = value > 0;
             }
             return retValue;
-        }
-    }
-
-    public class DataLayerInvalidClientException : System.Exception
-    {
-        public DataLayerInvalidClientException(object errors)
-        {
-           
         }
     }
 }

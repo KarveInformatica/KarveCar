@@ -1,15 +1,42 @@
-﻿using System;
+﻿using KarveCommon.Services;
+using KarveDataServices;
+using Moq;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveTest.ViewModels;
+using Prism.Regions;
 
-namespace KarveTest.ViewModels
+namespace MasterModule.ViewModels
 {
+    [TestFixture]
     class TestCompanyInfoViewModel : TestBase
     {
-        public TestCompanyInfoViewModel()
+        private Mock<IEventManager> _eventManager = new Mock<IEventManager>();
+        private Mock<IDataServices> _dataServices = new Mock<IDataServices>();
+        private Mock<IConfigurationService> _configurationService = new Mock<IConfigurationService>();
+        private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
+
+        private CompanyInfoViewModel _companyInfoViewModel = null;
+        //= new ViewModels.CompanyInfoViewModel()
+        [OneTimeSetUp]
+        public void Setup()
         {
+            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, 
+                                                            _configurationService.Object, 
+                                                            _dataServices.Object, 
+                                                           _regionManager.Object);
         }
+        [Test]
+        public void Should_Handle_Correctly_Magnifier_Assist()
+        {
+            IDictionary<string, object> dictionary = new Dictionary<string, object>();
+            //_companyInfoViewModel.AssistCommand
+        }
+
+
     }
 }

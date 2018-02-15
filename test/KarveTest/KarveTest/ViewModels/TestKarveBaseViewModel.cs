@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 using KarveTest.Mock;
 using NUnit.Framework;
-using Prism.Commands;
 using System.IO;
 
 namespace KarveTest.ViewModels

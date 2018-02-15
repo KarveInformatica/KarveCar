@@ -80,8 +80,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void StartAndNotify()
         {
-            // this is a trick to speed up further creations and load prism.
-            _container.Resolve<ClientsInfoView>();
+            
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.ClientSummaryVm, MessageHandlerMailBox);
             InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_clientDataServices.GetAsyncAllClientSummary(), InitializationNotifierOnPropertyChanged);

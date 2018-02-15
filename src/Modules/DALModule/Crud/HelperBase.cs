@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 
-namespace DataAccessLayer.Crud.Clients
+namespace DataAccessLayer
 {
-    internal class ClientHelper: IHelperData
+    internal class HelperBase: IHelperData
     {
         public IEnumerable<ActividadDto> ActivityDto { get; set; }
         public IEnumerable<ClientTypeDto> ClientTypeDto { get; set; }
@@ -32,5 +32,6 @@ namespace DataAccessLayer.Crud.Clients
         public IEnumerable<LanguageDto> LanguageDto { get; set; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get ; set ; }
     }
 }

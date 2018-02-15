@@ -77,5 +77,14 @@ namespace KarveCommon.Generic
         ///  Client Control View.
         /// </summary>
         public static long ClientSummaryGrid = 0xFF;
+        /// <summary>
+        ///  company summary grid
+        /// </summary>
+        public static long CompanySummaryGrid = 0x100;
+        /// <summary>
+        ///  client summary grid
+        /// </summary>
+        public static long OfficeSummaryGrid = 0x101;
+
     }
 }

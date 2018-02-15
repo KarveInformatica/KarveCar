@@ -39,6 +39,16 @@ namespace DataAccessLayer
         private readonly IAssistDataService _assistDataService;
 
         /// <summary>
+        ///  Data management for the offices
+        /// </summary>
+        private readonly IOfficeDataService _officeDataService;
+
+        /// <summary>
+        ///  Data management for the company
+        /// </summary>
+        private readonly ICompanyDataService companyDataService;
+
+        /// <summary>
         ///  SqlExecutor.
         /// </summary>
 
@@ -60,6 +70,8 @@ namespace DataAccessLayer
             _settingsDataService = new SettingsDataService(sqlExecutor);
             _clientDataServices = new ClientDataAccessLayer(sqlExecutor);
             _assistDataService = new AssistDataService(_helperDataServices);
+            _officeDataService = new OfficeDataService(sqlExecutor);
+            _companyDataService = new CompanyDataService(sqlExecutor);
 
         }
         /// <summary>

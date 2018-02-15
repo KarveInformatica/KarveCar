@@ -2143,4 +2143,7 @@
   <data name="EnterSearchTerm" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="lzone" xml:space="preserve">
+    <value>Zone</value>
+  </data>
 </root>

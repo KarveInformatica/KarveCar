@@ -72,8 +72,10 @@
     <Compile Include="DataObjects\IClientData.cs" />
     <Compile Include="DataObjects\ICommissionAgent.cs" />
     <Compile Include="DataObjects\ICommissionAgentTypeData.cs" />
+    <Compile Include="DataObjects\ICompanyData.cs" />
     <Compile Include="DataObjects\IContactsData.cs" />
     <Compile Include="DataObjects\ICountryData.cs" />
+    <Compile Include="DataObjects\IOfficeData.cs" />
     <Compile Include="DataObjects\ISupplierAccountObjectInfo.cs" />
     <Compile Include="DataObjects\ISupplierBranchesData.cs" />
     <Compile Include="DataObjects\ISupplierContactsData.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="DataTransferObject\CommissionAgentSummaryDto.cs" />
     <Compile Include="DataTransferObject\CompanyCardDto.cs" />
     <Compile Include="DataTransferObject\CompanyDto.cs" />
+    <Compile Include="DataTransferObject\CompanySummaryDto.cs" />
     <Compile Include="DataTransferObject\ContactsDto.cs" />
     <Compile Include="DataTransferObject\ContactsSummaryDto.cs" />
     <Compile Include="DataTransferObject\ContactTypeDto.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="DataTransferObject\DeliveringWayDto.cs" />
     <Compile Include="DataTransferObject\ElementDto.cs" />
     <Compile Include="DataTransferObject\GridSettingsDto.cs" />
+    <Compile Include="DataTransferObject\HolidayDto.cs" />
     <Compile Include="DataTransferObject\IDataTransferObject.cs" />
     <Compile Include="DataTransferObject\InvoiceBlockDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="DataTransferObject\MonthsDto.cs" />
     <Compile Include="DataTransferObject\BusinessDto.cs" />
     <Compile Include="DataTransferObject\OfficeDto.cs" />
+    <Compile Include="DataTransferObject\OfficeSummaryDto.cs" />
     <Compile Include="DataTransferObject\OrigenDto.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />
     <Compile Include="DataTransferObject\PaymentFormDto.cs" />
@@ -154,13 +159,16 @@
     <Compile Include="DomainWrapperFactory.cs" />
     <Compile Include="IAssistDataService.cs" />
     <Compile Include="IClientDataServices.cs" />
+    <Compile Include="ICompanyDataService.cs" />
     <Compile Include="IDataDeleter.cs" />
     <Compile Include="IDataLoader.cs" />
     <Compile Include="IDataSaver.cs" />
+    <Compile Include="IHelperBase.cs" />
     <Compile Include="IHelperData.cs" />
     <Compile Include="ILocaleDataServices.cs" />
     <Compile Include="IMagnifier.cs" />
     <Compile Include="IMagnifierColumns.cs" />
+    <Compile Include="IOfficeDataServices.cs" />
     <Compile Include="ISettingsDataService.cs" />
     <Compile Include="DataObjects\IValueObject.cs" />
     <Compile Include="SqlValidationRule.cs" />

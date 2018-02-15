@@ -10,13 +10,13 @@ using KarveCommon.Generic;
 using System.Reflection;
 using System.Globalization;
 using System;
-using System.Runtime.InteropServices;
 using DataAccessLayer;
 using DataAccessLayer.SQL;
 using KarveCar.Logic.Generic;
 using KarveCar.Views;
-using MasterModule.Common;
 using NLog;
+using System.Data;
+using MasterModule.Views;
 
 namespace KarveCar
 {
@@ -36,6 +36,30 @@ namespace KarveCar
         protected override DependencyObject CreateShell()
         {
              return Container.Resolve<MainWindow>();
+        }
+
+        private void TestDBConnection(ISqlExecutor executor)
+        {
+            if (executor == null)
+            {
+                return;
+            }
+            logger.Info("Testing connection string");
+            IDbConnection conn = null;
+            try
+            {
+                conn = executor.OpenNewDbConnection();
+            
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Database connection failed: " + e.Message);
+            }
+            finally
+            {
+                conn?.Close();
+                conn?.Dispose();
+            }
         }
         /// <summary>
         ///  This method configure the catalog of the prism modules.
@@ -78,6 +102,7 @@ namespace KarveCar
                 Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDb);
                 object[] values = new object[1];
                 values[0] = Container.Resolve<ISqlExecutor>();
+                TestDBConnection(values[0] as ISqlExecutor);
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
                 logger.Debug("Registering types in the dependency injection");
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
@@ -127,6 +152,10 @@ namespace KarveCar
                     info.SetValue(shell.Shell, Container);
                 }
                 Application.Current.MainWindow.Show();
+                // we preload some heavy modules.
+                // this is a trick to speed up further creations and load prism.
+                Container.Resolve<ClientsInfoView>();
+                Container.Resolve<VehicleInfoView>();
             } catch (Exception e)
             {
                 logger.Error("Error during bootstrap:" + e.Message);

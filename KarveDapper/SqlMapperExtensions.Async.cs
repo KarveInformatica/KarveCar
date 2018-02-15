@@ -65,55 +65,6 @@ namespace KarveDapper.Extensions
         }
 
         /// <summary>
-        /// Returns a single entity by a single id from table "Ts" asynchronously using .NET 4.5 Task. T must be of interface type. 
-        /// Id must be marked with [Key] attribute.
-        /// Created entity is tracked/intercepted for changes and used by the Update() extension. 
-        /// </summary>
-        /// <typeparam name="T">Interface type to create and populate</typeparam>
-        /// <param name="connection">Open SqlConnection</param>
-        /// <param name="id">Id of the entity to get, must be marked with [Key] attribute</param>
-        /// <param name="transaction">The transaction to run under, null (the default) if none</param>
-        /// <param name="commandTimeout">Number of seconds before command execution timeout</param>
-        /// <returns>Entity of T</returns>
-        public static async Task<T> GetCodeNameAsync<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
-        {
-            var type = typeof(T);
-
-            if (!GetQueries.TryGetValue(type.TypeHandle, out string sql))
-            {
-                var codeNameTuple = GetMagnifierCodeName<T>(nameof(GetCodeNameAsync));
-                var key = GetSingleKey<T>(nameof(GetAsync));
-                var name = GetTableName(type);
-               
-                sql = $"SELECT {codeNameTuple.Item1.Name},{codeNameTuple.Item1.Name} FROM {name} WHERE {key.Name} = ?id?";
-                GetQueries[type.TypeHandle] = sql;
-            }
-
-            var dynParms = new DynamicParameters();
-            dynParms.Add("@id", id);
-
-            if (!type.IsInterface)
-                return (await connection.QueryAsync<T>(sql, dynParms, transaction, commandTimeout).ConfigureAwait(false)).FirstOrDefault();
-
-            var res = (await connection.QueryAsync<dynamic>(sql, dynParms).ConfigureAwait(false)).FirstOrDefault() as IDictionary<string, object>;
-
-            if (res == null)
-                return null;
-
-            var obj = ProxyGenerator.GetInterfaceProxy<T>();
-
-            foreach (var property in TypePropertiesCache(type))
-            {
-                var val = res[property.Name];
-                property.SetValue(obj, Convert.ChangeType(val, property.PropertyType), null);
-            }
-
-            ((IProxy)obj).IsDirty = false;   //reset change tracking and return
-
-            return obj;
-        }
-
-        /// <summary>
         /// Returns a list of entites from table "Ts".  
         /// Id of T must be marked with [Key] attribute.
         /// Entities created from interfaces are tracked/intercepted for changes and used by the Update() extension
@@ -433,9 +384,48 @@ namespace KarveDapper.Extensions
             } while ((collection.Count() != 0) && (tries < 10));
             return id;
         }
+        /// <summary>
+        /// This deletes a collection of entities.
+        /// </summary>
+        /// <typeparam name="T">Type of the entities</typeparam>
+        /// <param name="connection">Current connection</param>
+        /// <param name="entityToDelete">Collection of entities to delete</param>
+        /// <param name="transaction">Simple transaction</param>
+        /// <param name="commandTimeout">Command timeout</param>
+        /// <returns></returns>
+        public static async Task<bool> DeleteCollectionAsync<T>(this IDbConnection connection, IEnumerable<T> entityToDelete, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            var type = typeof(T);
+            var keyProperties = KeyPropertiesCache(type);
+            var explicitKeyProperties = ExplicitKeyPropertiesCache(type);
+            
+            var name = GetTableName(type);
+            keyProperties.AddRange(explicitKeyProperties);
 
+            var sb = new StringBuilder();
+            var maxNumber = entityToDelete.Count<T>();
+            var currentList = entityToDelete.AsList<T>();
+            for (var numEntity = 0; numEntity < maxNumber; numEntity++)
+            {
 
+                sb.AppendFormat("DELETE FROM {0} WHERE ", name);
+                var currentEntity = currentList[numEntity];
+                for (var i = 0; i < keyProperties.Count; i++)
+                {
+                    var property = keyProperties[i];
+                    sb.AppendFormat("{0}={1}", property.Name, property.GetValue(currentEntity));
+                    if (i < keyProperties.Count - 1)
+                        sb.AppendFormat(" AND ");
+                }
+                if (numEntity < currentList.Count -1)
+                {
+                    sb.Append(";");
+                }
+            }
+            var deleted = await connection.ExecuteAsync(sb.ToString(), null, transaction, commandTimeout).ConfigureAwait(false);
+            return deleted > 0;
 
+        }
         /// <summary>
         /// Delete entity in table "Ts" asynchronously using .NET 4.5 Task.
         /// </summary>

@@ -3,10 +3,97 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:MasterModule.Views"
+               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+              AutomationProperties.AutomationId="CompanyControlView">
+                   
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <ObjectDataProvider x:Key="FilterMode"
+                                    MethodName="GetValues"
+                                    ObjectType="{x:Type system:Enum}">
+                            <ObjectDataProvider.MethodParameters>
+                                <x:Type TypeName="Syncfusion:FilterMode" />
+                            </ObjectDataProvider.MethodParameters>
+                        </ObjectDataProvider>
+
+                        <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
+                            <Setter Property="FilterMode" Value="Both" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Syncfusion:SfDataGrid x:Name="CompanyControlSummary"
+                               ColumnSizer="Star"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                               ItemsSource="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="False">
+   
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=CompanyControlSummary, Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+
+
+                    <Syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Syncfusion:SfDataGrid.Resources>
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Code" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                                                       MappingName="Name"
+                                                        FilterPopupStyle="{StaticResource GenericCodeStyle}">
+
+                </Syncfusion:GridTemplateColumn>
+
+                <Syncfusion:GridTemplateColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
+                                                        MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTemplateColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
+                                                        MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="City.Code" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City.Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Country.CountryName" 
+                                                   FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lzona, Source={StaticResource ResourceLanguage}}" MappingName="Zona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+            </Syncfusion:SfDataGrid.Columns>
+        </Syncfusion:SfDataGrid>
             
-    </Grid>
-</UserControl>
+            </Grid>
+
+ </UserControl>
+
+
+
+
+ 

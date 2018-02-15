@@ -19,7 +19,7 @@ namespace KarveDataServices
         /// <summary>
         ///  Client data service.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Client data service subsystem</returns>
         IClientDataServices GetClientDataServices();
 
         /// <summary>
@@ -38,11 +38,22 @@ namespace KarveDataServices
         /// <returns></returns>
         IHelperDataServices GetHelperDataServices();
         /// <summary>
-        ///  Returns the commission agent data services. 
+        ///  Returns the commission agent data services.  This interface helps to handle brokers.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Commission agent data service</returns>
         /// 
         ICommissionAgentDataServices GetCommissionAgentDataServices();
+        /// <summary>
+        /// Get the office data services.
+        /// </summary>
+        /// <returns></returns>
+        IOfficeDataServices GetOfficeDataServices();
+
+        /// <summary>
+        ///  Company data services.
+        /// </summary>
+        /// <returns></returns>
+        ICompanyDataService GetCompanyDataServices();
         /// <summary>
         ///  This will deprecate the above interfaces.
         /// </summary>
