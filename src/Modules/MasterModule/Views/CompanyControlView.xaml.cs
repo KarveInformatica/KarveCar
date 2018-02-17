@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveLocale.Properties;
 
 namespace MasterModule.Views
 {
@@ -20,9 +21,22 @@ namespace MasterModule.Views
     /// </summary>
     public partial class CompanyControlView : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnEmpresas;
+
         public CompanyControlView()
         {
             InitializeComponent();
         }
+        /// <summary>
+        ///  Header 
+        /// </summary>
+        public string Header
+        { 
+            get
+            {
+                return _header;
+            }
+        }
+
     }
 }

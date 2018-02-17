@@ -64,5 +64,6 @@ namespace DataAccessLayer.SQL
         }
 
         public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
+        public abstract void Dispose();
     }
 }

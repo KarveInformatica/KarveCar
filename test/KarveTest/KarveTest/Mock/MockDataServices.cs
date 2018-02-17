@@ -50,5 +50,15 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public IOfficeDataServices GetOfficeDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICompanyDataService GetCompanyDataServices()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

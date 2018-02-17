@@ -214,9 +214,9 @@ namespace DataAccessLayer.Logic
             contacts.ContactId = source.ccoIdContacto;
             contacts.ContactName = source.ccoContacto;
             contacts.ContactsKeyId = source.ccoIdCliente;
-           // contacts.CurrentDelegation = source.
+            // contacts.CurrentDelegation = source.
 
-          
+
             return contacts;
 
         }
@@ -319,7 +319,7 @@ namespace DataAccessLayer.Logic
             {
                 var currentSource = secondPoco.GetType();
                 var propertyInfo = currentSource.GetProperty(property.Name);
-                
+
                 if (propertyInfo != null)
                 {
                     var tmpValue = propertyInfo.GetValue(secondPoco);
@@ -336,9 +336,9 @@ namespace DataAccessLayer.Logic
     }
 
     /// <summary>
-        ///  Converter for the the new vehiculo2.
-        /// </summary>
-        public class GenericBackConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
+    ///  Converter for the the new vehiculo2.
+    /// </summary>
+    public class GenericBackConverter<Dto, Entity> : ITypeConverter<Dto, Entity> where Entity : class, new()
     {
         public Entity Convert(Dto source, Entity destination, ResolutionContext context)
         {
@@ -358,7 +358,39 @@ namespace DataAccessLayer.Logic
             return e;
         }
     }
+    /// <summary>
+    ///  CompanyToDto converter
+    /// </summary>
+    public class CompanyConverterBack : ITypeConverter<CompanyDto, SUBLICEN>
+    {
+        public SUBLICEN Convert(CompanyDto source, SUBLICEN destination, ResolutionContext context)
+        {
+            var model = new CompanyDto();
 
+            var entityConverter = new GenericBackConverter<CompanyDto, SUBLICEN>();
+            var entity = entityConverter.Convert(source, destination, context);
+
+            return entity;
+        }
+    }
+
+    /// <summary>
+    ///  CompanyToDto converter
+    /// </summary>
+    public class CompanyConverter : ITypeConverter<SUBLICEN, CompanyDto>
+    {
+        public CompanyDto Convert(SUBLICEN source, CompanyDto destination, ResolutionContext context)
+        {
+            var entityConverter = new GenericConverter<SUBLICEN, CompanyDto>();
+            var model = entityConverter.Convert(source, destination, context);
+            model.Code = source.CODIGO;
+            model.Name = source.NOMBRE;
+            model.CommercialName = source.NOMCOMER;
+            model.Poblacion = source.POBLACION;
+            model.Nif = source.NIF;
+            return model;
+        }
+    }
     /// <summary>
     /// Convert the generic conversion.
     /// </summary>
@@ -413,6 +445,7 @@ namespace DataAccessLayer.Logic
             return v;
         }
     }
+
     ///
     /// Dto to POCO converter.
     /// 
@@ -1364,16 +1397,8 @@ namespace DataAccessLayer.Logic
                     model.DESCRIPCION = src.Description;
                     return model;
                 });
-                cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
-                {
-                    var model = new CompanyDto();
-                    model.Code = src.CODIGO;
-                    model.Name = src.NOMBRE;
-                    model.CommercialName = src.NOMCOMER;
-                    model.Poblacion = src.POBLACION;
-                    model.Nif = src.NIF;
-                    return model;
-                });
+                cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(new CompanyConverter());
+                cfg.CreateMap<CompanyDto, SUBLICEN>().ConvertUsing(new CompanyConverterBack());
                 cfg.CreateMap<DIVISAS, CurrencyDto>().ConvertUsing(src =>
                 {
                     var model = new CurrencyDto();
@@ -1466,16 +1491,10 @@ namespace DataAccessLayer.Logic
                     model.Country.Code = src.PAIS;
                     return model;
                 });
-                cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(src =>
-                {
-                    var model = new CompanyDto();
-                    model.Code = src.CODIGO;
-                    model.Name = src.NOMBRE;
-                    model.Nif = src.NIF;
-                    model.Poblacion = src.POBLACION;
-                    model.CommercialName = src.NOMCOMER;
-                    return model;
-                });
+               cfg.CreateMap<SUBLICEN, CompanyDto>().ConvertUsing(
+                 new CompanyConverter());
+               cfg.CreateMap<CompanyDto, SUBLICEN>().ConvertUsing(
+                 new CompanyConverterBack());
                 cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
                 {
                     var model = new AccountDto();

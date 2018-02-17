@@ -22,7 +22,15 @@ namespace MasterModule.Views
     {
         public CompanyInfoView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
+        public string Header
+        { set; get; }
     }
 }

@@ -35,6 +35,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataFieldCheckBox>
+                <CheckBox Content="CheckBox"/>
 
 
             </WrapPanel>

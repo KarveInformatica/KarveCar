@@ -7,87 +7,9 @@
         mc:Ignorable="d"
         Title="TimeTable" Height="350" Width="525">
 
-    
     <Grid ShowGridLines="True">
-        <Grid.Resources>
-            <ResourceDictionary>
-                <DataTemplate x:Key="OpenClose">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <Image Source="openshop.png"></Image>
-                            <TextBlock Text="Abre"></TextBlock>
-                            <TextBox Width="100" 
-                                     Text="{Binding OpenTime, Mode=TwoWay, ValidatesOnDataErrors=True, 
-                                            ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}">
-                                
-                            </TextBox>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Image Source="closeshop.jpg"></Image>
-                            <TextBlock Text="Cierra"></TextBlock>
-                            <TextBox Width="100" 
-                                     Text="{Binding CloseTime, Mode=TwoWay, 
-                                ValidatesOnDataErrors=True, 
-                                ValidatesOnExceptions=True,
-                                ValidatesOnNotifyDataErrors=True}"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ResourceDictionary>
-        </Grid.Resources>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"></ColumnDefinition>
-            <ColumnDefinition Width="85*"></ColumnDefinition>
-            <ColumnDefinition Width="85*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition>
-                
-            </RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-           
-        </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Stretch" Background="DeepSkyBlue" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" >
-            <TextBlock Text="Dias"></TextBlock>
-        </StackPanel>
-
-        <StackPanel HorizontalAlignment="Stretch" Background="DeepSkyBlue" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1" >
-            <TextBlock Text="Lunes"></TextBlock>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Background="DeepSkyBlue" Grid.Column="0" Grid.Row="2" >
-            <TextBlock Text="Martes"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DeepSkyBlue" Grid.Column="0" Grid.Row="3" >
-            <TextBlock Text="Miercoles" ></TextBlock>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Background="DeepSkyBlue" Grid.Row="4" >
-            <TextBlock Text="Jueves"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Background="DeepSkyBlue" Grid.Row="5" >
-            <TextBlock Text="Viernes" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="6" Background="DeepSkyBlue">
-            <TextBlock Text="Sabado" />
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="7" Background="DeepSkyBlue">
-            <TextBlock Text="Domingo" />
-        </StackPanel>
-        <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="7" ItemTemplate="{StaticResource OpenClose}"/>
-        <ListBox Grid.Column="3" Grid.Row="1" Grid.RowSpan="7" ItemTemplate="{StaticResource OpenClose}"/>
-
-
-
+        <local:TimeTable Loaded="TimeTable_Loaded">
+        </local:TimeTable>
 
     </Grid>
 </Window>

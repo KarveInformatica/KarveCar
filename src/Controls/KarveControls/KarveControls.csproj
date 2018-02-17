@@ -200,6 +200,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\ComboChangeBehaviour.cs" />
     <Compile Include="ControlState.cs" />
     <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>

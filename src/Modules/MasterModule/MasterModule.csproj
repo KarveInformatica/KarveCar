@@ -219,7 +219,6 @@
     <Compile Include="Common\MasterViewModuleBase.cs" />
     <Compile Include="Common\ProviderConstants.cs" />
     <Compile Include="Common\UpperBarViewModelBase.cs" />
-    <Compile Include="DataStore\DataStore\DataStore.xaml.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionAgentUpperPartBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiCommissionMiddlePageBuilder.cs" />
     <Compile Include="UIObjects\CommissionAgents\UiDfSearch.cs" />
@@ -293,9 +292,6 @@
     <Compile Include="Views\Clients\UpperBarClientView.xaml.cs">
       <DependentUpon>UpperBarClientView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CompaniesControlView.xaml.cs">
-      <DependentUpon>CompaniesControlView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CompanyInfoView.xaml.cs">
       <DependentUpon>CompanyInfoView.xaml</DependentUpon>
     </Compile>
@@ -333,8 +329,8 @@
     <Compile Include="Views\FareUserControl.xaml.cs">
       <DependentUpon>FareUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OfficesControlSummary.xaml.cs">
-      <DependentUpon>OfficesControlSummary.xaml</DependentUpon>
+    <Compile Include="Views\OfficesControlView.xaml.cs">
+      <DependentUpon>OfficesControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SummaryEx.cs" />
     <Compile Include="Views\CloseTabAction.cs" />
@@ -417,18 +413,9 @@
     <Compile Include="Views\Vehicles\VehicleSell.xaml.cs">
       <DependentUpon>VehicleSell.xaml</DependentUpon>
     </Compile>
-    <Page Include="DataStore\DataStore\DataStore.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Generic\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ProjectDataSources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <ContainsDataSources>True</ContainsDataSources>
     </Page>
     <Page Include="Views\ClientsInfoView.xaml">
       <SubType>Designer</SubType>
@@ -490,10 +477,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CompaniesControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\CompanyInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -550,7 +533,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OfficesControlSummary.xaml">
+    <Page Include="Views\OfficesControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -661,7 +644,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataStore\DataStore\DataStore.xsd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

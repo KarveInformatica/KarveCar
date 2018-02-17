@@ -49,7 +49,11 @@ namespace DataAccessLayer.SQL
 
         public override IDbConnection OpenNewDbConnection()
         {
-            throw new NotImplementedException();
+            if (Open())
+            {
+                return Connection;
+            }
+            return null;
         }
 
         /// <summary>
@@ -617,5 +621,21 @@ namespace DataAccessLayer.SQL
             return _connection;
         }
 
+        public override void Dispose()
+        {
+            if (_sqlTransaction != null)
+            {
+                _sqlTransaction.Dispose();
+            }
+            if (_connection != null)
+            {
+                if (_connection.State == ConnectionState.Open)
+                {
+                    _connection.Close();
+                }
+                _connection.Dispose();
+            }
+            
+        }
     }
 }

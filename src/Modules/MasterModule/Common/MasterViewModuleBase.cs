@@ -249,6 +249,16 @@ namespace MasterModule.Common
                 var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery); 
                 return helper;
             });
+            AssistMapper.Configure("CLIENT_ASSIST", async (query) =>
+            {
+                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+                return helper;
+            });
+            AssistMapper.Configure("BROKER_ASSIST", async (query) =>
+            {
+                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                return helper;
+            });
         }
         /// <summary>
         /// Object to warrant the notifications.

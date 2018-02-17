@@ -28,7 +28,7 @@
                 </KarveControls:DataField>
                 <KarveControls:DataField x:Name="Name" 
                                          TextContent="{Binding DataObject.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContentWidth="{x:Static UserObjects:UiConstants.TextBoxWidthDefault}" DataObject="{Binding DataObject, 
+                                         TextContentWidth="150" DataObject="{Binding DataObject, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                                             ItemChangedCommand="{Binding ChangedItem}"
                                                               Height="30"

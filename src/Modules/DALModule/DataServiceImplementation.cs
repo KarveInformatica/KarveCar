@@ -41,7 +41,8 @@ namespace DataAccessLayer
         /// <summary>
         ///  Data management for the offices
         /// </summary>
-        private readonly IOfficeDataService _officeDataService;
+        private readonly IOfficeDataServices _officeDataService;
+        private readonly CompanyDataService _companyDataService;
 
         /// <summary>
         ///  Data management for the company
@@ -135,6 +136,16 @@ namespace DataAccessLayer
         public IAssistDataService GetAssistDataService()
         {
             return _assistDataService;
+        }
+
+        public IOfficeDataServices GetOfficeDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICompanyDataService GetCompanyDataServices()
+        {
+            return _companyDataService;
         }
     }
 }

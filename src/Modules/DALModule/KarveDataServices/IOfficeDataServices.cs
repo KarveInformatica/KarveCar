@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using KarveDataServices.DataTransferObject;
 namespace KarveDataServices
 {
     public interface IOfficeDataServices
@@ -14,7 +14,7 @@ namespace KarveDataServices
         ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<DataSet> GetAsyncAllOfficeSummary();
+        Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary();
         /// <summary>
         /// This return a client with a new code.
         /// </summary>
@@ -46,7 +46,7 @@ namespace KarveDataServices
         ///  Get the list of the company offices.
         /// </summary>
         /// <param name="companyCode">Code of the company</param>
-        /// <returns></returns>
+        /// <returns>Returns the list of offices in a company</returns>
         Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode);
     }
 }

@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"

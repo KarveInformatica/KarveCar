@@ -55,6 +55,16 @@ namespace DataAccessLayer.MongoDB
         {
             return new AssistMongoDBServices(_executor);
         }
+
+        public IOfficeDataServices GetOfficeDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICompanyDataService GetCompanyDataServices()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

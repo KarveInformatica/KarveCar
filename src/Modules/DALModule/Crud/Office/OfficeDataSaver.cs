@@ -1,152 +1,125 @@
 ﻿using AutoMapper;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.Logic;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using System.Transactions;
+using Dapper;
+using KarveDapper;
+using KarveDapper.Extensions;
+
 
 namespace DataAccessLayer.Crud.Office
 {
-    class OfficeDataSaver: IDataSaver<OfficeDtos>
-    { 
-    private ISqlExecutor _executor;
-    private IMapper _mapper;
-    private IValidationChain<ClientDto> _validationChain;
-    /// <summary>
-    /// Client data saver
-    /// </summary>
-    /// <param name="executor"></param>
-    public OfficeDataSaver(ISqlExecutor executor)
+    class OfficeDataSaver : IDataSaver<OfficeDtos>
     {
-        _executor = executor;
-        _mapper = MapperField.GetMapper();
-    }
-    /// <summary>
-    ///  Returns the validation chain
-    /// </summary>
-    public IValidationChain<ClientDto> ValidationChain
-    {
-        set { _validationChain = value; }
-        get { return _validationChain; }
-    }
-    /// <summary>
-    ///  Save the asynchronous client
-    /// </summary>
-    /// <param name="save">Data transfer to be saved</param>
-    /// <returns>It returns the boolean value.</returns>
-    public async Task<bool> SaveAsync(ClientDto save)
-    {
-        IDbConnection connection = null;
-        ClientPoco currentPoco;
-        if (!ValidationChain.Validate(save))
+        private ISqlExecutor _executor;
+        private IMapper _mapper;
+        private IValidationChain<ClientDto> _validationChain;
+        /// <summary>
+        /// Client data saver
+        /// </summary>
+        /// <param name="executor"></param>
+        public OfficeDataSaver(ISqlExecutor executor)
         {
-            throw new DataLayerInvalidClientException(ValidationChain.Errors);
+            _executor = executor;
+            _mapper = MapperField.GetMapper();
         }
-        currentPoco = _mapper.Map<ClientDto, ClientPoco>(save);
-        Contract.Assert(currentPoco != null, "Invalid Poco");
-        CLIENTES1 client1 = _mapper.Map<ClientPoco, CLIENTES1>(currentPoco);
-        CLIENTES2 client2 = _mapper.Map<ClientPoco, CLIENTES2>(currentPoco);
-        bool retValue = false;
-        if ((client1 == null) || (client2 == null))
+        /// <summary>
+        ///  Returns the validation chain
+        /// </summary>
+        public IValidationChain<ClientDto> ValidationChain
         {
-            return false;
+            set { _validationChain = value; }
+            get { return _validationChain; }
         }
-
-        using (connection = _executor.OpenNewDbConnection())
+        /// <summary>
+        ///  Save the asynchronous client
+        /// </summary>
+        /// <param name="office">Data transfer to be saved.</param>
+        /// <returns>It returns the boolean value.</returns>
+        public async Task<bool> SaveAsync(OfficeDtos office)
         {
-            try
+            Contract.Assert(office != null, "Invalid Poco");
+            IDbConnection connection = null;
+            OFICINAS currentPoco;
+            currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
+            Contract.Assert(currentPoco != null, "Invalid Poco");
+            bool retValue = false;
+            SaveTimeTable(ref currentPoco, office.TimeTable);
+            using (connection = _executor.OpenNewDbConnection())
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                try
                 {
-                    var present = connection.IsPresent<CLIENTES1>(client1);
-                    if (!present)
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        retValue = await connection.InsertAsync<CLIENTES1>(client1) > 0;
-                        if (retValue)
+                        var present = connection.IsPresent<OFICINAS>(currentPoco);
+                        if (!present)
                         {
-                            retValue = await connection.InsertAsync<CLIENTES2>(client2) > 0;
+                            retValue = await connection.InsertAsync<OFICINAS>(currentPoco) > 0;
                         }
-                    }
-                    else
-                    {
-                        retValue = await connection.UpdateAsync<CLIENTES1>(client1);
-                        if (retValue)
+                        else
                         {
-                            retValue = await connection.UpdateAsync<CLIENTES2>(client2);
+                            retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
+                            
                         }
+                        retValue = retValue && await SaveHolidays(office.HolidayDates);
+                        scope.Complete();
                     }
-                    retValue = retValue && await SaveBranchesAsync(save.BranchesDto);
-                    retValue = retValue && await SaveContactsAsync(save.ContactsDto);
-                    retValue = retValue && await SaveVisitsAsync(save.VisitsDto);
-                    scope.Complete();
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
-            finally
+            Contract.Ensures(connection.State == ConnectionState.Closed);
+            return retValue;
+
+        }
+
+        private void SaveTimeTable(ref OFICINAS currentPoco, IList<DailyOfficeOpen> timeTable)
+        {
+            
+        }
+        
+        private async Task<bool> SaveHolidays(IEnumerable<HolidayDto> holidayDates)
+        {
+            /*
+            var value = _mapper.Map<IEnumerable<HolidayDto>,IEnumerable<FESTIVOS_OFICINA>>(holidayDates);
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                connection.Close();
+                try
+                {
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+
+                        var present = connection.IsPresent<OFICINAS>(currentPoco);
+                        if (!present)
+                        {
+                            retValue = await connection.InsertAsync<OFICINAS>(currentPoco) > 0;
+                        }
+                        else
+                        {
+                            retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
+
+                        }
+                        retValue = retValue && await SaveHolidays(office.HolidayDates);
+                        scope.Complete();
+                    }
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
-        }
-        Contract.Ensures(connection.State == ConnectionState.Closed);
-        return retValue;
-
-    }
-    /// <summary>
-    ///  Save the visit.
-    /// </summary>
-    /// <param name="saveVisitsDto"></param>
-    /// <returns></returns>
-    private async Task<bool> SaveVisitsAsync(IEnumerable<VisitsDto> saveVisitsDto)
-    {
-        bool retValue = false;
-        // SELECT * from Visitas;
-        IEnumerable<Visitas> visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(saveVisitsDto);
-        using (IDbConnection connection = _executor.OpenNewDbConnection())
-        {
-            int value = await connection.InsertAsync(saveVisitsDto);
-            retValue = value > 0;
-        }
-        return retValue;
-
-    }
-    /// <summary>
-    ///  Save the contacs
-    /// </summary>
-    /// <param name="saveContactsDto"></param>
-    /// <returns></returns>
-    private async Task<bool> SaveContactsAsync(IEnumerable<ContactsDto> saveContactsDto)
-    {
-        bool retValue = false;
-        IEnumerable<CliContactos> contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(saveContactsDto);
-        using (IDbConnection connection = _executor.OpenNewDbConnection())
-        {
-            int value = await connection.InsertAsync(saveContactsDto);
-            retValue = value > 0;
-        }
-        return retValue;
-
-    }
-    /// <summary>
-    /// Save the branches.
-    /// </summary>
-    /// <param name="branchesDto"></param>
-    /// <returns></returns>
-    private async Task<bool> SaveBranchesAsync(IEnumerable<BranchesDto> branchesDto)
-    {
-        bool retValue = false;
-        IEnumerable<cliDelega> branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(branchesDto);
-        using (IDbConnection connection = _executor.OpenNewDbConnection())
-        {
-            int value = await connection.InsertAsync(branches);
-            retValue = value > 0;
-        }
-        return retValue;
-    }
-
-        public Task<bool> SaveAsync(OfficeDtos save)
-        {
-            throw new NotImplementedException();
+            */
+            return true;
         }
     }
+}

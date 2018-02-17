@@ -13,10 +13,11 @@ using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
+using Prism.Mvvm;
 
 namespace KarveCar.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel: BindableBase
     {
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
@@ -34,6 +35,8 @@ namespace KarveCar.ViewModels
         private KarveLocale.Properties.Resources _resources;
         //
         private ObjectDataProvider _objectDataProvider=new ObjectDataProvider();
+        private string _currentDay;
+
         /// <summary>
         ///  NavigateCommand, This is the command for navigation
         /// </summary>
@@ -50,7 +53,18 @@ namespace KarveCar.ViewModels
             get { return _title; }
         }
 
-        
+        public string CurrentDay
+        {
+            get
+            {
+                return _currentDay;
+            }
+            set
+            {
+                _currentDay = value;
+                RaisePropertyChanged();
+            }
+        }
 
            /// <summary>
     ///  This is the main v
@@ -73,6 +87,7 @@ namespace KarveCar.ViewModels
             _cultureSwitch = new CultureSwitcher(_configurationService, eventManager);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
+            CurrentDay = DateTime.Now.DayOfWeek+ " "+ DateTime.Now.ToShortDateString();
         }
 
 

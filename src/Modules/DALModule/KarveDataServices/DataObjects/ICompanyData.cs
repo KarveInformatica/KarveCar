@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataObjects
 {
-    public interface ICompanyData : IHelperData
+    public interface ICompanyData : IHelperBase
     {
         CompanyDto Value {set; get;}
     }

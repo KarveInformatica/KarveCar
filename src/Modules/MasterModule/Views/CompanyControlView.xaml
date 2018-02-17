@@ -3,12 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:MasterModule.Views"
-               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
-              AutomationProperties.AutomationId="CompanyControlView">
+             AutomationProperties.AutomationId="CompanyControlView">
                    
             <Grid>
                 <Grid.Resources>
@@ -65,25 +68,26 @@
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="True"
+                                           AllowEditing="False"
                                            AllowGrouping="True"/>
 
-                <Syncfusion:GridTemplateColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
-                                                       MappingName="Name"
-                                                        FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                                                            MappingName="Name"
+                                                            TextAlignment="Left"
+                                                            AllowFiltering="True"
+                                                            AllowEditing="False"
+                                                            AllowGrouping="True"
+                                                            FilterPopupStyle="{StaticResource GenericCodeStyle}">
 
-                </Syncfusion:GridTemplateColumn>
+                </Syncfusion:GridTextColumn>
 
-                <Syncfusion:GridTemplateColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
+                <Syncfusion:GridTextColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
                                                         MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTemplateColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
-                                                        MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-
                 <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="City.Code" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City.Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Country.CountryName" 
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Country" 
                                                    FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lzona, Source={StaticResource ResourceLanguage}}" MappingName="Zona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
             </Syncfusion:SfDataGrid.Columns>

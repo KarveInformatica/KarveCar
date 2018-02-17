@@ -136,6 +136,7 @@
     <Compile Include="DAL\TestBuildQuery.cs" />
     <Compile Include="DAL\TestClientDataLoader.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />
+    <Compile Include="DAL\TestCompanyDataAccessLayer.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />

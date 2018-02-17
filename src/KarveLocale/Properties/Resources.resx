@@ -2592,4 +2592,7 @@
   <data name="lzone" xml:space="preserve">
     <value>Zona</value>
   </data>
+  <data name="OfficeDtos_CodigoOficina" xml:space="preserve">
+    <value>Codigo Oficina</value>
+  </data>
 </root>

@@ -64,6 +64,28 @@ DependencyProperty.RegisterAttached(
             get { return (string)GetValue(TextPreviousDependencyProperty); }
             set { SetValue(TextPreviousDependencyProperty, value); }
         }
+
+        public static readonly DependencyProperty PrevComboSelectedIndexDependencyProperty =
+         DependencyProperty.RegisterAttached(
+        "PrevComboSelectedIndex",
+        typeof(int),
+        typeof(ControlState),
+        new FrameworkPropertyMetadata(0));
+
+        public string PrevComboSelectedIndex
+        {
+            get { return (string)GetValue(PrevComboSelectedIndexDependencyProperty); }
+            set { SetValue(PrevComboSelectedIndexDependencyProperty, value); }
+        }
+        public static readonly DependencyProperty CurrentComboSelectedIndexDependencyProperty =
+         DependencyProperty.RegisterAttached(
+        "PrevComboSelectedIndex",
+        typeof(int),
+        typeof(ControlState),
+        new FrameworkPropertyMetadata(0));
+
+
+        
         /// <summary>
         ///  Get the item changed command
         /// </summary>
@@ -204,14 +226,36 @@ DependencyProperty.RegisterAttached(
                 component.LostFocus += Component_LostFocus;
                 d.SetValue(DescriptionDependencyProperty, component.Name);
             }
+           
             if (component == null)
             {
+                var combo = d as ComboBox;
+                if (combo != null)
+                {
+                    combo.SelectionChanged += Combo_SelectionChanged;
+                    d.SetValue(DescriptionDependencyProperty, combo.Name);
+                }
                 DatePicker dateComponent = d as DatePicker;
                 if (dateComponent != null)
                 {
                     dateComponent.SelectedDateChanged += DateComponent_SelectedDateChanged;
                     d.SetValue(DescriptionDependencyProperty, dateComponent.Name);
                 }
+            }
+        }
+
+        private static void Combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FrameworkElement box = sender as FrameworkElement;
+            ICommand command = (ICommand)box.GetValue(ItemChangedCommandDependencyProperty);
+            if (command != null)
+            {
+              
+                IDictionary<string, object> ev = new Dictionary<string, object>();
+                ev["PreviousState"] = box.GetValue(PrevComboSelectedIndexDependencyProperty);
+                ev["CurrentState"] = box.GetValue(CurrentComboSelectedIndexDependencyProperty);
+                ev["ComponentName"] = box.GetValue(DescriptionDependencyProperty);
+                command.Execute(ev);
             }
         }
 
@@ -227,7 +271,6 @@ DependencyProperty.RegisterAttached(
                 ev["ComponentName"] = box.GetValue(DescriptionDependencyProperty);
                 command.Execute(ev);
             }
-
         }
 
         private static void Component_LostFocus(object sender, RoutedEventArgs e)

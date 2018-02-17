@@ -111,11 +111,11 @@
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                  
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="ACCESORIOS_VH"/>
+                                                 DataSourcePath="ACCESORIOS_VH" Margin="62,4,93,4" Width="Auto"/>
                                     <kc:DataArea DataAreaTitle="{Binding lavisos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"                                                 
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="AVISO"/>
+                                                 DataSourcePath="AVISO" Margin="93,4,49,4" Width="Auto"/>
                                 </i:StackPanel>
 
                             </i:GroupBox>

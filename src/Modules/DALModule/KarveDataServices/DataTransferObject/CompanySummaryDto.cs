@@ -29,15 +29,26 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the POBLACION property.
         /// </summary>
-        public CityDto City { get; set; }
+        public string City { get; set; }
+
+        /// <summary>
+        /// <summary>
+        ///  Set or get the POBLACION property.
+        /// </summary>
+        public string Zip { get; set; }
+        /// <summary>
+        /// <summary>
+        ///  Set or get the POBLACION property.
+        /// </summary>
+        public string Zona { get; set; }
         /// <summary>
         ///  Province 
         /// </summary>
-        public ProvinciaDto Province { get; set; }
+        public string Province { get; set; }
         /// <summary>
         ///  Country
         /// </summary>
-        public CountryDto Country { get; set; }
+        public string Country { get; set; }
 
     }
 }

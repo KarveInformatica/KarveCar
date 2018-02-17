@@ -41,7 +41,6 @@ namespace KarveDataAccessLayer.DAL.Crud
                 Assert.Fail(e.Message);
             }
         }
-        [Test]
-        public 
+        
     }
 }

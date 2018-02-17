@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MasterModule.Common;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -16,15 +12,13 @@ using System.ComponentModel;
 using KarveCommon.Generic;
 using System.Diagnostics.Contracts;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace MasterModule.ViewModels
 {
     // This view model is useful fro 
-  internal class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
-
+  public class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
-
-
         #region Constructor 
         public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
         {
@@ -33,35 +27,78 @@ namespace MasterModule.ViewModels
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             ShowOfficesCommand = new DelegateCommand<object>(ShowOffices);
             AssistExecuted += CompanyAssistResult;
-            
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
+            DataObject = new CompanyDto();
         }
-
-        
         #endregion
-
-
-
-
         #region Properties
-
         /// <summary>
         ///  Data object
         /// </summary>
-        public CompanyDto DataObject { set; get; }
-
+        public CompanyDto DataObject {
+            set
+            {
+                _currentCompanyDto = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _currentCompanyDto;
+            }
+        }
         /// <summary>
         ///  Helper data.
         /// </summary>
-        public IHelperData CompanyHelper { set; get; }
-
+        public IHelperBase CompanyHelper
+        {
+            set
+            {
+                _companyHelper = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _companyHelper;
+            }
+        }
+        /// <summary>
+        ///  Show offices command.
+        /// </summary>
         public ICommand ShowOfficesCommand { set; get; }
-
-
+        /// <summary>
+        ///  Show brokers data objects.
+        /// </summary>
+        public IEnumerable<CommissionAgentSummaryDto> BrokersDto {
+            get
+            {
+                return _brokers;
+            }
+            set
+            {
+                _brokers = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Show client data transfer object.
+        /// </summary>
+        public IEnumerable<ClientSummaryDto> ClientDto
+        {
+            get
+            {
+                return _clientDto;
+            }
+            set
+            {
+                _clientDto = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
 
         #region Public Methods
-        
+
         /// <summary>
         ///  Incoming Payload
         /// </summary>
@@ -133,9 +170,9 @@ namespace MasterModule.ViewModels
                 {
                     _companyData = companyData;
                     DataObject = _companyData.Value;
-                    Helper = companyData;
+                    CompanyHelper = companyData;
                     // When the view model receive a message broadcast to its child view models.                
-                    EventManager.SendMessage(UpperBarCompanyViewModel.Name, payload);
+                    //EventManager.SendMessage(UpperBarCompanyViewModel.Name, payload);
                     Logger.Info("CompanyInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
@@ -210,7 +247,21 @@ namespace MasterModule.ViewModels
                             retValue = true;
                             break;
                         }
+
+                    case "BROKER_ASSIST":
+                        {
+                            BrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
+                            retValue = true;
+                            break;
+                        }
+                    case "CLIENT_ASSIST":
+                        {
+                            ClientDto = (IEnumerable<ClientSummaryDto>)value;
+                            retValue = true;
+                            break;
+                        }
                 }
+                RaisePropertyChanged("CompanyHelper");
             }
             return retValue;
         }
@@ -244,12 +295,11 @@ namespace MasterModule.ViewModels
                 }
             }
             // remove ViewModelQueries.
-            ChangeFieldHandlerDo<ICompanyData> handlerDo = new ChangeFieldHandlerDo<ICompanyData>(EventManager,DataSubSystem.CompanySubsystem);
+            ChangeFieldHandlerDo<CompanyDto> handlerDo = new ChangeFieldHandlerDo<CompanyDto>(EventManager,DataSubSystem.CompanySubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
-
             }
             else
             {
@@ -277,22 +327,31 @@ namespace MasterModule.ViewModels
             if (PrimaryKeyValue.Length == 0)
             {
                 PrimaryKeyValue = payLoad.PrimaryKeyValue;
-                string mailboxName = "Company." + PrimaryKeyValue;
+                _mailBoxName = "Company." + PrimaryKeyValue + "." + UniqueId;
                 if (!string.IsNullOrEmpty(PrimaryKeyValue))
                 {
                     if (MailBoxHandler != null)
                     {
-                        EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
+                        EventManager.RegisterMailBox(_mailBoxName, MailBoxHandler);
                     }
                 }
             }
 
         }
+        public override void DisposeEvents()
+        {
+            EventManager.DeleteMailBoxSubscription(_mailBoxName);
+            EventManager.DeleteObserverSubSystem(MasterModuleConstants.CompanySubSystemName, this);
+        }
         #endregion
 
         #region Private Fields
-        private CompanyDto _currentDto;
         private ICompanyData _companyData;
+        private string _mailBoxName;
+        private IHelperBase _companyHelper;
+        private CompanyDto _currentCompanyDto;
+        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<ClientSummaryDto> _clientDto;
         #endregion
 
 

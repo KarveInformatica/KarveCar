@@ -67,11 +67,7 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryPaymentForm, @"SELECT CODIGO,NOMBRE FROM FORMAS WHERE CODIGO='{0}'" },
             {QueryType.QueryOffices, @"SELECT * FROM OFICINAS WHERE SUBLICEN = '{0}'"},
             {QueryType.QueryChannel, @"SELECT CODIGO,NOMBRE FROM CANAL WHERE CODIGO='{0}'" },
-            {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, 
-                                              SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country 
-                                              from SUBLICEN
-                                              LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS 
-                                              LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
+            {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
             {QueryType.QueryClientSummary, @"SELECT CLIENTES1.NUMERO_CLI as Code, 
                                                     NOMBRE as Name, 
                                                     NIF as Nif,

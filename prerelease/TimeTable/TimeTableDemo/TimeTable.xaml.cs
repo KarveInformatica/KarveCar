@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MasterModule.Views
+namespace TimeTable
 {
     /// <summary>
-    /// Interaction logic for CompaniesControlView.xaml
+    /// Interaction logic for TimeTable.xaml
     /// </summary>
-    public partial class CompaniesControlView : UserControl
+    public partial class TimeTable : UserControl
     {
-        public CompaniesControlView()
+        public TimeTable()
         {
             InitializeComponent();
         }

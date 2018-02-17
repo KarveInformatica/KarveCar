@@ -61,6 +61,6 @@ namespace DataAccessLayer.Model
         ///  get/set if the object is valid
         /// </summary>
         public bool Valid { get; set; }
-
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
     }
 }

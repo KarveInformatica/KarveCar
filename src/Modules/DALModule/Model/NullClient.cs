@@ -58,6 +58,7 @@ namespace DataAccessLayer.Model
         public IEnumerable<LanguageDto> LanguageDto { get; set ; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 
         /// <summary>

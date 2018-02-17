@@ -22,10 +22,9 @@
         
                              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                              xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
-       
+                              d:DesignHeight="900" d:DesignWidth="1200"
                              xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
-                             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-                             Background="{DynamicResource MaterialDesignCardBackground}"
+                             Background="White"
                              Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="1200" MinHeight="900"
 >
 
@@ -265,10 +264,16 @@
                         <RibbonGroup x:Name="rgrMaestrosCentrosAlquiler" Header="{Binding lrgrCentrosAlquiler, Source={StaticResource ResourceLanguage}}" LargeImageSource="/KarveCar;component/Images/open.png" >
                             <RibbonButton x:Name="rbtnEmpresas" 
                                         Label="{Binding lrbtnEmpresas, Source={StaticResource ResourceLanguage}}"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        SmallImageSource="/KarveCar;component/Images/company.png"
+                                          Command="{Binding NavigateCommand}"
+                                          CommandParameter="Companies"
+                                          />
                             <RibbonButton x:Name="rbtnOficinas"
                                         Label="{Binding lrbtnOficinas, Source={StaticResource ResourceLanguage}}"
-                                        SmallImageSource="/KarveCar;component/Images/new.png"/>
+                                        SmallImageSource="/KarveCar;component/Images/office.png"
+                                           Command="{Binding NavigateCommand}"
+                                          CommandParameter="Offices"
+                                          />
                             <RibbonButton x:Name="rbtnZonasOficina"
                                         Label="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}"
                                         SmallImageSource="/KarveCar;component/Images/new.png"
@@ -1562,7 +1567,7 @@
                                         SmallImageSource="..\Images\new.png"/>
                                 <RibbonButton x:Name="rbtnEmpresa" 
                                         Label="{Binding lrbtnEmpresa, Source={StaticResource ResourceLanguage}}" 
-                                        SmallImageSource="..\Images\new.png"/>
+                                        SmallImageSource="/KarveCar;component/Images/company.png"/>
                                 <RibbonButton x:Name="rbtnEnlaceContabilidad" 
                                         Label="{Binding lrbtnEnlaceContabilidad, Source={StaticResource ResourceLanguage}}" 
                                         SmallImageSource="..\Images\new.png"/>
@@ -1767,11 +1772,11 @@
                         </dragablz:TabablzControl>-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ContentControl Grid.Column="0" prism:RegionManager.RegionName="LeftTreeView"></ContentControl>
-                <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
+                <local:LeftTreeView Grid.Column="0" HorizontalAlignment="Left"></local:LeftTreeView>
+                    <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
                                      prism:RegionManager.RegionName="TabRegion" 
                                      ClosingItemCallback="{Binding ClosingTabItemHandler}">
                     <dragablz:TabablzControl.InterTabController>

@@ -5,8 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using iAnywhere.Data.SQLAnywhere;
-using KarveCommon.Generic;
-using KarveDataServices;
+using KarveDataServices; // for Data Parameter. see if we can move otu.
 using NLog;
 
 namespace DataAccessLayer.SQL
@@ -654,7 +653,7 @@ namespace DataAccessLayer.SQL
         /// <summary>
         ///  Dispose the connection data and be sure to close 
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (_connection != null)
             {
@@ -667,5 +666,6 @@ namespace DataAccessLayer.SQL
             _command?.Dispose();
             _transaction?.Dispose();
         }
+        
     }
 }

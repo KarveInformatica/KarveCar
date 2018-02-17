@@ -5704,6 +5704,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Codigo Oficina.
+        /// </summary>
+        public static string OfficeDtos_CodigoOficina {
+            get {
+                return ResourceManager.GetString("OfficeDtos_CodigoOficina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opciones.
         /// </summary>
         public static string Opciones {

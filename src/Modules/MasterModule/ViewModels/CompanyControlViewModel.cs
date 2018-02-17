@@ -160,7 +160,7 @@ namespace MasterModule.ViewModels
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add("Id", id);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+                var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
                 Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 RegionManager.RequestNavigate("TabRegion", uri);
                 Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);

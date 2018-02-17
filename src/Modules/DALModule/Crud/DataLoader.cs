@@ -134,6 +134,11 @@ namespace DataAccessLayer.Crud
             return dto;
         }
 
+        public Task<IEnumerable<Dto>> LoadValueAtMostAsync(int n, int back = 0)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public DataLoader(ISqlExecutor executor)
         {
             _sqlExecutor = executor;

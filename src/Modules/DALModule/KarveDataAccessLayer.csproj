@@ -1132,6 +1132,7 @@
     <Compile Include="Logic\SQL_EditDAL.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
     <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\Company.cs" />
     <Compile Include="Model\DataLayerExecutionException.cs" />
     <Compile Include="Model\DomainObject.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />

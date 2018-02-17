@@ -21,6 +21,7 @@ namespace MasterModule.Views
     /// </summary>
     public partial class CommissionAgentControlView : UserControl, ICommissionAgentView
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnComisionistas;
         public CommissionAgentControlView()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace MasterModule.Views
         /// </summary>
         public string Header
         {
-            get { return "Commisionista"; }
+            get { return _header; }
         }
     }
 }

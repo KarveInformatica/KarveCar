@@ -33,6 +33,7 @@ namespace MasterModule
             _container.RegisterType<object, CommissionAgentInfoView>();
             _container.RegisterType<object, ProviderInfoView>(typeof(ProviderInfoView).FullName);
             _container.RegisterType<object, CommissionAgentControlView>("CommissionAgent");
+            _container.RegisterType<object, CompanyInfoView>(typeof(CompanyInfoView).FullName);
             _container.RegisterType<object, ClientsControlView>("Clients");
             _container.RegisterType<object, ProvidersControl>("Suppliers");
             _container.RegisterType<object, VehiclesControlView>("Vehicles");
@@ -41,10 +42,10 @@ namespace MasterModule
             _container.RegisterType<object, ClientsInfoView>(typeof(ClientsInfoView).FullName);
             _container.RegisterType<object, UpperBarClientView>(typeof(UpperBarClientView).FullName);
             _container.RegisterType<object, DriversControlView>(typeof(DriversControlView).FullName);
-           // _container.RegisterType<object, RightDetailView>("RightDetail");
             _container.RegisterType<object, CompanyDrivers>("CompanyDrivers");
             _container.RegisterType<object, DriverLicenseView>("DriverLicense");
-
+            _container.RegisterType<object, CompanyControlView>("Companies");
+            _container.RegisterType<object, OfficesControlView>("Offices");
 
         }
         public void Initialize()

@@ -105,5 +105,9 @@ namespace MasterModule.ViewModels
         // Contacts dto.
 
         public IEnumerable<ContactsDto> ContactsDto { get ; set; }
+        /// <summary>
+        ///  Client Zone Dto.
+        /// </summary>
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get ; set ; }
     }
 }
