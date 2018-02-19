@@ -29,5 +29,9 @@
         ///  Categoria.
         /// </summary>
         public string Categoria { get; set; }
+        /// <summary>
+        /// Chassis.
+        /// </summary>
+        public string Chassis { get; set; }
     }
 }

@@ -201,6 +201,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\ComboChangeBehaviour.cs" />
+    <Compile Include="Calendar\AttachedClick.cs" />
+    <Compile Include="Calendar\DateMonth.cs" />
+    <Compile Include="Calendar\HolidayCalendar.cs" />
     <Compile Include="ControlState.cs" />
     <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
@@ -227,14 +230,6 @@
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridColumnFilterBehaviour.cs" />
     <Compile Include="HelperButtonControl\HelperButtonControl.cs" />
-    <Compile Include="HolidayCalendar\DateSelectionBehaviour.cs" />
-    <Compile Include="HolidayCalendar\HolidayCalendar.xaml.cs">
-      <DependentUpon>HolidayCalendar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HolidayCalendar\TestViewModel.cs" />
-    <Compile Include="HolidayCalendar\TestHolidayCalendar.xaml.cs">
-      <DependentUpon>TestHolidayCalendar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
     </Compile>
@@ -247,8 +242,6 @@
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlExt.cs" />
-    <Compile Include="Calendar\Converters\HighlightDateConverter.cs" />
-    <Compile Include="Calendar\KarveCalendar.cs" />
     <Compile Include="Calendar\Utility\DateTimeExtensions.cs" />
     <Compile Include="KarveGridExt.cs" />
     <Compile Include="KarveTripleButton\TripleButton.xaml.cs">
@@ -257,10 +250,10 @@
     <Compile Include="MapControl\MapControl.xaml.cs">
       <DependentUpon>MapControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PhotoFrame\PhotoFrameException.cs" />
-    <Compile Include="PhotoFrame\PhotoFrame.xaml.cs">
-      <DependentUpon>PhotoFrame.xaml</DependentUpon>
+    <Compile Include="PhotoFrame\PhotoFrame.cs">
+      <Generator>MSBuild:Compile</Generator>
     </Compile>
+    <Compile Include="PhotoFrame\PhotoFrameException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Template\TemplateSelector.cs" />
     <Compile Include="UIObjects\IUIObject.cs" />
@@ -298,14 +291,6 @@
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="HolidayCalendar\HolidayCalendar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HolidayCalendar\TestHolidayCalendar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,14 +312,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MapControl\MapControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PhotoFrame\PhotoFrame.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PhotoFrame\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -364,13 +341,11 @@
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />
-    <Content Include="PhotoFrame\PhotoControl.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="DataFieldItemsControl\packages.config" />
     <None Include="packages.config" />
-    <None Include="PhotoFrame\.vs\PhotoFrameSample\v15\.suo" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
@@ -386,6 +361,8 @@
       <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Calendar\Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

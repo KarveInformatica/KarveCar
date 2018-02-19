@@ -557,10 +557,7 @@ namespace MasterModule.ViewModels
             get { return MasterModuleConstants.ImagePath; }
         }
        
-        /// <summary>
-        /// This item changed command.
-        /// </summary>
-        public ICommand ItemChangedCommand { set; get; }
+      
         /// <summary>
         ///  Set or Get the vehicle is visible.
         /// </summary>

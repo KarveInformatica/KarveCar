@@ -121,7 +121,7 @@ namespace KarveControls
                 "ItemChangedCommand",
                 typeof(ICommand),
                 typeof(ControlExt),
-                new PropertyMetadata(null, PropertyChangedCb));
+                new UIPropertyMetadata(null, PropertyChangedCb));
 
 
         
@@ -166,6 +166,12 @@ namespace KarveControls
                 DataFieldCheckBox checkBox = dependencyObject as DataFieldCheckBox;
                 checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
             }
+            if (dependencyObject is CheckBox)
+            {
+                CheckBox checkBox = dependencyObject as CheckBox;
+                checkBox.Checked += CheckBox_Checked;
+                checkBox.Unchecked += CheckBox_Unchecked;
+            }
             if (dependencyObject is ComboBox)
             {
                 ComboBox comboBox = dependencyObject as ComboBox;
@@ -174,6 +180,48 @@ namespace KarveControls
                     // here we do the combox box.
                     comboBox.SelectionChanged += ComboBox_SelectionChanged;
 
+                }
+            }
+        }
+
+        private static void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            var command = checkBox?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+
+            if ((command != null) && (checkBox != null))
+            {
+
+                var sourceObject = GetDataSource(checkBox);
+                if (sourceObject != null)
+                {
+                    IDictionary<string, object> values = new Dictionary<string, object>();
+                    values.Add("DataObject", sourceObject);
+                    values.Add("ChangedValue", false);
+                    values.Add("PreviousValue", true);
+                    command.Execute(values);
+                }
+                 
+            }
+                
+        }
+
+        private static void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            var command = checkBox?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+
+            if ((command != null) && (checkBox != null))
+            {
+
+                var sourceObject = GetDataSource(checkBox);
+                if (sourceObject != null)
+                {
+                    IDictionary<string, object> values = new Dictionary<string, object>();
+                    values.Add("DataObject", sourceObject);
+                    values.Add("ChangedValue", true);
+                    values.Add("PreviousValue", false);
+                    command.Execute(values);
                 }
             }
         }
@@ -384,7 +432,7 @@ namespace KarveControls
         /// <returns></returns>
         public static ICommand GetItemChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (ICommand) d.GetValue(ItemChangedCommandDependencyProperty);
+            return d.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
         }
 
         #endregion

@@ -54,10 +54,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="DeliveryPlaces.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,15 +64,20 @@
     </Compile>
     <Compile Include="CompanyDto.cs" />
     <Compile Include="CompanyInfoViewModel.cs" />
-    <Compile Include="DeliveryPlaces.xaml.cs">
-      <DependentUpon>DeliveryPlaces.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModelLeft.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelLeft.xaml.cs">
+      <DependentUpon>ModelLeft.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelVehicleDto.cs" />
     <Compile Include="OfficeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

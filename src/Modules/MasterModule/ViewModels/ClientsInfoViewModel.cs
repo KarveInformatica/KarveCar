@@ -35,6 +35,7 @@ namespace MasterModule.ViewModels
         private string _clientRegion;
         private ClientDto _currentClientDo = new ClientDto();
         private string _driverZone;
+        private IEnumerable<ClientTypeDto> _clientTypeDto = new List<ClientTypeDto>();
         #endregion
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace MasterModule.ViewModels
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
             _clientData =_clientDataServices.GetNewClientAgentDo("0");
+          
             
         }
 
@@ -120,7 +122,8 @@ namespace MasterModule.ViewModels
             CurrentOperationalState = DataPayLoad.Type.Show;
             ContentAreaCommand = new DelegateCommand<object>(OnContentAreaCommand);
             _helperData = new HelperData();
-            NavigateDefault();
+           
+           
         }
 
         private void OnContentAreaCommand(object obj)
@@ -339,6 +342,11 @@ namespace MasterModule.ViewModels
                         ClientHelper.ClientTypeDto = (IEnumerable<ClientTypeDto>) value;
                         break;
                     }
+                    case "CLIENT_TYPE_UPPER":
+                        {
+                            ClientTypeDto = (IEnumerable<ClientTypeDto>)value;
+                            break;
+                        }
                     case "CLIENT_CREDIT_CARD":
                     {
                         ClientHelper.CreditCardType = (IEnumerable<CreditCardDto>) value;
@@ -399,7 +407,8 @@ namespace MasterModule.ViewModels
                         ClientHelper.CreditCardType = (IEnumerable<CreditCardDto>) value;
                         break;
                     }
-                   
+                    
+
                 }
            
                 RaisePropertyChanged("ClientHelper");
@@ -537,6 +546,9 @@ namespace MasterModule.ViewModels
         }
 
         public Visibility IsVisible { get; private set; }
+        public IEnumerable<ClientTypeDto> ClientTypeDto { get
+            { return _clientTypeDto; }
+            set { _clientTypeDto = value; RaisePropertyChanged(); } }
 
         public void Init(string primaryKey, DataPayLoad payload, bool isInsert)
         {
@@ -553,12 +565,12 @@ namespace MasterModule.ViewModels
                     var clientHelper = clientData;                
                     ClientHelper = clientHelper;
                     // When the view model receive a message broadcast to its child view models.                
-                    EventManager.SendMessage(UpperBarClientViewModel.Name, payload);
                     Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
+                    NavigateDefault();
 
-                    
+
                     RaisePropertyChanged("ClientHelper");
                 }
             }

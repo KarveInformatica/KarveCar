@@ -7,9 +7,21 @@ namespace MasterModule.Views
     /// </summary>
     public partial class OfficesControlView : UserControl
     {
+        private string _header = KarveLocale.Properties.Resources.lrbtnOficinas;
         public OfficesControlView()
         {
             InitializeComponent();
+        }
+        public string Header
+        {
+            set
+            {
+                _header = value;
+            }
+            get
+            {
+                return _header;
+            }
         }
     }
 }

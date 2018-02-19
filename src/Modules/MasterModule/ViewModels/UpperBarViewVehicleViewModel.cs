@@ -168,6 +168,7 @@ namespace MasterModule.ViewModels
                     DataObject = tmp;
                     AssistQueryModel = DataObject.AssistModelQuery;
                     _subsystem = payLoad.Subsystem;
+                    _currentVehicleData = tmp;
                     _eventManager.DeleteMailBoxSubscription(Name);
                     _currentName = Name + "." + payLoad.PrimaryKeyValue;
                     _eventManager.RegisterMailBox(_currentName, MailBoxHandler);
@@ -239,6 +240,10 @@ namespace MasterModule.ViewModels
         private async Task HandleAssist(string assistQuery, string tableName)
         {
             IHelperDataServices helperDataServices = _dataServices.GetHelperDataServices();
+            if (_currentVehicleData == null)
+            {
+                return;
+            }
             switch (tableName)
             {
                 case "COLORFL":

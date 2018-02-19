@@ -140,7 +140,7 @@ namespace DataAccessLayer
 
         public IOfficeDataServices GetOfficeDataServices()
         {
-            throw new NotImplementedException();
+            return _officeDataService;
         }
 
         public ICompanyDataService GetCompanyDataServices()

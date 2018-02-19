@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Mime;
-using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +14,6 @@ using NLog;
 using System.Windows.Controls.Primitives;
 using static KarveControls.DataField;
 using Prism.Commands;
-using Syncfusion.Data.Extensions;
 
 namespace KarveControls
 {
@@ -105,7 +99,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "TextContentFirstWidth",
                 typeof(string),
-                typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnTextContentFirstWidthChange));
+                typeof(DualFieldSearchBox), new PropertyMetadata("100", OnTextContentFirstWidthChange));
         /// <summary>
         ///  Width content of the second textbox
         /// </summary>
@@ -113,7 +107,7 @@ namespace KarveControls
             DependencyProperty.Register(
                 "TextContentSecondWidth",
                 typeof(string),
-                typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty, OnTextContentSecondWidthChange));
+                typeof(DualFieldSearchBox), new PropertyMetadata("200", OnTextContentSecondWidthChange));
         /// <summary>
         ///  Kind of image to be associated to the button in the searchbox.
         /// </summary>
@@ -1132,12 +1126,7 @@ namespace KarveControls
                 {
                     HandleSourceViewAsEnumerable(enumerableValue, DataSource);
                 }
-             /*   if (_bootUp)
-                {
-                    _bootUp = false;
-                    return;
-                }
-                */
+             
                 if (MagnifierGrid != null)
                 {
                     MagnifierGrid.ItemsSource = new GridVirtualizingCollectionView(enumerableValue);

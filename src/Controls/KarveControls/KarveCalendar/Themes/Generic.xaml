@@ -1,0 +1,201 @@
+﻿<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:local="clr-namespace:CalendarWPF"
+                   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+
+    <Style TargetType="{x:Type local:HolidayCalendar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HolidayCalendar}">
+                    <Grid x:Name="PART_CalendarLayout">
+                        <ScrollViewer>
+                            <Grid>
+                          
+                                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Months}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+    
+                                                <local:DateMonth 
+                                                             YearMonth="{Binding YearMonth}" 
+                                                     SelectedDayCommand="{Binding SelectedDayCommand}" 
+                                                     MonthIndex="{Binding MonthIndex}"
+                                                     DaysOff="{Binding DaysOff}" Margin="0,0,10,0"></local:DateMonth>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type local:DateMonth}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DateMonth}">
+                    <Grid x:Name="MonthLayout_PART">
+                        <Grid.Resources>
+                            <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                <system:String x:Key="Su">Su</system:String>
+                                <system:String x:Key="Mo">Mo</system:String>
+                                <system:String x:Key="Tu">Tu</system:String>
+                                <system:String x:Key="We">We</system:String>
+                                <system:String x:Key="Th">Th</system:String>
+                                <system:String x:Key="Fr">Fr</system:String>
+                                <system:String x:Key="Sa">Sa</system:String>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Height="20"
+                       x:Name="Month_PART"  TextAlignment="Center" Background="White" Foreground="#FFF11414" VerticalAlignment="Top" FontWeight="ExtraBold" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthName}"></TextBlock>
+                        <Grid Grid.Row="1" x:Name="DayOfTheWeek_PART">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[0]}"></TextBlock>
+                            <TextBlock Grid.Column="1" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[1]}"></TextBlock>
+                            <TextBlock Grid.Column="2" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[2]}"></TextBlock>
+                            <TextBlock Grid.Column="3" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[3]}"></TextBlock>
+                            <TextBlock Grid.Column="4" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[4]}"></TextBlock>
+                            <TextBlock Grid.Column="5" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[5]}"></TextBlock>
+                            <TextBlock Grid.Column="6" Foreground="#FF6B6262" FontWeight="Bold"  Height="20" Background="#FFEEE7E7" HorizontalAlignment="Center" Width="30" TextAlignment="Center"  TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=DayWeek[6]}"></TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="2" x:Name="DayOfMonth_PART">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                               
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center"  TextAlignment="Center" TextWrapping="Wrap" Width="30" 
+                                       VerticalAlignment="Center" Margin="0" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[0]}">
+                                
+                            </TextBlock>
+                            
+                                <TextBlock x:Name="PART_Day_1" Grid.Row="0" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[1]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_2" Grid.Row="0" Grid.Column="2" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[2]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_3" Grid.Row="0" Grid.Column="3" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[3]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_4" Grid.Row="0" Grid.Column="4" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[4]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_5" Grid.Row="0" Grid.Column="5" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[5]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_6" Grid.Row="0" Grid.Column="6" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[6]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_7" Grid.Row="1" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[7]}">
+                            </TextBlock>
+                            <TextBlock x:Name="PART_Day_8" Grid.Row="1" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[8]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_9" Grid.Row="1" Grid.Column="2" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[9]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_10" Grid.Row="1" Grid.Column="3" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[10]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_11" Grid.Row="1" Grid.Column="4" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[11]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_12" Grid.Row="1" Grid.Column="5" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[12]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_13" Grid.Row="1" Grid.Column="6" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[13]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_14" Grid.Row="2" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[14]}">
+                            </TextBlock>
+                            <TextBlock x:Name="PART_Day_15" Grid.Row="2" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[15]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_16" Grid.Row="2" Grid.Column="2" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[16]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_17" Grid.Row="2" Grid.Column="3" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[17]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_18" Grid.Row="2" Grid.Column="4" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[18]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_19" Grid.Row="2" Grid.Column="5" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[19]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_20" Grid.Row="2" Grid.Column="6" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[20]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_21" Grid.Row="3" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[21]}">
+                            </TextBlock>
+                            <TextBlock x:Name="PART_Day_22" Grid.Row="3" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[22]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_23" Grid.Row="3" Grid.Column="2" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[23]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_24" Grid.Row="3" Grid.Column="3" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[24]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_25" Grid.Row="3" Grid.Column="4" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[25]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_26" Grid.Row="3" Grid.Column="5" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[26]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_27" Grid.Row="3" Grid.Column="6" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[27]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_28" Grid.Row="4" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[28]}">
+                            </TextBlock>
+                            <TextBlock x:Name="PART_Day_29" Grid.Row="4" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[29]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_30" Grid.Row="4" Grid.Column="2" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[30]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_31" Grid.Row="4" Grid.Column="3" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[31]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_32" Grid.Row="4" Grid.Column="4" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[32]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_33" Grid.Row="4" Grid.Column="5" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[33]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_34" Grid.Row="4" Grid.Column="6" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[34]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_35" Grid.Row="5" Grid.Column="0" Foreground="#FF4D61F4" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[35]}"></TextBlock>
+                            <TextBlock x:Name="PART_Day_36" Grid.Row="5" Grid.Column="1" Foreground="Black" FontWeight="Bold"  Height="20" Background="White" HorizontalAlignment="Center" Width="30" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=MonthGrid[36]}"></TextBlock>
+
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
+    

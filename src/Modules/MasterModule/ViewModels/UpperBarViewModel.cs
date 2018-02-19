@@ -78,7 +78,9 @@ namespace MasterModule.ViewModels
             set { _pathType = value;  RaisePropertyChanged();}
             get { return _pathType; }
         }
-
+        /// <summary>
+        ///  Path person.
+        /// </summary>
         public string PathPerson
         {
             set { _pathPerson = value; RaisePropertyChanged();}
@@ -186,6 +188,8 @@ namespace MasterModule.ViewModels
                 if (agentValue != null)
                 {
                     var currentCode = agentValue.Codigo;
+
+                    // FIXME: move this to query store.
                     string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",
                         currentCode);
                      SourceView= await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(value);   
@@ -244,7 +248,6 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public string UniqueId { get; set; }
         /// <summary>
         ///  Incoming Payload.
         /// </summary>

@@ -460,7 +460,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="KarveDataServices\DataTransferObject\" />
     <Folder Include="Views\AttachedProperty\" />
   </ItemGroup>
   <ItemGroup>

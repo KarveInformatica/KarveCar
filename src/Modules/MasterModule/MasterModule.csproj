@@ -232,6 +232,8 @@
     <Compile Include="ViewModels\ClientsInfoViewModel.cs" />
     <Compile Include="ViewModels\DriversControlViewModel.cs" />
     <Compile Include="ViewModels\HelperData.cs" />
+    <Compile Include="ViewModels\OfficeInfoViewModel.cs" />
+    <Compile Include="ViewModels\OfficesControlViewModel.cs" />
     <Compile Include="ViewModels\RightDetailViewModel.cs" />
     <Compile Include="ViewModels\UpperBarClientViewModel.cs" />
     <Compile Include="ViewModels\CommissionAgentControlViewModel.cs" />
@@ -301,14 +303,11 @@
     <Compile Include="Views\DriversControlView.xaml.cs">
       <DependentUpon>DriversControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Offices\DeliveryPlaces.xaml.cs">
-      <DependentUpon>DeliveryPlaces.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Offices\HolidayDates.xaml.cs">
       <DependentUpon>HolidayDates.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OfficeView.xaml.cs">
-      <DependentUpon>OfficeView.xaml</DependentUpon>
+    <Compile Include="Views\OfficeInfoView.xaml.cs">
+      <DependentUpon>OfficeInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RightDetailView.xaml.cs">
       <DependentUpon>RightDetailView.xaml</DependentUpon>
@@ -489,15 +488,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Offices\DeliveryPlaces.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Offices\HolidayDates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OfficeView.xaml">
+    <Page Include="Views\OfficeInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -787,6 +782,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\backarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\closeshop.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\openshop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

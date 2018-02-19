@@ -100,22 +100,22 @@
                                     <kc:DataArea DataAreaTitle="{Binding ldanos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                 DataSourcePath="DANOS"/>
+                                                 DataSourcePath="DANOS" Width="350.5"/>
                                     <kc:DataArea DataAreaTitle="{Binding lextras, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                  
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="LEXTRAS"/>
+                                                 DataSourcePath="LEXTRAS" Width="332.75"/>
                                     <kc:DataArea DataAreaTitle="{Binding lacessorios, Source={StaticResource ResourceLanguage}}" 
                                                      DataAreaWidth="200" 
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"
                                                  
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="ACCESORIOS_VH" Margin="62,4,93,4" Width="Auto"/>
+                                                 DataSourcePath="ACCESORIOS_VH" Margin="62,4,93,4" Width="301"/>
                                     <kc:DataArea DataAreaTitle="{Binding lavisos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand, i:PresentationTraceSources.TraceLevel=High}"                                                 
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="AVISO" Margin="93,4,49,4" Width="Auto"/>
+                                                 DataSourcePath="AVISO" Margin="93,4,49,4" Width="319"/>
                                 </i:StackPanel>
 
                             </i:GroupBox>

@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.SQL;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
+using System.Data;
+using DataAccessLayer.Logic;
+using KarveDapper.Extensions;
+using AutoMapper;
+using Dapper;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -15,24 +19,54 @@ namespace DataAccessLayer.Crud.Office
     public class OfficeDataLoader: IDataLoader<OfficeDtos> 
     {
         private ISqlExecutor _executor;
+        private IMapper _mapper;
+        private long _currentPos;
+        /// <summary>
+        ///  Constructor
+        /// </summary>
+        /// <param name="executor">Executor</param>
         public OfficeDataLoader(ISqlExecutor executor)
         {
             _executor = executor;
+            _mapper = MapperField.GetMapper();
         }
 
-        public Task<IEnumerable<OfficeDtos>> LoadAsyncAll()
+        public async Task<IEnumerable<OfficeDtos>> LoadAsyncAll()
         {
-            throw new NotImplementedException();
+            IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            {
+                var value = await connection.GetAllAsync<OFICINAS>();
+                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);
+            }
+            return officeDtos;
         }
 
-        public Task<OfficeDtos> LoadValueAsync(string code)
+        public async Task<OfficeDtos> LoadValueAsync(string code)
         {
-            throw new NotImplementedException();
+            OfficeDtos officeDtos = new OfficeDtos();
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            {
+                var value = await connection.GetAsync<OFICINAS>(code);
+                officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
+            }
+            return officeDtos;
         }
 
-        public Task<IEnumerable<OfficeDtos>> LoadValueAtMostAsync(int n, int back = 0)
+        public async Task<IEnumerable<OfficeDtos>> LoadValueAtMostAsync(int n, int back = 0)
         {
-            throw new NotImplementedException();
+            IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
+            QueryStore store = new QueryStore();
+            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            {
+                store.AddParamRange(QueryStore.QueryType.QueryPagedCompany, _currentPos, n);
+                _currentPos += n + back;
+                var query = store.BuildQuery();
+                var value = await connection.QueryAsync<OFICINAS>(query);
+                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);
+            }
+            return officeDtos;
+            
         }
 
         private QueryStore CreateQueryStore(OFICINAS office)

@@ -4,17 +4,11 @@ using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using Model;
-using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Transactions;
-using AutoMapper;
 using Dapper;
 using DataAccessLayer.Model;
-using KarveDapper.Extensions;
 using KarveDataServices.DataTransferObject;
 using NLog;
 
@@ -75,7 +69,7 @@ namespace DataAccessLayer
         public async Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
         {
             logger.Debug("GetCommissionAgentDataSet " + query);
-            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(query);
+            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(query).ConfigureAwait(false);
             return set;
         }
         /// <summary>
@@ -101,7 +95,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0)
         {
-            DataSet dataset = await _sqlExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery);
+            DataSet dataset = await _sqlExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery).ConfigureAwait(false);
             logger.Debug("GetCommissionAgentSummary " + GenericSql.CommissionAgentSummaryQuery);
             if (dataset == null)
             {
@@ -117,7 +111,7 @@ namespace DataAccessLayer
             {
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    summary = await connection.QueryAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery);
+                    summary = await connection.QueryAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery).ConfigureAwait(false);
                 }
             }
             return summary;
@@ -153,7 +147,11 @@ namespace DataAccessLayer
             ICommissionAgent agent = factory.NewCommissionAgent(id);
             return agent;
         }
-
+        /// <summary>
+        ///  FIXME: this shall be differently managed.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         protected override bool UniqueId(string id)
         {
             string str = "SELECT NUM_COMI FROM COMISIO WHERE NUM_COMI='{0}'";
@@ -211,7 +209,7 @@ namespace DataAccessLayer
         /// 
         public async Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList)
         {
-            DataSet summary = await _sqlExecutor.AsyncDataSetLoadBatch(queryList);
+            DataSet summary = await _sqlExecutor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
             return summary;
         }
         /// <summary>
@@ -221,7 +219,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
         {
-            bool changedTask = await commissionAgent.Save();
+            bool changedTask = await commissionAgent.Save().ConfigureAwait(false);
             return changedTask;
         }
         /// <summary>
@@ -231,7 +229,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent)
         {
-            bool changedTask = await commissionAgent.SaveChanges();
+            bool changedTask = await commissionAgent.SaveChanges().ConfigureAwait(false);
             return changedTask;
         }
         /// <summary>
@@ -250,7 +248,7 @@ namespace DataAccessLayer
                 {
                     connection.Open();
                 }
-                value = await commissionAgent.DeleteAsyncData();
+                value = await commissionAgent.DeleteAsyncData().ConfigureAwait(false);
             }
             if (!value)
             {

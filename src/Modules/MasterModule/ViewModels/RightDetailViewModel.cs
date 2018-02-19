@@ -59,10 +59,6 @@ namespace MasterModule.ViewModels
                 _eventManager.RegisterMailBox(Name, MailBoxHandlerMethod);
             }
         }
-
-
-       
-
         /// <summary>
         ///  Data object to be refreshed.
         /// </summary>

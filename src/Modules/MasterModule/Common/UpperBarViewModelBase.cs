@@ -83,14 +83,7 @@ namespace MasterModule.Common
         
 
 
-        /// <summary>
-        ///  Changed item
-        /// </summary>
-        public ICommand ItemChangedCommand
-        {
-            set { _itemChangedCommand = value; RaisePropertyChanged(); }
-            get { return _itemChangedCommand; }
-        }
+       
     
         /// <summary>
         ///  Changed item

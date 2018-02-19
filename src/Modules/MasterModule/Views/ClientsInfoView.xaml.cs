@@ -40,5 +40,7 @@ namespace MasterModule.Views
         }
         public string Header
         { set; get; }
+
+       
     }
 }

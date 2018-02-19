@@ -185,8 +185,12 @@
             </StackPanel>
 
 
-            <StackPanel Orientation="Horizontal">
-                <KarveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <KarveControls:DataDatePicker Grid.Column="0" LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
                                                               DataDatePickerHeight="30" 
                                                               LabelTextWidth="100" 
                                                               LabelVisible="True"
@@ -202,7 +206,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
-                <KarveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}"
+                <KarveControls:DataDatePicker Grid.Column="1" LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}"
                                                               LabelVisible="True"
                                                               LabelTextWidth="100" 
                                                               PickerContentWidth="100" 
@@ -216,7 +220,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
-            </StackPanel>
+            </Grid>
             <KarveControls:DualFieldSearchBox DataFieldFirst="SUBLICEN"
                                                           AssistTableName="COMPANY_ASSIST"
                                                           AssistProperties="Code,Name"

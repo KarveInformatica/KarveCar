@@ -188,6 +188,10 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
                 return helper;
             });
+            AssistMapper.Configure("CLIENT_TYPE_UPPER", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                return helper;
+            });
             AssistMapper.Configure("ACTIVITY_ASSIST", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ActividadDto, ACTIVI>();
                 return helper;

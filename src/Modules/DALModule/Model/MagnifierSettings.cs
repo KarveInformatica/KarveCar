@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.DataObjects;
+﻿using System.Collections.Generic;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataAccessLayer.DataObjects;
 namespace DataAccessLayer.Model
 {
     /// <summary>

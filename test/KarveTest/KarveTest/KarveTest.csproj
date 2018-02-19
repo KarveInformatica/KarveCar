@@ -140,6 +140,7 @@
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
+    <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />
     <Compile Include="Mock\MockEventManger.cs" />
     <Compile Include="Mock\MockModel\VehicleMock.cs" />

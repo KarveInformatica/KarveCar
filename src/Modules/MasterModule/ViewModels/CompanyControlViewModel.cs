@@ -41,7 +41,7 @@ namespace MasterModule.ViewModels
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.Subsystem = DataSubSystem.CompanySubsystem;
         }
         /// <summary>
         ///  Delete a company given its primary key

@@ -2510,4 +2510,13 @@
   <data name="OfficeDtos_CodigoOficina" xml:space="preserve">
     <value>Codigo Officina</value>
   </data>
+  <data name="lvariante" xml:space="preserve">
+    <value>Versione</value>
+  </data>
+  <data name="Chassis" xml:space="preserve">
+    <value>Chassis</value>
+  </data>
+  <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
+    <value>Nuovo Ufficio</value>
+  </data>
 </root>

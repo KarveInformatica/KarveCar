@@ -115,6 +115,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chassis.
+        /// </summary>
+        public static string Chassis {
+            get {
+                return ResourceManager.GetString("Chassis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bloque de Facturacion.
         /// </summary>
         public static string ClientInvoiceBlocks_BloqueDeFacturacion {
@@ -5416,6 +5425,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Variante.
+        /// </summary>
+        public static string lvariante {
+            get {
+                return ResourceManager.GetString("lvariante", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vehiculo Proprio.
         /// </summary>
         public static string lvehiculoproprio {
@@ -5709,6 +5727,15 @@ namespace KarveLocale.Properties {
         public static string OfficeDtos_CodigoOficina {
             get {
                 return ResourceManager.GetString("OfficeDtos_CodigoOficina", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Nueva Oficina.
+        /// </summary>
+        public static string OfficesControlViewModel_NewItem_NuevaOfficina {
+            get {
+                return ResourceManager.GetString("OfficesControlViewModel_NewItem_NuevaOfficina", resourceCulture);
             }
         }
         

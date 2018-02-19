@@ -2148,4 +2148,13 @@
   <data name="OfficeDtos_CodigoOficina" xml:space="preserve">
     <value>Codigo Oficina</value>
   </data>
+  <data name="lvariante" xml:space="preserve">
+    <value>Variante</value>
+  </data>
+  <data name="Chassis" xml:space="preserve">
+    <value>Chassis</value>
+  </data>
+  <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
+    <value>Nueva Oficina</value>
+  </data>
 </root>

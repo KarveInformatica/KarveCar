@@ -53,15 +53,9 @@ namespace MasterModule.ViewModels
         private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
         private IEnumerable<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
         private IEnumerable<CompanyDto> _companyDto;
-
         private static long _uniqueCounter = 0;
-
-        public ICommand ItemChangedCommand { set; get; }
-      
         private IMapper mapper;
-        
-
-        
+       
 
         private const string ProviderInfoVm = "ProviderInfoViewModel";
        

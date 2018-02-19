@@ -22,12 +22,18 @@ namespace MasterModule.Views.Clients
     {
         public GeneralInfoView()
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            InitializeComponent();
-            watch.Stop();
-            var elapsed = watch.ElapsedMilliseconds;
-            var times = elapsed;
+            try
+            {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                InitializeComponent();
+                watch.Stop();
+                var elapsed = watch.ElapsedMilliseconds;
+                var times = elapsed;
+            } catch (Exception e)
+            {
+                var m = e.Message;
+            }
         }
     }
 }

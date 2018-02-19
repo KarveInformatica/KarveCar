@@ -1,0 +1,920 @@
+﻿<UserControl x:Class="CarModel.View.CarModelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CarModel.View"
+             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm1="http://prismlibrary.com/"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:photo="clr-namespace:KarveControls.PhotoFrame;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1200">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <DataTemplate x:Key="ModelUpperBar">
+                    <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+
+                        <Grid Name="ContextLayout">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto">
+
+                                </ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <KarveControls:DataField x:Name="Codigo" Grid.Column="0" TextContentWidth="100" IsReadOnly="True"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextContent="{Binding DataObject.NUMERO_CL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                     LabelTextWidth="50" 
+                                     Height="30"
+                                     ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                     LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                            </KarveControls:DataField>
+                            <KarveControls:DataField x:Name="Name" 
+                                             Grid.Column="1"
+                                         TextContent="{Binding DataObject.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="150" DataObject="{Binding DataObject, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                            ItemChangedCommand="{Binding ChangedItem}"
+                                                              Height="30"
+            
+                                         LabelTextWidth="50" LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                            </KarveControls:DataField>
+                            <KarveControls:DualFieldSearchBox x:Name="Marca"
+                                                      Grid.Column="2"
+                                                  TextContentSecondWidth="100"
+                                                  TextContentFirstWidth="50"
+                                                  LabelTextWidth="70"
+                                                  LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="25"
+                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                                  LabelVisible="True"
+                                                  AssistProperties="Code,Name"
+                                                  MagnifierCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="CODIGO"
+                                                  AssistTableName="BRAND_TYPE"
+                                                  AssistDataFieldFirst="CODIGO"
+                                                  AssistDataFieldSecond="NOMBRE"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                            </KarveControls:DualFieldSearchBox>
+
+                            <KarveControls:DataField x:Name="Variante"  Grid.Column="3" LabelText="{Binding lvariante, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
+                                         TextContent="{Binding DataObject.VARIANTE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="50"  
+                                         ItemChangedCommand="{Binding ChangedItem}"
+                                         LabelVisible="True">
+
+                            </KarveControls:DataField>
+
+
+
+                        </Grid>
+
+                    </GroupBox>
+                </DataTemplate>
+            </ResourceDictionary>
+
+        </Grid.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto">
+
+                </RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ContentControl Content="{Binding}" 
+                            Grid.Row="0"
+                            ContentTemplate="{StaticResource ModelUpperBar}">
+                
+            </ContentControl>
+            <TabControl Grid.Row="1" TabStripPlacement="Left">
+                <TabItem Name="General"  Header="General">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <KarveControls:DataField LabelText="Referencia" LabelVisible="True" 
+                                                       LabelTextWidth="100"
+                                                        Height="30"
+                                                     Grid.Row="0"
+                                                     Grid.Column="0"
+                                                       TextContent="{Binding DataObject.REFERE,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="200">
+
+                            </KarveControls:DataField>
+                            <KarveControls:DualFieldSearchBox x:Name="Grupo"
+                                                          DataFieldFirst="CP"
+                                                          AssistTableName="GROUP_ASSIST"
+                                                          AssistProperties="Code,Name,CRS,Models,Type"
+                                                          LabelText="Grupo"
+                                                          Height="30"
+                                                          LabelTextWidth="86"       
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          IsReadOnlySecond="True"
+                                                          TextContentFirstWidth="100"
+                                                          TextContentSecondWidth="200"
+                                                          Grid.Row="1"
+                                                          Grid.Column="0"
+                                                          ButtonImage="/KarveControls;component/Images/search.png"
+                                                          SourceView="{Binding Path=ClientHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+
+
+                            <KarveControls:DataField LabelText="Desc.Llavero" LabelVisible="True" 
+                                                       LabelTextWidth="100"
+                                                        Height="30"
+                                                             Grid.Row="2"
+                                                          Grid.Column="0"
+                           
+                                                       TextContent="{Binding DataObject.LLAVERO,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="200">
+
+                            </KarveControls:DataField>
+                            <KarveControls:DataArea 
+                                            DataAreaWidth="200"
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            TextContent="{Binding DataObject.MEXTRAS, 
+                                                          Mode=TwoWay, 
+                                                          ValidatesOnDataErrors=True, 
+                                                           ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                            DataAreaTitle="Extras"
+                                            LabelVisible="False" Width="Auto" Height="Auto" Margin="10,0,-2,0"
+                                        />
+
+                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                                <KarveControls:DataDatePicker LabelText="Fecha Modelo"
+                                                              DataDatePickerHeight="30" 
+                                                              LabelTextWidth="100" 
+                                                              LabelVisible="True"
+                                                              Margin="155,0,0,0"
+                                                              PickerContentWidth="100"
+                                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              KarveControls:ControlExt.DataSourcePath="FEMODELO"
+                                                              >
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="DataDatePickerChanged">
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </KarveControls:DataDatePicker>
+                                <KarveControls:DataDatePicker LabelText="Fecha de Baja"
+                                                              LabelVisible="True"
+                                                              LabelTextWidth="100" 
+                                                              PickerContentWidth="100" 
+                                                              DataDatePickerHeight="30"
+                                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              KarveControls:ControlExt.DataSourcePath="FEBAJA">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="DataFieldChanged">
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </KarveControls:DataDatePicker>
+                            </StackPanel>
+
+                            <KarveControls:DualFieldSearchBox x:Name="UsualClient"
+                                                              Grid.Row="6" Grid.Column="0"
+                                                          DataFieldFirst="NUM_CLIENTE"
+                                                          AssistTableName="MODEL_CLIENT_ASSIST"
+                                                          LabelText="Cliente habituale"
+                                                          LabelTextWidth="100"
+                                                          AssistProperties="Code,Name,Direction,Zip,City,Telefono,CellPhone,Email,CreditCardType,NumberCreditCard,AccountableAccount"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          IsReadOnlySecond="True"
+                                                          TextContentFirstWidth="80"
+                                                          TextContentSecondWidth="200"
+                                                          ButtonImage="/KarveControls;component/Images/search.png"
+                                                          SourceView="{Binding Path=ClientDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <KarveControls:DualFieldSearchBox x:Name="CliBranch"
+                                                              Grid.Row="7" Grid.Column="0"
+                                                          DataFieldFirst="NUM_CLIENTE"
+                                                          AssistTableName="MODEL_CLIENT_BRANCH_ASSIST"
+                                                          LabelText="Delegacion"
+                                                          LabelTextWidth="100"
+                                                            AssistProperties="Code,Name"
+                                   
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          IsReadOnlySecond="True"
+                                                          TextContentFirstWidth="80"
+                                                          TextContentSecondWidth="200"
+                                                          ButtonImage="/KarveControls;component/Images/search.png"
+                                                          SourceView="{Binding Path=ClientDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <KarveControls:DualFieldSearchBox x:Name="ReportGroup"
+                                                              Grid.Row="8" Grid.Column="0"
+                                                          DataFieldFirst="NUM_CLIENTE"
+                                                          AssistTableName="MODEL_GROUP_REPORT_ASSIST"
+                                                          LabelText="Grupo Informe"
+                                                          LabelTextWidth="100"
+                                                            AssistProperties="Code,Name"
+                                   
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                                          IsReadOnlySecond="True"
+                                                          TextContentFirstWidth="80"
+                                                          TextContentSecondWidth="200"
+                                                          ButtonImage="/KarveControls;component/Images/search.png"
+                                                          SourceView="{Binding Path=ReportGroupDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GroupBox Grid.Row="9" Grid.Column="0" Header="Cambio/Airbag">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Grid.Column="0" Content="Manual" 
+                                                                         IsChecked="{Binding DataObject.CAMBIO_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="1" Content="Automatico" 
+                                                                         IsChecked="{Binding DataObject.CAMBIO_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="2" Content="SemiAutomatico" 
+                                                                         IsChecked="{Binding DataObject.CAMBIO_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="137*"></ColumnDefinition>
+                                            <ColumnDefinition Width="130*"></ColumnDefinition>
+                                            <ColumnDefinition Width="120*"></ColumnDefinition>
+
+                                            <ColumnDefinition Width="191*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <CheckBox Content="Radio" Grid.Column="0" Grid.Row="0"
+                                                                         IsChecked="{Binding DataObject.RADIO_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Content="ABS" Grid.Column="1" Grid.Row="0"
+                                                                         IsChecked="{Binding DataObject.ABS_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Content="A.A." Grid.Column="2" Grid.Row="0"
+                                                                         IsChecked="{Binding DataObject.AIREA_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Content="Dir.Asisita" Grid.Column="3" Grid.Row="0"
+                                                                         IsChecked="{Binding DataObject.DIR_ASIS_MOD, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        <KarveControls:DataField LabelText="Num.Puertas" LabelVisible="True" 
+                                                       LabelTextWidth="80"
+                                                             Grid.Row="1"
+                                                          Grid.Column="0"
+                           
+                                                       TextContent="{Binding DataObject.PUERTAS_MOD,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="30"/>
+
+                                        <KarveControls:DataField LabelText="Num.Puertas" LabelVisible="True" 
+                                                       LabelTextWidth="80"
+                                                             Grid.Row="1"
+                                                          Grid.Column="0"
+                           
+                                                       TextContent="{Binding DataObject.PUERTAS_MOD,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="30"/>
+                                        <KarveControls:DataField LabelText="Airbags" LabelVisible="True" 
+                                                       LabelTextWidth="80"
+                                                             Grid.Row="1"
+                                                          Grid.Column="1"
+                           
+                                                       TextContent="{Binding DataObject.AIRBAGS_MOD,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="30"/>
+
+                                        <KarveControls:DataField LabelText="Num.Plazas" LabelVisible="True" 
+                                                       LabelTextWidth="80"
+                                                             Grid.Row="1"
+                                                          Grid.Column="2"
+                           
+                                                       TextContent="{Binding DataObject.PLAZAS_MOD,
+                                                                     Mode=TwoWay,
+                                                                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
+                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
+                                                       TextContentWidth="30" Grid.ColumnSpan="2" Margin="0,0,143,0"/>
+
+
+
+                                    </Grid>
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+
+                                </Grid.RowDefinitions>
+                                <KarveControls:DualFieldSearchBox Grid.Row="0"
+                                                                 LabelText="Combustible"
+                                                                  LabelTextWidth="86"
+                                                                  AssistTableName="MODEL_COMBUSTIBLE_ASSIST"
+                                                                  DataFieldFirst="COMBUSTIBLE"
+                                                                  HorizontalAlignment="Left"
+                                                                  TextContentFirstWidth="100"
+                                                                  TextContentSecondWidth="200"
+                                                                  Height="30" Text="DualFieldSearchBox" VerticalAlignment="Top" />
+
+                                <KarveControls:DataField x:Name="CapacidadDeposito"  Grid.Row="1" 
+                                                         LabelText="Capacita Deposito" 
+                                                         TextContentWidth="200"
+                                                         
+                                                         TextContent="{Binding DataObject.WEIGHT, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                    <KarveControls:DataField x:Name="Consumo"   
+                                                         LabelText="Consumo" 
+                                                         LabelTextWidth="100"
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.CONSUMO, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <KarveControls:DataField x:Name="Light"   
+                                                         LabelText="Luces Deposito" 
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.CONSUMO, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                </StackPanel>
+                                <KarveControls:DataField x:Name="DEE"  Grid.Row="3" 
+                                                         LabelText="DEE" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.WEIGHT, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+
+                                <KarveControls:DataField x:Name="chasis"  Grid.Row="4" 
+                                                         LabelText="Prefijo Bastidor" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.CHASIS, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <KarveControls:DataField x:Name="Cilindrata"  Grid.Row="6" 
+                                                         LabelText="Cilindrata" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.CILIN_MOD, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <KarveControls:DataField x:Name="Motor"  Grid.Row="7" 
+                                                         LabelText="Motor" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.MOTOR_MOD, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <KarveControls:DataField x:Name="Moto"  Grid.Row="7" 
+                                                         LabelText="Motor" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.MOTOR_MOD, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+                                <KarveControls:DataField x:Name="Seguridad"  Grid.Row="8" 
+                                                         LabelText="Seguridad" 
+                                                         TextContentWidth="200" 
+                                                         TextContent="{Binding DataObject.SEGURI_MOD, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                </KarveControls:DataField>
+
+                                <StackPanel Grid.Row="9" Orientation="Horizontal">
+                                    <KarveControls:DataField x:Name="EmisionesCO2"   
+                                                         LabelText="EmisionesCO2" 
+                                                         LabelTextWidth="100"
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.CO2_GRxKM, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                    </KarveControls:DataField>
+                                    <KarveControls:DataField x:Name="Taxes"   
+                                                         LabelText="Impuestos" 
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.IMPUESTO, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                    </KarveControls:DataField>
+                                    
+                                </StackPanel>
+                                <KarveControls:DataArea 
+                                            DataAreaWidth="200"
+                                            Grid.Row="10"
+                                            Grid.Column="1"
+                                           Grid.RowSpan="3"
+                                            TextContent="{Binding DataObject.OBS1, 
+                                                          Mode=TwoWay, 
+                                                          ValidatesOnDataErrors=True, 
+                                                           ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                            DataAreaTitle="Observaciones"
+                                            LabelVisible="False" Width="Auto" Height="Auto" Margin="10,0,-2,0"
+                                        />
+                                <StackPanel Grid.Row="13" Orientation="Horizontal">
+                                    <KarveControls:DataField x:Name="BuyingPrice"   
+                                                         LabelText="Precio Compra" 
+                                                         LabelTextWidth="100"
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.PCOMPRA, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                    </KarveControls:DataField>
+                                    
+                                    <KarveControls:DataField x:Name="SellingPrice"   
+                                                         LabelText="Precio Venta" 
+                                                         TextContentWidth="100" 
+                                                         TextContent="{Binding DataObject.PVP, Mode=TwoWay, 
+                                                                        ValidatesOnDataErrors=True, 
+                                                                        ValidatesOnNotifyDataErrors=True, 
+                                                                        ValidatesOnExceptions=True, 
+                                                                        UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="100"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                                    </KarveControls:DataField>
+
+                                </StackPanel>
+
+                                <GroupBox Header="Tipo Combustible" Grid.Row="15" Grid.Column="1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Grid.Column="0" Content="Diesel" 
+                                                                         IsChecked="{Binding DataObject.TIPO_GAS, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="1" Content="Gasolina" 
+                                                                         IsChecked="{Binding DataObject.TIPO_GAS, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="2" Content="Electrico" 
+                                                                         IsChecked="{Binding DataObject.TIPO_GAS, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="3" Content="Hybrido" 
+                                                                         IsChecked="{Binding DataObject.TIPO_GAS, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <CheckBox Grid.Column="4" Content="GNC" 
+                                                                         IsChecked="{Binding DataObject.TIPO_GAS, Mode=TwoWay}"
+                                                                         KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Grid>
+                                </GroupBox>
+                                <Grid Grid.Row="16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/CarModel;component/Images/cars.png" Height="25"/>
+                                            <TextBlock Text="Act.Vehiculo"></TextBlock>
+                                        </StackPanel>
+                                        </Button>
+                                    <Button  Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal">
+                                            <Image Source="/CarModel;component/Images/tools.png" Height="25"/>
+                                            <TextBlock Text="Calcular Mantenimiento"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    <Button Grid.Column="2">
+                                            <StackPanel Orientation="Horizontal">
+                                            <Image Source="/CarModel;component/Images/techspec.png" Height="25"/>
+                                            <TextBlock Text="Ficha Tecnica"></TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    <Button Grid.Column="3">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/CarModel;component/Images/techspec.png" Height="25"/>
+                                            <TextBlock Text="Nueva Ficha"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Name="Mantenimeto"  Header="Mantenimiento">
+                    <syncfusion:SfDataGrid x:Name="sfGrid"
+                                               ColumnSizer="Star"
+                                               AllowDraggingColumns="True"
+                                               AllowEditing="True"
+                                               AllowFiltering="True"
+                                               AllowResizingColumns="True"
+                                               AllowSorting="True"
+                                               AllowGrouping="True"
+                                               NavigationMode="Row"
+                                               AddNewRowPosition="Top"
+                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                               ItemsSource="{Binding MaintenanceCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               AutoGenerateColumns="False"
+                                              >
+
+
+                        <syncfusion:SfDataGrid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                                <Style TargetType="syncfusion:AddNewRowControl">
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="Foreground" Value="#FF808080" />
+                                    <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="syncfusion:AddNewRowControl">
+                                                <Grid>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="AddNewRowStates">
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="Edit">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                <Visibility>Collapsed</Visibility>
+                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                        </DiscreteObjectKeyFrame>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="HasError">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                <Visibility>Collapsed</Visibility>
+                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                        </DiscreteObjectKeyFrame>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="NoError">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                <Visibility>Collapsed</Visibility>
+                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                        </DiscreteObjectKeyFrame>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                        <VisualStateGroup x:Name="BorderStates">
+                                                            <VisualState x:Name="NormalRow" />
+                                                            <VisualState x:Name="FooterRow">
+                                                                <Storyboard BeginTime="0">
+                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                  Duration="1"
+                                                                                                  Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                  Storyboard.TargetProperty="BorderThickness">
+                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                    <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                  Duration="1"
+                                                                                                  Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                  Storyboard.TargetProperty="Margin">
+                                                                        <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                                    </ThicknessAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                        Clip="{TemplateBinding SelectionBorderClipRect}"
+                                                        Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                                                    <Border x:Name="PART_InValidBorder"
+                                                        Margin="0,0,1,1"
+                                                        Background="Transparent"
+                                                        BorderBrush="Red"
+                                                        BorderThickness="1"
+                                                        Visibility="Collapsed" />
+                                                    <Border x:Name="PART_AddNewRowBorder"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter />
+                                                    </Border>
+                                                    <Border x:Name="PART_AddNewRowTextBorder"
+                                                        Background="#FFE5E5E5"
+                                                        BorderBrush="Transparent"
+                                                        BorderThickness="0,0,1,1"
+                                                        Clip="{TemplateBinding TextBorderClip}"
+                                                        IsHitTestVisible="False">
+                                                        <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                      HorizontalAlignment="Left"
+                                                                      VerticalAlignment="Center"
+                                                                      Content="{TemplateBinding AddNewRowText}" />
+                                                    </Border>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ResourceDictionary>
+                        </syncfusion:SfDataGrid.Resources>
+
+
+                        <syncfusion:SfDataGrid.Columns>
+                            <!-- 
+                                
+                                AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterOrderID},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforOrderID}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
+                                                   MappingName="OrderID"
+                                -->
+
+                            <syncfusion:GridTextColumn HeaderText="{Binding lcodigomantenimiento, Source={StaticResource ResourceLanguage}}" 
+                                                           MappingName="MaintananceCode" 
+                                                           TextAlignment="Left"
+                                                           AllowFiltering="True"
+                                                   
+                                                           FilterPopupStyle="{StaticResource MaintenanceCodeStyle}"
+                                                           AllowEditing="True"
+                                                           AllowGrouping="True"/>
+                            <syncfusion:GridTemplateColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="MaintananceName"
+                                                       FilterPopupStyle="{StaticResource MaintenanceCodeStyle}">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontStyle="Italic"
+                                               FontWeight="SemiBold"
+                                               Padding="2,0"
+                                               Text="{Binding MaintananceName}" />
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                                <syncfusion:GridTemplateColumn.EditTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          FocusManager.FocusedElement="{Binding ElementName=textBox}">
+                                            <TextBox x:Name="textBox"
+                                                 FontStyle="Italic"
+                                                 FontWeight="SemiBold"
+                                                 Padding="2,0"
+                                                 Text="{Binding MaintananceName,
+                                                                Mode=TwoWay}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.EditTemplate>
+                            </syncfusion:GridTemplateColumn>
+
+                            <syncfusion:GridDateTimeColumn HeaderText="{Binding lulfechamantenimento, Source={StaticResource ResourceLanguage}}" MappingName="LastMaintananceDate"/>
+                            <syncfusion:GridTextColumn HeaderText="{Binding lkmsultmantenimiento, Source={StaticResource ResourceLanguage}}"  MappingName="LastMaintananceKMs"/>
+                            <syncfusion:GridDateTimeColumn HeaderText="{Binding lproxfechamantenimieno, Source={StaticResource ResourceLanguage}}" MappingName="NextMaintananceDate"/>
+                            <syncfusion:GridTextColumn HeaderText="{Binding lproxkmsmantenimiento, Source={StaticResource ResourceLanguage}}" MappingName="NextMaintananceKMs"/>
+                            <syncfusion:GridTextColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
+                        </syncfusion:SfDataGrid.Columns>
+                        
+                    </syncfusion:SfDataGrid>
+                </TabItem>
+                <TabItem Name="Photo"  Header="Photo">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <photo:PhotoFrame Grid.Row="0"></photo:PhotoFrame>
+                        <TextBlock Grid.Row="1" Text="Croquis"></TextBlock>
+                    </Grid>
+                </TabItem>
+                <TabItem Name="Extras"  Header="Extras">
+                </TabItem>
+                <photo:PhotoFrame/>
+            </TabControl>
+
+        </Grid>
+    </Grid>
+</UserControl>

@@ -45,7 +45,7 @@ namespace DataAccessLayer
         /// <returns>True if the data has been deleted correctly</returns>
         public async Task<bool> DeleteClientAsyncDo(IClientData clientData)
         {
-            return await _dataDeleter.DeleteAsync(clientData.Value);
+            return await _dataDeleter.DeleteAsync(clientData.Value).ConfigureAwait(false);
         }
         /// <summary>
         ///  Get async client summary.
@@ -66,7 +66,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IClientData> GetAsyncClientDo(string clientIndentifier)
         {
-            ClientDto dto = await _dataLoader.LoadValueAsync(clientIndentifier);
+            ClientDto dto = await _dataLoader.LoadValueAsync(clientIndentifier).ConfigureAwait(false);
             IClientData client = new Client();
             client.Value = dto;
             return client;
@@ -84,7 +84,7 @@ namespace DataAccessLayer
             {
                 try
                 {
-                    summaryDtos = await connection.QueryAsync<ClientSummaryDto>(clientsSummaryQuery);
+                    summaryDtos = await connection.QueryAsync<ClientSummaryDto>(clientsSummaryQuery).ConfigureAwait(false);
                 }
                 finally
                 {
@@ -132,7 +132,7 @@ namespace DataAccessLayer
 
         public async Task<bool> SaveAsync(IClientData clientData)
         {
-            return await _dataSaver.SaveAsync(clientData.Value);
+            return await _dataSaver.SaveAsync(clientData.Value).ConfigureAwait(false);
         }
     }
 }

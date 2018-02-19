@@ -16,11 +16,102 @@
              d:DesignHeight="2000" d:DesignWidth="1300">
     <UserControl.Resources>
         <ResourceDictionary>
+            <DataTemplate x:Key="ClientUpperBar">
+                <Grid>
+                    <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
 
+                        <Grid x:Name="ContextLayout">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <karveControls:DataField x:Name="Numero" Grid.Column="0"  TextContentWidth="100" IsReadOnly="True"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextContent="{Binding DataObject.NUMERO_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                     LabelTextWidth="50" 
+                                     Height="30"
+                                     ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                     LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="Name" Grid.Column="1"
+                                         TextContent="{Binding DataObject.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="150" DataObject="{Binding DataObject, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                            ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                              Height="30"
+            
+                                         LabelTextWidth="50" LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                            </karveControls:DataField>
+
+                            <karveControls:DataField x:Name="Nif" Grid.Column="2"  
+                                                     LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
+                                         TextContent="{Binding DataObject.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                  Height="30"
+            
+                                         LabelTextWidth="40"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+
+                            </karveControls:DataField>
+                            <karveControls:DualFieldSearchBox x:Name="TipoClienteSearch" 
+                                                  TextContentSecondWidth="150"
+                                                  TextContentFirstWidth="50"
+                                                  LabelTextWidth="70"
+                                                              Grid.Column="3"
+                                                  LabelText="{Binding ltipoCliente, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="25"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                  LabelVisible="True"
+                                                  AssistProperties="Code,Name"
+                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding ClientTypeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="TIPOCLI"
+                                                  AssistTableName="CLIENT_TYPE_UPPER"
+                                                  AssistDataFieldFirst="NUM_TICLI"
+                                                  AssistDataFieldSecond="NOMBRE"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                            </karveControls:DualFieldSearchBox>
+                            <karveControls:DataField x:Name="Rapres" 
+                                                     Grid.Column="4"
+                                                     LabelText="{Binding RepresentanteLegal, Source={StaticResource ResourceLanguage}}" TextContentWidth="120"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Height="30"
+                                         TextContent="{Binding Path=DataObject.REPRESENTANTE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         LabelTextWidth="120"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="DNI"  
+                                                     Grid.Column="5"
+                                                     LabelText="DNI" TextContentWidth="80" 
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Height="30"
+                                         TextContent="{Binding Path=DataObject.DNIREPRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                         LabelTextWidth="30"  
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         LabelVisible="True">
+                            </karveControls:DataField>
+
+
+                        </Grid>
+
+                    </GroupBox>
+                </Grid>
+            </DataTemplate>
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
+
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -33,11 +124,16 @@
                     <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <StackPanel Orientation="Vertical">
-                
-                    <local:UpperBarClientView></local:UpperBarClientView>
-                
-                <TabControl x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ClientUpperBar}"></ContentControl>
+
+                <TabControl Grid.Row="1" x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
                     <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <StackPanel>
@@ -72,7 +168,7 @@
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Header="{Binding DatosCliente, Source={StaticResource ResourceLanguage}}" Grid.Column="0">
                                     <StackPanel>
-                                        
+
                                         <clients:GeneralInfoView />
                                         <GroupBox Header="Opcion Cliente">
                                             <Grid>
@@ -80,29 +176,40 @@
                                                     <RowDefinition></RowDefinition>
                                                     <RowDefinition></RowDefinition>
                                                 </Grid.RowDefinitions>
-                                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                <Grid Grid.Row="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
+                                                        <ColumnDefinition></ColumnDefinition>
 
-                                                    <karveControls:DataFieldCheckBox x:Name="Defaulting"  Content="{Binding Moroso,  Source={StaticResource ResourceLanguage}}"
-                                                                                    
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Grid.Column="0" x:Name="Defaulting"  Content="Moroso"
+                                                                                     IsChecked="{Binding DataObject.MOROSO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                                     karveControls:ControlExt.DataSourcePath="MOROSO"/>
-                                                    <karveControls:DataFieldCheckBox x:Name="Blocked" Content="{Binding Bloqueado, Source={StaticResource ResourceLanguage}}"  
-                                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                                         karveControls:ControlExt.DataSourcePath="BLOQUADO_CLI"/>
+                                                                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
-                                                    <karveControls:DataFieldCheckBox Content="{Binding NifExtranjero, Source={StaticResource ResourceLanguage}}"  
+                                                    <CheckBox Grid.Column="1" x:Name="Blocked" Content="Bloqueado"
+                                                                                         IsChecked="{Binding DataObject.BLOQUADO_CLI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
+
+                                                    <CheckBox Grid.Column="2" Content="Nif Extranjero"
+                                                              IsChecked="{Binding DataObject.NIF_EXTRANJERO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                                         
+                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                      karveControls:ControlExt.DataSourcePath="NIF_EXTRANJERO"/>
-                                                    <karveControls:DataField 
+                                                    <karveControls:DataField Grid.Column="3"
                                                         LabelText="Codigo Externo"
                                                         TextContentWidth="200"
                                                         TextContent="{Binding DataObject.CODIGOEXTRENO, 
                                                         Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                         DataObject="{Binding DataObject, Mode=TwoWay}">
-                                                        
+
                                                     </karveControls:DataField>
 
-                                                </StackPanel>
+                                                </Grid>
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <RadioButton Content="Client" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
                                                     Converter={StaticResource ByteToBooleanConverter}}"/>
@@ -145,7 +252,7 @@
                                             LabelVisible="False"
                                             Width="582"
                                         />
-                                     
+
                                     </StackPanel>
 
                                 </GroupBox>
@@ -159,17 +266,17 @@
                                     <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
                                         <karveControls:CreditCardUserControl/>
                                     </GroupBox>
-                                   
+
                                 </Grid>
-                                
-                               
+
+
 
                             </Grid>
 
 
                         </StackPanel>
                     </TabItem>
-                    
+
                     <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <clients:OtherData></clients:OtherData>
                     </TabItem>
@@ -202,7 +309,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Documento" Height="24" VerticalAlignment="Bottom">
+                    <TabItem Header="Documento" VerticalAlignment="Top">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -215,10 +322,10 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                   
-                    
+
+
                 </TabControl>
-            </StackPanel>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

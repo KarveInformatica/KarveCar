@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  Value of the OfficeData.
     /// </summary>
-    public interface IOfficeData: IHelperData
+    public interface IOfficeData: IHelperBase
     {
         /// <summary>
         ///  Vale of the data transfer object.

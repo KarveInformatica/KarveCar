@@ -1139,6 +1139,7 @@
     <Compile Include="Model\MagnifierSettings.cs" />
     <Compile Include="Model\NullClient.cs" />
     <Compile Include="Model\NullCommissionAgentTypeData.cs" />
+    <Compile Include="Model\Office.cs" />
     <Compile Include="Model\Supplier.cs" />
     <Compile Include="Model\SupplierPoco.cs" />
     <Compile Include="Model\Vehicle.cs" />
