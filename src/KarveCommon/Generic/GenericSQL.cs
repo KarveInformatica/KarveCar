@@ -114,7 +114,9 @@ namespace KarveCommon.Generic
                                                   "CLIENTES2.SECTOR as Sector, " +
                                                   "PROVINCIA.PROV as Province, " +
                                                   "PAIS.PAIS as Country, " +
-                                                  "TELEFONO as Phone, " +
+                                                  "TELEFONO as Telefono, " +
+                                                  "EMAIL as Email," +
+                                                  "CONTABLE as AccountableAccount," +
                                                   "OFICINA as Oficina, " +
                                                   "CLIENTES2.VENDEDOR as Vendidor, " +
                                                   "ALTA as Falta, " +

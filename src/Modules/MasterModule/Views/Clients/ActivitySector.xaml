@@ -11,8 +11,14 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <GroupBox Header="Sector Actividades">
-                <StackPanel Orientation="Vertical">
-                    <KarveControls:DualFieldSearchBox x:Name="FormaDeCobro" 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <KarveControls:DualFieldSearchBox Grid.Row="0" x:Name="FormaDeCobro" 
                                            LabelText="Sector Actividad" 
                                           Height="25" 
                                           Margin="0,5,0,0"
@@ -28,26 +34,8 @@
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/MasterModule;component/Images/search.png"/>
-                    <KarveControls:DualFieldSearchBox x:Name="Tipo" 
-                                           LabelText="Tipo Cliente" 
-                                          Height="25" 
-                                          Margin="0,5,0,0"
-                                          AssistDataFieldFirst="NUM_TICLI"
-                                          AssistDataFieldSecond="NOMBRE"
-                                          AssistTableName="CLIENT_TYPE"
-                                          IsReadOnlySecond="True"
-                                          DataFieldFirst="TIPOCLI"
-                                          AssistProperties="Code,Name"
-                                          ItemChangedCommand="{Binding ItemChangedCommand}"
-                                          MagnifierCommand="{Binding AssistCommand}" 
-                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.ClientTypeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="100"
-                                          TextContentFirstWidth="60" 
-                                          TextContentSecondWidth="150"
-                                          ButtonImage="/KarveCar;component/Images/search.png"/>
 
-                    <KarveControls:DualFieldSearchBox x:Name="Zona" 
+                    <KarveControls:DualFieldSearchBox Grid.Row="1" x:Name="Zona" 
                                            LabelText="Zona Cliente" 
                                           Height="25" 
                                           Margin="0,5,0,0"
@@ -63,7 +51,7 @@
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/MasterModule;component/Images/search.png"/>
-                    <KarveControls:DualFieldSearchBox x:Name="Origen" 
+                    <KarveControls:DualFieldSearchBox Grid.Row="2" x:Name="Origen" 
                                                       LabelText="Origen Cliente" 
                                                       Height="25" 
                                                       Margin="0,5,0,0"
@@ -79,7 +67,7 @@
                                                       TextContentFirstWidth="60" 
                                                       TextContentSecondWidth="150"
                                                       ButtonImage="/MasterModule;component/Images/search.png"/>
-                    <KarveControls:DualFieldSearchBox x:Name="Vendedor" 
+                    <KarveControls:DualFieldSearchBox Grid.Row="3" x:Name="Vendedor" 
                                                       LabelText="Vendedor" 
                                                       Height="25" 
                                                       Margin="0,5,0,0"
@@ -97,12 +85,21 @@
                                                       TextContentFirstWidth="60" 
                                                       TextContentSecondWidth="150"
                                                       ButtonImage="/KarveCar;component/Images/search.png"/>
-                </StackPanel>    
+                </Grid>    
                 </GroupBox>
             <GroupBox Header="Mercados">
-                <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
 
-                    <KarveControls:DualFieldSearchBox x:Name="Mercado" 
+                    <KarveControls:DualFieldSearchBox Grid.Row="0" x:Name="Mercado" 
                                            LabelText="Mercado" 
                                           Height="25" 
                                           Margin="0,5,0,0"
@@ -119,7 +116,8 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Negocio" 
-                                           LabelText="Negocio" 
+                                           Grid.Row="1"
+                                                      LabelText="Negocio" 
                                           Height="25" 
                                           Margin="0,5,0,0"
                                           AssistTableName="BUSINESS_ASSIST"
@@ -135,7 +133,8 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Canal" 
-                                           LabelText="Canal" 
+                                           Grid.Row="2"
+                                                      LabelText="Canal" 
                                           Height="25" 
                                           Margin="0,5,0,0"
                                           AssistTableName="CHANNEL_TYPE"
@@ -151,7 +150,8 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="ClavePresupo" 
-                                           LabelText="Cl.Presuppuosto" 
+                                           Grid.Row="3"
+                                                      LabelText="Cl.Presuppuosto" 
                                           Height="25" 
                                           Margin="0,5,0,0"
                                           AssistTableName="BUDGET_KEY"
@@ -168,7 +168,8 @@
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="UsoAlquiler" 
                                           LabelText="Uso Alquiler." 
-                                          Height="25" 
+                                          Grid.Row="4"
+                                                      Height="25" 
                                           Margin="0,5,0,0"
                                           AssistDataFieldFirst="CODIGO"
                                           AssistDataFieldSecond="NOMBRE"
@@ -186,7 +187,8 @@
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DualFieldSearchBox x:Name="Idioma" 
                                           LabelText="Idioma" 
-                                          Height="25" 
+                                          Height="25"
+                                                      Grid.Row="5"
                                           Margin="0,5,0,0"
                                           AssistTableName="LANGUAGE_ASSIST"
                                           IsReadOnlySecond="True"
@@ -202,7 +204,8 @@
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
                     <KarveControls:DataField  DataSourcePath="DIREC2" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  LabelText="Producto trans." 
+                                              Grid.Row="6"    
+                                              LabelText="Producto trans." 
                                                   LabelTextWidth="100"
                                                   Margin="0,5,0,0"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -210,7 +213,7 @@
                                                   IsReadOnly="False"/>
 
 
-                </StackPanel>
+                </Grid>
             </GroupBox>
         </StackPanel>
     </Grid>

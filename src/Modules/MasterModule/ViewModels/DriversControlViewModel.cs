@@ -10,6 +10,7 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Regions;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.ViewModels
 {
@@ -19,15 +20,18 @@ namespace MasterModule.ViewModels
         IRegionNavigationJournal _journal;
         private INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> _notifyTaskCompletion;
         private PropertyChangedEventHandler _notificationHandler;
-        private IEnumerable<ClientSummaryDto> _drivers;
+        private IncrementalList<ClientSummaryDto> _drivers;
+        private IEnumerable<ClientSummaryDto> _currentDrivers;
 
         public DriversControlViewModel(IDataServices services, IRegionManager manager): base(services)
         {
             _regionManager = manager;
             GoBackCommand = new DelegateCommand(GoBack);
+            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems);
             GoForwardCommand = new DelegateCommand(GoForward);
-            _notificationHandler += OnLoadedNotification;
             _notifyTaskCompletion = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(LoadData(services), _notificationHandler);
+            _notificationHandler += OnLoadedNotification;
+          
         }
 
         /// <summary>
@@ -45,7 +49,11 @@ namespace MasterModule.ViewModels
                 if (clientSummary.IsSuccessfullyCompleted)
                 {
                     var value = clientSummary.Task.Result;
-                    Drivers = value;
+                    var list = value.Skip(0).Take(50).ToList();
+                    _currentDrivers = value;
+                   _drivers.LoadItems(list);
+                    RaisePropertyChanged("Drivers");
+                 
                 }
                 else
                 {
@@ -55,17 +63,27 @@ namespace MasterModule.ViewModels
             }
         }
 
+        void LoadMoreItems(uint count, int baseIndex)
+        {
+
+            var _orders = _currentDrivers;
+            var list = _orders.Skip(baseIndex).Take(50).ToList();
+            Drivers.LoadItems(list);
+        }
         private async Task<IEnumerable<ClientSummaryDto>> LoadData(IDataServices services)
         {
             IClientDataServices clientDataServices = services.GetClientDataServices();
             var result = await clientDataServices.GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+            _currentDrivers = result;
+            
             return result;
         }
 
         //  public DelegateCommand<> PersonSelectedCommand { get; private set; }
         public DelegateCommand GoForwardCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
-        public IEnumerable<ClientSummaryDto> Drivers
+
+        public IncrementalList<ClientSummaryDto> Drivers
         {
             get { return _drivers; }
             set { _drivers = value; RaisePropertyChanged(); }

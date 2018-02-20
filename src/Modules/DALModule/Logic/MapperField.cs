@@ -151,11 +151,15 @@ namespace DataAccessLayer.Logic
         public BranchesDto Convert(CliDelegaPoco source, BranchesDto destination, ResolutionContext context)
         {
             BranchesDto branchesDto = new BranchesDto();
+           
             branchesDto.BranchId = source.cldIdDelega.ToString();
             branchesDto.Branch = source.cldDelegacion;
-            branchesDto.Province.Code = source.PROV.SIGLAS;
-            branchesDto.Province.Name = source.PROV.PROV;
-            branchesDto.Province.Country = source.PROV.PAIS;
+            if (source.PROV != null)
+            {
+                branchesDto.Province.Code = source.PROV.SIGLAS;
+                branchesDto.Province.Name = source.PROV.PROV;
+                branchesDto.Province.Country = source.PROV.PAIS;
+            }
             branchesDto.Address = source.cldDireccion1;
             branchesDto.Address2 = source.cldDireccion2;
             branchesDto.Phone = source.cldTelefono1;
@@ -805,6 +809,8 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
                 cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
                 cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
+                cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
+                cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
@@ -1517,6 +1523,33 @@ namespace DataAccessLayer.Logic
             var mappingConfig = config.CreateMapper();
 
             return mappingConfig;
+        }
+    }
+
+    internal class BranchesToCliDelega: ITypeConverter<BranchesDto, cliDelega>
+    {
+      
+
+        public cliDelega Convert(BranchesDto src, cliDelega destination, ResolutionContext context)
+        {
+            cliDelega model = new cliDelega();
+
+            model.cldIdCliente = src.BranchKeyId;
+            model.cldDireccion1 = src.Address;
+            model.cldDireccion2 = src.Address2;
+            model.cldEMail = src.Email;
+            model.cldIdDelega = src.BranchId.ToString();
+            model.cldDelegacion = src.Branch;
+            model.cldObservaciones = src.Notes;
+            model.cldPoblacion = src.City;
+            model.cldTelefono1 = src.Phone;
+            model.cldTelefono2 = src.Phone2;
+            if (src.Province != null)
+            {
+                model.cldIdProvincia = src.Province.Code;
+            }
+            return model;
+
         }
     }
 

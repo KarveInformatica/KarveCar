@@ -23,11 +23,15 @@
                 <ColumnDefinition Width="50*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <GroupBox Header="Facturacion">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Facturacion" Grid.Row="0">
                     <ContentControl ContentTemplate="{StaticResource ClientBilling}"></ContentControl>
                 </GroupBox>
-                <GroupBox Header="Periocidad de Facturacion">
+                <GroupBox Header="Periocidad de Facturacion" Grid.Row="1">
                     <Grid>
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" >
 
@@ -197,7 +201,7 @@
                     </StackPanel>
                 </GroupBox>
 
-            </StackPanel>
+            </Grid>
             
             <StackPanel Grid.Column="1">
                 <local:ActivitySector></local:ActivitySector>

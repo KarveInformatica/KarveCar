@@ -13,8 +13,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid  x:Name="LayoutRoot" Background="White" Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -34,31 +34,31 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        
 
-        <Syncfusion:SfDataGrid x:Name="DriverControlViewSummary"
-                               Grid.Row="0"
-                               ColumnSizer="Star"
-                               AllowDraggingColumns="True"
-                               AllowEditing="False"
-                               AllowFiltering="True"
-                               AllowResizingColumns="True"
-                               AllowSorting="True"
-                               AllowGrouping="True"
-                               ShowGroupDropArea="True"
-                               NavigationMode="Row"
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="0">
+            <TextBlock Text="Lista de conductores" FontWeight="Bold"></TextBlock>
+            <Button Command="{Binding GoBackCommand}"  Margin="10" Width="75" Height="25" HorizontalAlignment="Left">
+            <Image Source="/MasterModule;component/Images/backarrow.png"></Image>
+        </Button>
+        </StackPanel>
+
+
+        <Syncfusion:SfDataGrid x:Name="DriverControlViewSummary"   VerticalAlignment="Top"                   
+                                                                       ColumnSizer="Star"
+                                                                       Grid.Row="1"
                                ItemsSource="{Binding Drivers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
-
-
-            <!--
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
--->
-
+                                                                       AllowDraggingColumns="True"
+                                                                       AllowEditing="False"
+                                                                       AllowFiltering="True"
+                                                                       AllowResizingColumns="True"
+                                                                       AllowSorting="True"
+                                                                       AllowGrouping="True"                                             
+                                                                       ShowGroupDropArea="True"
+                                                                       NavigationMode="Row" 
+                                                                       Background="White"
+                                                                       AutoGenerateColumns="False"
+                                                                                                                                           
+                                                >
 
             <Syncfusion:SfDataGrid.Resources>
                 <ResourceDictionary>
@@ -89,11 +89,6 @@
 
                 </Syncfusion:GridTemplateColumn>
 
-                <Syncfusion:GridTextColumn HeaderText="NIF" MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Direccion" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Provincia" MappingName="Provincia" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Poblacion" MappingName="Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Pais" MappingName="Pais" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTemplateColumn HeaderText="Telefono" MappingName="Telefono"
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
@@ -103,9 +98,9 @@
 
                                 </Image>
                                 <TextBlock FontStyle="Italic"
-                                           FontWeight="SemiBold"
-                                           Padding="2,0"
-                                           Text="{Binding Telefono}" />
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Telefono}" />
                             </StackPanel>
 
                         </DataTemplate>
@@ -133,10 +128,19 @@
 
             </Syncfusion:SfDataGrid.Columns>
 
-        </Syncfusion:SfDataGrid>
 
-        <Button Command="{Binding GoBackCommand}" Grid.Row="1" Margin="10" Width="75" Height="25" HorizontalAlignment="Left">
-            <Image Source="/MasterModule;component/Images/backarrow.png"></Image>
-        </Button>
+        </Syncfusion:SfDataGrid>
+        
+    
+
+
+            <!--
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+-->
+      
     </Grid>
 </UserControl>

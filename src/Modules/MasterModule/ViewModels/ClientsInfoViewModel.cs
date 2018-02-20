@@ -399,8 +399,10 @@ namespace MasterModule.ViewModels
                     }
                     case "CLIENT_DRIVER":
                     {
+                            ClientHelper.DriversDto = new List<ClientSummaryDto>();
                         ClientHelper.DriversDto = (IEnumerable<ClientSummaryDto>) value;
-                        break;
+                            RaisePropertyChanged("ClientHelper.DriversDto");
+                            break;
                     }
                     case "CREDIT_CARD":
                     {

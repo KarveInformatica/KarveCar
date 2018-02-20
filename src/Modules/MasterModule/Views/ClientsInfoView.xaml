@@ -226,9 +226,9 @@
                                         </GroupBox>
 
                                         <karveControls:DataArea 
-                                        DataAreaWidth="500"
-                                            SearchBoxWidth="100"
-                                           Height="96"
+                                        DataAreaWidth="400"
+                                          
+                                           
                                         DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                                         Margin="5,0,0,0"
                                         LabelVisible="False"
@@ -237,7 +237,7 @@
                                             ValidatesOnNotifyDataErrors=True, 
                                             ValidatesOnExceptions=True, 
                                             UpdateSourceTrigger=PropertyChanged}"
-                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="587"
+                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="587" Height="148"
                                         >
 
                                         </karveControls:DataArea>
@@ -250,7 +250,7 @@
                                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                                             Margin="5,5,0,0"
                                             LabelVisible="False"
-                                            Width="582"
+                                            Width="582" Height="183"
                                         />
 
                                     </StackPanel>
@@ -282,17 +282,19 @@
                     </TabItem>
 
                     <TabItem x:Name="Delegaciones" Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="ClientDelegacion" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
+                        <ContentControl x:Name="ClientDelegacion" Content="{Binding}" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
                     </TabItem>
 
 
                     <TabItem x:Name="Contactos" Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="ClientContactGrid"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
+                        <ContentControl x:Name="ClientContactGrid" Content="{Binding}"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
                     </TabItem>
 
+                 <!--  
                     <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="VisitGrid"  ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
+                        <ContentControl x:Name="VisitGrid"  Content="{Binding}" ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
                     </TabItem>
+                    -->
                     <TabItem Header="Permiso">
                         <Grid>
                             <Grid.RowDefinitions>

@@ -31,7 +31,7 @@
                                     LabelTextWidth="80"
                                     TextContentFirstWidth="80"
                                     TextContentSecondWidth="150"
-                                    SourceView="{Binding Path=ClientHelper.Drivers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    SourceView="{Binding ClientHelper.DriversDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <CheckBox Content="Sin Permiso de conducir"
                                                          Margin="10,0,0,0"

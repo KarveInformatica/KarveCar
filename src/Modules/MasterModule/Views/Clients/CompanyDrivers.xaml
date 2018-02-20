@@ -13,17 +13,25 @@
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left">
             <StackPanel>
-                <TextBlock Text="{Binding ListaConductores, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                <Image HorizontalAlignment="Left" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="280"></Image>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding ListaConductores, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                <Image HorizontalAlignment="Center" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="238"></Image>
             </StackPanel>
         </Button>
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <KarveControls:DataArea x:Name="ContentArea"
-                   
-                                            DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
-                                            TextContent="{Binding DataObject.ListaContactos, Mode=TwoWay}">
-            </KarveControls:DataArea>
-       
-        </StackPanel>
+        
+            <KarveControls:DataArea Grid.Row="1" x:Name="ContentArea"
+                                            DataAreaWidth="230"
+                                                                      
+                TextContent="{Binding DataObject.ListaContactos, 
+                                      Mode=TwoWay, 
+                                      ValidatesOnDataErrors=True, 
+                                      ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                      DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
+                                      Margin="5,5,-3,0"
+                                      LabelVisible="False"
+                                      Width="Auto" 
+                                        />
+
+
+        
     </Grid>
 </UserControl>

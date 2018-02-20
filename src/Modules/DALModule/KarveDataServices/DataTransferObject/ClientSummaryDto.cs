@@ -9,6 +9,8 @@ namespace KarveDataServices.DataTransferObject
     public class ClientSummaryDto: BaseDto
     {
 
+        private string _eMail;
+
         [Display(Name = "Numero Cliente")]
         public string Code { set; get; }
         [Display(Name = "Nombre Cliente")]
@@ -25,7 +27,18 @@ namespace KarveDataServices.DataTransferObject
         public string Movil { set; get; }
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
-        public string Email { set; get; }
+        public string Email
+        {
+            set
+            {
+                var email = value;
+                _eMail = email.Replace('#', '@');
+            }
+            get
+            {
+                return _eMail;
+            }
+        }
         [Display(Name = "Tipo carta credito")]
         public string CreditCardType { set; get; }
         [Display(Name = "Numero carta credito")]
