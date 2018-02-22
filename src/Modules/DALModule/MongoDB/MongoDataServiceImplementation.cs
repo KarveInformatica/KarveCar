@@ -7,7 +7,7 @@ namespace DataAccessLayer.MongoDB
     /// </summary>
     public class MongoDataServiceImplementation : IDataServices
     {
-        private INoSqlExecutor _executor;
+        private INoSqlExecutor _executor = null;
 
         public MongoDataServiceImplementation() 
         {

@@ -261,7 +261,7 @@
                                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
                                                     <CheckBox Grid.Column="1" x:Name="Blocked" Content="Bloqueado"
-                                                                                         IsChecked="{Binding DataObject.BLOQUADO_CLI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                                         IsChecked="{Binding DataObject.BLOQUEADO_CLI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 

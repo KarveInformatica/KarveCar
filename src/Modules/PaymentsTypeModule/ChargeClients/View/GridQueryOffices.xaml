@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients.View"
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:interactionRequest="http://prismlibrary.com/"
              mc:Ignorable="d" 
@@ -22,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"  VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding Title}" Background="LightSkyBlue" FontWeight="Bold" FontSize="16"/>
-
+<!--
 
         <extendedGridControl:ExtendedDataGrid  Grid.Row="1"  
                                                x:Name="QueryType" 
@@ -69,7 +67,8 @@
 
         </extendedGridControl:ExtendedDataGrid>
 
-
+-->
+        
     </Grid>
 </UserControl>
 

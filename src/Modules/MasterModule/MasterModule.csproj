@@ -789,6 +789,9 @@
   <ItemGroup>
     <Resource Include="Images\openshop.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

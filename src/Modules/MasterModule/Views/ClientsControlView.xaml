@@ -128,6 +128,26 @@
 
                 </syncfusion:GridTemplateColumn>
 
+                <syncfusion:GridTemplateColumn HeaderText="Action" MappingName="DeleteCommand"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/MasterModule;component/Images/delete.jpg">
+
+                                </Image>
+                                <Button FontStyle="Italic"
+                                           FontWeight="SemiBold"
+                                           Padding="2,0"
+                                           Command="{Binding DeleteCommmand}"
+                                           />
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+
+                </syncfusion:GridTemplateColumn>
+
             </syncfusion:SfDataGrid.Columns>
 
         </syncfusion:SfDataGrid>

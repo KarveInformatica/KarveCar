@@ -9,22 +9,23 @@ using KarveDataServices;
 using System.Windows;
 using KarveCommon.Generic;
 
-namespace MasterModule.ViewModels { 
-	
+namespace MasterModule.ViewModels
+{
+
     /// <summary>
     ///  This base claass simply override the things that are not needed for the Info Viewmodels.
     /// </summary>
-	public abstract class MasterInfoViewModuleBase : MasterViewModuleBase
+    public abstract class MasterInfoViewModuleBase : MasterViewModuleBase
     {
         private bool _canDelete = true;
 
         // TODO: let see for the SRP
-        public MasterInfoViewModuleBase(IEventManager eventManager, 
+        public MasterInfoViewModuleBase(IEventManager eventManager,
                                         IConfigurationService configurationService,
                                         IDataServices dataServices, IRegionManager manager) : base(configurationService, eventManager, dataServices, manager)
         {
             _canDelete = true;
-		}
+        }
 
         public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
@@ -38,7 +39,7 @@ namespace MasterModule.ViewModels {
 
         public override void StartAndNotify()
         {
-          
+
         }
         protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
         {
@@ -56,8 +57,11 @@ namespace MasterModule.ViewModels {
                     MessageBox.Show("DataObject is null.");
                 }
                 var data = eventDictionary["DataObject"];
-                var name = eventDictionary["Field"] as string;
-                GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                if (eventDictionary.ContainsKey("Field"))
+                {
+                    var name = eventDictionary["Field"] as string;
+                    GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                }
                 payLoad.DataObject = data;
                 eventDictionary["DataObject"] = data;
                 payLoad.DataDictionary = eventDictionary;
@@ -76,18 +80,18 @@ namespace MasterModule.ViewModels {
             set { _canDelete = value; }
             get { return _canDelete; }
         }
-        
+
         protected override void SetDataObject(object result)
-        {   
+        {
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
-        {   
+        {
         }
 
         protected override void SetTable(DataTable table)
-        {   
+        {
         }
-      
+
         protected IDictionary<string, string> ViewModelQueries { get; set; }
     }
 

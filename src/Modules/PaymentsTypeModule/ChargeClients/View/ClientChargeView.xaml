@@ -3,216 +3,251 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ExtendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:ExtendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"  
+                       xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:mvvm1="http://prismlibrary.com/"
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:local="clr-namespace:PaymentTypeModule.ChargeClients"
              xmlns:view="clr-namespace:PaymentTypeModule.ChargeClients.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:validationRules="clr-namespace:KarveCommon.Validation;assembly=KarveCommon"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
+             d:DesignHeight="600" d:DesignWidth="800">
 
     <i:Interaction.Triggers>
         <mvvm1:InteractionRequestTrigger SourceObject="{Binding ErrorDialog, Mode=OneWay}">
             <mvvm1:PopupWindowAction CenterOverAssociatedObject="True" IsModal="True"/>
         </mvvm1:InteractionRequestTrigger>
     </i:Interaction.Triggers>
-<Grid>
-    
+    <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60*"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="20*"/>
-       </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Grid.IsSharedSizeScope="True" ShowGridLines="false">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Name="ChargeState" Height="20" Width="100" Content="{Binding ChargeStateProperties}"/>
-            <Label Name="LastUserTextBox"  Height="20" Width="100" Content="{Binding LastUser}"/>
-            <Label Name="LastModificationTextBox" Height="20" Width="100" Content="{Binding LastModificationTime}"/>
-        </StackPanel>
-        <TabControl Grid.Row="1">
-            <TabItem Header="General">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label Name="ChargeState" Height="20" Width="100" Content="{Binding ChargeStateProperties}"/>
+                <Label Name="LastUserTextBox"  Height="20" Width="100" Content="{Binding LastUser}"/>
+                <Label Name="LastModificationTextBox" Height="20" Width="100" Content="{Binding LastModificationTime}"/>
+            </StackPanel>
+            <TabControl Grid.Row="1">
+                <TabItem Header="General">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="96*"/>
-                            <ColumnDefinition Width="92*"/>
-                            <ColumnDefinition Width="210*"/>
-                            <ColumnDefinition Width="97*"/>
-                            <ColumnDefinition Width="95*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0">Número</Label>
+                        <Grid Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="103*"/>
+                                <ColumnDefinition Width="85*"/>
+                                <ColumnDefinition Width="210*"/>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="92*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0">Número</Label>
 
 
 
-                        <TextBox Name="ChargeNumber"  Grid.Row="0" Grid.Column="1" Height="Auto" Margin="0,3">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TextChanged">
-                                    <i:InvokeCommandAction Command="{Binding NumberTextChanged}" CommandParameter="{Binding ElementName=ChargeNumber, Path=Text}"/>
-                                </i:EventTrigger>
+                            <TextBox Name="ChargeNumber"  Grid.Row="0" Grid.Column="1" Height="Auto" Margin="0,3">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <i:InvokeCommandAction Command="{Binding NumberTextChanged}" CommandParameter="{Binding ElementName=ChargeNumber, Path=Text}"/>
+                                    </i:EventTrigger>
 
                                 </i:Interaction.Triggers>
-                                        <TextBox.Text>
-                                    
-                                <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
-                                   
-                                                <Binding.ValidationRules>
-                                        <validationRules:NumberValidationRule/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                              </TextBox.Text>
-                        </TextBox>
-                        <GroupBox Grid.Row="0" Grid.Column="2">
-                            <CheckBox Name="DependencyOnCash" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsDependencyOnCash, Mode=TwoWay}">Afecta a caja</CheckBox>
-                        </GroupBox>
-                        <GroupBox Grid.Row="0" Grid.Column="3">
-                            <CheckBox Name="AskCreditCard"  VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsAskedCreditCard, Mode=TwoWay}">Pedir Tarjeta</CheckBox>
-                        </GroupBox>
-                        <Label Grid.Row="1" Grid.Column="0">Nombre</Label>
-                        <TextBox Name="ChargeName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Background="LightCyan" Text="{Binding Path=ChargeName}" Height="Auto" Margin="0,3"/>
-                        <Label Grid.Row="2" Grid.Column="0">Cuenta</Label>
-                        <TextBox Name="ChargeAccount1" Grid.Row="2" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeAccount1}" Height="Auto" Margin="0,5"/>
-                        <TextBox Name="ChargeAccount2" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  Background="LightBlue" Text="{Binding Path=ChargeAccount2}" Height="Auto" Margin="0,5"/>
-                        <Button  Name="FindChargeAccount" Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Center" Width="100"  Command="{Binding ClickCommand}" 
-                                 CommandParameter="FindChargeAccount" Grid.ColumnSpan="2" Margin="94,0,-2,0">
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                </StackPanel>
-                        </Button>
-                        <Label Grid.Row="3" Grid.Column="0">Cuenta Comisión</Label>
-                        <TextBox Name="ChargeCommissionAccount"  Grid.Row="3" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeCommissionAccount1}" Height="Auto" Margin="0,5"/>
-                        <TextBox Name="ChargeCommissionAccount2" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeCommissionAccount2}" Height="Auto" Margin="0,5"/>
-                        <Button  Name="FindChargeCommissionAccount"  Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Width="100" Command="{Binding ClickCommand}" 
-                                 CommandParameter="FindChargeCommissionAccount" Margin="94,0,-2,0" >
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                            </StackPanel>
-                        </Button>
-                        <Label Grid.Row="4" Grid.Column="0">Comisión %</Label>
-                        <TextBox Name="CommissionPercentage"  Grid.Row="4" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5">
-                            <TextBox.Text>
-                                <Binding Path="CommissionPercentage" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
-                                    
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <Label Grid.Row="4" Grid.Column="2">Banco</Label>
-                        <TextBox Name="CommissionBank" Grid.Row="4" Grid.Column="2" Background="LightCyan" Grid.ColumnSpan="2" Margin="75,5,0,5" Text="{Binding Path=CommissionBank}" Height="Auto"/>
-                        <Button  Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Name="FindCommissionBank" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindCommissionBank" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                </StackPanel>
-                        </Button>
-                        <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
-                        <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}" Height="Auto" Margin="0,5"/>
-                        <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office2}" Background="LightBlue" Height="Auto" Margin="0,5"/>
-                        <Button  Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" Name="FindOffice2" Width="100" Command="{Binding ClickCommand}" 
-                                 CommandParameter="FindOffice" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                            </StackPanel>
-                        </Button>
-                        <Label Grid.Row="6" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
-                        <Label Grid.Row="7" Grid.Column="0">IBAN</Label>
-                        <TextBox Grid.Row="7" Name="IbanValue" Grid.Column="1" Grid.ColumnSpan="2" Background="LightCyan" Height="Auto" Margin="0,3">
-                            <TextBox.Text>
-                                <Binding Path="IbanValue" UpdateSourceTrigger="PropertyChanged">
-                                    
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <Label Grid.Row="7" Grid.Column="3">SWIFT</Label>
-                        <TextBox Grid.Row="7" Name="SwiftValue" Text="{Binding Path=SwiftValue}" Grid.Column="3"  Background="LightCyan" Grid.ColumnSpan="1" Margin="48,3,0,3" Height="Auto"/>
-                        <Label Grid.Row="8" Grid.Column="0">Banco Cobro</Label>
-                        <TextBox Grid.Row="8" Name="ChargeBank1" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeBank1}" Height="Auto" Margin="0,5"/>
-                        <TextBox Grid.Row="8" Name="ChargeBank2" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeBank2}" Height="Auto" Margin="0,5"/>
-                        <Button  Grid.Row="8" Name="FindChargeBank" Grid.Column="3" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindChargeBank" Grid.ColumnSpan="2" Margin="94,0,-2,0">
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                                  </StackPanel>
-                        </Button>
-                        <Label Grid.Row="9" Grid.Column="0">Facturación</Label>
-                        <TextBox Name="Billing1" Text="{Binding Path=Billing1}" Grid.Row="9" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5"/>
-                        <TextBox Name="Billing2" Text="{Binding Path=Billing2}" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Height="Auto" Margin="0,5"/>
-                        <Button  Name="FindBillingAccount" Grid.Row="9" Grid.Column="3" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}" 
-                                 CommandParameter="FindBillingAccount" Grid.ColumnSpan="2" Margin="94,0,-2,0" >
-                            <StackPanel Orientation="Horizontal">
-                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
-                            </StackPanel>
-                        </Button>
-                        <Label Grid.Row="10" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
-                        <WrapPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5">
-                            <CheckBox Name="IsClientAccount" IsChecked="{Binding IsClientAccountChecked}" Width="151">Cuenta contable cliente</CheckBox>
-                            <CheckBox Name="IsAllowedShower" IsChecked="{Binding IsAllShowerChecked}" Width="151">Permitido en mostrador</CheckBox>
-                            <CheckBox Name="IsTeleCheck" IsChecked="{Binding IsTeleCheckChecked}" Width="100">Es telecheque</CheckBox>
-                            <CheckBox Name="IsPortfolioEffect" IsChecked="{Binding IsPortfolioEffectChecked}" Width="146">Effecto en carteras</CheckBox>
-                            <CheckBox Name="IsRemittable" IsChecked="{Binding IsRemittableChecked}" Width="151">No Remesable</CheckBox>
-                            <CheckBox Name="IsMultiSeatCommission" IsChecked="{Binding IsMultiSeatCommission}" Width="151">Comision 2 asientos</CheckBox>
-                            <CheckBox Name="IsNoAutoList" IsChecked="{Binding IsNoAutoList}" Width="151">No Autocotizar</CheckBox>
-                        </WrapPanel>
-                    </Grid>
-                    <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <ExtendedGridControl:ExtendedDataGrid Height="350" VerticalAlignment="Top" 
-                                                              x:Name="PaymentSystem" 
-                                                               SelectedIndex="{Binding SelectedIndex}"
-                                                              ItemsSource="{Binding SourceTable}" 
-                                                              RowHeaderWidth="17" 
-                                                              IsReadOnly="True"
-                                                              AutoGenerateColumns="False" 
-                                                              HideColumnChooser="True" 
-                                                              AllowUserToCopy="True"
-                                                              SearchAutoFilterVisibility="Visible" 
-                                                              AutoFilterFontSize="12"
-                                                              Theme="Office2007Silver"
-                                                              GroupByControlVisibility="Collapsed" 
-                                                              IsSynchronizedWithCurrentItem="True"  
-                                                              SelectionMode="Extended" 
-                                                              SelectionUnit="FullRow" >
-                                <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding DataGridChangedSelection}" CommandParameter="{Binding ElementName=PaymentSystem, Path=SelectedValue}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <DataGrid.Columns>
-                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Numero" AllowAutoFilter="True" Width="10*" Binding="{Binding Numero}"/>
-                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Nombre" AllowAutoFilter="True" Width="90*" Binding="{Binding Nombre}"/>
-                                <ExtendedColumn:ExtendedDataGridTextColumn  Header="Cuenta" AllowAutoFilter="False" Width="90*" Binding="{Binding Cuenta}"/>
-                            </DataGrid.Columns>
-                        </ExtendedGridControl:ExtendedDataGrid>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                                <TextBox.Text>
 
-    </Grid>
+                                    <Binding Path="ChargeNumber" UpdateSourceTrigger="PropertyChanged">
+
+                                        <Binding.ValidationRules>
+                                            <validationRules:NumberValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <GroupBox Grid.Row="0" Grid.Column="2">
+                                <CheckBox Name="DependencyOnCash" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsDependencyOnCash, Mode=TwoWay}">Afecta a caja</CheckBox>
+                            </GroupBox>
+                            <GroupBox Grid.Row="0" Grid.Column="3">
+                                <CheckBox Name="AskCreditCard"  VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsAskedCreditCard, Mode=TwoWay}">Pedir Tarjeta</CheckBox>
+                            </GroupBox>
+                            <Label Grid.Row="1" Grid.Column="0">Nombre</Label>
+                            <TextBox Name="ChargeName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Background="LightCyan" Text="{Binding Path=ChargeName}" Height="Auto" Margin="0,3"/>
+                            <Label Grid.Row="2" Grid.Column="0">Cuenta</Label>
+                            <TextBox Name="ChargeAccount1" Grid.Row="2" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeAccount1}" Height="Auto" Margin="0,5"/>
+                            <TextBox Name="ChargeAccount2" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  Background="LightBlue" Text="{Binding Path=ChargeAccount2}" Height="Auto" Margin="0,5"/>
+                            <Button  Name="FindChargeAccount" Grid.Row="2" Grid.Column="3"  HorizontalAlignment="Center" Width="100"  Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindChargeAccount" Grid.ColumnSpan="2" Margin="98,0,-6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="3" Grid.Column="0">Cuenta Comisión</Label>
+                            <TextBox Name="ChargeCommissionAccount"  Grid.Row="3" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeCommissionAccount1}" Height="Auto" Margin="0,5"/>
+                            <TextBox Name="ChargeCommissionAccount2" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeCommissionAccount2}" Height="Auto" Margin="0,5"/>
+                            <Button  Name="FindChargeCommissionAccount"  Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindChargeCommissionAccount" Margin="98,0,-6,0" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="4" Grid.Column="0">Comisión %</Label>
+                            <TextBox Name="CommissionPercentage"  Grid.Row="4" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5">
+                                <TextBox.Text>
+                                    <Binding Path="CommissionPercentage" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Label Grid.Row="4" Grid.Column="2">Banco</Label>
+                            <TextBox Name="CommissionBank" Grid.Row="4" Grid.Column="2" Background="LightCyan" Grid.ColumnSpan="2" Margin="75,5,0,5" Text="{Binding Path=CommissionBank}" Height="Auto"/>
+                            <Button  Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" Name="FindCommissionBank" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindCommissionBank" Grid.ColumnSpan="2" Margin="98,0,-6,0" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="5" Grid.Column="0">Oficina</Label>
+                            <TextBox Grid.Row="5" Name="Office" Grid.Column="1" Background="LightCyan" Text="{Binding Path=Office}" Height="Auto" Margin="0,5"/>
+                            <TextBox Grid.Row="5" Name="Office2" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=Office2}" Background="LightBlue" Height="Auto" Margin="0,5"/>
+                            <Button  Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" Name="FindOffice2" Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindOffice" Grid.ColumnSpan="2" Margin="98,0,-6,0" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="6" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
+                            <Label Grid.Row="7" Grid.Column="0">IBAN</Label>
+                            <TextBox Grid.Row="7" Name="IbanValue" Grid.Column="1" Grid.ColumnSpan="2" Background="LightCyan" Height="Auto" Margin="0,3">
+                                <TextBox.Text>
+                                    <Binding Path="IbanValue" UpdateSourceTrigger="PropertyChanged">
+
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Label Grid.Row="7" Grid.Column="3">SWIFT</Label>
+                            <TextBox Grid.Row="7" Name="SwiftValue" Text="{Binding Path=SwiftValue}" Grid.Column="3"  Background="LightCyan" Grid.ColumnSpan="1" Margin="48,3,0,3" Height="Auto"/>
+                            <Label Grid.Row="8" Grid.Column="0">Banco Cobro</Label>
+                            <TextBox Grid.Row="8" Name="ChargeBank1" Grid.Column="1" Background="LightCyan" Text="{Binding Path=ChargeBank1}" Height="Auto" Margin="0,5"/>
+                            <TextBox Grid.Row="8" Name="ChargeBank2" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Text="{Binding Path=ChargeBank2}" Height="Auto" Margin="0,5"/>
+                            <Button  Grid.Row="8" Name="FindChargeBank" Grid.Column="3" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}"  CommandParameter="FindChargeBank" Grid.ColumnSpan="2" Margin="98,0,-6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="9" Grid.Column="0">Facturación</Label>
+                            <TextBox Name="Billing1" Text="{Binding Path=Billing1}" Grid.Row="9" Grid.Column="1" Background="LightCyan" Height="Auto" Margin="0,5"/>
+                            <TextBox Name="Billing2" Text="{Binding Path=Billing2}" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Background="LightBlue" Height="Auto" Margin="0,5"/>
+                            <Button  Name="FindBillingAccount" Grid.Row="9" Grid.Column="3" HorizontalAlignment="Center" Width="100" Command="{Binding ClickCommand}" 
+                                 CommandParameter="FindBillingAccount" Grid.ColumnSpan="2" Margin="98,0,-6,0" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/KarveCar;component/Images/search.png" Height="20" Width="18"/>
+                                </StackPanel>
+                            </Button>
+                            <Label Grid.Row="10" Grid.Column="0" Background="White" Grid.ColumnSpan="5"/>
+                            <WrapPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="5">
+                                <CheckBox Name="IsClientAccount" IsChecked="{Binding IsClientAccountChecked}" Width="151">Cuenta contable cliente</CheckBox>
+                                <CheckBox Name="IsAllowedShower" IsChecked="{Binding IsAllShowerChecked}" Width="151">Permitido en mostrador</CheckBox>
+                                <CheckBox Name="IsTeleCheck" IsChecked="{Binding IsTeleCheckChecked}" Width="100">Es telecheque</CheckBox>
+                                <CheckBox Name="IsPortfolioEffect" IsChecked="{Binding IsPortfolioEffectChecked}" Width="146">Effecto en carteras</CheckBox>
+                                <CheckBox Name="IsRemittable" IsChecked="{Binding IsRemittableChecked}" Width="151">No Remesable</CheckBox>
+                                <CheckBox Name="IsMultiSeatCommission" IsChecked="{Binding IsMultiSeatCommission}" Width="151">Comision 2 asientos</CheckBox>
+                                <CheckBox Name="IsNoAutoList" IsChecked="{Binding IsNoAutoList}" Width="151">No Autocotizar</CheckBox>
+                            </WrapPanel>
+                        </Grid>
+                        <StackPanel Orientation="Vertical" Grid.Row="1">
+                            <syncfusion:SfDataGrid x:Name="ClientSummary"
+                               ColumnSizer="Star"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                   
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="False">
+
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+
+                                <syncfusion:SfDataGrid.Resources>
+                                    <ResourceDictionary>
+                                        <ResourceDictionary.MergedDictionaries>
+                                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                        </ResourceDictionary.MergedDictionaries>
+                                    </ResourceDictionary>
+                                </syncfusion:SfDataGrid.Resources>
+                                <syncfusion:SfDataGrid.Columns>
+                                    <syncfusion:GridTextColumn HeaderText="Numero" 
+                                           MappingName="Codigo" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                                    <syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="Nombre"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                                        <syncfusion:GridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontStyle="Italic"
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Nombre}" />
+                                            </DataTemplate>
+                                        </syncfusion:GridTemplateColumn.CellTemplate>
+
+                                    </syncfusion:GridTemplateColumn>
+
+
+                                    <syncfusion:GridTextColumn HeaderText="Cuenta" MappingName="Cuenta" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                                </syncfusion:SfDataGrid.Columns>
+
+                            </syncfusion:SfDataGrid>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+        </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5"/>
         <Grid Grid.Column="2" VerticalAlignment="Top" Grid.IsSharedSizeScope="True" ShowGridLines="True">
-            <ContentControl   mvvm1:RegionManager.RegionName="SearchRegion"/>
+            <ContentControl mvvm1:RegionManager.RegionName="SearchRegion"/>
         </Grid>
     </Grid>
 </UserControl>

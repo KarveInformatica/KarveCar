@@ -802,8 +802,8 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
-                
-                
+             //   cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeDtoToOficinaConverter());
+
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
@@ -1535,6 +1535,13 @@ namespace DataAccessLayer.Logic
             return mappingConfig;
         }
     }
+    /*
+    internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
+    {
+        public OfficeDtoToOficinaConverter()
+        {
+        }
+    }*/
 
     internal class PropieToOwnerDtoConverter : ITypeConverter<PROPIE, OwnerDto>
     {

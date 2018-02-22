@@ -160,13 +160,15 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
             try
             {
 
-                _paymentDataServices = _dataServices.GetPaymentDataService();
+                _paymentDataServices = _dataServices.GetDataService<IPaymentDataServices>();
                 if (_paymentDataServices != null)
                 {
                     _sourceDataTable = _paymentDataServices.GetChargeObjects();
                 }
-                _bankDataTable = _dataServices.GetAllBanks();
-                viewModel.QueryTable = _bankDataTable;
+                var helpers = _dataServices.GetHelperDataServices();
+                
+                //_bankDataTable = await helpers.GetMappedAllAsyncHelper<BanksDto,BANCO>()
+           //     viewModel.QueryTable = _bankDataTable;
             }
             catch (Exception e)
             {

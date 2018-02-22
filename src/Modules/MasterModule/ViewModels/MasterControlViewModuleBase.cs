@@ -42,7 +42,7 @@ namespace MasterModule.ViewModels
             DeleteEventHandler -= DeleteElementHandler;
         }
         /// <summary>
-        ///  Handle to delete.
+        ///  Handle to delete. this is replicate to the top level see MasterViewModuleBase.
         /// </summary>
         /// <param name="sender">Notify task completion sender</param>
         /// <param name="e">Property</param>

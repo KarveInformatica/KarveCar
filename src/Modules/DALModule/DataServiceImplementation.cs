@@ -42,12 +42,11 @@ namespace DataAccessLayer
         ///  Data management for the offices
         /// </summary>
         private readonly IOfficeDataServices _officeDataService;
-        private readonly CompanyDataService _companyDataService;
 
         /// <summary>
         ///  Data management for the company
         /// </summary>
-        private readonly ICompanyDataService companyDataService;
+        private readonly ICompanyDataService _companyDataService;
 
         /// <summary>
         ///  SqlExecutor.

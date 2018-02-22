@@ -6,7 +6,7 @@ using AutoMapper;
 using Dapper;
 using Z.Dapper;
 using Z.BulkOperations;
-
+using System.Linq;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
@@ -42,7 +42,20 @@ namespace DataAccessLayer.Crud.Clients
             var branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(data.BranchesDto);
             var contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(data.ContactsDto);
             var visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(data.VisitsDto);
-            await connection.BulkActionAsync(x => x.BulkDelete(branches).BulkDelete(contacts).BulkDelete(visitas));
+            await connection.BulkActionAsync(x => {
+                if (branches.Count() > 0)
+                {
+                    x.BulkDelete(branches);
+                }
+                if (contacts.Count() > 0)
+                {
+                    x.BulkDelete(contacts);
+                }
+                if (visitas.Count() > 0)
+                {
+                    x.BulkDelete(visitas);
+                }
+            });
         }
         /// <summary>
         ///  This delete asynchronous data

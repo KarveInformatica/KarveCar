@@ -9,6 +9,7 @@ using DataAccessLayer.DataObjects;
 using AutoMapper;
 using System.Transactions;
 using KarveDapper.Extensions;
+using DataAccessLayer.Logic;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -23,6 +24,7 @@ namespace DataAccessLayer.Crud.Office
         public OfficeDataDeleter(ISqlExecutor executor)
         {
             _executor = executor;
+            _mapper = MapperField.GetMapper();
         }
         /// <summary>
         ///  Delete an office 

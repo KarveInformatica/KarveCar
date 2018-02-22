@@ -226,9 +226,6 @@
     <Compile Include="DataFieldItemsControl\KarveExt.cs" />
     <Compile Include="DataField\DataField.cs" />
     <Compile Include="DataField\DataFieldEventArgs.cs" />
-    <Compile Include="DigitalClock.xaml.cs">
-      <DependentUpon>DigitalClock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DirectionInfo\DirectionInfo.cs" />
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
@@ -300,10 +297,6 @@
     <Page Include="DataFieldItemsControl\DataFieldItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="DigitalClock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>

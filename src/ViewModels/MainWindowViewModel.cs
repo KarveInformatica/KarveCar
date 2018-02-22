@@ -31,9 +31,6 @@ namespace KarveCar.ViewModels
         ///  CultureSwitcher 
         /// </summary>
         private CultureSwitcher _cultureSwitch;
-
-        private KarveLocale.Properties.Resources _resources;
-        //
         private ObjectDataProvider _objectDataProvider=new ObjectDataProvider();
         private string _currentDay;
 

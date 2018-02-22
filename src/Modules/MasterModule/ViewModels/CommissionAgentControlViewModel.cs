@@ -26,7 +26,7 @@ namespace MasterModule.ViewModels
         private readonly UnityContainer _container;
         private readonly IDataServices _dataServices;
         private IUserSettings _settings;
-        private IMagnifierSettings _magnifierSettings;
+        
 
         /// <summary>
         ///  This is the region manager.
@@ -185,8 +185,15 @@ namespace MasterModule.ViewModels
             ICommissionAgentView view = _container.Resolve<CommissionAgentInfoView>();
             // TODO: use the navigation service.
             string viewNameValue = name + "." + codigo;
-            ConfigurationService.AddMainTab(view, viewNameValue);
-            //ConfigurationService.AddMainTab(view, name);
+
+
+            var navigationParameters = new NavigationParameters();
+            var id = codigo;
+            navigationParameters.Add("Id", id);
+            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
+
+            var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
+            RegionManager.RequestNavigate("TabRegion", uri);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;

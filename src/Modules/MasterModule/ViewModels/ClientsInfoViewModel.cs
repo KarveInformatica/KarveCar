@@ -258,9 +258,20 @@ namespace MasterModule.ViewModels
                 {
                     MessageBox.Show("DataObject is null.");
                 }
+
                 var data = eventDictionary["DataObject"];
-                var name = eventDictionary["Field"] as string;
-                GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                if (eventDictionary.ContainsKey("Field"))
+                {
+                    var name = eventDictionary["Field"] as string;
+                    if (eventDictionary.ContainsKey("ChangedCode"))
+                    {
+                        GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedCode"]);
+                    }
+                    else
+                    {
+                        GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                    }
+                }
                 payLoad.DataObject = data; 
                 payLoad.HasDataObject = true;
                 eventDictionary["DataObject"] = data;

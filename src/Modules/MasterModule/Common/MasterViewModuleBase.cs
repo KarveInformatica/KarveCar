@@ -58,8 +58,10 @@ namespace MasterModule.Common
         /// The event manager is responsabile to implement the communication between different view models
         /// </summary>
         protected IEventManager EventManager;
-
-        
+        /// <summary>
+        ///  TODO: fixme read after write probelm
+        /// </summary>
+        private string KeyDeleted = string.Empty;
 
         /// <summary>
         ///  Mailbox where each view model can receive a message from other view models.
@@ -330,8 +332,30 @@ namespace MasterModule.Common
             RegionManager = regionManager;
             _notifyState = 0;
             CurrentOperationalState = DataPayLoad.Type.Show;
+
             EmailCommand = new Prism.Commands.DelegateCommand<object>(LaunchMailClient);
             ClickSearchWebAddressCommand = new Prism.Commands.DelegateCommand<object>(LaunchWebBrowser);
+            DeleteEventHandler += OnDeleteTask;
+        }
+
+        private void OnDeleteTask(object sender, PropertyChangedEventArgs e)
+        {
+            string propertyName = e.PropertyName;
+
+            if (propertyName.Equals("Status"))
+            {
+                if (DeleteInitializationTable.IsSuccessfullyCompleted)
+                {
+                    var result = InitializationNotifier.Task.Result;
+                    CanDeleteRegion = true;
+                    if (CanDeleteRegion)
+                    {
+                        DeleteRegion(KeyDeleted);
+                        StartAndNotify();
+                    }
+                }
+            }
+           
         }
 
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
@@ -455,8 +479,6 @@ namespace MasterModule.Common
 
         private INotifyTaskCompletion<bool> DeleteInitializationTable;
 
-        private IMagnifierSettings _magnifierSettings;
-
         /// <summary>
         ///  This starts the load of data from the lower data layer.
         /// </summary>
@@ -482,11 +504,8 @@ namespace MasterModule.Common
             string primaryKeyValue = payLoad.PrimaryKeyValue;
             DeleteInitializationTable =
                 NotifyTaskCompletion.Create<bool>(DeleteAsync(primaryKeyValue, payLoad), DeleteEventHandler);
-            if (CanDeleteRegion)
-            {
-                DeleteRegion(primaryKeyValue);
-                StartAndNotify();
-            }
+            KeyDeleted = primaryKeyValue;
+           
         }
 
         public abstract Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad);

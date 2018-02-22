@@ -10,15 +10,10 @@ using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveDataServices.DataTransferObject;
-using MasterModule.Views;
 using MasterModule.Views.Vehicles;
 using Prism.Commands;
 using Prism.Regions;
@@ -849,9 +844,7 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
-        // FIXME: try to see if ivent ok.
-         public string UniqueId { get; set; }
-
+    
         public ObservableCollection<CityDto> CityDto
         {
             get

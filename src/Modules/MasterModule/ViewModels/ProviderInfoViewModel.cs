@@ -31,14 +31,11 @@ namespace MasterModule.ViewModels
     {
         private bool _isInsertion;
         private string _header;
-        private INotifyTaskCompletion<bool> _deleteInitializationTable;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private INotifyTaskCompletion<ISupplierData> _initializationTable;
         // FIXME: move to data layer.
         private string _accountAssistQuery = "SELECT CODIGO, DESCRIP, CC FROM CU1;";
         private bool _delegationReadonly;
-        private DataSet _delegationSet;
-        private string _delegationQuery = "";
         private ISupplierData _supplierData;
         private object _dataObject;
         private Visibility _visibility;

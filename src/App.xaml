@@ -21,10 +21,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cobalt.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-          
-                   
-                    <!-- Include the Dragablz Material Design style -->
-                    <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/mahapps.xaml" />
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="ResourceLanguage" 
                                         ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 

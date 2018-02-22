@@ -17,7 +17,6 @@ namespace ToolBarModule.Command
     {
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
-        private readonly PropertyChangedEventHandler _onExecutedPayload;
         private ICommissionAgentDataServices _commissionAgentDataServices;
         public new event ErrorExecuting OnErrorExecuting;
         /// <summary>
@@ -32,7 +31,7 @@ namespace ToolBarModule.Command
             DataServices = services;
             _payload = payLoad;
             EventManager = manager;
-            _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleCommissionAgentSave(_payload), _onExecutedPayload);
+            _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleCommissionAgentSave(_payload), ExecutedPayloadHandler);
         }
 
         protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)

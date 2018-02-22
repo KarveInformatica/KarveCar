@@ -8,6 +8,8 @@ using System.Transactions;
 using KarveDapper.Extensions;
 using System.Collections.Generic;
 using DataAccessLayer.Logic;
+using Z.Dapper.Plus;
+using System.Linq;
 
 namespace DataAccessLayer.Crud.Company
 {
@@ -32,20 +34,26 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="dto">Fata transfer object to delete the offices.</param>
         /// <returns>True if the action has been completed successfully</returns>
-        private async Task<bool> DeleteOfficesAsync(IEnumerable<OfficeDtos> listOfOffices)
+        private async Task<bool> DeleteOfficesAsync(IDbConnection connection, IEnumerable<OfficeDtos> listOfOffices)
         {
             IEnumerable<OFICINAS> offices = _mapper.Map<IEnumerable<OfficeDtos>, IEnumerable<OFICINAS>>(listOfOffices);
             bool retValue = false;
 
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                await connection.BulkActionAsync(x =>
                 {
-                    retValue = await connection.DeleteCollectionAsync<OFICINAS>(offices);
-                    scope.Complete();
-                }
+                    if (offices.Count<OFICINAS>() > 0)
+                    {
+                        x.BulkDelete(offices);
+                    }
+                });
+                // check who many 
+                IEnumerable<OFICINAS> value = await connection.GetAllAsync<OFICINAS>();
+                retValue = (value.Count<OFICINAS>() == 0);
+                scope.Complete();
             }
+
             return retValue;
         }
         /// <summary>
@@ -56,19 +64,19 @@ namespace DataAccessLayer.Crud.Company
         public async Task<bool> DeleteAsync(CompanyDto data)
         {
             bool retValue = false;
-            
-                SUBLICEN value = _mapper.Map<CompanyDto, SUBLICEN>(data);
-                using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
-                {
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                    {
-                        retValue = await connection.DeleteAsync<SUBLICEN>(value);
-                        retValue = retValue && await DeleteOfficesAsync(data.Offices);
-                        scope.Complete();
-                    }
 
+            SUBLICEN value = _mapper.Map<CompanyDto, SUBLICEN>(data);
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    retValue = await connection.DeleteAsync<SUBLICEN>(value);
+                    retValue = retValue && await DeleteOfficesAsync(connection, data.Offices);
+                    scope.Complete();
                 }
-            
+
+            }
+
             return retValue;
         }
     }

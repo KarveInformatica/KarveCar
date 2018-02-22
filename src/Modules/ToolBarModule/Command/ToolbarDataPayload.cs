@@ -62,7 +62,10 @@ namespace ToolBarModule.Command
             }
             get { return _dataServices; }
         }
-
+        protected void ShowErrorMessage(string message)
+        {
+            OnErrorExecuting?.Invoke(message);
+        }
         /// <summary>
         ///  Take any action during the event manager
         /// </summary>

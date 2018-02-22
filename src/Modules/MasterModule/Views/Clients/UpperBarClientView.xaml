@@ -26,7 +26,7 @@
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
                 </KarveControls:DataField>
-                <KarveControls:DataField x:Name="Name" 
+                <KarveControls:DataField x:Name="NameElement" 
                                          TextContent="{Binding DataObject.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="150" DataObject="{Binding DataObject, 
                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  

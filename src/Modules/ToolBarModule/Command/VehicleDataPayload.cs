@@ -13,7 +13,7 @@ namespace ToolBarModule.Command
         private IVehicleDataServices _vehicleDataServices;
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
-        public event ErrorExecuting OnErrorExecuting;
+       
 
 
         public VehicleDataPayload(): base()
@@ -39,7 +39,8 @@ namespace ToolBarModule.Command
             if (vehicleData == null)
             {
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
-                OnErrorExecuting?.Invoke(message);
+                ShowErrorMessage(message);
+               // OnErrorExecuting?.Invoke(message);
             }
             // FIXME: unify the update and the insert.
             switch (payLoad.PayloadType)
@@ -67,7 +68,8 @@ namespace ToolBarModule.Command
             else
             {
                 string message = isInsert ? "Error during the insert" : "Error during the update";
-                OnErrorExecuting?.Invoke(message);
+                ShowErrorMessage(message);
+              //  OnErrorExecuting?.Invoke(message);
             }
             return payLoad;
 

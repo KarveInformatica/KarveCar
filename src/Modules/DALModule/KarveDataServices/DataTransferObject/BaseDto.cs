@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommonInterfaces;
+using System.Windows.Input;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -55,6 +56,7 @@ namespace KarveDataServices.DataTransferObject
         public virtual void RejectChanges()
         {
         }
+        public ICommand DeleteCommand { get; set; }
         
     }
 }

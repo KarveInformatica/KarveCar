@@ -75,7 +75,7 @@ namespace MasterModule.ViewModels
 
         protected override string GetRouteName(string name)
         {
-            var route = @"master://" + MasterModuleConstants.ClientSubSystemName + "//" + name;
+            var route = @"master://" + MasterModuleConstants.CompanySubSystemName + "//" + name;
             string routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }

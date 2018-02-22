@@ -1189,6 +1189,7 @@ namespace KarveControls
             IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
             valueDictionary["AssistTable"] = AssistTableName;
             valueDictionary["DataFieldFirst"] = DataFieldFirst;
+            valueDictionary["Field"] = DataFieldFirst;
             valueDictionary["DataFieldSecond"] = DataFieldSecond;
             valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
             valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
@@ -1453,6 +1454,7 @@ namespace KarveControls
                 valueDictionary["DataTable"] = ItemSource;
                 valueDictionary["DataObject"] = this.DataSource;
                 valueDictionary["AssistDataTable"] = SourceView;
+                valueDictionary["Field"] = DataFieldFirst;
                 valueDictionary["ChangedCode"] = TextContentFirst;
                 valueDictionary["ChangedValue"] = TextContentSecond;
                 if (ItemChangedCommand != null)
