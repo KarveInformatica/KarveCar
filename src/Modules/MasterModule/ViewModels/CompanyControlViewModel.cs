@@ -25,19 +25,23 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal class CompanyControlViewModel : MasterControlViewModuleBase
     {
+        
         public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             InitEventHandler += LoadNotificationHandler;
             _mailBoxName = EventSubsystem.CompanySummaryVm;
             InitViewModel();
+            ActiveSubSystem();
         }
-#region Public Properties
-        public IEnumerable<CompanySummaryDto> SourceView {
+
+        #region Public Properties
+        public IEnumerable<CompanySummaryDto> SourceView
+        {
             get { return _sourceView; }
             set { _sourceView = value; RaisePropertyChanged(); }
         }
-#endregion
+        #endregion
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
@@ -64,6 +68,9 @@ namespace MasterModule.ViewModels
         {
             ICompanyDataService companyDataService = DataServices.GetCompanyDataServices();
             InitializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(companyDataService.GetAsyncAllCompanySummary(), InitEventHandler);
+            MessageHandlerMailBox += MessageHandler;
+            EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
+            ActiveSubSystem();
         }
 
         protected override string GetRouteName(string name)
@@ -129,7 +136,7 @@ namespace MasterModule.ViewModels
 
         public override void NewItem()
         {
-            string name = "Nueva Empresa";
+            string name = KarveLocale.Properties.Resources.CompanyControlViewModel_NewItem_NuevaEmpresa;
             string companyId = DataServices.GetCompanyDataServices().GetNewId();
             string viewNameValue = name + "." + companyId;
             // here shall be added to the region
@@ -179,6 +186,8 @@ namespace MasterModule.ViewModels
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.CompanySummaryGrid;
             StartAndNotify();
         }
+
+        
         #region Private Fields
 
         private INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> InitializationNotifierCompany;

@@ -31,17 +31,17 @@
                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
             </local:DualFieldSearchBox>
-            <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
+           
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Vertical">
             <TextBlock Text="Titular" FontSize="10"></TextBlock>
-            <TextBox  Margin="10,5,10,5" Height="25" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
+            <TextBox  Margin="22,5,10,5" Height="25" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="3">
             <TextBlock  Text="Numero" FontSize="10"></TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=DataObject.TARTINUM, Mode=TwoWay}" Width="242.963"></TextBox>
+                <TextBox Height="25" Margin="22,5,10,5" Text="{Binding Path=DataObject.TARTINUM, Mode=TwoWay}" Width="234"></TextBox>
                 <Image Source="/KarveControls;component/Images/visa.png" Width="25"></Image>
             </StackPanel>
         </StackPanel>

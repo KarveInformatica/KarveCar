@@ -134,7 +134,7 @@
             </DataTemplate>
 
         </ResourceDictionary>
-      
+
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>
@@ -143,7 +143,7 @@
                     <prism:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-          
+
             <ScrollViewer>
 
                 <Grid>
@@ -282,8 +282,10 @@
                                       TextContent="{Binding Path=DataObject.TARTRANS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="TarTransporte" />
 
                                 <StackPanel Grid.Column="0" Grid.Row="13" Orientation="Horizontal" Grid.RowSpan="2">
-                                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_ALTA" Margin="4,27.055" />
-                                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_BAJA" />
+                                    <karveControls:DataDatePicker   
+                                      
+                                        LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="Auto" x:Name="fEC_ALTA" Margin="4,33,4,38" Width="204" />
+                                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="Auto" x:Name="fEC_BAJA" Margin="4,32,4,29" Width="222" />
                                 </StackPanel>
 
                                 <karveControls:DataArea Grid.Column="1"
@@ -337,7 +339,8 @@
                                         <karveControls:DataDatePicker
                         DataObject="{Binding DataObject, Mode=TwoWay}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                        Width="Auto" LabelTextWidth="200" LabelText="Fecha Aportacion" SelectedDate="{Binding Path=DataObject.FEAPOR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
+                        Width="Auto" LabelTextWidth="200" LabelText="Fecha Aportacion" 
+                                            SelectedDate="{Binding Path=DataObject.FEAPOR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
                         DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEAPOR"/>
                                     </StackPanel>
                                 </GroupBox>
@@ -611,9 +614,9 @@
                                         <RowDefinition></RowDefinition>
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    
+
                                     <karveControls:HelperButtonControl Grid.Row="1" VerticalAlignment="Top">
-                                        
+
                                     </karveControls:HelperButtonControl>
                                 </Grid>
                             </Grid>

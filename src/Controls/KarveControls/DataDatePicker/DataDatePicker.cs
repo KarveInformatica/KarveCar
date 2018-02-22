@@ -170,7 +170,7 @@ namespace KarveControls
             if (_datePicker.SelectedDate != null)
             {
                 // If we have a data source path we do the binding manually.
-                if ((value != null) && (dataObject != null))
+                if ((!string.IsNullOrEmpty(value) && (dataObject != null)))
                 {
                     SetValueDo(dataObject, value);
                     DataObject = dataObject;

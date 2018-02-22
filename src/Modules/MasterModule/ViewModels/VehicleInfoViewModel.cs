@@ -40,7 +40,6 @@ namespace MasterModule.ViewModels
         private object _dataObject;
         private object _deleteNotifyTaskCompletion;
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
-        public ICommand AssistCommand { set; get; }
         private string _header;
         private string _assistQueryOwner;
         private ObservableCollection<VehicleActivitiesDto> _activity;
@@ -401,10 +400,10 @@ namespace MasterModule.ViewModels
                 }
                 case "PROPIE":
                 {
-                    var propie = await helperDataServices.GetAsyncHelper<OwnerDto>(assistQuery);
-                    ObservableCollection<OwnerDto> ownerDtos = new ObservableCollection<OwnerDto>(propie);
-                    OwnerDtos = ownerDtos;
-                    break;
+                   var propie = await helperDataServices.GetMappedAllAsyncHelper<OwnerDto, PROPIE>();
+                   var ownerDtos = new ObservableCollection<OwnerDto>(propie);
+                   OwnerDtos = ownerDtos;
+                   break;
                 }
                 case "AGENTES":
                 {
@@ -652,7 +651,7 @@ namespace MasterModule.ViewModels
                 DataObject = vehicle;
             }
         }
-        public ICommand ItemChangedCommand { set; get; }
+      
 
         private void ChangeUnpack(object value)
         {
@@ -663,28 +662,14 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
-        ///  OnChangedField. This method shall be changed.
+        ///  OnChangedField. This method shall be changed moved to the upper level.
         /// </summary>
         /// <param name="eventDictionary">Dictionary of events.</param>
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
-            DataPayLoad payLoad = new DataPayLoad();
+            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.PayloadType = DataPayLoad.Type.Update;
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    MessageBox.Show("DataObject is null.");
-                }
-            }
-            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(EventManager,
-                ViewModelQueries,
-                DataSubSystem.VehicleSubsystem);
+            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(EventManager,DataSubSystem.VehicleSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {

@@ -1525,7 +1525,7 @@
     <value>Empresa Proprietario</value>
   </data>
   <data name="lproprietario" xml:space="preserve">
-    <value>Properietario</value>
+    <value>Propietario</value>
   </data>
   <data name="loficinaactual" xml:space="preserve">
     <value>Oficina Actual</value>
@@ -2156,5 +2156,8 @@
   </data>
   <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
     <value>Nueva Oficina</value>
+  </data>
+  <data name="lusuarioconnected" xml:space="preserve">
+    <value>Usuario connectado</value>
   </data>
 </root>

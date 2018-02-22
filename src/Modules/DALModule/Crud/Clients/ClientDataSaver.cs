@@ -10,20 +10,23 @@ using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
+using System.Linq;
+
+
 namespace DataAccessLayer.Crud.Clients
 {
     /// <summary>
     /// Client data save. This class has the single responsability to save the data.
     /// </summary>
-    internal sealed class ClientDataSaver: IDataSaver<ClientDto>
+    internal sealed class ClientDataSaver : IDataSaver<ClientDto>
     {
         private ISqlExecutor _executor;
         private IMapper _mapper;
-         private IValidationChain<ClientDto> _validationChain;
+        private IValidationChain<ClientDto> _validationChain;
         /// <summary>
         /// Client data saver
         /// </summary>
-        /// <param name="executor"></param>
+        /// <param name="executor">Sql executor to be saved.</param>
         public ClientDataSaver(ISqlExecutor executor)
         {
             _executor = executor;
@@ -37,6 +40,8 @@ namespace DataAccessLayer.Crud.Clients
             set { _validationChain = value; }
             get { return _validationChain; }
         }
+
+
         /// <summary>
         ///  Save the asynchronous client
         /// </summary>
@@ -45,15 +50,18 @@ namespace DataAccessLayer.Crud.Clients
         public async Task<bool> SaveAsync(ClientDto save)
         {
             IDbConnection connection = null;
-            ClientPoco currentPoco;
-            if (!ValidationChain.Validate(save))
+            ///ClientPoco currentPoco;
+            if (ValidationChain != null)
             {
-                throw new DataLayerInvalidClientException(ValidationChain.Errors);
+                if (!ValidationChain.Validate(save))
+                {
+                    throw new DataLayerInvalidClientException(ValidationChain.Errors);
+                }
             }
-            currentPoco = _mapper.Map<ClientDto, ClientPoco>(save);
-            Contract.Assert(currentPoco != null, "Invalid Poco");
-            CLIENTES1 client1 = _mapper.Map<ClientPoco, CLIENTES1>(currentPoco);
-            CLIENTES2 client2 = _mapper.Map<ClientPoco, CLIENTES2>(currentPoco);
+           // currentPoco = _mapper.Map<ClientDto, ClientPoco>(save);
+            //Contract.Assert(currentPoco != null, "Invalid Poco");
+            CLIENTES1 client1 = _mapper.Map<ClientDto, CLIENTES1>(save);
+            CLIENTES2 client2 = _mapper.Map<ClientDto, CLIENTES2>(save);
             bool retValue = false;
             if ((client1 == null) || (client2 == null))
             {
@@ -83,9 +91,9 @@ namespace DataAccessLayer.Crud.Clients
                                 retValue = await connection.UpdateAsync<CLIENTES2>(client2);
                             }
                         }
-                        retValue = retValue && await SaveBranchesAsync(save.BranchesDto);
-                        retValue = retValue && await SaveContactsAsync(save.ContactsDto);
-                        retValue = retValue && await SaveVisitsAsync(save.VisitsDto);
+                        retValue = retValue && await SaveBranchesAsync(connection, save.BranchesDto);
+                        retValue = retValue && await SaveContactsAsync(connection, save.ContactsDto);
+                        retValue = retValue && await SaveVisitsAsync(connection, save.VisitsDto);
                         scope.Complete();
                     }
                 }
@@ -101,52 +109,58 @@ namespace DataAccessLayer.Crud.Clients
         /// <summary>
         ///  Save the visit.
         /// </summary>
-        /// <param name="saveVisitsDto"></param>
+        /// <param name="saveVisitsDto">Visit to save</param>
         /// <returns></returns>
-        private async Task<bool> SaveVisitsAsync(IEnumerable<VisitsDto> saveVisitsDto)
+        private async Task<bool> SaveVisitsAsync(IDbConnection connection, IEnumerable<VisitsDto> saveVisitsDto)
         {
+            Contract.Assert(saveVisitsDto != null, "Save contacts shall be not null");
+
             bool retValue = false;
+            if (saveVisitsDto.Count<VisitsDto>() == 0)
+            {
+                return true;
+            }
             // SELECT * from Visitas;
             IEnumerable<Visitas> visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(saveVisitsDto);
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
-            {
-                int value = await  connection.InsertAsync(saveVisitsDto);
-                retValue = value > 0;
-            }
+            int value = await connection.InsertAsync(saveVisitsDto);
+            retValue = value > 0;
             return retValue;
 
         }
         /// <summary>
         ///  Save the contacs
         /// </summary>
-        /// <param name="saveContactsDto"></param>
+        /// <param name="saveContactsDto">Contacts to be saved</param>
         /// <returns></returns>
-        private async Task<bool> SaveContactsAsync(IEnumerable<ContactsDto> saveContactsDto)
+        private async Task<bool> SaveContactsAsync(IDbConnection connection, IEnumerable<ContactsDto> saveContactsDto)
         {
+            Contract.Assert(saveContactsDto != null, "Save contacts shall be not null");
             bool retValue = false;
             IEnumerable<CliContactos> contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(saveContactsDto);
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            if (contacts.Count<CliContactos>() == 0)
             {
-                int value = await connection.InsertAsync(saveContactsDto);
-                retValue = value > 0;
+                return true;
             }
+            int value = await connection.InsertAsync(saveContactsDto);
+            retValue = value > 0;
             return retValue;
-      
         }
         /// <summary>
         /// Save the branches.
         /// </summary>
-        /// <param name="branchesDto"></param>
-        /// <returns></returns>
-        private async Task<bool> SaveBranchesAsync(IEnumerable<BranchesDto> branchesDto)
+        /// <param name="branchesDto">List of branches</param>
+        /// <returns>Return a true or a false.</returns>
+        private async Task<bool> SaveBranchesAsync(IDbConnection connection, IEnumerable<BranchesDto> branchesDto)
         {
+            Contract.Assert(connection != null, "Connection shall be not null");
             bool retValue = false;
             IEnumerable<cliDelega> branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(branchesDto);
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            if (branches.Count<cliDelega>() == 0)
             {
-                int value = await connection.InsertAsync(branches);
-                retValue = value > 0;
+                return true;
             }
+            int value = await connection.InsertAsync(branches);
+            retValue = value > 0;
             return retValue;
         }
     }

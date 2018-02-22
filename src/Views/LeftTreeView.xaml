@@ -7,6 +7,7 @@
               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:KarveCar.Views"
              xmlns:navigation="http://schemas.syncfusion.com/wpf"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
             
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="200">
@@ -28,7 +29,7 @@
                             <RowDefinition></RowDefinition>
 
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Dati Usuario" Foreground="White" FontSize="24" Height="40" Background="CadetBlue" 
+                        <TextBlock Grid.Row="0" Text="{Binding lusuarioconnected, Source={StaticResource ResourceLanguage}}" Foreground="White" FontSize="20" Height="40" Background="CadetBlue" 
                        HorizontalAlignment="Stretch" Width="200"/>
                         <TextBlock Grid.Row="1" Text="Benvenido CARLOS VELASCO" Background="White" FontFamily="Helvetica"></TextBlock>
                         <StackPanel Grid.Row="2" Orientation="Horizontal">
@@ -64,7 +65,7 @@
                 <DataTemplate x:Key="Offices">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/KarveCar;component/Images/office.png" Height="30" ></Image>
-                        <TextBlock Margin="10,0,0,0" Text="Empresas"/>
+                        <TextBlock Margin="10,0,0,0" Text="Oficinas"/>
                     </StackPanel>
                 </DataTemplate>
                 <DataTemplate x:Key="Contracts">
@@ -101,12 +102,15 @@
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="Auto" MinHeight="190"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{Binding CurrentDay, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontSize="24" Background="CadetBlue" 
                        HorizontalAlignment="Stretch"/>
-            <navigation:Clock Grid.Row="1" Name="CLock"   HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+            <karveControls:KarveClock Grid.Row="1"/>
+
+
+            <!--  <navigation:Clock Grid.Row="1" Name="CLock"   HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                                     FrameBackground="White" 
                                     FrameBorderBrush="White" 
                                     FrameInnerBorderBrush="White" 
@@ -114,13 +118,13 @@
                                       IsDigitalAmPmVisible="True"
                                       IsInsideAmPmVisible="False" Height="190">
 
-            </navigation:Clock>
+            </navigation:Clock>-->
         </Grid>
         <navigation:SfTreeNavigator Grid.Row="1">
             <navigation:SfTreeNavigator.HeaderTemplate>
 
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Background="CadetBlue" Width="250">
+                    <StackPanel Orientation="Horizontal" Background="Blue" Width="250">
                         <Image Source="/KarveCar;component/Images/cars.png" Height="30"></Image>
                         <TextBlock Margin="10,0,0,0" Text="Menu" Foreground="White" HorizontalAlignment="Stretch"/>
                     </StackPanel>
@@ -129,14 +133,36 @@
             </navigation:SfTreeNavigator.HeaderTemplate>
 
             <navigation:SfTreeNavigatorItem HeaderTemplate="{StaticResource MasterTemplate}">
-
-
-                <navigation:SfTreeNavigatorItem Header="Proveedore"/>
-                <navigation:SfTreeNavigatorItem Header="Clientes"/>
-                <navigation:SfTreeNavigatorItem Header="Comisionistas"/>
-                
-
+                <navigation:SfTreeNavigatorItem Header="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="Suppliers"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </navigation:SfTreeNavigatorItem>
+                <navigation:SfTreeNavigatorItem Header="{Binding lrbtnClientes, Source={StaticResource ResourceLanguage}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="Clients"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </navigation:SfTreeNavigatorItem>
+                <navigation:SfTreeNavigatorItem Header="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="CommissionAgent"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </navigation:SfTreeNavigatorItem>
+                <navigation:SfTreeNavigatorItem Header="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="Vehicles"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </navigation:SfTreeNavigatorItem>
             </navigation:SfTreeNavigatorItem>
+            
             <navigation:SfTreeNavigatorItem HeaderTemplate="{StaticResource RentingCenter}">
             
             <navigation:SfTreeNavigatorItem HeaderTemplate="{StaticResource Companies}">

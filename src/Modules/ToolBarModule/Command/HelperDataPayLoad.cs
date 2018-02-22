@@ -20,7 +20,7 @@ namespace ToolBarModule.Command
         /// <summary>
         ///  In this case we dont know the type so the resposability will be of the view model.
         /// </summary>
-        /// <param name="payLoad"></param>
+        /// <param name="payLoad">Payload</param>
         /// <returns></returns>
         protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
         {

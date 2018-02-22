@@ -7,6 +7,7 @@ using System.Data;
 using System.Transactions;
 using KarveDapper.Extensions;
 using System.Collections.Generic;
+using DataAccessLayer.Logic;
 
 namespace DataAccessLayer.Crud.Company
 {
@@ -24,6 +25,7 @@ namespace DataAccessLayer.Crud.Company
         public CompanyDataDeleter(ISqlExecutor executor)
         {
             _sqlExecutor = executor;
+            _mapper = MapperField.GetMapper();
         }
         /// <summary>
         ///  Delete offices asynchronously.
@@ -54,17 +56,19 @@ namespace DataAccessLayer.Crud.Company
         public async Task<bool> DeleteAsync(CompanyDto data)
         {
             bool retValue = false;
-            SUBLICEN value = _mapper.Map<CompanyDto, SUBLICEN>(data);
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
-            {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            
+                SUBLICEN value = _mapper.Map<CompanyDto, SUBLICEN>(data);
+                using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
                 {
-                    retValue = await connection.DeleteAsync<SUBLICEN>(value);
-                    retValue = retValue && await DeleteOfficesAsync(data.Offices);
-                    scope.Complete();
-                }
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        retValue = await connection.DeleteAsync<SUBLICEN>(value);
+                        retValue = retValue && await DeleteOfficesAsync(data.Offices);
+                        scope.Complete();
+                    }
 
-            }
+                }
+            
             return retValue;
         }
     }

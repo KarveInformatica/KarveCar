@@ -3346,6 +3346,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dati Usuario.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vencimento Seguro.
         /// </summary>
         public static string VencimentoSeguro {

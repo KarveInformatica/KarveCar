@@ -45,6 +45,8 @@ namespace DataAccessLayer.SQL
             QueryOffices,
             QueryOfficeSummary,
             QueryOfficeSummaryByCompany,
+            HolidaysByOffice,
+            HolidaysDate,
         }
 
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
@@ -68,6 +70,8 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryCountry, @"SELECT SIGLAS,PAIS FROM PAIS WHERE SIGLAS='{0}'" },
             {QueryType.QueryPaymentForm, @"SELECT CODIGO,NOMBRE FROM FORMAS WHERE CODIGO='{0}'" },
             {QueryType.QueryOffices, @"SELECT * FROM OFICINAS WHERE SUBLICEN = '{0}'"},
+            {QueryType.HolidaysByOffice, @"SELECT * FROM FESTIVOS_OFICINAS WHERE OFICINA = '{0}'"},
+            {QueryType.HolidaysDate, @"SELECT * FROM FESTIVOS_OFICINA WHERE FESTIVO = CONVERT(DATETIME,'{0}',101) AND OFICINA='{1}' AND  PARTE_DIA='{2}' AND HORA_DESDE='{3}' AND HORA_HASTA='{4}'"},
             {QueryType.QueryChannel, @"SELECT CODIGO,NOMBRE FROM CANAL WHERE CODIGO='{0}'" },
             {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
 
@@ -206,6 +210,25 @@ namespace DataAccessLayer.SQL
             tmpQuery = string.Format(tmpQuery, start, stop);
             _memoryStore.Add(query, tmpQuery);
         }
+        /// <summary>
+        ///  Parameter list.
+        /// </summary>
+        /// <param name="query">Type of the query</param>
+        /// <param name="parameter">List of parameters</param>
+        public void AddParam(QueryType query, IList<string> parameter)
+        {
+            object[] args = new object[parameter.Count];
+            int k = 0;
+            foreach (var p in parameter)
+            {
+                args[k] = p;
+                k++;
+            }
+            var tmpQuery = "";
+            _dictionary.TryGetValue(query, out tmpQuery);
+            tmpQuery = string.Format(tmpQuery, args);
+            _memoryStore.Add(query, tmpQuery);
+        }
     /// <summary>
     /// Add a parameter to build in the memory store.
     /// </summary>
@@ -216,7 +239,10 @@ namespace DataAccessLayer.SQL
             if (!string.IsNullOrEmpty(code))
             {
                 Logger.Debug(queryCity.ToString());
-                _memoryStore.Add(queryCity, code);
+                if (!_memoryStore.ContainsKey(queryCity))
+                {
+                    _memoryStore.Add(queryCity, code);
+                }
             }
             
         }

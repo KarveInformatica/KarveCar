@@ -54,8 +54,7 @@ namespace KarveTest.ViewModels
             // arrange
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
             IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("1234");
-            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,
-                viewModelQueries, DataSubSystem.VehicleSubsystem);
+            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,DataSubSystem.VehicleSubsystem);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.DataObject = data;

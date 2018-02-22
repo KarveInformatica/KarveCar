@@ -11,14 +11,15 @@ using Prism.Commands;
 using System.ComponentModel;
 using KarveCommon.Generic;
 using System.Diagnostics.Contracts;
-using System.Windows;
 using System.Threading.Tasks;
+
 
 namespace MasterModule.ViewModels
 {
     // This view model is useful fro 
   public class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
+        private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
         public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
         {
@@ -28,7 +29,9 @@ namespace MasterModule.ViewModels
             ShowOfficesCommand = new DelegateCommand<object>(ShowOffices);
             AssistExecuted += CompanyAssistResult;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
-            DataObject = new CompanyDto();
+            
+           // DataObject = _currentCompany;
+            ActiveSubSystem();
         }
         #endregion
         #region Properties
@@ -68,7 +71,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Show brokers data objects.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokersDto {
+        public IEnumerable<CommissionAgentSummaryDto> CompanyBrokersDto {
             get
             {
                 return _brokers;
@@ -169,7 +172,8 @@ namespace MasterModule.ViewModels
                 if (companyData != null)
                 {
                     _companyData = companyData;
-                    DataObject = _companyData.Value;
+                    _currentCompanyDto = _companyData.Value;
+                    DataObject = _currentCompanyDto;
                     CompanyHelper = companyData;
                     // When the view model receive a message broadcast to its child view models.                
                     //EventManager.SendMessage(UpperBarCompanyViewModel.Name, payload);
@@ -250,7 +254,7 @@ namespace MasterModule.ViewModels
 
                     case "BROKER_ASSIST":
                         {
-                            BrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
+                            CompanyBrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
                             retValue = true;
                             break;
                         }
@@ -278,23 +282,10 @@ namespace MasterModule.ViewModels
 
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
-            DataPayLoad payLoad = new DataPayLoad();
+            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.CompanySubsystem;
             payLoad.SubsystemName = MasterModuleConstants.CompanySubSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    MessageBox.Show("DataObject is null.");
-                }
-            }
-            // remove ViewModelQueries.
             ChangeFieldHandlerDo<CompanyDto> handlerDo = new ChangeFieldHandlerDo<CompanyDto>(EventManager,DataSubSystem.CompanySubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
@@ -343,13 +334,15 @@ namespace MasterModule.ViewModels
             EventManager.DeleteMailBoxSubscription(_mailBoxName);
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.CompanySubSystemName, this);
         }
+
+        
         #endregion
 
         #region Private Fields
         private ICompanyData _companyData;
         private string _mailBoxName;
         private IHelperBase _companyHelper;
-        private CompanyDto _currentCompanyDto;
+        //private CompanyDto _currentCompanyDto;
         private IEnumerable<CommissionAgentSummaryDto> _brokers;
         private IEnumerable<ClientSummaryDto> _clientDto;
         #endregion

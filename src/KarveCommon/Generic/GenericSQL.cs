@@ -28,11 +28,9 @@ namespace KarveCommon.Generic
 
         public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";
 
-        public const string SupplierSummaryQuery =
-            "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Provvedor, COMERCIAL as Comercial, " +
-            "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION as Poblacion,F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +
-            "PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
-            "PROVEE2, TIPOPROVE WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE AND PROVEE1.TIPO=TIPOPROVE.NUM_TIPROVE";
+        public const string SupplierSummaryQuery = "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Provedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE";
+
+    
 
         public const string SupplierQuery =
             "SELECT PROVEE1.NUM_PROVEE AS Code, PROVEE1.NOMBRE AS Nombre, NIF as Nif ,COMERCIAL as Comercial, " +

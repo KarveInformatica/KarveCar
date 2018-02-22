@@ -13,12 +13,13 @@ using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using System.Threading.Tasks;
-
+using NLog;
+using System.Diagnostics;
 
 namespace MasterModule.ViewModels
 {
 
-    public class CommissionAgentControlViewModel : MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
+    public class CommissionAgentControlViewModel : MasterControlViewModuleBase, IEventObserver, ICreateRegionManagerScope
     {
         private const string ComiNameColumn = "Numero";
         private const string ComiColumnCode = "Nombre";
@@ -92,13 +93,23 @@ namespace MasterModule.ViewModels
         private async void OpenCurrentItem(object currentItem)
         {
             DataRowView rowView = currentItem as DataRowView;
+            Stopwatch watch = new Stopwatch();
             if (rowView != null)
             {
                 Tuple<string, string> idNameTuple = ComputeIdName(rowView, ComiNameColumn, ComiColumnCode);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
                 ICommissionAgent agent = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(idNameTuple.Item2);
-                CommissionAgentInfoView view = _container.Resolve<CommissionAgentInfoView>();
-                ConfigurationService.AddMainTab(view, tabName);
+                var navigationParameters = new NavigationParameters();
+                var id = idNameTuple.Item1;
+                navigationParameters.Add("Id", id);
+                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+
+                var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
+                Logger.Log(LogLevel.Debug, "[UI] CommissionInfoViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                RegionManager.RequestNavigate("TabRegion", uri);
+                Logger.Log(LogLevel.Debug, "[UI] CommisionInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+               
+               
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
 
                 currentPayload.PrimaryKeyValue = idNameTuple.Item2;
@@ -237,6 +248,8 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             return retValue;
         }
+
+        
         // create a scope for navigation.
         public bool CreateRegionManagerScope {
             get

@@ -2,18 +2,18 @@
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveCommonInterfaces;
-using KarveDataServices;
-using KarveDataServices.DataTransferObject;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Transactions;
 using Dapper;
-using KarveDapper;
 using KarveDapper.Extensions;
-
+using KarveDataServices;
+using KarveDataServices.DataTransferObject;
+using DataAccessLayer.SQL;
+using System.Linq;
+using DataAccessLayer.Crud;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -52,7 +52,7 @@ namespace DataAccessLayer.Crud.Office
             currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
             Contract.Assert(currentPoco != null, "Invalid Poco");
             bool retValue = false;
-            SaveTimeTable(ref currentPoco, office.TimeTable);
+           
             using (connection = _executor.OpenNewDbConnection())
             {
                 try
@@ -69,7 +69,7 @@ namespace DataAccessLayer.Crud.Office
                             retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
                             
                         }
-                        retValue = retValue && await SaveHolidays(office.HolidayDates);
+                       
                         scope.Complete();
                     }
                 }
@@ -82,44 +82,26 @@ namespace DataAccessLayer.Crud.Office
             return retValue;
 
         }
-
-        private void SaveTimeTable(ref OFICINAS currentPoco, IList<DailyOfficeOpen> timeTable)
-        {
-            
-        }
-        
+        /// <summary>
+        ///  Save Holidays.
+        /// </summary>
+        /// <param name="holidayDates">Dates of the holidays</param>
+        /// <returns></returns>
         private async Task<bool> SaveHolidays(IEnumerable<HolidayDto> holidayDates)
         {
-            /*
+            bool retValue = false;
             var value = _mapper.Map<IEnumerable<HolidayDto>,IEnumerable<FESTIVOS_OFICINA>>(holidayDates);
+            var office = holidayDates.FirstOrDefault();
+            if (office == null)
+            {
+                return retValue;
+            }
+           
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                try
-                {
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                    {
-
-                        var present = connection.IsPresent<OFICINAS>(currentPoco);
-                        if (!present)
-                        {
-                            retValue = await connection.InsertAsync<OFICINAS>(currentPoco) > 0;
-                        }
-                        else
-                        {
-                            retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
-
-                        }
-                        retValue = retValue && await SaveHolidays(office.HolidayDates);
-                        scope.Complete();
-                    }
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                retValue = await connection.UpdateCollectionAsync<FESTIVOS_OFICINA>(value);
             }
-            */
-            return true;
+            return retValue;
         }
     }
 }

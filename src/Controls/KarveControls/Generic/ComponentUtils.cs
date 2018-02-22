@@ -143,10 +143,19 @@ namespace KarveControls.Generic
             {
                 Type type = obj.GetType();
                 PropertyInfo info = type.GetProperty(propName);
+                
                 var currentValue = value;
                 if (value is bool)
                 {
                     currentValue = Convert.ToByte(value);
+                    
+                    /*var v = info.GetValue(propName);
+                    Type t = v.GetType();
+                    if (t.FullName.Contains("Bool"))
+                    {
+                        info.SetValue(obj, value);
+                    }*/
+
                 }
                 if (info != null)
                 {

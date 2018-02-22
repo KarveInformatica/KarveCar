@@ -4,12 +4,17 @@ using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Dapper;
+using Z.Dapper;
+using Z.BulkOperations;
+
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDataServices;
 using KarveDapper.Extensions;
 using KarveDataServices.DataTransferObject;
+using Z.Dapper.Plus;
+using System.Collections.Generic;
 
 namespace DataAccessLayer.Crud.Clients
 {
@@ -31,19 +36,13 @@ namespace DataAccessLayer.Crud.Clients
             _executor = executor;
         }
 
-        private async Task<bool> DeleteReferredTables(ClientDto data)
+        private async Task DeleteReferredTables(IDbConnection connection, ClientDto data)
         {
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.DeleteClientContacts, data.NUMERO_CLI);
-            store.AddParam(QueryStore.QueryType.DeleteClientBranches, data.NUMERO_CLI);
-            store.AddParam(QueryStore.QueryType.DeleteClientBranches, data.NUMERO_CLI);
-            int retValue = 0;
-            var query = store.BuildQuery();
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
-            {
-                retValue = await connection.ExecuteAsync(query);
-            }
-            return retValue > 0;
+
+            var branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(data.BranchesDto);
+            var contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(data.ContactsDto);
+            var visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(data.VisitsDto);
+            await connection.BulkActionAsync(x => x.BulkDelete(branches).BulkDelete(contacts).BulkDelete(visitas));
         }
         /// <summary>
         ///  This delete asynchronous data
@@ -72,7 +71,7 @@ namespace DataAccessLayer.Crud.Clients
                         {
                             retValue = await connection.DeleteAsync<CLIENTES2>(client2);
                         }
-                        retValue = retValue && await DeleteReferredTables(data);
+                        await DeleteReferredTables(connection, data);
                         scope.Complete();
                     }
                 }

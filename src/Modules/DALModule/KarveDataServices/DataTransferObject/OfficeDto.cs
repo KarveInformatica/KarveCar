@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
+    public class OfficeOpenClose
+    {
+        public TimeSpan? Open { set; get; }
+        public TimeSpan? Close { set; get; }
+    }
     /// <summary>
     ///  Daily open for the open.
     /// </summary>
-    public struct DailyOfficeOpen
+    public struct DailyTime
     {
-        TimeSpan Morning;
-        TimeSpan Afternoon;
+        /// <summary>
+        ///  Morning daily office open.
+        /// </summary>
+        public OfficeOpenClose Morning { set; get; }
+        /// <summary>
+        ///  Afternoon daily office open.
+        /// </summary>
+        public OfficeOpenClose Afternoon { set; get;}
     }
     /// <summary>
     ///  Public office data transfer object.
@@ -31,7 +39,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Weekly time table in the morning
         /// </summary>
-        public IList<DailyOfficeOpen> TimeTable { set; get; }
+        public IList<DailyTime> TimeTable { set; get; }
       
     }
 }

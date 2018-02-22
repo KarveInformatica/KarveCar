@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
@@ -35,7 +32,7 @@ namespace ToolBarModule.Command
             EventManager = manager;
             DataServices = services;
             _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(_payload), ExecutedPayloadHandler);
-           // log.Log(LogLevel.Debug, "SDP:PobPago:" + supplierData.Value.POB_PAGO);
+           
 
         }
        
@@ -50,10 +47,6 @@ namespace ToolBarModule.Command
                 OnErrorExecuting?.Invoke(message);
                 return new DataPayLoad();
             }
-
-            log.Log(LogLevel.Debug, "SDP:PobPago:"+ supplierData.Value.POB_PAGO);
-            // pre: DataServices and vehicle shall be present.
-
             if (DataServices == null)
             {
                 DataPayLoad nullDataPayLoad = new NullDataPayload();
@@ -119,12 +112,9 @@ namespace ToolBarModule.Command
                 CurrentPayload = new DataPayLoad();
                 CurrentPayload.PayloadType = DataPayLoad.Type.UpdateView;
                 CurrentPayload.DataObject = supplierData;
-                log.Log(LogLevel.Debug, "SDP:PobPago:" + supplierData.Value.POB_PAGO);
                 CurrentPayload.Sender = ToolBarModule.NAME;
                 CurrentPayload.HasDataObject = true;
                 CurrentPayload.Subsystem = payLoad.Subsystem;
-
-
             }
             else
             {

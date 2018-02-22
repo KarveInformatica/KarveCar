@@ -20,6 +20,7 @@ using KarveControls;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
+using System.Diagnostics.Contracts;
 
 namespace MasterModule.Common
 {
@@ -164,7 +165,8 @@ namespace MasterModule.Common
                 return helper;
             });
             AssistMapper.Configure("BROKER_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ComisioDto, COMISIO>();
+
+                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
                 return helper;
             });
             AssistMapper.Configure("ORIGIN_ASSIST", async (query) => {
@@ -464,6 +466,10 @@ namespace MasterModule.Common
         ///  This asks to the control view model to open a new item for insertion. 
         /// </summary>
         public abstract void NewItem();
+        /// <summary>
+        ///  Can delete region.
+        /// </summary>
+        public abstract bool CanDeleteRegion { set; get; }
 
         /// <summary>
         ///  Payload trasnfer.
@@ -472,11 +478,15 @@ namespace MasterModule.Common
         /// 
         public void DeleteItem(DataPayLoad payLoad)
         {
+            
             string primaryKeyValue = payLoad.PrimaryKeyValue;
             DeleteInitializationTable =
                 NotifyTaskCompletion.Create<bool>(DeleteAsync(primaryKeyValue, payLoad), DeleteEventHandler);
-            DeleteRegion(primaryKeyValue);
-            StartAndNotify();
+            if (CanDeleteRegion)
+            {
+                DeleteRegion(primaryKeyValue);
+                StartAndNotify();
+            }
         }
 
         public abstract Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad);
@@ -528,12 +538,14 @@ namespace MasterModule.Common
             }
         }
 
+        /// FIXME: this is a structure of based on type.
         /// <summary>
         ///  This module delete the region
         /// </summary>
         /// <param name="primaryKeyValue"></param>
         protected void DeleteRegion(string primaryKeyValue)
         {
+            
             // get the active tab.
             var activeRegion = RegionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
             if (activeRegion != null)
@@ -551,6 +563,16 @@ namespace MasterModule.Common
                 if (activeRegion is VehicleInfoView)
                 {
                     var commissionAgent = activeRegion as VehicleInfoView;
+                    RegionManager.Regions[RegionName].Remove(commissionAgent);
+                }
+                if (activeRegion is ClientsInfoView)
+                {
+                    var commissionAgent = activeRegion as ClientsInfoView;
+                    RegionManager.Regions[RegionName].Remove(commissionAgent);
+                }
+                if (activeRegion is OfficeInfoView)
+                {
+                    var commissionAgent = activeRegion as OfficeInfoView;
                     RegionManager.Regions[RegionName].Remove(commissionAgent);
                 }
             }

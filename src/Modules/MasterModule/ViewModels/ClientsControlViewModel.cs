@@ -1,14 +1,10 @@
 ﻿using MasterModule.Common;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using MasterModule.Views;
@@ -16,10 +12,11 @@ using Microsoft.Practices.Unity;
 using NLog;
 using Prism.Commands;
 using Prism.Regions;
+using System.ComponentModel;
 
 namespace MasterModule.ViewModels
 {
-    class ClientsControlViewModel: MasterViewModuleBase
+    class ClientsControlViewModel: MasterControlViewModuleBase
     {
         /// <summary>
         ///  Data layer to the the services
@@ -87,6 +84,16 @@ namespace MasterModule.ViewModels
             // This is needed for the communication between the view model and the toolbar.
             ActiveSubSystem();
         }
+
+        private void DeleteClientHandler(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion completion = sender as INotifyTaskCompletion;
+            if (completion.IsSuccessfullyCompleted)
+            {
+                CanDeleteRegion = true;
+            }
+        }
+
         /// <summary>
         ///  Craft a new item in the view model. Opening a new form.
         /// </summary>
@@ -127,7 +134,11 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         public override async Task<bool> DeleteAsync(string clientIndentifier, DataPayLoad payLoad)
         {
-            IClientData clientData = await _clientDataServices.GetAsyncClientDo(clientIndentifier);              
+            IClientData clientData = await _clientDataServices.GetAsyncClientDo(clientIndentifier);
+            if (clientData == null)
+            {
+                return false;
+            }
             bool retValue = await _clientDataServices.DeleteClientAsyncDo(clientData);
             return retValue;
         }

@@ -60,6 +60,5 @@ namespace DataAccessLayer.Crud
         {
             return new OfficeDataSaver(_executor);
         }
-        
     }
 }

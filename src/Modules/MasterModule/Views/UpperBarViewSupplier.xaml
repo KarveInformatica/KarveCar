@@ -26,7 +26,7 @@
                 <karveControls:DataField x:Name="Persona" TextContentWidth="250" 
                                          ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" LabelTextWidth="50" 
-                                         LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                                         LabelText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                    
                 </karveControls:DataField>
                 <karveControls:DataField x:Name="Nif" 

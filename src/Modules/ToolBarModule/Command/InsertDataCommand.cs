@@ -11,7 +11,7 @@ using ToolBarModule.Command;
 
 namespace ToolBarModule
 {
-    class InsertDataCommand : AbstractCommand
+    internal class InsertDataCommand : BaseToolBarCommand
     {
         private IDataServices _dataServices;
         private ICareKeeperService _careKeeper;
@@ -19,15 +19,7 @@ namespace ToolBarModule
         private IConfigurationService _configurationService;
         // FIXME: move the payload handlers in an upper class.
         private ISqlValidationRule<DataPayLoad> _sqlValidationRule;
-        // FIXME: move the payload handlers in an upper class.
-        private IDictionary<DataSubSystem, IDataPayLoadHandler> payLoadHandlers =
-            new Dictionary<DataSubSystem, IDataPayLoadHandler>()
-            {
-                {DataSubSystem.SupplierSubsystem, new SupplierDataPayload()},
-                {DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
-                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad()},
-                { DataSubSystem.ClientSubsystem,  new ClientDataPayload() }
-            };
+       
         /// <summary>
         /// This is the configuratin of an insert command.
         /// </summary>
@@ -35,7 +27,7 @@ namespace ToolBarModule
         /// <param name="careKeeper"></param>
         /// <param name="eventManager"></param>
         /// <param name="configurationService"></param>
-        public InsertDataCommand(IDataServices dataServices, ICareKeeperService careKeeper, IEventManager eventManager, IConfigurationService configurationService)
+        public InsertDataCommand(IDataServices dataServices, ICareKeeperService careKeeper, IEventManager eventManager, IConfigurationService configurationService): base()
         {
             _dataServices = dataServices;
             _careKeeper = careKeeper;
@@ -77,7 +69,7 @@ namespace ToolBarModule
 
         void InitHandlers()
         {
-            foreach (var value in payLoadHandlers.Values)
+            foreach (var value in PayLoadHandlers.Values)
             {
                 value.OnErrorExecuting+= Handler_OnErrorExecuting;
             }
@@ -89,9 +81,9 @@ namespace ToolBarModule
             if (payLoad == null)
                 return;
 
-                if (payLoadHandlers.ContainsKey(payLoad.Subsystem))
+                if (PayLoadHandlers.ContainsKey(payLoad.Subsystem))
                 {
-                    IDataPayLoadHandler handler = payLoadHandlers[payLoad.Subsystem];
+                    IDataPayLoadHandler handler = PayLoadHandlers[payLoad.Subsystem];
                     handler.ExecutePayload(_dataServices, _eventManager, ref payLoad);
                 }
                 else
@@ -99,6 +91,14 @@ namespace ToolBarModule
                     MessageBox.Show("Error selecting the insert action handler. Subsystem not known");
                 }
             
+        }
+
+        public override void Dispose()
+        {
+            foreach (var value in PayLoadHandlers.Values)
+            {
+                value.OnErrorExecuting -= Handler_OnErrorExecuting;
+            }
         }
     }
 }

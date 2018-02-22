@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
@@ -56,25 +52,22 @@ namespace ToolBarModule.Command
                 return new NullDataPayload();
             }
             // FIXME: check for the law of demeter.
-            var clientDo = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(clientData.NUMERO_CLI);
+            var clientDo = await DataServices.GetClientDataServices().GetAsyncClientDo(clientData.NUMERO_CLI);
             if (clientDo == null)
             {
                 payLoad.PayloadType = DataPayLoad.Type.Insert;
             }
             AbstractDomainWrapperFactory factory = AbstractDomainWrapperFactory.GetFactory(DataServices);
-            IClientData clientWrapper = await factory.CreateClientAsync(clientData);
+            IClientData clientWrapper = await factory.CreateClientAsync(clientData).ConfigureAwait(false); 
             clientWrapper.Value = clientData;
-            result = await DataServices.GetClientDataServices().SaveAsync(clientWrapper);
-            if(result)
+            result = await DataServices.GetClientDataServices().SaveAsync(clientWrapper).ConfigureAwait(false);             if(result)
             {
-
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
                 CurrentPayload = payLoad;
                 CurrentPayload.HasDataObject = true;
                 CurrentPayload.DataObject = clientDo;
                 CurrentPayload.Subsystem = payLoad.Subsystem;
-                
             }
             else
             {

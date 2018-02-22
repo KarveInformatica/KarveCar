@@ -2604,4 +2604,10 @@
   <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
     <value> Nueva Oficina</value>
   </data>
+  <data name="lusuarioconnected" xml:space="preserve">
+    <value>Usuario conectado</value>
+  </data>
+  <data name="CompanyControlViewModel_NewItem_NuevaEmpresa" xml:space="preserve">
+    <value>Nueva Empresa</value>
+  </data>
 </root>

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.IO;
 using System.Linq;
-using System.Text;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -351,11 +348,18 @@ namespace DataAccessLayer.Logic
             foreach (PropertyInfo property in currentProperties)
             {
                 var currentSource = source.GetType();
-                var propertyInfo = currentSource.GetProperty(property.Name);
-                if (propertyInfo != null)
+                if (currentSource != null)
                 {
-                    var tmpValue = propertyInfo.GetValue(source);
-                    e.GetType().GetProperty(property.Name).SetValue(e, tmpValue);
+                    if (property != null)
+                    {
+                        var propertyInfo = currentSource.GetProperty(property.Name);
+                        if (propertyInfo != null)
+                        {
+
+                            var tmpValue = propertyInfo.GetValue(source);
+                            e.GetType().GetProperty(property.Name).SetValue(e, tmpValue);
+                        }
+                    }
                 }
 
             }
@@ -789,6 +793,7 @@ namespace DataAccessLayer.Logic
         {
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
                 cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
                 cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
@@ -797,6 +802,8 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
+                
+                
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
@@ -820,7 +827,9 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+
                 cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
+               
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
                 {
                     var tipoComi = new CommissionTypeDto();
@@ -830,6 +839,7 @@ namespace DataAccessLayer.Logic
                     tipoComi.User = src.USUARIO;
                     return tipoComi;
                 });
+                cfg.CreateMap<COMISIO, ComisioDto>();
                 cfg.CreateMap<cliDelega, BranchesDto>().ConvertUsing(src =>
                 {
                     var delegation = new BranchesDto();
@@ -1526,6 +1536,24 @@ namespace DataAccessLayer.Logic
         }
     }
 
+    internal class PropieToOwnerDtoConverter : ITypeConverter<PROPIE, OwnerDto>
+    {
+        public OwnerDto Convert(PROPIE source, OwnerDto destination, ResolutionContext context)
+        {
+            OwnerDto model = new OwnerDto();
+            model.Codigo = source.NUM_PROPIE;
+            model.CP = source.CP;
+            model.Direccion = source.DIRECCION;
+            model.EMail = source.EMAIL;
+            model.Fax = source.FAX;
+            model.NIF = source.NIF;
+            model.Nombre = source.NOMBRE;
+            model.Provincia = source.PROVINCIA;
+            model.Telefono = source.TELEFONO;
+            return model;
+        }
+    }
+
     internal class BranchesToCliDelega: ITypeConverter<BranchesDto, cliDelega>
     {
       
@@ -1587,8 +1615,239 @@ namespace DataAccessLayer.Logic
             OfficeDtos office = new OfficeDtos();
             office.Codigo = source.CODIGO;
             office.Nombre = source.NOMBRE;
+            
+            office.LastModification = source.ULTMODI;
+            office.User = source.USUARIO;
             return office;
         }
+    }
+
+    /// <summary>
+    ///  Office conversion from an office dto to oficinas.
+    /// </summary>
+    public class OfficeConverterBack : ITypeConverter<OfficeDtos, OFICINAS>
+    {
+        /// <summary>
+        ///  Convert an office to a destination office.
+        /// </summary>
+        /// <param name="source">Office to use.</param>
+        /// <param name="destination">Destination office to use.</param>
+        /// <param name="context">Context to be used.</param>
+        /// <returns>Return the current office.</returns>
+        public OFICINAS Convert(OfficeDtos source, OFICINAS destination, ResolutionContext context)
+        {
+            OFICINAS office = new OFICINAS();
+            office.CODIGO = source.Codigo;
+            office.ULTMODI = source.LastModification;
+            office.USUARIO = source.User;
+            IList<DailyTime> timeTable = source.TimeTable;
+            for (int i = 0; i < timeTable.Count(); ++i)
+            {
+                FillDate(i, timeTable[i], ref office);
+            }
+            return office;
+        }
+
+        /// <summary>
+        ///  Fill the time table.
+        /// </summary>
+        /// <param name="i">Index</param>
+        /// <param name="ofi">Office data trasnfer object</param>
+        /// <param name="oficinas">Oficinas</param>
+        private void FillTimeTable(int i, ref OfficeDtos ofi,  OFICINAS oficinas)
+        {
+            ofi.TimeTable = new List<DailyTime>();
+            Dictionary<int, Func<OfficeDtos, OFICINAS, OfficeDtos>> dictionary = new Dictionary<int, Func<OfficeDtos, OFICINAS, OfficeDtos>>() {
+                    { 0, (officeDto, office) =>
+                          {
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_LUNES;
+                              daily.Afternoon.Open = office.ABRE_TA_LUNES;
+                              daily.Afternoon.Close = office.CIERRA_TA_LUNES;
+                              daily.Morning.Close = office.CIERRA_MA_LUNES;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+                          }
+                    },
+                    { 1, (officeDto, office) =>
+                          {
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_MARTES;
+                              daily.Afternoon.Open = office.ABRE_TA_MARTES;
+                              daily.Afternoon.Close = office.CIERRA_TA_MARTES;
+                              daily.Morning.Close = office.CIERRA_MA_MARTES;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+
+                              
+                          }
+                    },
+                    { 2, (officeDto, office) =>
+                          {
+
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_MIERCOLES;
+                              daily.Afternoon.Open = office.ABRE_TA_MIERCOLES;
+                              daily.Afternoon.Close = office.CIERRA_TA_MIERCOLES;
+                              daily.Morning.Close = office.CIERRA_MA_MIERCOLES;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+
+                                                        }
+                    },
+                    { 3, (officeDto, office) =>
+                          {
+
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_JUEVES;
+                              daily.Afternoon.Open = office.ABRE_TA_JUEVES;
+                              daily.Afternoon.Close = office.CIERRA_TA_JUEVES;
+                              daily.Morning.Close = office.CIERRA_MA_JUEVES;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+ 
+                          }
+                    },
+                    { 4, (officeDto, office) =>
+                          {
+
+
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_VIERNES;
+                              daily.Afternoon.Open = office.ABRE_TA_VIERNES;
+                              daily.Afternoon.Close = office.CIERRA_TA_VIERNES;
+                              daily.Morning.Close = office.CIERRA_MA_VIERNES;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+                              
+                              
+                          }
+                    },
+                    { 5, (officeDto, office) =>
+                          {
+
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_SABADO;
+                              daily.Afternoon.Open = office.ABRE_TA_SABADO;
+                              daily.Afternoon.Close = office.CIERRA_TA_SABADO;
+                              daily.Morning.Close = office.CIERRA_MA_SABADO;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+                              
+                          }
+                    },
+                    { 6, (officeDto, office) =>
+                          {
+                              var daily = new DailyTime();
+                              daily.Morning = new OfficeOpenClose();
+                              daily.Afternoon = new OfficeOpenClose();
+                              daily.Morning.Open = office.ABRE_MA_DOMINGO;
+                              daily.Afternoon.Open = office.ABRE_TA_DOMINGO;
+                              daily.Afternoon.Close = office.CIERRA_TA_DOMINGO;
+                              daily.Morning.Close = office.CIERRA_MA_DOMINGO;
+                              officeDto.TimeTable.Add(daily);
+                              return officeDto;
+                              
+                          }
+                    }
+                };
+
+        }
+        /// <summary>
+        /// Fill date.
+        /// </summary>
+        /// <param name="office">Office to use</param>
+        /// <returns></returns>
+        private void FillDate(int i, DailyTime dailyTime, ref OFICINAS oficinas)
+        {
+            Dictionary<int, Func<DailyTime, OFICINAS, OFICINAS>> dictionary = new Dictionary<int, Func<DailyTime, OFICINAS, OFICINAS>>() {
+                    { 0, (daily, office) =>
+                          {
+                              office.ABRE_MA_LUNES = daily.Morning.Open;
+                              office.ABRE_TA_LUNES = daily.Afternoon.Open;
+                              office.CIERRA_MA_LUNES = daily.Morning.Close;
+                              office.CIERRA_TA_LUNES = daily.Afternoon.Close;
+                              return office;
+                          }
+                    },
+                    { 1, (daily, office) =>
+                          {
+                              office.ABRE_MA_MARTES = daily.Morning.Open;
+                              office.ABRE_TA_MARTES = daily.Afternoon.Open;
+                              office.CIERRA_MA_MARTES = daily.Morning.Close;
+                              office.CIERRA_TA_MARTES = daily.Afternoon.Close;
+
+                              return office;
+                          }
+                    },
+                    { 2, (daily,office) =>
+                          {
+                              office.ABRE_MA_MIERCOLES = daily.Morning.Open;
+                              office.ABRE_TA_MIERCOLES = daily.Afternoon.Open;
+                              office.CIERRA_MA_MIERCOLES = daily.Morning.Close;
+                              office.CIERRA_TA_MIERCOLES = daily.Afternoon.Close;
+                              return office;
+                          }
+                    },
+                    { 3, (daily, office) =>
+                          {
+                              office.ABRE_MA_JUEVES = daily.Morning.Open;
+                              office.ABRE_TA_JUEVES= daily.Afternoon.Open;
+                              office.CIERRA_MA_JUEVES = daily.Morning.Close;
+                              office.CIERRA_TA_JUEVES = daily.Afternoon.Close;
+                              return office;
+                          }
+                    },
+                    { 4, (daily, office) =>
+                          {
+                              office.ABRE_MA_VIERNES = daily.Morning.Open;
+                              office.ABRE_TA_VIERNES= daily.Afternoon.Open;
+                              office.CIERRA_MA_VIERNES = daily.Morning.Close;
+                              office.CIERRA_TA_VIERNES = daily.Afternoon.Close;
+                              return office;
+                          }
+                    },
+                    { 5, (daily, office) =>
+                          {
+                              office.ABRE_MA_SABADO = daily.Morning.Open;
+                              office.ABRE_TA_SABADO= daily.Afternoon.Open;
+                              office.CIERRA_MA_SABADO = daily.Morning.Close;
+                              office.CIERRA_TA_SABADO = daily.Afternoon.Close;
+                              return office;
+                          }
+                    },
+                    { 6, (daily, office) =>
+                          {
+                              office.ABRE_MA_DOMINGO = daily.Morning.Open;
+                              office.ABRE_TA_DOMINGO= daily.Afternoon.Open;
+                              office.CIERRA_MA_DOMINGO = daily.Morning.Close;
+                              office.CIERRA_TA_DOMINGO = daily.Afternoon.Close;
+                              return office;
+                          }
+                    }
+                };
+            Func<DailyTime, OFICINAS, OFICINAS> f;
+            var hasFunc = dictionary.TryGetValue(i, out f);
+          
+            if (hasFunc)
+            {
+               oficinas = f.Invoke(dailyTime, oficinas);
+            }
+        }
+       
+       
     }
 }
 

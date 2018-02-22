@@ -72,7 +72,7 @@
                                    Height="34"
                                    Width="130">
                                 <Image DockPanel.Dock="Left"
-                                   Source="/ProvidersModule;component/Images/pdficon.png"
+                                   Source="/MasterrModule;component/Images/pdficon.png"
                                    Margin="5" />
                                 <TextBlock DockPanel.Dock="Top" Text="Adjuntar PDF" />
                             </DockPanel>
@@ -702,35 +702,38 @@
                             </GroupBox>
                             <GroupBox Header="{Binding lalbanares, Source={StaticResource ResourceLanguage}}">
                                 <StackPanel Orientation="Horizontal">
-                                    <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
+                                    <CheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                         
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         karveControls:ControlExt.DataSourcePath="Value.PALBARAN">
+                                                         IsChecked="{Binding DataObject.Value.PALBARAN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-                                    </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
+                                    </CheckBox>
+                                    <CheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                          IsChecked="{Binding DataObject.Value.INTRACO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         karveControls:ControlExt.DataSourcePath="Value.INTRACO">
+                                                         >
 
-                                    </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
+                                    </CheckBox>
+                                    <CheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                           IsChecked="{Binding DataObject.Value.GESTION_IVA_IMPORTA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         karveControls:ControlExt.DataSourcePath="Value.GESTION_IVA_IMPORTA">
+                                                         >
 
-                                    </karveControls:DataFieldCheckBox>
-                                    <karveControls:DataFieldCheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
+                                    </CheckBox>
+                                    <CheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         karveControls:ControlExt.DataSourcePath="Value.NOAUTOMARGEN">
+                                              IsChecked="{Binding DataObject.Value.NOAUTOMARGEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-                                    </karveControls:DataFieldCheckBox>
+
+                                    </CheckBox>
 
                                 </StackPanel>
                             </GroupBox>
@@ -942,13 +945,20 @@
                     </TabItem>
 
                     <TabItem Name="Direcciones1" Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                        <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
 
 
 
-                            <WrapPanel Orientation="Horizontal">
-
-                                <GroupBox Header="{Binding ldirecciondepago, Source={StaticResource ResourceLanguage}}">
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Grid.Column="0" Header="{Binding ldirecciondepago, Source={StaticResource ResourceLanguage}}">
                                     <karveControls:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   Direction="Value.DIR_PAGO"
                                                                   Direction2="Value.DIR2_PAGO"
@@ -961,6 +971,7 @@
                                                                   Phone="Value.TELF_PAGO"
                                                                   Fax="Value.FAX_PAGO"
                                                                   Email="Value.MAIL_PAGO"
+                                                                  Web="Value.WEB_PAGO"
                                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   MinWidth="400"
                                                                   CountrySourceView="{Binding CountryDto1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
@@ -974,7 +985,7 @@
 
 
                                 </GroupBox>
-                                <GroupBox Header="{Binding ldirecciondereclamaciones, Source={StaticResource ResourceLanguage}}">
+                                <GroupBox Grid.Column="1" Header="{Binding ldirecciondereclamaciones, Source={StaticResource ResourceLanguage}}">
                                     <karveControls:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Direction="Value.DIR_RECLAMA"
                                                       Direction2="Value.DIR2_RECLAMA"
@@ -987,6 +998,7 @@
                                                       Phone="Value.TELF_RECLAMA"
                                                       Fax="Value.FAX_RECLAMA"
                                                       Email="Value.MAIL_RECLAMA"
+                                                      Web="Value.WEB_RECLAMA"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       MinWidth="400"
                                                       ProvinceSourceView="{Binding ProvinceDto2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -997,13 +1009,17 @@
                                     </karveControls:DirectionInfo>
                                 </GroupBox>
 
-                            </WrapPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <GroupBox Header="{Binding lmodocomunicaciondepedido, Source={StaticResource ResourceLanguage}}">
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Grid.Column="0" Header="{Binding lmodocomunicaciondepedido, Source={StaticResource ResourceLanguage}}">
                                     <local:CommunicationOrder MinWidth="400"></local:CommunicationOrder>
                                 </GroupBox>
 
-                                <GroupBox Header="{Binding ldirecciondevolucion, Source={StaticResource ResourceLanguage}}">
+                                <GroupBox Grid.Column="1" Header="{Binding ldirecciondevolucion, Source={StaticResource ResourceLanguage}}">
                                     <karveControls:DirectionInfo  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   Direction="Value.DIR_DEVO"
                                                                   Direction2="Value.DIR2_DEVO"
@@ -1016,6 +1032,7 @@
                                                                   Phone="Value.TELF_DEVO"
                                                                   Fax="Value.FAX_DEVO"
                                                                   Email="Value.MAIL_DEVO"
+                                                                  Web="Value.WEB_DEVO"
                                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   MinWidth="400"
                                                                   ProvinceSourceView="{Binding ProvinceDto3, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1026,10 +1043,10 @@
                                     </karveControls:DirectionInfo>
 
                                 </GroupBox>
-                            </StackPanel>
+                            </Grid>
 
 
-                        </StackPanel>
+                        </Grid>
 
                     </TabItem>
 

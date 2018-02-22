@@ -26,6 +26,16 @@ namespace ToolBarModule
             None
         };
 
+        private Dictionary<DataSubSystem, string> _dictionary = new Dictionary<DataSubSystem, string>()
+        {
+            { DataSubSystem.CommissionAgentSubystem, EventSubsystem.CommissionAgentSummaryVm},
+            { DataSubSystem.CompanySubsystem, EventSubsystem.CompanySummaryVm},
+            { DataSubSystem.ClientSubsystem, EventSubsystem.ClientSummaryVm},
+            { DataSubSystem.OfficeSubsystem, EventSubsystem.OfficeSummaryVm},
+            { DataSubSystem.HelperSubsytsem, EventSubsystem.HelperSubsystem},
+            { DataSubSystem.SupplierSubsystem, EventSubsystem.SuppliersSummaryVm},
+            { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm }
+          };
         private ToolbarStates _states;
         private ICareKeeperService _careKeeper;
         private IDataServices _dataServices;
@@ -163,8 +173,10 @@ namespace ToolBarModule
             DataPayLoad payLoad = new DataPayLoad
             {
                 PayloadType = DataPayLoad.Type.Delete,
-                PrimaryKeyValue = value
+                PrimaryKeyValue = value,
+                Subsystem = _activeSubSystem 
             };
+           
             if (!string.IsNullOrEmpty(currentViewObjectId))
             {
                 payLoad.ObjectPath = viewStack.Peek();
@@ -285,8 +297,9 @@ namespace ToolBarModule
                 }
                 else
                 {
+
                     SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
-                        this._eventManager, this._configurationService);
+                         this._eventManager, this._configurationService);
                     _careKeeper.Do(new CommandWrapper(dataCommand));
                  
                 }
@@ -312,6 +325,8 @@ namespace ToolBarModule
             
         }
 
+
+        /// FIXME: dont repeat yourself see toolbar datapayload.
         /// <summary>
         /// Delvier incoming notify.
         /// TODO: try to unify data subsystem and event subsystem.
@@ -320,27 +335,14 @@ namespace ToolBarModule
         /// <param name="payLoad">Current datapayload</param>
         private void DeliverIncomingNotify(DataSubSystem subSystem, DataPayLoad payLoad)
         {
+
+
             payLoad.Subsystem = subSystem;
-            if (subSystem == DataSubSystem.SupplierSubsystem)
+            string destinationSubsystem = "";
+            _dictionary.TryGetValue(payLoad.Subsystem, out destinationSubsystem);
+            if (!string.IsNullOrEmpty(destinationSubsystem))
             {
-                _eventManager.SendMessage(EventSubsystem.SuppliersSummaryVm, payLoad);
-            }
-            if (subSystem == DataSubSystem.CommissionAgentSubystem)
-            {
-                
-                _eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
-            }
-            if (subSystem == DataSubSystem.VehicleSubsystem)
-            {
-                _eventManager.SendMessage(EventSubsystem.VehichleSummaryVm, payLoad);
-            }
-            if (subSystem == DataSubSystem.ClientSubsystem)
-            {
-                _eventManager.SendMessage(EventSubsystem.ClientSummaryVm, payLoad);
-            }
-            if (subSystem == DataSubSystem.OfficeSubsystem)
-            {
-                _eventManager.SendMessage(EventSubsystem.OfficeSummaryVm, payLoad);
+                _eventManager.SendMessage(destinationSubsystem, payLoad);
             }
         }
         
@@ -395,6 +397,7 @@ namespace ToolBarModule
                 case DataPayLoad.Type.Delete:
                     {
                         string primaryKeyValue = payload.PrimaryKeyValue;
+                        // FIXME. This shall seen. The control view model shall delete the region.
                         _configurationService.CloseTab(primaryKeyValue);
                         _activeSubSystem = payload.Subsystem;
                         _states = ToolbarStates.None;

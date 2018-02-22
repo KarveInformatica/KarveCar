@@ -16,6 +16,77 @@
              d:DesignHeight="2000" d:DesignWidth="1300">
     <UserControl.Resources>
         <ResourceDictionary>
+            <DataTemplate x:Key="CreditCardFormat">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Source="/KarveControls;component/Images/creditcards.png" Height="25" Grid.Row="0"></Image>
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <TextBlock Text="Tipo" FontSize="10"></TextBlock>
+                        <karveControls:DualFieldSearchBox LabelVisible="False"
+                                      DataFieldFirst="TARTI"
+                                      AssistProperties="Code,Name"
+                                      AssistTableName="CREDIT_CARD"
+                                      LabelTextWidth="10"
+                                      TextContentFirstWidth="60"
+                                      TextContentSecondWidth="180"
+                                      MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
+                                      SourceView="{Binding ClientHelper.CreditCardType, Mode=OneWay}"
+                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                                      DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                        </karveControls:DualFieldSearchBox>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Orientation="Vertical">
+                        <TextBlock Text="Titular" FontSize="10"></TextBlock>
+                        <TextBox  Margin="33,10,194,5" Height="25" Width="Auto" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3">
+                        <TextBlock  Text="Numero" FontSize="10"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Height="25" Margin="32,5,10,5" Text="{Binding Path=DataObject.TARTINUM, Mode=TwoWay}" Width="234"></TextBox>
+                            <Image Source="/KarveControls;component/Images/visa.png" Width="25"></Image>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="Expiry date" FontSize="10"></TextBlock>
+                            <TextBlock  Grid.Row="0" Grid.Column="1" Text="Security Code" FontSize="10"></TextBlock>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                <TextBox Height="25" Margin="10,5,10,5" Width="25"  Text="{Binding Path=ExpiryMonth, Mode=TwoWay}"></TextBox>
+                                <TextBlock Text="/" Height="25"></TextBlock>
+                                <TextBox Height="25" Margin="10,5,10,5" Width="50"  Text="{Binding Path=ExpiryYear, Mode=TwoWay}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                <TextBox Text="{Binding Path=DataObject.TARCODI, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
+                                <TextBox Text="{Binding Path=DataObject.TARCODI2, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="5">
+                        <TextBlock  Text="Card Token" FontSize="10"></TextBlock>
+                        <TextBox Height="25" Margin="10,5,10,5" Text="{Binding Path=DataObject.Value.TARPUN, Mode=TwoWay}"></TextBox>
+                    </StackPanel>
+                    <Button Grid.Row="6" Command="{Binding Path=ValidateFrom}" Content="Tokenizer" Height="25"></Button>
+                </Grid>
+            </DataTemplate>
+
             <DataTemplate x:Key="ClientUpperBar">
                 <Grid>
                     <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
@@ -264,7 +335,7 @@
                                     </Grid.RowDefinitions>
                                     <ContentControl mvvm1:RegionManager.RegionName="{Binding DriverZoneRegionName}" Grid.Row="0"></ContentControl>
                                     <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
-                                        <karveControls:CreditCardUserControl/>
+                                        <ContentControl x:Name="CreditCardForm" Content="{Binding}" ContentTemplate="{StaticResource CreditCardFormat}"></ContentControl>
                                     </GroupBox>
 
                                 </Grid>
@@ -290,7 +361,7 @@
                         <ContentControl x:Name="ClientContactGrid" Content="{Binding}"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
                     </TabItem>
 
-                 <!--  
+                    <!--  
                     <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
                         <ContentControl x:Name="VisitGrid"  Content="{Binding}" ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
                     </TabItem>

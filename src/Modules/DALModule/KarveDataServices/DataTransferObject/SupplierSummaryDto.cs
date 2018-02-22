@@ -16,6 +16,7 @@ namespace KarveDataServices.DataTransferObject
 
         public string Nombre { get; set; }
 
+        public string Proveedor { get; set; }
 
         public string Commercial { get; set; }
         /// <summary>

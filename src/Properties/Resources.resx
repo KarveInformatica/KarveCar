@@ -1574,4 +1574,7 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="User" xml:space="preserve">
+    <value>Dati Usuario</value>
+  </data>
 </root>

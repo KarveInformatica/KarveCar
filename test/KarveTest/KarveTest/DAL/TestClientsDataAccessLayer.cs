@@ -11,13 +11,17 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
+using Moq;
+
 namespace KarveTest.DAL
 {
     class TestClientsDataAccessLayer : TestBase
     {
         private ISqlExecutor _sqlExecutor;
         private IDataServices _dataServices;
+        private IDataServices _mockedDataService;
         private IClientDataServices _clientDataServices;
+        private Mock<ISqlExecutor> _mockSqlExecutor;
         /// <summary>
         /// Setup the client data
         /// </summary>
@@ -28,6 +32,8 @@ namespace KarveTest.DAL
             try
             {
                 _sqlExecutor = SetupSqlQueryExecutor();
+                _mockSqlExecutor = new Mock<ISqlExecutor>();
+                _mockedDataService = new DataServiceImplementation(_mockSqlExecutor.Object);
                 _dataServices = new DataServiceImplementation(_sqlExecutor);
                 Assert.NotNull(_sqlExecutor);
                 Assert.NotNull(_dataServices);
@@ -140,7 +146,12 @@ namespace KarveTest.DAL
                 bool retValue = await _clientDataServices.SaveAsync(newClient);
                 Assert.IsTrue(retValue);
                 IClientData newClientData = await _clientDataServices.GetAsyncClientDo(newClient.Value.NUMERO_CLI);
-                
+                // assert
+                ClientDto dto = newClientData.Value;
+                Assert.AreEqual(dto.NUMERO_CLI, newClient.Value.NUMERO_CLI);
+                Assert.AreEqual(dto.NOMBRE, newClient.Value.NOMBRE);
+                Assert.AreEqual(dto.APELLIDO1, newClient.Value.APELLIDO1);
+                Assert.AreEqual(dto.APELLIDO2, newClient.Value.APELLIDO2);
             }
         }
     }

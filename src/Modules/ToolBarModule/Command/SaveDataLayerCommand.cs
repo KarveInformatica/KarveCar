@@ -14,7 +14,7 @@ namespace ToolBarModule.Command
     /// <summary>
     ///  This command save the data to the database
     /// </summary>
-    public class SaveDataCommand : AbstractCommand
+    internal class SaveDataCommand : BaseToolBarCommand
     {
         /// <summary>
         /// The data service will be used for storing the data
@@ -24,25 +24,21 @@ namespace ToolBarModule.Command
         ///  The care keeper service will be used for doing do/undo
         /// </summary>
         private ICareKeeperService _careKeeperService;
+        /// <summary>
+        ///  Event manager to be used.
+        /// </summary>
         private readonly IEventManager _eventManager;
+        /// <summary>
+        ///  Configuration service.
+        /// </summary>
         private IConfigurationService _configurationService;
 
-        private IDictionary<DataSubSystem, IDataPayLoadHandler> payLoadHandlers =
-            new Dictionary<DataSubSystem, IDataPayLoadHandler>()
-            {
-                { DataSubSystem.SupplierSubsystem, new SupplierDataPayload() },
-                { DataSubSystem.CommissionAgentSubystem, new CommissionAgentPayload()},
-                { DataSubSystem.VehicleSubsystem, new VehicleDataPayload() },
-                {DataSubSystem.HelperSubsytsem, new HelperDataPayLoad() },
-                { DataSubSystem.ClientSubsystem, new ClientDataPayload() }
-            };
-
+        private bool _errorInit = false;
         /// <summary>
         /// Save the data objects to the database table and it uses the carekeeper service to 
         /// allows the do undo of the saving.
         /// </summary>
-        /// <param name="dalLocator">Database AccessLayer Inteface API</param>
-        /// <param name="careKeeperService">Carekeeper Do/Undo mechanism</param>
+
         public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IConfigurationService configurationService)
         {
             _dataServices = dataServices;
@@ -65,9 +61,13 @@ namespace ToolBarModule.Command
         }
         void InitHandlers()
         {
-            foreach (var value in payLoadHandlers.Values)
+            if (!_errorInit)
             {
-                value.OnErrorExecuting += HandlerOnOnErrorExecuting; 
+                foreach (var value in PayLoadHandlers.Values)
+                {
+                    value.OnErrorExecuting += HandlerOnOnErrorExecuting;
+                }
+                _errorInit = true; 
             }
         }
         /// <summary>
@@ -109,9 +109,9 @@ namespace ToolBarModule.Command
                 if (parameter is DataPayLoad)
                 {
                     DataPayLoad payLoad = (DataPayLoad) parameter;
-                    if (payLoadHandlers.ContainsKey(payLoad.Subsystem))
+                    if (PayLoadHandlers.ContainsKey(payLoad.Subsystem))
                     {
-                        IDataPayLoadHandler handler = payLoadHandlers[payLoad.Subsystem];
+                        IDataPayLoadHandler handler = PayLoadHandlers[payLoad.Subsystem];
                         handler.ExecutePayload(_dataServices, _eventManager, ref payLoad);
                     }
                     else
@@ -138,6 +138,16 @@ namespace ToolBarModule.Command
         public override bool UnExecute()
         {
             return true;
+        }
+        /// <summary>
+        ///  Eliminate the payload handlers.
+        /// </summary>
+        public override void Dispose()
+        {
+            foreach (var value in PayLoadHandlers.Values)
+            {
+                value.OnErrorExecuting -= HandlerOnOnErrorExecuting;
+            }
         }
     }
 }

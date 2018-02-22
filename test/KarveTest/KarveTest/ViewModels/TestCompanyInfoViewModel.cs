@@ -21,7 +21,7 @@ namespace MasterModule.ViewModels
         private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
 
         private CompanyInfoViewModel _companyInfoViewModel = null;
-        //= new ViewModels.CompanyInfoViewModel()
+   
         [OneTimeSetUp]
         public void Setup()
         {

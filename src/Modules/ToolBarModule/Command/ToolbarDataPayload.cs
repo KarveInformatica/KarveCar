@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
+using NLog;
 
 namespace ToolBarModule.Command
 {
@@ -20,6 +21,16 @@ namespace ToolBarModule.Command
         private IDataServices _dataServices;
         protected readonly PropertyChangedEventHandler ExecutedPayloadHandler;
         protected INotifyTaskCompletion<DataPayLoad> ToolbarInitializationNotifier;
+        private Dictionary<DataSubSystem, string> _dictionary = new Dictionary<DataSubSystem, string>()
+        {
+            { DataSubSystem.CommissionAgentSubystem, EventSubsystem.CommissionAgentSummaryVm},
+            { DataSubSystem.CompanySubsystem, EventSubsystem.CompanySummaryVm},
+            { DataSubSystem.ClientSubsystem, EventSubsystem.ClientSummaryVm},
+            { DataSubSystem.OfficeSubsystem, EventSubsystem.OfficeSummaryVm},
+            { DataSubSystem.HelperSubsytsem, EventSubsystem.HelperSubsystem},
+            { DataSubSystem.SupplierSubsystem, EventSubsystem.SuppliersSummaryVm},
+            { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm }
+          };
 
         /// <summary>
         ///  Toolbar data payload
@@ -27,6 +38,7 @@ namespace ToolBarModule.Command
         public ToolbarDataPayload()
         {
             ExecutedPayloadHandler += OnExecutedPayload;
+           
         }
         /// <summary>
         ///  Set or Get the event manager.
@@ -39,6 +51,9 @@ namespace ToolBarModule.Command
             }
             get { return CurrentEventManager; }
         }
+        /// <summary>
+        /// Get or Set data services.
+        /// </summary>
         public IDataServices DataServices
         {
             set
@@ -71,36 +86,28 @@ namespace ToolBarModule.Command
             {
                 return;
             }
-            switch (payLoad.Subsystem)
+            string destinationSubsystem = "";
+            _dictionary.TryGetValue(payLoad.Subsystem, out destinationSubsystem);
+            if (!string.IsNullOrEmpty(destinationSubsystem))
             {
-                case DataSubSystem.CommissionAgentSubystem:
-                {
-                    eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
-                    break;
-                }
-                case DataSubSystem.VehicleSubsystem:
-                {
-                    eventManager.SendMessage(EventSubsystem.VehichleSummaryVm, payLoad);
-                    break;
-                }
-                case DataSubSystem.SupplierSubsystem:
-                {
-                    eventManager.SendMessage(EventSubsystem.SuppliersSummaryVm, payLoad);
-                    break;
-                }
-                case DataSubSystem.ClientSubsystem:
-                {
-                    eventManager.SendMessage(EventSubsystem.ClientSummaryVm, payLoad);
-                    break;
-                }
+                eventManager.SendMessage(destinationSubsystem, payLoad);
             }
         }
-
         protected void SendError(string message)
         {
             OnErrorExecuting?.Invoke(message);
         }
+        /// <summary>
+        ///  Launch an error for executing
+        /// </summary>
         public event ErrorExecuting OnErrorExecuting;
+        /// FIXME: see if the payload can be TAP.
+        /// <summary>
+        /// Abstract method to override for executing the payload
+        /// </summary>
+        /// <param name="services">DataServices</param>
+        /// <param name="manager">Event manager</param>
+        /// <param name="payLoad">Payload to be filed.</param>
         public abstract void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad);       
         protected abstract  Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad); 
     }

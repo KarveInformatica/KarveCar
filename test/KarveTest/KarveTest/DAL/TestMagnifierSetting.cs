@@ -10,7 +10,6 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
 using System.IO;
-using System.Net;
 using System.Transactions;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
@@ -103,8 +102,9 @@ namespace KarveTest.DAL
                         GRID_SERIALIZATION serialize = new GRID_SERIALIZATION();
                         serialize.GRID_ID = 1;
                         serialize.GRID_NAME = "Named";
-                     //   serialize.SERILIZED_DATA = Encoding.UTF8.GetBytes(base64);
+                        serialize.SERILIZED_DATA = base64;
                         var value = await connection.InsertAsync<GRID_SERIALIZATION>(serialize);
+                        Assert.GreaterOrEqual(value, 0);
                     }
                 }
             }

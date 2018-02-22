@@ -28,11 +28,10 @@ namespace KarveTest.Base
             _dataService = new DataServiceImplementation(_sqlExecutor);
         }
         [Test]
-        public async void Shall_LoadUserSetting_TheConfigurationService()
+        public void Shall_LoadUserSetting_TheConfigurationService()
         {
             IUserSettings settings = _configurationService.GetUserSettings();
-           // IMagnifierSettings magnifierSettings = await settings.UserSettingsLoader.GetMagnifierSettings(2);
-           /// Assert.Greater(magnifierSettings.ID,0);
+            Assert.NotNull(settings);
         }
 
         [Test]

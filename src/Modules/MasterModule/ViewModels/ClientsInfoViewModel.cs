@@ -19,6 +19,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using MasterModule.Views;
 
+
 namespace MasterModule.ViewModels
 {
     /// <summary>
@@ -67,14 +68,22 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ClientSubSystemName, this);
             _clientDataServices = dataServices.GetClientDataServices();
             InitVmCommands();
+            
             ClientInfoRightRegionName = CreateNameRegion("RightRegion");
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
             _clientData =_clientDataServices.GetNewClientAgentDo("0");
-          
-            
+            ActiveSubSystem();
+
+
+
         }
 
+        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+        {
+            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            payLoad.Subsystem = DataSubSystem.ClientSubsystem;
+        }
         private void ClientOnContactsPrimaryKey(ref ContactsDto primaryKey)
         {
             primaryKey.ContactsKeyId = PrimaryKeyValue;
@@ -122,6 +131,7 @@ namespace MasterModule.ViewModels
             CurrentOperationalState = DataPayLoad.Type.Show;
             ContentAreaCommand = new DelegateCommand<object>(OnContentAreaCommand);
             _helperData = new HelperData();
+
            
            
         }
@@ -248,8 +258,12 @@ namespace MasterModule.ViewModels
                 {
                     MessageBox.Show("DataObject is null.");
                 }
-                payLoad.DataObject = eventDictionary["DataObject"];
+                var data = eventDictionary["DataObject"];
+                var name = eventDictionary["Field"] as string;
+                GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                payLoad.DataObject = data; 
                 payLoad.HasDataObject = true;
+                eventDictionary["DataObject"] = data;
 
             }
             ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,

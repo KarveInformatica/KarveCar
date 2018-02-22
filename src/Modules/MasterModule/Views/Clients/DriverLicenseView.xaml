@@ -9,7 +9,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
              d:DesignHeight="900" d:DesignWidth="800">
     <Grid>
-                    <GroupBox Header="Conductores">
+        <GroupBox Header="Conductores">
             <Grid x:Name="Layout">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -74,64 +74,77 @@
                                                   IsReadOnly="False">
                             </KarveControls:DataField>
                         </DockPanel>
-                        <DockPanel Grid.Row="1" x:Name="ExpedienteNif">
-                            <KarveControls:DataDatePicker DockPanel.Dock ="Left" LabelText="Fecha Expediente NIF" 
-                                                              Height="50" MinWidth="250"
+                        <Grid Grid.Row="1" x:Name="ExpedienteNif">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <KarveControls:DataDatePicker Grid.Column="0" Grid.Row="0" LabelText="Fecha Expediente NIF" 
+                                                              Height="50" MinWidth="100"
+                                                          LabelTextWidth="150"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FEDNI" Margin="0,0.071" Width="279.291" />
-                            <KarveControls:DataField DockPanel.Dock ="Right"  DataSourcePath="LUDNI" 
+                            <KarveControls:DataField Grid.Column="1" Grid.Row="0"  DataSourcePath="LUDNI" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="En"
                                                   LabelTextWidth="30"
-                                                  Margin="0"
+                                                  Margin="22,8,-6,12"
                                                   Height="30"                                                    
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
                                                   IsReadOnly="False" Width="452.942">
                             </KarveControls:DataField>
-                        </DockPanel>
-                        <DockPanel Grid.Row="2" x:Name="BirthDate">
-                            <KarveControls:DataDatePicker DockPanel.Dock ="Left" LabelText="{Binding BirthDate, Source={StaticResource ResourceLanguage}}"
-                                                  LabelTextWidth="138"
+
+                            <KarveControls:DataDatePicker Grid.Column="0" 
+                                                          LabelText="{Binding BirthDate, Source={StaticResource ResourceLanguage}}"
+                                                  LabelTextWidth="150"
                                                               Height="50" 
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="FENAC" Margin="0,0.071" Width="290.274" />
-                            
-                            <KarveControls:DataField DockPanel.Dock ="Right"  
+                                                              KarveControls:ControlExt.DataSourcePath="FENAC" Margin="15,47,1,3" Width="Auto" Grid.RowSpan="2" />
+
+                            <KarveControls:DataField Grid.Column="1" Grid.Row="1"  
                                                      DataSourcePath="LUNACI" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="En"
                                                   LabelTextWidth="30"
-                                                  Margin="0,12.571,0,7.571"
+                                                  
+                                                   Margin="21,12,-18,8"
                                                   Height="30"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
                                                   IsReadOnly="False" Width="465.758">
                             </KarveControls:DataField>
-                        </DockPanel>
-                        <DockPanel Grid.Row="3" x:Name="ExpPermiso">
-                            <KarveControls:DataDatePicker DockPanel.Dock ="Left" LabelText="Fecha Expiracion Permiso" 
+                            <KarveControls:DataDatePicker Grid.Column="0" Grid.Row="2" LabelText="Fecha Expiracion Permiso" 
                                                               Height="50" MinWidth="250"
-                                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="FEEXPE" />
-                            <KarveControls:DataField DockPanel.Dock ="Right"  
+                                                            LabelTextWidth="150"
+                                                    
+                                                          KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              KarveControls:ControlExt.DataSourcePath="FEEXPE" Margin="15,2,18,6" Width="Auto" />
+                            <KarveControls:DataField Grid.Column="1" Grid.Row="2"  
                                                      DataSourcePath="LUEXPE" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="En"
                                                   LabelTextWidth="30"
-                                                  Margin="0,12.571,0,7.571"
+                                                  Margin="21,16,-12,12"
                                                   Height="30"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
-                                                  IsReadOnly="False" Width="450.659">
-                            </KarveControls:DataField>
-                        </DockPanel>
-                        <DockPanel Grid.Row="4" x:Name="PermittionExtra">
-                            <KarveControls:DataDatePicker DockPanel.Dock ="Left" LabelText="Fecha Caducidad Permiso" 
+                                                  IsReadOnly="False"/>
+
+                            <KarveControls:DataDatePicker 
+                                 Grid.Column="0" Grid.Row="3"
+                                DockPanel.Dock ="Left" LabelText="Fecha Caducidad Permiso"
+                                LabelTextWidth="150"
                                                               Height="50" MinWidth="250"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              KarveControls:ControlExt.DataSourcePath="FECAU" />
-                            <KarveControls:DataField DockPanel.Dock ="Right"  
+                                                              KarveControls:ControlExt.DataSourcePath="FECAU" Margin="15,3,4,5" Width="Auto" />
+                            <KarveControls:DataField  Grid.Column="1" Grid.Row="3"  
                                                      DataSourcePath="NRC" 
                                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                   LabelText="NRC"
@@ -139,9 +152,10 @@
                                                   Height="30"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
-                                                  IsReadOnly="False" Width="448.289">
+                                                  IsReadOnly="False" Width="448.289" Margin="22,14,-2,14">
                             </KarveControls:DataField>
-                        </DockPanel>
+
+                        </Grid>
                     </Grid>
                 </StackPanel>
             </Grid>

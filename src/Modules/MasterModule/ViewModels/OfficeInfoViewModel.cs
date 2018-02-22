@@ -32,7 +32,7 @@ namespace MasterModule.ViewModels
 
         private void OfficeAssistResult(object sender, PropertyChangedEventArgs e)
         {
-            var value = 1;
+            
 
             
         }
@@ -296,6 +296,10 @@ namespace MasterModule.ViewModels
                 {
                     MessageBox.Show("DataObject is null.");
                 }
+                var data = eventDictionary["DataObject"];
+                var name = eventDictionary["Field"] as string;
+                GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                payLoad.DataObject = data;
             }
             // remove ViewModelQueries.
             ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.CompanySubsystem);

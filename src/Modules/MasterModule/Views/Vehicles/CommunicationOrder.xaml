@@ -13,9 +13,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
-            <WrapPanel Orientation="Vertical">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
 
-            <karveControls:DualFieldSearchBox
+
+        <karveControls:DualFieldSearchBox Grid.Row="0"
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 AssistDataFieldFirst="CODIGO"
                 AssistDataFieldSecond="NOMBRE"
@@ -26,28 +33,29 @@
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"   
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
-                LabelTextWidth="100"
+                LabelTextWidth="86"
+                Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
                 SourceView="{Binding Path=DeliveringWayDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="VIA">
-            </karveControls:DualFieldSearchBox>
-            <StackPanel Orientation="Horizontal">
-                <karveControls:DataField x:Name="EmailField"
+        </karveControls:DualFieldSearchBox>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <karveControls:DataField x:Name="EmailField" 
                                               LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                               LabelTextWidth="100"
                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="km" 
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                               TextContentWidth="200"
-                                              Height="25"/>
+                                              Height="30"/>
 
-                <Button x:Name="ButtonName"  Command="{Binding EmailCommand}" 
-                        CommandParameter="{Binding TextContent, ElementName=EmailField}">
-                    <Image Source="/MasterModule;component/Images/email.png" Height="25" Width="19"/>
-                </Button>
-            </StackPanel>
-            <karveControls:DualFieldSearchBox
+            <Button x:Name="ButtonName"  Command="{Binding EmailCommand}" 
+                        CommandParameter="{Binding TextContent, ElementName=EmailField}" Width="26" Height="30">
+                <Image Source="/MasterModule;component/Images/email.png" />
+            </Button>
+        </StackPanel>
+        <karveControls:DualFieldSearchBox Grid.Row="2"
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 AssistDataFieldFirst="CODIGO"
                 AssistDataFieldSecond="NOMBRE"
@@ -57,14 +65,15 @@
                 AssistProperties="Codigo, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="86"
+                Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
                 SourceView="{Binding Path=DeliveringFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORMA_ENVIO">
-            </karveControls:DualFieldSearchBox>
-            <karveControls:DualFieldSearchBox
+        </karveControls:DualFieldSearchBox>
+        <karveControls:DualFieldSearchBox Grid.Row="3"
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 AssistDataFieldFirst="CODIGO"
                 AssistDataFieldSecond="NOMBRE"
@@ -74,25 +83,27 @@
                 AssistProperties="Codigo, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="100"
+                LabelTextWidth="86"
+                Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
                 SourceView="{Binding Path=PriceConditionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="CONDICION_VENTA">
-            </karveControls:DualFieldSearchBox>
-            <karveControls:DataArea
+        </karveControls:DualFieldSearchBox>
+        <karveControls:DataArea Grid.Row="4"
                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 karveControls:ControlExt.DataSourcePath="DIRENVIO6"
                 DataAreaTitle="{Binding llugaresdeentrega, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="120"
                 LabelVisible="True"
+                Height="Auto"
                 DataAreaWidth="120"
-                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}" Margin="0,4,255,-8" Width="Auto"
                >
-            </karveControls:DataArea>
+        </karveControls:DataArea>
 
-            <!--
+        <!--
              ObservableCollection
             <IUiObject>collection = new ObservableCollection
                 <IUiObject>();
@@ -207,6 +218,6 @@
 
             </StackPanel>
             -->
-            </WrapPanel>
+
     </Grid>
 </UserControl>

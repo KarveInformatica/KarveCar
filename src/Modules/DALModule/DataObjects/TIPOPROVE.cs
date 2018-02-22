@@ -1,18 +1,21 @@
 using System;
- 
+using Dapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a TIPOPROVE.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("TIPOPROVE")]
 	public class TIPOPROVE 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_TIPROVE property.
     /// </summary>
-    
+        [ExplicitKey]
 		public Int16 NUM_TIPROVE { get; set; }
  
 	/// <summary>

@@ -9,13 +9,14 @@ using System.Windows;
 using KarveCommon.Services;
 using KarveControls.Generic;
 using KarveControls.UIObjects;
+using System.Diagnostics.Contracts;
 
 namespace MasterModule.Common
 {
     /// <summary>
     /// This handles the change field data object
     /// </summary>
-    public class ChangeFieldHandlerDo<T> : IChangeHandler
+    public class ChangeFieldHandlerDo<T> : IChangeHandler where T: class
     {
         private DataSet _assistantDataSet;
         private DataSubSystem _currentSubsystem;
@@ -104,8 +105,7 @@ namespace MasterModule.Common
             // this now contains an object.
             if (evDictionary.ContainsKey("DataObject"))
             {
-                _dataObject = (T) evDictionary["DataObject"];
-                payLoad.DataObject = _dataObject;
+                
                 payLoad.HasDataObject = true;
                 _eventManager.NotifyToolBar(payLoad);
             }
@@ -134,21 +134,14 @@ namespace MasterModule.Common
         /// <param name="evDictionary">Dictionary of the events.</param>
         public void OnUpdate(DataPayLoad payLoad, IDictionary<string, object> evDictionary)
         {
-            payLoad.HasDataObject = true;
+            Contract.Requires(payLoad != null, "Cannot update the payload");
+            Contract.Requires(_eventManager != null, "Data object is not null");
             payLoad.Subsystem = Subsystem;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.HasDictionary = true;
-            payLoad.DataDictionary = evDictionary;
-            if (evDictionary.ContainsKey("DataObject"))
-            {
-
-                
-              _dataObject = (T) evDictionary["DataObject"];
-                    //    EnforceChange(evDictionary, ref _dataObject);
-              payLoad.DataObject = _dataObject;
-                
-                _eventManager.NotifyToolBar(payLoad);
-            }
+         
+            _dataObject = payLoad.DataObject as T;
+            _eventManager.NotifyToolBar(payLoad);
+            
         }
     }
 }

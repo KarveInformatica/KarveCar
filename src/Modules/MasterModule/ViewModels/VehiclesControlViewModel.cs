@@ -18,7 +18,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  This is the vehicles control view model.
     /// </summary>
-    public class VehiclesControlViewModel: MasterViewModuleBase, IEventObserver, ICreateRegionManagerScope
+    public class VehiclesControlViewModel: MasterControlViewModuleBase, IEventObserver, ICreateRegionManagerScope
     {
         private IVehicleDataServices _vehicleDataServices;
         private const string VehicleNameColumn = "Marca";

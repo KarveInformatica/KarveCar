@@ -70,7 +70,7 @@
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
                                ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               AutoGenerateColumns="True">
                 <Syncfusion:SfDataGrid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -81,20 +81,7 @@
                 <i:Interaction.Behaviors>
                     <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </i:Interaction.Behaviors>
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="Code" 
-                                           MappingName="Code" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           AllowEditing="True"
-                                           AllowGrouping="True"/>
-                    <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                           MappingName="Name" 
-                                           TextAlignment="Left"
-                                           AllowEditing="True"
-                                           AllowGrouping="True"
-                                           />
-                </Syncfusion:SfDataGrid.Columns>
+             
 
             </Syncfusion:SfDataGrid>
 

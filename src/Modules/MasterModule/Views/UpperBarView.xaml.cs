@@ -115,10 +115,10 @@ namespace MasterModule.Views
             var dataSourceValue = e.NewValue;
             if (e.NewValue != null)
             {
-                this.Nif.DataObject = e.NewValue;
-                this.Numero.DataObject = e.NewValue;
-                this.Persona.DataObject = e.NewValue;
-                this.Tipo.DataSource = e.NewValue;
+               this.Nif.DataObject = e.NewValue;
+               this.Numero.DataObject = e.NewValue;
+               this.Persona.DataObject = e.NewValue;
+               this.Tipo.DataSource = e.NewValue;
             }
         }
 

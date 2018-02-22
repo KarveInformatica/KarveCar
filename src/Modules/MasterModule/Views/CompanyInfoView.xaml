@@ -85,7 +85,7 @@
                                                       TextContentSecondWidth="300"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding Path=Brokers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding CompanyBrokersDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </DataTemplate>
                     <DataTemplate x:Key="ClientDualSearchBox">
@@ -208,8 +208,15 @@
                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                       TextContent="{Binding Path=DataObject.FAX, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="fAX" />
                 <StackPanel Grid.Column="0" Grid.Row="9" Orientation="Horizontal">
-                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_ALTA" />
-                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}" SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_BAJA" />
+                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}" 
+                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, 
+                        ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
+                                                    DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_ALTA" />
+                    <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, 
+                        Source={StaticResource ResourceLanguage}}"
+                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_BAJA" />
                 </StackPanel>
                 <karveControls:DataArea Grid.Column="0" Grid.RowSpan="2" Grid.Row="10" DataAreaTitle="Observaciones" DataAreaWidth="200" Height="Auto" TextContent="{Binding Path=DataObject.OBS1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="oBS1" Margin="1,5,1,2" Width="Auto" />
 
@@ -235,8 +242,8 @@
                                                       SourceView="{Binding Path=ClientDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <karveControls:DualFieldSearchBox Grid.Row="3" Grid.Column="1" DataFieldFirst="COMISIO"
-                                                      AssistTableName="COMISIO_ASSIST"
-                                                      AssistProperties="Code,Name"
+                                                      AssistTableName="BROKER_ASSIST"
+                                                      AssistProperties="Numero,Nombre,Persona,Nif,Direccion,Poblacion,Provincia,Pais"
                                                       LabelText="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="86"   
                                                       Margin="0,5,0,0"
@@ -245,7 +252,7 @@
                                                       TextContentSecondWidth="300"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding Path=Brokers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding Path=CompanyBrokersDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <GroupBox Header="Aportaciones"  Grid.Column="1" Grid.Row="10" Grid.RowSpan="4" Margin="0,60,66,27">
                     <StackPanel>
@@ -311,39 +318,47 @@
                             <ComboBoxItem>Costa</ComboBoxItem>
                             <ComboBoxItem>Ciudad</ComboBoxItem>
                             <ComboBoxItem>Isla</ComboBoxItem>
-                            <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
+                            <i:Interaction.Behaviors>
+                                <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
                                                         Command="{Binding ItemChangedCommand}">
+                                </behaviour:ComboChangeBehaviour>
 
-                            </behaviour:ComboChangeBehaviour>
+                            </i:Interaction.Behaviors>
                         </ComboBox>
                         <Label Content="Apartenencia" Grid.Row="1" />
                         <ComboBox SelectedIndex="{Binding Path=DataObject.TIPO2, Mode=TwoWay}" 
                               Grid.Column="1" Grid.Row="1" x:Name="tIPO2">
                             <ComboBoxItem>Del grupo</ComboBoxItem>
                             <ComboBoxItem>Fuera del grupo</ComboBoxItem>
-                            <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
+                            <i:Interaction.Behaviors>
+                                <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
                                                         Command="{Binding ItemChangedCommand}">
 
                             </behaviour:ComboChangeBehaviour>
+                                </i:Interaction.Behaviors>
                         </ComboBox>
                         <Label Content="Dimension" Grid.Row="2" />
                         <ComboBox SelectedItem="{Binding Path=DataObject.TIPO3, Mode=TwoWay}"  Grid.Column="1" Grid.Row="2" x:Name="tIPO3">
                             <ComboBoxItem>Pequena</ComboBoxItem>
                             <ComboBoxItem>Mediana</ComboBoxItem>
                             <ComboBoxItem>Grande</ComboBoxItem>
-                            <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
+                            <i:Interaction.Behaviors>
+                                <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
                                                         Command="{Binding ItemChangedCommand}">
 
                             </behaviour:ComboChangeBehaviour>
+                                </i:Interaction.Behaviors>
                         </ComboBox>
                         <Label Content="Estado" Grid.Row="3"/>
                         <ComboBox SelectedItem="{Binding Path=DataObject.TIPO4, Mode=TwoWay}"  Grid.Column="1" Grid.Row="3" x:Name="tIPO4">
                             <ComboBoxItem>Ya Existente</ComboBoxItem>
                             <ComboBoxItem>Nuevo</ComboBoxItem>
-                            <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
+                            <i:Interaction.Behaviors>
+                                <behaviour:ComboChangeBehaviour DataObject="{Binding DataObject}" 
                                                         Command="{Binding ItemChangedCommand}">
 
                             </behaviour:ComboChangeBehaviour>
+                                </i:Interaction.Behaviors>
                         </ComboBox>
                     </Grid>
                 </GroupBox>

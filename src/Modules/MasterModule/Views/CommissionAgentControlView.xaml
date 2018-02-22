@@ -29,7 +29,7 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <Syncfusion:SfDataGrid x:Name="SupplierSummary"
+        <Syncfusion:SfDataGrid x:Name="CommissionAgentSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -50,7 +50,7 @@
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=SupplierSummary, Path=SelectedItem}"/>
+                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=CommissionAgentSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

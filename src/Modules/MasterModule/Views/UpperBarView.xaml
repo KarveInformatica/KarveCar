@@ -10,8 +10,9 @@
              mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="900">
     <Grid>
+        
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
-            
+          
         <StackPanel Name="ContextLayout" Orientation="Horizontal">
            
             <karveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
@@ -45,7 +46,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
-           
+         
             <karveControls:DualFieldSearchBox x:Name="Tipo" 
                                               TextContentSecondWidth="200"
                                               TextContentFirstWidth="100"

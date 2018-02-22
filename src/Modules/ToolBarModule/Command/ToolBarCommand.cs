@@ -12,5 +12,6 @@ namespace ToolBarModule.Command
         }
 
         private KarveToolBarViewModel ViewModel { set; get; }
+     
     }
 }

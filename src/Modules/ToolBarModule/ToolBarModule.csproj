@@ -102,12 +102,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\BaseToolBarCommand.cs" />
     <Compile Include="Command\ClientDataPayload.cs" />
     <Compile Include="Command\CommissionAgentPayload.cs" />
-    <Compile Include="Command\GridSaveDataCommand.cs" />
+    <Compile Include="Command\CompanyDataPayload.cs" />
     <Compile Include="Command\HelperDataPayLoad.cs" />
     <Compile Include="Command\IDataPayLoadHandler.cs" />
-    <Compile Include="Command\SaveDataException.cs" />
+    <Compile Include="Command\OfficeDataPayload.cs" />
     <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\SupplierDataPayload.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />

@@ -17,6 +17,7 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
+using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.Windows.Shared;
 using DelegateCommand = Prism.Commands.DelegateCommand;
@@ -40,7 +41,9 @@ namespace MasterModule.ViewModels
         private ICommissionAgentDataServices _commissionAgentDataServices;
         private INotifyTaskCompletion<ICommissionAgent> _initializationTable;
         private INotifyTaskCompletion<DataPayLoad> _deleteNotifyTaskCompletion;
-        private readonly PropertyChangedEventHandler _deleteEventHandler;
+        private bool _canDelete;
+
+       
 
         /// <summary>
         /// Auxiliares tables. Each aux table has associated a data transfer object. 
@@ -257,13 +260,15 @@ namespace MasterModule.ViewModels
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
             AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
+            MagnifierCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
             ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
-            PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
+            //PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
+            // update the assist.
+            UpdateAssist(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
-         
         }
 
         private void OnPrintCommand(object obj)
@@ -518,8 +523,16 @@ namespace MasterModule.ViewModels
                 }
             }
         }
+        private void UpdateAssist(ref ObservableCollection<UiDfSearch> search)
+        {
+            for (int i = 0; i < search.Count; ++i)
+            {
+                search[i].AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
+                
+            }
+        }
 
-       
+
 
 
         /// <summary>
@@ -634,6 +647,7 @@ namespace MasterModule.ViewModels
                 for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
                 {
                     _leftSideDualDfSearchBoxes[i].DataSource = agent;
+
                 }
                 _leftObservableCollection = _leftSideDualDfSearchBoxes;
             }
@@ -918,15 +932,13 @@ namespace MasterModule.ViewModels
                 DataPayLoad dataPayload = new DataPayLoad();
                 dataPayload.HasDataObject = true;
                 dataPayload.PrimaryKeyValue = PrimaryKey;
-                _deleteNotifyTaskCompletion = NotifyTaskCompletion.Create<DataPayLoad>(HandleDeleteItem(dataPayload), _deleteEventHandler);
+                _deleteNotifyTaskCompletion = NotifyTaskCompletion.Create<DataPayLoad>(HandleDeleteItem(dataPayload), DeleteEventHandler);
                 _primaryKeyValue = "";
             }
         }
         
-        public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
-        {
-            throw new NotImplementedException();
-        }
+       
+
         public string this[string columnName]
         {
             get { throw new NotImplementedException(); }
@@ -950,5 +962,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public Prism.Commands.DelegateCommand<object> MagnifierCommand { get; set; }
     }
 }

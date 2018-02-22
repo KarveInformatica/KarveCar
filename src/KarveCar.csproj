@@ -226,7 +226,6 @@
     <Compile Include="Commands\Generic\CloseTabItemCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
-    <Compile Include="Commands\Generic\MostrarAuxiliaresCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\MarcaCommand.cs" />
     <Compile Include="Commands\MaestrosCommand\MarcaDataTablecommand.cs" />
@@ -234,11 +233,8 @@
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
     <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
-    <Compile Include="Logic\Generic\NavigationDrawer.cs" />
     <Compile Include="Logic\Generic\TabItemLogic.cs" />
     <Compile Include="Logic\Generic\UserAccessControlList.cs" />
-    <Compile Include="Logic\Maestros\DataGridMaestrosAuxiliaresLogic.cs" />
-    <Compile Include="Logic\Maestros\MaestrosAuxiliaresLogic.cs" />
     <Compile Include="Model\Generic\TemplateInfoDB.cs" />
     <Compile Include="Model\Generic\UsoAlquiler.cs" />
     <Compile Include="Model\Generic\ZonaCliente.cs" />
@@ -302,7 +298,6 @@
     <Compile Include="ViewModels\MarcaDataObject.cs" />
     <Compile Include="ViewModels\MarcaDataTableViewModel.cs" />
     <Compile Include="ViewModels\MarcaViewModel.cs" />
-    <Compile Include="ViewModels\MostrarAuxiliaresViewModel.cs" />
     <Compile Include="ViewModels\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModels\ProvidersResolverViewModel.cs" />
     <Compile Include="Views\CustomTabControl.xaml.cs">
@@ -317,10 +312,6 @@
     <Compile Include="Views\CintaOpcionesUserControl.xaml.cs">
       <DependentUpon>CintaOpcionesUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DataGridUserControl.xaml.cs">
-      <DependentUpon>DataGridUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\KarveCategory.cs" />
     <Compile Include="Views\LeftTreeView.xaml.cs">
       <DependentUpon>LeftTreeView.xaml</DependentUpon>
     </Compile>
@@ -358,10 +349,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CintaOpcionesUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DataGridUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -453,6 +440,7 @@
   <ItemGroup>
     <Folder Include="Logic\Comercial\" />
     <Folder Include="Logic\Contratos\" />
+    <Folder Include="Logic\Maestros\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

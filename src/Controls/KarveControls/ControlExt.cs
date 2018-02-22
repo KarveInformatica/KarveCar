@@ -171,6 +171,7 @@ namespace KarveControls
                 CheckBox checkBox = dependencyObject as CheckBox;
                 checkBox.Checked += CheckBox_Checked;
                 checkBox.Unchecked += CheckBox_Unchecked;
+                checkBox.Click += checkBox_Clicked;
             }
             if (dependencyObject is ComboBox)
             {
@@ -184,11 +185,27 @@ namespace KarveControls
             }
         }
 
+        private static void checkBox_Clicked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+            if (checkBox!=null)
+            {
+                if (checkBox.IsChecked.HasValue)
+                {
+                    checkBox.IsChecked = !checkBox.IsChecked;
+                }
+                else
+                {
+                    checkBox.IsChecked = true;
+                }
+            }
+        }
+
         private static void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
             var command = checkBox?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
-
+           
             if ((command != null) && (checkBox != null))
             {
 
@@ -213,8 +230,9 @@ namespace KarveControls
 
             if ((command != null) && (checkBox != null))
             {
-
+               
                 var sourceObject = GetDataSource(checkBox);
+               
                 if (sourceObject != null)
                 {
                     IDictionary<string, object> values = new Dictionary<string, object>();

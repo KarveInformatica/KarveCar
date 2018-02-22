@@ -2519,4 +2519,7 @@
   <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
     <value>Nuovo Ufficio</value>
   </data>
+  <data name="lusuarioconnected" xml:space="preserve">
+    <value>Usuario Connectado</value>
+  </data>
 </root>

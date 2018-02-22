@@ -125,10 +125,9 @@ namespace MasterModule.ViewModels
             IDictionary<string, string> currentData = assistData as Dictionary<string, string>;
             if (currentData != null)
             {
-
-                string assistQuery = currentData[AssistQuery] as string;
-                var tipoProve = await helperDataServices.GetAsyncHelper<TIPOPROVE>(assistQuery);
-                SourceView = _mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(tipoProve);
+                // string assistQuery = currentData[AssistQuery] as string;
+                var tipoProve = await helperDataServices.GetMappedAllAsyncHelper<SupplierTypeDto, TIPOPROVE>();
+                SourceView = tipoProve;
                 _status = UpperBarViewModelState.Loaded;
             }
 

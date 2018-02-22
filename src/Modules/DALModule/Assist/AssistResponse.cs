@@ -26,6 +26,9 @@ namespace DataAccessLayer.Assist
         public async Task<IAssistResult<T>> HandleAssist<T>(IAssist assist)
         {
             IEnumerable<T> outEnumerable = await HelperDataServices.GetAsyncHelper<T>(assist.Query);
+            var assistResult = outEnumerable.FirstOrDefault();
+           
+            
             IAssistResult<T> result = new AssistResult<T>(outEnumerable.FirstOrDefault(), outEnumerable);
             return result;
         }

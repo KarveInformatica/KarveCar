@@ -1,10 +1,8 @@
 ﻿using KarveCommon.Services;
-using KarveDataServices;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -13,26 +11,21 @@ using DataAccessLayer.Assist;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;
-using KarveDataServices.Assist;
-using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using NLog;
 using Prism.Commands;
 using Prism.Regions;
-
-using Syncfusion.UI.Xaml.Grid;
 using System;
-using System.Linq;
-using System.Reflection;
 using Dragablz;
-using KarveControls;
-using KarveDapper.Extensions;
-using MasterModule.ViewModels;
+using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
+using KarveDataServices;
+using KarveDataServices.Assist;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
+    ///  ProviderInfoViewModel. 
     /// </summary>
     public class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
@@ -396,6 +389,10 @@ namespace MasterModule.ViewModels
             IAssist assist = new Assist();
             assist.Name = assistTableName;
             assist.Query = assistQuery;
+            if (string.IsNullOrEmpty(assist.Query))
+            {
+                return;
+            }
             // FIXME i have find no way to avoid return type case.
             AssistResponse dto = new AssistResponse(DataServices.GetHelperDataServices());
             switch (assist.Name)
@@ -634,31 +631,16 @@ namespace MasterModule.ViewModels
 
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
-            DataPayLoad payLoad = new DataPayLoad();
+            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    MessageBox.Show("DataObject is null.");
-                }
-            }
-            // remove ViewModelQueries.
             ChangeFieldHandlerDo<ISupplierData> handlerDo = new ChangeFieldHandlerDo<ISupplierData>(EventManager,
-                ViewModelQueries,
                 DataSubSystem.SupplierSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
-
             }
             else
             {

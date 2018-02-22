@@ -151,6 +151,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nueva Empresa.
+        /// </summary>
+        public static string CompanyControlViewModel_NewItem_NuevaEmpresa {
+            get {
+                return ResourceManager.GetString("CompanyControlViewModel_NewItem_NuevaEmpresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compra/Venta.
         /// </summary>
         public static string CompraVenta {
@@ -5385,6 +5394,15 @@ namespace KarveLocale.Properties {
         public static string lultimodiaenflota {
             get {
                 return ResourceManager.GetString("lultimodiaenflota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuario conectado.
+        /// </summary>
+        public static string lusuarioconnected {
+            get {
+                return ResourceManager.GetString("lusuarioconnected", resourceCulture);
             }
         }
         

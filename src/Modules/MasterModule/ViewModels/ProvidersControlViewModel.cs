@@ -30,7 +30,7 @@ namespace MasterModule.ViewModels
     /// 
     /// 2. InfoViewModels. This kind of view model is responsible for show the value of each specific item.
     /// </summary>
-    public class ProvidersControlViewModel : MasterViewModuleBase, IProvidersViewModel
+    public class ProvidersControlViewModel : MasterControlViewModuleBase, IProvidersViewModel
     {
         private const string ProviderNameColumn = "Nombre";
         private const string ProviderColumnCode = "Codigo";

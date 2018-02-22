@@ -97,21 +97,29 @@ namespace DataAccessLayer.Crud.Company
         /// <param name="office">Poco to check if there is a null parameter.</param>
         private void SetDataTransferObject(SqlMapper.GridReader reader, SUBLICEN company, ref CompanyDto dto)
         {
+            // think about the GridReader.
+
             if (reader == null)
                 return;
             if (!string.IsNullOrEmpty(company.CP))
             {
-
+                if (reader.IsConsumed)
+                    return;
                 Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityDto>(reader.Read<POBLACIONES>().FirstOrDefault(), _mapper);
             }
 
             if (!string.IsNullOrEmpty(company.NACIO))
             {
+                if (reader.IsConsumed)
+                    return;
+
                 Helper.CountryDto = MapperUtils.GetMappedValue<Country, CountryDto>(reader.Read<Country>().FirstOrDefault(), _mapper);
             }
             
             if (!string.IsNullOrEmpty(company.PROVINCIA))
             {
+                if (reader.IsConsumed)
+                    return;
                 Helper.ProvinciaDto = MapperUtils.GetMappedValue<PROVINCIA, ProvinciaDto>(reader.Read<PROVINCIA>().FirstOrDefault(), _mapper);
             }
             var listOfOffices = reader.Read<OFICINAS>().ToList();
