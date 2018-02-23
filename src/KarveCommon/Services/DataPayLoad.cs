@@ -24,6 +24,7 @@ namespace KarveCommon.Services
         OfficeSubsystem = 6,
         CompanySubsystem = 7,
         None = 8,
+        FareSubsystem = 9,
     };
 
 

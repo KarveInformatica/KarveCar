@@ -117,15 +117,6 @@
             </Syncfusion:SfDataGrid>
 
         </Grid>
-        <!--
-        <karveGrid:KarveGridView x:Name="OfficesSummary" PageSize="25" Grid.IsSharedSizeScope="True"
-                                 Height="800"  ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="RowMouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=OfficesSummary, Path=SelectedRow}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </karveGrid:KarveGridView>
-        -->
+       
     
 </UserControl>

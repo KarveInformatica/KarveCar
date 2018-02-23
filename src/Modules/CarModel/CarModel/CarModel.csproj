@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CarModelViewModel.cs" />
     <Compile Include="View\CarModelControlView.xaml.cs">
       <DependentUpon>CarModelControlView.xaml</DependentUpon>
     </Compile>
@@ -97,9 +98,7 @@
       <DependentUpon>CarModelView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="View\CarModelControlView.xaml">
       <SubType>Designer</SubType>

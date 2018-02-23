@@ -231,6 +231,7 @@
     <Compile Include="ViewModels\ClientsControlViewModel.cs" />
     <Compile Include="ViewModels\ClientsInfoViewModel.cs" />
     <Compile Include="ViewModels\DriversControlViewModel.cs" />
+    <Compile Include="ViewModels\FaresInfoViewModel.cs" />
     <Compile Include="ViewModels\HelperData.cs" />
     <Compile Include="ViewModels\OfficeInfoViewModel.cs" />
     <Compile Include="ViewModels\OfficesControlViewModel.cs" />
@@ -302,6 +303,9 @@
     </Compile>
     <Compile Include="Views\DriversControlView.xaml.cs">
       <DependentUpon>DriversControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FaresInfoView.xaml.cs">
+      <DependentUpon>FaresInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Offices\HolidayDates.xaml.cs">
       <DependentUpon>HolidayDates.xaml</DependentUpon>
@@ -485,6 +489,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DriversControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FaresInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

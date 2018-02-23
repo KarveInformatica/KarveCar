@@ -130,6 +130,7 @@
     <Compile Include="DataTransferObject\ModelVehicleDto.cs" />
     <Compile Include="DataTransferObject\MonthsDto.cs" />
     <Compile Include="DataTransferObject\BusinessDto.cs" />
+    <Compile Include="DataTransferObject\FareDto.cs" />
     <Compile Include="DataTransferObject\OfficeDto.cs" />
     <Compile Include="DataTransferObject\OfficeSummaryDto.cs" />
     <Compile Include="DataTransferObject\OrigenDto.cs" />

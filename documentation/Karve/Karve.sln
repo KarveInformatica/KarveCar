@@ -1,0 +1,220 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve", "Karve\Karve.vbproj", "{00B591A3-9CCF-41A2-95AA-0E5214468864}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ASADB", "ASADB\ASADB.vbproj", "{0CF965A6-7CDE-4E04-97BD-7373002E96BD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CustomControls", "CustomControls\CustomControls.vbproj", "{C328C6A1-1000-477A-9FB7-027159539F67}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bases", "Bases\Bases.vbproj", "{06894257-8C6F-47CC-8184-B6530071AEF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FTP", "FTP\FTP.csproj", "{EF7115E4-4CCB-4F5B-88E3-773D9277F799}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VariablesGlobales", "VariablesGlobales\VariablesGlobales.vbproj", "{12CBFCBA-71FF-4C95-8628-624D343BB0AA}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.ConfiguracionApp", "ConfiguracionApp\Karve.ConfiguracionApp.vbproj", "{D114D607-DF73-46D4-801D-549DB10AF539}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Clientes", "Clientes\Karve.frm.Clientes.vbproj", "{7034EDE4-E06D-479C-8DDB-42FBBB3D2446}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.Definiciones", "Definiciones\Karve.Definiciones.vbproj", "{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Proveedores", "Proveedores\Karve.frm.Proveedores.vbproj", "{A06C9B01-2148-4B79-96F0-CB0FC27205DE}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Auxiliares", "Auxiliares\Karve.frm.Auxiliares.vbproj", "{5E109763-A477-4E52-8B5F-9EC786B3542A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.ConfiEmpOfi", "Karve.frm.ConfiEmpOfi\Karve.frm.ConfiEmpOfi.vbproj", "{822CE1D4-52D2-434D-AC7A-E9C404D14221}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Facturas", "Karve.frm.Facturas\Karve.frm.Facturas.vbproj", "{16C3F63D-7DDF-4E6C-94D0-5C9C75080D5E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.Theme", "Karve.Theme\Karve.Theme.vbproj", "{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.Logic", "Karve.Logic\Karve.Logic.vbproj", "{41520EAD-3305-46AD-814F-43094236ACA0}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.CrystalPreview", "Karve.CrystalPreview\Karve.CrystalPreview.vbproj", "{685EAA1A-4643-4654-86AB-1D662A79B907}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.EnvioMail", "Karve.EnvioMail\Karve.EnvioMail.vbproj", "{4F3AE25A-03F1-487B-9F77-114713ED93F5}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.RentACar", "Karve.RentACar\Karve.frm.RentACar.vbproj", "{8FAEE54C-1ECF-404F-BCD0-6D69A5831CEA}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Vehiculos", "Karve.frm.Vehiculos\Karve.frm.Vehiculos.vbproj", "{073C30B7-C255-4C8F-BBC2-C6D4A2A5B796}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Karve.frm.Tarifas", "Karve.frm.Tarifas\Karve.frm.Tarifas.vbproj", "{9E5F7AAE-0BE8-44F6-B9B4-6EA3A397FEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Networking.csproj", "{11BEA4A0-0D7F-423D-9C1C-4570EBD71F27}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "kEnvioMail", "kEnvioMail\kEnvioMail.vbproj", "{99C3CD16-DF13-4CD4-994D-08B061619FDC}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 23
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://karve.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Bases\\Bases.vbproj
+		SccProjectName1 = Bases
+		SccLocalPath1 = Bases
+		SccProjectUniqueName2 = CustomControls\\CustomControls.vbproj
+		SccProjectName2 = CustomControls
+		SccLocalPath2 = CustomControls
+		SccProjectUniqueName3 = Karve\\Karve.vbproj
+		SccProjectName3 = Karve
+		SccLocalPath3 = Karve
+		SccProjectUniqueName4 = VariablesGlobales\\VariablesGlobales.vbproj
+		SccProjectName4 = VariablesGlobales
+		SccLocalPath4 = VariablesGlobales
+		SccProjectUniqueName5 = Proveedores\\Karve.frm.Proveedores.vbproj
+		SccProjectName5 = Proveedores
+		SccLocalPath5 = Proveedores
+		SccProjectUniqueName6 = Auxiliares\\Karve.frm.Auxiliares.vbproj
+		SccProjectName6 = Auxiliares
+		SccLocalPath6 = Auxiliares
+		SccProjectUniqueName7 = Clientes\\Karve.frm.Clientes.vbproj
+		SccProjectName7 = Clientes
+		SccLocalPath7 = Clientes
+		SccProjectUniqueName8 = ConfiguracionApp\\Karve.ConfiguracionApp.vbproj
+		SccProjectName8 = ConfiguracionApp
+		SccLocalPath8 = ConfiguracionApp
+		SccProjectUniqueName9 = Definiciones\\Karve.Definiciones.vbproj
+		SccProjectName9 = Definiciones
+		SccLocalPath9 = Definiciones
+		SccProjectUniqueName10 = ASADB\\ASADB.vbproj
+		SccProjectName10 = ASADB
+		SccLocalPath10 = ASADB
+		SccProjectUniqueName11 = FTP\\FTP.csproj
+		SccProjectName11 = FTP
+		SccLocalPath11 = FTP
+		SccProjectUniqueName12 = Karve.frm.ConfiEmpOfi\\Karve.frm.ConfiEmpOfi.vbproj
+		SccProjectName12 = Karve.frm.ConfiEmpOfi
+		SccLocalPath12 = Karve.frm.ConfiEmpOfi
+		SccProjectUniqueName13 = Karve.frm.Facturas\\Karve.frm.Facturas.vbproj
+		SccProjectName13 = Karve.frm.Facturas
+		SccLocalPath13 = Karve.frm.Facturas
+		SccProjectUniqueName14 = Karve.Theme\\Karve.Theme.vbproj
+		SccProjectName14 = Karve.Theme
+		SccLocalPath14 = Karve.Theme
+		SccProjectUniqueName15 = Karve.Logic\\Karve.Logic.vbproj
+		SccProjectName15 = Karve.Logic
+		SccLocalPath15 = Karve.Logic
+		SccProjectUniqueName16 = Karve.CrystalPreview\\Karve.CrystalPreview.vbproj
+		SccProjectName16 = Karve.CrystalPreview
+		SccLocalPath16 = Karve.CrystalPreview
+		SccProjectUniqueName17 = Karve.EnvioMail\\Karve.EnvioMail.vbproj
+		SccProjectName17 = Karve.EnvioMail
+		SccLocalPath17 = Karve.EnvioMail
+		SccProjectUniqueName18 = Karve.RentACar\\Karve.frm.RentACar.vbproj
+		SccProjectName18 = Karve.RentACar
+		SccLocalPath18 = Karve.RentACar
+		SccProjectUniqueName19 = Karve.frm.Vehiculos\\Karve.frm.Vehiculos.vbproj
+		SccProjectName19 = Karve.frm.Vehiculos
+		SccLocalPath19 = Karve.frm.Vehiculos
+		SccProjectUniqueName20 = Karve.frm.Tarifas\\Karve.frm.Tarifas.vbproj
+		SccProjectName20 = Karve.frm.Tarifas
+		SccLocalPath20 = Karve.frm.Tarifas
+		SccProjectUniqueName21 = Networking\\Networking.csproj
+		SccProjectName21 = Networking
+		SccLocalPath21 = Networking
+		SccProjectUniqueName22 = kEnvioMail\\kEnvioMail.vbproj
+		SccProjectName22 = kEnvioMail
+		SccLocalPath22 = kEnvioMail
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00B591A3-9CCF-41A2-95AA-0E5214468864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00B591A3-9CCF-41A2-95AA-0E5214468864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00B591A3-9CCF-41A2-95AA-0E5214468864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00B591A3-9CCF-41A2-95AA-0E5214468864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CF965A6-7CDE-4E04-97BD-7373002E96BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CF965A6-7CDE-4E04-97BD-7373002E96BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CF965A6-7CDE-4E04-97BD-7373002E96BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CF965A6-7CDE-4E04-97BD-7373002E96BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C328C6A1-1000-477A-9FB7-027159539F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C328C6A1-1000-477A-9FB7-027159539F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C328C6A1-1000-477A-9FB7-027159539F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C328C6A1-1000-477A-9FB7-027159539F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06894257-8C6F-47CC-8184-B6530071AEF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06894257-8C6F-47CC-8184-B6530071AEF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06894257-8C6F-47CC-8184-B6530071AEF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06894257-8C6F-47CC-8184-B6530071AEF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7115E4-4CCB-4F5B-88E3-773D9277F799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7115E4-4CCB-4F5B-88E3-773D9277F799}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7115E4-4CCB-4F5B-88E3-773D9277F799}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7115E4-4CCB-4F5B-88E3-773D9277F799}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12CBFCBA-71FF-4C95-8628-624D343BB0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CBFCBA-71FF-4C95-8628-624D343BB0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CBFCBA-71FF-4C95-8628-624D343BB0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CBFCBA-71FF-4C95-8628-624D343BB0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D114D607-DF73-46D4-801D-549DB10AF539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D114D607-DF73-46D4-801D-549DB10AF539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D114D607-DF73-46D4-801D-549DB10AF539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D114D607-DF73-46D4-801D-549DB10AF539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7034EDE4-E06D-479C-8DDB-42FBBB3D2446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7034EDE4-E06D-479C-8DDB-42FBBB3D2446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7034EDE4-E06D-479C-8DDB-42FBBB3D2446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7034EDE4-E06D-479C-8DDB-42FBBB3D2446}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A06C9B01-2148-4B79-96F0-CB0FC27205DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A06C9B01-2148-4B79-96F0-CB0FC27205DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A06C9B01-2148-4B79-96F0-CB0FC27205DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A06C9B01-2148-4B79-96F0-CB0FC27205DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E109763-A477-4E52-8B5F-9EC786B3542A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E109763-A477-4E52-8B5F-9EC786B3542A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E109763-A477-4E52-8B5F-9EC786B3542A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E109763-A477-4E52-8B5F-9EC786B3542A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822CE1D4-52D2-434D-AC7A-E9C404D14221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822CE1D4-52D2-434D-AC7A-E9C404D14221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822CE1D4-52D2-434D-AC7A-E9C404D14221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822CE1D4-52D2-434D-AC7A-E9C404D14221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C3F63D-7DDF-4E6C-94D0-5C9C75080D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C3F63D-7DDF-4E6C-94D0-5C9C75080D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C3F63D-7DDF-4E6C-94D0-5C9C75080D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C3F63D-7DDF-4E6C-94D0-5C9C75080D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F0C368D-CD5B-4AAF-BB71-D50A9E36B816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41520EAD-3305-46AD-814F-43094236ACA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41520EAD-3305-46AD-814F-43094236ACA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41520EAD-3305-46AD-814F-43094236ACA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41520EAD-3305-46AD-814F-43094236ACA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{685EAA1A-4643-4654-86AB-1D662A79B907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685EAA1A-4643-4654-86AB-1D662A79B907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685EAA1A-4643-4654-86AB-1D662A79B907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685EAA1A-4643-4654-86AB-1D662A79B907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F3AE25A-03F1-487B-9F77-114713ED93F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F3AE25A-03F1-487B-9F77-114713ED93F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F3AE25A-03F1-487B-9F77-114713ED93F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F3AE25A-03F1-487B-9F77-114713ED93F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FAEE54C-1ECF-404F-BCD0-6D69A5831CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FAEE54C-1ECF-404F-BCD0-6D69A5831CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FAEE54C-1ECF-404F-BCD0-6D69A5831CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FAEE54C-1ECF-404F-BCD0-6D69A5831CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{073C30B7-C255-4C8F-BBC2-C6D4A2A5B796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073C30B7-C255-4C8F-BBC2-C6D4A2A5B796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073C30B7-C255-4C8F-BBC2-C6D4A2A5B796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073C30B7-C255-4C8F-BBC2-C6D4A2A5B796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5F7AAE-0BE8-44F6-B9B4-6EA3A397FEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5F7AAE-0BE8-44F6-B9B4-6EA3A397FEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5F7AAE-0BE8-44F6-B9B4-6EA3A397FEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5F7AAE-0BE8-44F6-B9B4-6EA3A397FEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BEA4A0-0D7F-423D-9C1C-4570EBD71F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BEA4A0-0D7F-423D-9C1C-4570EBD71F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BEA4A0-0D7F-423D-9C1C-4570EBD71F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BEA4A0-0D7F-423D-9C1C-4570EBD71F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C3CD16-DF13-4CD4-994D-08B061619FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C3CD16-DF13-4CD4-994D-08B061619FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C3CD16-DF13-4CD4-994D-08B061619FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C3CD16-DF13-4CD4-994D-08B061619FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

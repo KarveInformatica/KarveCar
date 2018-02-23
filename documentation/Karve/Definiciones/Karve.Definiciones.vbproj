@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB35D258-89E8-4A4B-8145-1A888B7A9A6F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Karve.Definiciones</RootNamespace>
+    <AssemblyName>Karve.Definiciones</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\build\</OutputPath>
+    <DocumentationFile>Karve.Definiciones.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Karve.Definiciones.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ASADB">
+      <HintPath>..\build\ASADB.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomControls">
+      <HintPath>..\build\CustomControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Karve.ConfiguracionApp, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\build\Karve.ConfiguracionApp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="Telerik.WinControls.GridView, Version=2014.2.715.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="VariablesGlobales">
+      <HintPath>..\build\VariablesGlobales.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Browsers\ActividadCliente\ColumnasActividadCliente.vb" />
+    <Compile Include="Browsers\ActividadCliente\defGridLupaActividadCliente.vb" />
+    <Compile Include="Browsers\ActividadCliente\OrdenesActividadCliente.vb" />
+    <Compile Include="Browsers\ActividadCliente\TablasActividadCliente.vb" />
+    <Compile Include="Browsers\ActividadVehiculo\ColumnasActividadVehiculo.vb" />
+    <Compile Include="Browsers\ActividadVehiculo\defGridLupaActividadVehiculo.vb" />
+    <Compile Include="Browsers\ActividadVehiculo\OrdenesActividadVehiculo.vb" />
+    <Compile Include="Browsers\ActividadVehiculo\TablasActividadVehiculo.vb" />
+    <Compile Include="Browsers\Bancos\ColumnasBancos.vb" />
+    <Compile Include="Browsers\Bancos\defGridLupaBancos.vb" />
+    <Compile Include="Browsers\Bancos\OrdenesBancos.vb" />
+    <Compile Include="Browsers\Bancos\TablasBancos.vb" />
+    <Compile Include="Browsers\BloquesFacturacion\ColumnasBloquesFacturacion.vb" />
+    <Compile Include="Browsers\BloquesFacturacion\defGridLupaBloquesFacturacion.vb" />
+    <Compile Include="Browsers\BloquesFacturacion\OrdenesBloquesFacturacion.vb" />
+    <Compile Include="Browsers\BloquesFacturacion\TablasBloquesFacturacion.vb" />
+    <Compile Include="Browsers\CanalCliente\OrdenesCanalCliente.vb" />
+    <Compile Include="Browsers\CargosPersonalCliente\ColumnasCargosPersonalCliente.vb" />
+    <Compile Include="Browsers\CargosPersonalCliente\defGridLupaCargosPersonalCliente.vb" />
+    <Compile Include="Browsers\CargosPersonalCliente\OrdenesCargosPersonalCliente.vb" />
+    <Compile Include="Browsers\CargosPersonalCliente\TablasCargosPersonalCliente.vb" />
+    <Compile Include="Browsers\ClavesPresupuesto\ColumnasClavesPresupuesto.vb" />
+    <Compile Include="Browsers\ClavesPresupuesto\defGridLupaClavesPresupuesto.Designer.vb">
+      <DependentUpon>defGridLupaClavesPresupuesto.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Browsers\ClavesPresupuesto\defGridLupaClavesPresupuesto.vb" />
+    <Compile Include="Browsers\ClavesPresupuesto\OrdenesClavesPresupuesto.vb" />
+    <Compile Include="Browsers\ClavesPresupuesto\TablasClavesPresupuesto.vb" />
+    <Compile Include="Browsers\Clientes\Columnas\ColumnasCli.vb" />
+    <Compile Include="Browsers\CanalCliente\ColumnasCanalCliente.vb" />
+    <Compile Include="Browsers\CanalCliente\defGridLupaCanalCliente.vb" />
+    <Compile Include="Browsers\CanalCliente\TablasCanalCliente.vb" />
+    <Compile Include="Browsers\Clientes\Ordenes\OrdenesClientes.vb" />
+    <Compile Include="Browsers\ColoresVehiculo\ColumnasColoresVehiculo.vb" />
+    <Compile Include="Browsers\ColoresVehiculo\defGridLupaColoresVehiculo.vb" />
+    <Compile Include="Browsers\ColoresVehiculo\OrdenesColoresVehiculo.vb" />
+    <Compile Include="Browsers\ColoresVehiculo\TablasColoresVehiculo.vb" />
+    <Compile Include="Browsers\ConceptosFacturacion\ColumnasConceptosFacturacion.vb" />
+    <Compile Include="Browsers\ConceptosFacturacion\defGridLupaConceptosFacturacion.vb" />
+    <Compile Include="Browsers\ConceptosFacturacion\OrdenesConceptosFacturacion.vb" />
+    <Compile Include="Browsers\ConceptosFacturacion\TablasConceptosFacturacion.vb" />
+    <Compile Include="Browsers\CtasContables\ColumnasCtasContables.vb" />
+    <Compile Include="Browsers\CtasContables\defGridLupaCtasContables.vb" />
+    <Compile Include="Browsers\CtasContables\OrdenesCtasContables.vb" />
+    <Compile Include="Browsers\CtasContables\ReglasCtasContables.vb" />
+    <Compile Include="Browsers\CtasContables\TablasCtasContables.vb" />
+    <Compile Include="Browsers\Divisas\defGridLupaDivisas.vb" />
+    <Compile Include="Browsers\Divisas\ColumnasDivisas.vb" />
+    <Compile Include="Browsers\Divisas\OrdenesDivisas.vb" />
+    <Compile Include="Browsers\Divisas\TablasDivisas.vb" />
+    <Compile Include="Browsers\ExtrasVehiculo\ColumnasExtrasVehiculo.vb" />
+    <Compile Include="Browsers\ExtrasVehiculo\defGridLupaExtrasVehiculo.vb" />
+    <Compile Include="Browsers\ExtrasVehiculo\OrdenesExtrasVehiculo.vb" />
+    <Compile Include="Browsers\ExtrasVehiculo\TablasExtrasVehiculo.vb" />
+    <Compile Include="Browsers\Facturas\ColumnasFacturas.vb" />
+    <Compile Include="Browsers\Facturas\defGridLupaFacturas.vb" />
+    <Compile Include="Browsers\Facturas\OrdenesFacturas.vb" />
+    <Compile Include="Browsers\Facturas\TablasFacturas.vb" />
+    <Compile Include="Browsers\FormasProvee\ColumnasFormasProvee.vb" />
+    <Compile Include="Browsers\FormasProvee\defGridLupaFormasProvee.vb" />
+    <Compile Include="Browsers\FormasProvee\OrdenesFormasProvee.vb" />
+    <Compile Include="Browsers\FormasProvee\TablasFormasProvee.vb" />
+    <Compile Include="Browsers\GruposVehiculos\ColumnasGruposVehiculos.vb" />
+    <Compile Include="Browsers\GruposVehiculos\defGridLupaGruposVehiculos.vb" />
+    <Compile Include="Browsers\GruposVehiculos\OrdenesGruposVehiculos.vb" />
+    <Compile Include="Browsers\GruposVehiculos\TablasGruposVehiculos.vb" />
+    <Compile Include="Browsers\Idiomas\ColumnasIdiomas.vb" />
+    <Compile Include="Browsers\Idiomas\defGridLupaIdiomas.vb" />
+    <Compile Include="Browsers\Idiomas\OrdenesIdiomas.vb" />
+    <Compile Include="Browsers\Idiomas\TablasIdiomas.vb" />
+    <Compile Include="Browsers\Marcas\ColumnasMarcasVehiculo.vb" />
+    <Compile Include="Browsers\Marcas\defGridLupaMarcasVehiculo.vb" />
+    <Compile Include="Browsers\Marcas\OrdenesMarcasVehiculo.vb" />
+    <Compile Include="Browsers\Marcas\TablasMarcasVehiculo.vb" />
+    <Compile Include="Browsers\ModelosVehiculo\ColumnasModelosVehiculo.vb" />
+    <Compile Include="Browsers\ModelosVehiculo\defGridLupaModelosVehiculo.Designer.vb">
+      <DependentUpon>defGridLupaModelosVehiculo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Browsers\ModelosVehiculo\defGridLupaModelosVehiculo.vb" />
+    <Compile Include="Browsers\ModelosVehiculo\OrdenesModelosVehiculo.vb" />
+    <Compile Include="Browsers\ModelosVehiculo\TablasModelosVehiculo.vb" />
+    <Compile Include="Browsers\MotivosRepostaje\ColumnasMotivosRepostaje.vb" />
+    <Compile Include="Browsers\MotivosRepostaje\defGridLupaMotivosRepostaje.Designer.vb">
+      <DependentUpon>defGridLupaMotivosRepostaje.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Browsers\MotivosRepostaje\defGridLupaMotivosRepostaje.vb" />
+    <Compile Include="Browsers\MotivosRepostaje\OrdenesMotivosRepostaje.vb" />
+    <Compile Include="Browsers\MotivosRepostaje\TablasMotivosRepostaje.vb" />
+    <Compile Include="Browsers\NegocioCliente\ColumnasNegocioCliente.vb" />
+    <Compile Include="Browsers\NegocioCliente\defGridLupaNegocioCliente.vb" />
+    <Compile Include="Browsers\NegocioCliente\TablasNegocioCliente.vb" />
+    <Compile Include="Browsers\Oficinas\ColumnasOficina.vb" />
+    <Compile Include="Browsers\Oficinas\defGridLupaOficina.vb" />
+    <Compile Include="Browsers\Oficinas\TablasOficina.vb" />
+    <Compile Include="Browsers\OrigenCliente\ColumnasOrigen.vb" />
+    <Compile Include="Browsers\OrigenCliente\defGridLupaOrigen.vb" />
+    <Compile Include="Browsers\OrigenCliente\TablasOrigen.vb" />
+    <Compile Include="Browsers\MercadoCliente\ColumnasMercadoCliente.vb" />
+    <Compile Include="Browsers\MercadoCliente\defGridLupaMercadoCliente.vb" />
+    <Compile Include="Browsers\MercadoCliente\TablasMercadoCliente.vb" />
+    <Compile Include="Browsers\Pais\OrdenesPais.vb" />
+    <Compile Include="Browsers\Poblaciones\ColumnasPoblacion.vb" />
+    <Compile Include="Browsers\Poblaciones\defGridLupaPoblacion.vb" />
+    <Compile Include="Browsers\Poblaciones\OrdenesPoblacion.vb" />
+    <Compile Include="Browsers\Poblaciones\TablasPoblacion.vb" />
+    <Compile Include="Browsers\Proveedores\OrdenesProvee.vb" />
+    <Compile Include="Browsers\Provincia\OrdenesProvincia.vb" />
+    <Compile Include="Browsers\TarjetasEmpresa\ColumnasTarjetasEmpresa.vb" />
+    <Compile Include="Browsers\TarjetasEmpresa\defGridLupaTarjetasEmpresa.vb" />
+    <Compile Include="Browsers\TarjetasEmpresa\OrdenesTarjetasEmpresa.vb" />
+    <Compile Include="Browsers\TarjetasEmpresa\TablasTarjetasEmpresa.vb" />
+    <Compile Include="Browsers\TipoDocumentos\ColumnasTipoDocumentos.vb" />
+    <Compile Include="Browsers\TipoDocumentos\defGridLupaTipoDocumentos.vb" />
+    <Compile Include="Browsers\TipoDocumentos\TablasTipoDocumentos.vb" />
+    <Compile Include="Browsers\TiposVisita\ColumnasTiposVisita.vb" />
+    <Compile Include="Browsers\TiposVisita\defGridLupaTiposVisita.vb" />
+    <Compile Include="Browsers\TiposVisita\OrdenesTiposVisita.vb" />
+    <Compile Include="Browsers\TiposVisita\TablasTiposVisita.vb" />
+    <Compile Include="Browsers\Vendedores\ColumnasVendedores.vb" />
+    <Compile Include="Browsers\Vendedores\defGridLupaVendedores.vb" />
+    <Compile Include="Browsers\Vendedores\OrdenesVendedores.vb" />
+    <Compile Include="Browsers\Vendedores\TablasVendedores.vb" />
+    <Compile Include="Formularios\frmTablasDivisas.vb" />
+    <Compile Include="Formularios\frmTablasExtrasVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasPais.vb" />
+    <Compile Include="Formularios\frmTablasPoblacion.vb" />
+    <Compile Include="Formularios\frmTablasProvincias.vb" />
+    <Compile Include="Formularios\frmTablasTarjetasEmpresa.vb" />
+    <Compile Include="Formularios\frmTablasTipoDocumentos.vb" />
+    <Compile Include="Formularios\frmTablasTiposVisita.vb" />
+    <Compile Include="Formularios\frmTablasVendedores.vb" />
+    <Compile Include="Grids Lineas\Vehiculos\Mantenimientos\ColumnasVehiMante.vb" />
+    <Compile Include="Grids Lineas\Vehiculos\Mantenimientos\defGridVehiMante.vb" />
+    <Compile Include="Grids Lineas\Vehiculos\Mantenimientos\TablasVehiMante.vb" />
+    <Compile Include="PrimaryKey.vb" />
+    <Compile Include="Tarifas\Browser\ColumnasTarifas.vb" />
+    <Compile Include="Tarifas\Browser\defGridLupaTarifas.vb" />
+    <Compile Include="Tarifas\Browser\OrdenesTarifas.vb" />
+    <Compile Include="Tarifas\Browser\TablasTarifas.vb" />
+    <Compile Include="Browsers\TarjetasCredito\ColumnasTarjetasCredito.vb" />
+    <Compile Include="Browsers\TarjetasCredito\defGridLupaTarjetasCredito.vb" />
+    <Compile Include="Browsers\TarjetasCredito\OrdenesTarjetasCredito.vb" />
+    <Compile Include="Browsers\TarjetasCredito\TablasTarjetasCredito.vb" />
+    <Compile Include="Browsers\TipoProvee\ColumnasTiposProvee.vb" />
+    <Compile Include="Browsers\TipoProvee\defGridLupaTiposProvee.vb" />
+    <Compile Include="Browsers\TipoProvee\OrdenesTiposProvee.vb" />
+    <Compile Include="Browsers\TipoProvee\TablasTiposProvee.vb" />
+    <Compile Include="Browsers\TiposVehiculo\ColumnasTiposVehiculo.vb" />
+    <Compile Include="Browsers\TiposVehiculo\defGridLupaTiposVehiculo.vb" />
+    <Compile Include="Browsers\TiposVehiculo\OrdenesTiposVehiculo.vb" />
+    <Compile Include="Browsers\TiposVehiculo\TablasTiposVehiculo.vb" />
+    <Compile Include="Browsers\UsoAlquiler\ColumnasUsoAlquilerCliente.vb" />
+    <Compile Include="Browsers\UsoAlquiler\defGridUsoAlquilerCliente.vb" />
+    <Compile Include="Browsers\UsoAlquiler\TablasUsoAlquilerCliente.vb" />
+    <Compile Include="Browsers\Vehiculos\ColumnasVehiculos.vb" />
+    <Compile Include="Browsers\Vehiculos\defGridLupaVehiculos.vb" />
+    <Compile Include="Browsers\Vehiculos\OrdenesVehiculos.vb" />
+    <Compile Include="Browsers\Vehiculos\TablasVehiculos.vb" />
+    <Compile Include="Browsers\Zonas\ColumnasZonas.vb" />
+    <Compile Include="Browsers\Zonas\defGridLupaZonas.vb" />
+    <Compile Include="Browsers\Zonas\TablasZonas.vb" />
+    <Compile Include="Browsers\TipoCliente\ColumnasTipoCliente.vb" />
+    <Compile Include="Browsers\TipoCliente\defGridLupaTipoCliente.vb" />
+    <Compile Include="Browsers\TipoCliente\TablasTipoCliente.vb" />
+    <Compile Include="Browsers\Pais\ColumnasPais.vb" />
+    <Compile Include="Browsers\Pais\defGridLupaPais.vb" />
+    <Compile Include="Browsers\Pais\TablasPais.vb" />
+    <Compile Include="Browsers\Proveedores\Columnas\ColumnasProvee.vb" />
+    <Compile Include="Browsers\Proveedores\Definiciones\defGridLupaProvee.vb" />
+    <Compile Include="Browsers\Proveedores\Tablas\TablasProvee.vb" />
+    <Compile Include="Browsers\Provincia\ColumnasProvincia.vb" />
+    <Compile Include="Browsers\Provincia\defGridLupaProvincia.vb" />
+    <Compile Include="Browsers\Provincia\TablasProvincia.vb" />
+    <Compile Include="Formularios\frmTablasClientes.vb" />
+    <Compile Include="Formularios\frmTablasFacturas.vb" />
+    <Compile Include="Formularios\frmTablasGruposVehiculos.vb" />
+    <Compile Include="Formularios\frmTablasActividadesCliente.vb" />
+    <Compile Include="Formularios\frmTablasActividadVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasBancos.vb" />
+    <Compile Include="Formularios\frmTablasBloquesFacturacion.vb" />
+    <Compile Include="Formularios\frmTablasCanalesCliente.vb" />
+    <Compile Include="Formularios\frmTablasCargosPersonalCliente.vb" />
+    <Compile Include="Formularios\frmTablasClavesPresupuesto.vb" />
+    <Compile Include="Formularios\frmTablasColoresVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasFormasPago.vb" />
+    <Compile Include="Formularios\frmTablasIdiomas.vb" />
+    <Compile Include="Formularios\frmTablasMarcasVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasMercadosCliente.vb" />
+    <Compile Include="Formularios\frmTablasModelosVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasMotivosRepostaje.vb" />
+    <Compile Include="Formularios\frmTablasNegociosCliente.vb" />
+    <Compile Include="Formularios\frmTablasOrigenesCliente.vb" />
+    <Compile Include="Formularios\frmTablasProveedores.vb" />
+    <Compile Include="Formularios\frmTablasTarjetasCredito.vb" />
+    <Compile Include="Formularios\frmTablasTiposCliente.vb" />
+    <Compile Include="Formularios\frmTablasTiposProvee.vb" />
+    <Compile Include="Formularios\frmTablasTiposVehiculo.vb" />
+    <Compile Include="Formularios\frmTablasUsoAlquilerCliente.vb" />
+    <Compile Include="Formularios\frmTablasVehiculos.vb" />
+    <Compile Include="Formularios\frmTablasZonas.vb" />
+    <Compile Include="Grids Lineas\Clientes\CliDelega\ColumnasCliDelega.vb" />
+    <Compile Include="Grids Lineas\Clientes\CliDelega\defGridCliDelegaciones.vb" />
+    <Compile Include="Definicion.vb" />
+    <Compile Include="Browsers\Clientes\Definiciones\defGridLupaClientes.vb" />
+    <Compile Include="Browsers\Clientes\Tablas\TablasCli.vb" />
+    <Compile Include="Grids Lineas\Clientes\CliDelega\TablasCliDelega.vb" />
+    <Compile Include="Grids Lineas\Facturas\BasesFac\ColumnasBasesfac.vb" />
+    <Compile Include="Grids Lineas\Facturas\BasesFac\defGridBasesfac.vb" />
+    <Compile Include="Grids Lineas\Facturas\BasesFac\TablasBasesfac.vb" />
+    <Compile Include="Grids Lineas\Facturas\LiFacs\ColumnasLifacs.vb" />
+    <Compile Include="Grids Lineas\Facturas\LiFacs\defGridLifacs.vb" />
+    <Compile Include="Grids Lineas\Facturas\LiFacs\TablasLifacs.vb" />
+    <Compile Include="Grids Lineas\Modelos\Extras\ColumnasExtrasMod.vb" />
+    <Compile Include="Grids Lineas\Modelos\Extras\defGridExtrasMod.vb" />
+    <Compile Include="Grids Lineas\Modelos\Extras\OrdenesExtrasMod.vb" />
+    <Compile Include="Grids Lineas\Modelos\Extras\TablasExtrasMod.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProContactos\ColumnasProContacto.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProContactos\defGridProContacto.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProContactos\TablasProContacto.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProDelega\ColumnasProDelega.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProDelega\defGridProDelegaciones.vb" />
+    <Compile Include="Grids Lineas\Proveedores\ProDelega\TablasProDelega.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RentACar\Browsers\Contratos\ColumnasContratosRC.vb" />
+    <Compile Include="RentACar\Browsers\Contratos\defGridLupaContratosRC.vb" />
+    <Compile Include="RentACar\Browsers\Contratos\OrdenesContratosRC.vb" />
+    <Compile Include="RentACar\Browsers\Contratos\TablasContratosRC.vb" />
+    <Compile Include="RentACar\Browsers\Reservas\ColumnasReservasRC.vb" />
+    <Compile Include="RentACar\Browsers\Reservas\defGridLupaReservasRC.vb" />
+    <Compile Include="RentACar\Browsers\Reservas\OrdenesReservasRC.vb" />
+    <Compile Include="RentACar\Browsers\Reservas\TablasReservasRC.vb" />
+    <Compile Include="RentACar\Formularios\Contratos\frmTablasContratosRC.vb" />
+    <Compile Include="RentACar\Formularios\Reservas\frmTablasReservasRC.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\BasesCon\ColumnasBasesCon.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\BasesCon\defGridBasesCon.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\BasesCon\TablasBasesCon.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\LiCon\ColumnasLicon.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\LiCon\defGridLicon.vb" />
+    <Compile Include="RentACar\GridsLineas\Contratos\LiCon\TablasLicon.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\BasesRes\ColumnasBasesRes.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\BasesRes\defGridBasesRes.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\BasesRes\TablasBasesRes.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\Lires\ColumnasLires.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\Lires\defGridLires.vb" />
+    <Compile Include="RentACar\GridsLineas\Reservas\Lires\TablasLires.vb" />
+    <Compile Include="TablaEdit.vb" />
+    <Compile Include="DefinicionTablas.vb" />
+    <Compile Include="Tarifas\frmTablasTarifas.vb" />
+    <Compile Include="Tarifas\Grids\ComportaTarifas\ColumnasComportaTarifas.vb" />
+    <Compile Include="Tarifas\Grids\ComportaTarifas\defGridComportaTarifas.vb" />
+    <Compile Include="Tarifas\Grids\ComportaTarifas\TablasComportaTarifas.vb" />
+    <Compile Include="Tarifas\Grids\TramosTari\ColumnasTramosTari.vb" />
+    <Compile Include="Tarifas\Grids\TramosTari\defGridTramosTari.vb" />
+    <Compile Include="Tarifas\Grids\TramosTari\TablasTramosTari.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
