@@ -10,6 +10,7 @@ using MasterModule.Common;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System.Threading.Tasks;
+using KarveDataServices.DataTransferObject;
 
 namespace MasterModule.ViewModels
 {
@@ -19,12 +20,10 @@ namespace MasterModule.ViewModels
    /// </summary>
     public class FaresControlViewModel : MasterControlViewModuleBase, IEventObserver
     {
+
         private UnityContainer _container;
         private IRegionManager _regionManager;
-
-      
-     
-
+        private IEnumerable<FareDto> _sourceView;
         /// <summary>
         ///  This is the fares control view model.
         /// </summary>
@@ -36,52 +35,54 @@ namespace MasterModule.ViewModels
         {
             _container = container;
             _regionManager = regionManager;
+           
         }
-
+        /// <summary>
+        ///  Grid of the offices in the database.
+        /// </summary>
+        public IEnumerable<FareDto> SourceView
+        {
+            get => _sourceView;
+            set { _sourceView = value; RaisePropertyChanged(); }
+        }
         public override void StartAndNotify()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void NewItem()
         {
-            throw new NotImplementedException();
         }
 
 
         protected override void SetTable(DataTable table)
         {
-            throw new NotImplementedException();
         }
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
-            throw new NotImplementedException();
         }
 
         protected override void SetDataObject(object result)
         {
-            throw new NotImplementedException();
         }
 
         protected override string GetRouteName(string name)
         {
-            throw new NotImplementedException();
+            return string.Empty;
         }
 
         public void IncomingPayload(DataPayLoad payload)
         {
-            throw new NotImplementedException();
         }
-
-        public override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
+        public async override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return true;
         }
 
         public override void DisposeEvents()
         {
-            throw new NotImplementedException();
         }
     }
 }

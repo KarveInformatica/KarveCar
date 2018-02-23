@@ -913,7 +913,9 @@
                 <TabItem Name="Extras"  Header="Extras">
                 </TabItem>
                 <photo:PhotoFrame/>
+                <TabItem Name="Ficha" Header="Ficha Tecnica"></TabItem>
             </TabControl>
+           
 
         </Grid>
     </Grid>

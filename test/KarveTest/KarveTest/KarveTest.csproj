@@ -142,6 +142,9 @@
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />
+    <Compile Include="Mock\MockAssistDataServices.cs" />
+    <Compile Include="Mock\MockClientDataServices.cs" />
+    <Compile Include="Mock\MockCompanyDataServices.cs" />
     <Compile Include="Mock\MockEventManger.cs" />
     <Compile Include="Mock\MockModel\VehicleMock.cs" />
     <Compile Include="DAL\TestBase.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="Mock\MockCommissionAgentDataService.cs" />
     <Compile Include="Mock\MockDataServices.cs" />
     <Compile Include="Mock\MockHelperDataServices.cs" />
+    <Compile Include="Mock\MockOfficeDataServices.cs" />
     <Compile Include="Mock\MockSettingsDataService.cs" />
     <Compile Include="Mock\MockSupplierDataServices.cs" />
     <Compile Include="Mock\MockVehicleDataService.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="UI\VehicleUITests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
     <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestFareInfoViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
     <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleTypeViewModel.cs" />

@@ -16,7 +16,7 @@
                 <ResourceDictionary>
                     <ObjectDataProvider x:Key="FilterMode"
                                     MethodName="GetValues"
-                                    ObjectType="{x:Type system:Enum}">
+                                    ObjectType="{x:Type sys:Enum}">
                         <ObjectDataProvider.MethodParameters>
                             <x:Type TypeName="Syncfusion:FilterMode" />
                         </ObjectDataProvider.MethodParameters>
@@ -27,7 +27,7 @@
                     </Style>
                 </ResourceDictionary>
             </Grid.Resources>
-            <Syncfusion:SfDataGrid x:Name="OfficeControlSummary"
+            <Syncfusion:SfDataGrid x:Name="FareControlSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -52,7 +52,7 @@
                 </i:Interaction.Triggers>
 
                 <Syncfusion:SfDataGrid.Resources>
-                    <ResourceDictionary>
+                    <ResourceDictionary> 
                         <ResourceDictionary.MergedDictionaries>
                             <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
                         </ResourceDictionary.MergedDictionaries>
@@ -74,18 +74,7 @@
                                                             AllowEditing="False"
                                                             AllowGrouping="True"
                                                             FilterPopupStyle="{StaticResource GenericCodeStyle}">
-
                     </Syncfusion:GridTextColumn>
-
-                    <Syncfusion:GridTextColumn  HeaderText="Empresa" 
-                                                        MappingName="CompanyName" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Country" 
-                                                   FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lzona, Source={StaticResource ResourceLanguage}}" MappingName="Zona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 </Syncfusion:SfDataGrid.Columns>
             </Syncfusion:SfDataGrid>
 

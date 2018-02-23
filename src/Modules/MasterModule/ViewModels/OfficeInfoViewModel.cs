@@ -168,7 +168,7 @@ namespace MasterModule.ViewModels
         {
             if (payload.HasDataObject)
             {
-                Logger.Info("CompanyInfoViewModel has received payload type " + payload.PayloadType.ToString());
+                Logger.Info("OfficeInfoViewModel has received payload type " + payload.PayloadType.ToString());
                 var companyData = payload.DataObject as IOfficeData;
                 if (companyData != null)
                 {
