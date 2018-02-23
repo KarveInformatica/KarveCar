@@ -1743,8 +1743,11 @@ namespace KarveDataServices.DataTransferObject
         public string SEGURO { get; set; }
 
         /// <summary>
-        ///  CLIENTES2
+        ///  Set or get the NUMERO_CLI property.
         /// </summary>
+        [Key]
+        [FieldSize("7")]
+        public string NUMERO_CLI { get; set; }
 
         /// <summary>
         ///  Set or get the CENTRO property.
