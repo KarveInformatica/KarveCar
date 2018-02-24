@@ -2,6 +2,7 @@
                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                              syncfusion:SkinStorage.VisualStyle="Metro" WindowState="Maximized" 
                              WindowStartupLocation="CenterScreen"
                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -51,7 +52,28 @@
                 <Setter Property="HeaderMemberPath" Value="Header" />
                 <Setter Property="ClosingItemCallback" Value="{Binding ClosingTabItemHandler, PresentationTraceSources.TraceLevel=High}" />
                 <Setter Property="Margin" Value="0 5 0 0" />
+               
             </Style>
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                    FontSize="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Foreground="White"
+                    Text="{Binding Glyph}" />
+                    <TextBlock Grid.Column="1"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="White"
+                    Text="{Binding Label}" />
+                </Grid>
+            </DataTemplate>
             <!--
             <ObjectDataProvider x:Key="ResourceLanguage" 
                                 ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
@@ -1772,11 +1794,71 @@
                         </dragablz:TabablzControl>-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <local:LeftTreeView Grid.Column="0" HorizontalAlignment="Left"></local:LeftTreeView>
-                    <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
+
+                <!--
+                <controls:HamburgerMenu Grid.Column="0" x:Name="HamburgerMenuControl"
+                        Foreground="White"
+                        PaneBackground="#FF444444"
+                        IsPaneOpen="False"
+                        ItemTemplate="{StaticResource MenuItemTemplate}"
+                        OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                        DisplayMode="CompactInline"
+                                       Width="50">
+                    <controls:HamburgerMenu.ContentTemplate>
+                    <DataTemplate DataType="{x:Type controls:HamburgerMenuItem}">
+                        <Grid x:Name="TheContentGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                    Background="#FF444444">
+                                <TextBlock x:Name="Header"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Foreground="White"
+                            Text="{Binding Label}" />
+                            </Border>
+                            <ContentControl x:Name="TheContent"
+                            Grid.Row="1"
+                            Focusable="False"
+                            Foreground="{DynamicResource BlackBrush}"
+                            Content="{Binding Tag}" />
+                        </Grid>
+                    </DataTemplate>
+                    </controls:HamburgerMenu.ContentTemplate>
+                        <controls:HamburgerMenu.ItemsSource>
+                            <controls:HamburgerMenuItemCollection>
+                                <controls:HamburgerMenuGlyphItem Glyph="" Label="Home">
+                                   
+                                </controls:HamburgerMenuGlyphItem>
+
+                                <controls:HamburgerMenuGlyphItem Glyph="" Label="Private">
+                                   
+                                </controls:HamburgerMenuGlyphItem>
+
+                                <controls:HamburgerMenuGlyphItem Glyph="" Label="Settings">
+                                                                   </controls:HamburgerMenuGlyphItem>
+                            </controls:HamburgerMenuItemCollection>
+                        </controls:HamburgerMenu.ItemsSource>
+
+                        <controls:HamburgerMenu.OptionsItemsSource>
+                            <controls:HamburgerMenuItemCollection>
+                                <controls:HamburgerMenuGlyphItem Glyph="" Label="About">
+                                    
+                                </controls:HamburgerMenuGlyphItem>
+                            </controls:HamburgerMenuItemCollection>
+                        </controls:HamburgerMenu.OptionsItemsSource>
+                    
+                
+                </controls:HamburgerMenu>
+            -->
+                <local:LeftTreeView Grid.Column="0" HorizontalAlignment="Left"></local:LeftTreeView> 
+                <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
                                      prism:RegionManager.RegionName="TabRegion" 
                                      ClosingItemCallback="{Binding ClosingTabItemHandler}">
                     <dragablz:TabablzControl.InterTabController>

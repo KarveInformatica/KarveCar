@@ -63,8 +63,8 @@ namespace KarveLocale
             {
                 if (_objectDataProvider == null)
                 {
-                    _objectDataProvider = (ObjectDataProvider)Application.Current.FindResource("ResourceLanguage");
-//                    _objectDataProvider = BuildObjectDataProvider();
+                    _objectDataProvider = BuildObjectDataProvider();
+                    //  _objectDataProvider = (ObjectDataProvider)Application.Current.FindResource("ResourceLanguage");                    
                 }
                 return _objectDataProvider;
             }
@@ -87,14 +87,6 @@ namespace KarveLocale
         public Resources GetResourceLanguage()
         {
             Resources res;
-
-            if (_objectDataProvider == null)
-            {
-                var value =  Application.Current.FindResource("ResourceLanguage");
-
-              _objectDataProvider = (ObjectDataProvider) Application.Current.FindResource("ResourceLanguage");
-              //  _objectDataProvider = LocaleResourceFactory.BuildObjectDataProvider();
-            }
             ILocaleDataProvider localeDataProvider = _resourceDataProviders[Enumerations.ResourceSource.File];
             res = localeDataProvider.GetLanguageResource();
             return res;
@@ -122,8 +114,7 @@ namespace KarveLocale
             {
                 ILocaleDataProvider localeDataProvider = _resourceDataProviders[source];
                 resources = localeDataProvider.GetLocaleLanguageResource(info);
-               
-                _objectDataProvider?.Refresh();
+                ObjectDataProvider.Refresh();
                 return resources;
             }
             return resources;

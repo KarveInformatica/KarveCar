@@ -247,7 +247,7 @@
     <Compile Include="ControlExt.cs" />
     <Compile Include="Calendar\Utility\DateTimeExtensions.cs" />
     <Compile Include="KarveGridExt.cs" />
-    <Compile Include="KarveTripleButton\TripleButton.xaml.cs">
+    <Compile Include="TripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapControl\MapControl.xaml.cs">
@@ -314,7 +314,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KarveTripleButton\TripleButton.xaml">
+    <Page Include="TripleButton\TripleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,8 +368,6 @@
       <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Calendar\Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

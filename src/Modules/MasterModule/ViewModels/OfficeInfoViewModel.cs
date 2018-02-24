@@ -5,7 +5,6 @@ using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using Prism.Commands;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
@@ -29,13 +28,6 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, this);
             DataObject = new OfficeDtos();
         }
-
-        private void OfficeAssistResult(object sender, PropertyChangedEventArgs e)
-        {
-            
-
-            
-        }
         #endregion
         #region Properties
         /// <summary>
@@ -56,24 +48,37 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Helper data.
         /// </summary>
-        public IHelperBase CompanyHelper
+        public IHelperBase Helper
         {
             set
             {
-                _companyHelper = value;
+                _officeHelper = value;
                 RaisePropertyChanged();
             }
             get
             {
-                return _companyHelper;
+                return _officeHelper;
             }
         }
         /// <summary>
         ///  Show brokers data objects.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokersDto
+        public string CurrentYear
         {
             get
+            {
+                return _currentYear;
+            }
+            set
+            {
+                _currentYear = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  BrokersDto
+        /// </summary>
+        public IEnumerable<CommissionAgentSummaryDto> BrokersDto { get
             {
                 return _brokers;
             }
@@ -84,17 +89,17 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
-        ///  Show client data transfer object.
+        ///  ClientDto.
         /// </summary>
         public IEnumerable<ClientSummaryDto> ClientDto
         {
             get
             {
-                return _clientDto;
+                return _client;
             }
-            set
+           set
             {
-                _clientDto = value;
+                _client = value;
                 RaisePropertyChanged();
             }
         }
@@ -116,6 +121,8 @@ namespace MasterModule.ViewModels
 
                 RegisterPrimaryKey(payload);
                 // here i can fix the primary key
+                /// FIXME-DRY (Dont repeat yourself): try to move to an upper class except for a couple of methods:
+                /// a property called CurrentSubsystem.
                 switch (payload.PayloadType)
                 {
                     case DataPayLoad.Type.UpdateData:
@@ -139,10 +146,8 @@ namespace MasterModule.ViewModels
                             CurrentOperationalState = DataPayLoad.Type.Insert;
                             if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
-                                PrimaryKeyValue = DataServices.GetCompanyDataServices().GetNewId();
-
-                                DataServices.GetClientDataServices().GetNewId();
-
+                                PrimaryKeyValue = DataServices.GetOfficeDataServices().GetNewId();
+                                
                                 CurrentOperationalState = DataPayLoad.Type.Insert;
                             }
                             Init(PrimaryKeyValue, payload, true);
@@ -153,10 +158,9 @@ namespace MasterModule.ViewModels
 
                             if (PrimaryKey == payload.PrimaryKey)
                             {
-                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.ClientSubsystem,
-                                    MasterModuleConstants.CompanySubSystemName);
+                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.OfficeSubsystem,
+                                    MasterModuleConstants.OfficeSubSytemName);
                                 DeleteRegion(payload.PrimaryKeyValue);
-
                             }
                             break;
                         }
@@ -169,14 +173,13 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 Logger.Info("OfficeInfoViewModel has received payload type " + payload.PayloadType.ToString());
-                var companyData = payload.DataObject as IOfficeData;
-                if (companyData != null)
+                var officeData = payload.DataObject as IOfficeData;
+                if (officeData != null)
                 {
-                    _companyData = companyData;
-                    DataObject = _companyData.Value;
-                    CompanyHelper = companyData;
-                    
-                    Logger.Info("CompanyInfoViewModel has activated the client subsystem as current with directive " +
+                    _officeData = officeData;
+                    DataObject = _officeData.Value;
+                    Helper = officeData;
+                    Logger.Info("OfficeInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
                     RaisePropertyChanged("Helper");
@@ -207,7 +210,7 @@ namespace MasterModule.ViewModels
             this.AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), AssistExecuted);
         }
 
-        private void CompanyAssistResult(object sender, PropertyChangedEventArgs e)
+        private void OfficeAssistResult(object sender, PropertyChangedEventArgs e)
         {
             string propertyName = e.PropertyName;
             if (propertyName.Equals("Status"))
@@ -218,6 +221,7 @@ namespace MasterModule.ViewModels
                     if (!value)
                     {
                         Logger.Error("Executed Assist invalid");
+                        MessageBox.Show("Exectued");
                     }
 
                 }
@@ -234,19 +238,19 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                         {
-                            CompanyHelper.CityDto = (IEnumerable<CityDto>)value;
+                            Helper.CityDto = (IEnumerable<CityDto>)value;
                             retValue = true;
                             break;
                         }
                     case "PROVINCE_ASSIST":
                         {
-                            CompanyHelper.ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
+                            Helper.ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
                             retValue = true;
                             break;
                         }
                     case "COUNTRY_ASSIST":
                         {
-                            CompanyHelper.CountryDto = (IEnumerable<CountryDto>)value;
+                            Helper.CountryDto = (IEnumerable<CountryDto>)value;
                             retValue = true;
                             break;
                         }
@@ -272,7 +276,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Change field.
         /// </summary>
-        /// <param name="objectChanged"></param>
+        /// <param name="objectChanged">Event that comes from lower level.</param>
         private void OnChangedField(object objectChanged)
         {
             IDictionary<string, object> eventDictionary = (IDictionary<string, object>)objectChanged;
@@ -301,8 +305,7 @@ namespace MasterModule.ViewModels
                 GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
                 payLoad.DataObject = data;
             }
-            // remove ViewModelQueries.
-            ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.CompanySubsystem);
+            ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.OfficeSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
@@ -314,8 +317,6 @@ namespace MasterModule.ViewModels
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
         }
-
- 
         // <summary>
         ///  This register the primary key
         /// </summary>
@@ -336,22 +337,24 @@ namespace MasterModule.ViewModels
                     }
                 }
             }
-
         }
+      
         public override void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(_mailBoxName);
-            EventManager.DeleteObserverSubSystem(MasterModuleConstants.CompanySubSystemName, this);
+            EventManager.DeleteObserverSubSystem(MasterModuleConstants.OfficeSubSytemName, this);
+            AssistExecuted -= OfficeAssistResult;
         }
         #endregion
 
         #region Private Fields
-        private IOfficeData _companyData;
+        private IOfficeData _officeData;
         private string _mailBoxName;
-        private IHelperBase _companyHelper;
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
-        private IEnumerable<ClientSummaryDto> _clientDto;
+        private IHelperBase _officeHelper;
         private OfficeDtos _currentOfficeDto;
+        private string _currentYear;
+        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<ClientSummaryDto> _client;
         #endregion
 
 

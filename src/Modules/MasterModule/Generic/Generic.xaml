@@ -403,7 +403,7 @@
                                      LabelTextWidth="103"
                                      Height="30"
                                      Grid.Column="0"
-                                     DataSourcePath="RIESGOIMP" 
+                                     TextContent="{Binding DataObject.RIESGOIMP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      ItemChangedCommand="{Binding ItemChangedCommand}"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      TextContentWidth="200"/>

@@ -4,107 +4,72 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
+using KarveControls.Generic;
 
 namespace KarveControls
 {
-    public class AttachedClick : Behavior<TextBlock>
+    public class SelectedDayEventArgs: KarveRoutedEventsArgs
+    {
+        public int Day { set; get; }
+        public int Month { set; get; }
+        public bool IsSelected { get; set; }
+    }
+    public static class SelectedDay
     {
 
-        public static readonly DependencyProperty IsDayClickedProperty =
-    DependencyProperty.Register(
-    "DaySelected", typeof(Boolean),
-    typeof(AttachedClick), new FrameworkPropertyMetadata(false));
 
-        public static readonly DependencyProperty DayIndexDependencyProperty =
-DependencyProperty.Register(
+
+        public static readonly RoutedEvent DaySelectEvent =
+       EventManager.RegisterRoutedEvent(
+           "DaySelect",
+           RoutingStrategy.Bubble,
+           typeof(RoutedEventHandler),
+           typeof(SelectedDay));
+
+        public static void AddDaySelectHandler(DependencyObject d, RoutedEventHandler handler)
+        {
+            UIElement uie = d as UIElement;
+            if (uie != null)
+            {
+                uie.AddHandler(SelectedDay.DaySelectEvent, handler);
+            }
+        }
+        public static void RemoveDaySelectHandler(DependencyObject d, RoutedEventHandler handler)
+        {
+            UIElement uie = d as UIElement;
+            if (uie != null)
+            {
+                uie.RemoveHandler(SelectedDay.DaySelectEvent, handler);
+            }
+        }
+        
+        public static readonly DependencyProperty IsDaySelectedProperty =
+    DependencyProperty.RegisterAttached(
+    "IsDaySelected", typeof(Boolean),
+    typeof(SelectedDay), new FrameworkPropertyMetadata(false));
+
+        public static void SetIsDaySelected(UIElement element, Boolean value)
+        {
+            element.SetValue(IsDaySelectedProperty, value);
+        }
+        public static Boolean GetIsDaySelected(UIElement element)
+        {
+            return (Boolean)element.GetValue(IsDaySelectedProperty);
+        }
+
+
+        public static readonly DependencyProperty DayIndexProperty =
+DependencyProperty.RegisterAttached(
 "DayIndex", typeof(int),
-typeof(AttachedClick), new FrameworkPropertyMetadata(0));
-        public static readonly DependencyProperty CommandDependencyProperty =
-DependencyProperty.Register(
-"Command", typeof(ICommand),
-typeof(AttachedClick), new FrameworkPropertyMetadata(null));
+typeof(SelectedDay), new FrameworkPropertyMetadata(1));
 
-        /// <summary>
-        ///  Day selected.
-        /// </summary>
-        public bool DaySelected
+        public static void SetDayIndex(UIElement element, int value)
         {
-            get
-            {
-                return (bool)GetValue(IsDayClickedProperty);
-            }
-            set
-            {
-                SetValue(IsDayClickedProperty, value);
-            }
+            element.SetValue(DayIndexProperty, value);
         }
-        /// <summary>
-        ///  Day index selected.
-        /// </summary>
-        public int DayIndex
+        public static int GetDayIndex(UIElement element)
         {
-            get
-            {
-                return (int)GetValue(DayIndexDependencyProperty);
-            }
-            set
-            {
-                SetValue(DayIndexDependencyProperty, value);
-            }
-        }
-        /// <summary>
-        ///  Day index selected.
-        /// </summary>
-        public ICommand Command
-        {
-            get
-            {
-                return (ICommand)GetValue(CommandDependencyProperty);
-            }
-            set
-            {
-                SetValue(CommandDependencyProperty, value);
-            }
-        }
-        public AttachedClick()
-        {
-        }
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            this.AssociatedObject.MouseLeftButtonDown += AssociatedObject_MouseLeftButtonDown;
-        }
-        /// <summary>
-        ///  On a click on the textbox.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AssociatedObject_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-            if (!DaySelected)
-            {
-                this.AssociatedObject.Background = Brushes.Yellow;
-                DaySelected = true;
-                var value = this.AssociatedObject.Text;
-                Tuple<bool, int> par = new Tuple<bool, int>(true, Convert.ToInt16(value));
-                DayIndex = Convert.ToInt16(value);
-                Command?.Execute(par);
-
-            }
-            else
-            {
-                this.AssociatedObject.Background = Brushes.White;
-                DaySelected = false;
-                var value = this.AssociatedObject.Text;
-                DayIndex = Convert.ToInt16(value);
-                Command?.Execute(this);
-
-            }
-        }
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
+            return (int)element.GetValue(DayIndexProperty);
         }
 
     }

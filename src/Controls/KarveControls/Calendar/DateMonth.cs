@@ -11,6 +11,7 @@ using System.Windows.Media;
 
 namespace KarveControls
 {
+
     [TemplatePart(Name = "PART_Day_1", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_Day_2", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_Day_3", Type = typeof(TextBlock))]
@@ -46,7 +47,7 @@ namespace KarveControls
     [TemplatePart(Name = "PART_Day_33", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_Day_34", Type = typeof(TextBlock))]
 
-    class DateMonth : Control, INotifyPropertyChanged
+    sealed class DateMonth : Control, INotifyPropertyChanged
     {
 
         public static readonly DependencyProperty MonthIndexDependencyProperty =
@@ -57,7 +58,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(1));
         public static readonly DependencyProperty DaysOffDependencyProperty =
 DependencyProperty.Register(
 "DaysOff", typeof(IEnumerable<int>),
-typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChange));
+typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthChange));
 
         public static readonly DependencyProperty MonthNameDependencyProperty = DependencyProperty.Register("MonthName", typeof(string), typeof(DateMonth), new PropertyMetadata(string.Empty));
         private List<string> dayWeek = new List<string>()
@@ -67,14 +68,20 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChan
 { String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty,String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty
         };
         private List<string> _dayweek;
-        private int _rowIdx;
-        private int _colIdx;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static readonly DependencyProperty YearMonthDependencyProperty = DependencyProperty.Register("YearMonth", typeof(string), typeof(DateMonth), new FrameworkPropertyMetadata(string.Empty,OnYearMonthChange));
+        public static readonly DependencyProperty YearMonthDependencyProperty = DependencyProperty.Register("YearMonth", typeof(string), typeof(DateMonth), new FrameworkPropertyMetadata(string.Empty, OnYearMonthChange));
 
 
+        /// <summary>
+        /// This is called when the tree for the DataField is generated.
+        /// </summary>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            HandleChangedMonthYear();
+        }
         /// <summary>
         ///  Month index selected.
         /// </summary>
@@ -89,8 +96,6 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChan
                 SetValue(MonthIndexDependencyProperty, value);
             }
         }
-
-
         public IEnumerable<int> DaysOff
         {
             get
@@ -102,20 +107,18 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChan
                 SetValue(DaysOffDependencyProperty, value);
             }
         }
-
-
         public string YearMonth
         {
             get
             {
-                return (string) GetValue(YearMonthDependencyProperty);
+                return (string)GetValue(YearMonthDependencyProperty);
             }
             set
             {
                 SetValue(YearMonthDependencyProperty, value);
             }
         }
-      
+
         public string MonthName
         {
             get
@@ -144,75 +147,118 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChan
         private static void OnYearMonthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DateMonth control = d as DateMonth;
-            if (control != null)
-            {
-                control.HandleChangedMonthYear(e.NewValue);
-            }
+
         }
-        private void HandleChangedMonthYear(object newValue)
+        private string[] YearMonthArray()
         {
-          
             char[] sep = new char[1] { '.' };
             var value = YearMonth;
-            int day = 1;
-            if (value == null)
-            {
-                return;
-            }
             string[] yearmonth = value.Split(sep);
-            if (yearmonth.Length != 2)
-            {
-                return;
-            }
-            var year = Convert.ToInt16(yearmonth[0]);
-            var month = Convert.ToInt16(yearmonth[1]);
-            DateTime firstDayMonth = new DateTime(year,month, day);
-       
-                   
+            return yearmonth;
+        }
+        private void HandleChangedMonthYear()
+        {
+
+            int day = 1;
+            string[] yearMonth = YearMonthArray();
+            var year = Convert.ToInt16(yearMonth[0]);
+            var month = Convert.ToInt16(yearMonth[1]);
+            DateTime firstDayMonth = new DateTime(year, month, day);
             // now i shall generate the numbers.
             DayOfWeek dayOfWeek = firstDayMonth.DayOfWeek;
-            MonthName= firstDayMonth.ToString("Y");
+            MonthName = firstDayMonth.ToString("Y");
             int currentIterator = (int)dayOfWeek;
             int numdays = computeNumberDays(year, month - 1);
             int j = 1;
             for (int k = currentIterator; k < 38; ++k)
             {
-                 if (j > numdays)
+                if (j > numdays)
                     break;
-                 
+
                 _monthGrid[k] = string.Format("{0}", j);
-                if (DaysOff.Contains<int>(k))
+                if (DaysOff.Contains<int>(j))
                 {
-                    HighlightOffDay(k);
+                    HighlightOffDay(j, k);
                 }
                 else
                 {
-                    HighlightWorkingDay(k);
+                    HighlightWorkingDay(j, k);
                 }
                 j++;
             }
             RaisePropertyChanged("MonthGrid");
         }
-        private void HighlightOffDay(int k)
+        private void HighlightOffDay(int j, int k)
         {
-    
-              var partToChange = string.Format("PART_Day_{0}", k);
-                TextBlock text = GetTemplateChild(partToChange) as TextBlock;
-                if (text!=null)
+            var partToChange = string.Format("PART_Day_{0}", k);
+            TextBlock text = GetTemplateChild(partToChange) as TextBlock;
+            if (text != null)
+            {
+                SelectedDay.SetIsDaySelected(text, true);
+                SelectedDay.SetDayIndex(text, k);
+                text.MouseLeftButtonDown += Text_MouseLeftButtonDown;
+                if (text != null)
                 {
                     text.Background = Brushes.Yellow;
                 }
-            
+            }
         }
-        private void HighlightWorkingDay(int k)
+
+        private Tuple<DateTime, bool> CreateCommand(int day, bool enable)
         {
-                var partToChange = string.Format("PART_Day_{0}", k);
-                TextBlock text = GetTemplateChild(partToChange) as TextBlock;
-                if (text != null)
+            var value = YearMonthArray();
+            var year = Convert.ToInt16(value[0]);
+            var month = Convert.ToInt16(value[1]);
+            DateTime firstDayMonth = new DateTime(year, month, day);
+            Tuple<DateTime, bool> tuple = new Tuple<DateTime, bool>(firstDayMonth, enable);
+            return tuple;
+        }
+        private void Text_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock currentButton = sender as TextBlock;
+
+            if (currentButton != null)
+            {
+                int day = SelectedDay.GetDayIndex(currentButton);
+                var param = CreateCommand(day, false);
+                List<int> daysOff = DaysOff.ToList();
+
+
+                if (SelectedDay.GetIsDaySelected(currentButton))
                 {
-                    text.Background = Brushes.White;
+                    currentButton.Background = Brushes.White;
+                    daysOff.Remove(day);
+                    SelectedDay.SetIsDaySelected(currentButton, false);
                 }
-            
+                else
+                {
+                    param = CreateCommand(day, true);
+                    currentButton.Background = Brushes.Yellow;
+                    daysOff.Add(SelectedDay.GetDayIndex(currentButton));
+                    SelectedDay.SetIsDaySelected(currentButton, true);
+                }
+                DaysOff = daysOff;
+
+                if (SelectedDayCommand != null)
+                {
+                    SelectedDayCommand.Execute(param);
+                }
+            }
+        }
+
+        private void HighlightWorkingDay(int j, int k)
+        {
+
+            var partToChange = string.Format("PART_Day_{0}", k);
+            TextBlock text = GetTemplateChild(partToChange) as TextBlock;
+
+            if (text != null)
+            {
+                text.MouseLeftButtonDown += Text_MouseLeftButtonDown;
+                SelectedDay.SetIsDaySelected(text, false);
+                SelectedDay.SetDayIndex(text, k);
+                text.Background = Brushes.White;
+            }
         }
 
         private int computeNumberDays(int year, int month)
@@ -250,6 +296,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(),OnYearMonthChan
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
         public List<string> DayWeek
         {
             set

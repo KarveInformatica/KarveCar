@@ -13,8 +13,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
-                
-             mc:Ignorable="d" 
+             xmlns:tripleButton="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControl"
+    xmlns:tripleButton1="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControls"
+    mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1600">
 
 
@@ -217,7 +218,7 @@
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="200"
                                                          
-                                              SourceView="{Binding Path=CompanyHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=Helper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <karveControls:DualFieldSearchBox Grid.Column="1"  Grid.Row="4" DataFieldFirst="PROVINCIA"
@@ -231,7 +232,7 @@
                                               TextContentSecondWidth="200"
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=CompanyHelper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=Helper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <karveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="6" 
                                               LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
@@ -245,7 +246,7 @@
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=CompanyHelper.CountryDto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.125"
+                                              SourceView="{Binding Path=Helper.CountryDto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.125"
             />
                                 <karveControls:DataField Grid.Column="0"  Grid.Row="7" LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
                                      DataObject="{Binding DataObject, Mode=TwoWay}"
@@ -604,21 +605,17 @@
                         </TabItem>
                         <TabItem Header="Festivos">
                             <Grid x:Name="LayoutCommand">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80*"></ColumnDefinition>
-                                    <ColumnDefinition Width="20*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <karveControls:HolidayCalendar Grid.Column="0"  Year="2018" MaxWidth="700"></karveControls:HolidayCalendar>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <karveControls:HolidayCalendar Grid.Column="1"  Year="{Binding }" MaxWidth="800">
+                                    
+                                </karveControls:HolidayCalendar>
                                 <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                    </Grid.RowDefinitions>
-
-                                    <karveControls:HelperButtonControl Grid.Row="1" VerticalAlignment="Top">
-
-                                    </karveControls:HelperButtonControl>
-                                </Grid>
+                                    
+                                                                    </Grid>
                             </Grid>
                         </TabItem>
 

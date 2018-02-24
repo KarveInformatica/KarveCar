@@ -24,22 +24,102 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                
-                
-                
-                
+
+
+
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="255*"></ColumnDefinition>
-                    <ColumnDefinition Width="139*"/>
-                    <ColumnDefinition Width="310*"></ColumnDefinition>
-                    <ColumnDefinition Width="85*"/>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"/>
+                    
                 </Grid.ColumnDefinitions>
-                <GroupBox Header="Facturacion" Grid.Row="1" Grid.ColumnSpan="3" Margin="9,163,56,-225">
-                    <Grid x:Name="BillingLayout">
+                <GroupBox Header="Facturacion" Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Importe Pendiente" />
+                        <TextBox Grid.Column="1" Grid.Row="0" Height="30" />
+                        <Label Content="Codigo Sociedad" Grid.Row="1" />
+                        <TextBox Text="{Binding Path=DataObject.COD_SOCIEDAD, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" Height="30" />
+                        <Label Content="Cod.Prov" Grid.Row="2" />
+                        <TextBox Text="{Binding Path=CODPROV_CLI1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" Height="30" />
+                        <!---->
+                          <KarveControls:DualFieldSearchBox x:Name="Formas" 
+                                              LabelText="Forma de Pago" 
+                                              Height="30" 
+                                          Margin="0,0,0,0"
+                                                            Grid.ColumnSpan="2"
+                                                              Grid.Row="3"
+                                          AssistTableName="CLIENT_INVOICE_BLOCKS"
+                                          IsReadOnlySecond="True"
+                                          DataFieldFirst="BLOQUEFAC"
+                                          AssistProperties="Code,Name"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding AssistCommand}" 
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="98"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="102"
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
+                        
+                        <Label Content="Banco " Grid.Row="4" />
+                        <TextBox Text="{Binding Path=BANCO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" />
+                        <Label Content="Cuenta Banco" Grid.Row="5" />
+                        <TextBox Text="{Binding Path=CUBANCO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" Height="30" />
+                        <Label Content="Cuenta" Grid.Row="6" />
+                        <TextBox Text="{Binding Path=CUENTA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" />
+                        <Label Content="IBAN" Grid.Row="7" />
+                        <TextBox Text="{Binding Path=IBAN, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" Height="30" />
+                        <Label Content="Swift" Grid.Row="8" />
+                        <TextBox Text="{Binding Path=SWIFT, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" Height="30" />
+                        <Label Content="Contable" Grid.Row="9" />
+                        <TextBox Text="{Binding Path=CONTABLE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" Height="30" />
+                        <Label Content="Descuento" Grid.Row="10" />
+                        <TextBox Text="{Binding Path=DTO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" Height="30" />
+                        <Label Content="P.P." Grid.Row="11" />
+                        <TextBox Text="{Binding Path=DTOPP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="11" Height="30" />
+                        <Label Content="Dto.Online" Grid.Row="12" />
+                        <TextBox Text="{Binding Path=DTO_ONLINE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="12" Height="30" />
+                        <Label Content="Mes Vacaciones" Grid.Row="13" />
+                        <TextBox Text="{Binding Path=MESVACA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="13" Height="30" />
+                        <Label Content="Improductivo cliente" Grid.Row="14" />
+                        <TextBox Text="{Binding Path=IMPRODUC_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="14" Height="30" />
+                        <Label Content="No facturar cliente" Grid.Row="15" />
+                        <TextBox Text="{Binding Path=NOFACTURAR_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="15" Height="30" />
+                    </Grid>
+
+
+                    <!--<Grid x:Name="BillingLayout">
+
+
+
+
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -180,16 +260,24 @@
 
 
 
-                    </Grid>
+                    </Grid> -->
                 </GroupBox>
-                <GroupBox Header="Periocidad de Facturacion" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <GroupBox Header="Periocidad de Facturacion" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="1">
                     <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" >
-
-                            <KarveControls:DualFieldSearchBox x:Name="InvoceBloq" 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition  Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <KarveControls:DualFieldSearchBox x:Name="InvoceBloq" 
                                               LabelText="Bloque Facturacion" 
                                               Height="30" 
                                           Margin="0,5,0,0"
+                                                              Grid.Row="0"
                                           AssistTableName="CLIENT_INVOICE_BLOCKS"
                                           IsReadOnlySecond="True"
                                           DataFieldFirst="BLOQUEFAC"
@@ -203,35 +291,21 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
 
-                            <KarveControls:DataField DataSourcePath="NOMBRE" 
+
+                        <KarveControls:DataField DataSourcePath="NOMBRE" 
                                                       DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="Numero Copia Factura"
-                                                      LabelTextWidth="130"
+                                                      LabelTextWidth="129"
                                                       TextContentWidth="210"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       Margin="0,5,0,0"
                                                       Height="35"
+                                                     Grid.Row="1"
                                                       IsReadOnly="False"/>
-
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <!-- necesito un converter -->
-                                <KarveControls:DataFieldCheckBox Content="Una per contracto" 
-                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
-                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
-                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
-                                                 HorizontalAlignment="Left"
-                                                 VerticalAlignment="Top"/>
-                                <KarveControls:DataFieldCheckBox Content="Por periodo"
-                                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
-                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
-                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
-                                                 HorizontalAlignment="Left"
-                                                 VerticalAlignment="Top"
-                                             />
-                            </StackPanel>
-                            <KarveControls:DualFieldSearchBox x:Name="InvoiceBroker" 
-                                              LabelText="Abonar a" 
+                        <KarveControls:DualFieldSearchBox x:Name="InvoiceBroker" 
+                                              LabelText="Abonar Comision a" 
                                               Height="30" 
+                                                              Grid.Row="2"
                                           Margin="0,5,0,0"
                                           AssistTableName="CLIENT_BROKER"
                                           IsReadOnlySecond="True"
@@ -241,14 +315,86 @@
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SourceView="{Binding ClientHelper.BrokerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="50"
+                                          LabelTextWidth="113"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
+                        <KarveControls:DualFieldSearchBox x:Name="TarifaBloq" 
+                                              LabelText="Tarifa Comision" 
+                                              Height="30" 
+                                          Margin="0,5,0,0"
+                                                              Grid.Row="3"
+                                          AssistTableName="FARE_INVOICE_BLOCKS"
+                                          IsReadOnlySecond="True"
+                                          DataFieldFirst="GRUTARI_CLI"
+                                          AssistProperties="Code,Name"
+                                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                          MagnifierCommand="{Binding AssistCommand}" 
+                                          DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding ClientHelper.InvoiceFare, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="115"
+                                          TextContentFirstWidth="60" 
+                                          TextContentSecondWidth="150"
+                                          ButtonImage="/KarveCar;component/Images/search.png"/>
+
+                        <StackPanel Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal">
+                            <KarveControls:DataField
+                                LabelText="Ref.Comisionista"
+                                DataObject="{Binding DataObject, Mode=TwoWay}"
+                                TextContent="{Binding DataObject.REF_A_COMI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}">
+                            </KarveControls:DataField>
+
+                            <DockPanel>
+                                <Button IsEnabled="False">
+                                    <DockPanel>
+                                        <Image Source="/KarveCar;component/Images/cagent.png" Height="30"></Image>
+                                        <TextBlock DockPanel.Dock="Left" Text="Crea Commisionista"></TextBlock>
+                                    </DockPanel>
+                                </Button>
+                            </DockPanel>
                         </StackPanel>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Por Delegacion del Cliente" />
+                            <CheckBox IsChecked="{Binding Path=PERIODICI, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="30" />
+                            <Label Content="No Forzar Factura 30 dias" Grid.Row="1" />
+                            <CheckBox IsChecked="{Binding Path=NO_FORZAR_FACTURAS30_HF, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="30" />
+                            <Label Content="Una per contracto" Grid.Row="0" Grid.Column="2"/>
+                            <CheckBox Grid.Row="0" Grid.Column="3"
+                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
+                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
+                                                 HorizontalAlignment="Left"
+                                                 VerticalAlignment="Top"/>
+                            <Label Content="Por Periodo" Grid.Row="1" Grid.Column="2"/>
+
+                            <CheckBox 
+                                      Grid.Row="1" Grid.Column="3"
+                                             KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommond, Mode=OneWay}"
+                                                 KarveControls:ControlExt.DataSourcePath="PERIODICI"
+                                                 HorizontalAlignment="Left"
+                                                 VerticalAlignment="Top"
+                                             />
+                        </Grid>
+
+
+
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Opciones" Grid.ColumnSpan="2" Margin="2,1,9,9" Grid.Column="2">
+                <GroupBox Header="Opciones" Grid.ColumnSpan="2" Grid.Column="0" Margin="7,0,84,0" Grid.Row="1">
                     <StackPanel>
 
                         <Grid>
@@ -257,23 +403,23 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Vertical">
-                                <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias"
+                                <CheckBox Content="No Cobrar franquicias"
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="CORTA"
                                                                  />
-                                <KarveControls:DataFieldCheckBox Content="No Censado"
+                                <CheckBox Content="No Censado"
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="CORTA"
                                                                  />
-                                <KarveControls:DataFieldCheckBox 
+                                <CheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="CORTA"
                                     Content="Corta duración"
                                 />
-                                <KarveControls:DataFieldCheckBox 
+                                <CheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="LARGA"
@@ -283,30 +429,30 @@
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="NO_FACT_MULTAS"
                                     Content="No facturar multas"/>
-                                <KarveControls:DataFieldCheckBox 
+                                <CheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="ENVIAR"
                                     Content="No enviar mailing"/>
-                                <KarveControls:DataFieldCheckBox 
+                                <CheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="NOIMPRFAC"
                                     Content="No Imprimir mensaje en Factura"/>
                             </StackPanel>
                             <WrapPanel Grid.Column="1" Orientation="Vertical">
-                                <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto"
+                                <CheckBox Content="No imprimes importe en el contracto"
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="IMPOCON"
                                                                  />
-                                <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"
+                                <CheckBox Content="Contracto: Importes pero sin Valorar"
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="CONTRA_IMPORTES_SIN_VALORAR"
                                                                  />
 
-                                <KarveControls:DataFieldCheckBox 
+                                <CheckBox 
                                     Content="Exportación"
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -355,7 +501,7 @@
             </Grid>
 
             <StackPanel Grid.Column="1">
-                <local:ActivitySector></local:ActivitySector>
+                <local:ActivitySector/>
 
             </StackPanel>
         </Grid>

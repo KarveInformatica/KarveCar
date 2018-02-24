@@ -9,8 +9,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="500">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <GroupBox Header="Sector Actividades">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Sector Actividades" Grid.Row="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -87,7 +90,7 @@
                                                       ButtonImage="/KarveCar;component/Images/search.png"/>
                 </Grid>    
                 </GroupBox>
-            <GroupBox Header="Mercados">
+            <GroupBox Header="Mercados" Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -215,6 +218,6 @@
 
                 </Grid>
             </GroupBox>
-        </StackPanel>
+        
     </Grid>
 </UserControl>

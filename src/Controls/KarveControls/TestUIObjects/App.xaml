@@ -1,9 +1,19 @@
-﻿<Application x:Class="WpfUpdater.App"
+﻿<Application x:Class="TestUIComponents.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WpfUpdater"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:TestUIComponents"
+            xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+             StartupUri="TestMainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                    ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                    MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

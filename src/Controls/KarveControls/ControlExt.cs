@@ -10,13 +10,28 @@ using ICommand = System.Windows.Input.ICommand;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.Grid.ScrollAxis;
+using Prism.Commands;
 
 namespace KarveControls
 {
+    public class NullCommand : ICommand
+    {
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return false;
+        }
+
+        public void Execute(object parameter)
+        {
+            return;
+        }
+    }
     /// <summary>
     ///  This is a list of attached properties to be associated to each karve control.
     /// </summary>
-    public class ControlExt: DependencyObject
+    public class ControlExt
     {
 
         private static string lastTextBoxValue = "";
@@ -116,16 +131,35 @@ namespace KarveControls
         /// <summary>
         ///  This is the kind of data allowd.
         /// </summary>
-        public static readonly DependencyProperty ItemChangedCommandDependencyProperty =
+        public static readonly DependencyProperty ItemChangedCommandProperty =
             DependencyProperty.RegisterAttached(
                 "ItemChangedCommand",
                 typeof(ICommand),
                 typeof(ControlExt),
-                new UIPropertyMetadata(null, PropertyChangedCb));
+                new FrameworkPropertyMetadata(new NullCommand(), PropertyChangedCb));
+
+        /// <summary>
+        ///  Set the item changed command, Attached behaviour for the component.
+        /// </summary>
+        /// <param name="d">Depedency property</param>
+        /// <param name="e">Value</param>
+        public static void SetItemChangedCommand(UIElement ext, ICommand command)
+        {
+            ext.SetValue(ItemChangedCommandProperty,command);
+        }
+
+        /// <summary>
+        ///  Get item changed command.
+        /// </summary>
+        /// <param name="d">Dependency Properties</param>
+        /// <param name="e">Value</param>
+        /// <returns></returns>
+        public static ICommand GetItemChangedCommand(UIElement ext)
+        {
+            return ext.GetValue(ItemChangedCommandProperty) as ICommand;
+        }
 
 
-        
-       
         /// <summary>
         ///  This is a property changed util.
         /// </summary>
@@ -145,7 +179,7 @@ namespace KarveControls
             if (dependencyObject is DataArea)
             {
                 DataArea dataArea = dependencyObject as DataArea;
-                dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea, eventArgs);
+                dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea);
                 dataArea.DataSource = GetDataSource(dataArea);
                 dataArea.DataSourcePath = GetDataSourcePath(dataArea);
             }
@@ -204,7 +238,7 @@ namespace KarveControls
         private static void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
-            var command = checkBox?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            var command = checkBox?.GetValue(ItemChangedCommandProperty) as ICommand;
            
             if ((command != null) && (checkBox != null))
             {
@@ -226,7 +260,7 @@ namespace KarveControls
         private static void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
-            var command = checkBox?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            var command = checkBox?.GetValue(ItemChangedCommandProperty) as ICommand;
 
             if ((command != null) && (checkBox != null))
             {
@@ -247,7 +281,7 @@ namespace KarveControls
         private static void CurrentDataGrid_RowValidated(object sender, RowValidatedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
-            var command = dataGrid?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
             if ((command != null) && (dataGrid!=null))
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
@@ -267,7 +301,7 @@ namespace KarveControls
         {
            
             SfDataGrid dataGrid = sender as SfDataGrid;
-            var command = dataGrid?.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+            var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
             if ((command != null) && (dataGrid !=null))
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
@@ -290,7 +324,7 @@ namespace KarveControls
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 changedValue = false;
-                var command = dataGrid.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                var command = dataGrid.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
                     objectName["DataObject"] = GetDataSource(dataGrid);
@@ -313,7 +347,7 @@ namespace KarveControls
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 changedValue = false;
-                var command = dataGrid.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                var command = dataGrid.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {       
                     /*
@@ -338,7 +372,7 @@ namespace KarveControls
             if (textBox != null)
             {
                 changedValue = false;
-                var command = textBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                var command = textBox.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
@@ -362,7 +396,7 @@ namespace KarveControls
             var comboBox = sender as ComboBox;
             if (comboBox != null)
             {
-                var command = comboBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                var command = comboBox.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
@@ -395,7 +429,7 @@ namespace KarveControls
             var dataFieldCheckBox = sender as DataFieldCheckBox;
             if (dataFieldCheckBox != null)
             {
-                var command = dataFieldCheckBox.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                var command = dataFieldCheckBox.GetValue(ItemChangedCommandProperty) as ICommand;
                 
                 if (command != null)
                 {
@@ -413,15 +447,7 @@ namespace KarveControls
             }
         }
 
-        /// <summary>
-        ///  Set the item changed command, Attached behaviour for the component.
-        /// </summary>
-        /// <param name="d">Depedency property</param>
-        /// <param name="e">Value</param>
-        public static void SetItemChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetValue(ItemChangedCommandDependencyProperty, e);
-        }
+       
         private static void TextBox_ChangedBehaviour(object sender, RoutedEventArgs args)
         {
             changedValue = true;
@@ -433,7 +459,7 @@ namespace KarveControls
             DataDatePicker picker = sender as DataDatePicker;
             if (picker != null)
             {
-                ICommand changedCommand =  picker.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
+                ICommand changedCommand =  picker.GetValue(ItemChangedCommandProperty) as ICommand;
                 IDictionary<string, object> evArgs = args.ChangedValuesObjects;
                 if (changedCommand!=null)
                 {
@@ -442,39 +468,10 @@ namespace KarveControls
             }
         }
 
-        /// <summary>
-        ///  Get item changed command.
-        /// </summary>
-        /// <param name="d">Dependency Properties</param>
-        /// <param name="e">Value</param>
-        /// <returns></returns>
-        public static ICommand GetItemChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            return d.GetValue(ItemChangedCommandDependencyProperty) as ICommand;
-        }
-
+        
         #endregion
 
-        #region DataAllowed
-        /// <summary>
-        ///  This is the kind of data allowd.
-        /// </summary>
-        public static readonly DependencyProperty DataAllowedDependencyProperty =
-            DependencyProperty.RegisterAttached(
-                "DataAllowed",
-                typeof(DataType),
-                typeof(ControlExt),
-                new PropertyMetadata(DataType.Any));
-        /// <summary>
-        ///  Kind of data allowed for this component.
-        /// </summary>
-        public DataType DataAllowed
-        {
-            get { return (DataType) GetValue(DataAllowedDependencyProperty); }
-            set { SetValue(DataAllowedDependencyProperty, value); }
-        }
-
-        #endregion
+        
         #region DataSource        
         /// <summary>
         ///  DataSource: data table or data object associaed with this control.
@@ -706,26 +703,10 @@ namespace KarveControls
         }
 
         #endregion
-        #region TableName
-        /// <summary>
-        ///  Dependency property associated with the name of the table.
-        /// </summary>
-        public static readonly DependencyProperty DbTableNameDependencyProperty =
-            DependencyProperty.RegisterAttached(
-                "TableName",
-                typeof(string),
-                typeof(ControlExt),
-                new PropertyMetadata(string.Empty));
+       
         private static object lastChangedRow;
 
-        /// <summary>
-        ///  Set or Get the name of the table associated to this control.
-        /// </summary>
-        public string TableName
-        {
-            get { return (string) GetValue(DbTableNameDependencyProperty); }
-            set { SetValue(DbTableNameDependencyProperty, value); }
-        }
-        #endregion
+       
+       
     }
 }

@@ -20,10 +20,15 @@ namespace KarveDataServices.DataTransferObject
         public string Movil { get;  set; }
         [DataMember]
         public string Nombre { get; set; }
+
+
+
         /// <summary>
         ///  Set or get the NUMERO_CLI property.
         /// </summary>
+        
         [PrimaryKey]
+
         public string NUMERO_CLI { get; set; }
 
         /// <summary>
@@ -1741,13 +1746,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string SEGURO { get; set; }
-
-        /// <summary>
-        ///  Set or get the NUMERO_CLI property.
-        /// </summary>
-        [Key]
-        [FieldSize("7")]
-        public string NUMERO_CLI { get; set; }
 
         /// <summary>
         ///  Set or get the CENTRO property.

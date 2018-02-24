@@ -6,8 +6,6 @@
         xmlns:local="clr-namespace:KarveControlsDemo"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:kc="clr-namespace:KarveControls;assembly=KarveControls"
-        xmlns:holidays="clr-namespace:KarveControls.HolidayCalendar;assembly=KarveControls..NETFramework,Version=v4.6.1"
-        xmlns:holidayCalendar="clr-namespace:KarveControls.HolidayCalendar;assembly=KarveControls"
         xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
         mc:Ignorable="d"
         Title="KarveControlsDemo" Height="350" Width="525">
@@ -22,9 +20,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <kc:DataDatePicker Grid.Row="0"></kc:DataDatePicker>
-        <holidayCalendar:HolidayCalendar Grid.Row="1">
-            
-        </holidayCalendar:HolidayCalendar>
+       
         
     </Grid>
 </Window>
