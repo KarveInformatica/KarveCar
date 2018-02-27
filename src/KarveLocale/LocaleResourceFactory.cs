@@ -63,8 +63,8 @@ namespace KarveLocale
             {
                 if (_objectDataProvider == null)
                 {
-                    _objectDataProvider = BuildObjectDataProvider();
-                    //  _objectDataProvider = (ObjectDataProvider)Application.Current.FindResource("ResourceLanguage");                    
+                   //_objectDataProvider = BuildObjectDataProvider();
+                    _objectDataProvider = (ObjectDataProvider)Application.Current.FindResource("ResourceLanguage");                    
                 }
                 return _objectDataProvider;
             }
@@ -77,7 +77,8 @@ namespace KarveLocale
         public static void ChangeCulture(CultureInfo culture)
         {
             Resources.Culture = culture;
-         //   _objectDataProvider.Refresh();
+         if (_objectDataProvider != null)
+                _objectDataProvider.Refresh();
         }
 
         /// <summary>

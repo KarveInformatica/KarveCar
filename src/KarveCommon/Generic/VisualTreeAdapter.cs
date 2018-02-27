@@ -12,7 +12,9 @@ namespace KarveCommon.Generic
 
     /// <summary>
     /// An adapter for DependencyObject which implements ILinqToTree in
-    /// order to allow Linq queries on the visual tree
+    /// order to allow Linq queries on the visual tree. 
+    /// It is useful for looking into the visual tree an element. 
+    /// 
     /// </summary>
     public class VisualTreeAdapter : ILinqToTree<DependencyObject>
     {

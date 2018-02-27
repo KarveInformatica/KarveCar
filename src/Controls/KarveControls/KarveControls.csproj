@@ -247,6 +247,7 @@
     <Compile Include="ControlExt.cs" />
     <Compile Include="Calendar\Utility\DateTimeExtensions.cs" />
     <Compile Include="KarveGridExt.cs" />
+    <Compile Include="TextedThumb\TextedThumb.cs" />
     <Compile Include="TripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
     </Compile>
@@ -355,6 +356,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>

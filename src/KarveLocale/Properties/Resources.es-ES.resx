@@ -2160,4 +2160,7 @@
   <data name="lusuarioconnected" xml:space="preserve">
     <value>Usuario connectado</value>
   </data>
+  <data name="TextedThumb_OnApplyTemplate_ConsultaDe" xml:space="preserve">
+    <value>Consulta de</value>
+  </data>
 </root>

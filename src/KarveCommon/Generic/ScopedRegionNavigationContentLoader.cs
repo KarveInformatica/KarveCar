@@ -133,7 +133,16 @@ namespace KarveCommon.Generic
 
             if (string.IsNullOrEmpty(viewName))
             {
-                region.Add(view);
+                try
+                {
+                    region.Add(view);
+                } catch (Exception e)
+                {
+                    Exception e2 = e.GetRootException();
+
+                    MessageBox.Show(e.Message);
+                    
+                }
             }
             else
             {

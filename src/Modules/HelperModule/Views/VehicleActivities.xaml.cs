@@ -24,7 +24,13 @@ namespace HelperModule.Views
         public string Header { get { return _header; } }
         public VehicleActivities()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (Exception e)
+            {
+                var exc = e;
+            }
         }
     }
 }

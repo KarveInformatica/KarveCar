@@ -26,6 +26,12 @@
   </LinearGradientBrush>
   <SolidColorBrush x:Key="DataField_LabelTextColor" Color="Gray" />
 
+
+   
+        <Style TargetType="Syncfusion:GridHeaderCellControl" x:Key="headerStyle">
+        <Setter Property="Background" Value="#3373f2"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
     <Style TargetType="ListBoxItem"
            x:Key="SuggestionItemStyle">
         <Setter Property="Template">
@@ -272,6 +278,29 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type local:TextedThumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    
+                                <Border  Width="Auto" Height="40" 
+                                                              Background="#3373f2"
+                                                              BorderBrush="#3373f2"
+                                                VerticalAlignment="Top" 
+
+                                                 CornerRadius="5,5,0,0" Margin="-2,-2,-2,0">
+
+                                               <TextBlock x:Name="PART_ThumbText" 
+                                               Foreground="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Foreground, Mode=OneWay}" 
+                                               FontSize="{Binding RelativeSource={RelativeSource TemplatedParent},Path=FontSize, Mode=OneWay}"
+                                               Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Title, Mode=OneWay}"
+                                               HorizontalAlignment="Center"></TextBlock>
+                                </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type photo:PhotoFrame}">
         <Setter Property="Template">
             <Setter.Value>
@@ -307,7 +336,7 @@
         <Style TargetType="{x:Type local:DualFieldSearchBox}">
        
         <Setter Property="Template">
-            <Setter.Value>
+                <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DualFieldSearchBox}">
                     <Grid x:Name="ControlLayout">
                         <Border x:Name="Border"
@@ -332,6 +361,7 @@
                                          ></TextBox>
 
                                 <StackPanel Background="Azure">
+                                    
                                     <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
                                             Background="Lavender">
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
@@ -362,30 +392,37 @@
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
 
-                                                <Thumb Grid.Row="0" Width="Auto" Height="40" 
-
+                                                <local:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
+                                                                   Foreground="White"
+                                                    Title="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
                                    Tag="{Binding ElementName=PART_PopUp}"
 
                                    local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+                                                    <!--
                                                     <Thumb.Template>
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
-
-                                                 BorderBrush="CadetBlue" 
-
-                                                 Background="CadetBlue" VerticalAlignment="Top" 
+                                                              Background="#3373f2"
+                                                              BorderBrush="#3373f2"
+                                                VerticalAlignment="Top" 
 
                                                  CornerRadius="5,5,0,0" Margin="-2,-2,-2,0">
 
-
+                                                                <TextBlock x:Name="PART_PopUpTitle" 
+                                                                           Foreground="White" 
+                                                                           FontSize="24"
+                                                                           Text="Consulta"
+                                                                           HorizontalAlignment="Center"></TextBlock>
                                                             </Border>
                                                         </ControlTemplate>
                                                     </Thumb.Template>
-                                                </Thumb>
+                                                    -->
+                                                </local:TextedThumb>
 
                                                 
+                                                
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
-                                                                       ColumnSizer="Star"
+                                                                       ColumnSizer="Auto"
                                                                        Grid.Row="1"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
@@ -396,9 +433,10 @@
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row" 
                                                                        Height="800"
-                                                                       MinWidth="900"
+                                                                       MinWidth="300"
                                                                        Background="White"
-                                                                                                                                           
+                                                                       BorderBrush="#3373f2" 
+                                                                        HeaderStyle="{StaticResource headerStyle}" 
                                                 >
         
                                                     <Syncfusion:SfDataGrid.Resources>

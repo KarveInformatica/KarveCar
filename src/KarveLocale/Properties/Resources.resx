@@ -2610,4 +2610,7 @@
   <data name="CompanyControlViewModel_NewItem_NuevaEmpresa" xml:space="preserve">
     <value>Nueva Empresa</value>
   </data>
+  <data name="TextedThumb_OnApplyTemplate_ConsultaDe" xml:space="preserve">
+    <value>Consulta de </value>
+  </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Controls;
-using DevExpress.Xpo;
+
 
 namespace KarveCommon.Validation
 {

@@ -2518,4 +2518,7 @@
   <data name="lusuarioconnected" xml:space="preserve">
     <value>Verbundener Benutzer</value>
   </data>
+  <data name="TextedThumb_OnApplyTemplate_ConsultaDe" xml:space="preserve">
+    <value>Auflistung  </value>
+  </data>
 </root>

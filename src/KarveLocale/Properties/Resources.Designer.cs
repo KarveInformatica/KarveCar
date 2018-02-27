@@ -6271,6 +6271,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consulta de .
+        /// </summary>
+        public static string TextedThumb_OnApplyTemplate_ConsultaDe {
+            get {
+                return ResourceManager.GetString("TextedThumb_OnApplyTemplate_ConsultaDe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo.Comm..
         /// </summary>
         public static string UpperBarViewModel_HandleCommission_TipoComm {

@@ -95,9 +95,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Dragablz\Dragablz\obj\Debug\Dragablz.dll</HintPath>
+    <Reference Include="CommonServiceLocator">
+      <HintPath>..\..\..\..\..\Downloads\GitHub\Prism\Source\Wpf\Prism.Unity.Wpf\bin\Debug\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ExtendedGrid">
       <HintPath>..\lib\ExtendedGrid.dll</HintPath>
@@ -198,7 +197,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -563,6 +562,10 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Dragablz\Dragablz\Dragablz.net45.csproj">
+      <Project>{7b11011c-7fd7-4ab0-a1ad-04e940b026de}</Project>
+      <Name>Dragablz.net45</Name>
+    </ProjectReference>
     <ProjectReference Include="Controls\KarveControls\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>
