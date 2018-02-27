@@ -23,14 +23,11 @@ namespace KarveCommon.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            /*
-            if (value is System.Windows.Controls.ComboBoxItem)
-            {
-                var currentValue = value as System.Windows.Controls.ComboBoxItem;
-            }
-            Int16 v = System.Convert.ToInt16(value);
-            */
-            return "";
+            string currentValue = "0";
+            var v = value;
+            Int16 v1 = System.Convert.ToInt16(value);
+            
+            return v1.ToString();
         }
     }
 }

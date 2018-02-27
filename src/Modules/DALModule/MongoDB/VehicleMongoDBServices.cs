@@ -17,6 +17,8 @@ namespace DataAccessLayer.MongoDB
 
         public Task<DataSet> GetVehiclesAgentSummary(int pageSize, int offset)
         {
+           
+
             throw new System.NotImplementedException();
         }
 

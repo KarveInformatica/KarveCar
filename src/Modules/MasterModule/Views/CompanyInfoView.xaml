@@ -21,7 +21,7 @@
         <Grid>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
-                    <prism:InvokeCommandAction Command="{Binding ActiveSubsystemCommand, PresentationTraceSources.TraceLevel=High}"/>
+                    <prism:InvokeCommandAction Command="{Binding ActiveSubsystemCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Grid.Resources>

@@ -12,6 +12,9 @@ using KarveCommon.Generic;
 using System.Windows;
 using System.Diagnostics.Contracts;
 using KarveDataServices.DataObjects;
+using System;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
@@ -27,6 +30,8 @@ namespace MasterModule.ViewModels
             AssistExecuted += OfficeAssistResult;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, this);
             DataObject = new OfficeDtos();
+            DateTime dt = DateTime.Now;
+            CurrentYear = dt.Year.ToString();
         }
         #endregion
         #region Properties
@@ -45,6 +50,7 @@ namespace MasterModule.ViewModels
                 return _currentOfficeDto;
             }
         }
+
         /// <summary>
         ///  Helper data.
         /// </summary>
@@ -60,6 +66,22 @@ namespace MasterModule.ViewModels
                 return _officeHelper;
             }
         }
+        /// <summary>
+        ///  Days. It is the weekly opening.
+        /// </summary>
+        public ObservableCollection<DailyTime> Days
+        {
+            get
+            {
+                return _openDays;
+            }
+            set
+            {
+                _openDays = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         ///  Show brokers data objects.
         /// </summary>
@@ -88,6 +110,20 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        // currency dto.
+        public IEnumerable<CurrenciesDto> CurrenciesDto
+        {
+            set
+            {
+                _currencyDto = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _currencyDto;
+            }
+        }
+
         /// <summary>
         ///  ClientDto.
         /// </summary>
@@ -179,6 +215,8 @@ namespace MasterModule.ViewModels
                     _officeData = officeData;
                     DataObject = _officeData.Value;
                     Helper = officeData;
+                    PrimaryKey = primaryKey;
+            //        Days = new ObservableCollection<DailyTime>(DataObject.TimeTable);
                     Logger.Info("OfficeInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
@@ -196,7 +234,7 @@ namespace MasterModule.ViewModels
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            payLoad.Subsystem = DataSubSystem.CompanySubsystem;
+            payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
         }
         #endregion
 
@@ -267,8 +305,16 @@ namespace MasterModule.ViewModels
                             retValue = true;
                             break;
                         }
+                    case "CURRENCY_ASSIST":
+                        {
+                            CurrenciesDto = (IEnumerable<CurrenciesDto>)value;
+                            
+
+                           // RaisePropertyChanged("CurrenciesDto");
+                            break;
+                        }
                 }
-                RaisePropertyChanged("OfficeHelper");
+                RaisePropertyChanged("Helper");
             }
             return retValue;
         }
@@ -300,9 +346,14 @@ namespace MasterModule.ViewModels
                 {
                     MessageBox.Show("DataObject is null.");
                 }
+               
                 var data = eventDictionary["DataObject"];
-                var name = eventDictionary["Field"] as string;
-                GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                if (eventDictionary.ContainsKey("Field"))
+                {
+                    var name = eventDictionary["Field"] as string;
+                    GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                   
+                }
                 payLoad.DataObject = data;
             }
             ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.OfficeSubsystem);
@@ -355,6 +406,8 @@ namespace MasterModule.ViewModels
         private string _currentYear;
         private IEnumerable<CommissionAgentSummaryDto> _brokers;
         private IEnumerable<ClientSummaryDto> _client;
+        private IEnumerable<CurrenciesDto> _currencyDto;
+        private ObservableCollection<DailyTime> _openDays;
         #endregion
 
 

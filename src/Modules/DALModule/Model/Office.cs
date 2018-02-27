@@ -42,6 +42,11 @@ namespace DataAccessLayer.Model
         public IEnumerable<ZonaOfiDto> ClientZoneDto { get ; set ; }
         // Client zone dto.
         public IEnumerable<ClientZoneDto> ZoneDto { get ; set ; }
-    }
+        /// <summary>
+        /// CurrenciesDto.
+        /// </summary>
+        public IEnumerable<CurrenciesDto> CurrenciesDto { get ; set ; }
+
+}
 
 }

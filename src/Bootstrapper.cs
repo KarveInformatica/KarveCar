@@ -28,7 +28,7 @@ namespace KarveCar
 
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.185";
         /// <summary>
         ///  This create a new Prism Shell
         /// </summary>

@@ -10,7 +10,7 @@ using KarveControls.Generic;
 namespace KarveControls
 {
     /// <summary>
-    ///  Custom data field check box.
+    ///  Represent a control that a user can select and clear.
     /// </summary>
     public class DataFieldCheckBox: CheckBox
     {

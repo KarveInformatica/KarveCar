@@ -7,6 +7,7 @@ using System.Data;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System.Transactions;
+using System;
 using Dapper;
 using KarveDapper.Extensions;
 using KarveDataServices;
@@ -14,9 +15,14 @@ using KarveDataServices.DataTransferObject;
 using DataAccessLayer.SQL;
 using System.Linq;
 using DataAccessLayer.Crud;
+using Z.BulkOperations;
+using Z.Dapper.Plus;
 
 namespace DataAccessLayer.Crud.Office
 {
+    /// <summary>
+    ///  This is an office data saver. It saves the data for the office table.
+    /// </summary>
     class OfficeDataSaver : IDataSaver<OfficeDtos>
     {
         private ISqlExecutor _executor;
@@ -40,6 +46,50 @@ namespace DataAccessLayer.Crud.Office
             get { return _validationChain; }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentOffice">Current office to be saved.</param>
+        /// <param name="holidayDto">List of vacation for the current office.</param>
+        /// <returns></returns>
+        private async Task SaveHolidayOfficeAsync(IDbConnection connection, OFICINAS currentOffice, IEnumerable<HolidayDto> holidayDto)
+        {
+            Contract.Requires(connection != null, "Connection is not null");
+            Contract.Requires(currentOffice != null, "Current office is not null");
+            Contract.Requires(holidayDto != null, "HolidayDto is not null");
+
+            IEnumerable<FESTIVOS_OFICINA> holidayOffice = _mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(holidayDto);
+            QueryStore store = new QueryStore();
+            store.AddParam(QueryStore.QueryType.HolidaysByOffice, currentOffice.CODIGO);
+            var query = store.BuildQuery();
+            bool saved = false;
+            // First i want fetch the current festivo oficina.
+            // we shall insert or merge.
+            try
+            {
+                IEnumerable<FESTIVOS_OFICINA> currentHolidays = await connection.QueryAsync<FESTIVOS_OFICINA>(query);
+                if (currentHolidays.Count<FESTIVOS_OFICINA>() == 0)
+                {
+                    connection.BulkInsert(holidayOffice);
+                }
+                else
+                {
+                    // FIXME : check for concurrent optimistic lock.               
+                    var holidaysToBeInserted = holidayOffice.Except(currentHolidays);
+                    connection.BulkInsert<FESTIVOS_OFICINA>(holidaysToBeInserted);
+                    var holidaysToBeUpdated = holidayOffice.Intersect(currentHolidays);
+                    connection.BulkUpdate<FESTIVOS_OFICINA>(holidaysToBeUpdated);
+                }
+                saved = true;
+            }
+            catch (System.Exception e)
+            {
+                connection.Close();
+                connection.Dispose();
+                throw new DataLayerException(e.Message, e);
+            }
+            Contract.Ensures(saved);
+        }
+        /// <summary>
         ///  Save the asynchronous client
         /// </summary>
         /// <param name="office">Data transfer to be saved.</param>
@@ -52,25 +102,33 @@ namespace DataAccessLayer.Crud.Office
             currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
             Contract.Assert(currentPoco != null, "Invalid Poco");
             bool retValue = false;
-           
+          
+            
             using (connection = _executor.OpenNewDbConnection())
             {
                 try
                 {
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        var present = connection.IsPresent<OFICINAS>(currentPoco);
-                        if (!present)
+                        try
                         {
-                            retValue = await connection.InsertAsync<OFICINAS>(currentPoco) > 0;
-                        }
-                        else
+                            var present = connection.IsPresent<OFICINAS>(currentPoco);
+                            if (!present)
+                            {
+                                retValue = await connection.InsertAsync<OFICINAS>(currentPoco) > 0;
+
+                            }
+                            else
+                            {
+                                retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
+
+                            }
+                            await SaveHolidayOfficeAsync(connection, currentPoco, office.HolidayDates);
+                            scope.Complete();
+                        } catch (System.Exception e )
                         {
-                            retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
-                            
+                            throw new DataLayerException(e.Message, e);
                         }
-                       
-                        scope.Complete();
                     }
                 }
                 finally
@@ -82,26 +140,6 @@ namespace DataAccessLayer.Crud.Office
             return retValue;
 
         }
-        /// <summary>
-        ///  Save Holidays.
-        /// </summary>
-        /// <param name="holidayDates">Dates of the holidays</param>
-        /// <returns></returns>
-        private async Task<bool> SaveHolidays(IEnumerable<HolidayDto> holidayDates)
-        {
-            bool retValue = false;
-            var value = _mapper.Map<IEnumerable<HolidayDto>,IEnumerable<FESTIVOS_OFICINA>>(holidayDates);
-            var office = holidayDates.FirstOrDefault();
-            if (office == null)
-            {
-                return retValue;
-            }
-           
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
-            {
-                retValue = await connection.UpdateCollectionAsync<FESTIVOS_OFICINA>(value);
-            }
-            return retValue;
-        }
+
     }
 }

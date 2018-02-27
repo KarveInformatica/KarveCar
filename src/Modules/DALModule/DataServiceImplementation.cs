@@ -33,11 +33,7 @@ namespace DataAccessLayer
         ///  Client data service
         /// </summary>
         private readonly IClientDataServices _clientDataServices;
-        /// <summary>
-        ///  Assist data service.
-        /// </summary>
-        private readonly IAssistDataService _assistDataService;
-
+       
         /// <summary>
         ///  Data management for the offices
         /// </summary>
@@ -69,7 +65,6 @@ namespace DataAccessLayer
             _vehicleDataServices = new VehiclesDataAccessLayer(sqlExecutor);
             _settingsDataService = new SettingsDataService(sqlExecutor);
             _clientDataServices = new ClientDataAccessLayer(sqlExecutor);
-            _assistDataService = new AssistDataService(_helperDataServices);
             _officeDataService = new OfficeDataService(sqlExecutor);
             _companyDataService = new CompanyDataService(sqlExecutor);
 
@@ -128,20 +123,19 @@ namespace DataAccessLayer
         {
             return _clientDataServices;
         }
+     
         /// <summary>
-        ///  Assist data service.
+        ///  Office data services
         /// </summary>
         /// <returns></returns>
-        public IAssistDataService GetAssistDataService()
-        {
-            return _assistDataService;
-        }
-
         public IOfficeDataServices GetOfficeDataServices()
         {
             return _officeDataService;
         }
-
+        /// <summary>
+        ///  Company data services.
+        /// </summary>
+        /// <returns></returns>
         public ICompanyDataService GetCompanyDataServices()
         {
             return _companyDataService;

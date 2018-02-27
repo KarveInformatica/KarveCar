@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
+    <Compile Include="Converter\CharToIntegerConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />

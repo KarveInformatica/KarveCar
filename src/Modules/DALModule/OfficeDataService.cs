@@ -10,6 +10,7 @@ using System.Data;
 using Dapper;
 using KarveDapper.Extensions;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Crud;
 
 namespace DataAccessLayer
 {
@@ -64,8 +65,9 @@ namespace DataAccessLayer
         public async Task<IOfficeData> GetAsyncOfficeDo(string identifier)
         {
            OfficeDtos data =  await _loader.LoadValueAsync(identifier).ConfigureAwait(false);
-           IOfficeData office = new Office();
-           if (data != null)
+
+            IOfficeData office = new Office();
+            if (data != null)
             { 
                 office.Value = data;
                 office.Valid = true;
@@ -113,6 +115,7 @@ namespace DataAccessLayer
         {
             OfficeDtos data = new OfficeDtos();
             data.Codigo = code;
+         
             IOfficeData office = new Office();
             office.Value = data;
             office.Valid = true;

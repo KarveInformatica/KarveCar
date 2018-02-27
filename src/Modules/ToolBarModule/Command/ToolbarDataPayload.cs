@@ -73,6 +73,19 @@ namespace ToolBarModule.Command
         /// <param name="propertyChangedEventArgs">Paramerts of the message</param>
         protected void OnExecutedPayload(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
+            // check of errors.
+            INotifyTaskCompletion<IEnumerable<DataPayLoad>> value = sender as INotifyTaskCompletion<IEnumerable<DataPayLoad>>;
+            if ((value != null) && (ToolbarInitializationNotifier != null))
+            {
+                string propertyName = propertyChangedEventArgs.PropertyName;
+                if (propertyName.Equals("Status"))
+                {
+                    if (ToolbarInitializationNotifier.IsFaulted)
+                    {
+                        SendError(ToolbarInitializationNotifier.ErrorMessage);
+                    }
+                }
+            }
             if (CurrentEventManager != null)
             {
                 NotifyEventManager(EventManager, CurrentPayload);

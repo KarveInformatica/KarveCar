@@ -28,7 +28,7 @@ namespace DataAccessLayer.SQL
         private object asyncLoadLock = new object();
         private readonly object dataAdapterLock = new object();
         // TODO this shall be moved to the user authentication.
-        private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.185";
         /// <summary>
         /// String of the connection.
         /// </summary>

@@ -28,6 +28,18 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public string City { set; get; }
         /// <summary>
+        ///  Province
+        /// </summary>
+        public string Province { set; get; }
+        /// <summary>
+        ///  Zip
+        /// </summary>
+        public string Zip { set; get; }
+        /// <summary>
+        ///  Phone1
+        /// </summary>
+        public string Phone { set; get; }
+        /// <summary>
         ///  Company name
         /// </summary>
         public string CompanyName { set; get; }

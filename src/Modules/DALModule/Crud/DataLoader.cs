@@ -113,15 +113,14 @@ namespace DataAccessLayer.Crud
 
             try
             {
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
                     if (conn != null)
                     {
                         var value = await conn.GetAsync<T>(code);
                         var outValues = _mapper.Map<T, Dto>(value);
+
                         return outValues;
                     }
-                }
+                
             }
             finally
             {

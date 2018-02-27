@@ -7,7 +7,7 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a FESTIVOS_OFICINA.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
-    [Table("OFICINA")]
+    [Table("FESTIVOS_OFICINA")]
 	public class FESTIVOS_OFICINA 
 	{
 	

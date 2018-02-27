@@ -9,7 +9,7 @@ namespace DataAccessLayer.XmlDB
     /// </summary>
     public class XMLDataServiceImplementation : IDataServices
     {
-        public XMLDataServiceImplementation() : base()
+        public XMLDataServiceImplementation()
         {
             // This constructor is used when an object is loaded from a persistent storage.
             // Do not place any code here.

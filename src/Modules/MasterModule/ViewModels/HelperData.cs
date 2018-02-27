@@ -43,7 +43,9 @@ namespace MasterModule.ViewModels
         ///  Reseller Data Transfer Object.
         /// </summary>
         public IEnumerable<ResellerDto> ResellerDto { get; set; }
-
+        /// <summary>
+        ///  Activity Dto.
+        /// </summary>
         public IEnumerable<ActividadDto> ActivityDto { get; set; }
 
         /// <summary>

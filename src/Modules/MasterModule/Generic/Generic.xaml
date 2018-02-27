@@ -9,7 +9,28 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 
-    <DataTemplate x:Key="UpperBarVehicle">
+    <DataTemplate x:Key="NoDataEmailField">
+        <StackPanel Orientation="Horizontal">
+            <KarveControls:DataField x:Name="EmailField" 
+                                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     TextContentWidth="200"
+                                                     LabelTextWidth="0"
+                                                     LabelVisible="False"
+                                                     DataAllowed="Email"
+                                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsReadOnly="False"
+                                                     >
+
+
+
+            </KarveControls:DataField>
+            <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
+                <Image Source="/MasterModule;component/Images/email.png" Width="19"/>
+
+            </Button>
+        </StackPanel>
+    </DataTemplate>
+        <DataTemplate x:Key="UpperBarVehicle">
     <Grid>
         <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
             <Grid Name="ContextLayout">

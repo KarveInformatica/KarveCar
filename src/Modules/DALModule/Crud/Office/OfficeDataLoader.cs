@@ -7,6 +7,7 @@ using KarveDataServices;
 using System.Data;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
+using KarveDapper;
 using AutoMapper;
 using Dapper;
 
@@ -38,6 +39,8 @@ namespace DataAccessLayer.Crud.Office
             {
                 var value = await connection.GetAllAsync<OFICINAS>();
                 officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);
+               
+           
             }
             return officeDtos;
         }
@@ -49,6 +52,22 @@ namespace DataAccessLayer.Crud.Office
             {
                 var value = await connection.GetAsync<OFICINAS>(code);
                 officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
+                
+                if (value != null)
+                {
+                    QueryStore queryStore = new QueryStore();
+                    queryStore.AddParam(QueryStore.QueryType.QueryCurrency);
+                    queryStore.AddParam(QueryStore.QueryType.HolidaysByOffice, value.CODIGO);
+                    var queryHolidays = queryStore.BuildQuery();
+                    var reader = await connection.QueryMultipleAsync(queryHolidays);
+                    var offices = reader.Read<CURRENCIES>();
+                    if (!reader.IsConsumed)
+                    {
+                        var holidaysByOffice = reader.Read<FESTIVOS_OFICINA>();
+                        officeDtos.HolidayDates = _mapper.Map<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<HolidayDto>>(holidaysByOffice);
+                    }
+                    
+                }
             }
             return officeDtos;
         }

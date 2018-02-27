@@ -79,6 +79,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DataFieldCheckBox}">
+                    <Grid x:Name="ControlLayout">
+                        <Border x:Name="Border"
+                    Padding="2"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <CheckBox x:Name="PART_CheckBox" Content="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Content}"></CheckBox>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -141,7 +151,8 @@
                 <Grid>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
-                    <DatePicker x:Name="PART_DatePicker"  
+                    <DatePicker x:Name="PART_DatePicker" 
+                                Margin="5,0,0,0" 
                                 Height="50"
                                 SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
                     </DatePicker>

@@ -236,6 +236,7 @@
   <ItemGroup>
     <Folder Include="Commands\" />
     <Folder Include="KarveDataServices\DataTransferObject\" />
+    <Folder Include="Toolbar\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />
     <Folder Include="Views\MasterModule\" />

@@ -146,6 +146,12 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
                 return helper;
             });
+
+            AssistMapper.Configure("CURRENCY_ASSIST", async (query) => {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CurrenciesDto, CURRENCIES>();
+                return helper;
+            });
+
             AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
                 return helper;
@@ -477,7 +483,7 @@ namespace MasterModule.Common
         /// </summary>
         protected DataTable ExtendedDataTable;
 
-        private INotifyTaskCompletion<bool> DeleteInitializationTable;
+        protected INotifyTaskCompletion<bool> DeleteInitializationTable;
 
         /// <summary>
         ///  This starts the load of data from the lower data layer.
@@ -537,12 +543,9 @@ namespace MasterModule.Common
             {
                 payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
             }
-            if ((payLoad.PayloadType == DataPayLoad.Type.UpdateView) && (NotifyState == 0))
+            if (payLoad.PayloadType == DataPayLoad.Type.UpdateView)
             {
-                lock (NotifyStateObject)
-                {
-                    _notifyState = 1;
-                }
+                
                 StartAndNotify();
 
                 EventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);

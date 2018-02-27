@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  Value of the OfficeData.
     /// </summary>
-    public interface IOfficeData: IHelperBase
+    public interface IOfficeData : IHelperBase
     {
         /// <summary>
         ///  Vale of the data transfer object.
@@ -22,5 +22,10 @@ namespace KarveDataServices.DataObjects
         ///  This tells us if the data is valid or not.
         /// </summary>
         bool Valid { get; set; }
+        /// <summary>
+        ///   CurrenciesDto.
+        /// </summary>
+        IEnumerable<CurrenciesDto> CurrenciesDto { get ; set ; }
+
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class CurrencyDto
+    public class CurrencyDto: BaseDto
     {
         /// <summary>
         ///  Set or get the CODIGO property.

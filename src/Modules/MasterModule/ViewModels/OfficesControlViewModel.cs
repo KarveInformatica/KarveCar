@@ -34,6 +34,7 @@ namespace MasterModule.ViewModels
         public OfficesControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             InitViewModel();
+         
         }
 
         /// <summary>
@@ -55,6 +56,13 @@ namespace MasterModule.ViewModels
             IOfficeDataServices service = DataServices.GetOfficeDataServices();
             IOfficeData data = await service.GetAsyncOfficeDo(primaryKey);
             bool retValue = await service.DeleteOfficeAsyncDo(data);
+            if (retValue)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Delete;
+                payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
+                payLoad.PrimaryKey = primaryKey;
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, payLoad);
+            }
             return retValue;
         }
         
@@ -73,12 +81,13 @@ namespace MasterModule.ViewModels
             var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
             RegionManager.RequestNavigate("TabRegion", uri);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
-            currentPayload.Subsystem = DataSubSystem.CompanySubsystem;
+            currentPayload.Subsystem = DataSubSystem.OfficeSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = officeId;
-            currentPayload.DataObject = DataServices.GetCompanyDataServices().GetNewCompanyDo(officeId);
+            var dataValue = DataServices.GetOfficeDataServices().GetNewOfficeDo(officeId);
+            currentPayload.DataObject = dataValue;
             currentPayload.HasDataObject = true;
-            currentPayload.Sender = EventSubsystem.CompanySummaryVm;
+            currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
         }
         /// <summary>
@@ -95,10 +104,45 @@ namespace MasterModule.ViewModels
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.OfficeSummaryGrid;
             InitEventHandler += LoadNotificationHandler;
-            _mailBoxName = EventSubsystem.OfficeSummaryVm ;
+            DeleteEventHandler += OfficeDeleteHandler;
+            _mailBoxName = EventSubsystem.OfficeSummaryVm;
+            MessageHandlerMailBox += MessageHandler;
+            EventManager.RegisterMailBox(_mailBoxName, MessageHandlerMailBox);
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             StartAndNotify();
             
+        }
+        private void OfficeDeleteHandler(object sender, PropertyChangedEventArgs ev)
+        {
+            INotifyTaskCompletion<bool> value = sender as INotifyTaskCompletion<bool>;
+            if (value != null)
+            {
+                if (value.IsSuccessfullyCompleted)
+                {
+                    if (value != null)
+                    {
+                        var result = value.Task.Result;
+                        if (!result)
+                        {
+                            MessageBox.Show("Error during the delete");
+                        }
+                        // ok in this case we can
+                    }
+                }
+                else if (value.IsFaulted)
+                {
+                    var exc = value.InnerException;
+                    MessageBox.Show("Exception: "+exc);
+                }
+            }
+        }
+        public override void DisposeEvents()
+        {  
+            base.DisposeEvents();
+            MessageHandlerMailBox -= MessageHandler;
+            InitEventHandler -= LoadNotificationHandler;
+            DeleteEventHandler -= OfficeDeleteHandler;
+            DeleteMailBox(_mailBoxName);
         }
         /// <summary>
         ///  Open a new item.
@@ -123,6 +167,7 @@ namespace MasterModule.ViewModels
                 RegionManager.RequestNavigate("TabRegion", uri);
                 Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 IOfficeData provider = await DataServices.GetOfficeDataServices().GetAsyncOfficeDo(id);
+
                   
                 Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);

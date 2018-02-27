@@ -16,6 +16,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the CODIGO property.
     /// </summary>
         [Key]
+        [FieldSize("2")]
 		public string CODIGO { get; set; }
  
 	/// <summary>
@@ -104,19 +105,16 @@ namespace DataAccessLayer.DataObjects
         /// <summary>
         ///  Set or get the TIPO2 property.
         /// </summary>
-        [Browsable(false)]
         public string TIPO2 { get; set; }
 
         /// <summary>
         ///  Set or get the TIPO3 property.
         /// </summary>
-        [Browsable(false)]
         public string TIPO3 { get; set; }
 
         /// <summary>
         ///  Set or get the TIPO4 property.
         /// </summary>
-        [Browsable(false)]
         public string TIPO4 { get; set; }
 
         /// <summary>
@@ -850,5 +848,7 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public Decimal? CANON_OTROS { get; set; }
-	}
+        
+       
+    }
 }

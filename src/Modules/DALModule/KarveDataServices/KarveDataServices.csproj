@@ -114,6 +114,7 @@
     <Compile Include="DataTransferObject\ContactTypeDto.cs" />
     <Compile Include="DataTransferObject\CountryDto.cs" />
     <Compile Include="DataTransferObject\CreditCardDto.cs" />
+    <Compile Include="DataTransferObject\CurrenciesDto.cs" />
     <Compile Include="DataTransferObject\CurrencyDto.cs" />
     <Compile Include="DataTransferObject\CurrentSituationDto.cs" />
     <Compile Include="DataTransferObject\DeliveringFormDto.cs" />

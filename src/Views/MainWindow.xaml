@@ -1794,7 +1794,7 @@
                         </dragablz:TabablzControl>-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
@@ -1857,7 +1857,7 @@
                 
                 </controls:HamburgerMenu>
             -->
-                <local:LeftTreeView Grid.Column="0" HorizontalAlignment="Left"></local:LeftTreeView> 
+                <local:LeftTreeView Grid.Column="0" HorizontalAlignment="Left" Visibility="Collapsed"></local:LeftTreeView> 
                 <dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" Style="{StaticResource TabablzControlStyle}" 
                                      prism:RegionManager.RegionName="TabRegion" 
                                      ClosingItemCallback="{Binding ClosingTabItemHandler}">

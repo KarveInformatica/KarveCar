@@ -48,7 +48,6 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IOfficeDataServices GetOfficeDataServices();
-
         /// <summary>
         ///  Company data services.
         /// </summary>
@@ -60,12 +59,7 @@ namespace KarveDataServices
         /// <typeparam name="T">Type the service</typeparam>
         /// <returns></returns>
         T GetDataService<T>();
-        /// <summary>
-        ///  This returns a data service.
-        /// </summary>
-        /// <returns></returns>
-        IAssistDataService GetAssistDataService();
-
+       
     }
 
 }

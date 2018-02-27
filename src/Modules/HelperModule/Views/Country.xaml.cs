@@ -23,8 +23,15 @@ namespace HelperModule.Views
         private string _header = KarveLocale.Properties.Resources.lrbtnPaises;
         public Country()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                var v = "3x";
 
+            }
         }
 
         public string Header

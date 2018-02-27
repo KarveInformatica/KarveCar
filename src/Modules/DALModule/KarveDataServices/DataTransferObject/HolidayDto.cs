@@ -38,6 +38,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public TimeSpan? HORA_HASTA { get; set; }
-        public ProvinciaDto Province { set; get; }
+        
     }
 }

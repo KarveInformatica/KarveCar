@@ -58,7 +58,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(1));
         public static readonly DependencyProperty DaysOffDependencyProperty =
 DependencyProperty.Register(
 "DaysOff", typeof(IEnumerable<int>),
-typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthChange));
+typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>()));
 
         public static readonly DependencyProperty MonthNameDependencyProperty = DependencyProperty.Register("MonthName", typeof(string), typeof(DateMonth), new PropertyMetadata(string.Empty));
         private List<string> dayWeek = new List<string>()
@@ -71,7 +71,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static readonly DependencyProperty YearMonthDependencyProperty = DependencyProperty.Register("YearMonth", typeof(string), typeof(DateMonth), new FrameworkPropertyMetadata(string.Empty, OnYearMonthChange));
+        public static readonly DependencyProperty YearMonthDependencyProperty = DependencyProperty.Register("YearMonth", typeof(string), typeof(DateMonth), new FrameworkPropertyMetadata(string.Empty));
 
 
         /// <summary>
@@ -83,7 +83,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
             HandleChangedMonthYear();
         }
         /// <summary>
-        ///  Month index selected.
+        ///  Set or Get the month index
         /// </summary>
         public int MonthIndex
         {
@@ -96,6 +96,9 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
                 SetValue(MonthIndexDependencyProperty, value);
             }
         }
+        /// <summary>
+        ///  Set or Get the list of vacation days
+        /// </summary>
         public IEnumerable<int> DaysOff
         {
             get
@@ -107,10 +110,14 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
                 SetValue(DaysOffDependencyProperty, value);
             }
         }
+        /// <summary>
+        ///  Set or get the Year and Month string. A yearmonth string is like "2008.01"
+        /// </summary>
         public string YearMonth
         {
             get
             {
+              
                 return (string)GetValue(YearMonthDependencyProperty);
             }
             set
@@ -118,7 +125,9 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
                 SetValue(YearMonthDependencyProperty, value);
             }
         }
-
+        /// <summary>
+        ///  Set or get the name of the month.
+        /// </summary>
         public string MonthName
         {
             get
@@ -130,9 +139,14 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
                 SetValue(MonthNameDependencyProperty, value);
             }
         }
+        /// <summary>
+        ///  Dependency Property for the selected day command
+        /// </summary>
         public static readonly DependencyProperty SelectedDayCommandDependencyProperty = DependencyProperty.Register("SelectedDayCommand", typeof(ICommand), typeof(DateMonth), new FrameworkPropertyMetadata(null));
 
-
+        /// <summary>
+        ///  Set or get the selected day command. The selected day command is a command launched for selecting a day.
+        /// </summary>
         public ICommand SelectedDayCommand
         {
             get
@@ -144,11 +158,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>(), OnYearMonthCha
                 SetValue(SelectedDayCommandDependencyProperty, value);
             }
         }
-        private static void OnYearMonthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DateMonth control = d as DateMonth;
-
-        }
+ 
         private string[] YearMonthArray()
         {
             char[] sep = new char[1] { '.' };

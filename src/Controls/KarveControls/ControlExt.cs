@@ -66,7 +66,7 @@ namespace KarveControls
             /// <summary>
             ///  Double kind of data.
             /// </summary>
-            DoubleField, 
+            DoubleField,
             /// <summary>
             /// Integer field of the component.
             /// </summary>
@@ -111,6 +111,107 @@ namespace KarveControls
         public const string AssistFieldFirst = "AssistFieldFirst";
         public const string AssistFieldSecond = "AssistFieldSecond";
         public const string AssistQuery = "AssistQuery";
+
+
+        public static readonly DependencyProperty PasswordProperty =
+        DependencyProperty.RegisterAttached("Password",
+        typeof(string), typeof(ControlExt),
+        new PropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+
+        private static void OnPasswordPropertyChanged(DependencyObject sender,
+            DependencyPropertyChangedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            passwordBox.PasswordChanged -= PasswordChanged;
+
+            if (!(bool)GetIsUpdating(passwordBox))
+            {
+                passwordBox.Password = (string)e.NewValue;
+                // here the value of the password is changed.
+               
+            }
+            passwordBox.PasswordChanged += PasswordChanged;
+        }
+
+        public static readonly DependencyProperty AttachProperty =
+        DependencyProperty.RegisterAttached("Attach",
+        typeof(bool), typeof(ControlExt), new PropertyMetadata(false, Attach));
+
+        private static readonly DependencyProperty IsUpdatingProperty =
+           DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
+           typeof(ControlExt));
+
+        public static void SetAttach(DependencyObject dp, bool value)
+        {
+            dp.SetValue(AttachProperty, value);
+        }
+
+        public static bool GetAttach(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(AttachProperty);
+        }
+
+        public static string GetPassword(DependencyObject dp)
+        {
+            return (string)dp.GetValue(PasswordProperty);
+        }
+
+        public static void SetPassword(DependencyObject dp, string value)
+        {
+            dp.SetValue(PasswordProperty, value);
+        }
+
+        private static bool GetIsUpdating(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(IsUpdatingProperty);
+        }
+
+        private static void SetIsUpdating(DependencyObject dp, bool value)
+        {
+            dp.SetValue(IsUpdatingProperty, value);
+        }
+
+       
+
+        private static void Attach(DependencyObject sender,
+            DependencyPropertyChangedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+
+            if (passwordBox == null)
+                return;
+
+            if ((bool)e.OldValue)
+            {
+                passwordBox.PasswordChanged -= PasswordChanged;
+            }
+
+            if ((bool)e.NewValue)
+            {
+                passwordBox.PasswordChanged += PasswordChanged;
+            }
+        }
+
+        private static void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            SetIsUpdating(passwordBox, true);
+            SetPassword(passwordBox, passwordBox.Password);
+            SetIsUpdating(passwordBox, false);
+            // noww we call.
+            var command = passwordBox.GetValue(ItemChangedCommandProperty) as ICommand;
+            if (command != null)
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["DataObject"] = GetDataSource(passwordBox);
+                objectName["DataSourcePath"] = GetDataSourcePath(passwordBox);
+                objectName["ChangedValue"] =  passwordBox.Password;
+                objectName["PreviousValue"] = lastPassBoxValue;
+                lastPassBoxValue = passwordBox.Password;
+                command.Execute(objectName);
+            }
+
+        }
 
         #region Description
         /// <summary>
@@ -168,6 +269,11 @@ namespace KarveControls
         public static void PropertyChangedCb(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
 
+            // dry : the change is handled by the PasswordBox properties as well.
+            if (dependencyObject is PasswordBox)
+            {
+                return;
+            }
             if (dependencyObject is SfDataGrid)
             {
                 SfDataGrid currentDataGrid = dependencyObject as SfDataGrid;
@@ -182,23 +288,26 @@ namespace KarveControls
                 dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea);
                 dataArea.DataSource = GetDataSource(dataArea);
                 dataArea.DataSourcePath = GetDataSourcePath(dataArea);
+                return;
             }
             if (dependencyObject is DataDatePicker)
             {
                 DataDatePicker dataDatePicker = dependencyObject as DataDatePicker;
                 dataDatePicker.DataDatePickerChanged += DataDatePicker_DataDatePickerChanged;
-
+                return;
             }
             if (dependencyObject is TextBox)
             {
                 TextBox box = dependencyObject as TextBox;
                 box.TextChanged += TextBox_ChangedBehaviour;
                 box.LostFocus += Box_LostFocus;
+                return;
             }
             if (dependencyObject is DataFieldCheckBox)
             {
                 DataFieldCheckBox checkBox = dependencyObject as DataFieldCheckBox;
                 checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
+                return;
             }
             if (dependencyObject is CheckBox)
             {
@@ -206,6 +315,7 @@ namespace KarveControls
                 checkBox.Checked += CheckBox_Checked;
                 checkBox.Unchecked += CheckBox_Unchecked;
                 checkBox.Click += checkBox_Clicked;
+                return;
             }
             if (dependencyObject is ComboBox)
             {
@@ -705,8 +815,6 @@ namespace KarveControls
         #endregion
        
         private static object lastChangedRow;
-
-       
-       
+        private static object lastPassBoxValue;
     }
 }

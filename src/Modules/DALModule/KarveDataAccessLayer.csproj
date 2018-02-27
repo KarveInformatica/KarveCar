@@ -122,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
-    <Compile Include="AssistDataService.cs" />
     <Compile Include="Assist\Assist.cs" />
     <Compile Include="Assist\AssistResponseBase.cs" />
     <Compile Include="Assist\AssistResult.cs" />
@@ -1147,7 +1146,6 @@
     <Compile Include="Model\SupplierPoco.cs" />
     <Compile Include="Model\Vehicle.cs" />
     <Compile Include="Model\VehiclePoco.cs" />
-    <Compile Include="MongoDB\AssistMongoDBServices.cs" />
     <Compile Include="MongoDB\ClientMongoDBServices.cs" />
     <Compile Include="MongoDB\CommisionAgentMongoDBServices.cs" />
     <Compile Include="MongoDB\HelperMongoDBServices.cs" />
@@ -1220,7 +1218,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="Test\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

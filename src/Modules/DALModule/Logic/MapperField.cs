@@ -802,7 +802,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
                 cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
                 cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
-             //   cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeDtoToOficinaConverter());
+                cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
 
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
@@ -827,7 +827,22 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
-
+                cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
+                    src=>
+                    {
+                        var currencies = new CURRENCIES();
+                        currencies.CODIGO_CUR = src.Code;
+                        currencies.NOMBRE_CUR = src.Name;
+                        return currencies;
+                    });
+                cfg.CreateMap<CURRENCIES, CurrenciesDto>().ConvertUsing(
+                    src =>
+                    {
+                        var currencies = new CurrenciesDto();
+                        currencies.Code = src.CODIGO_CUR;
+                        currencies.Name = src.NOMBRE_CUR;
+                        return currencies;
+                    });
                 cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
                
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
@@ -1535,13 +1550,14 @@ namespace DataAccessLayer.Logic
             return mappingConfig;
         }
     }
+
     /*
-    internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
-    {
-        public OfficeDtoToOficinaConverter()
-        {
-        }
-    }*/
+internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
+{
+   public OfficeDtoToOficinaConverter()
+   {
+   }
+}*/
 
     internal class PropieToOwnerDtoConverter : ITypeConverter<PROPIE, OwnerDto>
     {
@@ -1615,53 +1631,58 @@ namespace DataAccessLayer.Logic
        
     }
 
-    public class OfficeConverter : ITypeConverter<OFICINAS, OfficeDtos>
+
+    public class HolidayConverter : ITypeConverter<FESTIVOS_OFICINA, HolidayDto>
     {
-        public OfficeDtos Convert(OFICINAS source, OfficeDtos destination, ResolutionContext context)
+        public HolidayDto Convert(FESTIVOS_OFICINA source, HolidayDto destination, ResolutionContext context)
         {
-            OfficeDtos office = new OfficeDtos();
-            office.Codigo = source.CODIGO;
-            office.Nombre = source.NOMBRE;
-            
-            office.LastModification = source.ULTMODI;
-            office.User = source.USUARIO;
-            return office;
+            HolidayDto holiday = new HolidayDto();
+            holiday.FESTIVO = source.FESTIVO;
+            holiday.HORA_DESDE = source.HORA_DESDE;
+            holiday.HORA_HASTA = source.HORA_HASTA;
+            holiday.OFICINA = source.OFICINA;
+            holiday.PARTE_DIA = source.PARTE_DIA;
+            return holiday;
         }
     }
 
     /// <summary>
-    ///  Office conversion from an office dto to oficinas.
+    ///  HolidayConverterBack from holiday to festivos oficina.
     /// </summary>
-    public class OfficeConverterBack : ITypeConverter<OfficeDtos, OFICINAS>
-    {
-        /// <summary>
-        ///  Convert an office to a destination office.
-        /// </summary>
-        /// <param name="source">Office to use.</param>
-        /// <param name="destination">Destination office to use.</param>
-        /// <param name="context">Context to be used.</param>
-        /// <returns>Return the current office.</returns>
-        public OFICINAS Convert(OfficeDtos source, OFICINAS destination, ResolutionContext context)
-        {
-            OFICINAS office = new OFICINAS();
-            office.CODIGO = source.Codigo;
-            office.ULTMODI = source.LastModification;
-            office.USUARIO = source.User;
-            IList<DailyTime> timeTable = source.TimeTable;
-            for (int i = 0; i < timeTable.Count(); ++i)
-            {
-                FillDate(i, timeTable[i], ref office);
-            }
-            return office;
-        }
 
+    public class HolidayConverterBack : ITypeConverter<HolidayDto, FESTIVOS_OFICINA>
+    {
+        public FESTIVOS_OFICINA Convert(HolidayDto source, FESTIVOS_OFICINA destination, ResolutionContext context)
+        {
+            FESTIVOS_OFICINA holiday = new FESTIVOS_OFICINA();
+            holiday.FESTIVO = source.FESTIVO;
+            holiday.HORA_DESDE = source.HORA_DESDE;
+            holiday.HORA_HASTA = source.HORA_HASTA;
+            holiday.OFICINA = source.OFICINA;
+            holiday.PARTE_DIA = source.PARTE_DIA;
+           /* if (holiday.ULTMODI == null)
+            {
+                holiday.ULTMODI = DateTime.Now.ToString("yyyyMMddhhmmss");
+            }
+            if (holiday.USUARIO == null)
+            {
+                holiday.USUARIO = "GUEST";
+            }*/
+            return holiday;
+        }
+    }
+    /// <summary>
+    /// Office converter from OFINAS to OfficeDtos.
+    /// </summary>
+    public class OfficeConverter : ITypeConverter<OFICINAS, OfficeDtos>
+    {
         /// <summary>
         ///  Fill the time table.
         /// </summary>
         /// <param name="i">Index</param>
         /// <param name="ofi">Office data trasnfer object</param>
         /// <param name="oficinas">Oficinas</param>
-        private void FillTimeTable(int i, ref OfficeDtos ofi,  OFICINAS oficinas)
+        private void FillTimeTable(int i, ref OfficeDtos ofi, OFICINAS oficinas)
         {
             ofi.TimeTable = new List<DailyTime>();
             Dictionary<int, Func<OfficeDtos, OFICINAS, OfficeDtos>> dictionary = new Dictionary<int, Func<OfficeDtos, OFICINAS, OfficeDtos>>() {
@@ -1690,7 +1711,7 @@ namespace DataAccessLayer.Logic
                               officeDto.TimeTable.Add(daily);
                               return officeDto;
 
-                              
+
                           }
                     },
                     { 2, (officeDto, office) =>
@@ -1720,7 +1741,7 @@ namespace DataAccessLayer.Logic
                               daily.Morning.Close = office.CIERRA_MA_JUEVES;
                               officeDto.TimeTable.Add(daily);
                               return officeDto;
- 
+
                           }
                     },
                     { 4, (officeDto, office) =>
@@ -1736,8 +1757,8 @@ namespace DataAccessLayer.Logic
                               daily.Morning.Close = office.CIERRA_MA_VIERNES;
                               officeDto.TimeTable.Add(daily);
                               return officeDto;
-                              
-                              
+
+
                           }
                     },
                     { 5, (officeDto, office) =>
@@ -1752,7 +1773,7 @@ namespace DataAccessLayer.Logic
                               daily.Morning.Close = office.CIERRA_MA_SABADO;
                               officeDto.TimeTable.Add(daily);
                               return officeDto;
-                              
+
                           }
                     },
                     { 6, (officeDto, office) =>
@@ -1766,12 +1787,80 @@ namespace DataAccessLayer.Logic
                               daily.Morning.Close = office.CIERRA_MA_DOMINGO;
                               officeDto.TimeTable.Add(daily);
                               return officeDto;
-                              
+
                           }
                     }
                 };
+            Func<OfficeDtos, OFICINAS, OfficeDtos> f;
+            var hasFunc = dictionary.TryGetValue(i, out f);
 
+            if (hasFunc)
+            {
+                ofi = f.Invoke(ofi, oficinas);
+            }
         }
+        public OfficeDtos Convert(OFICINAS source, OfficeDtos destination, ResolutionContext context)
+        {
+            OfficeDtos office = new OfficeDtos();
+           
+            GenericConverter<OFICINAS, OfficeDtos> gc = new GenericConverter<OFICINAS, OfficeDtos>();
+            office = gc.Convert(source, office, context);
+            for (int i = 0; i < 7; ++i)
+            {
+                FillTimeTable(i, ref office, source);
+            }
+            office.Codigo = source.CODIGO;
+            office.Nombre = source.NOMBRE;
+            office.LastModification = source.ULTMODI;
+            office.User = source.USUARIO;
+
+           
+            return office;
+        }
+    }
+
+    /// <summary>
+    ///  Office conversion from an office dto to oficinas.
+    /// </summary>
+    public class OfficeConverterBack : ITypeConverter<OfficeDtos, OFICINAS>
+    {
+        /// <summary>
+        ///  Convert an office to a destination office.
+        /// </summary>
+        /// <param name="source">Office to use.</param>
+        /// <param name="destination">Destination office to use.</param>
+        /// <param name="context">Context to be used.</param>
+        /// <returns>Return the current office.</returns>
+        public OFICINAS Convert(OfficeDtos source, OFICINAS destination, ResolutionContext context)
+        {
+            OFICINAS office = new OFICINAS();
+            GenericBackConverter<OfficeDtos, OFICINAS> gc = new GenericBackConverter<OfficeDtos, OFICINAS>();
+            office = gc.Convert(source, office, context);
+            office.CODIGO = source.Codigo;
+            office.ULTMODI = source.LastModification;
+            office.USUARIO = source.User;
+            office.NOMBRE = source.Nombre;
+            if (office.ULTMODI == null)
+            {
+                office.ULTMODI = DateTime.Now.ToString("yyyyMMddhhmmss");
+            }
+            if (office.USUARIO == null)
+            {
+                office.USUARIO = "GUEST";
+            }
+            office.NOMBRE = source.Nombre;
+            IList<DailyTime> timeTable = source.TimeTable;
+            if (timeTable != null)
+            {
+                for (int i = 0; i < timeTable.Count(); ++i)
+                {
+                    FillDate(i, timeTable[i], ref office);
+                }
+            }
+            return office;
+        }
+
+        
         /// <summary>
         /// Fill date.
         /// </summary>

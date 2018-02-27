@@ -25,12 +25,18 @@ namespace MasterModule.Views
         private static Logger logger = LogManager.GetCurrentClassLogger();
         public VehicleInfoView()
         {
-            Stopwatch initCStopwatch = new Stopwatch();
-            initCStopwatch.Start();
-            InitializeComponent();
-            initCStopwatch.Stop();
-            long elapsedTime = initCStopwatch.ElapsedMilliseconds;
-            logger.Debug("Elapsed time for loading Vehicle ms" + elapsedTime);
+            try
+            {
+                Stopwatch initCStopwatch = new Stopwatch();
+                initCStopwatch.Start();
+                InitializeComponent();
+                initCStopwatch.Stop();
+                long elapsedTime = initCStopwatch.ElapsedMilliseconds;
+                logger.Debug("Elapsed time for loading Vehicle ms" + elapsedTime);
+            } catch(Exception e)
+            {
+                var ex = e.Message;
+            }
         }
 
         public string Header { set { _header = value; } get { return _header; } }

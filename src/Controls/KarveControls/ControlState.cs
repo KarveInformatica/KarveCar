@@ -64,7 +64,7 @@ DependencyProperty.RegisterAttached(
             get { return (string)GetValue(TextPreviousDependencyProperty); }
             set { SetValue(TextPreviousDependencyProperty, value); }
         }
-
+        /*
         public static readonly DependencyProperty PrevComboSelectedIndexDependencyProperty =
          DependencyProperty.RegisterAttached(
         "PrevComboSelectedIndex",
@@ -77,15 +77,17 @@ DependencyProperty.RegisterAttached(
             get { return (string)GetValue(PrevComboSelectedIndexDependencyProperty); }
             set { SetValue(PrevComboSelectedIndexDependencyProperty, value); }
         }
+  
+            
+    */
         public static readonly DependencyProperty CurrentComboSelectedIndexDependencyProperty =
-         DependencyProperty.RegisterAttached(
-        "PrevComboSelectedIndex",
-        typeof(int),
-        typeof(ControlState),
-        new FrameworkPropertyMetadata(0));
+DependencyProperty.RegisterAttached(
+"CurrentComboSelectedIndex",
+typeof(int),
+typeof(ControlState),
+new FrameworkPropertyMetadata(0));
 
 
-        
         /// <summary>
         ///  Get the item changed command
         /// </summary>
@@ -134,7 +136,7 @@ DependencyProperty.RegisterAttached(
         }
 
 
-        public static readonly DependencyProperty ItemChangedCommandDependencyProperty =
+        public static readonly DependencyProperty ItemChangedCommandProperty =
        DependencyProperty.RegisterAttached(
            "ItemChangedCommand",
            typeof(ICommand),
@@ -142,7 +144,7 @@ DependencyProperty.RegisterAttached(
            new FrameworkPropertyMetadata(null, PropertyChangedCb));
 
 
-        public static readonly DependencyProperty DateCurrentDependencyProperty =
+        public static readonly DependencyProperty DateCurrentProperty =
  DependencyProperty.RegisterAttached(
      "DateCurrent",
      typeof(DateTime),
@@ -157,7 +159,7 @@ DependencyProperty.RegisterAttached(
         /// <returns></returns>
         public static DateTime GetDateCurrent(DependencyObject ds)
         {
-            return (DateTime)ds.GetValue(DateCurrentDependencyProperty);
+            return (DateTime)ds.GetValue(DateCurrentProperty);
         }
         /// <summary>
         /// Set the item changed command
@@ -166,7 +168,7 @@ DependencyProperty.RegisterAttached(
         /// <param name="item"></param>
         public static void SetDateCurrent(DependencyObject ds, object item)
         {
-            ds.SetValue(DateCurrentDependencyProperty, item);
+            ds.SetValue(DateCurrentProperty, item);
         }
 
         /// <summary>
@@ -205,7 +207,7 @@ DependencyProperty.RegisterAttached(
         /// <returns></returns>
         public static object GetItemChangedCommand(DependencyObject ds)
         {
-            return ds.GetValue(ItemChangedCommandDependencyProperty);
+            return ds.GetValue(ItemChangedCommandProperty);
         }
         /// <summary>
         /// Set the item changed command
@@ -214,7 +216,7 @@ DependencyProperty.RegisterAttached(
         /// <param name="item"></param>
         public static void SetItemChangedCommand(DependencyObject ds, object item)
         {
-            ds.SetValue(ItemChangedCommandDependencyProperty, item);
+            ds.SetValue(ItemChangedCommandProperty, item);
         }
 
         private static void PropertyChangedCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -247,12 +249,12 @@ DependencyProperty.RegisterAttached(
         private static void Combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FrameworkElement box = sender as FrameworkElement;
-            ICommand command = (ICommand)box.GetValue(ItemChangedCommandDependencyProperty);
+            ICommand command = (ICommand)box.GetValue(ItemChangedCommandProperty);
             if (command != null)
             {
               
                 IDictionary<string, object> ev = new Dictionary<string, object>();
-                ev["PreviousState"] = box.GetValue(PrevComboSelectedIndexDependencyProperty);
+            //    ev["PreviousState"] = box.GetValue(PrevComboSelectedIndexDependencyProperty);
                 ev["CurrentState"] = box.GetValue(CurrentComboSelectedIndexDependencyProperty);
                 ev["ComponentName"] = box.GetValue(DescriptionDependencyProperty);
                 command.Execute(ev);
@@ -262,12 +264,12 @@ DependencyProperty.RegisterAttached(
         private static void DateComponent_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             FrameworkElement box = sender as FrameworkElement;
-            ICommand command = (ICommand)box.GetValue(ItemChangedCommandDependencyProperty);
+            ICommand command = (ICommand)box.GetValue(ItemChangedCommandProperty);
             if (command != null)
             {
                 IDictionary<string, object> ev = new Dictionary<string, object>();
                 ev["PreviousState"] = box.GetValue(DatePrevDependencyProperty);
-                ev["CurrentState"] = box.GetValue(DateCurrentDependencyProperty);
+                ev["CurrentState"] = box.GetValue(DateCurrentProperty);
                 ev["ComponentName"] = box.GetValue(DescriptionDependencyProperty);
                 command.Execute(ev);
             }
@@ -279,7 +281,7 @@ DependencyProperty.RegisterAttached(
             bool valueChanged = (bool)box.GetValue(IsChangedDependencyProperty);
             if (valueChanged)
             {
-                ICommand command = (ICommand)box.GetValue(ItemChangedCommandDependencyProperty);
+                ICommand command = (ICommand)box.GetValue(ItemChangedCommandProperty);
                 if (command != null)
                 {
                     IDictionary<string, object> ev = new Dictionary<string, object>();
