@@ -31,8 +31,8 @@ namespace DataAccessLayer.SQL
         private string _defaultConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.185";
         /// <summary>
         /// String of the connection.
-        /// </summary>
-        public string ConnectionString
+        /// </summasry>
+        public new string ConnectionString
         {
             get { return _connectionString; }
             set { _connectionString = value; _connection = new SAConnection(_connectionString); }
