@@ -1,13 +1,12 @@
-﻿using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
+using MahApps.Metro.Controls;
+using Microsoft.Practices.Unity;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,33 +17,26 @@ using KarveCar.Utility;
 using MahApps.Metro.Controls;
 using Syncfusion.Windows.Shared;
 
-
 namespace KarveCar.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ChromelessWindow
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
-
             InitializeComponent();
+
+         //   Navigation.Navigation.Frame = new Frame() {NavigationUIVisibility = NavigationUIVisibility.Hidden};
+          //  Navigation.Navigation.Frame.Navigated += SplitViewFrame_OnNavigated;
+
+            // Navigate to the home page.
+          //  this.Loaded += (sender, args) => Navigation.Navigation.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
         }
         private IUnityContainer _container;
 
-        /// <summary>
-        ///  Overrides the base window show to inject unity in the main view model.
-        /// </summary>
-        public new void Show()
-        {
-
-            //this.DataContext = new MainWindowViewModel(this._container);
-            UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
-
-            base.Show();
-        }
         public IUnityContainer UnityContainer
         {
             get { return _container; }
@@ -52,24 +44,28 @@ namespace KarveCar.Views
 
         }
 
-
-        public void btnHelp_Click(object sender, RoutedEventArgs e)
+        private void SplitViewFrame_OnNavigated(object sender, NavigationEventArgs e)
         {
-            //Mensaje de ejemplo
-            MessageBox.Show("Aquí va nuestro mensaje de ayuda", "Ayuda", MessageBoxButton.OK, MessageBoxImage.Information);
+            //this.HamburgerMenuControl.Content = e.Content;
+           // this.HamburgerMenuControl.SelectedItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetItem(e.Uri);
+           // this.HamburgerMenuControl.SelectedOptionsItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetOptionsItem(e.Uri);
+           // GoBackButton.Visibility = Navigation.Navigation.Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        #region RibbonGroup Drag&Drop
-        private void RibbonGroup_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void GoBack_OnClick(object sender, RoutedEventArgs e)
         {
-            RibbonGroupDragDrop.RibbonGroup_PreviewMouseMove(sender, e);
+          //  Navigation.Navigation.GoBack();
         }
 
-        private void RibbonGroup_Drop(object sender, DragEventArgs e)
+        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            RibbonGroupDragDrop.RibbonGroup_Drop(sender, e);
-        }
-        #endregion
+            var menuItem = e.InvokedItem as MenuItem;
+            /*
+            if (menuItem != null && menuItem)
+            {
+               // Navigation.Navigation.Navigate(menuItem.NavigationDestination, menuItem);
+            }*/
 
+        }
     }
 }

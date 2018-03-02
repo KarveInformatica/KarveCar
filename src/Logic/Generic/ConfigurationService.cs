@@ -74,42 +74,11 @@ namespace KarveCar.Logic.Generic
             return true;
         }
 
-        /// <summary>
-        ///  TODO: remov this. This shall be deprecated.
-        /// </summary>
-        /// <param name="view"></param>
-        /// <param name="tabName"></param>
-        /// <returns></returns>
-        public bool AddMainTab(object view, string tabName)
-        {
-            HeaderData data = new HeaderData();
-            CustomTabControl tbitem = new CustomTabControl();
-            tbitem.HorizontalAlignment = HorizontalAlignment.Stretch;
-            var binding = new Binding();
-            binding.IsAsync = true;
-            _tabItemVm = tbitem.Model;
-            data.Name = tabName;
-            data.Header = tabName;
-            binding.Path = new PropertyPath("Header");
-            binding.Source = data;
-            tbitem.SetBinding(TabItem.HeaderProperty, binding);
-            CustomTabControl tb = null;
-            if (!_tabItemVm.hasItem(tabName, out tb))
-            {
-                _tabItemVm.addItem(tabName, tbitem);
-                tbitem.Content = view;
-                tbitem.HeaderTemplate = tbitem.FindResource("TabHeader") as DataTemplate;
-                ((MainWindow) Application.Current.MainWindow).NewTabControl.Items.Add(tbitem);
-                tbitem.Focus();
-                return true;
-            }
-            tbitem.Focus();
-            return false;
-        }
+        
 
         public string GetPrimaryKeyValue()
         {
-            object selectedItem = ((MainWindow) Application.Current.MainWindow).NewTabControl.SelectedItem;
+         /*   object selectedItem = ((MainWindow) Application.Current.MainWindow).NewTabControl.SelectedItem;
             if (selectedItem is TabItem)
             {
                 TabItem item = (TabItem) selectedItem;
@@ -132,6 +101,7 @@ namespace KarveCar.Logic.Generic
                 }
           
             }
+            */
             return "";
         }
 
@@ -153,6 +123,7 @@ namespace KarveCar.Logic.Generic
 
         public void CloseTab(string primaryKeyValue)
         {
+            /*
             TabControl control = ((MainWindow) Application.Current.MainWindow).NewTabControl;
             IRegion region = RegionManager.GetObservableRegion(control).Value;
             if (region == null)
@@ -171,6 +142,7 @@ namespace KarveCar.Logic.Generic
                 }
                 
             }
+            */
         }
 
         /// <summary>

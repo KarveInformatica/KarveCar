@@ -33,6 +33,7 @@ namespace KarveCar.ViewModels
         private CultureSwitcher _cultureSwitch;
         private ObjectDataProvider _objectDataProvider=new ObjectDataProvider();
         private string _currentDay;
+        private string _subSystem;
 
         /// <summary>
         ///  NavigateCommand, This is the command for navigation
@@ -62,7 +63,18 @@ namespace KarveCar.ViewModels
                 RaisePropertyChanged();
             }
         }
-
+        public string Subsystem
+        {
+            get
+            {
+                return _subSystem;
+            }
+            set
+            {
+                _subSystem = value;
+                RaisePropertyChanged();
+            }
+        }
            /// <summary>
     ///  This is the main v
     /// </summary>

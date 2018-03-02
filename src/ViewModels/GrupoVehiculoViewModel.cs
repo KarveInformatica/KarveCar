@@ -263,38 +263,6 @@ namespace KarveCar.ViewModels
         /// <param name="parameter"></param>
         public void GrupoVehiculo(object parameter)
         {
-             MainWindow mainWindow = Application.Current.MainWindow as Views.MainWindow;
-             IUnityContainer container = mainWindow.UnityContainer;
-            // The data services interface is the data services related to the data access layer
-            this._dataServices = container.Resolve<IDataServices>();
-
-            Enumerations.EOpcion opcion = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;          
-            //Si el param no se encuentra en la Enum EOpcion, no hace nada, sino mostraría 
-            //la Tab correspondiente al primer valor de la Enum EOpcion
-            if (opcion.ToString() == parameter.ToString())
-            {
-                if (!RecopilatorioCollections.tabitemdictionary.ContainsKey(opcion))
-                {
-                    this.ShowGrupoVehiculoUserControlCommand = new DelegateCommand<object>(ShowGrupoVehiculoUserControl);
-                    this.GrupoVehiculoSelectionChanged = new DelegateCommand<object>(OnGrupoVehiculoSelectionChanged);
-                    this.CodigoGrupoVehiculoLostFocus = new DelegateCommand<object>(OnCodigoGrupoVehiculoLostFocus);
-
-                    this.TipoVehiculoSelectionChanged = new DelegateCommand<object>(OnTipoVehiculoSelectionChanged);
-                    this.CodigoTipoVehiculoLostFocus = new DelegateCommand<object>(OnCodigoTipoVehiculoLostFocus);
-
-                    thisusercontrol = new GrupoVehiculoUserControl();
-                    // FIXME: this is a sign of a bad code organization. The use of region prevent all this.        
-                    thisusercontrol.grupoVehiculoDataGridUC.dtgrGruposVehiculos.Items.Clear();
-                    //obj.grupoVehiculoDataGridUC.DataContext = this;
-                    TabItemLogic.CreateTabItemUserControl(opcion, thisusercontrol);
-                    this.GrupoVehiculoDataTable = InitDataLayerGrupoVehiculoSync(); //InitDataLayerGrupoVehiculoAsync();
-                    this.TipoVehiculoDataTable  = InitDataLayerTipoVehiculoSync();  //InitDataLayerTipoVehiculoAsync();
-                }
-                else
-                {   //Si el TabItem ya está mostrado, no se carga de nuevo, simplemente se establece el foco en ese TabItem
-                    RecopilatorioCollections.tabitemdictionary.FirstOrDefault(z => z.Key == opcion).Value.TabItem.Focus();
-                }
-            }
         }
 
         #region Show Usercontrols and DataGrid PreciosPorDefecto        
