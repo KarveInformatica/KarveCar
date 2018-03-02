@@ -14,21 +14,57 @@ namespace DataAccessLayer.SQL
         /// <summary>
         ///  Load a data set from a query.
         /// </summary>
-        /// <param name="sqlQuery"></param>
+        /// <param name="sqlQuery">Query for loading a data set</param>
         /// <returns></returns>
         public abstract Task<DataSet> AsyncDataSetLoad(string sqlQuery);
+        /// <summary>
+        ///  Returns the connection state
+        /// </summary>
         public abstract ConnectionState State { get; }
+        /// <summary>
+        ///  Returns the connection.
+        /// </summary>
         public abstract IDbConnection Connection { get; set; }
+        /// <summary>
+        ///  Returns a connection string.
+        /// </summary>
+        public string ConnectionString { get ; set ; }
+        /// <summary>
+        ///  Begin a transaction.
+        /// </summary>
         public abstract void BeginTransaction();
+        /// <summary>
+        /// Call a stored procedure
+        /// </summary>
+        /// <param name="statementProcedureName">Name of the procedure</param>
+        /// <param name="statementProcList">List of string</param>
         public abstract void CallStoredProcedure(string statementProcedureName, IList<string> statementProcList);
+        /// <summary>
+        ///  Close the connection. 
+        /// </summary>
+        /// <returns>true if close successfully.</returns>
         public abstract bool Close();
+        /// <summary>
+        ///  Commit a DML query.
+        /// </summary>
         public abstract void Commit();
+        /// <summary>
+        /// ADO.NET select command paramerized.
+        /// </summary>
+        /// <param name="CommandName">Command name</param>
+        /// <param name="cmdType">Typo of the command</param>
+        /// <param name="param">Paramter it might be OleDB or ODBC.</param>
+        /// <returns></returns>
         public abstract DataTable ExecuteParamerizedSelectCommand(string CommandName, CommandType cmdType, DataParameter param);
         public abstract string ExecuteQueryDataTable(string sqlQuery);
         public abstract DataTable ExecuteSelectCommand(string CommandName, CommandType cmdType);
         public abstract DataSet LoadDataSet(string sqlQuery);
         public abstract DataSet LoadDataSetByTables(string sqlQuery, IList<string> tableAlias);
         public abstract bool Open();
+        /// <summary>
+        ///  Open a new db connection. The rationale is to open/close a connection in a way that connection pool is able to 
+        /// </summary>
+        /// <returns></returns>
         public abstract IDbConnection OpenNewDbConnection();
         public abstract void Rollback();
         public abstract void UpdateDataSet(string sqlQuery, ref DataSet dts);

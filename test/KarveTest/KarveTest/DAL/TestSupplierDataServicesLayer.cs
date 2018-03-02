@@ -38,7 +38,6 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
-
         [Test]
         public void Should_Return_To_ViewModel_SummaryCollection()
         {

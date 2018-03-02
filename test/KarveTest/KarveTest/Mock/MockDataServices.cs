@@ -93,5 +93,11 @@ namespace KarveTest.Mock
         {
             throw new MockCompanyDataServices();
         }
+        /// <summary>
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public void Reconfigure(string connectionString)
+        {
+        }
     }
 }

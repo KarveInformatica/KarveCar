@@ -11,6 +11,7 @@ using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
+using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
@@ -22,12 +23,17 @@ namespace MasterModule.ViewModels
         private PropertyChangedEventHandler _notificationHandler;
         private IncrementalList<ClientSummaryDto> _drivers;
         private IEnumerable<ClientSummaryDto> _currentDrivers;
+        private bool _isBusy;
+
+        public bool IsBusy { get { return _isBusy; }
+                             set { _isBusy = value;
+                RaisePropertyChanged(); } }
 
         public DriversControlViewModel(IDataServices services, IRegionManager manager): base(services)
         {
             _regionManager = manager;
             GoBackCommand = new DelegateCommand(GoBack);
-            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems);
+            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 2000 }; ;
             GoForwardCommand = new DelegateCommand(GoForward);
             _notifyTaskCompletion = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(LoadData(services), _notificationHandler);
             _notificationHandler += OnLoadedNotification;
@@ -49,10 +55,11 @@ namespace MasterModule.ViewModels
                 if (clientSummary.IsSuccessfullyCompleted)
                 {
                     var value = clientSummary.Task.Result;
-                    var list = value.Skip(0).Take(50).ToList();
                     _currentDrivers = value;
-                   _drivers.LoadItems(list);
+                    IsBusy = true;
+                    _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 3000 };
                     RaisePropertyChanged("Drivers");
+                    IsBusy = false;
                  
                 }
                 else
@@ -65,7 +72,6 @@ namespace MasterModule.ViewModels
 
         void LoadMoreItems(uint count, int baseIndex)
         {
-
             var _orders = _currentDrivers;
             var list = _orders.Skip(baseIndex).Take(50).ToList();
             Drivers.LoadItems(list);
@@ -75,11 +81,10 @@ namespace MasterModule.ViewModels
             IClientDataServices clientDataServices = services.GetClientDataServices();
             var result = await clientDataServices.GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
             _currentDrivers = result;
-            
             return result;
         }
 
-        //  public DelegateCommand<> PersonSelectedCommand { get; private set; }
+       
         public DelegateCommand GoForwardCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
 

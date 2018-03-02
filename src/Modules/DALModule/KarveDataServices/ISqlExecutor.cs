@@ -27,6 +27,11 @@ namespace KarveDataServices
     /// </summary>
     public interface ISqlExecutor: IDisposable
     {
+
+        /// <summary>
+        ///  Database connection string.
+        /// </summary>
+        string ConnectionString { set; get; }
         /// <summary>
         /// This value returns the current connection state.
         /// </summary>

@@ -109,6 +109,7 @@ namespace DataAccessLayer
             IEnumerable<CommissionAgentSummaryDto> summary = new ObservableCollection<CommissionAgentSummaryDto>();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
+            
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     summary = await connection.QueryAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery).ConfigureAwait(false);

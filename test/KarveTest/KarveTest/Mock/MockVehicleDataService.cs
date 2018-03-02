@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.Mock
 {
@@ -56,6 +57,16 @@ namespace KarveTest.Mock
         }
 
         public Task<bool> SaveVehicle(IVehicleData vehicleData)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetAsyncVehicleSummary()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetVehiclesAgentSummary(int pageSize, int offset)
         {
             throw new NotImplementedException();
         }

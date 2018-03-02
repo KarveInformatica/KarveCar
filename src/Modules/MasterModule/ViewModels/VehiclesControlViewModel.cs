@@ -12,6 +12,8 @@ using Prism.Commands;
 using Prism.Regions;
 using KarveCommonInterfaces;
 using System.Threading.Tasks;
+using KarveDataServices.DataTransferObject;
+using System.Collections.Generic;
 
 namespace MasterModule.ViewModels
 {
@@ -28,8 +30,7 @@ namespace MasterModule.ViewModels
         private const string VehiclesAgentSummaryVm = "VehiclesAgentSummaryVm";
         private const string VehiclesModuleRoutePrefix = "VehiclesModule:";
         public bool CreateRegionManagerScope => true;
-        private long _longId = 3;
-        private ISettingsDataService _settings;
+        protected INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> InitializationNotifierSummary;
 
 
 
@@ -54,13 +55,13 @@ namespace MasterModule.ViewModels
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
         }
-        private async void OpenCurrentItem(object currentItem)
+        private async void OpenCurrentItem(object selectedItem)
         {
-        
-            DataRowView rowView = currentItem as DataRowView;
-            if (rowView != null)
+
+            VehicleSummaryDto summaryItem = selectedItem as VehicleSummaryDto;
+            if (summaryItem != null)
             {
-                Tuple<string, string> idNameTuple = ComputeIdName(rowView, VehicleNameColumn, VehicleColumnCode);
+                Tuple<string, string> idNameTuple = new Tuple<string, string>(summaryItem.Code, summaryItem.Brand);
                 string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
                 var agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
                 var navigationParameters = new NavigationParameters();
@@ -92,7 +93,7 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChanged);
+            InitializationNotifierSummary = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChangedSummary<IEnumerable<VehicleSummaryDto>>);
 
         }
         
@@ -171,7 +172,6 @@ namespace MasterModule.ViewModels
             bool retValue = await DataServices.GetVehicleDataServices().DeleteVehicleDo(vehicleData);
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             return retValue;
-        
         }
 
         public override void DisposeEvents()

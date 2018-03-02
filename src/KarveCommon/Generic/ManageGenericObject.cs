@@ -95,15 +95,19 @@ namespace KarveCommon.Generic
                 
                 foreach (PropertyInfo info in tipo.GetProperties())
                 {
+                  
                     if (info.Name == property)
                     {
+                        var pValue = info.GetValue(obj);
+                        Type t = pValue.GetType();
+                      
                         info.SetValue(obj, value, null);
                     }
                 }
             }
             catch (Exception e)
             {
-                throw new KarveCommonException(e.Message);
+            ///    throw new KarveCommonException(e.Message);
                 // FIXME: fixed the exception handling .
                 //ErrorsDB.MessageError(e);
             }

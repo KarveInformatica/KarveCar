@@ -19,7 +19,6 @@ namespace MasterModule.ViewModels
         private Mock<IDataServices> _dataServices = new Mock<IDataServices>();
         private Mock<IConfigurationService> _configurationService = new Mock<IConfigurationService>();
         private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
-
         private CompanyInfoViewModel _companyInfoViewModel = null;
    
         [OneTimeSetUp]

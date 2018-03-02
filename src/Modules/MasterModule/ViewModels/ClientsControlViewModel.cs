@@ -104,7 +104,7 @@ namespace MasterModule.ViewModels
             string viewNameValue = name + "." + code;
             Navigate(code, viewNameValue);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
-            currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
+            currentPayload.Subsystem = DataSubSystem.ClientSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = code;
             currentPayload.HasDataObject = true;

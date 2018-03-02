@@ -10,18 +10,19 @@ using KarveCommon.Generic;
 using System.Reflection;
 using System.Globalization;
 using System;
-using DataAccessLayer;
 using DataAccessLayer.SQL;
 using KarveCar.Logic.Generic;
 using KarveCar.Views;
 using NLog;
 using System.Data;
 using MasterModule.Views;
+using DataAccessLayer;
 
-namespace KarveCar
+namespace KarveCar.Boot
 {
     /// <summary>
-    ///  This is the application bootstrapper.
+    ///  This is the application bootstrapper. It is inside the KarveCar.Boot namespace in a 
+    ///  way that we can use friendly assembly to inject things. 
     /// </summary>
     class Bootstrapper : UnityBootstrapper
     {

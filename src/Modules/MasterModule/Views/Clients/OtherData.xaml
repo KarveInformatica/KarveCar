@@ -20,7 +20,7 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
@@ -83,10 +83,10 @@
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="98"
+                                          LabelTextWidth="97"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="102"
-                                          ButtonImage="/KarveCar;component/Images/search.png"/>
+                                          ButtonImage="/KarveCar;component/Images/search.png" VerticalAlignment="Bottom"/>
                         
                         <Label Content="Banco " Grid.Row="4" />
                         <TextBox Text="{Binding Path=BANCO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" />
@@ -337,9 +337,10 @@
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
 
-                        <StackPanel Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal">
+                        <StackPanel Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
                             <KarveControls:DataField
                                 LabelText="Ref.Comisionista"
+                                Height="35"
                                 DataObject="{Binding DataObject, Mode=TwoWay}"
                                 TextContent="{Binding DataObject.REF_A_COMI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}">
@@ -403,63 +404,63 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Vertical">
-                                <CheckBox Content="No Cobrar franquicias"
-                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                <KarveControls:DataFieldCheckBox Content="No Cobrar franquicias"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.DataSourcePath="CORTA"
+                                                                 />
+                                <KarveControls:DataFieldCheckBox Content="No Censado"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="CORTA"
                                                                  />
-                                <CheckBox Content="No Censado"
-                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 KarveControls:ControlExt.DataSourcePath="CORTA"
-                                                                 />
-                                <CheckBox 
+                                <KarveControls:DataFieldCheckBox
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="CORTA"
                                     Content="Corta duración"
                                 />
-                                <CheckBox 
+                                <KarveControls:DataFieldCheckBox
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="LARGA"
                                     Content="Larga duración "/>
                                 <KarveControls:DataFieldCheckBox 
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="NO_FACT_MULTAS"
                                     Content="No facturar multas"/>
-                                <CheckBox 
+                                <KarveControls:DataFieldCheckBox
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="ENVIAR"
                                     Content="No enviar mailing"/>
-                                <CheckBox 
+                                <KarveControls:DataFieldCheckBox
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="NOIMPRFAC"
                                     Content="No Imprimir mensaje en Factura"/>
                             </StackPanel>
                             <WrapPanel Grid.Column="1" Orientation="Vertical">
-                                <CheckBox Content="No imprimes importe en el contracto"
-                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                <KarveControls:DataFieldCheckBox Content="No imprimes importe en el contracto"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="IMPOCON"
                                                                  />
-                                <CheckBox Content="Contracto: Importes pero sin Valorar"
-                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                <KarveControls:DataFieldCheckBox Content="Contracto: Importes pero sin Valorar"
+                                                                 KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="CONTRA_IMPORTES_SIN_VALORAR"
                                                                  />
 
-                                <CheckBox 
+                                <KarveControls:DataFieldCheckBox
                                     Content="Exportación"
                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     KarveControls:ControlExt.DataSourcePath="EXPORTA_CLI" />
                                 <KarveControls:DataFieldCheckBox Content="Factura sin I.V.A."
                                                                  KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                  KarveControls:ControlExt.DataSourcePath="LOGOENFAC" 
                                 />
 

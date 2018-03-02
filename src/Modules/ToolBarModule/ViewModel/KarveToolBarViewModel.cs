@@ -397,8 +397,6 @@ namespace ToolBarModule
                 case DataPayLoad.Type.Delete:
                     {
                         string primaryKeyValue = payload.PrimaryKeyValue;
-                        // FIXME. This shall seen. The control view model shall delete the region.
-                        _configurationService.CloseTab(primaryKeyValue);
                         _activeSubSystem = payload.Subsystem;
                         _states = ToolbarStates.None;
                         DataPayLoad payLoad = new DataPayLoad

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // La información general de un ensamblado se controla mediante el siguiente 
@@ -12,6 +13,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright ©  2017 Karve Informatica S.L.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: InternalsVisibleTo("KarveTest")]
+[assembly: InternalsVisibleTo("KarveTest.DAL")]
+[assembly: InternalsVisibleTo("KarveCar.Boot")]
 
 // Si establece ComVisible en false, los tipos de este ensamblado no estarán visibles 
 // para los componentes COM.  Si es necesario obtener acceso a un tipo en este ensamblado desde 

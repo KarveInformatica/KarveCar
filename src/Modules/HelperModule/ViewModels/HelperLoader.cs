@@ -29,7 +29,7 @@ namespace HelperModule.ViewModels
             _loadCompleted += OnLoadCompleted;
 
         }
-
+        // TODO: check error.
         private void OnLoadCompleted(object sender, PropertyChangedEventArgs e)
         {
            

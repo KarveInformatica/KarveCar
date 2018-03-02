@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using KarveControls.Generic;
 using SelectionChangedEventArgs = System.Windows.Controls.SelectionChangedEventArgs;
 using System.Windows.Input;
+using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls
 {
@@ -112,7 +113,7 @@ namespace KarveControls
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            get { return (ICommand) GetValue(ItemChangedCommandDependencyProperty); }
+            get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
             set { SetValue(ItemChangedCommandDependencyProperty, value); }
         }
 
@@ -267,6 +268,7 @@ namespace KarveControls
                             if (date is DateTime)
                             {
                                 ComponentUtils.SetPropValue(obj, value, date);
+                               
                                 //  control.SetDate((DateTime)date);
                             }
                         }

@@ -23,10 +23,9 @@ namespace KarveCommon.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string currentValue = "0";
+          
             var v = value;
-            Int16 v1 = System.Convert.ToInt16(value);
-            
+            Int16 v1 = System.Convert.ToInt16(value);  
             return v1.ToString();
         }
     }

@@ -20,7 +20,7 @@ namespace DataAccessLayer
     ///  This class has some helper methods that retrives values needed. The so called auxiliares.
   
     /// </summary>  
-    class HelperDataAccessLayer :  IHelperDataServices
+    internal class HelperDataAccessLayer :  IHelperDataServices
     {
         private readonly ISqlExecutor _sqlExecutor;
         private IMapper _mapper;

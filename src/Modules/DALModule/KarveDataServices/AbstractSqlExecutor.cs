@@ -31,6 +31,8 @@ namespace KarveDataServices
         {   get => _connection;
             set => _connection = value;
         }
+        public string ConnectionString { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         /// <summary>
         /// Abstact method for sql query.
         /// </summary>

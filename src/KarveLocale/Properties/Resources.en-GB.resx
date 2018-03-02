@@ -2158,4 +2158,7 @@
   <data name="TextedThumb_OnApplyTemplate_ConsultaDe" xml:space="preserve">
     <value>Listing of</value>
   </data>
+  <data name="VehicleSummaryDto_VehicleCode" xml:space="preserve">
+    <value>Vehicle Code</value>
+  </data>
 </root>

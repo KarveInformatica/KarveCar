@@ -75,15 +75,7 @@ namespace DataAccessLayer.Crud.Clients
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         var present = connection.IsPresent<CLIENTES1>(client1);
-                        var entity = connection.Get<CLIENTES2>(client2.NUMERO_CLI);
-                       /*
-                        /// throw na exception.
-                        /// 
-                        if (entity.ULTMODI > client2.ULTMODI)
-                        {
-
-                        }
-                        */
+                      
                         if (!present)
                         {
                             retValue = await connection.InsertAsync<CLIENTES1>(client1) > 0;
@@ -168,6 +160,7 @@ namespace DataAccessLayer.Crud.Clients
             {
                 return true;
             }
+           
             int value = await connection.InsertAsync(branches);
             retValue = value > 0;
             return retValue;

@@ -8,6 +8,8 @@ using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
+using DataAccessLayer.SQL;
 
 namespace DataAccessLayer
 {
@@ -35,7 +37,7 @@ namespace DataAccessLayer
         ///  This returns a vehicle agent summary.
         /// </summary>
         /// <returns>Returns a data set for the vehicles</returns>
-        public async Task<DataSet> GetAsyncVehicleSummary()
+        public async Task<IEnumerable<VehicleSummaryDto>> GetAsyncVehicleSummary()
         {
             return await GetVehiclesAgentSummary(0, 0);
 
@@ -43,24 +45,31 @@ namespace DataAccessLayer
         /// <summary>
         /// Get a paged version of the summary.
         /// </summary>
-        /// <param name="pageSize"></param>
-        /// <param name="offset"></param>
+        /// <param name="pageSize">Page dimension.</param>
+        /// <param name="offset">Offset</param>
         /// <returns></returns>
-        public async Task<DataSet> GetVehiclesAgentSummary(int pageSize, int offset)
+        public async Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset)
         {
-            DataSet set = new DataSet();
+            QueryStore store = new QueryStore();
+            IEnumerable<VehicleSummaryDto> vehicles = null;
+            string value = "";   
             if (pageSize == 0)
             {
-                set = await _sqlExecutor.AsyncDataSetLoad(GenericSql.VehiclesSummaryQuery);
-
+                store.AddParam(QueryStore.QueryType.QueryVehicleSummary);
+                value = store.BuildQuery();
             }
             else
             {
-                string vehicles = string.Format(GenericSql.VehiclesSummaryQueryPaged, pageSize, offset);
-                set = await _sqlExecutor.AsyncDataSetLoad(vehicles);
+                store.Clear();
+                store.AddParamRange(QueryStore.QueryType.QueryVehicleSummaryPaged, pageSize, offset);
+                var query = store.BuildQuery();
+                
             }
-            return set;
-
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                vehicles = await connection.QueryAsync<VehicleSummaryDto>(value);
+            }
+            return vehicles;
         }
         /// <summary>
         ///  Generate an unique id from the base class.
@@ -231,6 +240,6 @@ namespace DataAccessLayer
             return unique;
            
         }
-
+        
     }
 }

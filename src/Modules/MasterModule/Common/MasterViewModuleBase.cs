@@ -21,6 +21,7 @@ using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
 using System.Diagnostics.Contracts;
+using System.Windows;
 
 namespace MasterModule.Common
 {
@@ -32,6 +33,7 @@ namespace MasterModule.Common
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
 
+       
         protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
@@ -107,7 +109,7 @@ namespace MasterModule.Common
         ///  Summary View used from all the control view models.
         ///  
         /// </summary>
-        public DataTable SummaryView
+        public object SummaryView
         {
             get { return ExtendedDataTable; }
             set
@@ -401,6 +403,12 @@ namespace MasterModule.Common
                 // this is useful for extracting the name of the attribute.
                 DBType pro = Activator.CreateInstance<DBType>();
                 dtoType = gridParam["ChangedValue"] as DtoType;
+                BaseDto baseDto = dtoType as BaseDto;
+
+                if (baseDto!=null)
+                {
+                    baseDto.IsDirty = true;                   
+                }
                 PropertyInfo info = PrimaryKeyAttribute.SearchAttribute<DtoType>(dtoType);
                 var operationType = gridParam[OperationConstKey];
                 _delegationGridState = (ControlExt.GridOp)operationType;
@@ -436,7 +444,8 @@ namespace MasterModule.Common
                                 payLoad.RelatedObject = dtoType;
                                 payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
                                 payLoad.Subsystem = dataSub;
-                                retValue = new Tuple<bool, DtoType>(true, dtoType);                                // ok we act to notify the toolbar.
+                                retValue = new Tuple<bool, DtoType>(true, dtoType);
+                                // ok we act to notify the toolbar.
                                 EventManager.NotifyToolBar(payLoad);
                             }
                             break;
@@ -481,7 +490,7 @@ namespace MasterModule.Common
         /// <summary>
         /// Extended Data Table
         /// </summary>
-        protected DataTable ExtendedDataTable;
+        protected object ExtendedDataTable;
 
         protected INotifyTaskCompletion<bool> DeleteInitializationTable;
 
@@ -684,6 +693,36 @@ namespace MasterModule.Common
                     EventManager.NotifyToolBar(payLoad);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// This initializatin notifier for the data object
+        /// </summary>
+        /// <param name="sender">The sender is</param>
+        /// <param name="propertyChangedEventArgs"></param>
+        protected void InitializationNotifierOnPropertyChangedSummary<T>(object sender,
+            PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+             INotifyTaskCompletion<T> notification = sender as 
+                INotifyTaskCompletion<T>;
+            Contract.Requires(notification != null, "Notification required");
+            string propertyName = propertyChangedEventArgs.PropertyName;
+            if (propertyName.Equals("Status"))
+            {
+                if (notification.IsSuccessfullyCompleted)
+                {
+                    SummaryView = notification.Task.Result;
+                }
+                if (InitializationNotifier.IsFaulted)
+                {
+                    SummaryView = new ObservableCollection<T>();
+                    // FIX ME to a dialog service.
+                    MessageBox.Show("Exception during summary load :" + notification.Task.Exception.Message);
+                }
+
+            }
+            Contract.Ensures(SummaryView != null, "The summary is not null");
         }
         /// <summary>
         /// This initializatin notifier for the data object

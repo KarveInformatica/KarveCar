@@ -6298,6 +6298,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Codigo Vehiculo.
+        /// </summary>
+        public static string VehicleSummaryDto_VehicleCode {
+            get {
+                return ResourceManager.GetString("VehicleSummaryDto_VehicleCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo de Vehiculos.
         /// </summary>
         public static string VehicleTypes_TipoDeVehiculos {

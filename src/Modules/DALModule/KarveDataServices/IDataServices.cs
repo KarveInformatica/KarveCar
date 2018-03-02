@@ -8,7 +8,7 @@ namespace KarveDataServices
     ///  It is an interface for abstracting all dataservices.
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
-   
+    /// 
     public interface IDataServices
     {
         /// <summary>
@@ -59,6 +59,12 @@ namespace KarveDataServices
         /// <typeparam name="T">Type the service</typeparam>
         /// <returns></returns>
         T GetDataService<T>();
+
+        /// <summary>
+        ///  This allow to the data layer to change the configuration string.
+        /// </summary>
+        /// <param name="connectionString">Connection String</param>
+        void Reconfigure(string connectionString);
        
     }
 

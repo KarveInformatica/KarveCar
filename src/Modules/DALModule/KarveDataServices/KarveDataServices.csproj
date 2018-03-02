@@ -153,6 +153,7 @@
     <Compile Include="DataTransferObject\VehicleGroupDto.cs" />
     <Compile Include="DataTransferObject\VehicleOwnerDto.cs" />
     <Compile Include="DataTransferObject\VehicleProvisionReasonDto.cs" />
+    <Compile Include="DataTransferObject\VehicleSummaryDto.cs" />
     <Compile Include="DataTransferObject\VehicleToolDto.cs" />
     <Compile Include="DataTransferObject\VehicleTypeDto.cs" />
     <Compile Include="DataTransferObject\ViaDto.cs" />

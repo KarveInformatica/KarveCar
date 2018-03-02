@@ -18,7 +18,8 @@ using System.Windows.Controls;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using MasterModule.Views;
-
+using Syncfusion.UI.Xaml.Grid;
+using System.ComponentModel;
 
 namespace MasterModule.ViewModels
 {
@@ -37,6 +38,10 @@ namespace MasterModule.ViewModels
         private ClientDto _currentClientDo = new ClientDto();
         private string _driverZone;
         private IEnumerable<ClientTypeDto> _clientTypeDto = new List<ClientTypeDto>();
+        private IEnumerable<BaseDto> _currentCities;
+        private IEnumerable<ClientSummaryDto> _listOfDrivers;
+        private PropertyChangedEventHandler eventHandler;
+        private INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> _driversNotification;
         #endregion
 
         /// <summary>
@@ -73,10 +78,26 @@ namespace MasterModule.ViewModels
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
             _clientData =_clientDataServices.GetNewClientAgentDo("0");
+            eventHandler += OnDriverUpdate;
             ActiveSubSystem();
+           
+          
+        }
 
-
-
+        private void OnDriverUpdate(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryDto>>;
+            if (value != null)
+            {
+                if (value.IsSuccessfullyCompleted)
+                {
+                  DriversList = value.Task.Result;
+                }
+            }
+        }
+        void UpdateListOfDrivers()
+        {
+            _driversNotification = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery), eventHandler); 
         }
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
@@ -133,7 +154,7 @@ namespace MasterModule.ViewModels
             _helperData = new HelperData();
 
            
-           
+
         }
 
         private void OnContentAreaCommand(object obj)
@@ -148,7 +169,7 @@ namespace MasterModule.ViewModels
         /// <param name="selectionEvent">Event to be selected</param>
         private void OnCompanyOrDriver(object selectionEvent)
         {
-            SelectionChangedEventArgs ev = selectionEvent as SelectionChangedEventArgs;
+            System.Windows.Controls.SelectionChangedEventArgs ev = selectionEvent as System.Windows.Controls.SelectionChangedEventArgs;
             ComboBox item = ev?.Source as ComboBox;
             if (item != null)
             {
@@ -303,8 +324,13 @@ namespace MasterModule.ViewModels
                 MessageBox.Show("Assist Invalid!");
             }
         }
+        void LoadMoreItems(uint count, int baseIndex)
+        {
+           var list =  (IEnumerable<CityDto>) _currentCities.Skip(baseIndex).Take(100).ToList();
 
-        private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
+            ClientHelper.CityDto = list; 
+        }
+            private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
             var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
             
@@ -314,7 +340,8 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                     {
-                        ClientHelper.CityDto = (IEnumerable<CityDto>) value;
+                      
+                        ClientHelper.CityDto = (IEnumerable<CityDto>)value;        
                         break;
                     }
                     case "CHANNEL_TYPE":
@@ -576,6 +603,19 @@ namespace MasterModule.ViewModels
         public IEnumerable<ClientTypeDto> ClientTypeDto { get
             { return _clientTypeDto; }
             set { _clientTypeDto = value; RaisePropertyChanged(); } }
+
+        public IEnumerable<ClientSummaryDto> DriversList
+        {
+            get
+            {
+                return _listOfDrivers;
+            }
+            set
+            {
+                _listOfDrivers = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public void Init(string primaryKey, DataPayLoad payload, bool isInsert)
         {

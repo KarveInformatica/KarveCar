@@ -41,7 +41,7 @@ namespace MasterModule.ViewModels
         private ICommissionAgentDataServices _commissionAgentDataServices;
         private INotifyTaskCompletion<ICommissionAgent> _initializationTable;
         private INotifyTaskCompletion<DataPayLoad> _deleteNotifyTaskCompletion;
-        private bool _canDelete;
+       
 
        
 

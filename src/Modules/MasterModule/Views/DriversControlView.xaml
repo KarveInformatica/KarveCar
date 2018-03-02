@@ -8,19 +8,25 @@
              mvvm1:ViewModelLocator.AutoWireViewModel="True"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid  x:Name="LayoutRoot" Background="White" Margin="10">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        
+
         <Grid.Resources>
             <ResourceDictionary>
+                <karveCommon:BoolToVisiblityConverter x:Key="VisibilityConverter"/>
+
+
+
                 <ObjectDataProvider x:Key="FilterMode"
                                     MethodName="GetValues"
                                     ObjectType="{x:Type system:Enum}">
@@ -38,9 +44,11 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="0">
             <TextBlock Text="Lista de conductores" FontWeight="Bold"></TextBlock>
             <Button Command="{Binding GoBackCommand}"  Margin="10" Width="75" Height="25" HorizontalAlignment="Left">
-            <Image Source="/MasterModule;component/Images/backarrow.png"></Image>
-        </Button>
+                <Image Source="/MasterModule;component/Images/backarrow.png"></Image>
+            </Button>
         </StackPanel>
+
+
 
 
         <Syncfusion:SfDataGrid x:Name="DriverControlViewSummary"   VerticalAlignment="Top"                   
@@ -54,7 +62,8 @@
                                                                        AllowSorting="True"
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
-                                                                       NavigationMode="Row" 
+                                                                       NavigationMode="Row"
+                                                                       MaxHeight="300"
                                                                        Background="White"
                                                                        AutoGenerateColumns="False"
                                                                                                                                            
@@ -69,7 +78,7 @@
             </Syncfusion:SfDataGrid.Resources>
             <Syncfusion:SfDataGrid.Columns>
                 <Syncfusion:GridTextColumn HeaderText="Numero" 
-                                           MappingName="Codigo" 
+                                           MappingName="Code" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
@@ -83,7 +92,20 @@
                             <TextBlock FontStyle="Italic"
                                        FontWeight="SemiBold"
                                        Padding="2,0"
-                                       Text="{Binding Nombre}" />
+                                       Text="{Binding Name}" />
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+
+                </Syncfusion:GridTemplateColumn>
+
+                <Syncfusion:GridTemplateColumn HeaderText="Nif" MappingName="Nif"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock FontStyle="Italic"
+                                       FontWeight="SemiBold"
+                                       Padding="2,0"
+                                       Text="{Binding Nif}" />
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
 
@@ -123,6 +145,8 @@
 
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
+                    
+                    
 
                 </Syncfusion:GridTemplateColumn>
 
@@ -130,17 +154,40 @@
 
 
         </Syncfusion:SfDataGrid>
-        
-    
+        <Border Height="60"
+            VerticalAlignment="Bottom"
+            Background="Black"
+            BorderBrush="Black"
+            BorderThickness="1"
+                Grid.Row="2"
+            Opacity="50"
+            Visibility="{Binding IsBusy,
+                                 Mode=TwoWay,
+                                 Converter={StaticResource VisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                <TextBlock Margin="5"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="White"
+                       Text="Fetching Data..." />
+                <Syncfusion:SfBusyIndicator Margin="5"
+                                        VerticalAlignment="Center"
+                                        Foreground="Gray"
+                                        AnimationType="Gear" />
+            </StackPanel>
+        </Border>
 
+       
 
-            <!--
+        <!--
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 -->
-      
+
     </Grid>
 </UserControl>

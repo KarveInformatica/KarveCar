@@ -84,7 +84,7 @@
                         />
                         <VirtualizingStackPanel VirtualizationMode="Recycling">
                             <karveControls:DualFieldSearchBox
-                                LabelText="Provveedor"
+                                LabelText="Proveedor"
                                 LabelTextWidth="80"
                                 DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 AssistTableName="SUPPLIER"

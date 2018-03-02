@@ -2,6 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
@@ -15,13 +16,23 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="pageSize">Dimension of the page</param>
         /// <param name="offset">Offset to start with</param>
-        /// <returns></returns>
-        Task<DataSet> GetVehiclesAgentSummary(int pageSize, int offset);
+        /// <remarks>
+        ///     A simple use it can be:
+        ///     var summaries = await service.GetVehiclesAgentSummary(10, 0); First 10 results.
+        ///     var summaries = await service.GetVehiclesAgentSummary(10, 10); Results from 10 to 20.
+        /// </remarks>
+        /// <returns>
+        /// A list of vehicles summary, where are specified the different features of the vehicles
+        /// </returns>
+        Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset);
         /// <summary>
-        ///  This returns a vehicle agent summary.
+        ///  Function to fetch the full list of the vehicles summaries in the system.
         /// </summary>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncVehicleSummary();
+        /// <returns>
+        /// A list of vehicles summary, where are specified the different features of the vehicles
+        /// </returns>
+        Task<IEnumerable<VehicleSummaryDto>> GetAsyncVehicleSummary();
+        
         /// <summary>
         /// This saves a new inserted vehicle
         /// </summary>
@@ -39,8 +50,7 @@ namespace KarveDataServices
         /// <param name="primaryKeyValue">Primary key of the object</param>
         /// <returns></returns>
         Task<IVehicleData> GetVehicleDo(string primaryKeyValue);
-        
-          
+      
         /// <summary>
         ///  This give us a delete vehicle data object
         /// </summary>

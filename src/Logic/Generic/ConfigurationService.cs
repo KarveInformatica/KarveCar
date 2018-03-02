@@ -189,6 +189,12 @@ namespace KarveCar.Logic.Generic
         {
             _userSettings = settings;
         }
+
+        public string GetConnectionString()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  This is the custom view model for the main custom tabs.
         ///  TODO: Remove all this complexity. we dont need it.

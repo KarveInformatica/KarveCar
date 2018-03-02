@@ -10,6 +10,7 @@ namespace DataAccessLayer
     /// Stairway pattern is against the entourage pattern. 
     /// The Interface assembly shall be sepatated from the implementation. This allow to avoid the infernal dll hell,
     /// and provide a way to load different assemblies following a give implementation.
+    ///  FIXME: this shall not be public.
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
@@ -139,6 +140,11 @@ namespace DataAccessLayer
         public ICompanyDataService GetCompanyDataServices()
         {
             return _companyDataService;
+        }
+
+        public void Reconfigure(string connectionString)
+        {
+            
         }
     }
 }

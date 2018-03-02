@@ -29,7 +29,7 @@ namespace MasterModule.ViewModels
     /// </summary>
     public class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
-        private bool _isInsertion;
+     
         private string _header;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private INotifyTaskCompletion<ISupplierData> _initializationTable;

@@ -18,7 +18,6 @@ namespace KarveCommon.Converter
                 return string.Empty;
             }
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             StringBuilder text = new StringBuilder(value as string);

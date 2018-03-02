@@ -47,12 +47,25 @@ namespace DataAccessLayer.SQL
             QueryOfficeSummaryByCompany,
             HolidaysByOffice,
             HolidaysDate,
-            QueryCurrency
+            QueryCurrency,
+            QueryVehicleSummary, 
+            QuerySupplierSummary,
+            QueryVehicleSummaryPaged,
+            QuerySupplierSummaryPaged,
+            QueryBrokerSummary,
+            QueryBroker
         }
-
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
-            
+            {
+                QueryType.QueryBroker, @"SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACION as City, " +
+            "PROVINCIA.PROV as Province, PAIS.PAIS as Country, IATA as IATA,  FROM COMISIO " +
+            " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
+                " LEFT JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"},
+            { QueryType.QueryBrokerSummary, @"SELECT NUM_COMI as Numero, NOMBRE as Nombre, PERSONA as Persona, NIF as Nif, DIRECCION as Direccion, POBLACION as Poblacion, " +
+            "PROVINCIA.PROV as Provincia, PAIS.PAIS as Pais FROM COMISIO " +
+            " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
+            " LEFT JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"},
             { QueryType.QueryPagedClient, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI, * FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI ORDER BY CLIENTES1.NUMERO_CLI" },
             {QueryType.QueryClient1, @"SELECT * FROM CLIENTES1 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryClient2, @"SELECT * FROM CLIENTES2 WHERE NUMERO_CLI='{0}'"},
@@ -100,7 +113,7 @@ namespace DataAccessLayer.SQL
                                                     LEFT OUTER JOIN PAIS 
                                                     ON PAIS.SIGLAS = CLIENTES1.NACIOPER WHERE CLIENTES1.NUMERO_CLI='{0}'"
                                                     },
-            {QueryType.QueryOfficeSummary, 
+            {QueryType.QueryOfficeSummary,
                 "select OFICINAS.CODIGO as Code, OFICINAS.NOMBRE AS Name, OFICINAS.DIRECCION as Direction,  OFICINAS.TELEFONO as Phone ,OFICINAS.POBLACION as City, OFICINAS.CP as Zip, PROVINCIA.PROV as Province,  SUBLICEN.NOMBRE as CompanyName, ZONAOFI.NOM_ZONA as OfficeZone FROM OFICINAS LEFT OUTER JOIN PROVINCIA   ON OFICINAS.PROVINCIA=PROVINCIA.SIGLAS LEFT OUTER JOIN ZONAOFI ON OFICINAS.ZONAOFI=ZONAOFI.COD_ZONAOFI   LEFT OUTER JOIN SUBLICEN ON OFICINAS.SUBLICEN=SUBLICEN.CODIGO;"},
               {QueryType.QueryOfficeSummaryByCompany, "select OFICINAS.CODIGO as Code, OFICINAS.NOMBRE AS Name, OFICINAS.DIRECCION as Direction, OFICINAS.POBLACION as City, PROVINCIA.PROV as Province, SUBLICEN.NOMBRE as CompanyName, ZONAOFI.NOM_ZONA as OfficeZone FROM OFICINAS LEFT OUTER JOIN PROVINCIA " +
                 "ON OFICINAS.PROVINCIA=PROVINCIA.SIGLAS LEFT OUTER JOIN ZONAOFI ON OFICINAS.ZONAOFI=ZONAOFI.COD_ZONAOFI " +
@@ -130,8 +143,24 @@ namespace DataAccessLayer.SQL
                                                     LEFT OUTER JOIN PAIS 
                                                     ON PAIS.SIGLAS = CLIENTES1.NACIOPER WHERE CLIENTES1.NUMERO_CLI='{0}'"
                                                     },
-            {QueryType.QueryClientContacts, @"SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion,NIF, ccoCargo,ccoTelefono, ccoMovil, ccoFax, ccoMail,CC.ULTMODI as ULTMODI,CC.USUARIO as USUARIO FROM CliContactos AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente='{0}' ORDER BY CC.ccoContacto"}
+            {QueryType.QueryClientContacts, @"SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion,NIF, ccoCargo,ccoTelefono, ccoMovil, ccoFax, ccoMail,CC.ULTMODI as ULTMODI,CC.USUARIO as USUARIO FROM CliContactos AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente='{0}' ORDER BY CC.ccoContacto"},
+            { QueryType.QuerySupplierSummary, @"SELECT " },
+            { QueryType.QueryVehicleSummary, @"SELECT vehiculo1.codiint As Code, matricula as Matricula, 
+                MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy,    
+                 VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 " +
+            " LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI "+
+            " LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE " +
+             " INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
+             { QueryType.QueryVehicleSummaryPaged, @"SELECT TOP {0} START AT {1} vehiculo1.codiint As Code, matricula as Matricula, MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy,    
+                 VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI "+
+                 " LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE " +
+                " INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
+
         };
+        
+        /// <summary>
+        ///  Working memory to assign and build a query.
+        /// </summary>
         private Dictionary<QueryType, string> _memoryStore = new Dictionary<QueryType, string>();
 
         /// <summary>
@@ -143,8 +172,10 @@ namespace DataAccessLayer.SQL
             get { return _dictionary; }
         }
 
+       
+         
         /// <summary>
-        /// Build a query set.
+        /// Build a query set for using with the dapper multiple query command.
         /// </summary>
         /// <param name="queryList">List of queries</param>
         /// <param name="codeList">List of codes</param>
@@ -259,7 +290,10 @@ namespace DataAccessLayer.SQL
             return value;
         }
 
-
+        public void Clear()
+        {
+            _memoryStore.Clear();
+        }
         public void AddParam(QueryType query)
         {
             _memoryStore.Add(query, string.Empty);

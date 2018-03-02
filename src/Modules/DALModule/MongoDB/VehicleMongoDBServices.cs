@@ -3,14 +3,16 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
+using MongoDB.Driver;
 
 namespace DataAccessLayer.MongoDB
 {
     internal class VehicleMongoDBServices : IVehicleDataServices
     {
-        private INoSqlExecutor _executor;
+        private IMongoClient _executor;
 
-        public VehicleMongoDBServices(INoSqlExecutor executor)
+        public VehicleMongoDBServices(IMongoClient executor)
         {
             _executor = executor;
         }
@@ -63,6 +65,16 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<bool> SaveChangesVehicle(IVehicleData data)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetVehiclesAgentSummary(int pageSize, int offset)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetAsyncVehicleSummary()
         {
             throw new System.NotImplementedException();
         }

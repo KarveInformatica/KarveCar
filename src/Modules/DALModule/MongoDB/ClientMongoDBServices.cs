@@ -4,21 +4,23 @@ using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using MongoDB.Driver;
 
 namespace DataAccessLayer.MongoDB
 {
     internal class ClientMongoDBServices : IClientDataServices
     {
-        private object _executor;
+        private IMongoClient _executor;
+      
 
-        public ClientMongoDBServices(object executor)
+        public ClientMongoDBServices(IMongoClient executor)
         {
             _executor = executor;
         }
 
-        public Task<DataSet> GetAsyncAllClientSummary()
+        public async Task GetAsyncAllClientSummary()
         {
-            throw new System.NotImplementedException();
+           await _executor.GetDatabase("Clients").ListCollectionsAsync();
         }
 
         public IClientData GetNewClientAgentDo(string code)
@@ -47,6 +49,11 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<IEnumerable<ClientSummaryDto>> GetClientSummaryDo(string clientsSummaryQuery)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task<DataSet> IClientDataServices.GetAsyncAllClientSummary()
         {
             throw new System.NotImplementedException();
         }

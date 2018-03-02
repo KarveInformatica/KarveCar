@@ -154,15 +154,19 @@
         <Setter Property="Template">
             <Setter.Value>
             <ControlTemplate TargetType="{x:Type local:DataDatePicker}">
-                <Grid>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
+                                <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
                     <DatePicker x:Name="PART_DatePicker" 
+                                Grid.Column="1"
                                 Margin="5,0,0,0" 
                                 Height="50"
                                 SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
                     </DatePicker>
-                </StackPanel>
+                
                 </Grid>
             </ControlTemplate>
             </Setter.Value>
@@ -422,7 +426,7 @@
                                                 
                                                 
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
-                                                                       ColumnSizer="Auto"
+                                                                       ColumnSizer="AutoLastColumnFill"
                                                                        Grid.Row="1"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
@@ -433,7 +437,7 @@
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row" 
                                                                        Height="800"
-                                                                       MinWidth="300"
+                                                                       MaxWidth="1100"
                                                                        Background="White"
                                                                        BorderBrush="#3373f2" 
                                                                         HeaderStyle="{StaticResource headerStyle}" 

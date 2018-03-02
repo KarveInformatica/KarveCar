@@ -36,13 +36,14 @@ namespace DataAccessLayer.Crud.Clients
         /// <summary>
         /// Contacts Query.
         /// </summary>
+        /*
         private string _queryContactos = "SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion, " +
                                          "NIF, ccoCargo, ccoTelefono, ccoMovil, ccoFax, ccoMail, CC.ULTMODI as ULTMODI, " +
                                          "CC.USUARIO as USUARIO FROM CliContactos AS CC " +
                                          "LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO " +
                                          "LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA " +
                                          "AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente = '{0}' ORDER BY CC.ccoContacto";
-
+                                         */
         // set if the load is valid or not.
         public bool Valid { set; get; }
 
@@ -114,20 +115,23 @@ namespace DataAccessLayer.Crud.Clients
                     SqlMapper.GridReader reader = null;
                     QueryStore store = CreateQueryStore(_currentPoco);
                     string multipleQuery = store.BuildQuery();
-                    reader = await conn.QueryMultipleAsync(multipleQuery);
-                    SetDataTransferObject(reader, _currentPoco);
-                    string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
-                    var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
-                        (branch, prov) =>
-                        {
-                            branch.PROV = prov;
-                            return branch;
-                        }, splitOn: "SIGLAS");
-
-                    if (delegations != null)
+                    if (!string.IsNullOrEmpty(multipleQuery))
                     {
-                        branchesDto =
-                            _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
+                        reader = await conn.QueryMultipleAsync(multipleQuery);
+                        SetDataTransferObject(reader, _currentPoco);
+                        string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
+                        var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
+                            (branch, prov) =>
+                            {
+                                branch.PROV = prov;
+                                return branch;
+                            }, splitOn: "SIGLAS");
+
+                        if (delegations != null)
+                        {
+                            branchesDto =
+                                _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
+                        }
                     }
                 }
                 if (_currentPoco != null)

@@ -141,6 +141,7 @@
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
+    <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />
     <Compile Include="Mock\MockAssistDataServices.cs" />
     <Compile Include="Mock\MockClientDataServices.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="DAL\TestSqlExecutor.cs" />
     <Compile Include="DAL\TestSQLQuery.cs" />
     <Compile Include="DAL\TestSupplierDataServicesLayer.cs" />
-    <Compile Include="DAL\TestVehicleDataLayer.cs" />
     <Compile Include="KarveDataServices\Assist\AssistTests.cs" />
     <Compile Include="Locale\TestLocale.cs" />
     <Compile Include="Mock\MockCommissionAgentDataService.cs" />
@@ -173,12 +173,13 @@
     <Compile Include="ViewModels\TestFareInfoViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
     <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestVehicleControlViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleTypeViewModel.cs" />
     <Compile Include="ViewModels\TestKarveToolbarViewModel.cs" />
     <Compile Include="ViewModels\TestProviderControlViewModel.cs" />
     <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleUpperBarViewModel.cs" />
-    <Compile Include="ViewModels\TestVehiculoDatosGeneral.cs" />
+    <Compile Include="ViewModels\TestVehicleInfoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
@@ -236,6 +237,7 @@
   <ItemGroup>
     <Folder Include="Commands\" />
     <Folder Include="KarveDataServices\DataTransferObject\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="Toolbar\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />

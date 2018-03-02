@@ -11,6 +11,11 @@ namespace KarveCommonInterfaces
     /// </summary>
     public interface IDialogService
     {
+        /// <summary>
+        ///  This inteface is used to register a dialog.
+        /// </summary>
+        /// <param name="dialogID"></param>
+        /// <param name="type"></param>
       void RegisterDialog(string dialogID, Type type);
       bool? ShowDialog(string dialogID);  
     }

@@ -30,7 +30,7 @@ namespace MasterModule.Common
         protected UpperBarViewModelState _status;
         private ICommand _assistCommand;
         private ICommand _itemChangedHandler;
-        private ICommand _itemChangedCommand;
+       
         /// <summary>
         ///  This is an upperbar view model base.
         /// </summary>

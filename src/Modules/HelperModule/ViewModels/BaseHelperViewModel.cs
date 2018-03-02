@@ -45,7 +45,10 @@ namespace HelperModule.ViewModels
         ///  SelectionChangedCommand
         /// </summary>
         public ICommand SelectionChangedCommand { set; get; }
-        public ICommand ItemChangedCommand { set; get; }
+
+        /// <summary>
+        ///  Helper notifier.
+        /// </summary>
         protected INotifyTaskCompletion<DataPayLoad> HelperUpdateNotifier;
         /// <summary>
         ///  This revert the previous operation

@@ -12,19 +12,12 @@ namespace KarveCommon.Services
     /// </summary>
     public interface IConfigurationService
     {
-       
         /// <summary>
         ///  This method helps for closing the application
         /// </summary>
         /// <returns></returns>
         bool CloseApplication();
-        /// <summary>
-        ///  This method wrap up the old main tab subsystem. It adds a tab in the central window.
-        /// </summary>
-        /// <param name="view">Name of the view.</param>
-        /// <param name="tabName">Name of the tab.</param>
-        /// <returns></returns>
-        bool AddMainTab(object view, string tabName);
+
         /// <summary>
         ///  This returns the enviroment variables of the application.
         /// </summary>
@@ -56,7 +49,10 @@ namespace KarveCommon.Services
         /// </summary>
         /// <param name="settings"></param>
         void SetUserSettings(IUserSettings settings);
-
-        void CloseTab(string primaryKeyValue);
+        /// <summary>
+        ///  Connection string
+        /// </summary>
+        /// <returns></returns>
+        string GetConnectionString();
     }
 }

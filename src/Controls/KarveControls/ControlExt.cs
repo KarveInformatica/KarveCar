@@ -226,8 +226,6 @@ namespace KarveControls
         #endregion
 
 
-        private static bool changedValue = false;
-
         #region ItemChangedCommand
         /// <summary>
         ///  This is the kind of data allowd.
@@ -433,7 +431,7 @@ namespace KarveControls
             if (dataGrid != null)
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
-                changedValue = false;
+              
                 var command = dataGrid.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
@@ -456,7 +454,6 @@ namespace KarveControls
             if (dataGrid != null)
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
-                changedValue = false;
                 var command = dataGrid.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {       
@@ -481,7 +478,6 @@ namespace KarveControls
             var textBox = sender as TextBox;
             if (textBox != null)
             {
-                changedValue = false;
                 var command = textBox.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
@@ -560,7 +556,6 @@ namespace KarveControls
        
         private static void TextBox_ChangedBehaviour(object sender, RoutedEventArgs args)
         {
-            changedValue = true;
             
         }
         private static void DataDatePicker_DataDatePickerChanged(object sender, RoutedEventArgs e)

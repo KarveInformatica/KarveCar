@@ -48,7 +48,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
         private static long _uniqueIdentifier = 0;
 
-        private ISettingsDataService _settings;
+       
         private string _mailBoxName;
 
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.

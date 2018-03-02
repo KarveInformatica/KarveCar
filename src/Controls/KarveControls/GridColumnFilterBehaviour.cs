@@ -67,14 +67,13 @@ namespace KarveControls
             }
             else
             {
-                
-                double actualWidth = this.AssociatedObject.ActualWidth;
-                int count = _sortedSet.Count;
-              //  double colWidth = actualWidth / count;
-              //  e.Column.Width = colWidth;
-                e.Column.ColumnSizer = GridLengthUnitType.Star;
-
-                //                this.AssociatedObject.
+                // This shall not be auto.
+                // https://www.syncfusion.com/forums/121547/sf-datagrid-very-slow-in-load-view
+                if (this.AssociatedObject.Columns.Count == 2)
+                {
+                   // e.Column.Width = 150;
+                  //  AssociatedObject.MaxWidth = 300;
+                }
             }
         }
 

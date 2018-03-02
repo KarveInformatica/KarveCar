@@ -330,8 +330,8 @@
 
                                 <Grid Grid.Column="1" >
                                     <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <ContentControl mvvm1:RegionManager.RegionName="{Binding DriverZoneRegionName}" Grid.Row="0"></ContentControl>
                                     <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">

@@ -1,5 +1,8 @@
 ﻿using System;
 using KarveDataServices;
+using KarveCommon.Services;
+using MongoDB.Driver;
+
 namespace DataAccessLayer.MongoDB
 {
     /// <summary>
@@ -7,10 +10,13 @@ namespace DataAccessLayer.MongoDB
     /// </summary>
     public class MongoDataServiceImplementation : IDataServices
     {
-        private INoSqlExecutor _executor = null;
-
-        public MongoDataServiceImplementation() 
+        private IMongoClient _executor = null;
+        private string _connectionString;
+        public MongoDataServiceImplementation(IConfigurationService service) 
         {
+            _connectionString = service.GetConnectionString();
+            _executor = new MongoClient(_connectionString);
+
         }
 
         public IVehicleDataServices GetVehicleDataServices()
@@ -59,6 +65,12 @@ namespace DataAccessLayer.MongoDB
         public ICompanyDataService GetCompanyDataServices()
         {
             throw new NotImplementedException();
+        }
+
+        public void Reconfigure(string connectionString)
+        {
+            _connectionString = connectionString;
+            _executor = new MongoClient(_connectionString);
         }
     }
 

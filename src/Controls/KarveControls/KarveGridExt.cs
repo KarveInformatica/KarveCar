@@ -30,7 +30,7 @@ namespace KarveControls
         /// <summary>
         ///  Each grid has an unique identifier.
         /// </summary>
-        public static readonly DependencyProperty GridIdentifierDependencyProperty =
+        public static readonly DependencyProperty GridIdentifierProperty =
             DependencyProperty.RegisterAttached(
                 "GridIdentifier",
                 typeof(long),
@@ -57,7 +57,7 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridIdentifier(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridIdentifierDependencyProperty, e);
+            d.SetValue(GridIdentifierProperty, e);
         }
 
         /// <summary>
@@ -67,13 +67,13 @@ namespace KarveControls
         /// <param name="e">Dependency Property events</param>
         public static long GetGridIdentifier(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (long) d.GetValue(GridIdentifierDependencyProperty);
+            return (long) d.GetValue(GridIdentifierProperty);
         }
 
         /// <summary>
         /// Dependency property for leveraging the command.
         /// </summary>
-        public static readonly DependencyProperty GridInitCommandDependencyProperty =
+        public static readonly DependencyProperty GridInitCommandProperty =
             DependencyProperty.RegisterAttached(
                 "GridInitCommand",
                 typeof(ICommand),
@@ -82,7 +82,7 @@ namespace KarveControls
         private static void OnGridInitChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
 
-            ICommand command = (ICommand) d.GetValue(GridInitCommandDependencyProperty);
+            ICommand command = (ICommand) d.GetValue(GridInitCommandProperty);
             long value = GetGridIdentifier(d, e);
             if (value != long.MinValue)
             {
@@ -101,7 +101,7 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridInitCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridInitCommandDependencyProperty, e);
+            d.SetValue(GridInitCommandProperty, e);
         }
 
         /// <summary>
@@ -112,13 +112,13 @@ namespace KarveControls
         /// <returns></returns>
         public static ICommand GetGridInitCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (ICommand) d.GetValue(GridInitCommandDependencyProperty);
+            return (ICommand) d.GetValue(GridInitCommandProperty);
         }
 
         /// <summary>
         ///  Each grid has an unique identifier.
         /// </summary>
-        public static readonly DependencyProperty GridNameDependencyProperty =
+        public static readonly DependencyProperty GridNameProperty =
             DependencyProperty.RegisterAttached(
                 "GridName",
                 typeof(string),
@@ -131,7 +131,7 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridName(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridNameDependencyProperty, e);
+            d.SetValue(GridNameProperty, e);
         }
 
         /// <summary>
@@ -141,13 +141,13 @@ namespace KarveControls
         /// <param name="e">Dependency Property events</param>
         public static string GetGridName(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (string) d.GetValue(GridNameDependencyProperty);
+            return (string) d.GetValue(GridNameProperty);
         }
 
         /// <summary>
         ///  Grid parameters to be set and serialized when changed 
         /// </summary>
-        public static readonly DependencyProperty GridParameterDependencyProperty =
+        public static readonly DependencyProperty GridParameterProperty =
             DependencyProperty.RegisterAttached(
                 "GridParameters",
                 typeof(KarveGridParameters),
@@ -161,21 +161,21 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridParameters(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridParameterDependencyProperty, e);
+            d.SetValue(GridParameterProperty, e);
         }
         /// <summary>
         /// Get the GridParameters dependecy property.
         /// </summary>
         /// <param name="d">Dependency Property</param>
         /// <param name="e">Dependency Property events</param>
-        public static KarveGridParameters GetGridParameters(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static KarveGridParameters GetGridParameter(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (KarveGridParameters) d.GetValue(GridParameterDependencyProperty);
+            return (KarveGridParameters) d.GetValue(GridParameterProperty);
         }
         /// <summary>
         /// Dependency property for leveraging the command.
         /// </summary>
-        public static readonly DependencyProperty GridParamChangedCommandDependencyProperty =
+        public static readonly DependencyProperty GridParamChangedCommandProperty =
             DependencyProperty.RegisterAttached(
                 "GridParamChangedCommand",
                 typeof(ICommand),
@@ -207,7 +207,7 @@ namespace KarveControls
             if (dataGrid != null)
             {
                 DependencyPropertyChangedEventArgs ev = new DependencyPropertyChangedEventArgs();
-                KarveGridParameters parm = GetGridParameters(dataGrid, ev);
+                KarveGridParameters parm = GetGridParameter(dataGrid, ev);
                 LoadParameters(dataGrid, parm.Xml);
             }
         }
@@ -218,7 +218,7 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridParamChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridParamChangedCommandDependencyProperty, e);
+            d.SetValue(GridParamChangedCommandProperty, e);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace KarveControls
         /// <returns></returns>
         public static ICommand GetGridParamChangedCommand(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (ICommand) d.GetValue(GridParamChangedCommandDependencyProperty);
+            return (ICommand) d.GetValue(GridParamChangedCommandProperty);
         }
 
       
@@ -286,7 +286,7 @@ namespace KarveControls
                     StreamReader reader = new StreamReader(new MemoryStream(valueArray));
                     var xmlString = reader.ReadToEnd();
                     serializedString = xmlString;
-                    KarveGridParameters karveGrid = GetGridParameters(grid, ev);
+                    KarveGridParameters karveGrid = GetGridParameter(grid, ev);
                     if (karveGrid != null)
                     {
                         karveGrid.GridIdentifier = GetGridIdentifier(dependencyObject, ev);
