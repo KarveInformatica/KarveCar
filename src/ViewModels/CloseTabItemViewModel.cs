@@ -32,7 +32,7 @@ namespace KarveCar.ViewModels
         {
             string name = parameter as string;
             Enumerations.EOpcion tipoaux = RecopilatorioCollections.ribbonbuttondictionary.FirstOrDefault(z => z.Key.ToString() == parameter.ToString()).Key;
-            TabItemLogic.RemoveTabItem(tipoaux);
+        //    TabItemLogic.RemoveTabItem(tipoaux);
         }
     }
 }

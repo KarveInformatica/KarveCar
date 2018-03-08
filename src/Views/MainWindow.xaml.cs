@@ -1,12 +1,13 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using MahApps.Metro.Controls;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,7 +23,7 @@ namespace KarveCar.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : ChromelessWindow
     {
         public MainWindow()
         {
@@ -37,6 +38,17 @@ namespace KarveCar.Views
         }
         private IUnityContainer _container;
 
+        /// <summary>
+        ///  Overrides the base window show to inject unity in the main view model.
+        /// </summary>
+        public new void Show()
+        {
+
+            //this.DataContext = new MainWindowViewModel(this._container);
+            UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
+
+            base.Show();
+        }
         public IUnityContainer UnityContainer
         {
             get { return _container; }
@@ -44,28 +56,24 @@ namespace KarveCar.Views
 
         }
 
-        private void SplitViewFrame_OnNavigated(object sender, NavigationEventArgs e)
+
+        public void btnHelp_Click(object sender, RoutedEventArgs e)
         {
-            //this.HamburgerMenuControl.Content = e.Content;
-           // this.HamburgerMenuControl.SelectedItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetItem(e.Uri);
-           // this.HamburgerMenuControl.SelectedOptionsItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetOptionsItem(e.Uri);
-           // GoBackButton.Visibility = Navigation.Navigation.Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
+            //Mensaje de ejemplo
+            MessageBox.Show("Aquí va nuestro mensaje de ayuda", "Ayuda", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void GoBack_OnClick(object sender, RoutedEventArgs e)
+        #region RibbonGroup Drag&Drop
+        private void RibbonGroup_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-          //  Navigation.Navigation.GoBack();
+            RibbonGroupDragDrop.RibbonGroup_PreviewMouseMove(sender, e);
         }
 
-        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        private void RibbonGroup_Drop(object sender, DragEventArgs e)
         {
-            var menuItem = e.InvokedItem as MenuItem;
-            /*
-            if (menuItem != null && menuItem)
-            {
-               // Navigation.Navigation.Navigate(menuItem.NavigationDestination, menuItem);
-            }*/
-
+            RibbonGroupDragDrop.RibbonGroup_Drop(sender, e);
         }
+        #endregion
+
     }
 }

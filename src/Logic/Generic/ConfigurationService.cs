@@ -173,29 +173,7 @@ namespace KarveCar.Logic.Generic
         /// </summary>
         public class CustomTabItemViewModel
         {
-            IDictionary<string, CustomTabControl> control = new Dictionary<string, CustomTabControl>();
-            public ICommand CloseTabItemCommand { set; get; }
-
-            public CustomTabItemViewModel()
-            {
-                this.CloseTabItemCommand = new DelegateCommand<object>(onCloseButton);
-            }
-
-            public bool hasItem(string name, out CustomTabControl tabOut)
-            {
-                tabOut = null;
-                if (control.ContainsKey(name))
-                {
-                    tabOut = control[name];
-                    return true;
-                }
-                return false;
-            }
-
-            public void addItem(string name, CustomTabControl tab)
-            {
-                control.Add(name, tab);
-            }
+            
 
             private void onCloseButton(object v)
             {
@@ -226,15 +204,6 @@ namespace KarveCar.Logic.Generic
 
             internal string ContainsItem(string primaryKeyValue)
             {
-                ICollection<string> keys = control.Keys;
-                foreach (string s in keys)
-                {
-                    if (s.Contains(primaryKeyValue))
-                    {
-                        return s;
-                    }
-
-                }
                 return "";
             }
         }

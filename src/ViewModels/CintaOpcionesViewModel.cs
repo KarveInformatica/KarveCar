@@ -42,7 +42,7 @@ namespace KarveCar.ViewModels
             if (opcion.ToString() == parameter.ToString())
             {                
                 CintaOpcionesUserControl obj = new CintaOpcionesUserControl();
-                TabItemLogic.CreateTabItemUserControl(opcion, obj);
+            //    TabItemLogic.CreateTabItemUserControl(opcion, obj);
             }
         }
         #endregion

@@ -106,7 +106,10 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             _carveBarViewModel.IncomingPayload(payLoad);
+
             _carveBarViewModel.SaveCommand.Execute();
+            // the value shall avoid saving 
+
         }
        
 

@@ -220,7 +220,7 @@ namespace KarveCar.ViewModels
                     this.thisusercontrol = new MarcaDataTableUserControl();
                     // FIXME: this is a sign of a bad code organization. The use of region prevent all this.        
                     this.thisusercontrol.marcaDataGridUC.dtgrMarcaDataGrid.Items.Clear();
-                    TabItemLogic.CreateTabItemUserControl(opcion, this.thisusercontrol);
+              ///      TabItemLogic.CreateTabItemUserControl(opcion, this.thisusercontrol);
 
                     SelectSqlCRUD();
                     SelectMarcaDataTable();

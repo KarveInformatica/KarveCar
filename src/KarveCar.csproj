@@ -309,9 +309,6 @@
     <Compile Include="ViewModels\MarcaViewModel.cs" />
     <Compile Include="ViewModels\PaymentResolverViewModel.cs" />
     <Compile Include="ViewModels\ProvidersResolverViewModel.cs" />
-    <Compile Include="Views\CustomTabControl.xaml.cs">
-      <DependentUpon>CustomTabControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -339,16 +336,9 @@
     <Compile Include="Views\ProveedorMarcaDataGridUserControl.xaml.cs">
       <DependentUpon>ProveedorMarcaDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TabItemUserControl.xaml.cs">
-      <DependentUpon>TabItemUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TipoVehiculoDataGridUserControl.xaml.cs">
       <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\CustomTabControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -388,10 +378,6 @@
     <Page Include="Views\ProveedorMarcaDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\TabItemUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TipoVehiculoDataGridUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

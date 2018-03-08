@@ -22,6 +22,7 @@ using DataAccessLayer.DataObjects;
 using Prism.Commands;
 using System.Diagnostics.Contracts;
 using System.Windows;
+using  RegionMan = Prism.Regions.RegionManager;
 
 namespace MasterModule.Common
 {
@@ -323,7 +324,6 @@ namespace MasterModule.Common
 
         /// <summary>
         /// ViewModel base for the master registry.
-        /// FIXME: It does too many things. Violate SRP.
         /// </summary>
         /// <param name="configurationService">It needs the configuration service</param>
         /// <param name="eventManager">The event manager</param>
@@ -369,7 +369,7 @@ namespace MasterModule.Common
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
         {
             DesignByContract.Dbc.Requires(dtoList != null, "DataTransfer List Object shall be not null");
-            DesignByContract.Dbc.Requires(dto != null, "Data Transfer Obejct is not null");
+            DesignByContract.Dbc.Requires(dto != null, "Data Transfer Obeject is not null");
             IList<T> list = new List<T>();
             list.Add(dto);
             var unionList = dtoList.Union(list);
@@ -474,9 +474,9 @@ namespace MasterModule.Common
         /// <summary>
         ///  This value returns foreach database row a tuple containing the value of the name and the id.
         /// </summary>
-        /// <param name="rowView"></param>
-        /// <param name="nameColumn"></param>
-        /// <param name="codeColumn"></param>
+        /// <param name="rowView">Data Table Row</param>
+        /// <param name="nameColumn">Name of the column</param>
+        /// <param name="codeColumn">Code of the column</param>
         /// <returns></returns>
         protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
         {
@@ -573,10 +573,10 @@ namespace MasterModule.Common
         /// <summary>
         ///  This module delete the region
         /// </summary>
-        /// <param name="primaryKeyValue"></param>
+        /// <param name="primaryKeyValue">The value of the primary key for the tab.</param>
         protected void DeleteRegion(string primaryKeyValue)
         {
-            
+           
             // get the active tab.
             var activeRegion = RegionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
             if (activeRegion != null)
@@ -585,11 +585,13 @@ namespace MasterModule.Common
                 {
                     var vehicleInfo = activeRegion as ProviderInfoView;
                     RegionManager.Regions[RegionName].Remove(vehicleInfo);
+                    
                 }
                 if (activeRegion is CommissionAgentInfoView)
                 {
                     var commissionAgent = activeRegion as CommissionAgentInfoView;
                     RegionManager.Regions[RegionName].Remove(commissionAgent);
+                    //commissionAgent.ClearValue(RegionManager.);
                 }
                 if (activeRegion is VehicleInfoView)
                 {
@@ -606,6 +608,24 @@ namespace MasterModule.Common
                     var commissionAgent = activeRegion as OfficeInfoView;
                     RegionManager.Regions[RegionName].Remove(commissionAgent);
                 }
+               if (activeRegion is FrameworkElement)
+                {
+                    var framework = activeRegion as FrameworkElement;
+                    /*
+                     *  This is needed for https://github.com/PrismLibrary/Prism/issues/953.
+                     *  There is a bug in RegionManagerRegistrationBehavior. It is re-entrant and incorrect. As a consequence, the following does not work:
+                        region1.Add(view, null, true); 
+                        region1.Remove(view); 
+                        region2.Add(view, null, true)
+                        However the view still may be reused as a workaround by
+                        region1.Add(view, null, true); 
+                        region1.Remove(view); 
+                        view.ClearValue(RegionManager.RegionManagerProperty);
+                        region2.Add(view, null, true)
+                     */
+                    framework.ClearValue(RegionMan.RegionManagerProperty);
+                }
+
             }
         }
         /// <summary>

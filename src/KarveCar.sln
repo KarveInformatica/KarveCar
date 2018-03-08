@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperModule", "Modules\Hel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveLocale", "KarveLocale\KarveLocale.csproj", "{D1D7504F-994C-42FB-A78F-B6078F460F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarModel", "Modules\CarModel\CarModel\CarModel.csproj", "{88410E16-A500-4947-B11B-BCA1A73D4FC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarModelModule", "Modules\CarModel\CarModel\CarModelModule.csproj", "{88410E16-A500-4947-B11B-BCA1A73D4FC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTypeModule", "Modules\PaymentsTypeModule\PaymentTypeModule.csproj", "{3F0503DE-3DDE-40A4-AF70-F698BFA9F844}"
 EndProject

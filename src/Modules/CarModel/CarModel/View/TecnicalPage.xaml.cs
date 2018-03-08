@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KarveCar.View
+namespace CarModel.View
 {
     /// <summary>
-    /// Lógica de interacción para PruebasUserControl.xaml
+    /// Lógica de interacción para TecnicalPage.xaml
     /// </summary>
-    public partial class PruebasUserControl : UserControl
+    public partial class TecnicalPage : UserControl
     {
-        public PruebasUserControl()
+        public TecnicalPage()
         {
             InitializeComponent();
         }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommonInterfaces;
 using System.Windows.Input;
+using Prism.Mvvm;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -16,7 +17,7 @@ namespace KarveDataServices.DataTransferObject
     /// A data transfer object shall have no state.
     /// </summary>
     [Serializable]
-    public class BaseDto : IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking
+    public class BaseDto : BindableBase, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking 
     {
       
         public BaseDto()
@@ -47,15 +48,33 @@ namespace KarveDataServices.DataTransferObject
         {
           return new ArrayList();
         }
+        /// <summary>
+        /// Get if there are validation erros
+        /// </summary>
         public bool HasErrors { get; }
+        /// <summary>
+        ///  Event handler fired in case any data error.
+        /// </summary>
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        /// <summary>
+        ///  Confirm the changes.
+        /// </summary>
         public virtual void AcceptChanges()
         {
         }
+        /// <summary>
+        ///  The data object is just changed.
+        /// </summary>
         public virtual bool IsChanged { get; }
+        /// <summary>
+        ///  You can reject the changes.
+        /// </summary>
         public virtual void RejectChanges()
         {
         }
+        /// <summary>
+        ///  FIXME: thismakes sense?
+        /// </summary>
         public ICommand DeleteCommand { get; set; }
         
     }
