@@ -1,8 +1,0 @@
-{
-  "name": "KarveMobile",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "react-native-scripts": "1.11.1"
-  }
-}
