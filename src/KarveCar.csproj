@@ -563,6 +563,10 @@
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>
     </ProjectReference>
+    <ProjectReference Include="KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
+      <Name>KarveCommonInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="KarveCommon\KarveCommon.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
       <Name>KarveCommon</Name>
@@ -570,6 +574,10 @@
     <ProjectReference Include="KarveLocale\KarveLocale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveLocale</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\CarModel\CarModel\CarModelModule.csproj">
+      <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>
+      <Name>CarModelModule</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
@@ -582,6 +590,10 @@
     <ProjectReference Include="Modules\HelperModule\HelperModule.csproj">
       <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
       <Name>HelperModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\InvoiceModule\InvoiceModule.csproj">
+      <Project>{2636e89f-c157-4346-bab0-fc774bac26af}</Project>
+      <Name>InvoiceModule</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\MasterModule\MasterModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>

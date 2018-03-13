@@ -5,6 +5,7 @@ using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices.DataTransferObject;
 using System.Reflection;
+using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer.Logic
 {
@@ -827,6 +828,12 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+                // fix later 
+                cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src=>
+                {
+                    var value = new FACTURAS();
+                    return value;
+                });
                 cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
                     src=>
                     {

@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51A54865-A4E9-4CD2-B7F0-DEC622EDB81E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NavigationDrawerExercise</RootNamespace>
+    <AssemblyName>NavigationDrawerExercise</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfChromelessWindow.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfChromelessWindow.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfNavigationDrawer.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfShared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfShared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfSkinManager.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\KarveSnapshots\WorkingBranch\KarveCar\src\bin\Debug\Syncfusion.SfSkinManager.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Themes.Metro.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Themes.Metro.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ViewModels\ApplicationTile.cs" />
+    <Compile Include="ViewModels\ContentItem.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\HelperBoard.xaml.cs">
+      <DependentUpon>HelperBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InvoiceBoard.xaml.cs">
+      <DependentUpon>InvoiceBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterBoard.xaml.cs">
+      <DependentUpon>MasterBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProviderControlView.xaml.cs">
+      <DependentUpon>ProviderControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TileItemView.xaml.cs">
+      <DependentUpon>TileItemView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HelperBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InvoiceBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\MasterBoard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProviderControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TileItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Images\blockInvoice" />
+    <None Include="Images\facturationInvoice" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\amex.png" />
+    <Resource Include="Images\app.png" />
+    <Resource Include="Images\applications.png" />
+    <Resource Include="Images\backarrow.png" />
+    <Resource Include="Images\ball_blue.png" />
+    <Resource Include="Images\ball_green.png" />
+    <Resource Include="Images\ball_red.png" />
+    <Resource Include="Images\banks.png" />
+    <Resource Include="Images\billing.png" />
+    <Resource Include="Images\blockinvoice.png" />
+    <Resource Include="Images\booking.png" />
+    <Resource Include="Images\box.png" />
+    <Resource Include="Images\bt_add.png" />
+    <Resource Include="Images\bt_apply.png" />
+    <Resource Include="Images\bt_backward.png" />
+    <Resource Include="Images\bt_delete.png" />
+    <Resource Include="Images\bt_eject.png" />
+    <Resource Include="Images\bt_forward.png" />
+    <Resource Include="Images\bt_pause.png" />
+    <Resource Include="Images\bt_play.png" />
+    <Resource Include="Images\bt_skip_backward.png" />
+    <Resource Include="Images\bt_skip_forward.png" />
+    <Resource Include="Images\bt_stop.png" />
+    <Resource Include="Images\budget.png" />
+    <Resource Include="Images\business.png" />
+    <Resource Include="Images\ca-es.png" />
+    <Resource Include="Images\cagent.png" />
+    <Resource Include="Images\calculator.png" />
+    <Resource Include="Images\calendar.png" />
+    <Resource Include="Images\cancel.png" />
+    <Resource Include="Images\channel.png" />
+    <Resource Include="Images\chart.png" />
+    <Resource Include="Images\city.png" />
+    <Resource Include="Images\clients.png" />
+    <Resource Include="Images\clienttype.png" />
+    <Resource Include="Images\collapse.png" />
+    <Resource Include="Images\company.png" />
+    <Resource Include="Images\companycard.png" />
+    <Resource Include="Images\computer.png" />
+    <Resource Include="Images\computer_group.png" />
+    <Resource Include="Images\conect.png" />
+    <Resource Include="Images\contact.png" />
+    <Resource Include="Images\contacttype.png" />
+    <Resource Include="Images\contract.png" />
+    <Resource Include="Images\copy.png" />
+    <Resource Include="Images\copycool.png" />
+    <Resource Include="Images\country.png" />
+    <Resource Include="Images\creditcard.jpg" />
+    <Resource Include="Images\cut.png" />
+    <Resource Include="Images\data.png" />
+    <Resource Include="Images\de-DE.png" />
+    <Resource Include="Images\delete.png" />
+    <Resource Include="Images\diagnostic.png" />
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\en-gb.png" />
+    <Resource Include="Images\es-es.png" />
+    <Resource Include="Images\exit.png" />
+    <Resource Include="Images\expand.png" />
+    <Resource Include="Images\explosion.png" />
+    <Resource Include="Images\fare.png" />
+    <Resource Include="Images\favorits.png" />
+    <Resource Include="Images\ferrari.jpg" />
+    <Resource Include="Images\files.png" />
+    <Resource Include="Images\filter.png" />
+    <Resource Include="Images\find.png" />
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\genericcard.gif" />
+    <Resource Include="Images\group.png" />
+    <Resource Include="Images\help.png" />
+    <Resource Include="Images\helper.png" />
+    <Resource Include="Images\home.png" />
+    <Resource Include="Images\image.png" />
+    <Resource Include="Images\incident.png" />
+    <Resource Include="Images\it-IT.png" />
+    <Resource Include="Images\Karve.png" />
+    <Resource Include="Images\login.png" />
+    <Resource Include="Images\logout.png" />
+    <Resource Include="Images\maestro.png" />
+    <Resource Include="Images\mail.png" />
+    <Resource Include="Images\market.png" />
+    <Resource Include="Images\mastercard.png" />
+    <Resource Include="Images\masterregistry.png" />
+    <Resource Include="Images\modified.png" />
+    <Resource Include="Images\new.png" />
+    <Resource Include="Images\next.png" />
+    <Resource Include="Images\notes.png" />
+    <Resource Include="Images\office.png" />
+    <Resource Include="Images\open.png" />
+    <Resource Include="Images\options.png" />
+    <Resource Include="Images\originclient.png" />
+    <Resource Include="Images\other.png" />
+    <Resource Include="Images\paste.png" />
+    <Resource Include="Images\paymentTypes.png" />
+    <Resource Include="Images\person.png" />
+    <Resource Include="Images\picture.png" />
+    <Resource Include="Images\position.png" />
+    <Resource Include="Images\previous.png" />
+    <Resource Include="Images\print.png" />
+    <Resource Include="Images\province.png" />
+    <Resource Include="Images\redirect.png" />
+    <Resource Include="Images\redo.png" />
+    <Resource Include="Images\refresh.png" />
+    <Resource Include="Images\registry.png" />
+    <Resource Include="Images\reload.png" />
+    <Resource Include="Images\rentcaricon.ico" />
+    <Resource Include="Images\rentCarIcon.png" />
+    <Resource Include="Images\rentingcenter.jpg" />
+    <Resource Include="Images\rentinguse.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\save_toolbar.png" />
+    <Resource Include="Images\search.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\star-icon.png" />
+    <Resource Include="Images\supplier.png" />
+    <Resource Include="Images\techspec.png" />
+    <Resource Include="Images\time.png" />
+    <Resource Include="Images\tools.png" />
+    <Resource Include="Images\undo.png" />
+    <Resource Include="Images\undo_red.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\vehicletype.png" />
+    <Resource Include="Images\video.png" />
+    <Resource Include="Images\visa.png" />
+    <Resource Include="Images\visaelectron.png" />
+    <Resource Include="Images\visit.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\accomulated.png" />
+    <Resource Include="Images\address.png" />
+    <Resource Include="Images\avatarNotKnown.png" />
+    <Resource Include="Images\catalunya.png" />
+    <Resource Include="Images\cellphone.png" />
+    <Resource Include="Images\closeshop.jpg" />
+    <Resource Include="Images\company drivers.jpg" />
+    <Resource Include="Images\companydrivers.jpg" />
+    <Resource Include="Images\contablesicon.png" />
+    <Resource Include="Images\contacts.png" />
+    <Resource Include="Images\corporation.png" />
+    <Resource Include="Images\creditcards.png" />
+    <Resource Include="Images\delete.jpg" />
+    <Resource Include="Images\deputation.png" />
+    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\disk.png" />
+    <Resource Include="Images\email.png" />
+    <Resource Include="Images\evaluation.png" />
+    <Resource Include="Images\exitmodule.jpg" />
+    <Resource Include="Images\fax.png" />
+    <Resource Include="Images\helpicon.png" />
+    <Resource Include="Images\job.png" />
+    <Resource Include="Images\maps.png" />
+    <Resource Include="Images\openshop.png" />
+    <Resource Include="Images\pdficon.png" />
+    <Resource Include="Images\phone.png" />
+    <Resource Include="Images\reseller.png" />
+    <Resource Include="Images\skype.png" />
+    <Resource Include="Images\summary.png" />
+    <Resource Include="Images\text_italic.png" />
+    <Resource Include="Images\text_underline.png" />
+    <Resource Include="Images\visits.png" />
+    <Resource Include="Images\watch.png" />
+    <Resource Include="Images\web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dashboard.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

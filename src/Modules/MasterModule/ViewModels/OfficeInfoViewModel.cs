@@ -19,10 +19,11 @@ using System.Collections.ObjectModel;
 namespace MasterModule.ViewModels
 {
 
-    public class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+    internal sealed class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         #region Constructor 
-        public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
+        public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, 
+            IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);

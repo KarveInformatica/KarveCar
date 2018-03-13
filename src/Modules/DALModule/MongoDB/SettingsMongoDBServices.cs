@@ -6,7 +6,7 @@ using KarveDataServices.DataTransferObject;
 
 namespace DataAccessLayer.MongoDB
 {
-    internal class SettingsMongoDBServices : ISettingsDataService
+    internal class SettingsMongoDBServices : ISettingsDataServices
     {
         private object _executor;
 

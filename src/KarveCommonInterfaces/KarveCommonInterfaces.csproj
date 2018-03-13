@@ -61,10 +61,8 @@
     <Compile Include="IMagnifierHandler.cs" />
     <Compile Include="IRegionManagerAware.cs" />
     <Compile Include="IValidationChain.cs" />
+    <Compile Include="MessageDialogResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

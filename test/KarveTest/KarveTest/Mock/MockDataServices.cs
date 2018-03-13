@@ -40,7 +40,7 @@ namespace KarveTest.Mock
         ///  Mock setting data services
         /// </summary>
         /// <returns></returns>
-        public ISettingsDataService GetSettingsDataService()
+        public ISettingsDataServices GetSettingsDataService()
         {
              return new MockSettingsDataService();
         }
@@ -89,7 +89,7 @@ namespace KarveTest.Mock
         ///  Company data services.
         /// </summary>
         /// <returns></returns>
-        public ICompanyDataService GetCompanyDataServices()
+        public ICompanyDataServices GetCompanyDataServices()
         {
             throw new MockCompanyDataServices();
         }
@@ -98,6 +98,16 @@ namespace KarveTest.Mock
         /// <param name="connectionString"></param>
         public void Reconfigure(string connectionString)
         {
+        }
+
+        public IContractDataServices GetContractDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInvoiceDataServices GetInvoiceDataServices()
+        {
+            throw new NotImplementedException();
         }
     }
 }

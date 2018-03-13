@@ -96,6 +96,7 @@
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Shared.Wpf, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
@@ -132,6 +133,7 @@
     <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="CompanyDataService.cs" />
     <Compile Include="ConcreteDomainFactory.cs" />
+    <Compile Include="ContractDataServices.cs" />
     <Compile Include="Crud\Clients\ClientDataLoader.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
@@ -600,6 +602,7 @@
     <Compile Include="DataObjects\INTERVALO_HORARIO.cs" />
     <Compile Include="DataObjects\INTERVINIENTE.cs" />
     <Compile Include="DataObjects\INTER_PERFIL.cs" />
+    <Compile Include="DataObjects\InvoiceSummaryExtendedDto.cs" />
     <Compile Include="DataObjects\I_COMPRAS.cs" />
     <Compile Include="DataObjects\I_LICOMP.cs" />
     <Compile Include="DataObjects\karLogAsi.cs" />
@@ -1123,6 +1126,7 @@
     <Compile Include="Exception\CommissionAgentException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="GruposDAL.cs" />
+    <Compile Include="InvoiceDataServices.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
     <Compile Include="Logic\ErroresDAL.cs" />
@@ -1137,6 +1141,7 @@
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\DataLayerExecutionException.cs" />
     <Compile Include="Model\DomainObject.cs" />
+    <Compile Include="Model\Invoice.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />
     <Compile Include="Model\MagnifierSettings.cs" />
     <Compile Include="Model\NullClient.cs" />
@@ -1149,7 +1154,6 @@
     <Compile Include="MongoDB\ClientMongoDBServices.cs" />
     <Compile Include="MongoDB\CommisionAgentMongoDBServices.cs" />
     <Compile Include="MongoDB\HelperMongoDBServices.cs" />
-    <Compile Include="MongoDB\INoSqlExecutor.cs" />
     <Compile Include="MongoDB\MongoDataServiceImplementation.cs" />
     <Compile Include="MongoDB\SettingsMongoDBServices.cs" />
     <Compile Include="MongoDB\SupplierMongoDBServices.cs" />

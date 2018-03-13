@@ -23,7 +23,7 @@ using Prism.Mvvm;
 
 namespace DataAccessLayer.Model
 {
-
+    // FIXME: Refactor this. The idea is that inside the model shall reside just objects.
 
     /// <summary>
     ///  This is the class factory for each vehicle.

@@ -17,6 +17,7 @@ using KarveDataServices.DataTransferObject;
 using MasterModule.Views.Vehicles;
 using Prism.Commands;
 using Prism.Regions;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -343,8 +344,9 @@ namespace MasterModule.ViewModels
         /// <param name="eventManager"> The event manager for sending/recieving messages from the view model</param>
         /// <param name="services">Data access layer interface</param>
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
+            IDialogService dialogService,
             IDataServices services, IRegionManager regionManager) : 
-            base(eventManager, configurationService, services, regionManager)
+            base(eventManager, configurationService, dialogService, services, regionManager)
         {
  			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();

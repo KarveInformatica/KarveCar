@@ -61,6 +61,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base.
+        /// </summary>
+        public static string Base {
+            get {
+                return ResourceManager.GetString("Base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Commisiones.
         /// </summary>
         public static string Commisiones {

@@ -2616,4 +2616,13 @@
   <data name="VehicleSummaryDto_VehicleCode" xml:space="preserve">
     <value>Codigo Vehiculo</value>
   </data>
+  <data name="lbase" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Fetching Data...</value>
+  </data>
 </root>

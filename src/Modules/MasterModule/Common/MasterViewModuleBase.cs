@@ -29,7 +29,7 @@ namespace MasterModule.Common
     /// <summary>
     ///  Base class for the view model.
     /// </summary>
-    public abstract class MasterViewModuleBase : KarveViewModelBase, INavigationAware, IDisposeEvents
+    public abstract class MasterViewModuleBase : KarveRoutingBaseViewModel, INavigationAware, IDisposeEvents
     {
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
@@ -57,10 +57,6 @@ namespace MasterModule.Common
         protected IConfigurationService ConfigurationService;
 
 
-        /// <summary>
-        /// The event manager is responsabile to implement the communication between different view models
-        /// </summary>
-        protected IEventManager EventManager;
         /// <summary>
         ///  TODO: fixme read after write probelm
         /// </summary>
@@ -332,7 +328,8 @@ namespace MasterModule.Common
         public MasterViewModuleBase(IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
-            IRegionManager regionManager) : base(services)
+            IDialogService dialogService,
+            IRegionManager regionManager) : base(services, dialogService, eventManager)
         {
             ConfigurationService = configurationService;
             EventManager = eventManager;
@@ -673,12 +670,7 @@ namespace MasterModule.Common
         protected abstract void SetTable(DataTable table);
 
 
-        /// <summary>
-        ///  This shall be used by different view models to set the registration payload.
-        /// </summary>
-        /// <param name="payLoad"> This is the payalod to be be registered</param>
-        protected abstract void SetRegistrationPayLoad(ref DataPayLoad payLoad);
-
+      
         /// <summary>
         /// This is the initialization notifier on property changed data object
         /// </summary>
@@ -780,44 +772,8 @@ namespace MasterModule.Common
         /// <param name="result">DataObject to be set.</param>
         protected abstract void SetDataObject(object result);
 
-        protected void RegisterMailBox(string mailboxName)
-        {
-
-            if (!string.IsNullOrEmpty(PrimaryKeyValue))
-            {
-                if (MailBoxHandler != null)
-                {
-                    EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
-                }
-            }
-        }
-        protected void DeleteMailBox(string mailboxName)
-        {
-
-            if (!string.IsNullOrEmpty(PrimaryKeyValue))
-            {
-                if (MailBoxHandler != null)
-                {
-                    EventManager.DeleteMailBoxSubscription(mailboxName);
-                }
-            }
-        }
-
-        protected void ActiveSubSystem()
-        {
-            // change the active subsystem in the toolbar state.
-            RegisterToolBar();
-        }
-
-        protected void RegisterToolBar()
-        {
-            // each module notify the toolbar.
-            DataPayLoad payLoad = new DataPayLoad();
-            SetRegistrationPayLoad(ref payLoad);
-            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            EventManager.NotifyToolBar(payLoad);
-            Logger.Log(LogLevel.Info, "Toolbar notified and subsystem active " + payLoad.Subsystem);
-        }
+       
+        
 
         /// <summary>
         ///  Navigation support.
@@ -845,13 +801,7 @@ namespace MasterModule.Common
         {
         }
 
-        /// <summary>
-        /// GetRouteName
-        /// </summary>
-        /// <param name="name">This is the route name. An unique name for the view model.</param>
-        /// <returns></returns>
-        protected abstract string GetRouteName(string name);
-
+       
         /// <summary>
         ///  It detected the payload name following the data occurred.
         /// </summary>
@@ -889,30 +839,7 @@ namespace MasterModule.Common
             return currentPayload;
 
         }
-        /// <summary>
-        /// Makes a payload with a data object or a data transfer object.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name">Name of the form/tab</param>
-        /// <param name="Object">Object to be sent to the data</param>
-        /// <param name="queries">Queries optional to be sent to the info view.</param>
-        /// <returns></returns>
-        protected DataPayLoad BuildShowPayLoadDo<T>(string name, T Object, IDictionary<string, string> queries = null)
-        {
-            DataPayLoad currentPayload = new DataPayLoad();
-            // name that it is give from the subclass, it may be a master
-            string routedName = GetRouteName(name);
-            currentPayload.PayloadType = DataPayLoad.Type.Show;
-            currentPayload.Registration = routedName;
-            currentPayload.HasDataObject = true;
-            currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
-            currentPayload.DataObject = Object;
-            if (queries != null)
-            {
-                currentPayload.Queries = queries;
-            }
-            return currentPayload;
-        }
+        
 
 
         /// <summary>

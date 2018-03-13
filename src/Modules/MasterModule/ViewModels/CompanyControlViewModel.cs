@@ -16,6 +16,7 @@ using System.Diagnostics;
 using NLog;
 using KarveDataServices.DataObjects;
 using MasterModule.Common;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -23,10 +24,18 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// CompanyControlBViewModel.
     /// </summary>
-    internal class CompanyControlViewModel : MasterControlViewModuleBase
+    internal sealed class CompanyControlViewModel : MasterControlViewModuleBase
     {
         
-        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
+        /// <summary>
+        /// View model of control.
+        /// </summary>
+        /// <param name="configurationService"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="services"></param>
+        /// <param name="regionManager"></param>
+        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDialogService dialogService, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, dialogService, regionManager)
         {
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             InitEventHandler += LoadNotificationHandler;
@@ -55,7 +64,7 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
-            ICompanyDataService service = DataServices.GetCompanyDataServices();
+            ICompanyDataServices service = DataServices.GetCompanyDataServices();
             ICompanyData data = await service.GetAsyncCompanyDo(primaryKey);
             bool retValue = await service.DeleteCompanyAsyncDo(data);
             return retValue;
@@ -66,7 +75,7 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
 
         {
-            ICompanyDataService companyDataService = DataServices.GetCompanyDataServices();
+            ICompanyDataServices companyDataService = DataServices.GetCompanyDataServices();
             InitializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(companyDataService.GetAsyncAllCompanySummary(), InitEventHandler);
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);

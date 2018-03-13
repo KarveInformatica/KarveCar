@@ -16,7 +16,7 @@ namespace KarveTest.DAL
     {
         private ISqlExecutor _sqlExecutor;
         private IConfigurationService _serviceConf;
-        private ICompanyDataService _companyDataService;
+        private ICompanyDataServices _companyDataService;
         /// <summary>
         /// The setup.
         /// </summary>

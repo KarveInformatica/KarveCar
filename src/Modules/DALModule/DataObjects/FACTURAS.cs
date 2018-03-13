@@ -1,18 +1,21 @@
+using KarveDapper.Extensions;
 using System;
- 
+using System.ComponentModel.DataAnnotations;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a FACTURAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("FACTURAS")]
 	public class FACTURAS 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO_FAC property.
     /// </summary>
-    
+         [KarveDapper.Extensions.Key]
 		public string NUMERO_FAC { get; set; }
  
 	/// <summary>

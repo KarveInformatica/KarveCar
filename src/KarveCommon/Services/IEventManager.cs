@@ -50,7 +50,8 @@ namespace KarveCommon.Services
         public const string ContractSummaryVm = "ContractControlViewModel";
     }
     /// <summary>
-    /// Interface for communication between view models.
+    /// Interface for communication between view models. 
+    /// TODO: This shall be moved to the KarveCommonInterfaces. and datapayload shall be abstracted to IDataPayload. 
     /// </summary>
     public interface IEventManager
     {

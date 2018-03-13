@@ -21,13 +21,14 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
 using KarveDataServices.Assist;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
     ///  ProviderInfoViewModel. 
     /// </summary>
-    public class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
+   internal sealed class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
      
         private string _header;
@@ -202,7 +203,7 @@ namespace MasterModule.ViewModels
         /// <param name="dataServices"></param>
         /// <param name="manager"></param>
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
-            IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
+             IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
         {
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;   

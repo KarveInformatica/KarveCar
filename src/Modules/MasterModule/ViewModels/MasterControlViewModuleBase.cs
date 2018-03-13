@@ -11,6 +11,7 @@ using MasterModule.Common;
 using Prism.Regions;
 using KarveCommon.Generic;
 using System.Windows;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -21,13 +22,31 @@ namespace MasterModule.ViewModels
     {
         private bool _canDeleteRegion;
         /// <summary>
-        /// Constructor
+        /// MasterControlViewModuleBase. It is a base class for the view model.
         /// </summary>
-        /// <param name="configurationService">Configuration Service</param>
-        /// <param name="eventManager">Event manager</param>
-        /// <param name="services">Services</param>
-        /// <param name="regionManager">Region manager</param>
-        public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
+        /// 
+        /// <param name="configurationService">Configuration Service. Service for managing the configuration.</param>
+        /// <param name="eventManager">Event Manager. Manager for communicating between two view models.</param>
+        /// <param name="services">Data Services. Services for access to the data access layer.</param>
+        /// <param name="regionManager">Region manager. Manager for registering a region and handling composite UI.</param>
+        
+        public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager,
+           services, null, regionManager)
+        {
+            _canDeleteRegion = false;
+            DeleteEventHandler += DeleteElementHandler;
+        }
+        /// <summary>
+        ///  Constructor for the control view model.
+        /// </summary>
+        /// <param name="configurationService">Configuration Service. Service for managing the configuration.</param>
+        /// <param name="eventManager">Event Manager. Manager for communicating between two view models.</param>
+        /// <param name="services">Data Services. Services for access to the data access layer.</param>
+        /// <param name="dialogService">Dialog service for spotting errors in a modal way.</param>
+        /// <param name="regionManager">Region manager. Manager for registering a region and handling composite UI.</param>
+
+        public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IDialogService dialogService, IRegionManager regionManager) : base(configurationService, eventManager, 
+            services, dialogService, regionManager )
 
         {
             _canDeleteRegion = false;
@@ -57,8 +76,10 @@ namespace MasterModule.ViewModels
             {
                 // replace with configuration service.
                 string messageBox = "Delete error: " + completion.ErrorMessage;
-                MessageBox.Show(messageBox);
-                
+                if (DialogService!=null)
+                {
+                    DialogService.ShowErrorMessage(messageBox);
+                }
             }
         }
         /// <summary>

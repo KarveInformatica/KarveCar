@@ -9,7 +9,7 @@ using Prism.Regions;
 namespace MasterModule.ViewModels
 {
     [TestFixture]
-    class TestCompanyInfoViewModel : TestBase
+    class TestCompanyInfoViewModel : TestViewModelBase
     {
         private Mock<IEventManager> _eventManager = new Mock<IEventManager>();
         private Mock<IDataServices> _dataServices = new Mock<IDataServices>();
@@ -20,10 +20,11 @@ namespace MasterModule.ViewModels
         [OneTimeSetUp]
         public void Setup()
         {
-            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, 
+           /* _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, 
                                                             _configurationService.Object, 
                                                             _dataServices.Object, 
                                                            _regionManager.Object);
+                                                           */
         }
         [Test]
         public void Should_Handle_Correctly_Magnifier_Assist()

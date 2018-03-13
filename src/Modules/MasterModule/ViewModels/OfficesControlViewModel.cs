@@ -22,7 +22,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  View of control for the office.
     /// </summary>
-    public class OfficesControlViewModel : MasterControlViewModuleBase
+   internal sealed class OfficesControlViewModel : MasterControlViewModuleBase
     {
         /// <summary>
         ///  Control view for the office

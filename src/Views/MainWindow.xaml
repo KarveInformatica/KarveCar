@@ -740,7 +740,7 @@
                                     <RibbonButton.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                         <KeyBinding Key="Enter"  Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ShowProvidersCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding NavigateCommand}" CommandParameter="{Binding Name, RelativeSource={RelativeSource AncestorType={x:Type RibbonButton}}}"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                                 <RibbonButton x:Name="rbtnTiposProveedores" 
@@ -1245,6 +1245,8 @@
                                 <RibbonButton x:Name="rbtnConsultaModificacion" 
                                             Label="{Binding lrbtnConsultaModificacion, Source={StaticResource ResourceLanguage}}" 
                                             HorizontalAlignment="Left" 
+                                            Command="{Binding NavigateCommand}"
+                                            CommandParameter="Invoices"
                                             SmallImageSource="/KarveCar;component/Images/new.png"/>
                                 <RibbonButton x:Name="rbtnModificarEmpresaOficinaFactura" 
                                             Label="{Binding lrbtnModificarEmpresaOficinaFactura, Source={StaticResource ResourceLanguage}}" 

@@ -57,6 +57,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Data.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfBusyIndicator.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfGrid.WPF.dll</HintPath>
@@ -105,15 +109,45 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\ButtonBehavior.cs" />
+    <Compile Include="Behaviour\Ext.cs" />
+    <Compile Include="Behaviour\KarveGridCopyPaste.cs" />
+    <Compile Include="Behaviour\LineGridBehaviour.cs" />
     <Compile Include="GridCellConverter.cs" />
+    <Compile Include="ViewModels\GenericGridViewModel.cs" />
+    <Compile Include="ViewModels\GridLoadException.cs" />
+    <Compile Include="ViewModels\HeaderDataViewModel.cs" />
+    <Compile Include="ViewModels\InvoiceControlViewModel.cs" />
+    <Compile Include="ViewModels\InvoiceInfoViewModel.cs" />
+    <Compile Include="ViewModels\LineGridViewModel.cs" />
+    <Compile Include="ViewModels\ProxyDataLoader.cs" />
+    <Compile Include="Views\GenericGridView.xaml.cs">
+      <DependentUpon>GenericGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GridView.xaml.cs">
       <DependentUpon>GridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="InvoiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\HeaderDataView.xaml.cs">
+      <DependentUpon>HeaderDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InvoiceControlView.xaml.cs">
+      <DependentUpon>InvoiceControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InvoiceInfoView.xaml.cs">
+      <DependentUpon>InvoiceInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LineGridView.xaml.cs">
+      <DependentUpon>LineGridView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Style\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GenericGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -121,13 +155,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\HeaderDataView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InvoiceControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InvoiceInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LineGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Content Include="Images\Edit.jpg" />
+    <Content Include="Images\gobutton.jpg" />
+    <Content Include="Images\Invoice.png" />
+    <Content Include="Images\play.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Controls\KarveControls\KarveControls.csproj">
@@ -145,6 +197,10 @@
     <ProjectReference Include="..\..\KarveLocale\KarveLocale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveLocale</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DALModule\KarveDataServices\KarveDataServices.csproj">
+      <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
+      <Name>KarveDataServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

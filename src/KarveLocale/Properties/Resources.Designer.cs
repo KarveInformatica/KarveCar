@@ -205,6 +205,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data.
+        /// </summary>
+        public static string Data {
+            get {
+                return ResourceManager.GetString("Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dato Generales.
         /// </summary>
         public static string DatoGenerales {
@@ -475,6 +484,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fetching Data....
+        /// </summary>
+        public static string FetchingData {
+            get {
+                return ResourceManager.GetString("FetchingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fin.
         /// </summary>
         public static string Fin {
@@ -606,6 +624,15 @@ namespace KarveLocale.Properties {
         public static string lbanco {
             get {
                 return ResourceManager.GetString("lbanco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base.
+        /// </summary>
+        public static string lbase {
+            get {
+                return ResourceManager.GetString("lbase", resourceCulture);
             }
         }
         

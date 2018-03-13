@@ -33,8 +33,8 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <Syncfusion:SfDataGrid x:Name="SupplierSummary"
-                               ColumnSizer="Star"
+        <Syncfusion:SfDataGrid x:Name="InvoiceControlView"
+                               ColumnSizer="Auto"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"

@@ -21,7 +21,7 @@ namespace KarveTest.DAL
     {
         private IConfigurationService _serviceConf;
         private ISqlExecutor _sqlExecutor;
-        private ISettingsDataService _settingsDataService;
+        private ISettingsDataServices _settingsDataService;
       
         [OneTimeSetUp]
         public void SetUp()

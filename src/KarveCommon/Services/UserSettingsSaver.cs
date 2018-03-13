@@ -9,7 +9,7 @@ namespace KarveCommon.Services
 {
     public class UserSettingsSaver: IUserSettingsSaver
     {
-        private readonly ISettingsDataService _dataService;
+        private readonly ISettingsDataServices _dataService;
 
         /// <summary>
         ///  This inject the data service interface to the magnifier.

@@ -11,6 +11,9 @@ namespace KarveCommonInterfaces
     /// </summary>
     public interface IDisposeEvents
     {
+        /// <summary>
+        ///  This is helpful to dispose events.
+        /// </summary>
        void DisposeEvents();
     }
 }

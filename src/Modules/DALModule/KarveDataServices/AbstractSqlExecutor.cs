@@ -87,13 +87,46 @@ namespace KarveDataServices
         /// <param name="cmdType"></param>
         /// <returns></returns>
         public abstract DataTable ExecuteSelectCommand(string CommandName, CommandType cmdType);
+        /// <summary>
+        ///  Load a dataset given a query.
+        /// </summary>
+        /// <param name="sqlQuery">Query to be executed</param>
+        /// <returns></returns>
         public abstract DataSet LoadDataSet(string sqlQuery);
+        /// <summary>
+        ///  Load a data set by tables
+        /// </summary>
+        /// <param name="sqlQuery">Query to be executed</param>
+        /// <param name="tableAlias">List of alias table</param>
+        /// <returns>A dataset</returns>
         public abstract DataSet LoadDataSetByTables(string sqlQuery, IList<string> tableAlias);
+        /// <summary>
+        ///  Open a connection to the database
+        /// </summary>
+        /// <returns></returns>
         public abstract bool Open();
+        /// <summary>
+        ///  Rollback a connection to the database.
+        /// </summary>
         public abstract void Rollback();
+        /// <summary>
+        ///  Update a dataset.
+        /// </summary>
+        /// <param name="sqlQuery">Query to be executed</param>
+        /// <param name="dts">Dataset to be executed</param>
         public abstract void UpdateDataSet(string sqlQuery, ref DataSet dts);
+        /// <summary>
+        /// Load a dataset filling the schema in batch way.
+        /// </summary>
+        /// <param name="queryList">Dictionary. The key contains the name of the table and the value the query.</param>
+        /// <returns></returns>
         public abstract Task<DataSet> AsyncDataSetLoadBatch(IDictionary<string, string> queryList);
 
+        /// <summary>
+        ///  Load a data table for an async data table.
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <returns></returns>
         public abstract Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
 
         //  public abstract IList<T> ExecuteQueryFields(string sqlQuery);

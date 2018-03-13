@@ -9,7 +9,7 @@ using KarveDataServices.DataTransferObject;
 namespace KarveTest.Mock
 {
     [Serializable]
-    internal class MockSettingsDataService : ISettingsDataService
+    internal class MockSettingsDataService : ISettingsDataServices
     {
         public MockSettingsDataService()
         {

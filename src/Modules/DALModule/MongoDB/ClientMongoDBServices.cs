@@ -12,7 +12,6 @@ namespace DataAccessLayer.MongoDB
     {
         private IMongoClient _executor;
       
-
         public ClientMongoDBServices(IMongoClient executor)
         {
             _executor = executor;
@@ -25,6 +24,7 @@ namespace DataAccessLayer.MongoDB
 
         public IClientData GetNewClientAgentDo(string code)
         {
+           
             throw new System.NotImplementedException();
         }
 

@@ -25,7 +25,6 @@ namespace KarveDataServices
         ///  Origen Data Transfer Object
         /// </summary>
         IEnumerable<OrigenDto> OrigenDto { get; set; }
-
         /// <summary>
         ///  Broker Data Transfer Object
         /// </summary>

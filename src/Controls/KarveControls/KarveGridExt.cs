@@ -61,7 +61,7 @@ namespace KarveControls
         }
 
         /// <summary>
-        /// Get the GridIdentifier dependecy property.
+        /// Get the GridIdentifier Dependency Property.
         /// </summary>
         /// <param name="d">Dependency Property</param>
         /// <param name="e">Dependency Property events</param>
@@ -147,7 +147,7 @@ namespace KarveControls
         /// <summary>
         ///  Grid parameters to be set and serialized when changed 
         /// </summary>
-        public static readonly DependencyProperty GridParameterProperty =
+        public static readonly DependencyProperty GridParametersProperty =
             DependencyProperty.RegisterAttached(
                 "GridParameters",
                 typeof(KarveGridParameters),
@@ -161,7 +161,7 @@ namespace KarveControls
         /// <param name="e">Depndency Property event</param>
         public static void SetGridParameters(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(GridParameterProperty, e);
+            d.SetValue(GridParametersProperty, e);
         }
         /// <summary>
         /// Get the GridParameters dependecy property.
@@ -170,7 +170,7 @@ namespace KarveControls
         /// <param name="e">Dependency Property events</param>
         public static KarveGridParameters GetGridParameter(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (KarveGridParameters) d.GetValue(GridParameterProperty);
+            return (KarveGridParameters) d.GetValue(GridParametersProperty);
         }
         /// <summary>
         /// Dependency property for leveraging the command.

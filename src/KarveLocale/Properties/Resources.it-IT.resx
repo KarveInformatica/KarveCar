@@ -2528,4 +2528,10 @@
   <data name="VehicleSummaryDto_VehicleCode" xml:space="preserve">
     <value>Codice Veicolo</value>
   </data>
+  <data name="CompanyControlViewModel_NewItem_NuevaEmpresa" xml:space="preserve">
+    <value>Nuova Societa'</value>
+  </data>
+  <data name="lbase" xml:space="preserve">
+    <value>Base</value>
+  </data>
 </root>

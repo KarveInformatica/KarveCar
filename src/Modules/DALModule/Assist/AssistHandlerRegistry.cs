@@ -9,8 +9,9 @@ using DataAccessLayer.Assist;
 namespace DataAccessLayer.Assist
 {
     /// <summary>
-    ///  Registry of the assist handlers.
-    /// TODO: think more to avoid the last switch.
+    ///  Registry of the assist handlers. Each magnifier can be configurable and have  a
+    ///  set of assists
+    /// TODO: look if there is any kind of duplication with MasterViewModelBase.
     /// </summary>
     public class AssistHandlerRegistry
     {
@@ -58,8 +59,7 @@ namespace DataAccessLayer.Assist
             assistHandler = default(THandlerType);
             return false;
         }
-      
-       
+    
         /// <summary>
         ///  Remove Handler
         /// </summary>

@@ -9,7 +9,7 @@ using KarveTest.Mock;
 namespace KarveTest.ViewModels
 {
     [TestFixture]
-    class TestOfficeInfoViewModel
+    class TestOfficeInfoViewModel: TestViewModelBase
     {
         private const string ID_DEFAULT = "00001";
         private Mock<IEventManager> _eventManager = new Mock<IEventManager>();
@@ -19,7 +19,9 @@ namespace KarveTest.ViewModels
         private CompanyInfoViewModel _companyInfoViewModel = null;
         public TestOfficeInfoViewModel()
         {
-            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, _regionManager.Object);
+            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, 
+                _mockDialogService.Object,
+                _regionManager.Object);
         }
         [Test]
         public void Setup()

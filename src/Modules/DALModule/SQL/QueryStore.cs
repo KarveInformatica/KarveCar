@@ -53,7 +53,10 @@ namespace DataAccessLayer.SQL
             QueryVehicleSummaryPaged,
             QuerySupplierSummaryPaged,
             QueryBrokerSummary,
-            QueryBroker
+            QueryBroker,
+            QueryInvoiceSummary, 
+            QueryInvoiceSummaryExtended,
+            QueryInvoiceSummaryPaged
         }
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
@@ -155,6 +158,10 @@ namespace DataAccessLayer.SQL
                  VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI "+
                  " LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE " +
                 " INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
+            {QueryType.QueryInvoiceSummaryExtended, "select distinct numero_fac as InvoiceName, serie_fac as InvoiceSerie, referen_fac as InvoiceRef, cliente_fac as InvoiceCode, CONTRATO_FAC as InvoiceContract,c.nombre as ClientName, fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, base_fac as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType, c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, fserv_de as InvoiceFrom, observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModification, vienede_fac as ComeFrom from facturas as f " +
+                "left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
+                "inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
+                "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" }
 
         };
         

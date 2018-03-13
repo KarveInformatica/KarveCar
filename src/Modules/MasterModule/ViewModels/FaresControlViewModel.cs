@@ -18,7 +18,7 @@ namespace MasterModule.ViewModels
    ///  This is the fare control view model.
    /// It controls the fares.
    /// </summary>
-    public class FaresControlViewModel : MasterControlViewModuleBase, IEventObserver
+    internal sealed class FaresControlViewModel : MasterControlViewModuleBase, IEventObserver
     {
 
         private UnityContainer _container;

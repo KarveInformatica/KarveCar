@@ -240,25 +240,21 @@ namespace KarveControls
         /// <summary>
         ///  Set the item changed command, Attached behaviour for the component.
         /// </summary>
-        /// <param name="d">Depedency property</param>
-        /// <param name="e">Value</param>
+        /// <param name="ext">User Interface to be used</param>
+        /// <param name="command">Command to be used</param>
         public static void SetItemChangedCommand(UIElement ext, ICommand command)
         {
             ext.SetValue(ItemChangedCommandProperty,command);
         }
-
         /// <summary>
         ///  Get item changed command.
         /// </summary>
-        /// <param name="d">Dependency Properties</param>
-        /// <param name="e">Value</param>
+        /// <param name="ext">Command Value</param>
         /// <returns></returns>
         public static ICommand GetItemChangedCommand(UIElement ext)
         {
             return ext.GetValue(ItemChangedCommandProperty) as ICommand;
         }
-
-
         /// <summary>
         ///  This is a property changed util.
         /// </summary>

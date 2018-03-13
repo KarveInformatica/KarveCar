@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="InvoiceModule.Views.LineGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:InvoiceModule"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+  
+            <UserControl.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+
+                </ResourceDictionary>
+            </UserControl.Resources>
+
+ 
+
+        <Grid>
+                    
+            <!--  Syncfusion SfDataGrid implementation  -->
+
+            <syncfusion:SfDataGrid x:Name="SyncfusionGrid"
+                                   Grid.Row="0"    
+                                    AllowEditing="True"
+                                   AutoGenerateColumns="True"
+                                       AllowGrouping="True"
+                                       AutoExpandGroups="True"
+                                      ColumnSizer="Star"
+                                   CellStyle="{StaticResource CellStyle}"
+                                       ItemsSource="{Binding SourceView, Mode=TwoWay}"
+                                       LiveDataUpdateMode="AllowDataShaping"
+                                   
+                                       SelectionMode="Extended"
+                                       SelectionUnit="Row"
+                                   
+                                    
+                                       ShowGroupDropArea="True"
+                                       ShowRowHeader="True">
+
+
+
+            <i:Interaction.Behaviors>
+                <local:LineGridBehaviour CellPresenterItems="{Binding CellPresentation, Mode=OneWay}">
+                    
+                </local:LineGridBehaviour>
+            </i:Interaction.Behaviors>
+                
+            </syncfusion:SfDataGrid>
+            
+        </Grid>
+
+</UserControl>

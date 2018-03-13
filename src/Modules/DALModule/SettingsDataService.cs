@@ -24,7 +24,7 @@ namespace DataAccessLayer
     ///  This class is responsabile for the handling of the application settings. 
     /// For allowing multiple clients 
     /// </summary>
-    internal class SettingsDataService : ISettingsDataService
+    internal class SettingsDataService : ISettingsDataServices
     {
         class DataCompare : IEqualityComparer<GRID_SERIALIZATION>
         {

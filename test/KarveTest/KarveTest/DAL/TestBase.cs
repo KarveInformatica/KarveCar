@@ -21,6 +21,11 @@ namespace KarveTest.DAL
             ISqlExecutor executor = new OleDbExecutor(TestConnectionString);
             return executor;
         }
+        protected ISqlExecutor SetupSqlOdbcQueryExecutor()
+        {
+            ISqlExecutor executor = new OdbcExecutor(TestConnectionString);
+            return executor;
+        }
 
-}
+    }
 }

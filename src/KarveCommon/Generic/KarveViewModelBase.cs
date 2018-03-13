@@ -15,7 +15,9 @@ using Prism.Mvvm;
 namespace KarveCommon.Generic
 {
     /// <summary>
-    /// View model base.
+    /// View model base. It is at the top of any view model in the infrastructure. 
+    /// It implement the mailbox notification. Each view model can receive mail message, when 
+    /// a mail comes from the event manager, it triggers an event to notify a new DataPayload message.
     /// </summary>
     public class KarveViewModelBase: BindableBase, IDisposeEvents
     {
@@ -47,6 +49,10 @@ namespace KarveCommon.Generic
              */
 
         protected INotifyTaskCompletion<bool> AssistNotifierInitialized;
+
+        /// <summary>
+        ///  Notification when an assist get executed.
+        /// </summary>
         protected PropertyChangedEventHandler AssistExecuted;
 
 
@@ -67,9 +73,16 @@ namespace KarveCommon.Generic
         /// DataServices about grid parameters.
         /// </summary>
         protected IDataServices DataServices;
+
+        /// <summary>
+        ///  Dialog service for showing the view model things.
+        /// </summary>
+        protected IDialogService DialogService;
+
         /// <summary>
         ///  Registered grid list.
         /// </summary>
+
         protected static SortedSet<long> RegisteredGridIds = new SortedSet<long>();
         /// <summary>
         ///  Current grid settings.
@@ -80,13 +93,11 @@ namespace KarveCommon.Generic
         private KarveGridParameters _gridParm = new KarveGridParameters();
         private long _gridIdentifer = Int64.MinValue;
         /// <summary>
-        ///  emptu constructro.
+        ///  empty constructor
         /// </summary>
         public KarveViewModelBase()
         {
-            Guid = Guid.NewGuid();
-            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
-            GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
+            InitViewModelState();
         }
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
@@ -95,12 +106,30 @@ namespace KarveCommon.Generic
         public KarveViewModelBase(IDataServices services)
         {
             DataServices = services;
+            HelperDataServices = services.GetHelperDataServices();
+            InitViewModelState();
+        }
+        /// <summary>
+        ///  KarveViewModelBase.
+        /// </summary>
+        /// <param name="services">DataServices to be used</param>
+        /// <param name="dialogService">DialogServices to be used</param>
+        public KarveViewModelBase(IDataServices services, IDialogService dialogService)
+        {
+            DataServices = services;
+            HelperDataServices = services.GetHelperDataServices();
+            DialogService = dialogService;
+            InitViewModelState();
+        }
+
+
+        private void InitViewModelState()
+        {
             Guid = Guid.NewGuid();
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
             GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
-            HelperDataServices = services.GetHelperDataServices();
         }
-       
+        
         /// <summary>
         ///  Unique Id for the helpers.
         /// </summary>
@@ -197,7 +226,7 @@ namespace KarveCommon.Generic
             KarveGridParameters param = var as KarveGridParameters;
             if (param != null)
             {
-                ISettingsDataService dataService = DataServices.GetSettingsDataService();
+                ISettingsDataServices dataService = DataServices.GetSettingsDataService();
                 GridSettingsDto settingsDto = new GridSettingsDto();
                 settingsDto.GridName = param.GridName;
                 settingsDto.GridIdentifier = param.GridIdentifier;
@@ -240,9 +269,17 @@ namespace KarveCommon.Generic
                 INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task = sender as INotifyTaskCompletion<ObservableCollection<GridSettingsDto>>;
                 if (task != null)
                 {
+                   
                     ObservableCollection<GridSettingsDto> m = task.Result;
                     CurrentGridSettings = m;
                     OnGridChange(m);
+                }
+            }
+            if ((DialogService!=null) && (MagnifierInitializationNotifier != null))
+            {
+                if (MagnifierInitializationNotifier.IsFaulted)
+                {
+                    DialogService.ShowErrorMessage(MagnifierInitializationNotifier.ErrorMessage);
                 }
             }
         }

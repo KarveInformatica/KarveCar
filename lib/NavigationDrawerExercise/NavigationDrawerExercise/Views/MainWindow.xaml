@@ -1,0 +1,77 @@
+﻿<syncfusion:ChromelessWindow x:Class="NavigationDrawerExercise.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        syncfusion:SkinStorage.VisualStyle="Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NavigationDrawerExercise"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:prism="http://prismlibrary.com/"
+                             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                             Icon="/Images/cars.png"              
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"
+        Title="KarveCar" Height="900" Width="1150">
+
+    <syncfusion:ChromelessWindow.Resources>
+        <Style x:Key="listboxitemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property ="Foreground" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" Background="{TemplateBinding Background}" 
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                VerticalAlignment="{TemplateBinding VerticalAlignment}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border x:Name="brd" BorderBrush="#aeb1f6" Width="Auto" BorderThickness="0 0 0 1">
+                                <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        
+        <syncfusion:SfNavigationDrawer x:Name="Drawer"  Position="Left" Grid.Row="0">
+            <syncfusion:SfNavigationDrawer.DrawerHeaderView>
+                <Grid Background="#FF5D63EE">
+                    <Image Source="/Images/cars.png" Width="100" x:Name="image" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" Margin="0 0 0 5" />
+                    <TextBlock x:Name="name" HorizontalAlignment="Center"  Padding="0 5 0 5" Foreground="White" VerticalAlignment="Bottom"/>
+                </Grid>
+            </syncfusion:SfNavigationDrawer.DrawerHeaderView>
+            <syncfusion:SfNavigationDrawer.DrawerContentView>
+                <Border Background="White" BorderBrush="#FF5D63EE" BorderThickness="0.4">
+                    <ListBox x:Name="list" ItemsSource="{Binding Contents}" Background="Transparent" ItemContainerStyle="{StaticResource listboxitemStyle}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding SourceImage}" Width="25"></Image>
+                                    <TextBlock  Grid.Column="1" Text="{Binding Name}" Padding="10" TextAlignment="Center" 
+                                                FontSize="20" Foreground="Black"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </syncfusion:SfNavigationDrawer.DrawerContentView>
+        </syncfusion:SfNavigationDrawer>
+    </Grid>
+</syncfusion:ChromelessWindow>

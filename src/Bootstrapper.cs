@@ -7,6 +7,7 @@ using KarveDataServices;
 using Prism.Mvvm;
 using Prism.Regions;
 using KarveCommon.Generic;
+using KarveCommonInterfaces;
 using System.Reflection;
 using System.Globalization;
 using System;
@@ -17,12 +18,14 @@ using NLog;
 using System.Data;
 using MasterModule.Views;
 using DataAccessLayer;
+using CarModel;
 
 namespace KarveCar.Boot
 {
     /// <summary>
     ///  This is the application bootstrapper. It is inside the KarveCar.Boot namespace in a 
     ///  way that we can use friendly assembly to inject things. 
+    ///  
     /// </summary>
     class Bootstrapper : UnityBootstrapper
     {
@@ -72,6 +75,8 @@ namespace KarveCar.Boot
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
+            catalog.AddModule(typeof(InvoiceModule.InvoiceModule));
+//            catalog.AddModule(typeof(CarModelModule.CarModelModule));
            // catalog.AddModule(typeof(NavigationBarM.TreeViewModule));
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
@@ -96,6 +101,9 @@ namespace KarveCar.Boot
                 Container.RegisterType<IUserSettingsSaver,UserSettingsSaver>();
                 Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
+
+               
+
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
@@ -105,14 +113,19 @@ namespace KarveCar.Boot
                 values[0] = Container.Resolve<ISqlExecutor>();
                 TestDBConnection(values[0] as ISqlExecutor);
                 InjectionConstructor injectionConstructor = new InjectionConstructor(values);
-                logger.Debug("Registering types in the dependency injection");
+                logger.Debug("Registering types in the dependency injection...");
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
-                // Event dispatcher is the resposible for the mediator between view models.
+                // Event dispatcher implements the mediator pattern between view models.
+                // Every communication pass through the mediator.
+                logger.Debug("Starting EventDispatcher...");
                 Container.RegisterType<IEventManager, KarveCommon.Services.EventDispatcher>(new ContainerControlledLifetimeManager());
-              
-               
+                /**
+                 * Dialog Service provide a way to send or display modal message error within the MVVM pattern.
+                 */
+                logger.Debug("Starting DialogService...");
+                 Container.RegisterType<KarveCommonInterfaces.IDialogService, KarveCommon.DialogService.KarveDialogService>(new ContainerControlledLifetimeManager());
             }
             catch (Exception e)
             {

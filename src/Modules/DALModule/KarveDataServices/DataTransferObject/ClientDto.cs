@@ -22,7 +22,6 @@ namespace KarveDataServices.DataTransferObject
         public string Nombre { get; set; }
 
 
-
         /// <summary>
         ///  Set or get the NUMERO_CLI property.
         /// </summary>

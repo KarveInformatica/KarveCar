@@ -1577,4 +1577,7 @@
   <data name="User" xml:space="preserve">
     <value>Dati Usuario</value>
   </data>
+  <data name="Base" xml:space="preserve">
+    <value>Base</value>
+  </data>
 </root>

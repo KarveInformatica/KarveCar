@@ -2521,4 +2521,10 @@
   <data name="TextedThumb_OnApplyTemplate_ConsultaDe" xml:space="preserve">
     <value>Auflistung  </value>
   </data>
+  <data name="CompanyControlViewModel_NewItem_NuevaEmpresa" xml:space="preserve">
+    <value>Neue Company</value>
+  </data>
+  <data name="lbase" xml:space="preserve">
+    <value>base</value>
+  </data>
 </root>

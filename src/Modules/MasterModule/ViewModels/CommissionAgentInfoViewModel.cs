@@ -21,6 +21,7 @@ using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.Windows.Shared;
 using DelegateCommand = Prism.Commands.DelegateCommand;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace MasterModule.ViewModels
     /// This view model is the commission agent view model
     /// </summary>
     /// CommissionAgentInfoViewModel
-    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IDataErrorInfo, IEventObserver
+    internal sealed partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IDataErrorInfo, IEventObserver
     {
         
         private Visibility _visibility;
@@ -245,7 +246,10 @@ namespace MasterModule.ViewModels
         public CommissionAgentInfoViewModel(IConfigurationService configurationService,
                                             IEventManager eventManager,
                                             IDataServices services,
-                                            IRegionManager regionManager) : base(eventManager, configurationService, services, regionManager)
+                                            IDialogService dialogService,
+                                            IRegionManager regionManager) : base(eventManager, configurationService, dialogService, 
+                                                services, 
+                                                regionManager)
         {
 
             _queries = new Dictionary<string, string>();

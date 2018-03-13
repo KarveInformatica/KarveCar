@@ -25,7 +25,5 @@ namespace DataAccessLayer
         /// <returns></returns>
         Task<IEnumerable<T>> LoadValueAtMostAsync(int n, int back = 0);
       
-        // set of helpers to be loaded.
-        // IHelperBase Helper { set; get; }
     }
 }

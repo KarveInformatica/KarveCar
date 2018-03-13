@@ -9,9 +9,9 @@ namespace DataAccessLayer.Model
     /// <summary>
     ///  Domain object foreach 
     /// </summary>
-    public abstract class DomainObject: BindableBase
+    public class DomainObject: BindableBase
     {
-
-        
+        public string Code { get; set; }
+        public bool Valid { set; get; }
     }
 }

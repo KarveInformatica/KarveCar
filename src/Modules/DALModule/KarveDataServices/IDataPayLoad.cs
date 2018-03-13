@@ -50,18 +50,29 @@ namespace KarveDataServices
         ///  data object name. The name of the data object
         /// </summary>
          string DataObjectName { get; set; }
+        /// <summary>
+        ///  Get or Set the value of the primary key
+        /// </summary>
          string PrimaryKey { get; set; }
-
+        /// <summary>
+        ///  Get or Set the data object to be carried in the payload.
+        /// </summary>
          object DataObject { get; set; }
-
+        /// <summary>
+        ///  Get or set a dictionary of object to be carried in the payload.
+        /// </summary>
          IDictionary<string, object> DataMap { get; set; }
         /// <summary>
         ///  colleaction of object to be delivered.
         /// </summary>
          ObservableCollection<object> Data { get; set; }
-
+        /// <summary>
+        ///  Get or Set a list of values.
+        /// </summary>
          IList<DataSet> SetList { get; set; }
-
+        /// <summary>
+        ///  Get or Set the values.
+        /// </summary>
          DataSet Set { get; set; }
         /// <summary>
         ///  This is useful for the registration with the event manager.
@@ -77,19 +88,19 @@ namespace KarveDataServices
          /// </summary>
          IDictionary<string, string> Queries { get; set; }
          /// <summary>
-         /// The sender. 
+         /// Get or Set the sender.
          /// </summary>
          string Sender { get; set; }
         /// <summary>
-        ///  The subsystem view model.
+        ///  Get or Set the subsystem view model.
         /// </summary>
          string SubsystemViewModel { get; set; }
         /// <summary>
-        ///  Primary key.
+        ///  Get or Set the primary key.
         /// </summary>
          string PrimaryKeyValue { get; set; }
         /// <summary>
-        ///  Clone objects.
+        /// Get or Set the clone.
         /// </summary>
         /// <returns></returns>
         object Clone();

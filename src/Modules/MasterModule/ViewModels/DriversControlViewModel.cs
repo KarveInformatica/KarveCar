@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
-    class DriversControlViewModel: KarveViewModelBase, INavigationAware
+    internal sealed class DriversControlViewModel: KarveViewModelBase, INavigationAware
     {
         IRegionManager _regionManager;
         IRegionNavigationJournal _journal;
@@ -116,5 +116,6 @@ namespace MasterModule.ViewModels
         {
 
         }
+        
     }
 }

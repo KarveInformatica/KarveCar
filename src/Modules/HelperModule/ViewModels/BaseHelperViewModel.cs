@@ -93,17 +93,20 @@ namespace HelperModule.ViewModels
             get { return  _state; }
             set { _state = value; RaisePropertyChanged(); }
         }
-
-     
+        
+        /// <summary>
+        ///  This method register a subsystem.
+        /// </summary>
         private void RegisterSubsystem()
         {
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.HelperSubsytsem;
-            RegisterView(ref payLoad);
+            RegisterView(ref payLoad);   
             EventManager.NotifyToolBar(payLoad);
 
         }
+    
         /// <summary>
         ///  Constructor of the base class
         /// </summary>

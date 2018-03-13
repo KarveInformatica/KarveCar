@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using KarveCommon.Generic;
 namespace KarveCar.ViewModels
 {
-    class LeftTreeViewModel: KarveViewModelBase
+    class LeftTreeViewModel : KarveViewModelBase
     {
+        
     }
 }

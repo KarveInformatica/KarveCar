@@ -52,6 +52,8 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Dragablz.dll</HintPath>
@@ -65,11 +67,69 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="PresentationFramework.AeroLite" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="PresentationFramework.Luna" />
+    <Reference Include="PresentationFramework.Royale" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Chart.WPF.SampleLayout, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Chart.WPF.SampleLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Data.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.MVVM.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Grid.MVVM.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Grid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Grid.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.GridCommon.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.GridCommon.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.GridConverter.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.GridConverter.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfCellGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfCellGrid.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfGrid.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfSkinManager.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfSkinManager.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.WPF.resources, Version=15.4460.0.17, Culture=en-US, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Shared.WPF.resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Themes.Blend.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Themes.Blend.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Themes.Metro.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Themes.Metro.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -78,6 +138,7 @@
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -91,10 +152,16 @@
     <Compile Include="Converter\BooleanToVisibility.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CharToIntegerConverter.cs" />
+    <Compile Include="Converter\GridCellConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Converter\StringToByteConverter.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />
+    <Compile Include="DialogService\KarveDialogService.cs" />
+    <Compile Include="DialogService\ViewModels\ErrorDialogViewModel.cs" />
+    <Compile Include="DialogService\Views\ErrorDialogView.xaml.cs">
+      <DependentUpon>ErrorDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Generic\AssistMapper.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />
@@ -104,6 +171,7 @@
     <Compile Include="Generic\GridIdentifiers.cs" />
     <Compile Include="Generic\IAssistMapper.cs" />
     <Compile Include="Generic\KarveGridParameters.cs" />
+    <Compile Include="Generic\KarveRoutingBaseViewModel.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
     <Compile Include="Generic\LinqToTreeEnumerableExtensions.cs" />
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
@@ -427,6 +495,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\video.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DialogService\Views\ErrorDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

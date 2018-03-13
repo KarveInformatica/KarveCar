@@ -15,7 +15,7 @@ using DataAccessLayer.DataObjects;
 
 namespace DataAccessLayer
 {
-    internal class CompanyDataService: ICompanyDataService
+    internal class CompanyDataServices: ICompanyDataServices
     {
         private ISqlExecutor sqlExecutor;
         private CompanyDataLoader _loader;
@@ -25,7 +25,7 @@ namespace DataAccessLayer
         ///  This is a service for loading company data
         /// </summary>
         /// <param name="sqlExecutor">Interface to the sql executor</param>
-        public CompanyDataService(ISqlExecutor sqlExecutor)
+        public CompanyDataServices(ISqlExecutor sqlExecutor)
         {
             this.sqlExecutor = sqlExecutor;
             _loader = new CompanyDataLoader(sqlExecutor);

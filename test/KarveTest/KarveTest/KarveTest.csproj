@@ -105,6 +105,8 @@
     <Reference Include="Sap.Data.SQLAnywhere.EF6, Version=17.0.7.33994, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Sap.Data.SQLAnywhere.EF6.17.0.7.3399\lib\net45\Sap.Data.SQLAnywhere.EF6.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -139,9 +141,11 @@
     <Compile Include="DAL\TestCompanyDataAccessLayer.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
+    <Compile Include="DAL\TestInvoiceDataLayer.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
+    <Compile Include="KarveDataServices\TestKarveDataServices.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />
     <Compile Include="Mock\MockAssistDataServices.cs" />
     <Compile Include="Mock\MockClientDataServices.cs" />
@@ -172,6 +176,7 @@
     <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCultureSwitcherViewModel.cs" />
     <Compile Include="ViewModels\TestFareInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestInvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
     <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleControlViewModel.cs" />
@@ -181,6 +186,7 @@
     <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleUpperBarViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
@@ -207,6 +213,10 @@
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveLocale</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\CarModel\CarModel\CarModelModule.csproj">
+      <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>
+      <Name>CarModelModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
       <Name>KarveDataAccessLayer</Name>
@@ -219,9 +229,17 @@
       <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
       <Name>HelperModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\InvoiceModule\InvoiceModule.csproj">
+      <Project>{2636e89f-c157-4346-bab0-fc774bac26af}</Project>
+      <Name>InvoiceModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\MasterModule\MasterModule.csproj">
       <Project>{59b99363-3561-4b1f-94fb-136becbaa675}</Project>
       <Name>MasterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\PaymentsTypeModule\PaymentTypeModule.csproj">
+      <Project>{3f0503de-3dde-40a4-af70-f698bfa9f844}</Project>
+      <Name>PaymentTypeModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\ToolBarModule\ToolBarModule.csproj">
       <Project>{55ce0de8-792f-49fc-8e90-6c3f9cd75486}</Project>
@@ -237,7 +255,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="KarveDataServices\DataTransferObject\" />
     <Folder Include="Toolbar\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />

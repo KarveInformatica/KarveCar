@@ -12,33 +12,32 @@ namespace KarveDataServices
     public interface IDataServices
     {
         /// <summary>
-        /// Returns the vehicle data services.
+        /// Get th data service for managing all vehicle data operations
         /// </summary>
         /// <returns>Vehicle data service subsystem</returns>       
         IVehicleDataServices GetVehicleDataServices();
         /// <summary>
-        ///  Client data service.
+        ///  Get the data service for managing all client data operations
         /// </summary>
         /// <returns> Client data service subsystem</returns>
         IClientDataServices GetClientDataServices();
-
         /// <summary>
-        ///  Returns the interface that is needed for the suppliers.
+        /// Get the data service for managing all supplier data operations
         /// </summary>
         /// <returns>Supplier data service subsystem</returns>
         ISupplierDataServices GetSupplierDataServices();
         /// <summary>
-        ///  GetSettings data service.
+        ///  Get the data service for managing all settings data operations
         /// </summary>
         /// <returns></returns>
-        ISettingsDataService GetSettingsDataService();
+        ISettingsDataServices GetSettingsDataService();
         /// <summary>
-        /// Returns the Helper data services. Helper data services all other services that might be used as helper 
+        /// Get the helper data service. Helper data services all other services that might be used as helper 
         /// </summary>
         /// <returns></returns>
         IHelperDataServices GetHelperDataServices();
         /// <summary>
-        ///  Returns the commission agent data services.  This interface helps to handle brokers.
+        /// Get the commission agent for managing brokers. 
         /// </summary>
         /// <returns>Commission agent data service</returns>
         /// 
@@ -52,20 +51,32 @@ namespace KarveDataServices
         ///  Company data services.
         /// </summary>
         /// <returns></returns>
-        ICompanyDataService GetCompanyDataServices();
+        ICompanyDataServices GetCompanyDataServices();
+
+        /// <summary>
+        /// Get the data services for fetching a contract.
+        /// </summary>
+        /// <returns></returns>
+        IContractDataServices GetContractDataServices();
+
+        /// <summary>
+        /// Get the invoice data service.
+        /// </summary>
+        /// <returns>The invoive data service</returns>
+        IInvoiceDataServices GetInvoiceDataServices();
+        
         /// <summary>
         ///  This will deprecate the above interfaces.
         /// </summary>
         /// <typeparam name="T">Type the service</typeparam>
-        /// <returns></returns>
+        /// <returns>Returns the data service</returns>
         T GetDataService<T>();
-
         /// <summary>
-        ///  This allow to the data layer to change the configuration string.
+        ///  Start the reconfiguration of all the connections. 
+        ///  It reconfigure the connection string.
         /// </summary>
         /// <param name="connectionString">Connection String</param>
         void Reconfigure(string connectionString);
-       
     }
 
 }

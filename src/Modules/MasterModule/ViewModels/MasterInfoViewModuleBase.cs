@@ -8,6 +8,7 @@ using Prism.Regions;
 using KarveDataServices;
 using System.Windows;
 using KarveCommon.Generic;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -22,7 +23,8 @@ namespace MasterModule.ViewModels
         // TODO: let see for the SRP
         public MasterInfoViewModuleBase(IEventManager eventManager,
                                         IConfigurationService configurationService,
-                                        IDataServices dataServices, IRegionManager manager) : base(configurationService, eventManager, dataServices, manager)
+                                        IDialogService dialogService,
+                                        IDataServices dataServices, IRegionManager manager) : base(configurationService, eventManager, dataServices, dialogService, manager)
         {
             _canDelete = true;
         }
@@ -44,7 +46,6 @@ namespace MasterModule.ViewModels
         protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad();
-            payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;

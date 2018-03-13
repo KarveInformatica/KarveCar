@@ -55,13 +55,13 @@ namespace MasterModule.ViewModels
 
 
         /// <summary>
-        ///  Constructor
+        ///  ClientsInfoViewModel constructor.
         /// </summary>
         /// <param name="eventManager">Event manager</param>
         /// <param name="configurationService">Configuration service</param>
         /// <param name="dataServices">Data Service</param>
         /// <param name="manager">Region Manager</param>
-        public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
+        public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
         {
             base.ConfigureAssist();
 

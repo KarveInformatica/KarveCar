@@ -19,40 +19,37 @@ namespace DataAccessLayer.MongoDB
 
         }
 
-        public IVehicleDataServices GetVehicleDataServices()
-        {
-            return new VehicleMongoDBServices(_executor);
-        }
-
         public IClientDataServices GetClientDataServices()
         {
-            return new ClientMongoDBServices(_executor);
-           
-        }
-
-        public ISupplierDataServices GetSupplierDataServices()
-        {
-            return new SupplierMongoDbServices(_executor);
-           
-        }
-
-        public ISettingsDataService GetSettingsDataService()
-        {
-            return new SettingsMongoDBServices(_executor);
-          
-        }
-
-        public IHelperDataServices GetHelperDataServices()
-        {
-            return new HelperMongoDBServices(_executor);
+            throw new NotImplementedException();
         }
 
         public ICommissionAgentDataServices GetCommissionAgentDataServices()
         {
-            return new CommisionAgentMongoDBServices();
+            throw new NotImplementedException();
+        }
+
+        public ICompanyDataServices GetCompanyDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IContractDataServices GetContractDataServices()
+        {
+            throw new NotImplementedException();
         }
 
         public T GetDataService<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IHelperDataServices GetHelperDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInvoiceDataServices GetInvoiceDataServices()
         {
             throw new NotImplementedException();
         }
@@ -62,7 +59,17 @@ namespace DataAccessLayer.MongoDB
             throw new NotImplementedException();
         }
 
-        public ICompanyDataService GetCompanyDataServices()
+        public ISettingsDataServices GetSettingsDataService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISupplierDataServices GetSupplierDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IVehicleDataServices GetVehicleDataServices()
         {
             throw new NotImplementedException();
         }
@@ -70,6 +77,7 @@ namespace DataAccessLayer.MongoDB
         public void Reconfigure(string connectionString)
         {
             _connectionString = connectionString;
+            
             _executor = new MongoClient(_connectionString);
         }
     }

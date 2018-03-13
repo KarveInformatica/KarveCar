@@ -4,11 +4,10 @@ using KarveDataServices.DataTransferObject;
 
 namespace DataAccessLayer.Model
 {
-
     /// <summary>
     ///  Office data
     /// </summary>
-    public class Office : IOfficeData
+    public class Office : DomainObject, IOfficeData
     {
         private OfficeDtos _value = new OfficeDtos();
      
@@ -20,10 +19,6 @@ namespace DataAccessLayer.Model
         ///  This returns the value of an office.
         /// </summary>
         public OfficeDtos Value { get ; set ; }
-        /// <summary>
-        ///  Check if the office is valid or not
-        /// </summary>
-        public bool Valid { get; set ; }
         /// <summary>
         ///  Check if the province is valid or not.
         /// </summary>

@@ -256,7 +256,11 @@ namespace DataAccessLayer.Crud.Clients
             return dtoCollection;
         }
 
-       
+        /// <summary>
+        ///  Load a value asynchronosuly
+        /// </summary>
+        /// <param name="code">Client code</param>
+        /// <returns></returns>
         public async Task<ClientDto> LoadValueAsync(string code)
         {
             var dto = new ClientDto();

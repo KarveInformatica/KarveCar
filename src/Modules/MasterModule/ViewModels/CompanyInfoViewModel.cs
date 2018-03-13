@@ -17,11 +17,13 @@ using System.Threading.Tasks;
 namespace MasterModule.ViewModels
 {
     // This view model is useful fro 
-  public class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+  internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
-        public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IRegionManager manager) : base(eventManager, configurationService, dataServices, manager)
+        public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, 
+            IDialogService dialogService,
+            IRegionManager manager) : base(eventManager, configurationService,dialogService,dataServices, manager)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);

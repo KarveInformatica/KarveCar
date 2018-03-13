@@ -8,7 +8,7 @@ using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
-    public interface ICompanyDataService
+    public interface ICompanyDataServices
     {
         /// <summary>
         ///  This give us the summary query.

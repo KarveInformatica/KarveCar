@@ -115,8 +115,8 @@ namespace KarveControls
                     var tmp = ControlExt.GetDataSource(this);
                     if (tmp != null)
                     {
-                        ComponentUtils.SetPropValue(tmp, path, _isChecked);
-                        DataObject = tmp;
+                     //   ComponentUtils.SetPropValue(tmp, path, _isChecked);
+                      //  DataObject = tmp;
                     }
                 }
                 IDictionary<string, object> values = new Dictionary<string, object>();

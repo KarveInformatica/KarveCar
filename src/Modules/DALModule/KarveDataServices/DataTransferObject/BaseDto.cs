@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using KarveCommonInterfaces;
 using System.Windows.Input;
 using Prism.Mvvm;
+using Syncfusion.Windows.Shared;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -17,7 +18,7 @@ namespace KarveDataServices.DataTransferObject
     /// A data transfer object shall have no state.
     /// </summary>
     [Serializable]
-    public class BaseDto : BindableBase, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking 
+    public class BaseDto : NotificationObject, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking 
     {
       
         public BaseDto()

@@ -9,7 +9,7 @@ namespace KarveDataServices
     /// <summary>
     ///  ISettingsDataService.
     /// </summary>
-    public interface ISettingsDataService
+    public interface ISettingsDataServices
     {
         /// <summary>
         ///  Get all magnifier settings

@@ -16,7 +16,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// CommissionAgentInfoViewModel
     /// </summary>
-    public partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IEventObserver
+    internal sealed partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
 
         private static ObservableCollection<UiDfSearch> UpdateItemControl()

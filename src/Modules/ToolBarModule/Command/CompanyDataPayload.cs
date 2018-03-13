@@ -12,7 +12,7 @@ namespace ToolBarModule.Command
     internal class CompanyDataPayload : ToolbarDataPayload
     {
        
-        private ICompanyDataService _companyDataServices;
+        private ICompanyDataServices _companyDataServices;
         private Logger currentLog = LogManager.GetCurrentClassLogger();
         public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
