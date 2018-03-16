@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="KarveControls.HeaderedWindow.DetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.HeaderedWindow"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid Background="#A9CECECE">
+            <Border Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="400" MinHeight="150" MinWidth="250">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Consulta de" FontWeight="Bold"></TextBlock>
+                            <TextBlock Text="{Binding NameItem}"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <syncfusion:SfDataGrid Grid.Row="1" x:Name="GridDetails"
+                                       AutoGenerateColumns="True"
+                                       BorderThickness="0"
+                                       ColumnSizer="Star"
+                                       Background="White"
+                                       AllowGrouping="True"
+                                       AllowFiltering="True"
+                                       AllowDraggingColumns="True"
+                                       HeaderRowHeight="45"
+                                       AllowEditing="True"
+                                       ItemsSource="{Binding DetailsView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       NavigationMode="Cell"
+                                       SelectionMode="Single">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding NavigateCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=GridDetails, Path=SelectedItems}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfDataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

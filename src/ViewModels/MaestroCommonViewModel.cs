@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
+using KarveCommon.Generic;
 
 namespace KarveCar.ViewModels
 {
@@ -23,7 +24,7 @@ namespace KarveCar.ViewModels
 
         void Navigate(string navigationPath)
         {
-            _regionManager.RequestNavigate("TabRegion", navigationPath);
+            _regionManager.RequestNavigate(RegionNames.TabRegion, navigationPath);
         }
     }
 }

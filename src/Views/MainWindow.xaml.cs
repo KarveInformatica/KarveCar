@@ -29,15 +29,20 @@ namespace KarveCar.Views
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
             InitializeComponent();
-
+        
+          //  this.NewTabControl.TabClosed += NewTabControl_TabClosed;
          //   Navigation.Navigation.Frame = new Frame() {NavigationUIVisibility = NavigationUIVisibility.Hidden};
           //  Navigation.Navigation.Frame.Navigated += SplitViewFrame_OnNavigated;
 
             // Navigate to the home page.
           //  this.Loaded += (sender, args) => Navigation.Navigation.Navigate(new Uri("Views/MainPage.xaml", UriKind.RelativeOrAbsolute));
         }
+
+       
         private IUnityContainer _container;
 
+
+        private ICommand TabClosedCommand  { set; get; }
         /// <summary>
         ///  Overrides the base window show to inject unity in the main view model.
         /// </summary>
@@ -45,7 +50,7 @@ namespace KarveCar.Views
         {
 
             //this.DataContext = new MainWindowViewModel(this._container);
-            UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
+        //    UserAndDefaultConfig.LoadCurrentUserRibbonTabConfig();
 
             base.Show();
         }

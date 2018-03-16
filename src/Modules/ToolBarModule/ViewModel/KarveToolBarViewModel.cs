@@ -10,6 +10,7 @@ using KarveCommon.Command;
 using KarveCommon.Generic;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
+using System.Linq;
 
 namespace ToolBarModule
 {
@@ -66,6 +67,8 @@ namespace ToolBarModule
         public ICommand SaveValueCommand { get; set; }
         private IRegionManager _regionManager;
         private bool _isDeleteEnabled;
+        private string noActiveValue;
+
 
         /// <summary>
         /// KarveToolBarViewModel is a view model to modle the toolbar behaviour.
@@ -96,6 +99,7 @@ namespace ToolBarModule
             this.CurrentSaveImagePath = currentSaveImage;
             _regionManager = regionManager;
             _states = ToolbarStates.None;
+            noActiveValue = string.Empty;
             this.IsSaveEnabled = false;
             this.IsDeleteEnabled = false;
             this.IsNewEnabled = false;
@@ -108,7 +112,7 @@ namespace ToolBarModule
             Confirmed = false;
             ConfirmationCommand = new DelegateCommand(() =>
             {
-                string noActiveValue = configurationService.GetPrimaryKeyValue();
+               // string noActiveValue = configurationService.GetPrimaryKeyValue();
                 if (_activeSubSystem != DataSubSystem.HelperSubsytsem)
                 {
                     if (string.IsNullOrEmpty(noActiveValue))
@@ -168,7 +172,8 @@ namespace ToolBarModule
         private void DoDeleteCommand()
         {
 
-            string value = _configurationService.GetPrimaryKeyValue();
+            var value = "";
+            var singleView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
             _states = ToolbarStates.Delete;
             DataPayLoad payLoad = new DataPayLoad
             {

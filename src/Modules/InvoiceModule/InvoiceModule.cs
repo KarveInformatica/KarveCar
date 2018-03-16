@@ -1,8 +1,8 @@
 ﻿using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
-using Prism.Unity;
 using InvoiceModule.Views;
+using InvoiceModule.ViewModels;
 
 namespace InvoiceModule
 { 
@@ -35,13 +35,8 @@ namespace InvoiceModule
         public void Initialize()
         {
             _container.RegisterType<object, InvoiceControlView>("Invoices");
-            _container.RegisterType<object, InvoiceInfoView>(typeof(InvoiceInfoView).FullName);
-          //  _container.RegisterTypeForNavigation<InvoiceInfoView>(typeof(InvoiceInfoViewModel).FullName)
-            _container.RegisterTypeForNavigation<LineGridView>();
-            _container.RegisterTypeForNavigation<GenericGridView>();
-           // var navigationParameters = new NavigationParameters();
-            //_regionManager.RequestNavigate("LineRegion", "LineGridView");
-            //_regionManager.RegisterViewWithRegion("HeaderRegion", typeof(Views.HeaderDataView));
+            _container.RegisterType<object, InvoiceControlViewModel>("InvoiceControlVM");
+            _container.RegisterType<object, InvoiceSummaryFooter>("InvoiceSummaryFooter");
         }
     }
 

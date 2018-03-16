@@ -40,6 +40,7 @@ namespace MasterModule.Common
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected PropertyChangedEventHandler InitEventHandler;
+        protected IDialogService DialogService;
 
 
         protected PropertyChangedEventHandler DeleteEventHandler;
@@ -111,11 +112,23 @@ namespace MasterModule.Common
             get { return ExtendedDataTable; }
             set
             {
-                ExtendedDataTable = value; RaisePropertyChanged();
+                ExtendedDataTable = value;
+                RaisePropertyChanged("SummaryView");
                 
             }
         }
-
+        /// <summary>
+        ///  AllowedGridColumns
+        /// </summary>
+        public List<string> AllowedGridColumns
+        {
+            get { return _allowedGridColumns; }
+            set
+            {
+                _allowedGridColumns = value;
+                RaisePropertyChanged("AllowedGridColumns");
+            }
+        }
         private int _notifyState;
 
         protected bool IsInsertion = false;
@@ -490,6 +503,7 @@ namespace MasterModule.Common
         protected object ExtendedDataTable;
 
         protected INotifyTaskCompletion<bool> DeleteInitializationTable;
+        private List<string> _allowedGridColumns;
 
         /// <summary>
         ///  This starts the load of data from the lower data layer.
@@ -720,20 +734,30 @@ namespace MasterModule.Common
                 INotifyTaskCompletion<T>;
             Contract.Requires(notification != null, "Notification required");
             string propertyName = propertyChangedEventArgs.PropertyName;
-            if (propertyName.Equals("Status"))
+
+            if (notification == null)
             {
+                return;
+            }
                 if (notification.IsSuccessfullyCompleted)
                 {
                     SummaryView = notification.Task.Result;
                 }
-                if (InitializationNotifier.IsFaulted)
+                if (notification.IsFaulted)
                 {
                     SummaryView = new ObservableCollection<T>();
-                    // FIX ME to a dialog service.
+                // FIX ME to a dialog service.
+                if (DialogService != null)
+                {
+                    DialogService.ShowDialogMessage("Error", "Exception during summary load :" + notification.Task.Exception.Message);
+                }
+                else
+                {
                     MessageBox.Show("Exception during summary load :" + notification.Task.Exception.Message);
                 }
+                }
 
-            }
+            
             Contract.Ensures(SummaryView != null, "The summary is not null");
         }
         /// <summary>
@@ -878,9 +902,9 @@ namespace MasterModule.Common
             //in here you can dispose stuff or cancel the close
 
             //here's your view model:
-            var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
-            CloseTabAction tabAction = new CloseTabAction();
-            tabAction.Execute(args.DragablzItem);
+           // var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
+           // CloseTabAction tabAction = new CloseTabAction();
+           // tabAction.Execute(args.DragablzItem);
 
 
             //here's how you can cancel stuff:

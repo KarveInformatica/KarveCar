@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Interactivity;
-using Syncfusion.UI.Xaml.Grid;
-using System.Windows.Input;
 using System.IO;
 using System.Windows;
-using System.Xml;
-using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 using Syncfusion.Windows.Tools.Controls;
 

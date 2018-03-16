@@ -520,6 +520,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Atras.
+        /// </summary>
+        public static string GoBack {
+            get {
+                return ResourceManager.GetString("GoBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accessorios.
         /// </summary>
         public static string laccessorios {
@@ -5808,6 +5817,24 @@ namespace KarveLocale.Properties {
         public static string PeoplePosition_CargoDePersonal {
             get {
                 return ResourceManager.GetString("PeoplePosition_CargoDePersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solo elemento.
+        /// </summary>
+        public static string PlusMinusBehaviour_OnAttached_LessItems {
+            get {
+                return ResourceManager.GetString("PlusMinusBehaviour_OnAttached_LessItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mas Elementos....
+        /// </summary>
+        public static string PlusMinusBehaviour_OnAttached_MoreItems {
+            get {
+                return ResourceManager.GetString("PlusMinusBehaviour_OnAttached_MoreItems", resourceCulture);
             }
         }
         

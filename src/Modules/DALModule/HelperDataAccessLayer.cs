@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Dapper;
-using KarveDapper;
 using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
@@ -34,7 +30,13 @@ namespace DataAccessLayer
             this._mapper = MapperField.GetMapper();
         }
 
-       
+       /// <summary>
+       ///  Delete asychronously mapping a value object to an entity
+       /// </summary>
+       /// <typeparam name="DtoTransfer">Type Value object to delete</typeparam>
+       /// <typeparam name="T">Entity type to be deleted</typeparam>
+       /// <param name="entity">entity</param>
+       /// <returns></returns>
         public async Task<bool> ExecuteAsyncDelete<DtoTransfer, T>(DtoTransfer entity) where T : class
         {
             bool recordDeleted = false;
@@ -51,7 +53,7 @@ namespace DataAccessLayer
             return recordDeleted;
         }
         /// <summary>
-        /// 
+        /// Insert asynchronosly.
         /// </summary>
         /// <typeparam name="DtoTransfer"></typeparam>
         /// <typeparam name="T"></typeparam>
@@ -212,8 +214,8 @@ namespace DataAccessLayer
         /// <summary>
         /// Get the helper dataset for the async layer.
         /// </summary>
-        /// <param name="assistQuery"></param>
-        /// <param name="assitTableName"></param>
+        /// <param name="assistQuery">Assist query.</param>
+        /// <param name="assitTableName">Assist table</param>
         /// <returns></returns>
         public async Task<DataSet> GetAsyncHelper(string assistQuery, string assitTableName)
         {
@@ -224,7 +226,7 @@ namespace DataAccessLayer
         /// <summary>
         /// This returns the way of data layer.
         /// </summary>
-        /// <param name="assistQuery"></param>
+        /// <param name="assistQuery">Assist query</param>
         /// <returns></returns>
         public async Task<IEnumerable<T>> GetAsyncHelper<T>(string assistQuery)
         {

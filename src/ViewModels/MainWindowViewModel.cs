@@ -44,7 +44,10 @@ namespace KarveCar.ViewModels
         /// Some work
         /// </summary>
         public ICommand ChangeLanguageCommand { get; set; }
-        
+        /// <summary>
+        ///  This command close the main window.
+        /// </summary>
+        public ICommand CloseWindowCommand { set; get; }
 
         public string Title
         {
@@ -87,7 +90,14 @@ namespace KarveCar.ViewModels
             _cultureSwitch = new CultureSwitcher(_configurationService, eventManager);
             NavigateCommand = new DelegateCommand<string>(Navigate);
             ChangeLanguageCommand = new DelegateCommand<object>(SetLanguages);
+            CloseWindowCommand = new DelegateCommand(OnCloseMainWindow);
         }
+
+        private void OnCloseMainWindow()
+        {
+            _configurationService.CloseApplication();
+        }
+
         public MainWindowViewModel(IUnityContainer container, IRegionManager regionManager, IConfigurationService configurationService, IEventManager eventManager)
         {
             _container = container;
@@ -116,6 +126,8 @@ namespace KarveCar.ViewModels
         }
 
 
+
+        
         /// <summary>
         /// Callback to handle tab closing.
         /// </summary>        

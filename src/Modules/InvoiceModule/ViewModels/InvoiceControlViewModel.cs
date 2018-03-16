@@ -15,6 +15,8 @@ using KarveDataServices.DataObjects;
 using Syncfusion.UI.Xaml.Grid;
 using System.Linq;
 using InvoiceModule.Views;
+using Microsoft.Practices.Unity;
+using KarveControls.HeaderedWindow;
 
 namespace InvoiceModule.ViewModels
 {
@@ -33,9 +35,8 @@ namespace InvoiceModule.ViewModels
         private const string _mailboxName = "InvoiceSubsystemVM";
         private IEnumerable<InvoiceSummaryValueDto> _invoiceSummaryDtos;
         private bool _isBusy;
-
-
-    // new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
+        private IUnityContainer _container;
+        private IRegionManager _detailsRegionManager;
 
     /// <summary>
     /// Control view for the invoice.
@@ -44,14 +45,15 @@ namespace InvoiceModule.ViewModels
     /// <param name="service">Dialog service. This service is used to show modal errors.</param>
     /// <param name="manager">Region Manager. This service is used to compose regions.</param>
     /// <param name="eventManager">Event Manager. This service is used to communicate with other viewmodels.</param>
-    public InvoiceControlViewModel(IDataServices dataServices, 
+    public InvoiceControlViewModel(IDataServices dataServices,
+                                    IUnityContainer container,
                                        IDialogService service,
                                        IRegionManager manager, 
                                        IEventManager eventManager): base(dataServices, service, eventManager)
         {
             _regionManager = manager;
             _isBusy = false;
-           
+            _container = container;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
             StartAndNotify();
@@ -135,7 +137,9 @@ namespace InvoiceModule.ViewModels
                 }
             }
         }
-
+        /// <summary>
+        ///  Return true if the value is busy.
+        /// </summary>
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -171,17 +175,13 @@ namespace InvoiceModule.ViewModels
             InvoiceSummaryValueDto invoice = value as InvoiceSummaryValueDto;
             if (invoice != null)
             {
-                string name = invoice.InvoiceName;
-                string id = invoice.InvoiceCode;
+                string name = invoice.ClientName;
+                string id = invoice.InvoiceName;
                 string tabName = id + "." + name;
-                var navigationParameters = new NavigationParameters();
-                navigationParameters.Add("Id", id);
-                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(InvoiceInfoView).FullName + navigationParameters, UriKind.Relative);
-                _regionManager.RequestNavigate("TabRegion", uri);
+                CreateNewItem(tabName);
                 IInvoiceData provider = await DataServices.GetInvoiceDataServices().GetInvoiceDoAsync(id);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                currentPayload.DataObject = provider.Value;
+                currentPayload.DataObject = provider;
                 currentPayload.Subsystem = DataSubSystem.InvoiceSubsystem;
                 currentPayload.PrimaryKeyValue = id;
                 EventManager.RegisterObserverSubsystem(InvoiceSubSystem, this);
@@ -191,14 +191,59 @@ namespace InvoiceModule.ViewModels
             }
 
         }
+        private void CreateNewItem(string name)
+        {
+            // The composite.
+            IRegion detailsRegion = this._regionManager.Regions[RegionNames.TabRegion];
+            var headeredWindow = _container.Resolve<HeaderedWindow>();
+            headeredWindow.Header = name;
+            /// header for the invoice
+            var infoView = _container.Resolve<InvoiceInfoView>();
+            /// header for the line
+            var lineview = _container.Resolve<KarveControls.HeaderedWindow.LineGridView>();
+            var footerView = _container.Resolve<InvoiceSummaryFooter>();
+            /* 
+             * Resolve the view model. Kind of view model first approach. We can use a LineGridView 
+             * for every kind of subject and for the specific.
+             *  This allows the reuse better than view.
+             */        
+            var vm = _container.Resolve<InvoiceInfoViewModel>();
+            infoView.DataContext = vm;
+            lineview.DataContext = vm;
+            footerView.DataContext = vm;
+            headeredWindow.DataContext = vm;
+            bool createRegionManagerScope = true;
+            _detailsRegionManager = detailsRegion.Add(headeredWindow, null, createRegionManagerScope);
+            var headerRegion = _detailsRegionManager.Regions[RegionNames.HeaderRegion];
+            var lineRegion = _detailsRegionManager.Regions[RegionNames.LineRegion];
+            var footerRegion = _detailsRegionManager.Regions[RegionNames.FooterRegion];
+            lineRegion.Add(lineview, null, createRegionManagerScope);
+            headerRegion.Add(infoView,null, createRegionManagerScope);
+            footerRegion.Add(footerView, null, createRegionManagerScope);
+            headeredWindow.Focus();
+        }
+
+        /// <summary>
+        ///  This true if it is a navigation target.
+        /// </summary>
+        /// <param name="navigationContext"></param>
+        /// <returns></returns>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
         }
+        /// <summary>
+        ///  This is if it is navigated from.
+        /// </summary>
+        /// <param name="navigationContext"></param>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             
         }
+        /// <summary>
+        ///  This is if it is navigated to
+        /// </summary>
+        /// <param name="navigationContext"></param>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {   
         }
@@ -206,6 +251,7 @@ namespace InvoiceModule.ViewModels
         {
             MailBoxHandler -= MailboxHandlerName;
             DeleteMailBox(_mailboxName);
+            // do what to do with _detailsRegionManager.
         }
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)

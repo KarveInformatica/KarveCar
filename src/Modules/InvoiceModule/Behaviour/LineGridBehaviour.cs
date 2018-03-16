@@ -155,6 +155,8 @@ namespace InvoiceModule
         {
             base.OnAttached();
             this.AssociatedObject.GridCopyOption = GridCopyOption.CopyData | GridCopyOption.CutData;
+            KarveGridCopyPaste karve = new KarveGridCopyPaste(this.AssociatedObject);
+            this.AssociatedObject.GridCopyPaste = karve;
             this.AssociatedObject.AutoGeneratingColumn += AssociatedObject_AutogenerateCols;
             this.AssociatedObject.RowValidating += OnRowValidating;
             this.AssociatedObject.RowValidated += RowValidated;

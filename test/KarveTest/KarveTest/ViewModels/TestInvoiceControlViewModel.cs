@@ -51,10 +51,10 @@ namespace KarveTest.ViewModels
                             new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
             };
             // arrange and execute the load
-            _invoiceControlViewModel = new InvoiceControlViewModel(_mockDataServices.Object,
-                                                                 _mockDialogService.Object,
-                                                                 _mockRegionManager.Object,
-                                                                 _mockEventManager.Object);
+          //  _invoiceControlViewModel = new InvoiceControlViewModel(_mockDataServices.Object,
+           //                                                      _mockDialogService.Object,
+             //                                                    _mockRegionManager.Object,
+             //                                                    _mockEventManager.Object);
             // here we sall have a summary view.
             var summaryView = _invoiceControlViewModel.SummaryView;
             var summaryView2 = summaryView.Intersect<InvoiceSummaryValueDto>(summaryValue);

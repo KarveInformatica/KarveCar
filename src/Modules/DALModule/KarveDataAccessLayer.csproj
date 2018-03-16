@@ -65,6 +65,8 @@
     <Reference Include="Dapper.SqlBuilder, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.SqlBuilder.1.50.4\lib\net451\Dapper.SqlBuilder.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
@@ -1122,7 +1124,6 @@
     <Compile Include="DataObjects\_TMPXX.cs" />
     <Compile Include="Crud\DataSaver.cs" />
     <Compile Include="DataServiceImplementation.cs" />
-    <Compile Include="DataTranslationLoader.cs" />
     <Compile Include="Exception\CommissionAgentException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="GruposDAL.cs" />
@@ -1132,9 +1133,9 @@
     <Compile Include="Logic\ErroresDAL.cs" />
     <Compile Include="Logic\GenericDAL.cs" />
     <Compile Include="HelperDataAccessLayer.cs" />
+    <Compile Include="Logic\LIFACToInvoiceItemConverter.cs" />
     <Compile Include="Logic\MapperField.cs" />
     <Compile Include="MapperUtils.cs" />
-    <Compile Include="MarcasDAL.cs" />
     <Compile Include="Logic\SQL_EditDAL.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
     <Compile Include="Model\Client.cs" />
@@ -1210,9 +1211,7 @@
     <Content Include="Data\CommissionAgentFields.xml" />
     <Content Include="Data\VehicleFields.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

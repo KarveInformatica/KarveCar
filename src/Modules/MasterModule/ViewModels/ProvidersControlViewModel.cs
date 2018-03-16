@@ -160,7 +160,7 @@ namespace MasterModule.ViewModels
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add("supplierId", supplierId);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(ProviderInfoView).FullName+navigationParameters,UriKind.Relative);
+                var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters,UriKind.Relative);
                 _regionManager.RequestNavigate("TabRegion", uri);
                 ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);                

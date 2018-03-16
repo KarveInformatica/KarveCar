@@ -14,6 +14,7 @@ using KarveCommonInterfaces;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
@@ -51,8 +52,9 @@ namespace MasterModule.ViewModels
         {
             _container = container;
             _regionManager = regionManager;
-
+            SummaryView = new ObservableCollection<VehicleSummaryDto>();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
+            AllowedGridColumns = GenerateAllowedColumns();
             InitViewModel();
         }
         private async void OpenCurrentItem(object selectedItem)
@@ -77,7 +79,26 @@ namespace MasterModule.ViewModels
             }
         }
 
-
+        private List<string> GenerateAllowedColumns()
+        {
+            List<string> s = new List<string>()
+            { "Code", "Brand", "Model", "EnrollmentNumber",
+                "Situation", "Office","Places",
+                "CubeMeters",
+                "Activity",
+                "Color",
+                "Owner",
+                "AssuranceCompany",
+                "Policy",
+                "LeasingCompany",
+                "StartingDate",
+                "EndingDate",
+                "ClientNumber",
+                "Client",
+                "PurchaseInvoice",
+                "Frame", "MotorNumber", "ModelYear", "Reference", "KeyCode", "StorageKey"};
+            return s;
+        }
         private void InitViewModel()
         {
             base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;

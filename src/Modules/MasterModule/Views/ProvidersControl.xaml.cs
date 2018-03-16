@@ -26,7 +26,13 @@ namespace MasterModule.Views
     {
         public ProvidersControl()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch (Exception e)
+            {
+                var ex = e.Message;
+            }
         }
 
         public string Header

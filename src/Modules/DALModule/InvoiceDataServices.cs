@@ -14,6 +14,7 @@ using DataAccessLayer.Model;
 using AutoMapper;
 using DataAccessLayer.SQL;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccessLayer
 {
@@ -40,13 +41,26 @@ namespace DataAccessLayer
         /// <returns>The invoice.</returns>
         public async Task<IInvoiceData> GetInvoiceDoAsync(string code)
         {
-            using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
+            Invoice invoice = new Invoice(code, new InvoiceDto());
+            invoice.Valid = false;
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                var invoice = await db.GetAsync<FACTURAS>(code);
-                var voice = _mapper.Map<FACTURAS, InvoiceDto>(invoice);
-                var currentInvoice = new Invoice(code, voice);
-                return currentInvoice;
+                string sql = "SELECT * FROM FACTURAS WHERE NUMERO_FAC='{0}';" +
+                    " SELECT * FROM LIFAC WHERE NUMERO_LIF='{0}';";
+                var query = string.Format(sql, code);
+                var multi = await connection.QueryMultipleAsync(query);
+                var invoices = multi.Read<FACTURAS>().FirstOrDefault();
+                if (invoices != null)
+                {
+                    var invoiceItems = multi.Read<LIFAC>().ToList();
+                    var dto = _mapper.Map<FACTURAS, InvoiceDto>(invoices);
+                    invoice = new Invoice(code, dto);
+                    invoice.InvoiceItems = _mapper.Map<IEnumerable<LIFAC>, IEnumerable<InvoiceItem>>(invoiceItems);
+                    invoice.Valid = true;
+                }
+               
             }
+            return invoice;
         }
         /// <summary>
         ///  Retrieve the invoice summary in asynchronous way.

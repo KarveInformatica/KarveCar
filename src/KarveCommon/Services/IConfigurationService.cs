@@ -17,28 +17,20 @@ namespace KarveCommon.Services
         /// </summary>
         /// <returns></returns>
         bool CloseApplication();
-
         /// <summary>
-        ///  This returns the enviroment variables of the application.
+        ///  Get or Set the enviroment variables for the application.
         /// </summary>
         /// <returns></returns>
-        IEnviromentVariables GetEnviromentVariables();
+        IEnviromentVariables EnviromentVariables { set; get; }
         /// <summary>
         ///  The current main window
         /// </summary>
         Window Shell { set; get; }
-
-        /// <summary>
-        ///  Get the primary key value associated with the current active tab.
-        /// </summary>
-        /// <returns></returns>
-        string GetPrimaryKeyValue();
         /// <summary>
         ///  Get the account managemenet solution.
         /// </summary>
         /// <returns></returns>
         IUserAccessControlList GetAccountManagement();
-
         /// <summary>
         ///  Get User Settings. 
         /// </summary>
@@ -53,6 +45,6 @@ namespace KarveCommon.Services
         ///  Connection string
         /// </summary>
         /// <returns></returns>
-        string GetConnectionString();
+        string ConnectionString { set; get; }
     }
 }

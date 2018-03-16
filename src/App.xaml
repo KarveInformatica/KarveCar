@@ -7,6 +7,7 @@
              xmlns:mainwindow="clr-namespace:KarveCar.ViewModels"
              xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
              xmlns:locale="clr-namespace:KarveLocale;assembly=KarveLocale"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
@@ -15,7 +16,8 @@
         
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-               
+
+                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Styles/KarveStyle.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
@@ -32,7 +34,7 @@
 
                         </Setter>
                     </Style>
-                    
+                 
                     <Style x:Key="MyWindowStyle" TargetType="Window">
                         <Setter Property="FontSize" Value="12" />
                         <Setter Property="FontFamily" Value="Arial" />
@@ -53,7 +55,7 @@
                         </Style.Triggers>
                     </Style>
 
-    
+                  
                 </ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml"/>
 

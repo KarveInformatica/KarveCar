@@ -84,7 +84,7 @@ namespace KarveTest.DAL
                 Assert.NotNull(invoice);
                 var invoiceCode = await _invoiceDataService.GetInvoiceDoAsync(invoice.InvoiceCode);
                 Assert.NotNull(invoiceCode);
-                Assert.AreEqual(invoice.InvoiceCode, invoiceCode.Code);
+                Assert.AreEqual(invoice.InvoiceCode, invoiceCode.Value.NUMERO_FAC);
             
             } catch(Exception e)
             {

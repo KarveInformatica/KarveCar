@@ -22,7 +22,13 @@ namespace MasterModule.Views
     {
         public VehiclesControlView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            } catch(Exception e)
+            {
+                var s = e.Message;
+            }
         }
 
         public string Header

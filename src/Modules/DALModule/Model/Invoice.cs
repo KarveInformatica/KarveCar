@@ -13,12 +13,13 @@ namespace DataAccessLayer.Model
 {
     public class Invoice : DomainObject, IInvoiceData
     {
-       private string code;
-       public Invoice(string code, InvoiceDto value)
-       {
+        private string code;
+        public Invoice(string code, InvoiceDto value)
+        {
             this.code = code;
-            this.Value = value;
-       }
-       public InvoiceDto Value { set; get; }
+
+        }
+        InvoiceDto IInvoiceData.Value { get ; set ; }
+        public IEnumerable<InvoiceItem> InvoiceItems { set; get; }
     }
 }

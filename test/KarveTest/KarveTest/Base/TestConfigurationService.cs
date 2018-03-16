@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer;
+﻿using DataAccessLayer;
 using KarveCar.Logic.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -18,7 +12,6 @@ namespace KarveTest.Base
     {
         private ISqlExecutor _sqlExecutor;
         private IDataServices _dataService;
-        private IUserSettings _settings;
         private IConfigurationService _configurationService = new ConfigurationService();
 
         [OneTimeSetUp]

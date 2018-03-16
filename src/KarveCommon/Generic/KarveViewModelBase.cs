@@ -92,12 +92,15 @@ namespace KarveCommon.Generic
         protected Guid Guid;
         private KarveGridParameters _gridParm = new KarveGridParameters();
         private long _gridIdentifer = Int64.MinValue;
+        private string _header;
+
         /// <summary>
         ///  empty constructor
         /// </summary>
         public KarveViewModelBase()
         {
             InitViewModelState();
+            Header = "DefaultTab";
         }
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
@@ -128,6 +131,16 @@ namespace KarveCommon.Generic
             Guid = Guid.NewGuid();
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
             GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
+        }
+
+        public string Header
+        {
+            get => _header;
+            set
+            {
+                _header = (string) value;
+                RaisePropertyChanged("Header");
+            }
         }
         
         /// <summary>

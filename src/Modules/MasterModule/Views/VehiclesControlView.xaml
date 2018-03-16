@@ -9,6 +9,7 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -28,7 +29,7 @@
             </ResourceDictionary>
         </Grid.Resources>
         <syncfusion:SfDataGrid x:Name="VehicleSummary"
-                               ColumnSizer="Star"
+                               ColumnSizer="AutoLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -43,9 +44,14 @@
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                    
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               AutoGenerateColumns="True">
 
+            <i:Interaction.Behaviors>
 
+                <behaviour:LineGridBehaviour GridColumns="{Binding AllowedGridColumns, Mode=OneWay}">
+
+                </behaviour:LineGridBehaviour>
+            </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehicleSummary, Path=SelectedItem}"/>
@@ -61,6 +67,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
+            <!--
             <syncfusion:SfDataGrid.Columns>
                 <syncfusion:GridTextColumn HeaderText="Numero" 
                                        MappingName="Numero" 
@@ -88,7 +95,7 @@
                 <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
             </syncfusion:SfDataGrid.Columns>
-         
+         -->
         </syncfusion:SfDataGrid>
        
         <!--

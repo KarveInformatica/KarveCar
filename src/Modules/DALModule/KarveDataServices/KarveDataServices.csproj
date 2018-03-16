@@ -150,6 +150,7 @@
     <Compile Include="DataTransferObject\HolidayDto.cs" />
     <Compile Include="DataTransferObject\IDataTransferObject.cs" />
     <Compile Include="DataTransferObject\InvoiceBlockDto.cs" />
+    <Compile Include="DataTransferObject\InvoiceItem.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryDto.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryValueDto.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />

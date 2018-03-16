@@ -794,46 +794,69 @@ namespace DataAccessLayer.Logic
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
-                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
-                cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
-                cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
-                cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
-                cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
-                cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
-                cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
-                cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
-                cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
+            cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
+            cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
+            cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
+            cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
+            cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
+            cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
+            cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
+            cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
+            cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
+            cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
 
-                cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
-                cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
-                cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
-                cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
-                cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
-                cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
-                cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
-                cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
-                cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
-                cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
-                cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
-                cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
-                cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
-                cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
-                cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
-                cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
-                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
-                cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
-                cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());
-                cfg.CreateMap<ClientDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
-                cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
-                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
-                cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
-                // fix later 
-                cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src=>
+            cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
+            cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
+            cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
+            cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
+            cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
+            cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
+            cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
+            cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
+            cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
+            cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
+            cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
+            cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
+            cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
+            cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
+            cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
+            cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
+            cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
+            cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
+            cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());
+            cfg.CreateMap<ClientDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
+            cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
+            cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+            cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+            cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src =>
+            {
+                var value = new FACTURAS();
+                var genericConverter = new GenericConverter<InvoiceDto, FACTURAS>();
+                return genericConverter.Convert(src, null, null);
+            });
+            cfg.CreateMap<FACTURAS, InvoiceDto>().ConvertUsing(src=>
+            {
+                var genericConverter = new GenericConverter<FACTURAS, InvoiceDto>();
+                return genericConverter.Convert(src, null, null);
+            });
+
+
+                cfg.CreateMap<LIFAC, InvoiceSummaryDto>().ConvertUsing(src =>
                 {
-                    var value = new FACTURAS();
-                    return value;
+                    var invoiceItem = new InvoiceSummaryDto();
+                    invoiceItem.Subtotal = src.SUBTOTAL_LIF;
+                    invoiceItem.FileNumber = src.EXPEDIENTE_LIF;
+                    invoiceItem.Discount = src.DTO_LIF;
+                    invoiceItem.Description = src.DESCRIP_LIF;
+                    invoiceItem.Iva = src.IVA;
+                    invoiceItem.VehicleCode = src.VEHICULO_LIF;
+                    invoiceItem.User = src.USUARIO_LIF;
+                    invoiceItem.Unity = src.UNIDAD_LIF;
+                    invoiceItem.Quantity = src.CANTIDAD_LIF;
+
+                    return invoiceItem;
                 });
+                
                 cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
                     src=>
                     {

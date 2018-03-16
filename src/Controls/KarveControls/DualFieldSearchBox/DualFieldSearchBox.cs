@@ -932,10 +932,13 @@ namespace KarveControls
 
         private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
         {
-            double value = Convert.ToDouble(e.NewValue);
-            if (SearchLabel != null)
+            if (!string.IsNullOrEmpty(e.NewValue as string))
             {
-                SearchLabel.Width = value;
+                double value = Convert.ToDouble(e.NewValue);
+                if (SearchLabel != null)
+                {
+                    SearchLabel.Width = value;
+                }
             }
         }
         #endregion

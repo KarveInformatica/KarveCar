@@ -10,6 +10,8 @@ using KarveCommonInterfaces;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Common;
 using Prism.Regions;
+using Syncfusion.Windows.Tools.Controls;
+using System.Windows.Media;
 
 namespace KarveCommon.Generic
 {
@@ -84,10 +86,10 @@ namespace KarveCommon.Generic
                 currentProperty = currentType.GetProperty("Header");
                 if (currentProperty != null)
                 {
-                    string value = currentProperty.GetValue(view) as string;
-                    if (value != null)
+                    string v = currentProperty.GetValue(view) as string;
+                    if (v != null)
                     {
-                        oldView = viewName == value;
+                        oldView = viewName == v;
                     }
                 }
             }
@@ -148,7 +150,10 @@ namespace KarveCommon.Generic
             {
              region.Add(view, viewName);
             }
-
+            DependencyObject tree = view as DependencyObject;
+            var tabControlExt = LogicalTreeHelper.GetParent(tree) as TabControlExt;
+            var tab = VisualTreeHelper.GetParent(tree);
+            // ext.Header = "Cola";
             if (view is UserControl)
             {
               ((UserControl) view).Focus();
@@ -156,7 +161,19 @@ namespace KarveCommon.Generic
            
             return view;
         }
+        static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
 
+            if (parentObject == null)
+                return null;
+
+            var parent = parentObject as T;
+            if (parent != null)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
         private bool CreateRegionManagerScope(object view)
         {
             bool createRegionManagerScope = false;

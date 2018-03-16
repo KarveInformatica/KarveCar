@@ -57,7 +57,7 @@ namespace KarveCar.Utility
                     ribbontab.Items.Insert(originIndex, target);
 
                     //Se guarda la nueva configuración en app.exe.config
-                    UserAndDefaultConfig.SetCurrentUserRibbonTabConfig(ribbontab);
+                    //UserAndDefaultConfig.SetCurrentUserRibbonTabConfig(ribbontab);
                 }
             }
             catch (Exception) { }

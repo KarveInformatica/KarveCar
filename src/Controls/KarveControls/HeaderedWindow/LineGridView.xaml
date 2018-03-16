@@ -1,0 +1,214 @@
+﻿<UserControl x:Class="KarveControls.HeaderedWindow.LineGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.HeaderedWindow"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:karveControls="clr-namespace:KarveControls"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour"
+             xmlns:gridbehaviours="clr-namespace:KarveControls.Behaviour.Grid"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:headeredWindow="crl-namespace:KarveControls.HeaderedWindow"
+             xmlns:prism="http://www.codeplex.com/prism"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        
+        <ResourceDictionary>
+        
+            <DataTemplate x:Key="NavigateInvoiceItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}" 
+                           Width="80"></TextBox>
+                    <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
+                                        Width="50"
+                                        Height="20"
+                                        Command="{Binding NavigateCommand}" 
+                                        CommandParameter="{Binding ElementName=ColName}">
+                    <Image Source="/KarveControls;component/Images/GoArrow.png"></Image>
+                </Button>
+            </Grid>
+        </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="headerStyle">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
+                    <Setter Property="FilterIconVisiblity" Value="Visible"></Setter>
+                    
+                </Style>
+                <Style x:Key="filterControlStyle" TargetType="syncfusion:GridFilterControl">
+                    <Setter Property="FilterMode" Value="AdvancedFilter" />
+                </Style>
+               
+            </Grid.Resources>
+
+            <!--  Syncfusion SfDataGrid implementation  -->
+
+            <syncfusion:SfDataGrid x:Name="GenericLineGridView"
+                                   Grid.Row="0"    
+                                    AllowEditing="True"
+                                    AutoGenerateColumns="True"
+                                    AllowGrouping="True"
+                                    AutoExpandGroups="True"
+                                    ColumnSizer="AutoLastColumnFill"
+                                    ItemsSource="{Binding SourceView, Mode=TwoWay}"
+                                    LiveDataUpdateMode="AllowDataShaping"                                 
+                                    SelectionMode="Extended"
+                                    SelectionUnit="Row"
+                                    AllowDraggingColumns="True"
+                                    AllowDeleting="True"
+                                    AllowFiltering="True"
+                                    AllowResizingColumns="True"
+                                    AllowSorting="True"
+                                    RowSelectionBrush="LightYellow"  
+                                    SelectionForegroundBrush="Black"
+                                    NavigationMode="Cell"
+                                    AddNewRowPosition="Bottom"
+                                    karveControls:ControlExt.DataSource="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    ShowGroupDropArea="True"
+                                    ShowRowHeader="True" >
+                <i:Interaction.Behaviors>
+
+                    <behaviour:LineGridBehaviour GridColumns="{Binding GridColumns, Mode=OneWay}"
+                                                 CellPresenterItems="{Binding CellGridPresentation, Mode=OneWay}">
+                        
+                    </behaviour:LineGridBehaviour>    
+                </i:Interaction.Behaviors>
+
+                <i:Interaction.Triggers>
+                    <prism:InteractionRequestTrigger SourceObject="{Binding NotificationRequest}">
+                        <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                            <prism:PopupWindowAction.WindowContent>
+                                <local:DetailsView></local:DetailsView>
+                            </prism:PopupWindowAction.WindowContent>
+                        </prism:PopupWindowAction>
+                    </prism:InteractionRequestTrigger>
+                </i:Interaction.Triggers>
+                <syncfusion:SfDataGrid.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                           
+                        </ResourceDictionary.MergedDictionaries>
+                       
+                        <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="#FF808080" />
+                            <Setter Property="BorderBrush" Value="#FF7fd0de" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type syncfusion:AddNewRowControl}">
+                                        <Grid>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="AddNewRowStates">
+                                                    <VisualState x:Name="Normal" />
+                                                    <VisualState x:Name="Edit">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Collapsed</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="HasError">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Collapsed</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="NoError">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Collapsed</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                                <VisualStateGroup x:Name="BorderStates">
+                                                    <VisualState x:Name="NormalRow" />
+                                                    <VisualState x:Name="FooterRow">
+                                                        <Storyboard BeginTime="0">
+                                                            <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                          Duration="1"
+                                                                                                          Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                          Storyboard.TargetProperty="BorderThickness">
+                                                                <EasingThicknessKeyFrame KeyTime="0" Value="0, 1, 0, 0" />
+                                                            </ThicknessAnimationUsingKeyFrames>
+                                                            <ThicknessAnimationUsingKeyFrames BeginTime="0"
+                                                                                                          Duration="1"
+                                                                                                          Storyboard.TargetName="PART_AddNewRowBorder"
+                                                                                                          Storyboard.TargetProperty="Margin">
+                                                                <EasingThicknessKeyFrame KeyTime="0" Value="0, -1, 0, 0" />
+                                                            </ThicknessAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Border Background="{TemplateBinding RowSelectionBrush}"
+                                                                Clip="{TemplateBinding SelectionBorderClipRect}"
+                                                                Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                                            <Border x:Name="PART_InValidBorder"
+                                                                Margin="0,0,1,1"
+                                                                Background="Transparent"
+                                                                BorderBrush="Red"
+                                                                BorderThickness="1"
+                                                                Visibility="Collapsed" />
+                                            <Border x:Name="PART_AddNewRowBorder"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <Border x:Name="PART_AddNewRowTextBorder"
+                                                                Background="#FFE5E5E5"
+                                                                BorderBrush="Transparent"
+                                                                BorderThickness="0,0,1,1"
+                                                                Clip="{TemplateBinding TextBorderClip}"
+                                                                IsHitTestVisible="False">
+                                                <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                                              HorizontalAlignment="Left"
+                                                                              VerticalAlignment="Center"
+                                                                              Content="{TemplateBinding AddNewRowText}" />
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ResourceDictionary>
+                </syncfusion:SfDataGrid.Resources>
+
+            </syncfusion:SfDataGrid>
+
+        </Grid>
+    </Grid>
+</UserControl>

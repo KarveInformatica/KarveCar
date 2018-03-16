@@ -1,12 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KarveCommon.Services;
-using KarveCar.Logic;
-using KarveCommon.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using System.Collections;
@@ -32,7 +26,7 @@ namespace KarveTest.Base
         [Test]
         public void Should_Env_Container_Not_Null()
         {
-            _environ = _configuration.GetEnviromentVariables();
+            _environ = _configuration.EnviromentVariables;
             Assert.NotNull(_environ);
         }
         [Test]
@@ -85,10 +79,10 @@ namespace KarveTest.Base
         {
             IEnviromentVariables eVariables = null;
             IEnviromentVariables currentVariables = null;
-            currentVariables = _configuration.GetEnviromentVariables();
+            currentVariables = _configuration.EnviromentVariables;
             try
             {
-                Serialize(_configuration.GetEnviromentVariables());
+                Serialize(_configuration.EnviromentVariables);
                 Deserialize(out eVariables);
             } catch (Exception e)
             {

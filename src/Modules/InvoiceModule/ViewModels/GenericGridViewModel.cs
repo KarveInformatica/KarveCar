@@ -112,8 +112,7 @@ namespace InvoiceModule.ViewModels
           
             _currentIdentifier = navigationContext.Parameters["Id"] as string;
             _currentGridName = navigationContext.Parameters["AssistName"] as string;
-            ProxyDataLoader dataLoader = new ProxyDataLoader(_dataServices, _currentGridName);
-            _initializationTable = NotifyTaskCompletion.Create<IEnumerable<BaseDto>>(dataLoader.LoadAsync(_currentGridName, _currentIdentifier), _ev);
+         
         }
         public object GenericGridView
         {

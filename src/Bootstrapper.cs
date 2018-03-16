@@ -76,8 +76,7 @@ namespace KarveCar.Boot
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
             catalog.AddModule(typeof(InvoiceModule.InvoiceModule));
-//            catalog.AddModule(typeof(CarModelModule.CarModelModule));
-           // catalog.AddModule(typeof(NavigationBarM.TreeViewModule));
+
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
         {
@@ -117,6 +116,13 @@ namespace KarveCar.Boot
                 Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
                 Container.RegisterType<ICareKeeperService, CareKeeper>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IRegionNavigationService, Prism.Regions.RegionNavigationService>();
+
+                logger.Debug("Registering line grid view...");
+
+                Container.RegisterType<object, KarveControls.HeaderedWindow.HeaderedWindow>("HeaderedWindow");
+                Container.RegisterType<object, KarveControls.HeaderedWindow.LineGridView>("LineGridView");
+              //  Container.RegisterType<object, KarveControls.HeaderedWindow.GridDetailsView>("GridDetailsView");
+                
                 // Event dispatcher implements the mediator pattern between view models.
                 // Every communication pass through the mediator.
                 logger.Debug("Starting EventDispatcher...");

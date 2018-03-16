@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace KarveControls.Generic
 {
@@ -74,7 +76,31 @@ namespace KarveControls.Generic
 
             return value;
         }
-
+        /// <summary>
+        /// Creates an ImageSource object from a file on disk.
+        /// </summary>
+        /// <param name="file">The full path to the file that should be loaded.</param>
+        /// <param name="forcePreLoad">if set to <c>true</c> the image file will be decoded and fully loaded when created.</param>
+        /// <returns>A frozen image source object representing the loaded image.</returns>
+        public static ImageSource CreateImageSource(string file, bool forcePreLoad)
+        {
+            if (forcePreLoad)
+            {
+                var src = new BitmapImage();
+                src.BeginInit();
+                src.UriSource = new Uri(file, UriKind.Absolute);
+                src.CacheOption = BitmapCacheOption.OnLoad;
+                src.EndInit();
+                src.Freeze();
+                return src;
+            }
+            else
+            {
+                var src = new BitmapImage(new Uri(file, UriKind.Absolute));
+                src.Freeze();
+                return src;
+            }
+        }
         /// <summary>
         ///  GetPropertiesValue.
         /// </summary>
@@ -148,13 +174,6 @@ namespace KarveControls.Generic
                 if (value is bool)
                 {
                     currentValue = Convert.ToByte(value);
-                    
-                    /*var v = info.GetValue(propName);
-                    Type t = v.GetType();
-                    if (t.FullName.Contains("Bool"))
-                    {
-                        info.SetValue(obj, value);
-                    }*/
 
                 }
                 if (info != null)
@@ -169,7 +188,7 @@ namespace KarveControls.Generic
                         info.SetValue(obj, var);
                     }
                 }
-                //obj.GetType().GetProperty(propName).SetValue(obj, value);
+                
             }
             int i = 1;
             foreach (String part in nameParts)

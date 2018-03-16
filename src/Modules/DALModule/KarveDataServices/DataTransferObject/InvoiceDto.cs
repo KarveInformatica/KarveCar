@@ -1,5 +1,6 @@
 ﻿using KarveDataServices.DataTransferObject;
 using System;
+using System.Collections.Generic;
 
 namespace KarveDataServices.DataObjects
 {
@@ -10,6 +11,7 @@ namespace KarveDataServices.DataObjects
     /// </summary>
     public class InvoiceDto : BaseDto
     {
+     
         /// <summary>
         ///  Invoice data transfer object.
         /// </summary>
@@ -1150,6 +1152,7 @@ namespace KarveDataServices.DataObjects
 
         public byte? ENVIADO_MAIL_AUT_FAC { get; set; }
 
+        public IEnumerable<InvoiceSummaryValueDto> InvoiceItems { set; get; }
     }
 
 }

@@ -2625,4 +2625,13 @@
   <data name="FetchingData" xml:space="preserve">
     <value>Fetching Data...</value>
   </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Atras</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_MoreItems" xml:space="preserve">
+    <value>Mas Elementos...</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
+    <value>Solo elemento</value>
+  </data>
 </root>

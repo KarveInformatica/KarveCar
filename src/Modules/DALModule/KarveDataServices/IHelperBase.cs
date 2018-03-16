@@ -21,7 +21,9 @@ namespace KarveDataServices
         /// Zone Data Transfer Object
         /// </summary>
         IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
-
+        /// <summary>
+        ///  Base zona 
+        /// </summary>
         IEnumerable<ClientZoneDto> ZoneDto { get; set; }
 
     }

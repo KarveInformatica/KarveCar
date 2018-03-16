@@ -2534,4 +2534,13 @@
   <data name="lbase" xml:space="preserve">
     <value>Base</value>
   </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Indietro</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_MoreItems" xml:space="preserve">
+    <value>Vista completa</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
+    <value>Meno articoli</value>
+  </data>
 </root>

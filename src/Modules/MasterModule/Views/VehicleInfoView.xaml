@@ -788,8 +788,9 @@
                 <i:TabItem x:Name="Acomulado"  Header="{Binding Acumulados, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
 
                 </i:TabItem>
-                <i:TabItem x:Name="Mantainance"  Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalContentAlignment="Stretch" Height="23.96">
-                    <vehicleViews:Mantainence>
+                <i:TabItem x:Name="Mantainance"  Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalContentAlignment="Stretch">
+                   
+                        <vehicleViews:Mantainence>
 
                     </vehicleViews:Mantainence>
                 </i:TabItem>

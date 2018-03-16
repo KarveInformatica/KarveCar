@@ -77,10 +77,11 @@ namespace KarveCommon.Generic
             "WHERE ccoIdCliente={0} ORDER BY ccoIdDelega, ccoContacto";
 
         // codigo vehicles.
-        public const string VehiclesSummaryQuery =
-            "select vehiculo1.codiint As Numero, matricula as Matricula, marca as Marca, modelo as Modelo, grupo as Grupo, oficina as Oficina, VEHICULO2.KM as Kilometers FROM VEHICULO1 " +
-            "LEFT OUTER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT";
 
+        public const string VehiclesSummaryQuery =
+            "SELECT vehiculo1.codiint As Code, matricula as Matricula, MARCAS.NOMBRE as Marca, modelo as Model, grupo as VehicleGroup, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALEAS as LeasingCompany, FSEGUB as LeavingDate, FSEGUBA as StartingDate, CLIENTES1.NUMERO_CLI as ClientNumber, CLIENTES1.NOMBRE as Client, TIPOREV as Policy,VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, LLAVE as KeyCode, LLAVE2 as StorageKey FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCAS.NOMBRE INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT;";
+            
+            
         // codigo vehicles summary paged.
         public const string VehiclesSummaryQueryPaged =
             "select TOP {0} START AT {1} vehiculo1.codiint, matricula, marca, modelo, grupo, oficina, VEHICULO2.KM FROM VEHICULO1 " +

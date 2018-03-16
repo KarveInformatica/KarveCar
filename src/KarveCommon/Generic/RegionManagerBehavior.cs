@@ -13,10 +13,13 @@ namespace KarveCommon.Generic
         protected override void OnAttach()
         {
             Region.Views.CollectionChanged += Views_CollectionChanged;
+            
         }
+        public DependencyObject HostControl { get; set; }
 
         void Views_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            var tabbed = HostControl;
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 foreach (var item in e.NewItems)

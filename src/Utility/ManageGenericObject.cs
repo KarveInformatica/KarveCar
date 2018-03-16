@@ -1,6 +1,4 @@
 ﻿using iAnywhere.Data.SQLAnywhere;
-using KarveCar.Model.Generic;
-using KarveCar.Model.Sybase;
 using KarveCommon.Generic;
 using System;
 using System.Collections.Generic;
@@ -14,105 +12,14 @@ using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {
+
+    /// <summary>
+    ///  FIXME. This is literally crap. a bunch of helpers without no logic sense. 
+    ///  I have not writtent this code.
+    /// </summary>
     public class ManageGenericObject
     {
-        /// <summary>
-        /// Devuelve una GenericObservableCollection con la info recibida de la BBDD (SADataReader dr), teniendo en cuenta la 
-        /// info (List<TemplateInfoDB> templateinfodb) del tipo de dato (object obj) recibidos por params.
-        /// También valida el tipo de dato 
-        /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="templateinfodb"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static GenericObservableCollection GetObservableCollectionFromSADataReader(SADataReader dr, List<TemplateInfoDB> templateinfodb, object obj)
-        {   
-            //Se crea el GenericObservableCollection auxiliar que se devolverá, donde se irá añadiendo la info recuperada de la BBDD (SADataReader dr)
-            GenericObservableCollection auxobscollection = new GenericObservableCollection();
-            try
-            {
-                //Se recorre el SADataReader para obtener sus valores según el tipo de objeto recibido por params
-                while (dr.Read())
-                {   //Se recuperan las propiedades e instanciamos un nuevo objeto del tipo del objeto recibido por params
-                    var properties = GetProperties(obj);
-                    object newobj = CreateObject(obj);
-
-                    //Se recorre la lista de propiedades del objeto recibido por params
-                    foreach (var prop in properties)
-                    {   //De cada propiedad del objeto recibido por params, se recorre su List<TemplateInfoDB> templateinfodb
-                        bool salir = false;
-                        foreach (var item in templateinfodb)
-                        {   //Se comprueba que el tipo de la propiedad del objeto recibido por params esté incluida en el List<TemplateInfoDB> templateinfodb
-                            if (item.nombrepropiedadobj == prop.Name)
-                            {   //Se añade el dato recuperado de la DB mediante el SADataReader a la propiedad(item.nombrepropiedadobj) 
-                                //del nuevo objeto(newobj), validando el dato según su tipo(ValidateData.***)
-                                switch (item.tipodatocolumnadb)
-                                {
-                                    case ETipoDato.DBstring:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetString(dr[item.nombrecolumnadb] as string));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBchar:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetChar(dr[item.nombrecolumnadb] as char?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBbool:
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBbyte: //byte en C# = tinyint en la DB
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetByte(dr[item.nombrecolumnadb] as byte?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBshort:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetShort(dr[item.nombrecolumnadb] as short?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBint:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetInt(dr[item.nombrecolumnadb] as int?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBlong:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetLong(dr[item.nombrecolumnadb] as long?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBdecimal:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDecimal(dr[item.nombrecolumnadb] as decimal?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBdouble:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDouble(dr[item.nombrecolumnadb] as double?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBdate:
-                                        PropertySetValue(newobj, item.nombrepropiedadobj, ValidateData.GetDate(dr[item.nombrecolumnadb] as DateTime?));
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBdatetime:
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBsmalldatetime:
-                                        salir = true;
-                                        break;
-                                    case ETipoDato.DBtime:
-                                        salir = true;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                if (salir) break;
-                            }
-                        }
-                    }
-                    auxobscollection.GenericObsCollection.Add(newobj); //Se añade el nuevo objeto del tipo recibido por params, a la ObservableCollection
-                }
-            }
-            catch (SAException e)
-            {
-                ErrorsDB.MessageError(e);
-            }
-            return auxobscollection;
-        }
-
+       
         /// <summary>
         /// Crea un objeto del tipo del objeto(objoriginal) pasado por params
         /// </summary>
@@ -178,7 +85,7 @@ namespace KarveCar.Utility
             }
             catch (Exception e)
             {
-                ErrorsGeneric.MessageError(e);
+                
             }
             string ret = string.Join(";", dic);
             return ret.ToUpper();
@@ -207,7 +114,6 @@ namespace KarveCar.Utility
             }
             catch (SAException e)
             {
-                ErrorsDB.MessageError(e);
             }
         }
 
@@ -235,7 +141,6 @@ namespace KarveCar.Utility
             }
             catch (SAException e)
             {
-                ErrorsDB.MessageError(e);
             }
             return value;        
         }

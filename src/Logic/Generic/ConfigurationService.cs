@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using KarveCar.View;
-using KarveCar.Views;
 using KarveCommon.Services;
-using Prism.Commands;
-using Prism.Regions;
 
 namespace KarveCar.Logic.Generic
 {
@@ -20,10 +13,10 @@ namespace KarveCar.Logic.Generic
     public class ConfigurationService : IConfigurationService
     {
         private Window _mainWindow;
-        private CustomTabItemViewModel _tabItemVm;
         private IUserSettings _userSettings;
         private IDictionary<string, TabItem> dictionaryTab = new Dictionary<string, TabItem>();
-        public static IEnviromentVariables env = new EnviromentVariableContainer();
+        public static IEnviromentVariables _env = new EnviromentVariableContainer();
+        private string _connectionString;
 
         /// <summary>
         ///  This is the constructor of the configuration service
@@ -34,9 +27,9 @@ namespace KarveCar.Logic.Generic
             this._mainWindow = null;
         }
         /// <summary>
-        ///  Configuratin service
+        ///  Configure the configuration services using the user settings.
         /// </summary>
-        /// <param name="settings"></param>
+        /// <param name="settings">User defined settings</param>
         public ConfigurationService(IUserSettings settings)
         {
             _userSettings = settings;
@@ -50,6 +43,10 @@ namespace KarveCar.Logic.Generic
             set { this._mainWindow = value; }
             get { return this._mainWindow; }
         }
+        /// <summary>
+        ///  Get or Set the connection string.
+        /// </summary>
+        public string ConnectionString { get => _connectionString; set => _connectionString = value; }
 
         /// <summary>
         ///  This close the application.
@@ -74,77 +71,14 @@ namespace KarveCar.Logic.Generic
             return true;
         }
 
-        
-
-        public string GetPrimaryKeyValue()
-        {
-         /*   object selectedItem = ((MainWindow) Application.Current.MainWindow).NewTabControl.SelectedItem;
-            if (selectedItem is TabItem)
-            {
-                TabItem item = (TabItem) selectedItem;
-                string itemHeader = item.Header as string;
-                string[] value = itemHeader.Split('.');
-                return value[1];
-            }
-            if (selectedItem is UserControl)
-            {
-                UserControl item = selectedItem as UserControl;
-                var context = item.DataContext;
-               var propertyInfo =  context.GetType().GetProperty("PrimaryKeyValue");
-                if (propertyInfo != null)
-                {
-                    var primaryKey = propertyInfo.GetValue(context) as string;
-                    if (!string.IsNullOrEmpty(primaryKey))
-                    {
-                        return primaryKey;
-                    }
-                }
-          
-            }
-            */
-            return "";
-        }
-
         /// <summary>
-        /// This returns the enviroments variables.
+        /// Get or Set the enviroment variables.
         /// </summary>
         /// <returns></returns>
-        public IEnviromentVariables GetEnviromentVariables()
-        {
-          
-            return env;
+        public IEnviromentVariables EnviromentVariables {
+            get { return _env;  }
+            set { _env = value; }
         }
-
-        
-        public IUserAccessControlList GetAccountManagement()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CloseTab(string primaryKeyValue)
-        {
-            /*
-            TabControl control = ((MainWindow) Application.Current.MainWindow).NewTabControl;
-            IRegion region = RegionManager.GetObservableRegion(control).Value;
-            if (region == null)
-                return;
-            for (int i= 0; i < control.Items.Count; ++i)
-            {
-                var item = control.Items[i];
-                if (item is CustomTabControl)
-                {
-                    CustomTabControl ct = (CustomTabControl) item;
-                    string ctHeader = ct.Header as string;
-                    if (ctHeader.Contains(primaryKeyValue))
-                    {
-                       control.Items.Remove(ct);
-                    }
-                }
-                
-            }
-            */
-        }
-
         /// <summary>
         ///  Return the current user settings for the value
         /// </summary>
@@ -156,81 +90,23 @@ namespace KarveCar.Logic.Generic
         /// <summary>
         ///  Setup the user settings.
         /// </summary>
-        /// <param name="settings"></param>
+        /// <param name="settings"> Set the user settings </param>
         public void SetUserSettings(IUserSettings settings)
         {
             _userSettings = settings;
         }
-
+        /// <summary>
+        ///  Return the connection string
+        /// </summary>
+        /// <returns>return the connection string</returns>
         public string GetConnectionString()
         {
+            return _connectionString;
+        }
+
+        public IUserAccessControlList GetAccountManagement()
+        {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///  This is the custom view model for the main custom tabs.
-        ///  TODO: Remove all this complexity. we dont need it.
-        /// </summary>
-        public class CustomTabItemViewModel
-        {
-            
-
-            private void onCloseButton(object v)
-            {
-                /*
-                string key = v as string;
-                foreach (string k in control.Keys)
-                {
-                    if (key == k)
-                    {
-                        CustomTabControl view = control[key];
-                        ((MainWindow)Application.Current.MainWindow).NewTabControl.Items.Remove(view);
-                        control.Remove(key);
-                        break;
-                    }
-    
-                }
-                
-                if (control.ContainsKey(key))
-                {
-                    CustomTabControl view = control[key];
-                    ((MainWindow)Application.Current.MainWindow).NewTabControl.Items.Remove(view);
-                    control.Remove(key);
-                }
-                */
-
-
-            }
-
-            internal string ContainsItem(string primaryKeyValue)
-            {
-                return "";
-            }
-        }
-
-        public class HeaderData
-        {
-            private string _header;
-            private string _name;
-            private CustomTabItemViewModel _model = new CustomTabItemViewModel();
-
-            public string Header
-            {
-                set { _header = value; }
-                get { return _header; }
-            }
-
-            public string Name
-            {
-                set { _name = value; }
-                get { return _name; }
-            }
-
-            public CustomTabItemViewModel Model
-            {
-                get { return _model; }
-                set { _model = value; }
-            }
         }
 
         /// <summary>

@@ -52,8 +52,6 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Dragablz.dll</HintPath>
@@ -131,6 +129,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Themes.Metro.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Tools.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -164,6 +163,7 @@
     </Compile>
     <Compile Include="Generic\AssistMapper.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
+    <Compile Include="Generic\CloseTabAction.cs" />
     <Compile Include="Generic\CompositeMagnifierHandler.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
@@ -178,6 +178,7 @@
     <Compile Include="Generic\LinqToVisualTree.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
     <Compile Include="Generic\RegionManagerBehavior.cs" />
+    <Compile Include="Generic\RegionNames.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
     <Compile Include="Generic\ScopedRegionNavigationContentLoader.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Validation\SwiftValidationRule.cs" />
     <Compile Include="Validation\WebAddressValidationRule.cs" />
     <Compile Include="Validation\ZipValidationRule.cs" />
+    <Compile Include="ViewModels\GridDetailsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -501,10 +503,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Style\Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Style\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

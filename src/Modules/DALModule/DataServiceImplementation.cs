@@ -7,7 +7,7 @@ namespace DataAccessLayer
     /// <summary>
     /// Implementation of the the IDataService interface to provide the stairway pattern.
     /// Stairway pattern is against the entourage pattern. 
-    /// The Interface assembly shall be sepatated from the implementation. lementation.
+    /// The Interface assembly shall be sepatated from the implementation.
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
@@ -175,7 +175,7 @@ namespace DataAccessLayer
         /// <summary>
         ///  Contract data services. All the services needed to manage the contract operations.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return a contract</returns>
         public IContractDataServices GetContractDataServices()
         {
            return _contractDataService;

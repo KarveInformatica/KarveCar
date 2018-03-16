@@ -119,8 +119,6 @@
     <Compile Include="ViewModels\HeaderDataViewModel.cs" />
     <Compile Include="ViewModels\InvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\InvoiceInfoViewModel.cs" />
-    <Compile Include="ViewModels\LineGridViewModel.cs" />
-    <Compile Include="ViewModels\ProxyDataLoader.cs" />
     <Compile Include="Views\GenericGridView.xaml.cs">
       <DependentUpon>GenericGridView.xaml</DependentUpon>
     </Compile>
@@ -137,6 +135,9 @@
     </Compile>
     <Compile Include="Views\InvoiceInfoView.xaml.cs">
       <DependentUpon>InvoiceInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InvoiceSummaryFooter.xaml.cs">
+      <DependentUpon>InvoiceSummaryFooter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LineGridView.xaml.cs">
       <DependentUpon>LineGridView.xaml</DependentUpon>
@@ -164,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InvoiceInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InvoiceSummaryFooter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

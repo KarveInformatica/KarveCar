@@ -27,7 +27,7 @@ namespace KarveCar.ViewModels
         /// <param name="parameter"></param>
         public void CloseWindow(object parameter)
         {
-            Logic.Generic.CloseWindowLogic.CloseWindowFromCommand();
+            ///Logic.Generic.CloseWindowLogic.CloseWindowFromCommand();
         }
     }
 }

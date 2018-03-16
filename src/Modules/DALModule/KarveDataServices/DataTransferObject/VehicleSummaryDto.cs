@@ -19,10 +19,10 @@ namespace KarveDataServices.DataTransferObject
         public string Brand { set; get; }
         [Display(Name = "Modelo", Description = "Modelo de vehiculo")]
         public string Model { set; get; }
-        [Display(Name = "Vehicle Brand", Description = "Codigo de vehiculo")]
+        [Display(Name = "Targa", Description = "Codigo de vehiculo")]
         public string EnrollmentNumber { set; get; }
         [Display(Name = "Grupo de Vehiculo", Description = "Grupo de vehiculo")]
-        public string Group { set; get; }
+        public string VehicleGroup { set; get; }
         [Display(Name = "Situacion", Description = "Situacion de vehiculo")]
         public string Situation { set; get; }
         [Display(Name = "Oficina", Description = "Oficina de vehiculo")]

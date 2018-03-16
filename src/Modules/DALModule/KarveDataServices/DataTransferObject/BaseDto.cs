@@ -52,7 +52,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         /// Get if there are validation erros
         /// </summary>
-        public bool HasErrors { get; }
+        public virtual bool HasErrors { get; set; }
         /// <summary>
         ///  Event handler fired in case any data error.
         /// </summary>
@@ -66,7 +66,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  The data object is just changed.
         /// </summary>
-        public virtual bool IsChanged { get; }
+        public virtual bool IsChanged { get; set; }
         /// <summary>
         ///  You can reject the changes.
         /// </summary>

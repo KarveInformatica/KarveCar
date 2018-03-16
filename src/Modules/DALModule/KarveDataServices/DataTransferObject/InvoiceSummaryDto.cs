@@ -9,17 +9,19 @@ namespace KarveDataServices.DataTransferObject
     public class InvoiceSummaryDto: BaseDto
     {
         private string _agreementCode;
-        private long _vehicleCode;
+        private string _vehicleCode;
         private long _opciones;
         private string _description;
-        private string _quantity;
+        private decimal? _quantity;
         private long _price;
-        private decimal _discount;
-        private long _subtotal;
+        private decimal? _discount;
+        private decimal? _subtotal;
         private string _unity;
         private string _fileNumber;
+        private decimal? _iva;
 
         [Display(Name = "Contracto", Description = "Codigo de Contracto")]
+        
         public string AgreementCode
         {
             set
@@ -32,8 +34,9 @@ namespace KarveDataServices.DataTransferObject
                 return _agreementCode;
             }
         }
+        
         [Display(Name = "Vehiculo", Description = "Codigo de Vehiculo")]
-        public long VehicleCode
+        public string VehicleCode
         {
             set
             {
@@ -71,7 +74,7 @@ namespace KarveDataServices.DataTransferObject
             }
         }
         [Display(Name = "Cantidad", Description = "Cantidad")]
-        public string Quantity
+        public decimal? Quantity
         {
             set
             {
@@ -97,7 +100,7 @@ namespace KarveDataServices.DataTransferObject
             }
         }
         [Display(Name = "Descuento", Description = "Descuento")]
-        public Decimal Discount
+        public decimal? Discount
         {
             set
             {
@@ -109,8 +112,24 @@ namespace KarveDataServices.DataTransferObject
                 return _discount;
             }
         }
+
+
+        [Display(Name = "Iva", Description = "Iva")]
+        public decimal? Iva
+        {
+            set
+            {
+                _iva = value;
+                RaisePropertyChanged("Iva");
+            }
+            get
+            {
+                return _iva;
+            }
+        }
+
         [Display(Name = "Subtotal", Description = "Subtotal")]
-        public long Subtotal
+        public decimal? Subtotal
         {
             set
             {

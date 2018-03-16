@@ -159,7 +159,7 @@ namespace HelperModule.ViewModels
             _loader.Load(QueryLoad);
             return _loader.HelperView;
         }
-
+       
     /// <summary>
         ///  Update the value.
         /// </summary>

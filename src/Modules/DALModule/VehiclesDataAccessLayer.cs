@@ -13,6 +13,10 @@ using DataAccessLayer.SQL;
 
 namespace DataAccessLayer
 {
+    /*
+     * Move to query store. 
+     * Add incremental load 
+     */
     /// <summary>
     /// This is an implementation of the data access layer for the data services.
     /// </summary>
@@ -50,6 +54,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset)
         {
+            // TODO: Fix the usage of the query store.
             QueryStore store = new QueryStore();
             IEnumerable<VehicleSummaryDto> vehicles = null;
             string value = "";   
@@ -67,7 +72,10 @@ namespace DataAccessLayer
             }
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                vehicles = await connection.QueryAsync<VehicleSummaryDto>(value);
+               /*
+                *  Move to query store.
+                */
+                vehicles = await connection.QueryAsync<VehicleSummaryDto>(GenericSql.VehiclesSummaryQuery);
             }
             return vehicles;
         }

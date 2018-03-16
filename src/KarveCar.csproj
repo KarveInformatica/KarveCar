@@ -101,6 +101,8 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Dragablz.dll</HintPath>
@@ -230,36 +232,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Commands\ConfiguracionCommand\CintaOpcionesCommand.cs" />
     <Compile Include="Commands\Generic\RelayCommand.cs" />
-    <Compile Include="Commands\Generic\CloseTabItemCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
-    <Compile Include="Commands\MaestrosCommand\GrupoVehiculoCommand.cs" />
-    <Compile Include="Commands\MaestrosCommand\MarcaCommand.cs" />
-    <Compile Include="Commands\MaestrosCommand\MarcaDataTablecommand.cs" />
-    <Compile Include="Logic\Configuracion\RibbonOptionLogic.cs" />
     <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
     <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
-    <Compile Include="Logic\Generic\TabItemLogic.cs" />
-    <Compile Include="Logic\Generic\UserAccessControlList.cs" />
-    <Compile Include="Model\Generic\TemplateInfoDB.cs" />
-    <Compile Include="Model\Generic\UsoAlquiler.cs" />
-    <Compile Include="Model\Generic\ZonaCliente.cs" />
-    <Compile Include="Model\Generic\ZonaOficina.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLViews.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLUpdate.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLProcedures.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLInsert.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLFunctions.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLOthers.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLDelete.cs" />
-    <Compile Include="Model\SQL\ScriptsSQLSelect.cs" />
-    <Compile Include="Model\Sybase\DBConnect.cs" />
-    <Compile Include="Model\Sybase\ErrorsDB.cs" />
-    <Compile Include="Model\Sybase\ErrorsGeneric.cs" />
-    <Compile Include="Model\Sybase\ErrorsMessage.cs" />
     <Compile Include="Properties\Resources.ca-ES.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -282,33 +260,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Behaviour\TabItemBehaviour.cs" />
     <Compile Include="Utility\AdvanceEnterKey.cs" />
     <Compile Include="Utility\ManageDataTable.cs" />
-    <Compile Include="Utility\ManageDBGeneric.cs" />
     <Compile Include="Utility\ManageGenericObject.cs" />
     <Compile Include="Utility\RibbonGroupDragDrop.cs" />
     <Compile Include="Utility\TabControlAndTabItemUtil.cs" />
-    <Compile Include="Model\Generic\TemplateInfoRibbonTabAndGroup.cs" />
-    <Compile Include="Model\Generic\TemplateInfoTabItem.cs" />
-    <Compile Include="Model\Generic\TemplateInfoRibbonButton.cs" />
-    <Compile Include="Utility\UserAndDefaultConfig.cs" />
     <Compile Include="Utility\ValidateData.cs" />
-    <Compile Include="Model\Generic\RecopilatorioCollections.cs" />
-    <Compile Include="Utility\ValidationRuleDataGrid.cs" />
-    <Compile Include="ViewModels\CintaOpcionesViewModel.cs" />
-    <Compile Include="ViewModels\CloseTabItemViewModel.cs" />
     <Compile Include="ViewModels\CloseWindowViewModel.cs" />
     <Compile Include="ViewModels\CultureSwitcher.cs" />
-    <Compile Include="ViewModels\GrupoVehiculoDataObject.cs" />
-    <Compile Include="ViewModels\GrupoVehiculoViewModel.cs" />
     <Compile Include="ViewModels\LeftTreeViewModel.cs" />
     <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MarcaDataObject.cs" />
-    <Compile Include="ViewModels\MarcaDataTableViewModel.cs" />
-    <Compile Include="ViewModels\MarcaViewModel.cs" />
-    <Compile Include="ViewModels\PaymentResolverViewModel.cs" />
-    <Compile Include="ViewModels\ProvidersResolverViewModel.cs" />
     <Compile Include="Views\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -434,6 +397,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logic\Comercial\" />
+    <Folder Include="Logic\Configuracion\" />
     <Folder Include="Logic\Contratos\" />
     <Folder Include="Logic\Maestros\" />
   </ItemGroup>
@@ -476,6 +440,7 @@
     <Resource Include="Images\company.png" />
     <Resource Include="Images\office.png" />
     <Resource Include="Images\registry.png" />
+    <Resource Include="Images\closebutton.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

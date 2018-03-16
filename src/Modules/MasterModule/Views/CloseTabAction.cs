@@ -11,6 +11,9 @@ using System.Windows.Media;
 
 namespace MasterModule.Views
 {
+    /// <summary>
+    ///  Obsoleted with syncfusion tabs.
+    /// </summary>
     public class CloseTabAction : TriggerAction<Button>
     {
         protected override void Invoke(object parameter)

@@ -14,16 +14,22 @@ namespace DataAccessLayer.MongoDB
         private string _connectionString;
         public MongoDataServiceImplementation(IConfigurationService service) 
         {
-            _connectionString = service.GetConnectionString();
+            _connectionString = service.ConnectionString;
             _executor = new MongoClient(_connectionString);
 
         }
-
+        /// <summary>
+        ///  Access to the mongo client data service interface
+        /// </summary>
+        /// <returns>client data service interface</returns>
         public IClientDataServices GetClientDataServices()
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        ///  Access to the mongo client broker data service interface
+        /// </summary>
+        /// <returns>broker client data service interface</returns>
         public ICommissionAgentDataServices GetCommissionAgentDataServices()
         {
             throw new NotImplementedException();
@@ -77,7 +83,6 @@ namespace DataAccessLayer.MongoDB
         public void Reconfigure(string connectionString)
         {
             _connectionString = connectionString;
-            
             _executor = new MongoClient(_connectionString);
         }
     }

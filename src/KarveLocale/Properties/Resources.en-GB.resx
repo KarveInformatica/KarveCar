@@ -2167,4 +2167,13 @@
   <data name="lbase" xml:space="preserve">
     <value>Base</value>
   </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Go Back!</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_MoreItems" xml:space="preserve">
+    <value>More Items..</value>
+  </data>
+  <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
+    <value>Less elements..</value>
+  </data>
 </root>

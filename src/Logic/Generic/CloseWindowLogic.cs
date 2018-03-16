@@ -1,9 +1,10 @@
-﻿using KarveCar.Model.Sybase;
+﻿
 using KarveCar.Properties;
 using System;
 using System.ComponentModel;
 using System.Windows;
 using KarveCar.Views;
+using KarveCommonInterfaces;
 
 namespace KarveCar.Logic.Generic
 {
@@ -13,21 +14,33 @@ namespace KarveCar.Logic.Generic
 
     public class CloseWindowLogic
     {
+
+        private IDialogService _dialogService;
+
+        public CloseWindowLogic(IDialogService dialogService)
+        {
+            _dialogService = dialogService;
+        }
         /// <summary>
         /// Cierra la aplicación. Llamada desde (Ribbon.ApplicationMenu)Inicio/Salir
         /// </summary>
-        public static void CloseWindowFromCommand()
+        public void CloseWindowFromCommand()
         {
+            if (_dialogService==null)
+            {
+                return;
+            }
             try
             {
-                if (MessageBox.Show(Resources.msgSalir, Resources.lrapmnitSalir, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                MessageDialogResult result = _dialogService.ShowYesNoDialog(Resources.msgSalir, Resources.lrapmnitSalir);
+                if (result != MessageDialogResult.Ok)
                 {
-                    ((MainWindow)Application.Current.MainWindow).Close();
+                   
                 }
             }
             catch (Exception ex)
             {
-                ErrorsGeneric.MessageError(ex);
+                
             }
         }
 
@@ -51,7 +64,7 @@ namespace KarveCar.Logic.Generic
             }
             catch (Exception ex)
             {
-                ErrorsGeneric.MessageError(ex);
+                
             }
         }
     }
