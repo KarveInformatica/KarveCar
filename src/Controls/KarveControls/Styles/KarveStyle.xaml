@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
                     xmlns:mvvm1="http://prismlibrary.com/"
                     xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
                     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"

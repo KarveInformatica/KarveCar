@@ -10,6 +10,9 @@ using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using DataAccessLayer.SQL;
+using System.Diagnostics;
+using System.Linq;
 
 namespace DataAccessLayer
 {
@@ -21,7 +24,7 @@ namespace DataAccessLayer
         private IDataLoader<ClientDto> _dataLoader;
         private IDataSaver<ClientDto> _dataSaver;
         private IDataDeleter<ClientDto> _dataDeleter;
-
+        
         /// <summary>
         ///  Sql executor.
         /// </summary>
@@ -42,7 +45,7 @@ namespace DataAccessLayer
         ///  Delete the client.
         /// </summary>
         /// <param name="clientData">The client value to delete</param>
-        /// <returns>True if the data has been deleted correctly</returns>
+        /// <returns>True if has been deleted correctly</returns>
         public async Task<bool> DeleteClientAsyncDo(IClientData clientData)
         {
             return await _dataDeleter.DeleteAsync(clientData.Value).ConfigureAwait(false);
@@ -50,12 +53,32 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get async client summary.
         /// </summary>
-        /// <returns>A dataset containing the complete list of clients</returns>
-        public async Task<DataSet> GetAsyncAllClientSummary()
+        /// <returns>A list containing the complete list of clients</returns>
+        public async Task<IEnumerable<ClientSummaryExtended>> GetAsyncAllClientSummary()
         {
-            string str = GenericSql.ClientsSummaryQuery;
-            DataSet summary = await _sqlExecutor.AsyncDataSetLoad(str).ConfigureAwait(false);
-            return summary;
+            QueryStore store = new QueryStore();
+            store.AddParam(QueryStore.QueryType.QueryClientSummaryExt);
+            var query = store.BuildQuery();
+            IEnumerable<ClientSummaryExtended> summaryDtos = new List<ClientSummaryExtended>();
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                summaryDtos = await connection.QueryAsync<ClientSummaryExtended>(query).ConfigureAwait(false);
+                var value = summaryDtos.FirstOrDefault();
+                if (value != null)
+                {
+                    // init the dapper buffer.
+                    QueryStore clientPocoQueryStore = new QueryStore();
+                    clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient1, value.Code);
+                    clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient2, value.Code);
+                    var q = clientPocoQueryStore.BuildQuery();
+                    var pocoReader = await connection.QueryMultipleAsync(q).ConfigureAwait(false);
+                    var clients1 = pocoReader.Read<CLIENTES1>(true).FirstOrDefault();
+                    var clients2 = pocoReader.Read<CLIENTES2>(true).FirstOrDefault();
+                   
+           
+                }
+            }
+            return summaryDtos;
         }
 
      
@@ -66,9 +89,11 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IClientData> GetAsyncClientDo(string clientIndentifier)
         {
-            ClientDto dto = await _dataLoader.LoadValueAsync(clientIndentifier).ConfigureAwait(false);
+           
+            var entity = await _dataLoader.LoadValueAsync(clientIndentifier).ConfigureAwait(false);
             IClientData client = new Client();
-            client.Value = dto;
+            client.Value = entity;
+           
             return client;
         }
         /// <summary>

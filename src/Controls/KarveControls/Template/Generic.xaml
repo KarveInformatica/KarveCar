@@ -32,7 +32,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem }" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -49,7 +49,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </karveControls:DataField>
@@ -71,7 +71,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <interactivity:InvokeCommandAction Command="{Binding ChangedItem }" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -109,7 +109,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MagnifierPress">
 
-                    <interactivity:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"/>
+                    <interactivity:InvokeCommandAction Command="{Binding AssistCommand }"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

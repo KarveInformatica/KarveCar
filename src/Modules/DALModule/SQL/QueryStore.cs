@@ -56,7 +56,8 @@ namespace DataAccessLayer.SQL
             QueryBroker,
             QueryInvoiceSummary, 
             QueryInvoiceSummaryExtended,
-            QueryInvoiceSummaryPaged
+            QueryInvoiceSummaryPaged,
+            QueryClientSummaryExt
         }
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
@@ -92,6 +93,7 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryChannel, @"SELECT CODIGO,NOMBRE FROM CANAL WHERE CODIGO='{0}'" },
             {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
             {QueryType.QueryCurrency, @"select * from currencies;" },
+            
             {QueryType.QueryClientSummary, @"SELECT CLIENTES1.NUMERO_CLI as Code, 
                                                     NOMBRE as Name, 
                                                     NIF as Nif,
@@ -121,23 +123,30 @@ namespace DataAccessLayer.SQL
               {QueryType.QueryOfficeSummaryByCompany, "select OFICINAS.CODIGO as Code, OFICINAS.NOMBRE AS Name, OFICINAS.DIRECCION as Direction, OFICINAS.POBLACION as City, PROVINCIA.PROV as Province, SUBLICEN.NOMBRE as CompanyName, ZONAOFI.NOM_ZONA as OfficeZone FROM OFICINAS LEFT OUTER JOIN PROVINCIA " +
                 "ON OFICINAS.PROVINCIA=PROVINCIA.SIGLAS LEFT OUTER JOIN ZONAOFI ON OFICINAS.ZONAOFI=ZONAOFI.COD_ZONAOFI " +
                 "LEFT OUTER JOIN SUBLICEN ON OFICINAS.SUBLICEN=SUBLICEN.CODIGO WHERE SUBLICEN='{0}';" },
-
+            {QueryType.QueryClientSummaryExt, "SELECT CLIENTES1.NUMERO_CLI as Code, NOMBRE as Name,NIF as Nif,TELEFONO as Phone,MOVIL as Movil,EMAIL as Email, DIRECCION as Direction,CLIENTES1.CP as Zip,POBLACION as City,PROVINCIA.PROV as Province,PAIS.PAIS as Country,TARTI as CreditCardType, TARNUM as NumberCreditCard,FPAGO as PaymentForm,CONTABLE as AccountableAccount,CLIENTES2.SECTOR as Sector,ZONA as Zone,ORIGEN as Origin, CLIENTES2.VENDEDOR as Reseller,OFICINA as Office,COMERCIAL as Commercial,ALTA as Falta,FENAC as BirthDate from CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES2.NUMERO_CLI = CLIENTES1.NUMERO_CLI LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA LEFT OUTER JOIN PAIS ON PAIS.SIGLAS = CLIENTES1.NACIOPER"},
             { QueryType.QueryClientPagedSummary, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI as Code, 
                                                     NOMBRE as Name, 
                                                     NIF as Nif,
+                                                    TELEFONO as Phone,  
+                                                    MOVIL as Movil,
+                                                    EMAIL as Email,
                                                     DIRECCION as Direction,
-                                                    POBLACION as City, 
-                                                    TARNUM as NumberCreditCard, 
-                                                    TARTI as CreditCardType, 
                                                     CLIENTES1.CP as Zip, 
-                                                    CLIENTES2.SECTOR as Sector, 
+                                                    POBLACION as City, 
                                                     PROVINCIA.PROV as Province, 
                                                     PAIS.PAIS as Country, 
-                                                    TELEFONO as Phone, 
-                                                    OFICINA as Oficina, 
-                                                    CLIENTES2.VENDEDOR as Vendidor, 
+                                                    TARTI as CreditCardType, 
+                                                    TARNUM as NumberCreditCard, 
+                                                    FPAGO as PaymentForm,
+                                                    CONTABLE as AccountableAccount,
+                                                    CLIENTES2.SECTOR as Sector,
+                                                    ZONA as Zone,
+                                                    ORIGEN as Origin,
+                                                    CLIENTES2.VENDEDOR as Reseller,
+                                                    OFICINA as Office, 
+                                                    COMERCIAL as Commercial
                                                     ALTA as Falta, 
-                                                    MOVIL as Movil 
+                                                    FENAC as BirthDate
                                                     from CLIENTES1 
                                                     INNER JOIN CLIENTES2 
                                                     ON CLIENTES2.NUMERO_CLI = CLIENTES1.NUMERO_CLI 

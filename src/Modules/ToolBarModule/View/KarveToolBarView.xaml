@@ -96,7 +96,7 @@
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsSaveEnabled}" >
                 <StackPanel>
-                    <Image Source="{Binding CurrentSaveImagePath,PresentationTraceSources.TraceLevel=High}" Stretch="Fill" Height="20" />
+                    <Image Source="{Binding CurrentSaveImagePath}" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">

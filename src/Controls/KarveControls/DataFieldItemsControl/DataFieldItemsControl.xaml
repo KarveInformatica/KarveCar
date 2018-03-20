@@ -28,7 +28,7 @@
                                          >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
-                                <mvvm:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                <mvvm:InvokeCommandAction Command="{Binding ChangedItem }" TriggerParameterPath="ChangedValuesObjects"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 

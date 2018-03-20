@@ -301,8 +301,8 @@
                                               LabelTextWidth="86"
                                          
                                               
-                                              ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand}"
+                                              MagnifierCommand="{Binding AssistCommand}"
                                               IsReadOnlySecond="True"
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="150"

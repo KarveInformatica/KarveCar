@@ -33,8 +33,8 @@
                                AssistQuery="{Binding SupplierAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    AssistDataFieldFirst="num_provee"
                                    AssistDataFieldSecond="nombre"
-                                   ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                                   MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                   ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                   MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    Margin="5,0,0,5"
                                    Height="30"
                                    SourceView="{Binding ProveeDto, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
@@ -48,8 +48,8 @@
                                        SourceView="{Binding PaymentFormDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        DataFieldFirst="forpagoco"
-                                       MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
-                                       ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                       MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                       ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                        AssistTableName="formas"
                                        AssistDataFieldFirst="codigo"
                                        AssistDataFieldSecond="nombre"
@@ -63,7 +63,7 @@
                                    LabelText="Fecha Compra"
                                    LabelTextWidth="100"
                                    LabelVisible="True"
-                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="FECCOMPRA"
                 />
@@ -76,14 +76,14 @@
                               Height="25"
                               DataSourcePath="matri2"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               DataFieldHeight="30"/>
                     <kc:DataDatePicker DataDatePickerHeight="25"
                                    LabelText="Fecha Matricula Anterior"
                                    LabelVisible="True"
                                    LabelTextWidth="150"
                                    Margin="10,0,0,0"
-                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" 
+                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="FMATRI"></kc:DataDatePicker>
                 </WrapPanel>
@@ -112,7 +112,7 @@
                                          >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="DataFieldChanged">
-                                        <prism:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        <prism:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </kc:DataField>

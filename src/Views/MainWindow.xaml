@@ -52,7 +52,7 @@
 
                 <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
                 <Setter Property="HeaderMemberPath" Value="Header" />
-                <Setter Property="ClosingItemCallback" Value="{Binding ClosingTabItemHandler, PresentationTraceSources.TraceLevel=High}" />
+                <Setter Property="ClosingItemCallback" Value="{Binding ClosingTabItemHandler }" />
                 <Setter Property="Margin" Value="0 5 0 0" />
                
             </Style>
@@ -1655,8 +1655,8 @@
                                               HorizontalAlignment="Left" 
                                               SmallImageSource="..\Images\es-es.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="es-ES"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" CommandParameter="es-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" CommandParameter="es-ES"/>
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       CommandParameter="es-ES"/>
                                     </RibbonButton.InputBindings>
@@ -1676,10 +1676,10 @@
                                               HorizontalAlignment="Left" 
                                               SmallImageSource="..\Images\de-DE.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" CommandParameter="ca-ES"/>
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, 
-                                            UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="de-DE"/>
+                                            UpdateSourceTrigger=PropertyChanged }" CommandParameter="de-DE"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
 
@@ -1688,10 +1688,10 @@
                                               HorizontalAlignment="Left" 
                                               SmallImageSource="..\Images\it-IT.png" >
                                     <RibbonButton.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
-                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Return" Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ca-ES"/>
+                                        <KeyBinding Key="Enter"  Command="{Binding ChangeLanguageCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ca-ES"/>
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeLanguageCommand, Mode=OneWay, 
-                                            UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}" CommandParameter="it-IT"/>
+                                            UpdateSourceTrigger=PropertyChanged }" CommandParameter="it-IT"/>
                                     </RibbonButton.InputBindings>
                                 </RibbonButton>
                             </RibbonMenuButton>
@@ -1832,10 +1832,7 @@
                                            TabScrollButtonVisibility="Auto"
                                            syncfusion:SkinStorage.VisualStyle="Metro"
                                            prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.TabRegion}">
-                    <i:Interaction.Behaviors>
-                        <behaviour:TabItemBehaviour/>
-                    </i:Interaction.Behaviors>
-
+                    
                     <syncfusion:TabControlExt.ItemContainerStyle>
                         <Style TargetType="{x:Type syncfusion:TabItemExt}">
                             <Setter Property="Header" Value="{Binding Header}"/>
@@ -1868,8 +1865,7 @@
                         </Style>
                     </syncfusion:TabControlExt.ItemContainerStyle>
                     
-                   
-                   
+                 
                     </syncfusion:TabControlExt>
             </Grid>
 

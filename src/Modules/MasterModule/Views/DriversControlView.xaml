@@ -54,6 +54,7 @@
         <Syncfusion:SfDataGrid x:Name="DriverControlViewSummary"   VerticalAlignment="Top"                   
                                                                        ColumnSizer="Star"
                                                                        Grid.Row="1"
+                                                                       AutoGenerateColumns="True"
                                ItemsSource="{Binding Drivers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
@@ -65,7 +66,8 @@
                                                                        NavigationMode="Row"
                                                                        MaxHeight="300"
                                                                        Background="White"
-                                                                       AutoGenerateColumns="False"
+                                                                        
+                               
                                                                                                                                            
                                                 >
 
@@ -76,83 +78,9 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Syncfusion:SfDataGrid.Resources>
-            <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridTextColumn HeaderText="Numero" 
-                                           MappingName="Code" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="True"
-                                           AllowGrouping="True"/>
+           
 
-                <Syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="Nombre"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <Syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Name}" />
-                        </DataTemplate>
-                    </Syncfusion:GridTemplateColumn.CellTemplate>
-
-                </Syncfusion:GridTemplateColumn>
-
-                <Syncfusion:GridTemplateColumn HeaderText="Nif" MappingName="Nif"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <Syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Nif}" />
-                        </DataTemplate>
-                    </Syncfusion:GridTemplateColumn.CellTemplate>
-
-                </Syncfusion:GridTemplateColumn>
-
-                <Syncfusion:GridTemplateColumn HeaderText="Telefono" MappingName="Telefono"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <Syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/MasterModule;component/Images/phone.png">
-
-                                </Image>
-                                <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Telefono}" />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </Syncfusion:GridTemplateColumn.CellTemplate>
-
-                </Syncfusion:GridTemplateColumn>
-                <Syncfusion:GridTemplateColumn HeaderText="Movil" MappingName="Movil"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <Syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/MasterModule;component/Images/cellphone.png">
-
-                                </Image>
-                                <TextBlock FontStyle="Italic"
-                                           FontWeight="SemiBold"
-                                           Padding="2,0"
-                                           Text="{Binding Movil}" />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </Syncfusion:GridTemplateColumn.CellTemplate>
-                    
-                    
-
-                </Syncfusion:GridTemplateColumn>
-
-            </Syncfusion:SfDataGrid.Columns>
-
-
+              
         </Syncfusion:SfDataGrid>
         <Border Height="60"
             VerticalAlignment="Bottom"

@@ -28,7 +28,7 @@ namespace MasterModule.Views.Clients
             InitializeComponent();
             watch.Start();
             var value = watch.ElapsedMilliseconds;
-         
+            var dc = 10;
         }
     }
 }

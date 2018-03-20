@@ -47,10 +47,10 @@
                     AssistDataFieldFirst="CODIGO"
                     AssistDataFieldSecond="NOMBRE"
                     DataFieldFirst="Language"
-                    SourceView="{Binding LanguageDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                    SourceView="{Binding LanguageDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     MaxHeight="30"
                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                    ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                     TextContentFirstWidth="60"
                     TextContentSecondWidth="100">
                    </karveControls:DualFieldSearchBox>

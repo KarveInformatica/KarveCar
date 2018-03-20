@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls.Generic;
-using Xceed.Wpf.Toolkit;
 using System.Text.RegularExpressions;
 
 namespace KarveControls
@@ -18,7 +17,7 @@ namespace KarveControls
     [TemplatePart(Name = "PART_TextField", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_SearchButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_DataAreaText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_EditorText", Type = typeof(MultiLineTextEditor))]
+    [TemplatePart(Name = "PART_EditorText", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_SearchTextBlock", Type = typeof(TextBlock))]
 
     public class DataArea: TextBox
@@ -28,7 +27,7 @@ namespace KarveControls
         private bool _dataAreaChanged = false;
         private string _currentDataArea = string.Empty;
         private string _previousDataArea = string.Empty;
-        private MultiLineTextEditor _editorText;
+        private TextBox _editorText;
         private Button _searchButton;
         private TextBlock _searchTextBlock;
 
@@ -128,7 +127,7 @@ namespace KarveControls
         {
             base.OnApplyTemplate();
 
-            _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+            _editorText = GetTemplateChild("PART_EditorText") as TextBox;
             if (_editorText != null)
             {
                 _editorText.LostFocus += EditorTextOnLostFocus;
@@ -146,6 +145,7 @@ namespace KarveControls
 
         private void OnSearchTerm(object sender, RoutedEventArgs routedEventArgs)
         {
+            /*
             MultiLineTextEditor editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
             if (editorText != null)
             {
@@ -165,6 +165,7 @@ namespace KarveControls
                 }
 
             }
+            */
         }
 
         /// <summary>
@@ -355,15 +356,15 @@ namespace KarveControls
         public readonly static DependencyProperty LabelTextWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelTextWidth",
-                typeof(string),
+                typeof(double),
                 typeof(DataArea),
-                new PropertyMetadata(string.Empty));
+                new PropertyMetadata(100D));
         /// <summary>
         /// Width of text to be present in the area.
         /// </summary>
-        public string LabelTextWidth
+        public double LabelTextWidth
         {
-            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            get { return (double)GetValue(LabelTextWidthDependencyProperty); }
             set { SetValue(LabelTextWidthDependencyProperty, value); }
         }
        
@@ -484,12 +485,12 @@ namespace KarveControls
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            MultiLineTextEditor editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
-            if ((editorText != null) &&  (value!=null))
+            _editorText = GetTemplateChild("PART_EditorText") as TextBox;
+            if (_editorText != null)
             {
-                editorText.Text = value;
-                _currentDataArea = value;
+                _editorText.Text = value;
             }
+            _currentDataArea = value;
         }
         #endregion
 
@@ -514,7 +515,7 @@ namespace KarveControls
                 return;
             if (_editorText == null)
             {
-                _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
+                _editorText = GetTemplateChild("PART_EditorText") as TextBox;
             }
             if (_editorText == null)
                 return;

@@ -108,10 +108,10 @@
                             LabelTextWidth="60"
                             DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             AssistTableName="SUPPLIER"
-                            SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                            SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             MaxHeight="30"
                             MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             TextContentFirstWidth="60"
                             TextContentSecondWidth="100">
 
@@ -122,14 +122,14 @@
                                               DataAreaWidth="120"
                                               
                                               TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ></karveControls:DataArea>
                     <karveControls:DataField  Grid.Row="2" 
                                               LabelText="Pactadas con"
                                               MaxHeight="30"
                                               LabelTextWidth="120"
-                                                                                            TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               TextContentWidth="150"></karveControls:DataField>
 
                     <karveControls:DataField  Grid.Row="3" 
@@ -138,7 +138,7 @@
                                               LabelTextWidth="120"
                                                                                             DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               TextContent="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               TextContentWidth="150"></karveControls:DataField>
                     <karveControls:DataDatePicker Grid.Row="4" 
                                                   LabelText="Fecha"

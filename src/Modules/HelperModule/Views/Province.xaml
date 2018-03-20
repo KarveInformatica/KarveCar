@@ -33,10 +33,10 @@
                         AssistDataFieldSecond="SIGLA"
                         AssistDataFieldFirst="NAME"
                         DataFieldFirst="Country"
-                        SourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        SourceView="{Binding CountryDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         MaxHeight="30"
                         MagnifierCommand="{Binding AssistCountryCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         TextContentFirstWidth="60"
                         TextContentSecondWidth="100">
                     </karveControls:DualFieldSearchBox>

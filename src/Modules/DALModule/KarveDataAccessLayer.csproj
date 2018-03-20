@@ -94,6 +94,9 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ValueInjecter.3.1.1.5\lib\net40\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
@@ -1143,6 +1146,7 @@
     <Compile Include="Model\DataLayerExecutionException.cs" />
     <Compile Include="Model\DomainObject.cs" />
     <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\InvoiceFareDto.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />
     <Compile Include="Model\MagnifierSettings.cs" />
     <Compile Include="Model\NullClient.cs" />

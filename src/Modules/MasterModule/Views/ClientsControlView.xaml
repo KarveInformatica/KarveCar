@@ -52,14 +52,15 @@
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-                                   
-                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+            ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="True">
 
-
+            
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
+                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" 
+                                           
+                                           CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -72,91 +73,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
-            <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn HeaderText="Numero" 
-                                           MappingName="Codigo" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="True"
-                                           AllowGrouping="True"/>
-
-                <syncfusion:GridTemplateColumn HeaderText="Nombre" MappingName="Nombre"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Nombre}" />
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-
-                </syncfusion:GridTemplateColumn>
-
-                <syncfusion:GridTextColumn HeaderText="NIF" MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Direccion" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Provincia" MappingName="Provincia" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Poblacion" MappingName="Poblacion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Pais" MappingName="Pais" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTemplateColumn HeaderText="Telefono" MappingName="Telefono"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/MasterModule;component/Images/phone.png">
-                                    
-                                </Image>
-                                    <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Telefono}" />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-
-                </syncfusion:GridTemplateColumn>
-                <syncfusion:GridTemplateColumn HeaderText="Movil" MappingName="Movil"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/MasterModule;component/Images/cellphone.png">
-
-                                </Image>
-                                <TextBlock FontStyle="Italic"
-                                           FontWeight="SemiBold"
-                                           Padding="2,0"
-                                           Text="{Binding Movil}" />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-
-                </syncfusion:GridTemplateColumn>
-
-                <syncfusion:GridTemplateColumn HeaderText="Action" MappingName="DeleteCommand"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/MasterModule;component/Images/delete.jpg">
-
-                                </Image>
-                                <Button FontStyle="Italic"
-                                           FontWeight="SemiBold"
-                                           Padding="2,0"
-                                           Command="{Binding DeleteCommmand}"
-                                           />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-
-                </syncfusion:GridTemplateColumn>
-
-            </syncfusion:SfDataGrid.Columns>
+          
 
         </syncfusion:SfDataGrid>
 

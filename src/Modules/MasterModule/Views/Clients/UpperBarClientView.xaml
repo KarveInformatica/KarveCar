@@ -22,7 +22,7 @@
                                      TextContent="{Binding DataObject.NUMERO_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                      LabelTextWidth="50" 
                                      Height="30"
-                                     ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                     ItemChangedCommand="{Binding ChangedItem}"
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
                 </KarveControls:DataField>
@@ -53,7 +53,7 @@
                                                   LabelTextWidth="70"
                                                   LabelText="{Binding ltipoCliente, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
-                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                                  ItemChangedCommand="{Binding ChangedItem}"
                                                   LabelVisible="True"
                                                   AssistProperties="Code,Name"
                                                   MagnifierCommand="{Binding AssistCommandUpper, Mode=OneWay}"

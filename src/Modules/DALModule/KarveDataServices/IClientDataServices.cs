@@ -18,7 +18,7 @@ namespace KarveDataServices
         ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<DataSet> GetAsyncAllClientSummary();
+        Task<IEnumerable<ClientSummaryExtended>> GetAsyncAllClientSummary();
         /// <summary>
         /// This return a client with a new code.
         /// </summary>

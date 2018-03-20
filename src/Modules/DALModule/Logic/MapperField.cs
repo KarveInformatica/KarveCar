@@ -303,7 +303,17 @@ namespace DataAccessLayer.Logic
                     var tmpValue = propertyInfo.GetValue(source);
                     if (tmpValue != null)
                     {
-                        entity.GetType().GetProperty(property.Name).SetValue(entity, tmpValue);
+                        var currentType = entity.GetType();
+
+                        if (currentType != null)
+                        {
+                          var propValue = currentType.GetProperty(property.Name);
+                          if (propValue != null)
+                            {
+                                propValue.SetValue(entity, tmpValue);
+                            }
+                        }
+                            
                     }
 
                 }

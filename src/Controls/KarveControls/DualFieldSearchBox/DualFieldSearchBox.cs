@@ -907,18 +907,18 @@ namespace KarveControls
         public readonly static DependencyProperty LabelTextWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelTextWidth",
-                typeof(string),
+                typeof(double),
                 typeof(DualFieldSearchBox),
-                new PropertyMetadata(string.Empty, OnLabelTextWidthChange));
+                new PropertyMetadata(0.0, OnLabelTextWidthChange));
         private string _codeFirst;
         private string _codeSecond;
 
         /// <summary>
-        ///  Label text width
+        ///  Label text width. Size of a label.
         /// </summary>
-        public string LabelTextWidth
+        public double LabelTextWidth
         {
-            get { return (string)GetValue(LabelTextWidthDependencyProperty); }
+            get { return (double)GetValue(LabelTextWidthDependencyProperty); }
             set { SetValue(LabelTextWidthDependencyProperty, value); }
         }
         private static void OnLabelTextWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -929,17 +929,14 @@ namespace KarveControls
                 control.OnLabelTextWidthChanged(e);
             }
         }
-
         private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewValue as string))
+            var value = e.NewValue;
+            if (SearchLabel != null)
             {
-                double value = Convert.ToDouble(e.NewValue);
-                if (SearchLabel != null)
-                {
-                    SearchLabel.Width = value;
-                }
+                SearchLabel.Width = Convert.ToDouble(value);
             }
+            
         }
         #endregion
         /// <summary>

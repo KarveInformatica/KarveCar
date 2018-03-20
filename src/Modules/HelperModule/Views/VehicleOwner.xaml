@@ -78,9 +78,9 @@
                         Web="INTERNET"
                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         CountrySourceView="{Binding VehicleOwnerCountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        CitySourceView="{Binding VehicleOwnerCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                        ProvinceSourceView="{Binding VehicleOwnerProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        CitySourceView="{Binding VehicleOwnerCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ProvinceSourceView="{Binding VehicleOwnerProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         />
                         <VirtualizingStackPanel VirtualizationMode="Recycling">
                             <karveControls:DualFieldSearchBox
@@ -88,10 +88,10 @@
                                 LabelTextWidth="80"
                                 DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 AssistTableName="SUPPLIER"
-                                SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                SourceView="{Binding VehicleSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 MaxHeight="30"
                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextContentFirstWidth="60"
                                 TextContentSecondWidth="100">
                                 
@@ -108,7 +108,7 @@
                         <karveControls:DataArea Grid.Row="1" Height="100" DataAreaTitle="Notes"
                                             DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             DataSourcePath="NOTES"
-                                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
+                                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         </karveControls:DataArea>
                     <Syncfusion:SfDataGrid Grid.Row="2" x:Name="HelperSummary"                       
                                            ColumnSizer="Star"  

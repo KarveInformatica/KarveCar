@@ -53,7 +53,8 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
-        Task<DataSet> IClientDataServices.GetAsyncAllClientSummary()
+       
+        Task<IEnumerable<ClientSummaryExtended>> IClientDataServices.GetAsyncAllClientSummary()
         {
             throw new System.NotImplementedException();
         }

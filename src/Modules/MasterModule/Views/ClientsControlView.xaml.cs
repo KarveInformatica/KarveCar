@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KarveCommonInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace MasterModule.Views
     /// <summary>
     /// Interaction logic for ClientsControlView.xaml
     /// </summary>
-    public partial class ClientsControlView : UserControl
+    public partial class ClientsControlView : UserControl, ICreateRegionManagerScope
     {
         public ClientsControlView()
         {
@@ -29,5 +30,6 @@ namespace MasterModule.Views
             get { return KarveLocale.Properties.Resources.lrgrMaestrosClientes; }
 
         }
+        public bool CreateRegionManagerScope => false;
     }
 }

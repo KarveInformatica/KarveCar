@@ -26,7 +26,7 @@
                                               IsReadOnly="True"
                                               DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSourcePath="Code"
-                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               TextContentWidth="100"></karveControls:DataField>
                     <karveControls:DataField  LabelText="Nombre"
                                               MaxHeight="30"
@@ -34,7 +34,7 @@
                                               IsReadOnly="False"
                                               DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSourcePath="Name"
-                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               TextContentWidth="100"></karveControls:DataField>
                 </StackPanel>
                 <syncfusion:SfDataGrid x:Name="HelperSummary"

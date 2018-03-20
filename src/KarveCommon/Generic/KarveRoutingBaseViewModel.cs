@@ -4,6 +4,8 @@ using KarveDataServices;
 using System;
 using System.Collections.Generic;
 using NLog;
+using System.Windows.Input;
+using Prism.Commands;
 
 namespace KarveCommon.Generic
 {
@@ -22,7 +24,7 @@ namespace KarveCommon.Generic
         /// </summary>
         public KarveRoutingBaseViewModel() : base()
         {
-
+            ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
         }
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
@@ -71,6 +73,8 @@ namespace KarveCommon.Generic
             }
             return currentPayload;
         }
+
+        public ICommand ActiveSubsystemCommand { set; get; }
         protected void ActiveSubSystem()
         {
             // change the active subsystem in the toolbar state.

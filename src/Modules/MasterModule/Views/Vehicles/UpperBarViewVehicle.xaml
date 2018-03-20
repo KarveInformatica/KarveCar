@@ -38,7 +38,7 @@
                                      DataSourcePath="MATRICULA" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                                <interactivity:InvokeCommandAction Command="{Binding ItemUpperChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                <interactivity:InvokeCommandAction Command="{Binding ItemUpperChangedCommand}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

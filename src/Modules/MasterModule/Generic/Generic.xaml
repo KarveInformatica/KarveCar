@@ -63,7 +63,7 @@
                                      LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
-                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -214,8 +214,8 @@
                                                           LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,-29,0"
                                                           LabelTextWidth="135"       
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
@@ -354,7 +354,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataDatePickerChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
@@ -368,7 +368,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
@@ -491,8 +491,8 @@
                     AssistProperties="Codigo,Nombre"
                     TextContentFirstWidth="100"
                     TextContentSecondWidth="200"
-                    MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
-                    ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                    MagnifierCommand="{Binding AssistCommand}"
+                    ItemChangedCommand="{Binding ItemChangedCommand}"
                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                     SourceView="{Binding ClientHelper.ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
@@ -1212,11 +1212,11 @@
                                          LabelVisible="{Binding LabelVisible, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataFieldHeight="{Binding Height, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="{Binding DataField, Mode=OneWay,PresentationTraceSources.TraceLevel=High,UpdateSourceTrigger=PropertyChanged}">
+                                         DataSourcePath="{Binding DataField, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DataFieldChanged">
-                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -1303,7 +1303,7 @@
                     IsReadOnly="{Binding IsReadOnly, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DataFieldChanged">
-                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, }" TriggerParameterPath="ChangedValuesObjects"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -1324,7 +1324,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -1340,7 +1340,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </KarveControls:DataField>
@@ -1362,7 +1362,7 @@
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
@@ -1399,13 +1399,13 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MagnifierPress">
 
-                    <mvvm1:InvokeCommandAction Command="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}" 
+                    <mvvm1:InvokeCommandAction Command="{Binding AssistCommand}" 
                                                        TriggerParameterPath="AssistParameters" />
 
                 </i:EventTrigger>
 
                 <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

@@ -35,7 +35,7 @@
                                      TextContent="{Binding DataObject.NUMERO_CL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                      LabelTextWidth="50" 
                                      Height="30"
-                                     ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                     ItemChangedCommand="{Binding ChangedItem }"
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
                             </KarveControls:DataField>
@@ -56,7 +56,7 @@
                                                   LabelTextWidth="70"
                                                   LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
-                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                                  ItemChangedCommand="{Binding ChangedItem }"
                                                   LabelVisible="True"
                                                   AssistProperties="Code,Name"
                                                   MagnifierCommand="{Binding ItemChangedCommand, Mode=OneWay}"
@@ -148,8 +148,8 @@
                                                           LabelText="Grupo"
                                                           Height="30"
                                                           LabelTextWidth="86"       
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="200"
@@ -198,7 +198,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="DataDatePickerChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand }" TriggerParameterPath="ChangedValuesObjects"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </KarveControls:DataDatePicker>
@@ -212,7 +212,7 @@
 
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="DataFieldChanged">
-                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </KarveControls:DataDatePicker>
@@ -225,8 +225,8 @@
                                                           LabelText="Cliente habituale"
                                                           LabelTextWidth="100"
                                                           AssistProperties="Code,Name,Direction,Zip,City,Telefono,CellPhone,Email,CreditCardType,NumberCreditCard,AccountableAccount"
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="80"
                                                           TextContentSecondWidth="200"
@@ -242,8 +242,8 @@
                                                           LabelTextWidth="100"
                                                             AssistProperties="Code,Name"
                                    
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="80"
                                                           TextContentSecondWidth="200"
@@ -258,8 +258,8 @@
                                                           LabelTextWidth="100"
                                                             AssistProperties="Code,Name"
                                    
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="80"
                                                           TextContentSecondWidth="200"

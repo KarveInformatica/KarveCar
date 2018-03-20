@@ -46,13 +46,13 @@
                                Foreground="#FF808080"
                                RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
-                              
+                               AutoGenerateColumns="True"               
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               >
    
 
                     <i:Interaction.Triggers>
@@ -70,36 +70,8 @@
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </Syncfusion:SfDataGrid.Resources>
-            <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
-                                           MappingName="Code" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="False"
-                                           AllowGrouping="True"/>
-
-                <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
-                                                            MappingName="Name"
-                                                            TextAlignment="Left"
-                                                            AllowFiltering="True"
-                                                            AllowEditing="False"
-                                                            AllowGrouping="True"
-                                                            FilterPopupStyle="{StaticResource GenericCodeStyle}">
-
-                </Syncfusion:GridTextColumn>
-
-                <Syncfusion:GridTextColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
-                                                        MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lpais, Source={StaticResource ResourceLanguage}}" MappingName="Country" 
-                                                   FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lzona, Source={StaticResource ResourceLanguage}}" MappingName="Zona" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-            </Syncfusion:SfDataGrid.Columns>
-        </Syncfusion:SfDataGrid>
+         
+                       </Syncfusion:SfDataGrid>
             
             </Grid>
 

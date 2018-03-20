@@ -27,13 +27,7 @@ namespace DataAccessLayer.Model
             get => _clientDto;
             set { _clientDto = value; }
         }
-        /// <summary>
-        ///  Valid
-        /// </summary>
-        public bool Valid
-        {
-            get; set;
-        }
+        
         public IEnumerable<ProvinciaDto> ProvinciaDto { get ; set ; }
         public IEnumerable<CountryDto> CountryDto { get ; set; }
         public IEnumerable<CityDto> CityDto { get ; set; }

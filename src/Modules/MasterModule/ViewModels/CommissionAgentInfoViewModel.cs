@@ -617,10 +617,7 @@ namespace MasterModule.ViewModels
         {
             get { return MasterModuleConstants.EmailImagePath; }
         }
-        /// <summary>
-        /// This notify the toobar for a tab change.
-        /// </summary>
-        public ICommand ActiveSubsystemCommand { set; get; }
+       
         /// <summary>
         /// This is the start and notify.
         /// </summary>

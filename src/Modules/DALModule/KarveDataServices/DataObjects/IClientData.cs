@@ -23,7 +23,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         /// ClientData Data.
         /// </summary>
-        ClientDto Value { set; get; }
+       ClientDto Value { set; get; }
         /// <summary>
         ///  This tells us if the data is valid or not.
         /// </summary>

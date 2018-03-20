@@ -54,8 +54,8 @@
                                                           LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,-29,0"
                                                           LabelTextWidth="135"       
-				    			                          ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                                          MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+				    			                          ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                          MagnifierCommand="{Binding AssistCommand}"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
@@ -190,6 +190,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <!--
                 <KarveControls:DataDatePicker Grid.Column="0" LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
                                                               DataDatePickerHeight="30" 
                                                               LabelTextWidth="100" 
@@ -202,7 +203,7 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataDatePickerChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, }" TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
@@ -216,10 +217,11 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, }" TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </KarveControls:DataDatePicker>
+                -->
             </Grid>
             <KarveControls:DualFieldSearchBox DataFieldFirst="SUBLICEN"
                                                           AssistTableName="COMPANY_ASSIST"

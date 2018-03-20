@@ -27,7 +27,7 @@
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Code"
-                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
 
                 <karveControls:DataField  LabelText="Nombre"
@@ -36,7 +36,7 @@
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Activity"
-                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
                     <kc:DataFieldCheckBox Content="Afecta al calcolo de Ocupación"   
                                           kc:ControlExt.DataSource="{Binding HelperDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

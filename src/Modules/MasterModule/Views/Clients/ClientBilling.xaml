@@ -52,8 +52,8 @@
                                              AssistProperties="Codigo,Nombre"
                                              TextContentFirstWidth="100"
                                              TextContentSecondWidth="200"
-                                             MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
-                                             ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                             MagnifierCommand="{Binding AssistCommand}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand }"
                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              SourceView="{Binding ClientHelper.ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">

@@ -42,7 +42,7 @@
                                                          Grid.Column="0"
                                          TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, 
                                                          UpdateSourceTrigger=PropertyChanged}"
-                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ChangedItem }"
                                          DataSourcePath="CODIGO" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
                                          LabelVisible="True">
 
@@ -162,8 +162,8 @@
                                               LabelTextWidth="86"
                                          
                                               
-                                              ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
-                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand}"
+                                              MagnifierCommand="{Binding AssistCommand}"
                                               IsReadOnlySecond="True"
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="300"

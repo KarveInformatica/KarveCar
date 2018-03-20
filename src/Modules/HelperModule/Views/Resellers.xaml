@@ -34,13 +34,13 @@
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Code"
-                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
                 <karveControls:DataField LabelText="Name"
                                          MaxHeight="30"
                                          LabelTextWidth="60"
                                          IsReadOnly="False"
-                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Name"
                                          TextContentWidth="250"></karveControls:DataField>
@@ -49,7 +49,7 @@
                                          LabelTextWidth="60"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Nif"
-                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
 
             </StackPanel>
@@ -86,9 +86,9 @@
                                 Web="Web"
                                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                 CountrySourceView="{Binding ResellerCountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                CitySourceView="{Binding ResellerCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                                ProvinceSourceView="{Binding ResellerProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                CitySourceView="{Binding ResellerCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ProvinceSourceView="{Binding ResellerProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             />
 
                     </WrapPanel>
@@ -107,7 +107,7 @@
                     <karveControls:DataArea Grid.Row="2" Grid.Column="0" Height="100" DataAreaTitle="Notes"
                                                 DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 DataSourcePath="Notes"
-                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     </karveControls:DataArea>
                     <Syncfusion:SfDataGrid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Stretch" x:Name="HelperSummary"                       
                                            ColumnSizer="Star"  

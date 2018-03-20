@@ -88,6 +88,7 @@
     <Compile Include="Assist\IAssistHandler.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
+    <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
     <Compile Include="DataTransferObject\InvoiceDto.cs" />
     <Compile Include="DataTransferObject\ContractDto.cs" />
     <Compile Include="DataTransferObject\ContractSummaryDto.cs" />

@@ -21,7 +21,7 @@
                                      LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                    <mvvm1:InvokeCommandAction Command="{Binding ChangedItem }" 
                                                TriggerParameterPath="ChangedValuesObjects"/>
                 </i:EventTrigger>
                     </i:Interaction.Triggers>
@@ -32,7 +32,7 @@
                                      LabelTextWidth="50" LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -41,7 +41,7 @@
                                       LabelVisible="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DataFieldChanged">
-                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" 
+                        <mvvm1:InvokeCommandAction Command="{Binding ChangedItem}" 
                                                    TriggerParameterPath="ChangedValuesObjects"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -53,8 +53,8 @@
                                               IsReadOnlySecond="True"
                                               LabelTextWidth="100" 
                                               LabelText="{Binding LabelTypeSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                              MagnifierCommand="{Binding AssistCommand, PresentationTraceSources.TraceLevel=High}"
-                                              ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                              MagnifierCommand="{Binding AssistCommand}"
+                                              ItemChangedCommand="{Binding ChangedItem}"
                                               LabelVisible="True"
                                               AssistProperties="Codigo,Nombre"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

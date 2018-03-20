@@ -13,6 +13,11 @@ using NLog;
 using Prism.Commands;
 using Prism.Regions;
 using System.ComponentModel;
+using KarveDataServices.DataTransferObject;
+using System.Collections.Generic;
+using Syncfusion.UI.Xaml.Grid;
+using System.Linq;
+using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
@@ -45,6 +50,14 @@ namespace MasterModule.ViewModels
         /// </summary>
         private const string ClientModuleRoutePrefix = "ClientsSubsystem";
 
+        private INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> _clientTaskNotify;
+        private INotifyTaskCompletion<IClientData> _clientDataLoader;
+
+        private PropertyChangedEventHandler _clientEventTask;
+        private PropertyChangedEventHandler _clientDataLoaded;
+
+        private IEnumerable<ClientSummaryExtended> _clientSummaryDtos;
+
         /// <summary>
         ///  Client control view model. View Model to get the client.
         /// </summary>
@@ -67,11 +80,58 @@ namespace MasterModule.ViewModels
         {   
             // each grid needs an unique identifier for setting the grid change in the database.
             GridIdentifier = GridIdentifiers.ClientSummaryGrid;
+            _clientEventTask += OnNotifyClient;
+            _clientDataLoaded += OnClientDataLoaded;
             StartAndNotify();
             
             //Navigate("new","new");
         }
 
+        private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion<IClientData> notification = sender as INotifyTaskCompletion<IClientData>;
+            if (notification.IsSuccessfullyCompleted)
+            {
+              
+                IClientData provider = notification.Task.Result;
+                var tabName = provider.Value.NUMERO_CLI + "." + provider.Value.NOMBRE;
+
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
+                currentPayload.PrimaryKeyValue = provider.Value.NUMERO_CLI;
+                currentPayload.Sender = _mailBoxName;
+                try
+                {
+                    var navigationParameters = new NavigationParameters();
+                    navigationParameters.Add("Id", provider.Value.NUMERO_CLI);
+                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+                    _regionManager.RequestNavigate("TabRegion", uri);
+
+                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
+                } catch (Exception ex)
+                {
+                    var value = ex.Message; 
+                }
+            }
+        }
+
+        private void OnNotifyClient(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> notification = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
+            if (notification.IsSuccessfullyCompleted)
+            {
+                _clientSummaryDtos = notification.Task.Result;
+                SummaryView = new IncrementalList<ClientSummaryExtended>(LoadMoreItems) { MaxItemCount = _clientSummaryDtos.Count() };
+            }
+            if (notification.IsFaulted)
+            {
+                if (DialogService!=null)
+                {
+                    DialogService.ShowErrorMessage("Error loading the main screen");
+                }
+            }
+        }
+        
         /// <summary>
         ///  Start and Notify the load of the control view model table.
         /// </summary>
@@ -80,7 +140,7 @@ namespace MasterModule.ViewModels
             
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.ClientSummaryVm, MessageHandlerMailBox);
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(_clientDataServices.GetAsyncAllClientSummary(), InitializationNotifierOnPropertyChanged);
+            _clientTaskNotify = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetAsyncAllClientSummary(), _clientEventTask);
             // This is needed for the communication between the view model and the toolbar.
             ActiveSubSystem();
         }
@@ -142,39 +202,22 @@ namespace MasterModule.ViewModels
             bool retValue = await _clientDataServices.DeleteClientAsyncDo(clientData);
             return retValue;
         }
-        /// <summary>
-        ///  It opens a selected item, the infrastructure up to know just handle summary views as data tables for the rational:
-        /// 1. no explicity mapping is needed.
-        /// 2. it is just readonly summary.
-        /// </summary>
-        /// <param name="currentItem">Opened item</param>
-        private async void OpenCurrentItem(object currentItem)
+        private void OpenCurrentItem(object currentItem)
         {
-            DataRowView rowView = currentItem as DataRowView;
-            Stopwatch watch = new Stopwatch();
-            if (rowView != null)
+            object current = currentItem;
+          
+            
+            ClientSummaryExtended summaryItem = current as ClientSummaryExtended;
+            if (summaryItem != null)
             {
-                watch.Start();
-                DataRow row = rowView.Row;
-                string name = row[ClientNameColumn] as string;
-                string clientId = row[ClientColumnCode] as string;
+              
+                string name = summaryItem.Name;
+                string clientId = summaryItem.Code;
                 string tabName = clientId + "." + name;
-                var navigationParameters = new NavigationParameters();
-                navigationParameters.Add("Id", clientId);
-                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Before navigation: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
-                _regionManager.RequestNavigate("TabRegion", uri);
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Data before: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
-                IClientData provider = await _clientDataServices.GetAsyncClientDo(clientId);
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Data loaded: " + clientId + "Elapsed time: " + watch.ElapsedMilliseconds);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                currentPayload.PrimaryKeyValue = clientId;
-                currentPayload.Sender = _mailBoxName;
-                watch.Stop();
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Client Tab: " + clientId+ "Elapsed time: "+watch.ElapsedMilliseconds);
+                _clientDataLoader = NotifyTaskCompletion.Create(_clientDataServices.GetAsyncClientDo(clientId), this._clientDataLoaded);
                 
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
+                
+               
             }
         }
         /// <summary>
@@ -189,6 +232,7 @@ namespace MasterModule.ViewModels
         {
             EventManager.DeleteMailBoxSubscription(EventSubsystem.ClientSummaryVm);
         }
+
         /// <summary>
         ///  This returns a registration payload for the subsystem.
         /// </summary>
@@ -207,6 +251,13 @@ namespace MasterModule.ViewModels
         {
             string routedName = ClientModuleRoutePrefix + name;
             return routedName;
+        }
+
+        private void LoadMoreItems(uint count, int baseIndex)
+        {
+            var list = _clientSummaryDtos.Skip(baseIndex).Take(100).ToList();
+            var summary = SummaryView as IncrementalList<ClientSummaryExtended>;
+            summary.LoadItems(list);
         }
     }
 }

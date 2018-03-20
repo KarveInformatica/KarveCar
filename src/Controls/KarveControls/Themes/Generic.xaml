@@ -8,7 +8,6 @@
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
-  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:calendar="clr-namespace:KarveControls.Calendar"
   xmlns:photo="clr-namespace:KarveControls.PhotoFrame"
   mc:Ignorable="d">
@@ -220,9 +219,7 @@
                                                Visibility="Collapsed"></TextBlock>
                                 </StackPanel>
 
-
-
-                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                <StackPanel  Grid.Row="1" Orientation="Horizontal">
 
                                 <TextBlock HorizontalAlignment="Left" x:Name="PART_DataAreaText"
                                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaLabel}"
@@ -230,15 +227,20 @@
                                            Visibility="Collapsed"
                                            Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}"/>
 
-                                    <xctk:MultiLineTextEditor x:Name="PART_EditorText" 
-                                                              TextWrapping="Wrap"
-                                                              Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
-                                                              Content="{Binding Text, RelativeSource={RelativeSource Self}}"  
+                                    <TextBox
+                                         x:Name="PART_EditorText"
+                                        TextWrapping="Wrap"
+                                        AcceptsReturn="True"
+                                        VerticalScrollBarVisibility="Visible"
+                                        Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
                                                               HorizontalContentAlignment="Left" 
                                                               VerticalContentAlignment="Center"
-                                                              DropDownWidth="300"
                                                               Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaWidth, Mode=TwoWay}"
-                                                              Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}" />
+                                                              Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height, Mode=TwoWay}">
+                                        
+                                    </TextBox>
+
+                                       
                                 </StackPanel>
                             </Grid>
                             </GroupBox>
@@ -371,10 +373,7 @@
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
 
-                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding ElementName=RibbonWindow}"
-                                            
-                       
-                      >
+                                    <Popup x:Name="PART_PopUp">
                                         <!--      BorderBrush="#FF000000" //-->
 
                                         <Border  HorizontalAlignment="Stretch"
@@ -395,14 +394,14 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-
+<!--
                                                 <local:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
                                                                    Foreground="White"
                                                     Title="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
                                    Tag="{Binding ElementName=PART_PopUp}"
 
                                    local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
-                                                    <!--
+                                              
                                                     <Thumb.Template>
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
@@ -420,7 +419,7 @@
                                                             </Border>
                                                         </ControlTemplate>
                                                     </Thumb.Template>
-                                                    -->
+                                                   
                                                 </local:TextedThumb>
 
                                                 
@@ -457,6 +456,7 @@
                                                             ></local:GridColumnFilterBehaviour>
                                                     </i:Interaction.Behaviors>
                                                                                                     </Syncfusion:SfDataGrid>
+                                                -->
                                               <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"

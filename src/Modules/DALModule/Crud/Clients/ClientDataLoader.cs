@@ -24,7 +24,7 @@ namespace DataAccessLayer.Crud.Clients
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
-        private ClientPoco _currentPoco;
+        private ClientDto _currentPoco;
         private IHelperData _helper = new HelperBase();
         private long _currentQueryPos;
         /// <summary>
@@ -68,7 +68,7 @@ namespace DataAccessLayer.Crud.Clients
         {
             _sqlExecutor = executor;
             _mapper = MapperField.GetMapper();
-            _currentPoco = new ClientPoco();
+            _currentPoco = new ClientDto();
             Valid = true;
             _currentQueryPos = 0;
         }
@@ -144,23 +144,32 @@ namespace DataAccessLayer.Crud.Clients
 
             return returnValue;
         }
-
-    
-        /// <summary>
-        ///  Set the transfer objects. We create the transfer object from the entity.
-        /// </summary>
-        /// <param name="reader">GridReader reader of dapper results</param>
-        /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
-        /// 
-        private void SetDataTransferObject(SqlMapper.GridReader reader, ClientPoco clientPoco)
+        
+    /// <summary>
+    ///  Set the transfer objects. We create the transfer object from the entity.
+    /// </summary>
+    /// <param name="reader">GridReader reader of dapper results</param>
+    /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
+    /// 
+    private void SetDataTransferObject(SqlMapper.GridReader reader, ClientDto clientPoco)
         {
+            // i pay the box/unboxing
+            IDictionary<string, object> val = new Dictionary<string, object>();
+           
             if (reader == null)
                 return;
-            if (!string.IsNullOrEmpty(clientPoco.CP))
+            while (!reader.IsConsumed)
             {
-
-                Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityDto>(reader.Read<POBLACIONES>()
-                    .FirstOrDefault(), _mapper);
+                var value = reader.Read();
+                var v = value.GetType();
+                val.Add(v.Name, value);
+            }
+            // FIXME: here we have a design issue.
+          
+            if (val.ContainsKey("POBLACIONES"))
+            {
+                var current = val["POBLACIONES"] as IEnumerable<POBLACIONES>;
+                Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityDto>(current.FirstOrDefault(), _mapper);
             }
             if (!string.IsNullOrEmpty(clientPoco.TIPOCLI))
             {
@@ -265,14 +274,14 @@ namespace DataAccessLayer.Crud.Clients
         {
             var dto = new ClientDto();
             var clientPoco = await LoadValue(code);
-            var mapper = MapperField.GetMapper();
+            
             if (clientPoco)
             {
-                dto = mapper.Map<ClientPoco, ClientDto>(_currentPoco);
+                dto = _currentPoco;
             }
             return dto;
         }
-        private QueryStore CreateQueryStore(ClientPoco clientPoco)
+        private QueryStore CreateQueryStore(ClientDto clientPoco)
         {
             QueryStore store = new QueryStore();
             store.AddParam(QueryStore.QueryType.QueryCity, clientPoco.CP);
@@ -291,7 +300,7 @@ namespace DataAccessLayer.Crud.Clients
             store.AddParam(QueryStore.QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
             return store;
         }
-        private async Task<ClientPoco> LoadEntity(IDbConnection conn, string code)
+        private async Task<ClientDto> LoadEntity(IDbConnection conn, string code)
         {
             QueryStore clientPocoQueryStore = new QueryStore();
             clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient1, code);
@@ -300,14 +309,40 @@ namespace DataAccessLayer.Crud.Clients
             var pocoReader = await conn.QueryMultipleAsync(query);
             var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
-            var poco1 = _mapper.Map<CLIENTES1, ClientPoco>(clients1);
-            var poco2 = _mapper.Map<CLIENTES2, ClientPoco>(clients2);
-            MergePOCO<ClientPoco> merger = new MergePOCO<ClientPoco>();
-            IDictionary<string, ClientPoco> ctx = new Dictionary<string, ClientPoco>();
-            ctx.Add(MergePOCO<ClientPoco>.EntityName, poco2);
-            ClientPoco poco = merger.Convert(poco1, ctx);
-            return poco;
+            ClientDto outClient = new ClientDto();
+            var outType = outClient.GetType();
+
+            foreach (var propertyInfo in clients1.GetType().GetProperties())
+            {
+                var name = propertyInfo.Name;
+                var prop = outType.GetProperty(name);
+                if (prop!=null)
+                {
+                    // ok we have set the property
+                    var v = propertyInfo.GetValue(clients1);
+                    if (v != null)
+                    {
+                        prop.SetValue(outClient, v);
+                    }
+                }
+            }
+            foreach (var propertyInfo in clients2.GetType().GetProperties())
+            {
+                var name = propertyInfo.Name;
+                var prop = outType.GetProperty(name);
+                if (prop != null)
+                {
+                    // ok we have set the property
+                    var v = propertyInfo.GetValue(clients2);
+                    if (v != null)
+                    {
+                        prop.SetValue(outClient, v);
+                    }
+                }
+            }
+            return outClient;
         }
+
         private string ValueToString(byte? b)
         {
             if (b.HasValue)

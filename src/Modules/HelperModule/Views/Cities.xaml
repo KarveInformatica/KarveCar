@@ -33,10 +33,10 @@
                         AssistDataFieldSecond="PAIS"
                         AssistProperties="Code,CountryName"
                         DataFieldFirst="Country.Code"
-                        SourceView="{Binding CountryCitiesDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        SourceView="{Binding CountryCitiesDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                         MaxHeight="30"
                         MagnifierCommand="{Binding AssistCountryCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         TextContentFirstWidth="60"
                         TextContentSecondWidth="150">
                     </karveControls:DualFieldSearchBox>
@@ -47,10 +47,10 @@
                         AssistTableName="CP"
                         AssistProperties="Code,Poblacion"
                         DataFieldFirst="Code"
-                        SourceView="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        SourceView="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                         MaxHeight="30"
                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         TextContentFirstWidth="60"
                         TextContentSecondWidth="150">
                     </karveControls:DualFieldSearchBox>

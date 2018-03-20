@@ -152,9 +152,6 @@ namespace MasterModule.ViewModels
             CurrentOperationalState = DataPayLoad.Type.Show;
             ContentAreaCommand = new DelegateCommand<object>(OnContentAreaCommand);
             _helperData = new HelperData();
-
-           
-
         }
 
         private void OnContentAreaCommand(object obj)
@@ -195,7 +192,7 @@ namespace MasterModule.ViewModels
             get { return _helperData; }
             set { _helperData = value; RaisePropertyChanged(); }
         }
-
+        public ICommand LaunchMap { set; get; }
         private void OnChangedField(object obj)
         {
             IDictionary<string, object> eventDictionary = (IDictionary<string, object>)obj;
@@ -312,9 +309,10 @@ namespace MasterModule.ViewModels
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
         }
-        // move to the master,
+        // move to the master, get rid of async void.
         private async void OnAssistCommand(object param)
         {
+           
             IDictionary<string, string> values = (Dictionary<string, string>)param;
             string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
@@ -332,6 +330,7 @@ namespace MasterModule.ViewModels
         }
             private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
+            /*
             var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
             
             if (value != null)
@@ -466,9 +465,11 @@ namespace MasterModule.ViewModels
                 }
            
                 RaisePropertyChanged("ClientHelper");
+                
                 return true;
             }
-            return false;
+            */
+            return true;
         }
         /// <summary>
         ///  This returns the client data.
@@ -562,6 +563,33 @@ namespace MasterModule.ViewModels
             }
 
         }
+       
+        // expiration month for the credit catd
+        private string _expirationMonth;
+        private string _expirationYear;
+        public string ExpiryMonth {
+            get { return _expirationMonth; }
+            set
+            {
+                _expirationMonth = value;
+            }
+        }
+        // expiration year for the credit card
+        public string ExpiryYear
+        {
+            get { return _expirationYear; }
+            set
+            {
+                _expirationYear = value;
+               
+                DataObject.TARCADU = string.Format("{0}/{1}", ExpiryMonth, ExpiryYear);
+                RaisePropertyChanged("DataObject");
+            }
+        }
+
+
+
+        public ICommand ValidateFrom { get; set; }
         public ICommand ContentAreaCommand { get; set; }
        
         public ICommand SelectCompanyOrDriver { get; set; }
@@ -626,6 +654,7 @@ namespace MasterModule.ViewModels
                 if (clientData != null)
                 {
                     _clientData = clientData;
+                    
                    
                     DataObject = clientData.Value;
                     // in this way we trigger just one time the raiseproperty changed.
@@ -638,7 +667,7 @@ namespace MasterModule.ViewModels
                     NavigateDefault();
 
 
-                    RaisePropertyChanged("ClientHelper");
+                   // RaisePropertyChanged("ClientHelper");
                 }
             }
         }

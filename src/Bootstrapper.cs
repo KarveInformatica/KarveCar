@@ -19,6 +19,9 @@ using System.Data;
 using MasterModule.Views;
 using DataAccessLayer;
 using CarModel;
+using MasterModule.Views.Clients;
+using DataAccessLayer.Logic;
+using AutoMapper;
 
 namespace KarveCar.Boot
 {
@@ -32,7 +35,7 @@ namespace KarveCar.Boot
 
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45;";
         /// <summary>
         ///  This create a new Prism Shell
         /// </summary>
@@ -176,6 +179,8 @@ namespace KarveCar.Boot
                 // this is a trick to speed up further creations and load prism.
                 Container.Resolve<ClientsInfoView>();
                 Container.Resolve<VehicleInfoView>();
+                Container.Resolve<DriverLicenseView>();
+                IMapper mapper = MapperField.GetMapper();
             } catch (Exception e)
             {
                 logger.Error("Error during bootstrap:" + e.Message);

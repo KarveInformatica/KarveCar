@@ -16,7 +16,6 @@ using NLog;
 using Prism.Commands;
 using Prism.Regions;
 using System;
-using Dragablz;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
@@ -175,25 +174,7 @@ namespace MasterModule.ViewModels
         {
 
         }
-        public ItemActionCallback ClosingTabItemHandler
-        {
-            get { return ClosingTabItemHandlerImpl; }
-        }
 
-      
-
-        public string Header
-        {
-            set
-            {
-                _header = value;
-                RaisePropertyChanged();
-            }
-            get
-            {
-                return _header;
-            }
-        }
         public ICommand DelegationGridChangedCommand { set; get; }
         /// <summary>
         /// ProviderInfoViewModel. 

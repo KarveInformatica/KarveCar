@@ -9,13 +9,16 @@
              xmlns:clients="clr-namespace:MasterModule.Views.Clients"
              xmlns:mvvm1="http://prismlibrary.com/"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
-             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
-             mvvm1:ViewModelLocator.AutoWireViewModel="True"
+              mvvm1:ViewModelLocator.AutoWireViewModel="True"
+           
+              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              mc:Ignorable="d" 
              d:DesignHeight="2000" d:DesignWidth="1300">
     <UserControl.Resources>
         <ResourceDictionary>
+           
+            
             <DataTemplate x:Key="CreditCardFormat">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -52,7 +55,7 @@
                     <StackPanel Grid.Row="3">
                         <TextBlock  Text="Numero" FontSize="10"></TextBlock>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Height="25" Margin="32,5,10,5" Text="{Binding Path=DataObject.TARTINUM, Mode=TwoWay}" Width="234"></TextBox>
+                            <TextBox Height="25" Margin="32,5,10,5" Text="{Binding Path=DataObject.TARNUM, Mode=TwoWay}" Width="234"></TextBox>
                             <Image Source="/KarveControls;component/Images/visa.png" Width="25"></Image>
                         </StackPanel>
                     </StackPanel>
@@ -105,7 +108,7 @@
                                      TextContent="{Binding DataObject.NUMERO_CLI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                      LabelTextWidth="50" 
                                      Height="30"
-                                     ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
                                      LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
                             </karveControls:DataField>
@@ -138,7 +141,7 @@
                                                               Grid.Column="3"
                                                   LabelText="{Binding ltipoCliente, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
-                                                  ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
                                                   LabelVisible="True"
                                                   AssistProperties="Code,Name"
                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
@@ -180,6 +183,7 @@
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+            
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -187,6 +191,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
+       
         <StackPanel Orientation="Vertical">
 
             <i:Interaction.Triggers>
@@ -241,6 +246,7 @@
                                     <StackPanel>
 
                                         <clients:GeneralInfoView />
+
                                         <GroupBox Header="Opcion Cliente">
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -256,17 +262,17 @@
 
                                                     </Grid.ColumnDefinitions>
                                                     <CheckBox Grid.Column="0" x:Name="Defaulting"  Content="Moroso"
-                                                                                     IsChecked="{Binding DataObject.MOROSO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                                     IsChecked="{Binding DataObject.MOROSO, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
                                                     <CheckBox Grid.Column="1" x:Name="Blocked" Content="Bloqueado"
-                                                                                         IsChecked="{Binding DataObject.BLOQUEADO_CLI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                                         IsChecked="{Binding DataObject.BLOQUEADO_CLI, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
                                                     <CheckBox Grid.Column="2" Content="Nif Extranjero"
-                                                              IsChecked="{Binding DataObject.NIF_EXTRANJERO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              IsChecked="{Binding DataObject.NIF_EXTRANJERO, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                                          
                                                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -274,7 +280,7 @@
                                                     <karveControls:DataField Grid.Column="3"
                                                         LabelText="Codigo Externo"
                                                         TextContentWidth="200"
-                                                        TextContent="{Binding DataObject.CODIGOEXTRENO, 
+                                                        TextContent="{Binding DataObject.CODIGOEXTERNO, 
                                                         Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                         DataObject="{Binding DataObject, Mode=TwoWay}">
 
@@ -296,7 +302,7 @@
                                             </Grid>
                                         </GroupBox>
 
-                                        <karveControls:DataArea 
+                                        <karveControls:DataArea x:Name="ClientNotes" 
                                         DataAreaWidth="400"
                                           
                                            
@@ -313,6 +319,7 @@
 
                                         </karveControls:DataArea>
                                         <karveControls:DataArea 
+                                            x:Name="ClientObservation"
                                             DataAreaWidth="500"
                                             TextContent="{Binding DataObject.OBSERVA, 
                                                           Mode=TwoWay, 
@@ -321,7 +328,7 @@
                                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                                             Margin="5,5,0,0"
                                             LabelVisible="False"
-                                            Width="582" Height="183"
+                                            Width="582"
                                         />
 
                                     </StackPanel>
@@ -361,11 +368,7 @@
                         <ContentControl x:Name="ClientContactGrid" Content="{Binding}"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
                     </TabItem>
 
-                    <!--  
-                    <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="VisitGrid"  Content="{Binding}" ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
-                    </TabItem>
-                    -->
+                   
                     <TabItem Header="Permiso">
                         <Grid>
                             <Grid.RowDefinitions>

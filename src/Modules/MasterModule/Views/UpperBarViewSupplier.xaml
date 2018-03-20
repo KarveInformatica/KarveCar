@@ -18,20 +18,20 @@
 
                 <karveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
                                          TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ChangedItem }"
                                          DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
                                          LabelVisible="True">
                  
                 </karveControls:DataField>
                 <karveControls:DataField x:Name="Persona" TextContentWidth="250" 
-                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ChangedItem }"
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" LabelTextWidth="50" 
                                          LabelText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                    
                 </karveControls:DataField>
                 <karveControls:DataField x:Name="Nif" 
                                          TextContentWidth="100" 
-                                         ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                         ItemChangedCommand="{Binding ChangedItem }"
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                     
                 </karveControls:DataField>
@@ -42,7 +42,7 @@
                                                   AssistQuery="{Binding AssistQuery, Mode=OneWay}"
                                                   LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
                                                   Height="25"
-                                                  ItemChangedCommand="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}"
+                                                  ItemChangedCommand="{Binding ChangedItem }"
                                                   LabelVisible="True"
                                                   AssistProperties="Codigo,Nombre"
                                                   MagnifierCommand="{Binding UpperBarSupplierAssist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

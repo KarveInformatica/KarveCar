@@ -353,14 +353,7 @@ namespace DataAccessLayer.Model
                 RaisePropertyChanged();
             }
         }
-        /// <summary>
-        ///  Return if the vehicle has been loaded in a correct way
-        /// </summary>
-        public bool Valid
-        {
-            get { return _isValid; }
-            set { _isValid = value; }
-        }
+       
         // This data transfer object to be used in the grid when using the lookup.
         public IEnumerable<BrandVehicleDto> BrandDtos { get { return _brandDtos; }  set { _brandDtos = value;  RaisePropertyChanged();} }
         /// <summary>

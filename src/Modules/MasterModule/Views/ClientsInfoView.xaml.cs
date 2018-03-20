@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using KarveCommonInterfaces;
 
 namespace MasterModule.Views
 {
@@ -20,27 +21,22 @@ namespace MasterModule.Views
     /// Interaction logic for Clients.xaml
     /// </summary>
     ///
-    public partial class ClientsInfoView : UserControl
+    public partial class ClientsInfoView : UserControl, ICreateRegionManagerScope
     {
         private Stopwatch watch = new Stopwatch();
         public ClientsInfoView()
         {
-            try
-            {
                 watch.Start();
                 InitializeComponent();
                 watch.Stop();
                 long elapsed = watch.ElapsedMilliseconds;
+                var m = "";
                 
-            }
-            catch (Exception e)
-            {
-                var v = e.Message;
-            }
+            
         }
         public string Header
         { set; get; }
 
-       
+        public bool CreateRegionManagerScope => true;
     }
 }

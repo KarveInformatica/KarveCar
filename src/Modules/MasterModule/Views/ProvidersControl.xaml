@@ -56,11 +56,6 @@
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
-<!--
-             karveGrid:KarveGridExt.DefaultColumnsSize="{Binding DefaultColumnsSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-            karveGrid:KarveGridExt.ResizeColumnCommand="{Binding GridResizeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"   
-
--->
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

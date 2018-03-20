@@ -14,7 +14,6 @@ using MasterModule.Views;
 using System.Linq;
 using NLog;
 using System.Reflection;
-using Dragablz;
 using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
@@ -23,6 +22,7 @@ using Prism.Commands;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using  RegionMan = Prism.Regions.RegionManager;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.Common
 {
@@ -40,7 +40,7 @@ namespace MasterModule.Common
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected PropertyChangedEventHandler InitEventHandler;
-        protected IDialogService DialogService;
+       
 
 
         protected PropertyChangedEventHandler DeleteEventHandler;
@@ -79,6 +79,8 @@ namespace MasterModule.Common
         /// </summary>
         private string _primaryKey = "";
 
+
+        
         /// <summary>
         /// This delegate set the primary key
         /// </summary>
@@ -490,7 +492,7 @@ namespace MasterModule.Common
         /// <returns></returns>
         protected Tuple<string, string> ComputeIdName(DataRowView rowView, string nameColumn, string codeColumn)
         {
-            DataRow row = rowView.Row;
+            System.Data.DataRow row = rowView.Row;
             string name = row[nameColumn] as string;
             string commissionId = row[codeColumn] as string;
             Tuple<string, string> codeTuple = new Tuple<string, string>(commissionId, name);
@@ -741,12 +743,14 @@ namespace MasterModule.Common
             }
                 if (notification.IsSuccessfullyCompleted)
                 {
-                    SummaryView = notification.Task.Result;
+
+                SummaryView = notification.Task.Result;
+                    
                 }
                 if (notification.IsFaulted)
                 {
                     SummaryView = new ObservableCollection<T>();
-                // FIX ME to a dialog service.
+               
                 if (DialogService != null)
                 {
                     DialogService.ShowDialogMessage("Error", "Exception during summary load :" + notification.Task.Exception.Message);
@@ -760,6 +764,10 @@ namespace MasterModule.Common
             
             Contract.Ensures(SummaryView != null, "The summary is not null");
         }
+
+
+        
+
         /// <summary>
         /// This initializatin notifier for the data object
         /// </summary>
@@ -894,21 +902,6 @@ namespace MasterModule.Common
         }
 
 
-        /// <summary>
-        /// Callback to handle tab closing.
-        /// </summary>        
-        protected static void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
-        {
-            //in here you can dispose stuff or cancel the close
-
-            //here's your view model:
-           // var viewModel = args.DragablzItem.DataContext as HeaderedItemViewModel;
-           // CloseTabAction tabAction = new CloseTabAction();
-           // tabAction.Execute(args.DragablzItem);
-
-
-            //here's how you can cancel stuff:
-            //args.Cancel(); 
-        }
+        
     }
 }

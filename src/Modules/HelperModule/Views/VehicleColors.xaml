@@ -29,7 +29,7 @@
                                           IsReadOnly="False"
                                           DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           DataSourcePath="Code"
-                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           TextContentWidth="100"></karveControls:DataField>
 
                 <karveControls:DataField  LabelText="Nombre"
@@ -38,7 +38,7 @@
                                           IsReadOnly="False"
                                           DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           DataSourcePath="Name"
-                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           TextContentWidth="100"></karveControls:DataField>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">

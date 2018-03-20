@@ -27,7 +27,7 @@
 
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataDatePickerChanged">
-                                <interactivity:InvokeCommandAction Command="{Binding ChangedItem, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                <interactivity:InvokeCommandAction Command="{Binding ChangedItem }" TriggerParameterPath="ChangedValuesObjects"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 

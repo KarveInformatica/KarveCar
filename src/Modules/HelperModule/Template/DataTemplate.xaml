@@ -24,7 +24,7 @@
                                    AssistDataFieldSecond="NOMBRE"
                                    AssistTableName="AGENTES"
                                    MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                   ItemChangedCommand="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}"
+                                   ItemChangedCommand="{Binding ItemChangedCommand}"
                                    TextContentFirstWidth="40"
                                    TextContentSecondWidth="180"
                                    IsReadOnlySecond="True"

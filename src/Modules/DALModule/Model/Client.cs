@@ -2,6 +2,7 @@
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using NLog;
+using DataAccessLayer.DataObjects;
 
 namespace DataAccessLayer.Model
 {
@@ -53,14 +54,12 @@ namespace DataAccessLayer.Model
         public IEnumerable<LanguageDto> LanguageDto { get; set; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        public IEnumerable<InvoiceFareDto> InvoiceFare { get; set; }
         /// <summary>
         ///  Value of the client data trasnfer object.
         /// </summary>
         public ClientDto Value { get; set; }
-        /// <summary>
-        ///  get/set if the object is valid
-        /// </summary>
-        public bool Valid { get; set; }
+        
         public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
     }
 }

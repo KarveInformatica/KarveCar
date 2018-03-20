@@ -11,14 +11,14 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left">
+        <Button Grid.Row="0" Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left" Margin="0,0,-1,0" Width="301">
             <StackPanel>
                 <TextBlock HorizontalAlignment="Center" Text="{Binding ListaConductores, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                <Image HorizontalAlignment="Center" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="238"></Image>
+                <Image HorizontalAlignment="Center" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="243"/>
             </StackPanel>
         </Button>
         
-            <KarveControls:DataArea Grid.Row="1" x:Name="ContentArea"
+            <KarveControls:DataArea  Grid.Row="1" x:Name="ContentArea"
                                             DataAreaWidth="230"
                                                                       
                 TextContent="{Binding DataObject.ListaContactos, 

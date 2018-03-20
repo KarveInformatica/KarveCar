@@ -52,7 +52,7 @@
                                    kc:ControlExt.DataSourcePath="Value.INILEAS">
                     <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
-                                <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                                <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                           TriggerParameterPath="ChangedValuesObjects"/>
                             </i:EventTrigger>
                     </i:Interaction.Triggers>
@@ -69,7 +69,7 @@
                                    DataDatePickerHeight="25">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                       TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -96,7 +96,7 @@
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                       TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -112,7 +112,7 @@
                               DataObject="{Binding DataObject}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                       TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -128,7 +128,7 @@
                               LabelVisible="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
+                            <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
                                                       TriggerParameterPath="ChangedValuesObjects"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
@@ -139,7 +139,7 @@
                               TextContentWidth="150"
                               DataSourcePath="COMI_OTOR"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
 
                 <kc:DataField DataFieldHeight="25"
@@ -148,14 +148,14 @@
                               TextContentWidth="150"
                               DataSourcePath="DIA_PAGO"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"/>
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 <kc:DataField DataFieldHeight="25"
                               LabelText="Imp.Financiado"
                               LabelTextWidth="100"
                               TextContentWidth="150"
                               DataSourcePath="IMPFINAN_V2"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataField DataFieldHeight="25"
                               LabelText="Cuota Km. Excedente"
@@ -163,7 +163,7 @@
                               TextContentWidth="150"
                               DataSourcePath="CUOTA_KM"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataField DataFieldHeight="25"
                               LabelText="Cuota Km. Excedente"
@@ -171,7 +171,7 @@
                               TextContentWidth="150"
                               DataSourcePath="CUOTA_KM"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataField DataFieldHeight="25"
                               LabelText="Interés Moratorio"
@@ -179,7 +179,7 @@
                               TextContentWidth="150"
                               DataSourcePath="PORC_MORATORIO"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataField DataFieldHeight="25"
                               LabelText="Pena Cancelación"
@@ -187,7 +187,7 @@
                               TextContentWidth="150"
                               DataSourcePath="PENA"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataField DataFieldHeight="25"
                               LabelText="IVA"
@@ -195,7 +195,7 @@
                               TextContentWidth="50"
                               DataSourcePath="IVA"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                 <kc:DataDatePicker 
                     LabelText="Data Canc.Leasing"
@@ -216,12 +216,12 @@
                     kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DataSourcePath="CUOTAMESUNO"
                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                    ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     />
                 <kc:DataArea DataAreaWidth="380"
                              LabelVisible="False"
                              DataAreaTitle="Notas:"
-                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged,PresentationTraceSources.TraceLevel=High}"
+                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
                              kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              kc:ControlExt.DataSourcePath="Value.OBS1">
                 </kc:DataArea>

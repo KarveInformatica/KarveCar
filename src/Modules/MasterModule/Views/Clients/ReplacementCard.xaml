@@ -70,7 +70,7 @@
                                                   DataDatePickerHeight="35"/>
                    
                 </DockPanel>
-                <KarveControls:DataArea DataAreaTitle="Observaciones" DataAreaWidth ="300"></KarveControls:DataArea>
+                <KarveControls:DataArea DataAreaTitle="Observaciones" DataAreaWidth ="300" Height="135" Margin="13,4,9,4" Width="Auto"></KarveControls:DataArea>
             </StackPanel>
         </GroupBox> 
     </Grid>

@@ -2,6 +2,7 @@
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Mvvm;
+using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
@@ -10,14 +11,13 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal class HelperData : BindableBase, IHelperData
     {
-
         /// <summary>
         ///  Provincia Data Transfer Object.
         /// </summary>
         public IEnumerable<ProvinciaDto> ProvinciaDto
         {
             get; set;
-            
+
         }
         /// <summary>
         ///  Country Data Trasfer Object.
@@ -83,15 +83,15 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Payement form 
         /// </summary>
-        public IEnumerable<PaymentFormDto> ClientPaymentForm { get ; set; }
+        public IEnumerable<PaymentFormDto> ClientPaymentForm { get; set; }
         /// <summary>
         /// InvoiceBlockDto.
         /// </summary>
-        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get ; set; }
+        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get; set; }
         /// <summary>
         ///  Commissionagent dto.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get ; set ; }
+        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
         /// <summary>
         ///  Rent usage.
         /// </summary>
@@ -106,10 +106,15 @@ namespace MasterModule.ViewModels
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         // Contacts dto.
 
-        public IEnumerable<ContactsDto> ContactsDto { get ; set; }
+        public IEnumerable<ContactsDto> ContactsDto { get; set; }
         /// <summary>
         ///  Client Zone Dto.
         /// </summary>
-        public IEnumerable<ZonaOfiDto> ClientZoneDto { get ; set ; }
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
+        /// <summary>
+        ///  Invoice Fare Dto.
+        /// </summary>
+        public IEnumerable<InvoiceFareDto> InvoiceFare { get; set; }
+
     }
 }

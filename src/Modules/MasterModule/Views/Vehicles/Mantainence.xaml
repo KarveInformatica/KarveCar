@@ -264,7 +264,7 @@
                         <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=Delegations, Path=SelectedRow}"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="ChangedRows">
-                        <mvvm:InvokeCommandAction Command="{Binding DelegationChangedRowsCommand, PresentationTraceSources.TraceLevel=High}" 
+                        <mvvm:InvokeCommandAction Command="{Binding DelegationChangedRowsCommand, }" 
                                                                        TriggerParameterPath="RowParameters" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
