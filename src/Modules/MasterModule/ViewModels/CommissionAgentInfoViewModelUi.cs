@@ -36,6 +36,7 @@ namespace MasterModule.ViewModels
                     AssistProperties = "Code,Name",
                     SourceView =  new ObservableCollection<ResellerDto>(),
                     LabelVisible = true,
+                   
                     ButtonImage = MasterModuleConstants.ImagePath,
                     IsReadOnlyFirst = true
                 } ,
@@ -135,6 +136,7 @@ namespace MasterModule.ViewModels
                     IsReadOnlySecond = true
                 }
             };
+           
             return dualDfSearchBoxes;
         }
         private ObservableCollection<UiDfSearch> _leftSideDualDfSearchBoxes = UpdateItemControl();

@@ -1455,7 +1455,8 @@ namespace KarveControls
                 valueDictionary["AssistDataTable"] = SourceView;
                 valueDictionary["Field"] = DataFieldFirst;
                 valueDictionary["ChangedCode"] = TextContentFirst;
-                valueDictionary["ChangedValue"] = TextContentSecond;
+                valueDictionary["ChangedValue"] = TextContentFirst;
+                valueDictionary["ChangedValue2"] = TextContentSecond; 
                 if (ItemChangedCommand != null)
                 {
                     if (ItemChangedCommand.CanExecute(valueDictionary))

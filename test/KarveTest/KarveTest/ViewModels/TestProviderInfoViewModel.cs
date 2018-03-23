@@ -125,7 +125,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Avoid_Deletion_From_AnotherSubsystem()
         {
-            var dataObject = await ArrangeInfoViewModelTest();
+            var dataObject = await ArrangeDataObject();
             Assert.NotNull(dataObject);
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
             Mock<IConfigurationService> serviceConf = new Mock<IConfigurationService>();
@@ -145,7 +145,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Avoid_DeletionOf_ANoExistantObject()
         {
-            var dataObject = await ArrangeInfoViewModelTest();
+            var dataObject = await ArrangeDataObject();
             Assert.NotNull(dataObject);
             // Arrange.
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
@@ -162,7 +162,16 @@ namespace KarveTest.ViewModels
 
         }
         [Test]
-        private async Task<ISupplierData> ArrangeInfoViewModelTest()
+        private async Task<ISupplierData> Should_Load_A_Supplier_Correctly()
+        {
+            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            var value = summary.FirstOrDefault();
+            Assert.NotNull(value);
+            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            Assert.AreEqual(value, dataObject.Value.NUM_PROVEE);
+            return dataObject;
+        }
+        private async Task<ISupplierData> ArrangeDataObject()
         {
             IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
@@ -173,7 +182,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Detect_A_Change()
         {
-            ISupplierData dataObject = await ArrangeInfoViewModelTest();
+            var dataObject = ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
             Mock<IConfigurationService> serviceConf = new Mock<IConfigurationService>();
             DataPayLoad payLoad = new DataPayLoad();
@@ -190,7 +199,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Avoid_Notification_WithBad_Keys_During_A_Change()
         {
-            ISupplierData dataObject = await ArrangeInfoViewModelTest();
+            ISupplierData dataObject = await ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
             Mock<IConfigurationService> serviceConf = new Mock<IConfigurationService>();
             DataPayLoad payLoad = new DataPayLoad();
@@ -207,7 +216,7 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Avoid_Notification_With_BadSubSystem_During_A_Change()
         {
-            ISupplierData dataObject = await ArrangeInfoViewModelTest();
+            ISupplierData dataObject = await ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
             Mock<IConfigurationService> serviceConf = new Mock<IConfigurationService>();
             DataPayLoad payLoad = new DataPayLoad();

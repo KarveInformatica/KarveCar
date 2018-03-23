@@ -44,11 +44,12 @@ namespace KarveTest.UI
         [OneTimeTearDown]
         public void TearDownTestUi()
         {
+            
         }
         [Test]
-        public void MainVehicleView()
+        public void Should_Load_Correctly_Vehicle_View()
         {
-            
+            Assert.Fail();
         }
     }
 }

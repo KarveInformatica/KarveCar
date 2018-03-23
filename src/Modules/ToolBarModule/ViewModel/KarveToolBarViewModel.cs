@@ -113,32 +113,6 @@ namespace ToolBarModule
             ConfirmationCommand = new DelegateCommand(() =>
             {
                // string noActiveValue = configurationService.GetPrimaryKeyValue();
-                if (_activeSubSystem != DataSubSystem.HelperSubsytsem)
-                {
-                    if (string.IsNullOrEmpty(noActiveValue))
-                    {
-                        InteractionRequest<INotification> ir = new InteractionRequest<INotification>();
-                        Notification nt = new Notification
-                        {
-                            Content = "No puedo borrar la ficha de consulta",
-                            Title = "Error"
-                        };
-                        ir.Raise(nt);
-                    }
-                    else
-                    {
-                        request.Content = confirmDelete;
-                        ConfirmationRequest.Raise(request);
-                        if (request.Confirmed)
-                        {
-                            DeleteCommand.Execute();
-                            Confirmed = false;
-
-                        }
-                    }
-                }
-                else
-                {
                     request.Content = confirmDelete;
                     ConfirmationRequest.Raise(request);
                     if (request.Confirmed)
@@ -146,7 +120,7 @@ namespace ToolBarModule
                         DeleteCommand.Execute();
                         Confirmed = false;
                     }
-                }
+                
             });
             SaveValueCommand = new DelegateCommand(() =>
             {
@@ -174,6 +148,12 @@ namespace ToolBarModule
 
             var value = "";
             var singleView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            var headerProp = singleView.GetType().GetProperty("Header");
+            var header = headerProp.GetValue(singleView) as string;
+            if (header!=null)
+            {
+                value = header.Split('.')[0];
+            }
             _states = ToolbarStates.Delete;
             DataPayLoad payLoad = new DataPayLoad
             {
@@ -181,16 +161,17 @@ namespace ToolBarModule
                 PrimaryKeyValue = value,
                 Subsystem = _activeSubSystem 
             };
+            payLoad.PrimaryKey = value;
+            payLoad.PrimaryKeyValue = value;
            
             if (!string.IsNullOrEmpty(currentViewObjectId))
             {
                 payLoad.ObjectPath = viewStack.Peek();
                 _eventManager.SendMessage(currentViewObjectId, payLoad);
             }
-            else if (value.Length > 0)
-            {
-                DeliverIncomingNotify(_activeSubSystem, payLoad);
-            }
+          
+            DeliverIncomingNotify(_activeSubSystem, payLoad);
+            
         }
 
         private void SetInsertValidationChain()
@@ -280,54 +261,56 @@ namespace ToolBarModule
 
         private void DoSaveCommand()
         {
-
-
-            if (this.IsSaveEnabled)
-            {
-                this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-               // this.IsSaveEnabled = false;
-                DataPayLoad payLoad = _careKeeper.GetScheduledPayload();
-                if ((_careKeeper.GetScheduledPayloadType() == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
+                if (this.IsSaveEnabled)
                 {
-                    InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
-                        this._careKeeper,
-                        this._eventManager,
-                        this._configurationService)
+                    this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+                    // this.IsSaveEnabled = false;
+                    DataPayLoad payLoad = _careKeeper.GetScheduledPayload();
+                    if (payLoad != null)
                     {
-                        ValidationRules = this._validationRules
-                    };
-                    // here the exception handling shall bubble and set the insert when occurs.
-                    _careKeeper.Do(new CommandWrapper(dataCommand));
-                    _states = ToolbarStates.None;
-                }
-                else
-                {
+                        if ((_careKeeper.GetScheduledPayloadType() == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
+                        {
+                            InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
+                                this._careKeeper,
+                                this._eventManager,
+                                this._configurationService)
+                            {
+                                ValidationRules = this._validationRules
+                            };
+                            // here the exception handling shall bubble and set the insert when occurs.
+                            _careKeeper.Do(new CommandWrapper(dataCommand));
+                            _states = ToolbarStates.None;
+                        }
+                        else
+                        {
 
-                    SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
-                         this._eventManager, this._configurationService);
-                    _careKeeper.Do(new CommandWrapper(dataCommand));
-                 
-                }
-                // in case of the helper subsystem it is the same view model to handle the stuff,
-                if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)
-                {
-                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                }
-                
-                if (payLoad.ObjectPath != null)
-                {
-                    // we deliver the answer to theobject itself.
-                    _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
-                }
-                else
-                {
-                    // we deliver directly to the controller of the subsystem
-                    DeliverIncomingNotify(payLoad.Subsystem, payLoad);
-                }
+                            SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
+                                 this._eventManager, this._configurationService);
+                            _careKeeper.Do(new CommandWrapper(dataCommand));
+
+                        }
+                        // in case of the helper subsystem it is the same view model to handle the stuff,
+                        if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)
+                        {
+                            payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                        }
+
+                        if (payLoad.ObjectPath != null)
+                        {
+                            // we deliver the answer to theobject itself.
+                            _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
+                        }
+                        else
+                        {
+                            // we deliver directly to the controller of the subsystem
+                            DeliverIncomingNotify(payLoad.Subsystem, payLoad);
+                        }
+                    }
+                this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+                this.IsSaveEnabled = false;
+
             }
-            this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-            this.IsSaveEnabled = false;
-            
+
         }
 
 

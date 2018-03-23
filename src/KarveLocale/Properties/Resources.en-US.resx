@@ -2182,4 +2182,34 @@
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Less elements..</value>
   </data>
+  <data name="lcard" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Replacement Car</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Charging Method</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>New Supplier</value>
+  </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>New Customer</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="ClientInvoiceBlocks_BloqueDeFacturacion" xml:space="preserve">
+    <value>Invoice Block</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Last Modification</value>
+  </data>
 </root>

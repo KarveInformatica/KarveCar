@@ -967,7 +967,9 @@ namespace DataAccessLayer.Logic
                         Nombre = src.NOMBRE,
                         Marca = src.MARCA,
                         NomeMarca = src.NOMMARCA,
-                        Categoria = src.CATEGORIA
+                        Categoria = src.CATEGORIA,
+                        Referencia = src.REFERENCIA_MO,
+                        Chassis = src.CHASIS
                     };
                     return vehicle;
                 });

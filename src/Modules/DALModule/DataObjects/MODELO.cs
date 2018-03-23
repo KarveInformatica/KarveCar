@@ -1,3 +1,4 @@
+using KarveDapper.Extensions;
 using System;
  
 namespace DataAccessLayer.DataObjects
@@ -6,25 +7,26 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a MODELO.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("MODELO")]
 	public class MODELO 
 	{
 	
 	/// <summary>
     ///  Set or get the MARCA property.
     /// </summary>
-    
+    [ExplicitKey]
 		public string MARCA { get; set; }
  
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
 		public string CODIGO { get; set; }
  
 	/// <summary>
     ///  Set or get the VARIANTE property.
     /// </summary>
-    
+    [ExplicitKey]
 		public string VARIANTE { get; set; }
  
 	/// <summary>

@@ -607,7 +607,7 @@ namespace KarveControls
         }
         private void LaunchWebBrowser(object value)
         {
-            var tmp = GetDependencyValue(DataObject, WebDependencyProperty, ControlExt.DataType.Any);
+            var tmp = Web;
             if (tmp?.Length > 0)
             {
                 System.Diagnostics.Process.Start(tmp);
@@ -707,11 +707,13 @@ namespace KarveControls
         private void WebTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
            ChangedValue(Web, _webTextBox.Text);
+            Web = _webTextBox.Text;
         }
 
         private void WebTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             textChanged = true;
+            Web = _webTextBox.Text;
             RaiseEvent(e);
         }
         private void ChangedValue(string path, string value)

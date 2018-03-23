@@ -25,12 +25,7 @@ namespace KarveCommon.Converter
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var v = (Int32) value ;
-            byte c = 0;
-            if (v!=null)
-            {
-                
-                c = System.Convert.ToByte(v);
-            }
+            byte c = System.Convert.ToByte(v);
             return c;
         
         }

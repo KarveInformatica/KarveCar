@@ -14,6 +14,11 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand }"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid.Resources>
             <ResourceDictionary>
                 <ObjectDataProvider x:Key="FilterMode"

@@ -41,7 +41,7 @@ namespace KarveTest.DAL
             }
         }
         [Test]
-        private async Task Shall_Load_AnOffice_Correctly()
+        private async Task Should_Load_An_Office_Correctly()
         {
             // arrange
            IOfficeDataServices officeDataServices = _dataServices.GetOfficeDataServices();

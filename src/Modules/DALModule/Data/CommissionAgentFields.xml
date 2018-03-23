@@ -16,6 +16,9 @@
         <Field type="DataAccessLayer.SQL.Field">
           <Name>poblacion</Name>
         </Field>
+  	<Field type="DataAccessLayer.SQL.Field">
+          <Name>persona</Name>
+        </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>provincia</Name>
         </Field>

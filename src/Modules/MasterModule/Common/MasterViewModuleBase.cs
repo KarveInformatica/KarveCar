@@ -23,6 +23,7 @@ using System.Diagnostics.Contracts;
 using System.Windows;
 using  RegionMan = Prism.Regions.RegionManager;
 using Syncfusion.UI.Xaml.Grid;
+using KarveControls.Generic;
 
 namespace MasterModule.Common
 {
@@ -34,13 +35,13 @@ namespace MasterModule.Common
         private const string RegionName = "TabRegion";
         // local application data for the serialization.
 
-       
+
         protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
         protected PropertyChangedEventHandler InitEventHandler;
-       
+
 
 
         protected PropertyChangedEventHandler DeleteEventHandler;
@@ -51,7 +52,7 @@ namespace MasterModule.Common
         /// </summary>
         protected DataPayLoad.Type CurrentOperationalState;
 
-       
+
         /// <summary>
         ///  The configuration service is a way to set/get configurartions
         /// </summary>
@@ -80,7 +81,7 @@ namespace MasterModule.Common
         private string _primaryKey = "";
 
 
-        
+
         /// <summary>
         /// This delegate set the primary key
         /// </summary>
@@ -116,7 +117,7 @@ namespace MasterModule.Common
             {
                 ExtendedDataTable = value;
                 RaisePropertyChanged("SummaryView");
-                
+
             }
         }
         /// <summary>
@@ -136,14 +137,14 @@ namespace MasterModule.Common
         protected bool IsInsertion = false;
 
         protected IRegionManager RegionManager;
-       
+
         protected const string OperationConstKey = "Operation";
 
         /// <summary>
         /// Command to detect and assist in case of a window.
         /// </summary>
         public ICommand AssistCommand { set; get; }
-        
+
         /// <summary>
         ///  This is a command for open a new window.
         /// </summary>
@@ -228,7 +229,7 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
                 return helper;
             });
-            
+
             AssistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
                 return helper;
@@ -274,7 +275,7 @@ namespace MasterModule.Common
             });
             AssistMapper.Configure("CLIENT_DRIVER", async (query) =>
             {
-                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery); 
+                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_ASSIST", async (query) =>
@@ -288,6 +289,38 @@ namespace MasterModule.Common
                 return helper;
             });
         }
+        /// <summary>
+        ///  This function enforces the base payload.
+        /// </summary>
+        /// <param name="eventDictionary">Dictionary of events</param>
+        /// <param name="payLoad">Payload</param>
+        protected void  SetBasePayLoad(IDictionary<string, object> eventDictionary, ref DataPayLoad payLoad) 
+            {
+            var fieldName = string.Empty;
+            object valueName = null;
+
+            if (eventDictionary.ContainsKey("DataObject"))
+            {
+                var data = eventDictionary["DataObject"];
+                if (eventDictionary.ContainsKey("Field"))
+                {
+                    fieldName = eventDictionary["Field"] as string;
+
+                }
+               if (eventDictionary.ContainsKey("ChangedValue"))
+               {
+                    valueName = eventDictionary["ChangedValue"];
+               }
+               
+                if (valueName != null)
+                {
+                    payLoad.DataObject = data;
+                    var currentObject = payLoad.DataObject;
+                    ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
+                    payLoad.DataObject = currentObject;
+                }
+            }
+            }
         /// <summary>
         /// Object to warrant the notifications.
         /// </summary>
@@ -361,12 +394,10 @@ namespace MasterModule.Common
         private void OnDeleteTask(object sender, PropertyChangedEventArgs e)
         {
             string propertyName = e.PropertyName;
-
-            if (propertyName.Equals("Status"))
-            {
-                if (DeleteInitializationTable.IsSuccessfullyCompleted)
+            INotifyTaskCompletion<bool> currentSender = sender as INotifyTaskCompletion<bool>;
+                if (currentSender.IsSuccessfullyCompleted)
                 {
-                    var result = InitializationNotifier.Task.Result;
+                    var result = currentSender.Task.Result;
                     CanDeleteRegion = true;
                     if (CanDeleteRegion)
                     {
@@ -374,7 +405,7 @@ namespace MasterModule.Common
                         StartAndNotify();
                     }
                 }
-            }
+            
            
         }
 

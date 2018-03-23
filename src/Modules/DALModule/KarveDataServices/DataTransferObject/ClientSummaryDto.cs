@@ -44,10 +44,8 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Numero carta credito")]
         [DataType(DataType.CreditCard)]
         public string NumberCreditCard { set; get; }
-        // conta contable.
         [Display(Name = "Conta Contable")]
         public string AccountableAccount { set; get; }
-       
         [Display(Name = "Codigo Postal")]
         public string Zip { set; get; }
         [Display(Name = "Poblacion")]

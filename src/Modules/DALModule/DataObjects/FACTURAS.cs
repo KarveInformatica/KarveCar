@@ -1,6 +1,5 @@
 using KarveDapper.Extensions;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer.DataObjects
 {

@@ -107,6 +107,7 @@
     </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.Shared.Wpf, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -133,13 +134,12 @@
     <Compile Include="Base\TestEnviromentVariables.cs" />
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
     <Compile Include="DAL\Crud\Office\TestOfficeCrud.cs" />
-    <Compile Include="DAL\GruposTS.cs" />
-    <Compile Include="DAL\MarcasTS.cs" />
     <Compile Include="DAL\TestBuildQuery.cs" />
     <Compile Include="DAL\TestClientDataLoader.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />
     <Compile Include="DAL\TestCompanyDataAccessLayer.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
+    <Compile Include="DAL\TestEntityDeserializer.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestInvoiceDataLayer.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />

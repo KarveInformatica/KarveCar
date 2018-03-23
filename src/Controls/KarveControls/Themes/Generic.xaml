@@ -373,7 +373,10 @@
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
 
-                                    <Popup x:Name="PART_PopUp">
+                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding ElementName=RibbonWindow}"
+                                            
+                       
+                      >
                                         <!--      BorderBrush="#FF000000" //-->
 
                                         <Border  HorizontalAlignment="Stretch"
@@ -394,14 +397,14 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-<!--
+
                                                 <local:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
                                                                    Foreground="White"
                                                     Title="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
                                    Tag="{Binding ElementName=PART_PopUp}"
 
                                    local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
-                                              
+                                                    <!--
                                                     <Thumb.Template>
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
@@ -419,13 +422,13 @@
                                                             </Border>
                                                         </ControlTemplate>
                                                     </Thumb.Template>
-                                                   
+                                                    -->
                                                 </local:TextedThumb>
 
                                                 
                                                 
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
-                                                                       ColumnSizer="AutoLastColumnFill"
+                                                                       ColumnSizer="AutoWithLastColumnFill"
                                                                        Grid.Row="1"
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
@@ -456,7 +459,6 @@
                                                             ></local:GridColumnFilterBehaviour>
                                                     </i:Interaction.Behaviors>
                                                                                                     </Syncfusion:SfDataGrid>
-                                                -->
                                               <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"
@@ -600,7 +602,7 @@
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/fax.png" Margin="0,0,8,0" Height="25"></Image>
                                 <TextBox
-                                    x:Name="FaxTextBox"
+                                    x:Name="PART_FaxTextBox"
 		            
                                     Width="272"
                     

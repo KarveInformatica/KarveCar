@@ -11,6 +11,29 @@ namespace KarveDataServices.DataTransferObject
     {
         private string _eMail;
 
+        public ClientSummaryExtended()
+        {
+            Code = string.Empty;
+            Name = string.Empty;
+            Nif = string.Empty;
+            Phone = string.Empty;
+            Movil = string.Empty;
+            Email = string.Empty;
+            Direccion = string.Empty;
+            Zip = string.Empty;
+            City = string.Empty;
+            CreditCardType = string.Empty;
+            NumberCreditCard = string.Empty;
+            PaymentForm = string.Empty;
+            AccountableAccount = string.Empty;
+            Sector = string.Empty;
+            Zone = string.Empty;
+            Origin = string.Empty;
+            Reseller = string.Empty;
+            Office = string.Empty;
+            Falta = DateTime.Now;
+            BirthDate = DateTime.Now;
+        }
         public string Codigo { get { return Code; } set { Codigo = value; } }
         public string Direccion { get { return Direction; }  set { Direction = value; } }
         public string Provincia { get; set; }
@@ -58,7 +81,6 @@ namespace KarveDataServices.DataTransferObject
         public string NumberCreditCard { set; get; }
         [Display(Name = "Forma Cobro")]
         public string PaymentForm { set; get; }
-
         // conta contable.
         [Display(Name = "Conta Contable")]
         public string AccountableAccount { set; get; }
@@ -76,5 +98,9 @@ namespace KarveDataServices.DataTransferObject
         public DateTime? Falta { set; get; }
         [Display(Name = "Fecha Nacimiento")]
         public DateTime? BirthDate { set; get; }
+        [Display(Name = "Vehiculo Sust.")]
+        public string ReplacementCar { set; get; }
+        [Display(Name = "Tarjeta")]
+        public string Card { set; get; }
     }
 }

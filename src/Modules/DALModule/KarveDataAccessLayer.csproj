@@ -140,6 +140,7 @@
     <Compile Include="ConcreteDomainFactory.cs" />
     <Compile Include="ContractDataServices.cs" />
     <Compile Include="Crud\Clients\ClientDataLoader.cs" />
+    <Compile Include="Crud\Clients\ClientDataLoaderEx.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
     <Compile Include="Crud\HelperBase.cs" />
@@ -258,6 +259,8 @@
     <Compile Include="DataObjects\CliContactsPoco.cs" />
     <Compile Include="DataObjects\CliDelegaPoco.cs" />
     <Compile Include="DataObjects\ClientPoco.cs" />
+    <Compile Include="DataObjects\EntityDecorator.cs" />
+    <Compile Include="DataObjects\EntityDeserializer.cs" />
     <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />

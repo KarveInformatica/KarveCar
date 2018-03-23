@@ -14,13 +14,15 @@ using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using DataAccessLayer.Crud;
+using System.Reflection;
+using System.Collections;
 
 namespace DataAccessLayer.Crud.Clients
 {
     /// <summary>
     /// This load and expose a client wrapper.
     /// </summary>
-    internal sealed class ClientDataLoader : IDataLoader<ClientDto>
+    internal  sealed partial class ClientDataLoader : IDataLoader<ClientDto>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -69,6 +71,7 @@ namespace DataAccessLayer.Crud.Clients
             _sqlExecutor = executor;
             _mapper = MapperField.GetMapper();
             _currentPoco = new ClientDto();
+            _currentPoco.Helper = new HelperBase(); 
             Valid = true;
             _currentQueryPos = 0;
         }
@@ -119,6 +122,7 @@ namespace DataAccessLayer.Crud.Clients
                     {
                         reader = await conn.QueryMultipleAsync(multipleQuery);
                         SetDataTransferObject(reader, _currentPoco);
+                        
                         string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
                         var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
                             (branch, prov) =>
@@ -144,92 +148,88 @@ namespace DataAccessLayer.Crud.Clients
 
             return returnValue;
         }
-        
-    /// <summary>
-    ///  Set the transfer objects. We create the transfer object from the entity.
-    /// </summary>
-    /// <param name="reader">GridReader reader of dapper results</param>
-    /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
-    /// 
-    private void SetDataTransferObject(SqlMapper.GridReader reader, ClientDto clientPoco)
+
+        /// <summary>
+        ///  Set the transfer objects. We create the transfer object from the entity.
+        /// </summary>
+        /// <param name="reader">GridReader reader of dapper results</param>
+        /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
+        /// 
+        private void SetDataTransferObject(SqlMapper.GridReader reader, ClientDto clientPoco)
         {
-            // i pay the box/unboxing
-            IDictionary<string, object> val = new Dictionary<string, object>();
-           
             if (reader == null)
                 return;
             while (!reader.IsConsumed)
             {
-                var value = reader.Read();
-                var v = value.GetType();
-                val.Add(v.Name, value);
+                var row = reader.Read().FirstOrDefault();
+                if (row != null)
+                {
+                    var entity = MapSingleEntity(row);
+                    if (entity != null)
+                    {
+                        var currentType = entity.Type as Type;
+                        var dtoType = entity.DtoType as Type;
+                        var mappedDto = MapperUtils.GetMappedValue(_mapper, entity.Value, currentType, dtoType);
+                        
+                        if ((mappedDto != null) && (mappedDto.Count>=0))
+                        {
+                            var currentValue = mappedDto[0];
+                            if (clientPoco != null)
+                            {
+                                SetHelper(currentValue, dtoType);
+                            }
+                        }
+                    }
+                }
             }
-            // FIXME: here we have a design issue.
+        }
+
+       
+
+        private EntityDecorator MapSingleEntity(dynamic row)
+        {
+            var first = row as IDictionary<string, object>;
           
-            if (val.ContainsKey("POBLACIONES"))
+            IList<object> entities = new List<object>() { new POBLACIONES(),
+                                                          new TIPOCLI(),
+                                                          new MERCADO(),
+                                                          new ZONAS(),
+                                                          new IDIOMAS(),
+                                                          new TARCREDI(),
+                                                          new CANAL(),
+                                                          new SUBLICEN(),
+                                                          new OFICINAS(),
+                                                          new USO_ALQUILER(),
+                                                          new ACTIVI(),
+                                                          new ClientSummaryDto(),
+                                                          new CliContactsPoco(),
+                                                          new PaymentFormDto()
+                                                         };
+            IList<object> dto = new List<object>()
             {
-                var current = val["POBLACIONES"] as IEnumerable<POBLACIONES>;
-                Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityDto>(current.FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.TIPOCLI))
-            {
-                Helper.ClientTypeDto = MapperUtils.GetMappedValue<TIPOCLI, ClientTypeDto>(reader.Read<TIPOCLI>()
-                    .FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.MERCADO))
-            {
-                Helper.ClientMarketDto = MapperUtils.GetMappedValue<MERCADO, MercadoDto>(reader.Read<MERCADO>()
-                    .FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.ZONA))
-            {
-                Helper.ZoneDto = MapperUtils.GetMappedValue<ZONAS, ClientZoneDto>(reader.Read<ZONAS>().FirstOrDefault(), _mapper);
-            }
-            if (clientPoco.IDIOMA.HasValue)
-            {
-                Helper.LanguageDto = MapperUtils.GetMappedValue<IDIOMAS, LanguageDto>(reader.Read<IDIOMAS>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.TARTI))
-            {
-                Helper.CreditCardType = MapperUtils.GetMappedValue<TARCREDI, CreditCardDto>(reader.Read<TARCREDI>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.CANAL))
-            {
-                Helper.ChannelDto = MapperUtils.GetMappedValue<CANAL, ChannelDto>(reader.Read<CANAL>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.SUBLICEN))
-            {
-                Helper.CompanyDto = MapperUtils.GetMappedValue<SUBLICEN, CompanyDto>(reader.Read<SUBLICEN>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.OFICINA))
-            {
-                Helper.OfficeDto = MapperUtils.GetMappedValue<OFICINAS, OfficeDtos>(reader.Read<OFICINAS>().FirstOrDefault(), _mapper);
-            }
-            if ((clientPoco.USO_ALQUILER.HasValue) && (clientPoco.USO_ALQUILER > 0))
-            {
-                Helper.RentUsageDto =
-                    MapperUtils.GetMappedValue<USO_ALQUILER, RentingUseDto>(reader.Read<USO_ALQUILER>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.SECTOR))
-            {
-                Helper.ActivityDto = MapperUtils.GetMappedValue<ACTIVI, ActividadDto>(reader.Read<ACTIVI>().FirstOrDefault(), _mapper);
-            }
-            if (!string.IsNullOrEmpty(clientPoco.CLIENTEFAC))
-            {
-                var cli = reader.Read<ClientSummaryDto>().FirstOrDefault();
-                var drivers = new ObservableCollection<ClientSummaryDto>();
-                drivers.Add(cli);
-                Helper.DriversDto = drivers;
-            }
-            IEnumerable<CliContactsPoco> con = reader.Read<CliContactsPoco>();
-            Helper.ContactsDto = _mapper.Map<IEnumerable<CliContactsPoco>, IEnumerable<ContactsDto>>(con);
-            if (_currentPoco.FPAGO.HasValue)
-            {
-                Helper.ClientPaymentForm =
-                    MapperUtils.GetMappedValue<FORMAS, PaymentFormDto>(reader.Read<FORMAS>().FirstOrDefault(), _mapper);
-            }
+                new CityDto(),
+                new ClientTypeDto(),
+                new MercadoDto(),
+                new ClientZoneDto(),
+                new LanguageDto(),
+                new CreditCardDto(),
+                new ChannelDto(),
+                new CompanyDto(),
+                new OfficeDtos(),
+                new RentingUseDto(),
+                new ActividadDto(),
+                new ClientSummaryDto(),
+                new CliContactsPoco(),
+                new PaymentFormDto()
+            };
+            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+            EntityDecorator dec = deserializer.Deserialize(row);
+            return dec;
 
         }
+
+
+
         /// <summary>
         ///  Return all dtos mapped from the entities.
         /// </summary>
@@ -311,32 +311,37 @@ namespace DataAccessLayer.Crud.Clients
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
             ClientDto outClient = new ClientDto();
             var outType = outClient.GetType();
-
-            foreach (var propertyInfo in clients1.GetType().GetProperties())
+            if (clients1 != null)
             {
-                var name = propertyInfo.Name;
-                var prop = outType.GetProperty(name);
-                if (prop!=null)
+                foreach (var propertyInfo in clients1.GetType().GetProperties())
                 {
-                    // ok we have set the property
-                    var v = propertyInfo.GetValue(clients1);
-                    if (v != null)
+                    var name = propertyInfo.Name;
+                    var prop = outType.GetProperty(name);
+                    if (prop != null)
                     {
-                        prop.SetValue(outClient, v);
+                        // ok we have set the property
+                        var v = propertyInfo.GetValue(clients1);
+                        if (v != null)
+                        {
+                            prop.SetValue(outClient, v);
+                        }
                     }
                 }
             }
-            foreach (var propertyInfo in clients2.GetType().GetProperties())
+            if (clients2 != null)
             {
-                var name = propertyInfo.Name;
-                var prop = outType.GetProperty(name);
-                if (prop != null)
+                foreach (var propertyInfo in clients2.GetType().GetProperties())
                 {
-                    // ok we have set the property
-                    var v = propertyInfo.GetValue(clients2);
-                    if (v != null)
+                    var name = propertyInfo.Name;
+                    var prop = outType.GetProperty(name);
+                    if (prop != null)
                     {
-                        prop.SetValue(outClient, v);
+                        // ok we have set the property
+                        var v = propertyInfo.GetValue(clients2);
+                        if (v != null)
+                        {
+                            prop.SetValue(outClient, v);
+                        }
                     }
                 }
             }

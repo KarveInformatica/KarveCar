@@ -2036,7 +2036,7 @@
     <value>Ppto.Key</value>
   </data>
   <data name="StringConstants_Origen" xml:space="preserve">
-    <value>Origin</value>
+    <value>Office</value>
   </data>
   <data name="StringConstants_Canal" xml:space="preserve">
     <value>Channel</value>
@@ -2162,7 +2162,7 @@
     <value>Vehicle Code</value>
   </data>
   <data name="CompanyControlViewModel_NewItem_NuevaEmpresa" xml:space="preserve">
-    <value>New Companty</value>
+    <value>New Company</value>
   </data>
   <data name="lbase" xml:space="preserve">
     <value>Base</value>
@@ -2175,5 +2175,32 @@
   </data>
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Less elements..</value>
+  </data>
+  <data name="lcard" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Replacement Car</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Charging Method</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>New Supplier</value>
+  </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>New Customer</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Office</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Last Modification</value>
   </data>
 </root>

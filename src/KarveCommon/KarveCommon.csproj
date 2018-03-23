@@ -150,6 +150,7 @@
     <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\BooleanToVisibility.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
+    <Compile Include="Converter\CardTypeImageConverter.cs" />
     <Compile Include="Converter\CharToIntegerConverter.cs" />
     <Compile Include="Converter\GridCellConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />

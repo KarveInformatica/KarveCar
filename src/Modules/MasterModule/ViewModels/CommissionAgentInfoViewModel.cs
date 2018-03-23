@@ -180,7 +180,14 @@ namespace MasterModule.ViewModels
             set { _products = value; RaisePropertyChanged(); }
         }
 
-
+        /// <summary>
+        /// Products of the view model
+        /// </summary>
+        public IEnumerable<CommissionTypeDto> BrokerTypeDto
+        {
+            get { return _brokerType; }
+            set { _brokerType = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         /// UpperValueCollection. 
         /// </summary>
@@ -231,8 +238,9 @@ namespace MasterModule.ViewModels
         private IRegionManager _regionManager;
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
         private string _mailBoxName;
+        private IEnumerable<CommissionTypeDto> _brokerType;
 
-       
+
         //
         // A part of the ui is made up different objects inserted in a observable collection.
         //
@@ -269,6 +277,7 @@ namespace MasterModule.ViewModels
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
             //PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
+            
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
@@ -390,7 +399,13 @@ namespace MasterModule.ViewModels
 
             switch (assistTableName)
             {
+                case "TIPOCOMI":
+                {
+                        string query = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI");
+                        BrokerTypeDto = await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(query);
+                        break;
 
+                }
                 case "PAIS":
                     {
                         var countries = await helperDataServices.GetAsyncHelper<Country>(assistQuery);
@@ -682,7 +697,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Returns a data object.
         /// </summary>
-        public object DataObject
+        public ICommissionAgent DataObject
         {
             set
             {
@@ -724,11 +739,15 @@ namespace MasterModule.ViewModels
             payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             
+            
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = _primaryKeyValue;
                 payLoad.PayloadType = DataPayLoad.Type.Update;
             }
+
+            SetBasePayLoad(eventDictionary, ref payLoad);
+
             if (eventDictionary["DataObject"] == null)
             {
                 MessageBox.Show("DataObject is null.");
@@ -846,6 +865,7 @@ namespace MasterModule.ViewModels
                                 _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
                                 _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
                                 _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
+                                _leftSideDualDfSearchBoxes[i].ChangedItem = ItemChangedCommand;
                             }
                             LeftValueCollection = _leftSideDualDfSearchBoxes;
                             break;
@@ -898,7 +918,7 @@ namespace MasterModule.ViewModels
 
                 // Here we send a message to upper part of the view.
                 // it is a component. When it will receive it, it will set the view model and the TipoComiDto.
-                EventManager.SendMessage(UpperBarViewModel.Name, payload);
+               EventManager.SendMessage(UpperBarViewModel.Name, payload);
 
 
                 /* Items controls to the left */

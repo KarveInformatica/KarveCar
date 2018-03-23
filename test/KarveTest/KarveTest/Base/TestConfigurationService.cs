@@ -4,6 +4,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using NUnit.Framework.Internal;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace KarveTest.Base
 {
@@ -28,12 +29,13 @@ namespace KarveTest.Base
         }
 
         [Test]
-        public async void Shall_Load_And_Save_Settings()
+        public async Task Shall_Load_And_Save_Settings()
         {
-           // IUserSettings settings = _configurationService.GetUserSettings();
-           // IMagnifierSettings magnifierSettings = await settings.UserSettingsLoader.GetMagnifierSettings(2);
-           // DateTime system = DateTime.Now;
-           // magnifierSettings.ULTIMOD = DateTime.Now.ToLongTimeString();
+         /*   IUserSettings settings = _configurationService.GetUserSettings();
+            IMagnifierSettings magnifierSettings = await settings.UserSettingsLoader.GetMagnifierSettings(2);
+            DateTime system = DateTime.Now;
+           magnifierSettings.ULTIMOD = DateTime.Now.ToLongTimeString();
+           */
            // magnifierSettings.NOMBRE = "ProviderControlViewModel";
             //bool saved = await settings.UserSettingsSaver.SaveMagnifierSettings(magnifierSettings);
         }

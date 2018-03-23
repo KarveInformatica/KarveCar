@@ -21,6 +21,7 @@ using KarveDataServices.DataTransferObject;
 using KarveDataServices;
 using KarveDataServices.Assist;
 using KarveCommonInterfaces;
+using KarveControls.Generic;
 
 namespace MasterModule.ViewModels
 {
@@ -83,6 +84,8 @@ namespace MasterModule.ViewModels
         private IEnumerable<PriceConditionDto> _priceConditionDto;
         private IEnumerable<DeliveringFormDto> _deliveryFromDto;
         private IEnumerable<DeliveringWayDto> _deliveryWayDto;
+        private IEnumerable<SupplierTypeDto> _supplierTypeDto;
+
         protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
      //   private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
@@ -458,6 +461,15 @@ namespace MasterModule.ViewModels
                    
                     break;
                 }
+
+                case "TIPOPROVE":
+                    {
+                        string value = "SELECT NUM_TIPROVE, NOMBRE FROM TIPOPROVE";
+                        IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
+                        var supplierType = await helperDataServices.GetAsyncHelper<TIPOPROVE>(value);
+                        SupplierTypeDto1 = mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
+                        break;
+                    }
                 case "POBLACIONES_RECL":
                     {
                         var poblacionQuery = "SELECT CP,POBLA FROM POBLACIONES";
@@ -607,7 +619,18 @@ namespace MasterModule.ViewModels
                     }
             }
         }
-
+        public IEnumerable<SupplierTypeDto> SupplierTypeDto1
+        {
+            set
+            {
+                _supplierTypeDto = value;
+                RaisePropertyChanged("SupplierTypeDto1");
+            }
+            get
+            {
+                return _supplierTypeDto;
+            }
+        }
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
@@ -617,8 +640,13 @@ namespace MasterModule.ViewModels
             ChangeFieldHandlerDo<ISupplierData> handlerDo = new ChangeFieldHandlerDo<ISupplierData>(EventManager,
                 DataSubSystem.SupplierSubsystem);
 
+            var fieldName = string.Empty;
+            object valueName = null;
+
+            SetBasePayLoad(eventDictionary, ref payLoad);
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
+                payLoad.PayloadType = DataPayLoad.Type.Insert;
                 handlerDo.OnInsert(payLoad, eventDictionary);
             }
             else

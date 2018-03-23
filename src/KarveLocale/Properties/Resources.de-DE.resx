@@ -2536,4 +2536,37 @@
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Weniger Artiklen</value>
   </data>
+  <data name="lcard" xml:space="preserve">
+    <value>Karte</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Ersatzfahrzeug</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Kreditkarte</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Lademethode</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>Neuer Anbieter </value>
+  </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>Neuer Kunde</value>
+  </data>
+  <data name="lpermiso" xml:space="preserve">
+    <value>Führerschein</value>
+  </data>
+  <data name="VehicleSummaryDto_VehicleCode" xml:space="preserve">
+    <value>Fahrzeugcode</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Büro</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>Benutzer</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Letze Modifizierung </value>
+  </data>
 </root>

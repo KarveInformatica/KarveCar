@@ -20,7 +20,9 @@ namespace KarveDataServices.DataTransferObject
     [Serializable]
     public class BaseDto : NotificationObject, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking 
     {
-      
+        // the problem is the _email;
+        protected string _email;
+
         public BaseDto()
         {
         }

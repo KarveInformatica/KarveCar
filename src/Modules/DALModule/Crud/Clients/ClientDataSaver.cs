@@ -12,7 +12,6 @@ using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace DataAccessLayer.Crud.Clients
 {
     /// <summary>

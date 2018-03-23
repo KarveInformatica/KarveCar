@@ -9,14 +9,19 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:commonGeneric="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
+             xmlns:karveConverter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-
-        <Grid.Resources>
+        
+            <Grid.Resources>
+           
             <ResourceDictionary>
+                <karveConverter:CardTypeImageConverter x:Key="CardTypeImageConverter">
+
+                </karveConverter:CardTypeImageConverter>
                 <ObjectDataProvider x:Key="FilterMode"
                                     MethodName="GetValues"
                                     ObjectType="{x:Type system:Enum}">
@@ -28,10 +33,11 @@
                 <Style x:Key="GenericCodeStyle" TargetType="syncfusion:GridFilterControl">
                     <Setter Property="FilterMode" Value="Both" />
                 </Style>
+                
             </ResourceDictionary>
         </Grid.Resources>
         <syncfusion:SfDataGrid x:Name="ClientSummary"
-                               ColumnSizer="AutoLastColumnFill"
+                               ColumnSizer="Auto"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -53,7 +59,7 @@
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
             ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="True">
+                               AutoGenerateColumns="False">
 
             
             <i:Interaction.Triggers>
@@ -73,7 +79,84 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
-          
+            <syncfusion:SfDataGrid.Columns>
+
+           
+
+                    <syncfusion:GridTextColumn  HeaderText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                                            MappingName="Code" FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                </syncfusion:GridTextColumn>
+                <syncfusion:GridTextColumn HeaderText="{Binding lname, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Name" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lmovil, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Movil" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lemail, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Email" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcard, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Card" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lreplecementcard, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="ReplacementCar" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcp, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Zip" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="City" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                <syncfusion:GridTextColumn HeaderText="{Binding lcreditcardtype, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="CreditCardType" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                
+                <syncfusion:GridTextColumn HeaderText="{Binding lcreditcard, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="NumberCreditCard" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lformadecobro, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="PaymentForm" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcreditcard, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="AccountableAccount" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lsector, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Sector" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                <syncfusion:GridTextColumn HeaderText="{Binding lzone, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Zona" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lrbtnOrigenClientes, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Origin" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding loficina, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Office" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding StringConstants_FechaDeAlta, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="Falta" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding BirthDate, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="BirthDate" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                <syncfusion:GridTextColumn HeaderText="{Binding lpermiso, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="DrivingLicense" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                
+                <syncfusion:GridTextColumn HeaderText="{Binding luser, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="User" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                
+                <syncfusion:GridTextColumn HeaderText="{Binding lmodification, 
+                    Source={StaticResource ResourceLanguage}}" MappingName="LastModification" 
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                
+            </syncfusion:SfDataGrid.Columns>
 
         </syncfusion:SfDataGrid>
 

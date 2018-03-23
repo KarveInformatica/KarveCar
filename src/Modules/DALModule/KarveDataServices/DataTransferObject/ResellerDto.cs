@@ -4,6 +4,7 @@ namespace KarveDataServices.DataTransferObject
 {
     public class ResellerDto: BaseDto
     {
+    
         /// <summary>
         ///  Reseller code.
         /// </summary>
@@ -89,7 +90,27 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the EMAIL property.
         /// </summary>
 
-        public string Email { get; set; }
+        public string Email {
+            get
+            {
+                string tmpMail = _email;
+                if (tmpMail != null)
+                {
+                    tmpMail.Replace('#', '@');
+                    _email = tmpMail;
+                }
+                return _email;   
+            }
+            set
+            {
+                string tmpMail = _email;
+                if (tmpMail != null)
+                {
+                    tmpMail.Replace('@', '#');
+                    _email = tmpMail;
+                }
+            }
+        }
 
         /// <summary>
         ///  Set or get the FECHALTA property.

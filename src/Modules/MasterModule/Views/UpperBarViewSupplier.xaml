@@ -24,8 +24,9 @@
                  
                 </karveControls:DataField>
                 <karveControls:DataField x:Name="Persona" TextContentWidth="250" 
+                                         LabelTextWidth="130"
                                          ItemChangedCommand="{Binding ChangedItem }"
-                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" LabelTextWidth="50" 
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" 
                                          LabelText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                    
                 </karveControls:DataField>

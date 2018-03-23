@@ -77,7 +77,7 @@ namespace MasterModule.ViewModels
         }
 
         private void InitViewModel()
-        {   
+        {
             // each grid needs an unique identifier for setting the grid change in the database.
             GridIdentifier = GridIdentifiers.ClientSummaryGrid;
             _clientEventTask += OnNotifyClient;

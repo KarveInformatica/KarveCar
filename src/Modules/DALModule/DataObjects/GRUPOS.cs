@@ -1,3 +1,4 @@
+using KarveDapper.Extensions;
 using System;
  
 namespace DataAccessLayer.DataObjects
@@ -6,13 +7,14 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a GRUPOS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("GRUPOS")]
 	public class GRUPOS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+    [Key]
 		public string CODIGO { get; set; }
  
 	/// <summary>

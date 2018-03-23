@@ -26,11 +26,58 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/themes/materialdesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ProviderUpperBar">
+                <Grid>
 
+                    <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                        <StackPanel Name="ContextLayout" Orientation="Horizontal">
+
+                            <karveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
+                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                                         LabelVisible="True">
+
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="Persona" TextContentWidth="250" 
+                                         LabelTextWidth="130"
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" 
+                                         LabelText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="Nif" 
+                                         TextContentWidth="100" 
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                            </karveControls:DataField>
+                            <karveControls:DualFieldSearchBox x:Name="TipoProveSearch" 
+                                                  TextContentSecondWidth="180"
+                                                  TextContentFirstWidth="50"
+                                                  LabelTextWidth="100"
+                                                  LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="25"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand }"
+                                                  LabelVisible="True"
+                                                  AssistProperties="Codigo,Nombre"
+                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding  SupplierTypeDto1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="TIPO"
+                                                  AssistTableName="TIPOPROVE"
+                                                  AssistDataFieldFirst="NUM_TIPROVE"
+                                                  AssistDataFieldSecond="NOMBRE"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                            </karveControls:DualFieldSearchBox>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </DataTemplate>
             <DataTemplate x:Key="ProviderEmailTemplate">
                 <StackPanel Orientation="Horizontal">
                     <karveControls:DataField x:Name="EmailField" 
@@ -52,34 +99,10 @@
                     </karveControls:DataField>
                     <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
                         <Image Source="/MasterModule;component/Images/email.png" Height="25" Width="19"/>
-
                     </Button>
                 </StackPanel>
             </DataTemplate>
 
-
-
-            <Style x:Key="PdfCheckBox" 
-               TargetType="{x:Type CheckBox}">
-                <Setter Property="Width" Value="150"/>
-                <Setter Property="Height" Value="40"/>
-                <Setter Property="Margin" Value="4"/>
-                <Setter Property="Padding" Value="4,0,0,0"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type CheckBox}">
-                            <DockPanel Background="#FFEEEEEE" 
-                                   Height="34"
-                                   Width="130">
-                                <Image DockPanel.Dock="Left"
-                                   Source="/MasterrModule;component/Images/pdficon.png"
-                                   Margin="5" />
-                                <TextBlock DockPanel.Dock="Top" Text="Adjuntar PDF" />
-                            </DockPanel>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -90,39 +113,12 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <Grid ShowGridLines="False">
-
-            <!--     <dragablz:TabablzControl TabStripPlacement="Left" BorderThickness="0">
-                <dragablz:TabablzControl.ItemContainerStyle>
-                    <Style TargetType="{x:Type dragablz:DragablzItem}" BasedOn="{StaticResource MaterialDesignDragableTabItemVerticalStyle}">
-                        <Setter Property="Width" Value="100" />
-                        <Setter Property="Height" Value="40" />
-                    <Setter Property="FontFamily" Value="Arial"/>
-                </Style>
-                </dragablz:TabablzControl.ItemContainerStyle>
-                <dragablz:TabablzControl.InterTabController>
-                    <dragablz:InterTabController />
-                </dragablz:TabablzControl.InterTabController>
-        -->
             <StackPanel Orientation="Vertical">
-                <!-- "NUM_PROVEE", "COMERCIAL", "NIF",  "TIPO"-->
-
-                <local:UpperBarViewSupplier Margin="100,10,0,0" 
-                            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataSearchTextBoxChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
-                                               TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-
-                        <i:EventTrigger EventName="DataFieldChanged">
-                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-
-                    </i:Interaction.Triggers>
-                </local:UpperBarViewSupplier>
-                <TabControl TabStripPlacement="Left" BorderThickness="0">
-                    <TabItem Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+             
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ProviderUpperBar}"></ContentControl> 
+              
+                <Syncfusion:TabControlExt TabStripPlacement="Left" BorderThickness="0">
+                    <Syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid ShowGridLines="False">
 
 
@@ -425,9 +421,9 @@
 
 
                         </Grid>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
-                    <TabItem Name="Contables" Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt Name="Contables" Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <StackPanel Orientation="Vertical">
 
                             <GroupBox Header="{Binding lfacturacion, Source={StaticResource ResourceLanguage}}">
@@ -702,38 +698,43 @@
                             </GroupBox>
                             <GroupBox Header="{Binding lalbanares, Source={StaticResource ResourceLanguage}}">
                                 <StackPanel Orientation="Horizontal">
-                                    <CheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
+                                    <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
-                                                        
+                                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         IsChecked="{Binding DataObject.Value.PALBARAN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                          karveControls:ControlExt.DataSourcePath="PALBARAN"
+                                                            >
 
-                                    </CheckBox>
-                                    <CheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
+                                    </karveControls:DataFieldCheckBox>
+                                    <karveControls:DataFieldCheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
+                                                          karveControls:ControlExt.DataSourcePath="INTRACO"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                          IsChecked="{Binding DataObject.Value.INTRACO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         >
-
-                                    </CheckBox>
-                                    <CheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
-                                                          Margin="10,0,0,0"
-                                                          karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                           IsChecked="{Binding DataObject.Value.GESTION_IVA_IMPORTA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                          >
 
-                                    </CheckBox>
-                                    <CheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
+                                    </karveControls:DataFieldCheckBox>
+                                    <karveControls:DataFieldCheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
+                                                          karveControls:ControlExt.DataSourcePath="GESTION_IVA_IMPORTA"
                                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                              IsChecked="{Binding DataObject.Value.NOAUTOMARGEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                           
+                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         >
+
+                                    </karveControls:DataFieldCheckBox>
+                                    <karveControls:DataFieldCheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
+                                                          Margin="10,0,0,0"
+                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               karveControls:ControlExt.DataSourcePath="NOAUTOMARGEN">
 
 
-                                    </CheckBox>
+                                    </karveControls:DataFieldCheckBox>
 
                                 </StackPanel>
                             </GroupBox>
@@ -940,11 +941,9 @@
                     -->
 
                         </StackPanel>
+                    </Syncfusion:TabItemExt>
 
-
-                    </TabItem>
-
-                    <TabItem Name="Direcciones1" Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt Name="Direcciones1" Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -1048,10 +1047,10 @@
 
                         </Grid>
 
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
 
-                    <TabItem Header="{Binding ldelegaciones, Source={StaticResource ResourceLanguage}}">
+                        <Syncfusion:TabItemExt Header="{Binding ldelegaciones, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
                             <Grid>
                                 <Grid.Resources>
@@ -1252,8 +1251,8 @@
                         -->
                             </Grid>
                         </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
+                    </Syncfusion:TabItemExt>
+                        <Syncfusion:TabItemExt Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
                             <Grid>
                                 <Grid.Resources>
@@ -1401,20 +1400,6 @@
 
 
                                         <Syncfusion:SfDataGrid.Columns>
-                                            <!-- 
-                                
-                                AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
-                                                                               Mode=TwoWay,
-                                                                               Path=IsChecked}"
-                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterOrderID},
-                                                                            Mode=TwoWay,
-                                                                            Path=IsChecked}"
-                                                   FilterPopupStyle="{StaticResource popupstyleforOrderID}"
-                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
-                                                                                         Mode=TwoWay,
-                                                   Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
-                                                   MappingName="OrderID"
-                                -->
                                             <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName" />
                                             <Syncfusion:GridTextColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}" MappingName="Responsability"  />
                                             <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Telefono" />
@@ -1426,7 +1411,7 @@
                                 </StackPanel>
                             </Grid>
                         </ScrollViewer>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
                     <!--
                     <TabItem Name="Evaluation" Header="{Binding levaluacion, Source={StaticResource ResourceLanguage}}">
                         <ScrollViewer>
@@ -1490,7 +1475,7 @@
                         </ScrollViewer>
                     </TabItem>
     -->
-                </TabControl>
+                </Syncfusion:TabControlExt>
                 <!--
             </dragablz:TabablzControl>
     -->

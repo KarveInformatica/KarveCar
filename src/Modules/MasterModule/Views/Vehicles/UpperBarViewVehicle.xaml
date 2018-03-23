@@ -22,26 +22,25 @@
                     <karveControls:DataField x:Name="Codigo"  
                                      IsReadOnly="True"
                                      DataFieldHeight="30"
-                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="CODIINT" LabelTextWidth="50" LabelText="{x:Static properties:Resources.lcodigo}" LabelVisible="True">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="DataFieldChanged">
-                                <interactivity:InvokeCommandAction Command="{Binding ItemUpperChangedCommand}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-            </karveControls:DataField>
+                                     TextContentWidth="100" 
+                                     DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextContent="{Binding DataObject.CODEIINT, Mode=TwoWay, ValidatesOnDataErrors=True,ValidatesOnExceptions=True,ValidatesOnNotifyDataErrors=True,UpdateSourceTrigger=PropertyChanged}"
+                                     LabelTextWidth="50"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     LabelText="{x:Static properties:Resources.lcodigo}" 
+                                     LabelVisible="True">
+                        
+                    </karveControls:DataField>
             <karveControls:DataField x:Name="Matricula" 
                                      DataFieldHeight="30"
-                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     DataSourcePath="MATRICULA" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="DataFieldChanged">
-                                <interactivity:InvokeCommandAction Command="{Binding ItemUpperChangedCommand}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                                     TextContent="{Binding DataObject.MATRICULA, Mode=TwoWay, 
+                                                    ValidatesOnDataErrors=True,ValidatesOnExceptions=True,
+                                                    ValidatesOnNotifyDataErrors=True,UpdateSourceTrigger=PropertyChanged}"
+                                     TextContentWidth="100" 
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" 
+                                     LabelVisible="True">
             </karveControls:DataField>
             <karveControls:DualFieldSearchBox x:Name="Marca"
                                               TextContentFirstWidth="50"
@@ -53,13 +52,12 @@
                                               AssistTableName="MARCAS"
                                               IsReadOnlySecond="True"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=DataObject.BrandDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=BrandDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataFieldFirst="Mar"
                                               AssistDataFieldSecond="NOMBRE"
-                                              AssistDataFieldFirst="CODIGO"
-                                             
-                                              ItemChangedCommand="{Binding ItemUpperChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              MagnifierCommand="{Binding  AssistUpperCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              AssistDataFieldFirst="CODIGO"                            
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                              MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ButtonImage="/MasterModule;component/Images/search.png">
 
 
@@ -77,10 +75,10 @@
                                                   AssistTableName="MODELO"
                                                   IsReadOnlySecond="True"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SourceView="{Binding Path=DataObject.ModelDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding Path=ModelDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="MODELO"
-                                                  ItemChangedCommand="{Binding ItemUpperChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  MagnifierCommand="{Binding  AssistUpperCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
+                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
                                                   AssistDataFieldSecond="Nombre"
                                                   AssistDataFieldFirst="Code"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
@@ -88,8 +86,12 @@
                 <karveControls:DataField x:Name="Variante" 
                                          DataFieldHeight="30"
                                          TextContent="{Binding ElementName=Modelo, Path=SelectedItem.Variante}"
-                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         DataSourcePath="" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                                         TextContentWidth="100" 
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         LabelTextWidth="60" 
+                                         LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" 
+                                         LabelVisible="True">
                     </karveControls:DataField>
 
                 </WrapPanel>

@@ -10,7 +10,7 @@
              xmlns:mvvm1="http://prismlibrary.com/"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
               mvvm1:ViewModelLocator.AutoWireViewModel="True"
-           
+           xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              mc:Ignorable="d" 
@@ -209,9 +209,9 @@
 
                 <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ClientUpperBar}"></ContentControl>
 
-                <TabControl Grid.Row="1" x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
+                <Syncfusion:TabControlExt Grid.Row="1" x:Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
-                    <TabItem x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Seleciona" Margin="10,0,0,10" Width="150"></TextBlock>
@@ -353,23 +353,23 @@
 
 
                         </StackPanel>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
-                    <TabItem x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt x:Name="OtherData"  Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <clients:OtherData></clients:OtherData>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
-                    <TabItem x:Name="Delegaciones" Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
+                    <Syncfusion:TabItemExt x:Name="Delegaciones" Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
                         <ContentControl x:Name="ClientDelegacion" Content="{Binding}" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
 
-                    <TabItem x:Name="Contactos" Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
+                    <Syncfusion:TabItemExt x:Name="Contactos" Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
                         <ContentControl x:Name="ClientContactGrid" Content="{Binding}"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
-                   
-                    <TabItem Header="Permiso">
+
+                    <Syncfusion:TabItemExt Header="Permiso">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -384,8 +384,8 @@
                                 <Button>Adquirir..</Button>
                             </StackPanel>
                         </Grid>
-                    </TabItem>
-                    <TabItem Header="Documento" VerticalAlignment="Top">
+                    </Syncfusion:TabItemExt>
+                    <Syncfusion:TabItemExt Header="Documento" VerticalAlignment="Top">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -397,10 +397,10 @@
                                 <Button>Adquirir..</Button>
                             </StackPanel>
                         </Grid>
-                    </TabItem>
+                    </Syncfusion:TabItemExt>
 
 
-                </TabControl>
+                </Syncfusion:TabControlExt>
             </Grid>
         </StackPanel>
     </ScrollViewer>

@@ -50,7 +50,7 @@ namespace KarveTest.ViewModels
          
         }
         [Test]
-        public void Shall_Load_Summary_Correctly()
+        public void Should_Load_Vehicle_Summary_Correctly()
         {
             // you shall load the summary correctly.
             _vehicleControlViewModel.StartAndNotify();

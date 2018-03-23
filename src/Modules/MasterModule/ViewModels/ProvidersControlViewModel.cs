@@ -85,6 +85,7 @@ namespace MasterModule.ViewModels
         {
             base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.Supplier;
             StartAndNotify();
+            ActiveSubSystem();
         }
         /// <summary>
         ///  Command to open a new view for each detailed supplier.
@@ -168,6 +169,7 @@ namespace MasterModule.ViewModels
                 currentPayload.Sender = _mailBoxName;
                 Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
+               
             }
         }
         // This override the notification and start for the v

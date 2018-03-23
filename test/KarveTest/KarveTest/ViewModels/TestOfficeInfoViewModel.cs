@@ -23,13 +23,7 @@ namespace KarveTest.ViewModels
                 _mockDialogService.Object,
                 _regionManager.Object);
         }
-        [Test]
-        public void Setup()
-        {
-          //  _eventManager.Setup(x=> x.)
-          //  mock.Setup(foo => foo.DoSomething("ping")).Returns(true);
-
-        }
+        
         [Test]
         public void Shall_Receive_A_Correct_Payload_And_ExposeDataObject()
         {

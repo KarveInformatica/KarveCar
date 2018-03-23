@@ -4,6 +4,7 @@ using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
+using KarveControls.Generic;
 
 namespace MasterModule.Common
 {
@@ -57,15 +58,35 @@ namespace MasterModule.Common
             {
 
 
-                IDictionary<string, object> currentData = data as IDictionary<string, object>;
-                if (currentData == null)
-                    return;
-                currentObject = currentData["DataObject"];
+                IDictionary<string, object> eventDictionary = data as IDictionary<string, object>;
+
+                var fieldName = string.Empty;
+                object valueName = null;
+
+                if (eventDictionary.ContainsKey("DataObject"))
+                {
+                    var dataObjectValue = eventDictionary["DataObject"];
+                    if (eventDictionary.ContainsKey("Field"))
+                    {
+                        fieldName = eventDictionary["Field"] as string;
+
+                    }
+                    if (eventDictionary.ContainsKey("ChangedValue"))
+                    {
+                        valueName = eventDictionary["ChangedValue"];
+                    }
+
+                    if (valueName != null)
+                    {
+                        currentObject = dataObjectValue;
+                        ComponentUtils.SetPropValue(currentObject, "Value." + fieldName, valueName, true);
+                        //payLoad.DataObject = currentObject;
+                    }
+                }
             }
             object dataObject = data;
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.DataObject = currentObject;
-
 
             UpdateDataObject(currentObject);
             payLoad.PayloadType = DataPayLoad.Type.Update;

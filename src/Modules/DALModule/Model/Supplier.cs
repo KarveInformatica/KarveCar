@@ -394,6 +394,7 @@ namespace DataAccessLayer.Model
                         int ret = await connection.InsertAsync(provee1);
                         retValue = ret == 0;
                         ret = await connection.InsertAsync(provee2);
+                        retValue = retValue && await SaveBranches(connection);
                         retValue = retValue && await SaveContacts(connection);
                         transactionScope.Complete();
                         retValue = retValue && (ret == 0);
@@ -407,7 +408,7 @@ namespace DataAccessLayer.Model
                     }
                     catch (System.Exception other)
                     {
-                        string message = "Error in a Vehicle Supplier. Reason: " + other.Message;
+                        string message = "Error in a Supplier. Reason: " + other.Message;
                         logger.Error(other, "Exception while saving a supplier..");
                         DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                         throw dataLayer;

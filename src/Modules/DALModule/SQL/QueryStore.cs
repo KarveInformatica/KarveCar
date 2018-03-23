@@ -54,6 +54,7 @@ namespace DataAccessLayer.SQL
             QuerySupplierSummaryPaged,
             QueryBrokerSummary,
             QueryBroker,
+            QuerySellerSummary,
             QueryInvoiceSummary, 
             QueryInvoiceSummaryExtended,
             QueryInvoiceSummaryPaged,
@@ -73,24 +74,24 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryPagedClient, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI, * FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI ORDER BY CLIENTES1.NUMERO_CLI" },
             {QueryType.QueryClient1, @"SELECT * FROM CLIENTES1 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryClient2, @"SELECT * FROM CLIENTES2 WHERE NUMERO_CLI='{0}'"},
-            {QueryType.QueryCity, @"SELECT CP,POBLA FROM POBLACIONES WHERE CP = '{0}'" },
-            {QueryType.QueryClientType, @"SELECT NUM_TICLI,NOMBRE FROM TIPOCLI WHERE NUM_TICLI = '{0}'" },
-            {QueryType.QueryCreditCard, @"SELECT CODIGO, NOMBRE FROM TARCREDI WHERE CODIGO='{0}'"},
-            {QueryType.QueryCompany, @"SELECT CODIGO, NOMBRE FROM SUBLICEN WHERE CODIGO='{0}'"},
-            {QueryType.QueryMarket, @"SELECT CODIGO, NOMBRE FROM MERCADO WHERE CODIGO = '{0}'"},
-            {QueryType.QueryLanguage, @"SELECT CODIGO, NOMBRE FROM IDIOMAS WHERE CODIGO='{0}'"},
-            {QueryType.QueryZone, @"SELECT NUM_ZONA,NOMBRE FROM ZONAS WHERE  NUM_ZONA='{0}'"},
-            {QueryType.QuerySeller, @"SELECT NUM_VENDE, NOMBRE FROM VENDEDOR WHERE NUM_VENDE='{0}'"},
-            {QueryType.QueryOffice, @"SELECT CODIGO, NOMBRE FROM OFICINAS WHERE CODIGO='{0}'" },
-            {QueryType.QueryOfficeZone, @"SELECT COD_ZONAOFI, NOM_ZONA FROM ZONAOFI WHERE COD_ZONAOFI='{0}'" },
-            {QueryType.QueryActivity, @"SELECT NUM_ACTIVI,NOMBRE FROM ACTIVI WHERE NUM_ACTIVI='{0}'" },
-            {QueryType.QueryProvince, @"SELECT SIGLAS,PROV FROM PROVINCIA WHERE SIGLAS='{0}'" },
-            {QueryType.QueryCountry, @"SELECT SIGLAS,PAIS FROM PAIS WHERE SIGLAS='{0}'" },
-            {QueryType.QueryPaymentForm, @"SELECT CODIGO,NOMBRE FROM FORMAS WHERE CODIGO='{0}'" },
+            {QueryType.QueryCity, @"SELECT * FROM POBLACIONES WHERE CP = '{0}'" },
+            {QueryType.QueryClientType, @"SELECT * FROM TIPOCLI WHERE NUM_TICLI = '{0}'" },
+            {QueryType.QueryCreditCard, @"SELECT * FROM TARCREDI WHERE CODIGO='{0}'"},
+            {QueryType.QueryCompany, @"SELECT * FROM SUBLICEN WHERE CODIGO='{0}'"},
+            {QueryType.QueryMarket, @"SELECT * FROM MERCADO WHERE CODIGO = '{0}'"},
+            {QueryType.QueryLanguage, @"SELECT * FROM IDIOMAS WHERE CODIGO='{0}'"},
+            {QueryType.QueryZone, @"SELECT * FROM ZONAS WHERE  NUM_ZONA='{0}'"},
+            {QueryType.QuerySeller, @"SELECT * FROM VENDEDOR WHERE NUM_VENDE='{0}'"},
+            {QueryType.QueryOffice, @"SELECT * OFICINAS WHERE CODIGO='{0}'" },
+            {QueryType.QueryOfficeZone, @"SELECT * FROM ZONAOFI WHERE COD_ZONAOFI='{0}'" },
+            {QueryType.QueryActivity, @"SELECT * FROM ACTIVI WHERE NUM_ACTIVI='{0}'" },
+            {QueryType.QueryProvince, @"SELECT * FROM PROVINCIA WHERE SIGLAS='{0}'" },
+            {QueryType.QueryCountry, @"SELECT * FROM PAIS WHERE SIGLAS='{0}'" },
+            {QueryType.QueryPaymentForm, @"SELECT * FROM FORMAS WHERE CODIGO='{0}'" },
             {QueryType.QueryOffices, @"SELECT * FROM OFICINAS WHERE SUBLICEN = '{0}'"},
             {QueryType.HolidaysByOffice, @"SELECT * FROM FESTIVOS_OFICINA WHERE OFICINA = '{0}'"},
             {QueryType.HolidaysDate, @"SELECT * FROM FESTIVOS_OFICINA WHERE FESTIVO = CONVERT(DATETIME,'{0}',101) AND OFICINA='{1}' AND  PARTE_DIA='{2}' AND HORA_DESDE='{3}' AND HORA_HASTA='{4}'"},
-            {QueryType.QueryChannel, @"SELECT CODIGO,NOMBRE FROM CANAL WHERE CODIGO='{0}'" },
+            {QueryType.QueryChannel, @"SELECT * FROM CANAL WHERE CODIGO='{0}'" },
             {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
             {QueryType.QueryCurrency, @"select * from currencies;" },
             
@@ -170,8 +171,9 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryInvoiceSummaryExtended, "select distinct numero_fac as InvoiceName, serie_fac as InvoiceSerie, referen_fac as InvoiceRef, cliente_fac as InvoiceCode, CONTRATO_FAC as InvoiceContract,c.nombre as ClientName, fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, base_fac as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType, c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, fserv_de as InvoiceFrom, observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModification, vienede_fac as ComeFrom from facturas as f " +
                 "left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
                 "inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
-                "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" }
-
+                "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" },
+            {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" }
+            
         };
         
         /// <summary>
@@ -313,6 +315,12 @@ namespace DataAccessLayer.SQL
         public void AddParam(QueryType query)
         {
             _memoryStore.Add(query, string.Empty);
+        }
+
+        public static QueryStore GetInstance()
+        {
+            var qs = new QueryStore();
+            return qs;
         }
     }
 }

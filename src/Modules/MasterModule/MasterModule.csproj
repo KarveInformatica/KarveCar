@@ -247,7 +247,6 @@
     <Compile Include="ViewModels\MasterInfoViewModuleBase.cs" />
     <Compile Include="ViewModels\ProviderInfoViewModel.cs" />
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
-    <Compile Include="ViewModels\SupplierDataPayload.cs" />
     <Compile Include="ViewModels\UpperBarCompanyViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewSupplierViewModel.cs" />

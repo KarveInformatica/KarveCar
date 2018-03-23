@@ -22,7 +22,7 @@ namespace KarveTest.ViewModels
                 _mockRegionManager.Object);
         }
         [Test]
-        public void Setup()
+        public void Should_Setup_Fare()
         {
             //  _eventManager.Setup(x=> x.)
             //  mock.Setup(foo => foo.DoSomething("ping")).Returns(true);

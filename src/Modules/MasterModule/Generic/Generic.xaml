@@ -6,8 +6,187 @@
                     xmlns:mvvm1="http://prismlibrary.com/"
                     xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
                     xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
+                    xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
+
+    <DataTemplate x:Key="ProviderUpperBar">
+        <Grid>
+            <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                <StackPanel Name="ContextLayout" Orientation="Horizontal">
+
+                    <KarveControls:DataField x:Name="NumeroSupplier" IsReadOnly="True" 
+                                         TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataSourcePath="NUM_PROVEE" LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                                         LabelVisible="True">
+
+                    </KarveControls:DataField>
+                    <KarveControls:DataField x:Name="Persona" TextContentWidth="250" 
+                                         LabelTextWidth="130"
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="COMERCIAL" 
+                                         LabelText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                    </KarveControls:DataField>
+                    <KarveControls:DataField x:Name="Nif" 
+                                         TextContentWidth="100" 
+                                         ItemChangedCommand="{Binding ItemChangedCommand }"
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataSourcePath="NIF" LabelTextWidth="50" LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+
+                    </KarveControls:DataField>
+                    <KarveControls:DualFieldSearchBox x:Name="TipoProveSearch" 
+                                                  TextContentSecondWidth="180"
+                                                  TextContentFirstWidth="50"
+                                                  LabelTextWidth="100"
+                                                  LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="25"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand }"
+                                                  LabelVisible="True"
+                                                  AssistProperties="Codigo,Nombre"
+                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding  SupplierTypeDto1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="TIPO"
+                                                  AssistTableName="TIPOPROVE"
+                                                  AssistDataFieldFirst="NUM_TIPROVE"
+                                                  AssistDataFieldSecond="NOMBRE"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                    </KarveControls:DualFieldSearchBox>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="VehicleUpperView">
+        <Grid>
+            <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                <Grid Name="ContextLayout">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <av:WrapPanel Grid.Row="0">
+                        <KarveControls:DataField x:Name="Codigo"  
+                                     IsReadOnly="True"
+                                     DataFieldHeight="30"
+                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     DataSourcePath="CODIINT" LabelTextWidth="50"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                 LabelText="{x:Static properties:Resources.lcodigo}" LabelVisible="True">
+                           
+                            
+
+                        </KarveControls:DataField>
+                        <KarveControls:DataField x:Name="Matricula" 
+                                     DataFieldHeight="30"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     DataSourcePath="MATRICULA" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                        </KarveControls:DataField>
+                        <KarveControls:DualFieldSearchBox x:Name="Marca"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="150"
+                                              Height="30"
+                                              LabelTextWidth="50"
+                                              LabelText="{Binding lmarca, Source={StaticResource ResourceLanguage}}"
+                                              AssistProperties="Code,Name"
+                                              AssistTableName="MARCAS"
+                                              IsReadOnlySecond="True"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=BrandDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="Mar"
+                                              AssistDataFieldSecond="NOMBRE"
+                                              AssistDataFieldFirst="CODIGO"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, 
+                                                                    UpdateSourceTrigger=PropertyChanged}"
+                                              MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, 
+                                                                 UpdateSourceTrigger=PropertyChanged}"
+                                              ButtonImage="/MasterModule;component/Images/search.png">
+
+
+                        </KarveControls:DualFieldSearchBox>
+
+
+                        <KarveControls:DualFieldSearchBox x:Name="Modelo"
+                                                  TextContentFirstWidth="50"
+                                                  TextContentSecondWidth="150"
+                                                  LabelTextWidth="50"
+                                                  Height="30"
+                                                  LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
+                                                 
+                                                  AssistTableName="MODELO"
+                                                  IsReadOnlySecond="True"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding Path=ModelDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="MODELO"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
+                                                  AssistDataFieldSecond="Nombre"
+                                                  AssistDataFieldFirst="Code"
+                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                        </KarveControls:DualFieldSearchBox>
+                        <KarveControls:DataField x:Name="Variante" 
+                                         DataFieldHeight="30"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         TextContent="{Binding ElementName=Modelo, Path=SelectedItem.Variante}"
+                                         TextContentWidth="100" 
+                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         DataSourcePath="" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                        </KarveControls:DataField>
+
+                    </av:WrapPanel>
+                    <WrapPanel Grid.Row="1">
+                        <KarveControls:DualFieldSearchBox x:Name="Grupo"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="198"
+                                              LabelTextWidth="50"
+                                              Height="30"
+                                              LabelText="{x:Static properties:Resources.lgrupo}"
+                                              IsReadOnlySecond="True"
+                                              AssistProperties="Codigo,Nombre"
+                                              AssistTableName="GRUPOS"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=VehicleGroupDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="GRUPO"
+                                              AssistDataFieldSecond="NOMBRE"
+                                              AssistDataFieldFirst="CODIGO"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                         
+                                              ButtonImage="/MasterModule;component/Images/search.png">
+
+                        </KarveControls:DualFieldSearchBox>
+
+                        <KarveControls:DataField Height="30" 
+                                            LabelText="{Binding lbastidor, Source={StaticResource ResourceLanguage}}" LabelTextWidth="50"  TextContentWidth="200" 
+                                                  ItemChangedCommand="{Binding ItemUpperChangedCommand}"
+                                                  DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataSourcePath="BASTIDOR">
+
+                        </KarveControls:DataField>
+                        <KarveControls:DualFieldSearchBox x:Name="Colore" 
+                                              DataFieldFirst="COLOR"
+                                              AssistTableName="COLORFL"
+                                              LabelTextWidth="50"
+                                              Height="30"
+                                              LabelText="{Binding lcolor, Source={StaticResource ResourceLanguage}}"
+                                              TextContentFirstWidth="50"
+                                              TextContentSecondWidth="100"
+                                              IsReadOnlySecond="True"
+                                              AssistDataFieldFirst="codigo"
+                                              AssistDataFieldSecond="nombre" 
+                                              AssistProperties="Code,Name"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                              ButtonImage="/MasterModule;component/Images/search.png"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=ColorDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                        </KarveControls:DualFieldSearchBox>
+                    </WrapPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DataTemplate>
 
     <DataTemplate x:Key="NoDataEmailField">
         <StackPanel Orientation="Horizontal">
@@ -39,35 +218,26 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <WrapPanel Grid.Row="0">
-                    <KarveControls:DataField x:Name="Codigo"  
+                        <KarveControls:DataField x:Name="Codigo"  
                                      IsReadOnly="True"
                                      DataFieldHeight="30"
-                                      TextContent="{Binding DataObject.CODEIINT, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     LabelTextWidth="50" LabelText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}"
-                                             
-                                           LabelVisible="True">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="DataFieldChanged">
-                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-                    </KarveControls:DataField>
-                    <KarveControls:DataField x:Name="Matricula" 
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     TextContent="{Binding DataObject.CODEIINT, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     TextContentWidth="100" 
+                                     DataObject="{Binding DataObject, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     LabelTextWidth="50" 
+                                     LabelText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}"
+                                     LabelVisible="True">
+                        </KarveControls:DataField>
+                        <KarveControls:DataField x:Name="Matricula" 
                                      DataFieldHeight="30"
-                                       TextContent="{Binding DataObject.MATRICULA, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    
-                                             TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="DataFieldChanged">
-                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
-                                                   TriggerParameterPath="ChangedValuesObjects"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </KarveControls:DataField>
+                                     TextContent="{Binding DataObject.MATRICULA, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     TextContentWidth="100" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     LabelTextWidth="60" 
+                                     LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" 
+                                     LabelVisible="True">
+                        </KarveControls:DataField>
                     <KarveControls:DualFieldSearchBox x:Name="Marca"
                                               TextContentFirstWidth="50"
                                               TextContentSecondWidth="150"

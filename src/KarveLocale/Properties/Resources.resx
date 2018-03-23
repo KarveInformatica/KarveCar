@@ -2309,7 +2309,7 @@
     <comment>Número</comment>
   </data>
   <data name="lnotas" xml:space="preserve">
-    <value>Observaciones</value>
+    <value>Notas</value>
   </data>
   <data name="lobservaciones" xml:space="preserve">
     <value>Observaciones</value>
@@ -2602,7 +2602,7 @@
     <value>Chassis</value>
   </data>
   <data name="OfficesControlViewModel_NewItem_NuevaOfficina" xml:space="preserve">
-    <value> Nueva Oficina</value>
+    <value>Nueva Oficina</value>
   </data>
   <data name="lusuarioconnected" xml:space="preserve">
     <value>Usuario conectado</value>
@@ -2633,5 +2633,26 @@
   </data>
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Solo elemento</value>
+  </data>
+  <data name="lcard" xml:space="preserve">
+    <value>tarjeta</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Vehiculo Sustitutivo</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Trajeta de Credito</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Forma de Cobro</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Oficina</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Ultima Modificacion</value>
   </data>
 </root>

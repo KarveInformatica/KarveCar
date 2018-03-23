@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using KarveControls.Generic;
+using System.Windows.Input;
 
 namespace KarveControls
 {
@@ -14,8 +15,8 @@ namespace KarveControls
     /// </summary>
     public class DataFieldCheckBox: CheckBox
     {
-        private bool _isChecked;
-        private bool _previous;
+        private bool? _isChecked;
+        private bool? _previous;
         private bool _isChanged;
         static DataFieldCheckBox()
         {
@@ -30,6 +31,10 @@ namespace KarveControls
                 "DataObject",
                 typeof(object),
                 typeof(DataFieldCheckBox));
+
+        
+       
+
         /// <summary>
         /// Data object dependency property. It get/set an object in the component.
         /// </summary>
@@ -39,7 +44,7 @@ namespace KarveControls
             {
                 SetValue(DataObjectDependencyProperty, value);
             }
-            get { return GetValue(DataObjectDependencyProperty); }
+            get { return (object) GetValue(DataObjectDependencyProperty); }
         }
         /// <summary>
         ///  default checkbox.
@@ -50,20 +55,21 @@ namespace KarveControls
             this.Checked+=OnChecked;
             this.Unchecked+=OnUnchecked;
          
-            _isChecked = false;
-            _previous = false;
+            _isChecked = IsChecked;
+            _previous = IsChecked;
             _isChanged = false;
         }
 
         private void OnUnchecked(object sender, RoutedEventArgs routedEventArgs)
         {
             DataFieldCheckBox checkBox = sender as DataFieldCheckBox;
+            var currentChecked = false;
             if (checkBox != null)
             {
                 _previous = _isChecked;
                 if (checkBox.IsChecked != null)
                 {
-                    if (checkBox.IsChecked.Value != _isChecked)
+                    if ( currentChecked!= _isChecked)
                     {
                         _isChanged = true;
                     }
@@ -81,13 +87,14 @@ namespace KarveControls
         private void OnChecked(object sender, RoutedEventArgs routedEventArgs)
         {
             DataFieldCheckBox checkBox = sender as DataFieldCheckBox;
+            var currentChecked = true;
             if (checkBox != null)
             {
                 _previous = _isChecked;
 
                 if (checkBox.IsChecked != null)
                 {
-                    if (checkBox.IsChecked.Value != _isChecked)
+                    if (currentChecked != _isChecked)
                     {
                         _isChanged = true;
                     }
@@ -106,8 +113,7 @@ namespace KarveControls
 
         private void SendEventOnChanged()
         {
-            if (_isChanged)
-            {
+            
                 // ok we can raise the event.
                 var path = ControlExt.GetDataSourcePath(this);
                 if (path != null)
@@ -123,10 +129,16 @@ namespace KarveControls
                 values.Add("DataObject", DataObject);
                 values.Add("ChangedValue", _isChecked);
                 values.Add("PreviousValue", _previous);
+                values.Add("FieldChanged", path);
+            if (Command != null)
+            {
+                Command.Execute(values);
+            }
+            else
+            {
                 DataFieldCheckBoxEventArgs args = new DataFieldCheckBoxEventArgs(DataFieldCheckBoxChangedEvent);
                 args.ChangedValuesObjects = values;
                 RaiseEvent(args);
-                _isChanged = false;
             }
         }
         // in case it is changed.

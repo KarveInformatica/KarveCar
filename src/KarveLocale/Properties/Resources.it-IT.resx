@@ -386,7 +386,7 @@
     <comment>68</comment>
   </data>
   <data name="lrbtnMotivosImproductivo" xml:space="preserve">
-    <value>Cause Improductivita</value>
+    <value>Causa di Improductivita</value>
     <comment>69</comment>
   </data>
   <data name="lrbtnTipoImpresoContrato" xml:space="preserve">
@@ -842,7 +842,7 @@
     <comment>183</comment>
   </data>
   <data name="lrbtnGestionImpagados" xml:space="preserve">
-    <value>Gestió d'Impagats</value>
+    <value>Gestione di Impago</value>
     <comment>184</comment>
   </data>
   <data name="lrbtnRefundirRecibosNoCobrados" xml:space="preserve">
@@ -2542,5 +2542,35 @@
   </data>
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Meno articoli</value>
+  </data>
+  <data name="lcard" xml:space="preserve">
+    <value>Carta</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Veiculo Sostituivo</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Carta di Credito</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Forma di Pago</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>Nuovo Fornitore</value>
+  </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>Nuovo Cliente</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Ufficio</value>
+  </data>
+  <data name="ClientInvoiceBlocks_BloqueDeFacturacion" xml:space="preserve">
+    <value>Blocco della Fatturazione</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>Utente</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Ultima Modificación </value>
   </data>
 </root>

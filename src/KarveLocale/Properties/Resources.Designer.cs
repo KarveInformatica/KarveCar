@@ -682,6 +682,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to tarjeta.
+        /// </summary>
+        public static string lcard {
+            get {
+                return ResourceManager.GetString("lcard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cargo.
         /// </summary>
         public static string lcargo {
@@ -903,6 +912,15 @@ namespace KarveLocale.Properties {
         public static string lcp {
             get {
                 return ResourceManager.GetString("lcp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trajeta de Credito.
+        /// </summary>
+        public static string lcreditcard {
+            get {
+                return ResourceManager.GetString("lcreditcard", resourceCulture);
             }
         }
         
@@ -1371,6 +1389,15 @@ namespace KarveLocale.Properties {
         public static string lfingarantia {
             get {
                 return ResourceManager.GetString("lfingarantia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forma de Cobro.
+        /// </summary>
+        public static string lformadecobro {
+            get {
+                return ResourceManager.GetString("lformadecobro", resourceCulture);
             }
         }
         
@@ -1852,7 +1879,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Observaciones.
+        ///   Looks up a localized string similar to Notas.
         /// </summary>
         public static string lnotas {
             get {
@@ -1929,6 +1956,15 @@ namespace KarveLocale.Properties {
         public static string lobservacionseguro {
             get {
                 return ResourceManager.GetString("lobservacionseguro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oficina.
+        /// </summary>
+        public static string loficina {
+            get {
+                return ResourceManager.GetString("loficina", resourceCulture);
             }
         }
         
@@ -4633,6 +4669,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vehiculo Sustitutivo.
+        /// </summary>
+        public static string lreplacementcard {
+            get {
+                return ResourceManager.GetString("lreplacementcard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retencion en Listado.
         /// </summary>
         public static string lretencionenlistado {
@@ -5434,6 +5479,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ultima Modificacion.
+        /// </summary>
+        public static string lultmodi {
+            get {
+                return ResourceManager.GetString("lultmodi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuario.
+        /// </summary>
+        public static string luser {
+            get {
+                return ResourceManager.GetString("luser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Usuario conectado.
         /// </summary>
         public static string lusuarioconnected {
@@ -5785,7 +5848,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Nueva Oficina.
+        ///   Looks up a localized string similar to Nueva Oficina.
         /// </summary>
         public static string OfficesControlViewModel_NewItem_NuevaOfficina {
             get {

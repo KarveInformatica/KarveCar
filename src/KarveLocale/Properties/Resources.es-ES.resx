@@ -1792,7 +1792,7 @@
     <value>Conta Contabile</value>
   </data>
   <data name="lnotas" xml:space="preserve">
-    <value>Notes</value>
+    <value>Notas</value>
   </data>
   <data name="lobservaciones" xml:space="preserve">
     <value>Observaciones</value>
@@ -2180,5 +2180,32 @@
   </data>
   <data name="PlusMinusBehaviour_OnAttached_LessItems" xml:space="preserve">
     <value>Solo elemento</value>
+  </data>
+  <data name="lcard" xml:space="preserve">
+    <value>Tarjeta</value>
+  </data>
+  <data name="lreplacementcard" xml:space="preserve">
+    <value>Vehiculo Sustitutivo</value>
+  </data>
+  <data name="lcreditcard" xml:space="preserve">
+    <value>Tarjeta de Credito</value>
+  </data>
+  <data name="lformadecobro" xml:space="preserve">
+    <value>Forma de Cobro</value>
+  </data>
+  <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
+    <value>Nuevo Proveedor</value>
+  </data>
+  <data name="ClientsControlViewModel_NewItem_NuevoCliente" xml:space="preserve">
+    <value>Nuevo Cliente</value>
+  </data>
+  <data name="loficina" xml:space="preserve">
+    <value>Oficina</value>
+  </data>
+  <data name="luser" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="lultmodi" xml:space="preserve">
+    <value>Ultima modificacion</value>
   </data>
 </root>

@@ -26,6 +26,65 @@
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converter:ByteToBooleanConverter x:Key="ByteToBoolean"></converter:ByteToBooleanConverter>
+            <DataTemplate x:Key="CommissionAgentUpper">
+                <Grid>
+
+                    <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+
+                        <StackPanel Name="ContextLayout" Orientation="Horizontal">
+
+                            <karveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     TextContent="{Binding DataObject.Value.NUM_COMI}"
+                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                              
+
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="Persona" TextContentWidth="150" 
+                                DataObject="{Binding DataObject, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                TextContent="{Binding DataObject.Value.PERSONA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                LabelTextWidth="50" 
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                                LabelVisible="True">
+                             
+                            </karveControls:DataField>
+                            <karveControls:DataField x:Name="Nif" 
+                                                     ItemChangedCommand="{Binding ItemChangedCommand}"
+                                       TextContent="{Binding DataObject.Value.NIF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      LabelText="{Binding lnif, Source={StaticResource ResourceLanguage}}" TextContentWidth="100" 
+                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      LabelTextWidth="50"  
+                                      LabelVisible="True">
+                               
+                            </karveControls:DataField>
+
+                            <karveControls:DualFieldSearchBox x:Name="Tipo" 
+                                              TextContentSecondWidth="200"
+                                              TextContentFirstWidth="100"
+                                              IsReadOnlySecond="True"
+                                              LabelTextWidth="150" 
+                                              LabelText="Tipo Comisionista" 
+                                              AssistTableName="TIPOCOMI"
+                                              MagnifierCommand="{Binding AssistCommand}"
+                                              ItemChangedCommand="{Binding ItemChangedCOmmand}"
+                                              LabelVisible="True"
+                                              AssistProperties="Codigo,Nombre"
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding BrokerTypeDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DataFieldFirst="TIPOCOMI"
+                                              AssistDataFieldFirst="NUM_TICOMI"
+                                              AssistDataFieldSecond="NOMBRE"
+                                              ButtonImage="/MasterModule;component/Images/search.png">
+
+                            </karveControls:DualFieldSearchBox>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
@@ -40,8 +99,12 @@
                     <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand }"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-             
-                <local:UpperBarView Grid.Row="0" Margin="100,10,0,0" 
+            <ContentControl Grid.Row="0"  Margin="0,10,0,0"  Content="{Binding}" ContentTemplate="{StaticResource CommissionAgentUpper}">
+                
+            </ContentControl>
+           
+            <!--
+            <local:UpperBarView Grid.Row="0" Margin="100,10,0,0" 
                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
@@ -62,9 +125,10 @@
 
                     </i:Interaction.Triggers>
                 </local:UpperBarView>
-            <TabControl  Grid.Row="1" Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
+            -->
+            <syncfusion:TabControlExt  Grid.Row="1" Name="MainTabControl" TabStripPlacement="Left" BorderThickness="0">
 
-                <TabItem Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <ScrollViewer>
                         <Grid ShowGridLines="False">
                             <Grid.RowDefinitions>
@@ -102,7 +166,7 @@
                                              TextContentFirstWidth="100"
                                              TextContentSecondWidth="200"
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
-                                             ItemChangedCommand="{Binding ChangedItem, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
                                              DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
@@ -120,7 +184,7 @@
                                     <karveControls:DataField LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                        LabelTextWidth="100"
                                                               DataObject="{Binding DataObject, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
-                                                       TextContent="{Binding DataObject.NOMBRE,
+                                                       TextContent="{Binding DataObject.Value.NOMBRE,
                                                                      Mode=TwoWay,
                                                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
                                                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                                 
@@ -130,7 +194,7 @@
 
                                     <karveControls:DataField LabelText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                      LabelTextWidth="100" 
-                                                                 TextContent="{Binding DataObject.DIRECCION,
+                                                                 TextContent="{Binding DataObject.Value.DIRECCION,
                                                                      Mode=TwoWay,
                                                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                    
                                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
@@ -196,7 +260,7 @@
                                         <karveControls:DataField LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" LabelVisible="True" 
                                                        LabelTextWidth="100" 
                                                        TextContentWidth="200"
-                                                       TextContent="{Binding DataObject.TELEFONO,
+                                                       TextContent="{Binding DataObject.Value.TELEFONO,
                                                        Mode=TwoWay,
                                                        ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                                                                        
                                                         DataObject="{Binding DataObject, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
@@ -205,7 +269,7 @@
                                         </karveControls:DataField>
                                         <karveControls:DataField LabelText="{Binding lfax, Source={StaticResource ResourceLanguage}}" 
                                                            LabelVisible="True" 
-                                                                     TextContent="{Binding DataObject.FAX,
+                                                                     TextContent="{Binding DataObject.Value.FAX,
                                                        Mode=TwoWay,
                                                        ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"                                                                                                        
                                                            LabelTextWidth="100" 
@@ -221,7 +285,7 @@
                                                      LabelTextWidth="100" 
                                                      TextContentWidth="200" 
                                                      LabelText="{Binding lmovil, Source={StaticResource ResourceLanguage}}" 
-                                                                 TextContent="{Binding DataObject.MOVIL,
+                                                                 TextContent="{Binding DataObject.Value.MOVIL,
                                                        Mode=TwoWay,
                                                        ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                             
@@ -235,7 +299,7 @@
                                                               LabelTextWidth="100" 
                                                               LabelVisible="True"
                                                               PickerContentWidth="150"
-                                                              DateContent="{Binding DataObject.ALTA_COMI, Mode=TwoWay,
+                                                              DateContent="{Binding DataObject.Value.ALTA_COMI, Mode=TwoWay,
                                                                             ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                               >
 
@@ -251,7 +315,7 @@
                                                               LabelTextWidth="100" 
                                                               PickerContentWidth="100" 
                                                               DataDatePickerHeight="30"
-                                                              DateContent="{Binding DataObject.BAJA_COMI,
+                                                              DateContent="{Binding DataObject.Value.BAJA_COMI,
                                                               Mode=TwoWay,
                                                               ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
                                         </karveControls:DataDatePicker>
@@ -280,226 +344,191 @@
                                 TextContentWidth="100"
                                              DataObject="{Binding DataObject, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}" 
                                             ItemChangedCommand="{Binding ItemChangedCommand}"
-                                            TextContent="{Binding Path=DataObject.IATA,
+                                            TextContent="{Binding Path=DataObject.Value.IATA,
                                             Mode=TwoWay,
                                             ValidatesOnDataErrors=True, 
                                             ValidatesOnNotifyDataErrors=True, 
                                             ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
-                                    </karveControls:DataField>
-                                    <GroupBox Header="{Binding Opciones, Source={StaticResource ResourceLanguage}}">
-                                        <StackPanel Orientation="Vertical">
-                                            <CheckBox Content="{Binding livaenlistado, Source={StaticResource ResourceLanguage}}" 
+                                        </karveControls:DataField>
+                                        <GroupBox Header="{Binding Opciones, Source={StaticResource ResourceLanguage}}">
+                                            <WrapPanel Orientation="Vertical">
+                                                <karveControls:DataFieldCheckBox Content="{Binding livaenlistado, Source={StaticResource ResourceLanguage}}" 
                                                   karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                   karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      IsChecked="{Binding DataObject.Value.IVASINO, Mode=TwoWay, Converter={StaticResource ByteToBoolean},UpdateSourceTrigger=PropertyChanged}" 
-                                                                            >
+                                                  karveControls:ControlExt.DataSourcePath="Value.IVASINO">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lretencionenlistado, Source={StaticResource ResourceLanguage}}" 
-                                                       karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                   
-                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                         IsChecked="{Binding DataObject.Value.RETENSINO, Mode=TwoWay, Converter={StaticResource ByteToBoolean}, UpdateSourceTrigger=PropertyChanged}">
-
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lesnacional, Source={StaticResource ResourceLanguage}}" 
-                                                       karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                   
-                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.NACIONAL, Mode=TwoWay,Converter={StaticResource ByteToBoolean},UpdateSourceTrigger=PropertyChanged}"                   
-                                                      >
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lsiesclienteesagencia, Source={StaticResource ResourceLanguage}}" 
-                                                                          karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.CONCEPTOS_COND, Mode=TwoWay,Converter={StaticResource ByteToBoolean},UpdateSourceTrigger=PropertyChanged}"                   
-                                                      >
-
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lesagenciadeviaje, Source={StaticResource ResourceLanguage}}"  
-                                                       karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lretencionenlistado, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.AGENCIA, Mode=TwoWay,Converter={StaticResource ByteToBoolean}, UpdateSourceTrigger=PropertyChanged}"                   
-                                                                         
-                                                      >
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand }" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                                         karveControls:ControlExt.DataSourcePath="Value.RETENSINO">
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding ltraduceconceptosweb, Source={StaticResource ResourceLanguage}}"  
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lesnacional, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.TRADUCE_WS, Mode=TwoWay, Converter={StaticResource ByteToBoolean}, UpdateSourceTrigger=PropertyChanged}"                   
-                                                                         
-                                                        >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.NACIONAL">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lsiesclienteesagencia, Source={StaticResource ResourceLanguage}}" 
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="Value.CONCEPTOS_COND">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand }" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding ltrackrentalbroker, Source={StaticResource ResourceLanguage}}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lesagenciadeviaje, Source={StaticResource ResourceLanguage}}"  
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="Value.AGENCIA">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding ltraduceconceptosweb, Source={StaticResource ResourceLanguage}}"  
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="Value.TRADUCE_WS">
+
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding ltrackrentalbroker, Source={StaticResource ResourceLanguage}}"
                                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.TRUCK_RENTAL_BROKER, Mode=TwoWay,Converter={StaticResource ByteToBoolean},UpdateSourceTrigger=PropertyChanged}"                   
-                                                                 
-                                                      >
+                                                                 karveControls:ControlExt.DataSourcePath="Value.TRUCK_RENTAL_BROKER">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lcombustibleprepagoobligatorioplusde, Source={StaticResource ResourceLanguage}}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lcombustibleprepagoobligatorioplusde, Source={StaticResource ResourceLanguage}}"
                                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.COMBUS_PREPAGO_COMI, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"                   
-                                                                 
-                                                      >
+                                                                 karveControls:ControlExt.DataSourcePath="Value.COMBUS_PREPAGO_COMI">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lnogenerarautofacturas, Source={StaticResource ResourceLanguage}}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lnogenerarautofacturas, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.NO_GENERAR_AUTOFAC, Mode=TwoWay,Converter={StaticResource ByteToBoolean}, UpdateSourceTrigger=PropertyChanged}"                   
-                                                                         
-                                                      >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.NO_GENERAR_AUTOFAC">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lcotizartodoslosextras, Source={StaticResource ResourceLanguage}}" 
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lcotizartodoslosextras, Source={StaticResource ResourceLanguage}}" 
                                                                          Visibility="Visible"
-                                                      IsChecked="{Binding DataObject.Value.TODOS_EXTRAS, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                        >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.TODOS_EXTRAS">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" 
                                                                        TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
+                                                </karveControls:DataFieldCheckBox>
 
-                                            <CheckBox Content="{Binding lonewayautomatico, Source={StaticResource ResourceLanguage}}" 
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <karveControls:DataFieldCheckBox Content="{Binding lonewayautomatico, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.AUTO_ONEWAY, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"                   
-                                                      >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lmostrarsóloincluidosalcotizartodoslosgrupos, Source={StaticResource ResourceLanguage}}" 
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lmostrarsóloincluidosalcotizartodoslosgrupos, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.COT_INCLUIDOS_SIN_GRUPO, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"                   
-                                                      >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.COT_INCLUIDOS_SIN_GRUPO">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
+                                                </karveControls:DataFieldCheckBox>
 
-                                            <CheckBox Content="{Binding lnoenviarreservas, Source={StaticResource ResourceLanguage}}" 
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <karveControls:DataFieldCheckBox Content="{Binding lnoenviarreservas, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                       IsChecked="{Binding DataObject.Value.NO_MAIL_RES, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"                   
-                                                      >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.NO_MAIL_RES">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lautofacturasiniva, Source={StaticResource ResourceLanguage}}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lautofacturasiniva, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                  IsChecked="{Binding DataObject.Value.AUTOFAC_SIN_IVA, Mode=TwoWay,Converter={StaticResource ByteToBoolean},  UpdateSourceTrigger=PropertyChanged}"       
-                                                      >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.AUTOFAC_SIN_IVA">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                            <CheckBox Content="{Binding lcomisionsiniva, Source={StaticResource ResourceLanguage}}"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                </karveControls:DataFieldCheckBox>
+                                                <karveControls:DataFieldCheckBox Content="{Binding lcomisionsiniva, Source={StaticResource ResourceLanguage}}" 
                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                      IsChecked="{Binding DataObject.Value.COMISION_SIN_IVA_COM, Mode=TwoWay,Converter={StaticResource ByteToBoolean},UpdateSourceTrigger=PropertyChanged}"                    
-                                                     >
+                                                                         karveControls:ControlExt.DataSourcePath="Value.COMISION_SIN_IVA_COM">
 
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                            <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
 
-                                            </CheckBox>
-                                        </StackPanel>
-                                    </GroupBox>
+                                                </karveControls:DataFieldCheckBox>
+                                            </WrapPanel>
+                                        </GroupBox>
 
-                                </VirtualizingStackPanel>
+                                    </VirtualizingStackPanel>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </ScrollViewer>
+                        </ScrollViewer>
 
-                </TabItem>
+                </syncfusion:TabItemExt>
 
-                <TabItem Name="Comisiones" Header="{Binding Commisiones, Source={StaticResource ResourceLanguage}}">
+                <syncfusion:TabItemExt Name="Comisiones" Header="{Binding Commisiones, Source={StaticResource ResourceLanguage}}">
                     <ScrollViewer>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -545,7 +574,7 @@
                                             <karveControls:DataField
                                         LabelText="{Binding lporcentaje, Source={StaticResource ResourceLanguage}}"
                                         LabelVisible="True"
-                                        TextContent="{Binding DataObject.PORCEN,
+                                        TextContent="{Binding DataObject.Value.PORCEN,
                                                               Mode=TwoWay,
                                                                ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -559,7 +588,7 @@
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="50"
-                                                    TextContent="{Binding DataObject.PORCENLO,
+                                                    TextContent="{Binding DataObject.Value.PORCENLO,
                                                                      Mode=TwoWay,
                                                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                        
@@ -578,7 +607,7 @@
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="50"
-                                                    TextContent="{Binding DataObject.PORCENCL,
+                                                    TextContent="{Binding DataObject.Value.PORCENCL,
                                                                      Mode=TwoWay,
                                                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                    
@@ -597,7 +626,7 @@
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="50"
-                                       TextContent="{Binding DataObject.POR_SUBCONTRA,
+                                       TextContent="{Binding DataObject.Value.POR_SUBCONTRA,
                                                              Mode=TwoWay,
                                                              ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                        
@@ -618,7 +647,7 @@
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="200"
-                                                    TextContent="{Binding DataObject.IMP_COMI,
+                                                    TextContent="{Binding DataObject.Value.IMP_COMI,
                                                              Mode=TwoWay,
                                                              ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
           
@@ -630,7 +659,7 @@
                                             <karveControls:DataField 
                                                     LabelText="{Binding lpercentsubcontractados, Source={StaticResource ResourceLanguage}}"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                    TextContent="{Binding DataObject.IMP_C,
+                                                    TextContent="{Binding DataObject.Value.IMP_C,
                                                              Mode=TwoWay,
                                                              ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
           
@@ -872,9 +901,9 @@
                             </Grid>
                         </Grid>
                     </ScrollViewer>
-                </TabItem>
+                </syncfusion:TabItemExt>
 
-                <TabItem Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
+                <syncfusion:TabItemExt Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
                     <ScrollViewer>
                         <Grid>
                             <Grid.Resources>
@@ -1118,8 +1147,8 @@
                         -->
                         </Grid>
                     </ScrollViewer>
-                </TabItem>
-                <TabItem Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
+                </syncfusion:TabItemExt>
+                <syncfusion:TabItemExt Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
                     <ScrollViewer>
                         <Grid>
                             <Grid.Resources>
@@ -1334,8 +1363,9 @@
                         </Grid>
 
                     </ScrollViewer>
-                </TabItem>
-                <TabItem Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
+                </syncfusion:TabItemExt>
+                
+                <syncfusion:TabItemExt Header="{Binding Visitas, Source={StaticResource ResourceLanguage}}">
                     <ScrollViewer>
                         <Grid>
                             <Grid.Resources>
@@ -1356,21 +1386,20 @@
                             <StackPanel Orientation="Vertical">
 
                                 <syncfusion:SfDataGrid  x:Name="VisitsSummary"
-                                                            ColumnSizer="Star"
-                                                            AllowDraggingColumns="True"
-                                                            AllowEditing="False"
-                                                            AllowFiltering="True"
-                                                            AllowResizingColumns="True"
-                                                            AllowSorting="True"
-                                                            AllowGrouping="True"
-                                                            NavigationMode="Row"
-                                                            AddNewRowPosition="Top"
-                                                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, 
-                                                            UpdateSourceTrigger=PropertyChanged}"
-                                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            AutoGenerateColumns="False">
-
+                                                    ColumnSizer="Star"
+                                                    AllowDraggingColumns="True"
+                                                    AllowEditing="True"
+                                                    AllowDeleting ="True"
+                                                    AllowFiltering="True"
+                                                    AllowResizingColumns="True"
+                                                    AllowSorting="True"
+                                                    AllowGrouping="True"
+                                                    NavigationMode="Cell"
+                                                    AddNewRowPosition="Top"
+                                                    karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    AutoGenerateColumns="False">
 
                                     <syncfusion:SfDataGrid.Resources>
                                         <ResourceDictionary>
@@ -1559,8 +1588,8 @@
                         </Grid>
 
                     </ScrollViewer>
-                </TabItem>
-            </TabControl>
+                </syncfusion:TabItemExt>
+            </syncfusion:TabControlExt>
         </Grid>
     </ScrollViewer>
 </UserControl>

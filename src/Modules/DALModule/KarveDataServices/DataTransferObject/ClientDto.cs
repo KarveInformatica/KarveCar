@@ -2467,5 +2467,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public IEnumerable<BranchesDto> BranchesDto { get; set; }
 
+        public IHelperData Helper { get; set; }
     }
 }

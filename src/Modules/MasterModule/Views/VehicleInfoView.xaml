@@ -31,36 +31,17 @@
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource VehicleUpperView}"></ContentControl>
 
-            <local:UpperBarViewVehicle Grid.Row="0" Margin="30,10,0,0" DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <interactivity:Interaction.Triggers>
-                    <interactivity:EventTrigger EventName="MagnifierPress">
-
-                        <mvvm:InvokeCommandAction Command="{Binding AssistCommand}" 
-                                               TriggerParameterPath="AssistParameters" />
-
-                    </interactivity:EventTrigger>
-                    <interactivity:EventTrigger EventName="DataSearchTextBoxChanged">
-                        <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
-                                               TriggerParameterPath="ChangedValuesObjects"/>
-                    </interactivity:EventTrigger>
-
-                    <interactivity:EventTrigger EventName="DataFieldChanged">
-                        <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
-                    </interactivity:EventTrigger>
-
-                </interactivity:Interaction.Triggers>
-            </local:UpperBarViewVehicle>
             <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
-               
+
 
 
                 <syncfusion:TabItemExt x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:Grid>
                         <i:Grid.ColumnDefinitions>
-                            <i:ColumnDefinition Width="auto"/>
-                            <i:ColumnDefinition Width="auto"/>
+                            <i:ColumnDefinition Width="50*"/>
+                            <i:ColumnDefinition Width="50*"/>
                         </i:Grid.ColumnDefinitions>
                         <i:Grid.RowDefinitions>
                             <i:RowDefinition/>
@@ -106,7 +87,7 @@
                                         <RowDefinition></RowDefinition>
                                         <RowDefinition></RowDefinition>
                                         <RowDefinition></RowDefinition>
-
+                                        <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <!--
                                     <itemsControl:DataPickerItemsControl DataSource="{i:Binding PickerDataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -184,8 +165,8 @@
                                                            IsReadOnlySecond="True"
                                                            ButtonImage="/MasterModule;component/Images/search.png"
                                                            />
-                                    <kc:DataFieldCheckBox Grid.Row="5" Content="{Binding lvehiculoproprio, Source={StaticResource ResourceLanguage}}"
-                                                          Margin="10,0,0,0"
+                                    <kc:DataFieldCheckBox i:Grid.Row="5" Content="{Binding lvehiculoproprio, Source={StaticResource ResourceLanguage}}"
+                                                          Margin="7,1,3,29"
                                                           kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                           kc:ControlExt.DataSourcePath="PROPIO">
                                         <interactivity:Interaction.Triggers>
@@ -206,15 +187,9 @@
                           -->
                         </i:StackPanel>
                         <i:GroupBox Header="{Binding OtrasInformaciones, Source={StaticResource ResourceLanguage}}" i:Grid.Row="1" i:Grid.Column="1">
-                            <i:StackPanel Orientation="Horizontal">
+                           
 
-                                <kc:DataField LabelText="{Binding lkilometros, Source={StaticResource ResourceLanguage}}" 
-                                                  LabelTextWidth="100"
-                                                  DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  DataSourcePath="km" 
-                                                  ItemChangedCommand="{i:Binding ItemChangedCommand}"
-                                                  TextContentWidth="150"
-                                                  Height="25"/>
+                               
 
                                 <!--
                                     <TextBlock Text="Kilometros">
@@ -288,7 +263,7 @@
                                               TextContentWidth="50"
                                                   Height="25"/>
                                         <kc:DataField LabelText="{Binding lpuertas, Source={StaticResource ResourceLanguage}}" 
-                                              LabelTextWidth="85"
+                                              LabelTextWidth="100"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                  
                                               DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -320,7 +295,7 @@
                                         <kc:DataField LabelText="{Binding lllavemagazino, Source={StaticResource ResourceLanguage}}" 
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                  
-                                                      LabelTextWidth="85"
+                                                      LabelTextWidth="100"
                                               DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="LLAVE2" 
                                               TextContentWidth="50"
@@ -337,7 +312,7 @@
                                                       Height="25"/>
                                     </i:StackPanel>
                                 </i:Grid>
-                            </i:StackPanel>
+                            
                         </i:GroupBox>
                         <i:GroupBox Header="{Binding lhistorialvehiculo, Source={StaticResource ResourceLanguage}}" i:Grid.Row="0" i:Grid.Column="1">
                             <i:Grid>
@@ -594,7 +569,7 @@
                                                    AssistProperties="Code,Name,CommercialName,Nif,Poblacion"
                                                    MagnifierCommand="{i:Binding AssistCommand}"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                   AssistQuery="{Binding AssistDelegaciones, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+ 
                                                    SourceView="{Binding OtherOffice3Dto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </WrapPanel>
                         </GroupBox>
@@ -763,8 +738,8 @@
 
                 </syncfusion:TabItemExt>
                 <syncfusion:TabItemExt x:Name="Mantainance"  Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalContentAlignment="Stretch">
-                   
-                        <vehicleViews:Mantainence>
+
+                    <vehicleViews:Mantainence>
 
                     </vehicleViews:Mantainence>
                 </syncfusion:TabItemExt>

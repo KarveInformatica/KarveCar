@@ -63,7 +63,7 @@ namespace MasterModule.ViewModels
         /// <param name="manager">Region Manager</param>
         public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
         {
-            base.ConfigureAssist();
+            base. ConfigureAssist();
 
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
@@ -330,7 +330,7 @@ namespace MasterModule.ViewModels
         }
             private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
-            /*
+           
             var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
             
             if (value != null)
@@ -468,7 +468,7 @@ namespace MasterModule.ViewModels
                 
                 return true;
             }
-            */
+           
             return true;
         }
         /// <summary>

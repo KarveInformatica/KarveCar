@@ -67,46 +67,8 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
-            <!--
-            <syncfusion:SfDataGrid.Columns>
-                <syncfusion:GridTextColumn HeaderText="Numero" 
-                                       MappingName="Numero" 
-                                       TextAlignment="Left"
-                                       AllowFiltering="True"                                
-                                       FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                       AllowEditing="True"
-                                       AllowGrouping="True"/>
-                
-                <syncfusion:GridTemplateColumn HeaderText="Matricula" MappingName="Matricula"
-                                               FilterPopupStyle="{StaticResource GenericCodeStyle}">
-                    <syncfusion:GridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock FontStyle="Italic"
-                                       FontWeight="SemiBold"
-                                       Padding="2,0"
-                                       Text="{Binding Matricula}" />
-                        </DataTemplate>
-                    </syncfusion:GridTemplateColumn.CellTemplate>
-                    
-                </syncfusion:GridTemplateColumn>
-
-                <syncfusion:GridTextColumn HeaderText="Marca" MappingName="Marca" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Modelo" MappingName="Modelo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Grupo" MappingName="Grupo" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="Oficina" MappingName="Oficina" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-            </syncfusion:SfDataGrid.Columns>
-         -->
+          
         </syncfusion:SfDataGrid>
-       
-        <!--
-        <karveGrid:KarveGridView x:Name="VehiclesSummary" PageSize="25" Grid.IsSharedSizeScope="True"
-                                   ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="RowMouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehiclesSummary, Path=SelectedRow}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </karveGrid:KarveGridView>
-       -->
+      
     </Grid>
 </UserControl>

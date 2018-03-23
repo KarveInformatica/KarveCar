@@ -109,6 +109,7 @@ namespace MasterModule.ViewModels
             get { return OpenItemCommand; }
             set { OpenItemCommand = value; }
         }
+        
         public override void StartAndNotify()
         {
             MessageHandlerMailBox += MessageHandler;

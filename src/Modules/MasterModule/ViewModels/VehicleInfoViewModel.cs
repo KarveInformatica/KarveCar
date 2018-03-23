@@ -18,6 +18,7 @@ using MasterModule.Views.Vehicles;
 using Prism.Commands;
 using Prism.Regions;
 using KarveCommonInterfaces;
+using DataAccessLayer.SQL;
 
 namespace MasterModule.ViewModels
 {
@@ -52,7 +53,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<SupplierSummaryDto> _assistanceAssuranceCompany;
         private ObservableCollection<SupplierSummaryDto> _assistancePolicyAssuranceCompany;
         private ObservableCollection<MaintainanceDto> _maintenaince = new ObservableCollection<MaintainanceDto>();
-
+        
         private INotifyTaskCompletion<ObservableCollection<ElementDto>> _elementLoadNotifyTaskCompletion;
 
         // this is in the vehicle stuff.
@@ -79,6 +80,10 @@ namespace MasterModule.ViewModels
         private ObservableCollection<CompanyDto> _otherOffice1Dto;
         private ObservableCollection<CompanyDto> _otherOffice2Dto = new ObservableCollection<CompanyDto>();
         private ObservableCollection<CompanyDto> _otherOffice3Dto = new ObservableCollection<CompanyDto>();
+        private IEnumerable<BrandVehicleDto> _brandDtos;
+        private IEnumerable<ModelVehicleDto> _modelDtos;
+        private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
+        private IEnumerable<ColorDto> _colorDto;
 
         // This returns the list of activity when asked.
         public ObservableCollection<VehicleActivitiesDto> ActivityDtos
@@ -359,6 +364,7 @@ namespace MasterModule.ViewModels
             _deleteEventHandler+=DeleteEventHandler;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
+
             ActiveSubSystem();
         }
       
@@ -459,9 +465,8 @@ namespace MasterModule.ViewModels
                 }
                 case "FORMAS":
                 {
-                    var formas = await helperDataServices.GetAsyncHelper<FORMAS>(assistQuery);
-                    var paymentFrom = mapper.Map<IEnumerable<FORMAS>,IEnumerable<PaymentFormDto>>(formas);
-                    PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentFrom);
+                    var paymentForm = await helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();    
+                    PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentForm);
                     break;
                 }
                 case "CLIENTES1":
@@ -520,6 +525,33 @@ namespace MasterModule.ViewModels
                     OtherOffice3Dto = new ObservableCollection<CompanyDto>(oficina);
                     break;
                 }
+                   
+                case "COLORFL":
+                    {
+                        var colos = await helperDataServices.GetMappedAllAsyncHelper<ColorDto, COLORFL>();
+                        ColorDtos = new ObservableCollection<ColorDto>(colos);
+                        break;
+                    }
+                case "MARCAS":
+                    {
+                   
+                        var brands = await helperDataServices.GetMappedAllAsyncHelper<BrandVehicleDto, MARCAS>();
+                        BrandDtos = brands;
+                        break;
+                    }
+                case "MODELO":
+                    {
+                        var models = await helperDataServices.GetMappedAllAsyncHelper<ModelVehicleDto, MODELO>();
+                        ModelDtos = models;
+                        break;
+                    }
+                case "GRUPOS":
+                    {
+                        var vehicles = await helperDataServices
+                            .GetMappedAllAsyncHelper<VehicleGroupDto, GRUPOS>();
+                        VehicleGroupDtos = vehicles;
+                        break;
+                    }
                 case "SITUATION":
                 {
                     var sit = await helperDataServices.GetMappedAllAsyncHelper<CurrentSituationDto,SITUACION>();
@@ -540,15 +572,36 @@ namespace MasterModule.ViewModels
                 }
                 case "VENDEDOR":
                 {
-                    var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
-                    IEnumerable<ResellerDto> cli = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<ResellerDto>>
-                        (vendedor);
-                    VendedorDtos = new ObservableCollection<ResellerDto>(cli);
+                    var vendedor = await helperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
+                    VendedorDtos = new ObservableCollection<ResellerDto>(vendedor);
                     break;
                 }
             }
         }
-
+        /// <summary>
+        ///  SupplierAssitQuery
+        /// </summary>
+        public string SupplierAssistQuery
+        {
+            get
+            {
+                QueryStore store = QueryStore.GetInstance();
+                store.AddParam(QueryStore.QueryType.QuerySupplierSummary);
+                return store.BuildQuery();
+            }
+        }
+        /// <summary>
+        ///  SellerAssistQuery.
+        /// </summary>
+        public string SellerAssistQuery
+        {
+            get
+            {
+                QueryStore store = QueryStore.GetInstance();
+                store.AddParam(QueryStore.QueryType.QuerySellerSummary);
+                return store.BuildQuery();
+            }
+        }
         public ObservableCollection<ZonaOfiDto> RoadTaxesOfficeZoneDto
         {
             get
@@ -600,14 +653,8 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        /// <summary>
-        ///  Header 
-        /// </summary>
-        public string Header
-        {
-            set { _header = value; RaisePropertyChanged(); }
-            get { return _header; }
-        }
+        
+        
         
         public string Error => throw new NotImplementedException();
 
@@ -712,6 +759,7 @@ namespace MasterModule.ViewModels
             get { return _assistQueryOwner; }
             set { _assistQueryOwner = value; }
         }
+        
         /// <summary>
         ///  BuyerAssistQuery.
         /// </summary>
@@ -794,7 +842,7 @@ namespace MasterModule.ViewModels
                     MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
                 }
                 RevisionObject = InitRevisionComposedFieldObjects();
-                EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
+             //  EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
                 ActiveSubSystem();
             }
             srStopwatch.Stop();
@@ -905,6 +953,66 @@ namespace MasterModule.ViewModels
             get { return _otherOffice3Dto; }
             set { _otherOffice3Dto = value; RaisePropertyChanged(); }
         }
+        /// <summary>
+        ///  BrandDtos. Brand Dto.
+        /// </summary>
+        public IEnumerable<BrandVehicleDto> BrandDtos
+        {
+            get
+            {
+                return _brandDtos;
+            }
+            set
+            {
+                _brandDtos = value;
+                RaisePropertyChanged("BrandDtos");
+            }
+        }
+        /// <summary>
+        ///  ModelDtos. Model vehicle dto.
+        /// </summary>
+        public IEnumerable<ModelVehicleDto> ModelDtos
+        {
+            get
+            {
+                return _modelDtos;
+            }
+            set
+            {
+                _modelDtos = value;
+                RaisePropertyChanged("ModelDtos");
+            }
+        }
+        /// <summary>
+        ///  VehicleGroup Dtos.
+        /// </summary>
+        public IEnumerable<VehicleGroupDto> VehicleGroupDtos {
+            get
+            {
+                return _vehicleGroupDtos;
+            }
+            set
+            {
+                _vehicleGroupDtos = value;
+                RaisePropertyChanged("VehicleGroupDtos");
+            }
+        }
+        /// <summary>
+        /// ColorDtos. 
+        /// </summary>
+        public IEnumerable<ColorDto> ColorDtos
+        {
+            get
+            {
+                return _colorDto;
+            }
+            set
+            {
+                _colorDto = value;
+                RaisePropertyChanged("ColorDtos");
+            }
+        }
+
         // move this to the upper interface.
         /// <summary>
         /// Incoming payload

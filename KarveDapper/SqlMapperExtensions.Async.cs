@@ -96,6 +96,7 @@ namespace KarveDapper.Extensions
             return GetAllAsyncImpl<T>(connection, transaction, commandTimeout, sql, type);
         }
 
+      
         private static async Task<IEnumerable<T>> GetAllAsyncImpl<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string sql, Type type) where T : class
         {
             var result = await connection.QueryAsync(sql).ConfigureAwait(false);
