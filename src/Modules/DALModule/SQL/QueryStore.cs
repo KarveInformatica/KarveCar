@@ -4,62 +4,17 @@ using System.Text;
 using System.Xml.Serialization;
 using Dapper;
 using NLog;
+using KarveDataServices;
 
 namespace DataAccessLayer.SQL
 {
     // This class has the responsability to memorize all the queries and format properly
     [Serializable]
     [XmlRoot("QueryStore")]
-    public class QueryStore
+    public class QueryStore: IQueryStore
     {
         protected Logger Logger = LogManager.GetCurrentClassLogger();
-        public enum QueryType
-        {
-            QueryCity,
-            QueryMarket,
-            QueryCompany,
-            QueryLanguage,
-            QueryCreditCard,
-            QueryZone,
-            QueryOfficeZone,
-            QuerySeller,
-            QueryOffice,
-            QueryActivity,
-            QueryProvince,
-            QueryPaymentForm,
-            QueryChannel,
-            QueryClientType,
-            QueryRentingUse,
-            QueryClientSummary,
-            QueryClientContacts,
-            QueryClient1,
-            QueryClient2,
-            DeleteClientContacts,
-            DeleteClientBranches,
-            DeleteClientVisits,
-            QueryPagedClient,
-            QueryClientPagedSummary,
-            QueryPagedCompany,
-            QueryCompanySummary,
-            QueryCountry,
-            QueryOffices,
-            QueryOfficeSummary,
-            QueryOfficeSummaryByCompany,
-            HolidaysByOffice,
-            HolidaysDate,
-            QueryCurrency,
-            QueryVehicleSummary, 
-            QuerySupplierSummary,
-            QueryVehicleSummaryPaged,
-            QuerySupplierSummaryPaged,
-            QueryBrokerSummary,
-            QueryBroker,
-            QuerySellerSummary,
-            QueryInvoiceSummary, 
-            QueryInvoiceSummaryExtended,
-            QueryInvoiceSummaryPaged,
-            QueryClientSummaryExt
-        }
+        
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
             {
@@ -172,7 +127,8 @@ namespace DataAccessLayer.SQL
                 "left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
                 "inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
                 "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" },
-            {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" }
+            {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" },
+            {QueryType.QueryCommissionAgentSummary, "SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, PROVINCIA.CP as Zip, POBLACION as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"}
             
         };
         

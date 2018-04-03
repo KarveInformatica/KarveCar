@@ -223,6 +223,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lprovincecode {
+            get {
+                return ResourceManager.GetString("lprovincecode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inicio.
         /// </summary>
         public static string lrapmnInicio {

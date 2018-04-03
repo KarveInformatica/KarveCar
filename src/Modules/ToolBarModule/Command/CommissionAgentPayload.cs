@@ -1,19 +1,19 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ToolBarModule.Command
 {
     /// <summary>
     /// Internal class to handle the payload from the commission handler.
     /// </summary>
-    internal class CommissionAgentPayload: ToolbarDataPayload
+    internal class CommissionAgentPayload : ToolbarDataPayload
     {
         private DataPayLoad _payload;
         private INotifyTaskCompletion<DataPayLoad> _initializationNotifier;
@@ -33,7 +33,11 @@ namespace ToolBarModule.Command
             EventManager = manager;
             _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleCommissionAgentSave(_payload), ExecutedPayloadHandler);
         }
-
+        /// <summary>
+        /// Handle the save or update of data payload.
+        /// </summary>
+        /// <param name="payLoad">Payload to be saved</param>
+        /// <returns></returns>
         protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
         {
             return await HandleCommissionAgentSave(payLoad);
@@ -43,72 +47,52 @@ namespace ToolBarModule.Command
         {
             eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
         }
-        
+       
         private async Task<DataPayLoad> HandleCommissionAgentSave(DataPayLoad payLoad)
         {
+           
             bool result = false;
             bool isInsert = false;
             ICommissionAgent agent = (ICommissionAgent)payLoad.DataObject;
-            if (agent== null)
+            if (agent == null)
             {
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
                 OnErrorExecuting?.Invoke(message);
             }
-       
 
             switch (payLoad.PayloadType)
             {
-                case DataPayLoad.Type.Update:
-                {
-                    result = await _commissionAgentDataServices.SaveChangesCommissionAgent(agent).ConfigureAwait(false);
-                    break;
-                }
                 case DataPayLoad.Type.Insert:
-                {
-                    isInsert = true;
-                    result = await _commissionAgentDataServices.SaveCommissionAgent(agent).ConfigureAwait(false);
-                    break;
-                }
+                case DataPayLoad.Type.Update:
+                    {
+                        result = await _commissionAgentDataServices.SaveCommissionAgent(agent).ConfigureAwait(false);
+                        break;
+                    }
                 case DataPayLoad.Type.UpdateInsertGrid:
-                {
-                    isInsert = true;
-                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
-                    
-                    if (branches != null)
-                    {
-                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<BranchesDto, COMI_DELEGA>(branches).ConfigureAwait(false);
-                    }
-                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
-                    if (contactsDto != null)
-                    {
-                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<ContactsDto, CONTACTOS_COMI>(contactsDto).ConfigureAwait(false);
-                    }
-                    break;
-                }
                 case DataPayLoad.Type.DeleteGrid:
-                {
-                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
-
-                    if (branches != null)
                     {
-                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, COMI_DELEGA>(branches);
-
-                    }
-                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
-                    if (contactsDto != null)
-                    {
-                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, CONTACTOS_COMI>(contactsDto);
-                    }
-                    break;
-                }
-
+                       
+                        result = true;
+                        var task1 =  UpdateGridAsync<BranchesDto, COMI_DELEGA>(payLoad);
+                        var task2 =  UpdateGridAsync<ContactsDto, CONTACTOS_COMI>(payLoad);
+                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
+                        if (branches!=null)
+                        {
+                            await task1;
+                        }
+                        else
+                        {
+                            await task2;
+                        }
+                        break;
+                    }  
             }
-      
+
             if (result)
             {
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-           
+
             }
             else
             {
@@ -121,7 +105,7 @@ namespace ToolBarModule.Command
             return payLoad;
         }
 
-       
-        
+
+
     }
 }

@@ -22,17 +22,17 @@ namespace MasterModule.ViewModels
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
         public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, 
+            IAssistService assistService,
             IDialogService dialogService,
-            IRegionManager manager) : base(eventManager, configurationService,dialogService,dataServices, manager)
+            
+            IRegionManager manager) : base(eventManager, configurationService,dataServices,dialogService,assistService, manager)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             ShowOfficesCommand = new DelegateCommand<object>(ShowOffices);
             AssistExecuted += CompanyAssistResult;
-            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
-            
-           // DataObject = _currentCompany;
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);    
             ActiveSubSystem();
         }
         #endregion

@@ -44,7 +44,7 @@ namespace KarveControls
                 typeof(RoutedEventHandler),
                 typeof(DataDatePicker));
 
-        private bool initState = true;
+       
 
         /// <summary>
         /// Event class of the event picker.

@@ -53,12 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAsyncInitialization.cs" />
+    <Compile Include="IAssistService.cs" />
     <Compile Include="ICreateRegionManagerScope.cs" />
     <Compile Include="IDialogService.cs" />
     <Compile Include="IDisposeEvents.cs" />
     <Compile Include="ILinqToTree.cs" />
-    <Compile Include="IMagnifierHandler.cs" />
     <Compile Include="IRegionManagerAware.cs" />
     <Compile Include="IValidationChain.cs" />
     <Compile Include="MessageDialogResult.cs" />

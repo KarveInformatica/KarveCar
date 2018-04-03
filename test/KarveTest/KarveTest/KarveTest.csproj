@@ -145,6 +145,7 @@
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
+    <Compile Include="KarveDapper\TestKarveDapperAsync.cs" />
     <Compile Include="KarveDataServices\TestKarveDataServices.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />
     <Compile Include="Mock\MockAssistDataServices.cs" />
@@ -167,7 +168,10 @@
     <Compile Include="Mock\MockSupplierDataServices.cs" />
     <Compile Include="Mock\MockVehicleDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TestAssistService.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
+    <Compile Include="Services\TestDto.cs" />
+    <Compile Include="Services\TestDtoFactory.cs" />
     <Compile Include="TestBootStrapper.cs" />
     <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCultureSwitcherViewModel.cs" />
     <Compile Include="ViewModels\TestFareInfoViewModel.cs" />
+    <Compile Include="ViewModels\TestGridChangeViewModel.cs" />
     <Compile Include="ViewModels\TestInvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
     <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
@@ -189,6 +194,10 @@
     <Compile Include="ViewModels\TestViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\AssistModule\AssistModule.csproj">
+      <Project>{45702527-8a2e-451f-9fe7-c28f0fe5fafa}</Project>
+      <Name>AssistModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>

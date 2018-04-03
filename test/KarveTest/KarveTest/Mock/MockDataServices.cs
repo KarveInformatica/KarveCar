@@ -75,7 +75,7 @@ namespace KarveTest.Mock
         /// <returns></returns>
         public IAssistDataService GetAssistDataService()
         {
-            throw new MockAssistDataServices();
+            return new MockAssistDataServices();
         }
         /// <summary>
         ///  Get office data services
@@ -106,6 +106,11 @@ namespace KarveTest.Mock
         }
 
         public IInvoiceDataServices GetInvoiceDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAssistDataService GetAssistDataServices()
         {
             throw new NotImplementedException();
         }

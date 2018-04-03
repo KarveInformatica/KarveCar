@@ -2203,4 +2203,13 @@
   <data name="lultmodi" xml:space="preserve">
     <value>Last Modification</value>
   </data>
+  <data name="lprovinceCode" xml:space="preserve">
+    <value>Province Code</value>
+  </data>
+  <data name="lfecha" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="lname" xml:space="preserve">
+    <value>Name</value>
+  </data>
 </root>

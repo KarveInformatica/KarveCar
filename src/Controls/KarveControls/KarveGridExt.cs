@@ -266,9 +266,10 @@ namespace KarveControls
         }
 
         /// <summary>
-        ///  This function save the parameters.
+        /// Serialize and save in a string the grid parameters.
         /// </summary>
-        /// <param name="grid">Grid parameters.</param>
+        /// <param name="grid">Data Grid to be saved.</param>
+        /// <param name="serializedString">String to be serialized.</param>
         private static void SaveParameters(SfDataGrid grid, out string serializedString)
         {
             var dependencyObject = grid as DependencyObject;

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
-    ///  DeliveringForm
+    ///  DeliveringForm. Pending Delivering.
     /// </summary>
-   public class DeliveringFormDto
+   public class DeliveringFormDto: BaseDto
     {
       public  byte Codigo { set; get; }
       public  string Nombre { set; get; }

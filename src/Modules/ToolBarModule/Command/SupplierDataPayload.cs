@@ -6,6 +6,8 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using NLog;
+using System.Collections.Generic;
+
 namespace ToolBarModule.Command
 {
     internal class SupplierDataPayload : ToolbarDataPayload
@@ -16,8 +18,8 @@ namespace ToolBarModule.Command
         public new event ErrorExecuting OnErrorExecuting;
 
         private Logger log = LogManager.GetCurrentClassLogger();
-        
-        
+
+
         /// <summary>
         /// This execute the payload and notify the event manager
         /// </summary>
@@ -27,15 +29,15 @@ namespace ToolBarModule.Command
         public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
 
-            _dataServices= services.GetSupplierDataServices();
+            _dataServices = services.GetSupplierDataServices();
             _payload = payLoad;
             EventManager = manager;
             DataServices = services;
             _initializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(_payload), ExecutedPayloadHandler);
-           
+
 
         }
-       
+
         protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
         {
             bool result = false;
@@ -60,50 +62,58 @@ namespace ToolBarModule.Command
             switch (payLoad.PayloadType)
             {
                 case DataPayLoad.Type.Update:
-                {
-                    result = await DataServices.GetSupplierDataServices().SaveChanges(supplierData)
-                        .ConfigureAwait(false);
+                    {
+                        result = await DataServices.GetSupplierDataServices().SaveChanges(supplierData)
+                            .ConfigureAwait(false);
                         break;
-                }
+                    }
                 case DataPayLoad.Type.Insert:
-                {
-                    isInsert = true;
-                    result = await DataServices.GetSupplierDataServices().Save(supplierData).ConfigureAwait(true);
-                    break;
-                }
+                    {
+                        isInsert = true;
+                        result = await DataServices.GetSupplierDataServices().Save(supplierData).ConfigureAwait(true);
+                        break;
+                    }
                 case DataPayLoad.Type.UpdateInsertGrid:
-                {
-                    isInsert = true;
-                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
-                   // this shall be moved to supplier dataservices.
-                    if (branches != null)
                     {
-                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<BranchesDto, ProDelega>(branches).ConfigureAwait(false);
+
+
+                        result = true;
+                        var task1 = UpdateGridAsync<BranchesDto, ProDelega>(payLoad);
+                        var task2 = UpdateGridAsync<ContactsDto, ProContactos>(payLoad);
+                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
+                        if (branches != null)
+                        {
+                            await task1;
+                        }
+                        else
+                        {
+                            await task2;
+                        }
+                        break;
                     }
-                    ContactsDto contactsDto= payLoad.RelatedObject as ContactsDto;
-                    if (contactsDto != null)
-                    {
-                        result = await DataServices.GetHelperDataServices().ExecuteInsertOrUpdate<ContactsDto, ProContactos>(contactsDto).ConfigureAwait(false);
-                    }
-                    break;
-                }
                 case DataPayLoad.Type.DeleteGrid:
-                {
-                    BranchesDto branches = payLoad.RelatedObject as BranchesDto;
-                    
-                    if (branches != null)
                     {
-                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, ProDelega>(branches);
-                        
+                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
+
+                        if (branches != null)
+                        {
+                            foreach (var branch in branches)
+                            {
+                                if (branch.IsDirty)
+                                {
+                                    // a delete bulk.
+                                    result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, ProDelega>(branch);
+                                }
+                            }
+                        }
+                        ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
+                        if (contactsDto != null)
+                        {
+                            result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, ProContactos>(contactsDto);
+                        }
+                        break;
                     }
-                    ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
-                    if (contactsDto != null)
-                    {
-                        result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, ProContactos>(contactsDto);
-                    }
-                    break;
-                }
-               
+
             }
             if (result)
             {

@@ -22,6 +22,7 @@ namespace DataAccessLayer.Crud.Company
         private IMapper _mapper;
         private IHelperData _helperBase;
         private long _currentPos;
+        private QueryStoreFactory _queryStoreFactory;
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -32,6 +33,7 @@ namespace DataAccessLayer.Crud.Company
             _mapper = MapperField.GetMapper();
             _currentPos = 0;
             _helperBase = new HelperBase();
+            _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
         ///  Load all the companies present in the system
@@ -51,7 +53,7 @@ namespace DataAccessLayer.Crud.Company
         ///  Load just a company with a code primary key value
         /// </summary>
         /// <param name="code">Identifier of the company</param>
-        /// <returns></returns>
+        /// <returns>The company data transfer object.</returns>
         public async Task<CompanyDto> LoadValueAsync(string code)
         {
             CompanyDto companyDto = new CompanyDto();
@@ -62,7 +64,7 @@ namespace DataAccessLayer.Crud.Company
                 if (value != null)
                 {
                     SqlMapper.GridReader reader = null;
-                    QueryStore store = CreateQueryStore(companyDto);
+                    IQueryStore store = CreateQueryStore(companyDto);
                     string multipleQuery = store.BuildQuery();
                     reader = await connection.QueryMultipleAsync(multipleQuery);
                     // set the helpers and maps the offices that belong to a company.
@@ -72,15 +74,20 @@ namespace DataAccessLayer.Crud.Company
             }
             return companyDto;
         }
-
+        /// <summary>
+        /// Load at most N async values.
+        /// </summary>
+        /// <param name="n">Number of values from the current position to be loaded</param>
+        /// <param name="back">offset, it can be positive or negative</param>
+        /// <returns></returns>
         public async Task<IEnumerable<CompanyDto>> LoadValueAtMostAsync(int n, int back = 0)
         {
 
             IEnumerable<CompanyDto> companyDto = new List<CompanyDto>();
-            QueryStore store = new QueryStore();
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                store.AddParamRange(QueryStore.QueryType.QueryPagedCompany, _currentPos, n);
+                store.AddParamRange(QueryType.QueryPagedCompany, _currentPos, n);
                 _currentPos += n + back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<SUBLICEN>(query);
@@ -126,16 +133,23 @@ namespace DataAccessLayer.Crud.Company
             dto.Offices =  _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(listOfOffices);
 
         }
-        private QueryStore CreateQueryStore(CompanyDto company)
+        /// <summary>
+        ///  Create a local query store.
+        /// </summary>
+        /// <param name="company">Company data transfer object used to be inserted in the query store.</param>
+        /// <returns>Return an interface of the query store.</returns>
+        private IQueryStore CreateQueryStore(CompanyDto company)
         {
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.QueryCity, company.City.Code);
-            store.AddParam(QueryStore.QueryType.QueryCountry, company.Country.Code);
-            store.AddParam(QueryStore.QueryType.QueryProvince, company.Province.Code);
-            store.AddParam(QueryStore.QueryType.QueryOffice, company.Code);
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryCity, company.City.Code);
+            store.AddParam(QueryType.QueryCountry, company.Country.Code);
+            store.AddParam(QueryType.QueryProvince, company.Province.Code);
+            store.AddParam(QueryType.QueryOffice, company.Code);
             return store;
         }
-        
+        /// <summary>
+        ///  Return the helper. The helper is used to bind auxiliar datas for the dualsearchbox.
+        /// </summary>
         public IHelperData Helper
         {
             get { return _helperBase; }

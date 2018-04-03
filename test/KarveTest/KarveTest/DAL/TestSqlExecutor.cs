@@ -36,8 +36,30 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
+        [Test]
+        public void Should_Open_NewDatabaseConnection()
+        {
+            // arrange
+            Assert.NotNull(_sqlExecutor);
+            // act
+            try
+            {
+                IDbConnection connection = null;
+                using (connection = _sqlExecutor.OpenNewDbConnection())
+                {
 
-        
+                    Assert.NotNull(connection);
+                    Assert.AreEqual(ConnectionState.Open,connection.State);
+                }
+                Assert.AreEqual(connection.State, ConnectionState.Closed);
+            } catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+                
+        }
+
 
         [Test]
         public void Should_Open_Working_WithIn_Transaction_Scope_Working()

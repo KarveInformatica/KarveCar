@@ -91,6 +91,41 @@ namespace DataAccessLayer.Logic
             return dto;
         }
     }
+
+    public class PercargosConverter : ITypeConverter<PERCARGOS, PersonalPositionDto>
+    {
+        /// <summary>
+        ///  Convert a PERCARGO to a Data Transfer Object.
+        /// </summary>
+        /// <param name="source">Entity source</param>
+        /// <param name="destination">Destination data transfer object</param>
+        /// <param name="context">Resolution context</param>
+        /// <returns></returns>
+        public PersonalPositionDto Convert(PERCARGOS source, PersonalPositionDto destination, ResolutionContext context)
+        {
+            PersonalPositionDto position = new PersonalPositionDto();
+            position.Code = source.CODIGO;
+            position.Name = source.NOMBRE;
+            position.LastModification = source.ULTMODI;
+            position.User = source.USUARIO;
+            return position;
+        }
+    }
+
+    public class PersonalPositioDtoConverter : ITypeConverter<PersonalPositionDto, PERCARGOS>
+    {
+        public PERCARGOS Convert(PersonalPositionDto source, PERCARGOS destination, ResolutionContext context)
+        {
+            PERCARGOS percargos = new PERCARGOS();
+            percargos.CODIGO = source.Code;
+            percargos.NOMBRE = source.Name;
+            percargos.ULTMODI = source.LastModification;
+            percargos.USUARIO = source.User;
+            return percargos;
+        }
+    }
+
+
     /// <summary>
     /// POCO to Dto converter for the commission contact domain object
     /// </summary>
@@ -125,15 +160,27 @@ namespace DataAccessLayer.Logic
             BranchesDto branchesDto = new BranchesDto();
             branchesDto.BranchId = source.cldIdDelega.ToString();
             branchesDto.Branch = source.cldDelegacion;
-            branchesDto.Province.Code = source.PROV.SIGLAS;
-            branchesDto.Province.Name = source.PROV.PROV;
-            branchesDto.Province.Country = source.PROV.PAIS;
+            if (source.PROV != null)
+            {
+                branchesDto.Province = new ProvinciaDto();
+                branchesDto.Province.Code = source.PROV.SIGLAS;
+                branchesDto.Province.Name = source.PROV.PROV;
+                branchesDto.Province.Country = source.PROV.PAIS;
+                branchesDto.ProvinceName = source.PROV.PROV;
+                branchesDto.Zip = source.PROV.CP;
+               
+            }
+            branchesDto.Zip = source.cldCP;
+            branchesDto.ProvinceId = source.cldIdProvincia;
             branchesDto.Address = source.cldDireccion1;
             branchesDto.Address2 = source.cldDireccion2;
             branchesDto.Phone = source.cldTelefono1;
             branchesDto.Phone2 = source.cldTelefono2;
             branchesDto.Email = source.cldEMail;
             branchesDto.City = source.cldPoblacion;
+            branchesDto.Fax = source.cldFax;
+            branchesDto.User = source.USUARIO;
+            branchesDto.LastModification = source.ULTMODI;
             return branchesDto;
         }
     }
@@ -591,6 +638,7 @@ namespace DataAccessLayer.Logic
             comiContact.MOVIL = source.Movil;
             comiContact.FAX = source.Fax;
             comiContact.EMAIL = source.Email;
+            comiContact.TELEFONO = source.Telefono;
             return comiContact;
         }
     }
@@ -685,7 +733,8 @@ namespace DataAccessLayer.Logic
             dest.cldDelegacion = source.Branch;
             dest.cldDireccion1 = source.Address;
             dest.cldDireccion2 = source.Address2;
-
+            dest.cldIdProvincia = source.ProvinceId;
+            dest.cldCP = source.Zip;
             dest.cldEMail = source.Email;
             if (string.IsNullOrEmpty(idComi))
             {
@@ -695,10 +744,10 @@ namespace DataAccessLayer.Logic
             {
                 dest.cldIdCOMI = idComi;
             }
-            if (source.Province != null)
-            {
-                dest.cldIdProvincia = source.Province.Code;
-            }
+            dest.cldPoblacion = source.City;
+            dest.cldTelefono1 = source.Phone;
+            dest.cldTelefono2 = source.Phone2;
+            dest.cldFax = source.Fax;
             dest.cldPoblacion = source.City;
             dest.cldIdDelega = int.Parse(source.BranchId);
             return dest;
@@ -814,7 +863,8 @@ namespace DataAccessLayer.Logic
             cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
             cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
             cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
-
+            cfg.CreateMap<ComisioDto, COMISIO>();
+            cfg.CreateMap<COMISIO, ComisioDto>();
             cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
             cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
             cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
@@ -1011,28 +1061,40 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<GRID_SERIALIZATION, GridSettingsDto>().ConvertUsing(src =>
                 {
                     var model = new GridSettingsDto();
-                    model.GridIdentifier = src.GRID_ID;
-                    model.GridName = src.GRID_NAME;
-                    if (src.SERILIZED_DATA != null)
+    
+                     if (src!=null)
                     {
-                        model.XmlBase64 = src.SERILIZED_DATA;
+                        model.GridIdentifier = src.GRID_ID;
+                        model.GridName = src.GRID_NAME;
+                        if (src.SERILIZED_DATA != null)
+                        {
+                         model.XmlBase64 = src.SERILIZED_DATA;
+                        }
                     }
                     return model;
                 });
                 cfg.CreateMap<GridSettingsDto, GRID_SERIALIZATION>().ConvertUsing(src =>
                 {
                     var model = new GRID_SERIALIZATION();
-                    model.GRID_ID = src.GridIdentifier;
-                    model.GRID_NAME = src.GridName;
-                    model.SERILIZED_DATA = src.XmlBase64;
+                    if (src != null)
+                    {
+                        model.GRID_ID = src.GridIdentifier;
+                        model.GRID_NAME = src.GridName;
+                        model.SERILIZED_DATA = src.XmlBase64;
+                    }
                     return model;
                 });
 
                 cfg.CreateMap<VEHI_ACC, VehicleToolDto>().ConvertUsing(src =>
                 {
                     var model = new VehicleToolDto();
-                    model.Name = src.NOM_ACC;
-                    model.Code = src.COD_ACC.ToString();
+
+                    if (src != null)
+                    {
+                        model = new VehicleToolDto();
+                        model.Name = src.NOM_ACC;
+                        model.Code = src.COD_ACC.ToString();
+                    }
                     return model;
                 });
                 cfg.CreateMap<VehicleToolDto, VEHI_ACC>().ConvertUsing(src =>

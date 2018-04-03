@@ -1,25 +1,17 @@
-﻿using System;
+﻿using KarveDataServices;
+using System;
 using System.Runtime.Serialization;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.Mock
 {
     [Serializable]
-    internal class MockAssistDataServices : Exception
+    internal class MockAssistDataServices : IAssistDataService
     {
         public MockAssistDataServices()
         {
         }
-
-        public MockAssistDataServices(string message) : base(message)
-        {
-        }
-
-        public MockAssistDataServices(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MockAssistDataServices(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+   
+        public IAssistMapper<BaseDto> Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

@@ -237,7 +237,6 @@
     <Compile Include="Commands\Generic\RelayCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
-    <Compile Include="Logic\Generic\CloseWindowLogic.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
     <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
     <Compile Include="Properties\Resources.ca-ES.Designer.cs">
@@ -526,6 +525,10 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssistModule\AssistModule.csproj">
+      <Project>{45702527-8a2e-451f-9fe7-c28f0fe5fafa}</Project>
+      <Name>AssistModule</Name>
+    </ProjectReference>
     <ProjectReference Include="Controls\KarveControls\KarveControls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveControls</Name>

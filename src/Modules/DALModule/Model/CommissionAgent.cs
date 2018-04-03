@@ -247,6 +247,8 @@ namespace DataAccessLayer.Model
         private IEnumerable<VisitsDto> _visitDto = new List<VisitsDto>();
         private IEnumerable<POBLACIONES> _poblaciones;
 
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
         #region Properties
         /// <summary>
         ///  Province Dto.
@@ -397,24 +399,38 @@ namespace DataAccessLayer.Model
         }
 
 
-
+        private ComisioDto Convert(COMISIO comisio)
+        {
+            var dto = new ComisioDto();
+            if (_mapper != null)
+            {
+                dto = _mapper.Map<ComisioDto>(comisio);
+            }
+            return dto;
+        }
+        private COMISIO ConvertBack(ComisioDto comisio)
+        {
+            var c = new COMISIO();
+            if (_mapper!=null)
+            {
+                c = _mapper.Map<COMISIO>(comisio);
+            }
+            return c;
+        }
 
         /// <summary>
         /// This load the single value.
         /// <returns>This returns a bool value</returns>
         /// </summary>
-        public object Value
+        public ComisioDto Value
         {
             set
             {
-                /* Evaluating if it is needed convert the mapper to ComisioDto*
-                 * ComisioDto dto = Mapper.Configuration
-                 */
-                _currentComisio = (COMISIO)value;
+                _currentComisio = ConvertBack(value);
                 isChanged = true;
                 RaisePropertyChanged();
             }
-            get { return _currentComisio; }
+            get { return Convert(_currentComisio); }
         }
 
 
@@ -604,7 +620,7 @@ namespace DataAccessLayer.Model
                                 branch.PROV = prov;
                                 return branch;
                             }, splitOn: "SIGLAS");
-                        // DelegationDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
+                        DelegationDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
                         string visitas = string.Format(_queryVisitas, _currentComisio.NUM_COMI);
                         _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco, CONTACTOS_COMI, TIPOVISITAS, VENDEDOR, VisitasComiPoco>(visitas,
                             (visita, contactos, tipoVisitas, vendedor) =>
@@ -686,7 +702,7 @@ namespace DataAccessLayer.Model
                     {
                         
                         logger.Info("Cannot open database connection while saving " + ex.Message);
-                        throw new CommissionAgentException(ex.Message);
+                        throw new DataAccessLayerException(ex.Message, ex);
                     }
                     finally
                     {
@@ -937,7 +953,8 @@ namespace DataAccessLayer.Model
         }
 
         public bool HasErrors { get; }
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        // public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         public void AcceptChanges()
         {
             throw new NotImplementedException();

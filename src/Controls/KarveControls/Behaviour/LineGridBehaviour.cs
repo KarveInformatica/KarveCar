@@ -200,7 +200,7 @@ namespace KarveControls.Behaviour
                         }
                         catch (ResourceReferenceKeyNotFoundException ex)
                         {
-                            // we skip the value to find.
+                            throw new LineGridUIException("Autogenerate Columns", ex);
                         }
                     }
                 }

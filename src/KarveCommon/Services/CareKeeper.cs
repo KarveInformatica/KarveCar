@@ -2,6 +2,7 @@
 using KarveCommon.Command;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Windows;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -11,32 +12,28 @@ namespace KarveCommon.Services
     public class CareKeeper : ICareKeeperService
     {
         private CommandHistory _history;
-        private DataPayLoad _payLoad;
+        private Queue<DataPayLoad> _payLoad; 
 
-        private enum State
-            {
-             Init, Scheduling, Executing
-        };
-
-        private State _currentState;
         private bool _scheduledPayLoad;
-        //private IDictionary<string, DataPayLoad> dictionary = new Dictionary<string, DataPayLoad>();
-        // object path
+        
         public CareKeeper()
         {
             _history = CommandHistory.GetInstance();
             _scheduledPayLoad = false;
-            _currentState = State.Init;
+            _payLoad = new Queue<DataPayLoad>();
             
         }
         public DataPayLoad Do(CommandWrapper w)
         {
-           _currentState = State.Executing;
-            w.Parameters = _payLoad;
-            _history.DoCommand(w);
-            _scheduledPayLoad = false;
-            _currentState = State.Init;
-            return _payLoad;
+            var currentPayload = new DataPayLoad();
+            if (_payLoad.Count > 0)
+            {
+                currentPayload = _payLoad.Dequeue();
+                w.Parameters = currentPayload;
+                _history.DoCommand(w);
+                _scheduledPayLoad = _payLoad.Count > 0;
+            }
+            return currentPayload;
         }
 
         public void Undo()
@@ -48,33 +45,44 @@ namespace KarveCommon.Services
         {
             _history.Redo();
         }
-        public DataPayLoad GetScheduledPayload()
+        public Queue<DataPayLoad> GetScheduledPayload()
         {
             return _payLoad;
         }
 
         public DataPayLoad.Type GetScheduledPayloadType()
         {
+            var front = _payLoad.FirstOrDefault();
+            var type = DataPayLoad.Type.Any;
+            if (front != null)
+            {
+                type = front.PayloadType;
+            }
             if (_scheduledPayLoad)
             {
-                return _payLoad.PayloadType;   
+                return type;   
             }
             return DataPayLoad.Type.Any;
             
         }
+        public bool EnqueueSingle(DataPayLoad payLoad)
+        {
+            var type = (payLoad.PayloadType == DataPayLoad.Type.Update) || (payLoad.PayloadType ==  DataPayLoad.Type.Insert) || (payLoad.PayloadType ==  DataPayLoad.Type.Delete);
+            
+            return type;
+        }
         public void Schedule(DataPayLoad payload)
         {
-            // pre. 
             if ((payload != null) && (payload.DataObject!=null))
             {
-                if (_currentState != State.Executing)
+                if (EnqueueSingle(payload))
                 {
-                     _payLoad = payload;
-                    _scheduledPayLoad = true;
-                    _currentState = State.Executing;
+                    _payLoad.Clear();
                 }
+                _payLoad.Enqueue(payload);
+                 _scheduledPayLoad = true;
             }
             Contract.Ensures(_payLoad!=null);
         }
     }
-}
+    }

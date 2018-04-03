@@ -67,6 +67,7 @@ namespace DataAccessLayer
             }
             // now instance a map
             Mapper = MapperField.GetMapper();
+           
         }
         /// <summary>
         /// Build the where clause using the supplier id..

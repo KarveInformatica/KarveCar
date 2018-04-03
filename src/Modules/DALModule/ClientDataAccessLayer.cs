@@ -57,7 +57,7 @@ namespace DataAccessLayer
         public async Task<IEnumerable<ClientSummaryExtended>> GetAsyncAllClientSummary()
         {
             QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.QueryClientSummaryExt);
+            store.AddParam(QueryType.QueryClientSummaryExt);
             var query = store.BuildQuery();
             IEnumerable<ClientSummaryExtended> summaryDtos = new List<ClientSummaryExtended>();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
@@ -68,14 +68,13 @@ namespace DataAccessLayer
                 {
                     // init the dapper buffer.
                     QueryStore clientPocoQueryStore = new QueryStore();
-                    clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient1, value.Code);
-                    clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient2, value.Code);
+                    clientPocoQueryStore.AddParam(QueryType.QueryClient1, value.Code);
+                    clientPocoQueryStore.AddParam(QueryType.QueryClient2, value.Code);
                     var q = clientPocoQueryStore.BuildQuery();
                     var pocoReader = await connection.QueryMultipleAsync(q).ConfigureAwait(false);
                     var clients1 = pocoReader.Read<CLIENTES1>(true).FirstOrDefault();
                     var clients2 = pocoReader.Read<CLIENTES2>(true).FirstOrDefault();
-                   
-           
+                  
                 }
             }
             return summaryDtos;
@@ -85,7 +84,7 @@ namespace DataAccessLayer
         /// <summary>
         /// This code return a client model wrapper.
         /// </summary>
-        /// <param name="clientIndentifier"></param>
+        /// <param name="clientIndentifier">Identifier of the client</param>
         /// <returns></returns>
         public async Task<IClientData> GetAsyncClientDo(string clientIndentifier)
         {

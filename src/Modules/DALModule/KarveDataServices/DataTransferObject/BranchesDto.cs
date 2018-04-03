@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -8,9 +10,15 @@ namespace KarveDataServices.DataTransferObject
     [DataContract]
     public class BranchesDto : BaseDto
     {
-        public BranchesDto()
-        { }
+        private ProvinciaDto _provinciadto;
+        private ProvinciaDto _provincia;
 
+        public BranchesDto()
+        {
+            _provincia = new ProvinciaDto();
+           
+            //   ProvinceSource = _provincia;
+        }
         public BranchesDto(BranchesDto lastBranchesDto)
         {
             BranchId = lastBranchesDto.BranchId;
@@ -23,8 +31,9 @@ namespace KarveDataServices.DataTransferObject
             City = lastBranchesDto.City;
             Province = lastBranchesDto.Province;
             BranchKeyId = lastBranchesDto.BranchKeyId;
+            Zip = lastBranchesDto.Zip;
+            Fax = lastBranchesDto.Fax;
         }
-
         [DataMember]
         public string BranchKeyId { get; set; }
         [DataMember]
@@ -44,8 +53,30 @@ namespace KarveDataServices.DataTransferObject
         public string Email { get; set; }
         [DataMember]
         public string City { get; set; }
+        public string Zip { get; set; }
+        public string Fax { get; set; }
         [DataMember]
-        public ProvinciaDto Province { get; set; }
+        public ProvinciaDto Province {
+            get { return _provinciadto; }
+            set
+            {
+                _provinciadto = value;
+                RaisePropertyChanged("ProvinceSource");
+            } 
+        }
+        public string ProvinceName { set; get; }
+        public string ProvinceId { set; get; }
         public string Notes { get; set; }
+        public object ProvinceSource {
+            set
+            {
+               // _provincia = value as ProvinciaDto; 
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _provincia;
+            }
+        }
     }
 }

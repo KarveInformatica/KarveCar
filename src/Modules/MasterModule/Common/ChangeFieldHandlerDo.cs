@@ -18,7 +18,6 @@ namespace MasterModule.Common
     /// </summary>
     public class ChangeFieldHandlerDo<T> : IChangeHandler where T: class
     {
-        private DataSet _assistantDataSet;
         private DataSubSystem _currentSubsystem;
         private T _dataObject;
         private IDictionary<string, string> _viewModelQueries;
@@ -32,16 +31,6 @@ namespace MasterModule.Common
             get => _dataObject;
             set => _dataObject = value;
         }
-
-        /// <summary>
-        /// AssistantDataSet to be used.
-        /// </summary>
-        public DataSet AssistantDataSet
-        {
-            get => _assistantDataSet;
-            set => _assistantDataSet = value;
-        }
-
         /// <summary>
         /// The current subsystem.
         /// </summary>
@@ -50,7 +39,6 @@ namespace MasterModule.Common
             get => _currentSubsystem;
             set => _currentSubsystem = value;
         }
-
         /// <summary>
         /// View model queries.
         /// </summary>
@@ -100,7 +88,7 @@ namespace MasterModule.Common
             payLoad.Subsystem = Subsystem;
             payLoad.HasDictionary = true;
             payLoad.DataDictionary = evDictionary;
-            SqlBuilder.StripTop(ref _viewModelQueries);
+            //SqlBuilder.StripTop(ref _viewModelQueries);
             payLoad.Queries = _viewModelQueries;
             // this now contains an object.
             if (evDictionary.ContainsKey("DataObject"))
@@ -110,7 +98,11 @@ namespace MasterModule.Common
                 _eventManager.NotifyToolBar(payLoad);
             }
         }
-
+        /// <summary>
+        ///  This enforce the change of a view model field.
+        /// </summary>
+        /// <param name="evDictionary">Dictionary of fields coming from the lower level.</param>
+        /// <param name="dataObject">Data fields to be enforced.</param>
         private void EnforceChange(IDictionary<string, object> evDictionary, ref T dataObject)
         {
             string path = "";
@@ -126,8 +118,7 @@ namespace MasterModule.Common
             }
 
         }
-
-    /// <summary>
+        /// <summary>
         /// The action to handle a payload.
         /// </summary>
         /// <param name="payLoad">DataPayload to be saved.</param>
@@ -138,7 +129,6 @@ namespace MasterModule.Common
             Contract.Requires(_eventManager != null, "Data object is not null");
             payLoad.Subsystem = Subsystem;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-         
             _dataObject = payLoad.DataObject as T;
             _eventManager.NotifyToolBar(payLoad);
             

@@ -18,14 +18,25 @@ namespace KarveDataServices.DataTransferObject
     /// A data transfer object shall have no state.
     /// </summary>
     [Serializable]
-    public class BaseDto : NotificationObject, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking 
+    public class BaseDto : NotificationObject, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking, IDisposable 
     {
         // the problem is the _email;
         protected string _email;
 
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
+
         public BaseDto()
         {
+            IsDirty = false;
+            IsNew = false;
+            ErrorsChanged += BaseDto_ErrorsChanged;
         }
+
+        private void BaseDto_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  LastModification
         /// </summary>
@@ -35,9 +46,17 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public string User { set; get; }
         /// <summary>
+        /// Current User.
+        /// </summary>
+        public string CurrentUser { set; get; }
+        /// <summary>
         ///  This specify if the dto is dirty.
         /// </summary>
         public virtual bool IsDirty { set; get; }
+        /// <summary>
+        ///  This is specifies if the dto is new.
+        /// </summary>
+        public virtual bool IsNew { set; get; }
         /// <summary>
         ///  This return the value of the object itself.
         /// </summary>
@@ -55,10 +74,7 @@ namespace KarveDataServices.DataTransferObject
         /// Get if there are validation erros
         /// </summary>
         public virtual bool HasErrors { get; set; }
-        /// <summary>
-        ///  Event handler fired in case any data error.
-        /// </summary>
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        
         /// <summary>
         ///  Confirm the changes.
         /// </summary>
@@ -76,9 +92,17 @@ namespace KarveDataServices.DataTransferObject
         {
         }
         /// <summary>
-        ///  FIXME: thismakes sense?
+        ///  Summary error dispose.
         /// </summary>
-        public ICommand DeleteCommand { get; set; }
-        
+        public void Dispose()
+        {
+            ErrorsChanged -= BaseDto_ErrorsChanged;
+        }
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        ///  ShowCommand. 
+        /// </summary>
+        public ICommand ShowCommand { get; set; }
     }
 }

@@ -28,16 +28,5 @@ namespace KarveTest.Base
             Assert.NotNull(settings);
         }
 
-        [Test]
-        public async Task Shall_Load_And_Save_Settings()
-        {
-         /*   IUserSettings settings = _configurationService.GetUserSettings();
-            IMagnifierSettings magnifierSettings = await settings.UserSettingsLoader.GetMagnifierSettings(2);
-            DateTime system = DateTime.Now;
-           magnifierSettings.ULTIMOD = DateTime.Now.ToLongTimeString();
-           */
-           // magnifierSettings.NOMBRE = "ProviderControlViewModel";
-            //bool saved = await settings.UserSettingsSaver.SaveMagnifierSettings(magnifierSettings);
-        }
     }
 }

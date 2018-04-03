@@ -19,29 +19,17 @@ namespace KarveTest.ViewModels
                 _mockConfigurationService.Object,
                 _mockDataServices.Object,
                 _mockDialogService.Object,
+                _mockAssistService.Object,
                 _mockRegionManager.Object);
         }
         [Test]
         public void Should_Setup_Fare()
         {
-            //  _eventManager.Setup(x=> x.)
-            //  mock.Setup(foo => foo.DoSomething("ping")).Returns(true);
+         
         }
         [Test]
         public void Should_Arrive_A_NewItem_From_Control_ViewModel()
         {
-            /*
-             arrange
-            DataPayLoad payload = new DataPayLoad();
-            string routedName =  "FareModule: 89839";
-            payload.PayloadType = DataPayLoad.Type.Show;
-            payload.Registration = routedName;
-            payload.HasDataObject = false;
-            payload.Subsystem = DataSubSystem.FareSubsystem;
-            payload.DataObject = new FareDto();
-            payload.PrimaryKey = "3000";
-            _fareInfoViewModel.IncomingPayload(null);that we have the same dto
-            */
         }
 
     }

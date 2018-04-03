@@ -33,6 +33,7 @@ namespace KarveTest.ViewModels
             _mockConfigurationService.Object,
             _mockDataServices.Object,
             _mockDialogService.Object,
+            _mockAssistService.Object,
             _mockRegionManager.Object);
             // _serviceConf = base.SetupConfigurationService();
             try

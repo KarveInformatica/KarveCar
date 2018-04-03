@@ -18,25 +18,26 @@ using KarveCommonInterfaces;
 namespace MasterModule.Views
 {
     /// <summary>
-    /// Interaction logic for Clients.xaml
+    /// Info view model provided for clients. 
     /// </summary>
-    ///
+    /// 
     public partial class ClientsInfoView : UserControl, ICreateRegionManagerScope
     {
-        private Stopwatch watch = new Stopwatch();
+        /// <summary>
+        ///  Constructors. 
+        /// </summary>
         public ClientsInfoView()
         {
-                watch.Start();
                 InitializeComponent();
-                watch.Stop();
-                long elapsed = watch.ElapsedMilliseconds;
-                var m = "";
-                
-            
         }
+        /// <summary>
+        ///  Header of the window.
+        /// </summary>
         public string Header
         { set; get; }
-
+        /// <summary>
+        ///  Create a new region manager scope.
+        /// </summary>
         public bool CreateRegionManagerScope => true;
     }
 }

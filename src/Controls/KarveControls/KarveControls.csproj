@@ -219,6 +219,7 @@
     <Compile Include="Behaviour\KarveGridCopyPaste.cs" />
     <Compile Include="Behaviour\LineGridBehaviour.cs" />
     <Compile Include="Behaviour\Grid\NavigationAwareItem.cs" />
+    <Compile Include="Behaviour\LineGridUIException.cs" />
     <Compile Include="Behaviour\PlusMinusBehaviour.cs" />
     <Compile Include="Calendar\AttachedClick.cs" />
     <Compile Include="Calendar\DateMonth.cs" />

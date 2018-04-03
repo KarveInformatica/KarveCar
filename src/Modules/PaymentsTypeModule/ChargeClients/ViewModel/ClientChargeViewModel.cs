@@ -75,7 +75,6 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private DelegateCommand<object> _regionSelectedAction;
         private bool _isVisible = false;
         private IRegionManager _regionManager;
-        private DataTable _bankDataTable;
         private int _selectedIndex;
         private bool movedSelection = false;
 
@@ -230,7 +229,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         private void ChargeBankPopUp()
         {
             viewModel.Title = "Consulta de Bancos";
-            viewModel.QueryTable = _bankDataTable; ;
+            viewModel.QueryTable = new DataTable();
             viewModel.QueryType = GridPopUpViewModel.QueryTypeEnum.Banks;
             ShowRegion(viewModel, false, _regionSelectedAction);
         }
@@ -306,7 +305,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
         {
             viewModel.Title = "Consulta de Bancos";
             viewModel.QueryType = GridPopUpViewModel.QueryTypeEnum.CommissionBank; 
-            viewModel.QueryTable = _bankDataTable;
+            viewModel.QueryTable = new DataTable();
             ShowRegion(viewModel, false, _regionSelectedAction);
 
         }

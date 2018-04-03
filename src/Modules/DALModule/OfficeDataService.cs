@@ -14,13 +14,16 @@ using DataAccessLayer.Crud;
 
 namespace DataAccessLayer
 {
+    /// <summary>
+    ///  DataLayer service for handling the offices.
+    /// </summary>
     internal class OfficeDataService: IOfficeDataServices
     {
         private ISqlExecutor _sqlExecutor;
         private OfficeDataLoader _loader;
         private OfficeDataSaver _saver;
         private OfficeDataDeleter _deleter;
-       
+        private QueryStoreFactory _queryStoreFactory;
         /// <summary>
         ///  Office data service constructor
         /// </summary>
@@ -31,12 +34,13 @@ namespace DataAccessLayer
             _loader = new OfficeDataLoader(sqlExecutor);
             _saver = new OfficeDataSaver(sqlExecutor);
             _deleter = new OfficeDataDeleter(sqlExecutor);
+            _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
         ///  Delete asynchronously an office.
         /// </summary>
         /// <param name="office">Office Entity to delete</param>
-        /// <returns></returns>
+        /// <returns>True o false in case we have an office to delete.</returns>
         public async Task<bool> DeleteOfficeAsyncDo(IOfficeData office)
         {
             return await _deleter.DeleteAsync(office.Value).ConfigureAwait(false);
@@ -48,8 +52,8 @@ namespace DataAccessLayer
         public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
         {
             IEnumerable<OfficeSummaryDto> summaryCollection = new List<OfficeSummaryDto>();
-            QueryStore qs = new QueryStore();
-            qs.AddParam(QueryStore.QueryType.QueryOfficeSummary);
+            IQueryStore qs = _queryStoreFactory.GetQueryStore();
+            qs.AddParam(QueryType.QueryOfficeSummary);
             var query = qs.BuildQuery();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
@@ -65,7 +69,6 @@ namespace DataAccessLayer
         public async Task<IOfficeData> GetAsyncOfficeDo(string identifier)
         {
            OfficeDtos data =  await _loader.LoadValueAsync(identifier).ConfigureAwait(false);
-
             IOfficeData office = new Office();
             if (data != null)
             { 
@@ -78,12 +81,12 @@ namespace DataAccessLayer
         /// This gives all the offices from the company.
         /// </summary>
         /// <param name="companyCode">Code of the company</param>
-        /// <returns></returns>
+        /// <returns>Returns the collection of offices.</returns>
         public async Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
         {
             IEnumerable<OfficeSummaryDto> summaryCollection = new List<OfficeSummaryDto>();
-            QueryStore qs = new QueryStore();
-            qs.AddParam(QueryStore.QueryType.QueryOfficeSummaryByCompany, companyCode);
+            IQueryStore qs = _queryStoreFactory.GetQueryStore();
+            qs.AddParam(QueryType.QueryOfficeSummaryByCompany, companyCode);
             var query = qs.BuildQuery();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
@@ -92,7 +95,7 @@ namespace DataAccessLayer
             return summaryCollection;
         }
         /// <summary>
-        ///  Get an uniqie id for the office table. The id is a new identifier that it can be used for inserting 
+        ///  Get an unique id for the office table. The id is a new identifier that it can be used for inserting 
         ///  a new office in the database
         /// </summary>
         /// <returns>Return a new identifier</returns>
@@ -110,7 +113,7 @@ namespace DataAccessLayer
         /// Get a new office. 
         /// </summary>
         /// <param name="code">Create a new dto for the office.</param>
-        /// <returns></returns>
+        /// <returns>Returns a new office.</returns>
         public IOfficeData GetNewOfficeDo(string code)
         {
             OfficeDtos data = new OfficeDtos();
@@ -125,7 +128,7 @@ namespace DataAccessLayer
         ///  This save/insert asynchronously an office.
         /// </summary>
         /// <param name="client">Office to save.</param>
-        /// <returns></returns>
+        /// <returns>Returns true o false in case of saving office data.</returns>
         public async Task<bool> SaveAsync(IOfficeData client)
         {
             if (client.Valid)

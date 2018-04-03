@@ -35,7 +35,7 @@ namespace KarveDapper.Extensions
             {
                 var key = GetSingleKey<T>(nameof(GetAsync));
                 var name = GetTableName(type);
-        
+
                 sql = $"SELECT * FROM {name} WHERE {key.Name} = ?id?";
                 GetQueries[type.TypeHandle] = sql;
             }
@@ -96,7 +96,7 @@ namespace KarveDapper.Extensions
             return GetAllAsyncImpl<T>(connection, transaction, commandTimeout, sql, type);
         }
 
-      
+
         private static async Task<IEnumerable<T>> GetAllAsyncImpl<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string sql, Type type) where T : class
         {
             var result = await connection.QueryAsync(sql).ConfigureAwait(false);
@@ -115,7 +115,7 @@ namespace KarveDapper.Extensions
             return list;
         }
 
-       
+
         /// <summary>
         /// Inserts an entity into table "Ts" asynchronously using .NET 4.5 Task and returns identity id.
         /// </summary>
@@ -150,7 +150,7 @@ namespace KarveDapper.Extensions
             var keyProperties = KeyPropertiesCache(type);
             var computedProperties = ComputedPropertiesCache(type);
             // our internal database is not able to handle well keys.
-            var allPropertiesExceptKeyAndComputed = allProperties.ToList(); 
+            var allPropertiesExceptKeyAndComputed = allProperties.ToList();
             //.Except(keyProperties.Union(computedProperties)).ToList();
 
             for (var i = 0; i < allPropertiesExceptKeyAndComputed.Count; i++)
@@ -178,7 +178,7 @@ namespace KarveDapper.Extensions
 
             //insert list of entities
             var cmd = $"INSERT INTO {name} ({sbColumnList}) values ({sbParameterList})";
-            
+
             return connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout);
         }
 
@@ -251,7 +251,7 @@ namespace KarveDapper.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<T>> GetAsyncAll<T>(this IDbConnection connection) where T: class
+        public static async Task<IEnumerable<T>> GetAsyncAll<T>(this IDbConnection connection) where T : class
         {
             var type = typeof(T);
             var name = GetTableName(type);
@@ -278,7 +278,7 @@ namespace KarveDapper.Extensions
             IDbTransaction transaction = null,
             int? commandTimeout = null) where T : class
         {
-          
+
             var type = typeof(T);
             var name = GetTableName(type);
             PropertyInfo info = GetKeyAttribute<T>(entityValue);
@@ -288,7 +288,7 @@ namespace KarveDapper.Extensions
             ulong value = 0;
             IEnumerable<T> collection = null;
             int tries = 0;
-            string id = String.Empty;       
+            string id = String.Empty;
             do
             {
                 var byteArray = new byte[8];
@@ -297,13 +297,13 @@ namespace KarveDapper.Extensions
                 try
                 {
                     value = BitConverter.ToUInt64(byteArray, 0);
-                   
+
                 }
                 catch (Exception e)
                 {
                     var v = e;
                 }
-            if (info != null)
+                if (info != null)
                 {
                     // ok this is a unique id. 6 is the default field size.
                     if (fieldSize == 0)
@@ -320,7 +320,7 @@ namespace KarveDapper.Extensions
                     collection = await connection.QueryAsync<T>(statement);
                     ++tries;
                 }
-            } while ((collection.Count() !=0) && (tries < 10));
+            } while ((collection.Count() != 0) && (tries < 10));
             return id;
         }
         /// <summary>
@@ -399,7 +399,7 @@ namespace KarveDapper.Extensions
             var type = typeof(T);
             var keyProperties = KeyPropertiesCache(type);
             var explicitKeyProperties = ExplicitKeyPropertiesCache(type);
-            
+
             var name = GetTableName(type);
             keyProperties.AddRange(explicitKeyProperties);
 
@@ -418,7 +418,7 @@ namespace KarveDapper.Extensions
                     if (i < keyProperties.Count - 1)
                         sb.AppendFormat(" AND ");
                 }
-                if (numEntity < currentList.Count -1)
+                if (numEntity < currentList.Count - 1)
                 {
                     sb.Append(";");
                 }
@@ -427,6 +427,76 @@ namespace KarveDapper.Extensions
             return deleted > 0;
 
         }
+        /// <summary>
+        /// This updates a collection of entities.
+        /// </summary>
+        /// <typeparam name="T">Type of the entities</typeparam>
+        /// <param name="connection">Current connection</param>
+        /// <param name="entityToDelete">Collection of entities to delete</param>
+        /// <param name="transaction">Simple transaction</param>
+        /// <param name="commandTimeout">Command timeout</param>
+        /// <returns></returns>
+        public static async Task<bool> ExecuteUpdateCollectionAsync<T>(this IDbConnection connection, IEnumerable<T> entitiesToUpdate, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+
+            StringBuilder currentBuilder = new StringBuilder();
+            var maxNumber = entitiesToUpdate.Count<T>();
+            T entityToUpdate = entitiesToUpdate.FirstOrDefault<T>();
+            var type = typeof(T);
+
+            if (type.IsArray)
+            {
+                type = type.GetElementType();
+            }
+            else if (type.IsGenericType)
+            {
+                type = type.GetGenericArguments()[0];
+            }
+
+            var keyProperties = KeyPropertiesCache(type);
+            var explicitKeyProperties = ExplicitKeyPropertiesCache(type);
+            if (keyProperties.Count == 0 && explicitKeyProperties.Count == 0)
+                throw new ArgumentException("Entity must have at least one [Key] or [ExplicitKey] property");
+            var name = GetTableName(type);
+            var sb = new StringBuilder();
+            sb.AppendFormat("update {0} set ", name);
+
+            var allProperties = TypePropertiesCache(type);
+            keyProperties.AddRange(explicitKeyProperties);
+            var computedProperties = ComputedPropertiesCache(type);
+            var nonIdProps = allProperties.Except(keyProperties.Union(computedProperties)).ToList();
+
+            var adapter = GetFormatter(connection);
+
+            for (var i = 0; i < nonIdProps.Count; i++)
+            {
+                var property = nonIdProps[i];
+                adapter.AppendColumnNameEqualsValue(sb, property.Name);
+                if (i < nonIdProps.Count - 1)
+                    sb.AppendFormat(", ");
+            }
+            sb.Append(" where ");
+            for (var i = 0; i < keyProperties.Count; i++)
+            {
+                var property = keyProperties[i];
+                adapter.AppendColumnNameEqualsValue(sb, property.Name);
+                if (i < keyProperties.Count - 1)
+                    sb.AppendFormat(" and ");
+            }
+            currentBuilder.Append(sb.ToString());
+            sb.Clear();
+            string value = currentBuilder.ToString();
+            int updated = 0;
+            try
+            {
+                updated = await connection.ExecuteAsync(value, entitiesToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
+            } catch (Exception e )
+            {
+                var msg = e.Message;
+            }
+            return updated > 0;
+        }
+
         /// <summary>
         /// Delete entity in table "Ts" asynchronously using .NET 4.5 Task.
         /// </summary>
@@ -506,6 +576,20 @@ namespace KarveDapper.Extensions
         /// <param name="entityToInsert">The entity to insert.</param>
         /// <returns>The Id of the row created.</returns>
         Task<int> InsertAsync(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert);
+        /// <summary>
+        ///  This is a way to insert a list of connectin.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="tableName"></param>
+        /// <param name="columnList"></param>
+        /// <param name="parameterList"></param>
+        /// <param name="keyProperties"></param>
+        /// <param name="entityArrayToInsert"></param>
+        /// <returns></returns>
+        Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert);
     }
 
 
@@ -527,17 +611,27 @@ namespace KarveDapper.Extensions
         ///  KarveTeam: We keep this simple because it is important. The original dapper.contrib in SQLServer was using queryMultiple.
         public async Task<int> InsertAsync(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
         {
-                    var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});";
+            var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});";
             var affectedRows = await connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
+
+
+            return affectedRows;
+        }
+        public async Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
             
-           
+            var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList});";
+            var affectedRows = await connection.ExecuteAsync(cmd, entityArrayToInsert, transaction, commandTimeout).ConfigureAwait(false);
+
+
             return affectedRows;
         }
 
-       
-        }
 
-        public partial class SqlServerAdapter
+
+    }
+
+    public partial class SqlServerAdapter
     {
         /// <summary>
         /// Inserts <paramref name="entityToInsert"/> into the database, returning the Id of the row created.

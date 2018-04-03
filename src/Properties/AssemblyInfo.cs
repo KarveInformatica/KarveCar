@@ -9,9 +9,9 @@ using System.Windows;
 [assembly: AssemblyDescription("Karve Rent a Car")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Karve Informatica S.L.")]
-[assembly: AssemblyProduct("KarveWinRentACar NG.")]
+[assembly: AssemblyProduct("KarveWin NG.")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Karve Informatica S.L.")]
 [assembly: AssemblyCulture("")]
 
 // Si establece ComVisible en false, los tipos de este ensamblado no estarán visibles 

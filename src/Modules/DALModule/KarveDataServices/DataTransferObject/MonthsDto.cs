@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class MonthsDto
+    public class MonthsDto: BaseDto
     {
         /// <summary>
         ///  Set or get the NUMERO_MES property.

@@ -26,6 +26,7 @@ namespace DataAccessLayer
         private const string PrimaryKey = "CODIINT";
         private const string VehicleDataFile = @"\Data\VehicleFields.xml";
         private VehicleFactory _factory = null;
+       
         /// <summary>
         /// VehicleDataAccessLayer class.
         /// </summary>
@@ -56,17 +57,20 @@ namespace DataAccessLayer
         {
             // TODO: Fix the usage of the query store.
             QueryStore store = new QueryStore();
+
+
+                new QueryStore();
             IEnumerable<VehicleSummaryDto> vehicles = null;
             string value = "";   
             if (pageSize == 0)
             {
-                store.AddParam(QueryStore.QueryType.QueryVehicleSummary);
+                store.AddParam(QueryType.QueryVehicleSummary);
                 value = store.BuildQuery();
             }
             else
             {
                 store.Clear();
-                store.AddParamRange(QueryStore.QueryType.QueryVehicleSummaryPaged, pageSize, offset);
+                store.AddParamRange(QueryType.QueryVehicleSummaryPaged, pageSize, offset);
                 var query = store.BuildQuery();
                 
             }

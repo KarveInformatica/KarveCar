@@ -53,7 +53,7 @@ namespace KarveDataAccessLayer.DAL.Crud
                 var value = cli.OrderByDescending(p => p.NUMERO_CLI).FirstOrDefault();
                 currentCode = value.NUMERO_CLI;
             }
-
+            Assert.AreNotEqual(currentCode, string.Empty);
         }
         [Test]
         public async Task Should_Load_Client_Correctly()

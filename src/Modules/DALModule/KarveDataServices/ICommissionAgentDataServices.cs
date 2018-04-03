@@ -19,12 +19,7 @@ namespace KarveDataServices
         /// <param name="queryDictionary">Query dictionary</param>
         /// <returns></returns>
         Task<ICommissionAgent> GetCommissionAgentDo( string commissionAgentId, IDictionary<string, string> queryDictionary=null);
-        /// <summary>
-        ///  Get the data set of a commission agent.
-        /// </summary>
-        /// <returns>Returns the dataset of a commission agent</returns>
-        Task<DataSet> GetCommissionAgent(IDictionary<string, string> query);
-        
+      
         /// <summary>
         /// Return the commission agent collection
         /// </summary>
@@ -45,12 +40,7 @@ namespace KarveDataServices
         /// <param name="id"></param>
         /// <returns></returns>
         ICommissionAgent GetNewCommissionAgentDo(string id);
-        /// <summary>
-        /// This returns a commmission agent dataset.
-        /// </summary>
-        /// <param name="queryList"></param>
-        /// <returns></returns>
-        Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList);
+        
         /// <summary>
         /// Save commission agent data services.
         /// </summary>
@@ -83,12 +73,7 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         string GetNewId();
-        /// <summary>
-        /// This saves the changes in the commision agent for updating.
-        /// </summary>
-        /// <param name="commissionAgent"></param>
-        /// <returns></returns>
-        Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent);
+        
         /// <summary>
         ///  Return a list of all fields in the commission agent.
         /// </summary>

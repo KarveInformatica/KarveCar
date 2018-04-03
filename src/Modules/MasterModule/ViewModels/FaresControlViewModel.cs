@@ -84,5 +84,15 @@ namespace MasterModule.ViewModels
         public override void DisposeEvents()
         {
         }
+
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void LoadMoreItems(uint count, int baseIndex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

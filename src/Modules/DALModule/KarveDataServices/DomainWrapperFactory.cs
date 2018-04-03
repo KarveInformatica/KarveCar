@@ -55,10 +55,8 @@ namespace KarveDataServices
         public virtual async Task<IClientData> CreateClientAsync(ClientDto dto)
         {
             IClientData data = await _services.GetClientDataServices().GetAsyncClientDo(dto.NUMERO_CLI);
-          
             return data;
         }
-
         /// <summary>
         ///  Create a domain wrapper for the supplier data transfer object.
         /// </summary>

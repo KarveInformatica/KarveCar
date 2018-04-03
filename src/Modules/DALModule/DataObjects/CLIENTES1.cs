@@ -8,7 +8,7 @@ namespace DataAccessLayer.DataObjects
     /// NOTE: This class is generated from a T4 template - you should not modify it manually.
     /// </summary>
     [Table("CLIENTES1")]
-    public class CLIENTES1 
+    public class CLIENTES1
 	{
 	
 	/// <summary>

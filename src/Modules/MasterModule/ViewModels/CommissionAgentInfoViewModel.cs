@@ -31,7 +31,7 @@ namespace MasterModule.ViewModels
     /// CommissionAgentInfoViewModel
     internal sealed partial class CommissionAgentInfoViewModel : MasterInfoViewModuleBase, IDataErrorInfo, IEventObserver
     {
-        
+
         private Visibility _visibility;
         private IDictionary<string, string> _queries;
         private string _primaryKeyValue = "";
@@ -42,9 +42,10 @@ namespace MasterModule.ViewModels
         private ICommissionAgentDataServices _commissionAgentDataServices;
         private INotifyTaskCompletion<ICommissionAgent> _initializationTable;
         private INotifyTaskCompletion<DataPayLoad> _deleteNotifyTaskCompletion;
-       
 
-       
+        private INotifyTaskCompletion<bool> _changeTask;
+
+
 
         /// <summary>
         /// Auxiliares tables. Each aux table has associated a data transfer object. 
@@ -122,6 +123,14 @@ namespace MasterModule.ViewModels
         /// Province
         /// </summary>
         public IEnumerable<ProvinciaDto> Province
+        {
+            get { return _provincia; }
+            set { _provincia = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        /// Province Delegation.
+        /// </summary>
+        public IEnumerable<ProvinciaDto> ProvinceBranches
         {
             get { return _provincia; }
             set { _provincia = value; RaisePropertyChanged(); }
@@ -225,11 +234,11 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
-        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         /// <summary>
         ///  Primary key on contacts.
         /// </summary>
-        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
 
         public ICommand PrintAssociate { set; get; }
 
@@ -239,6 +248,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
         private string _mailBoxName;
         private IEnumerable<CommissionTypeDto> _brokerType;
+        
 
 
         //
@@ -255,8 +265,13 @@ namespace MasterModule.ViewModels
                                             IEventManager eventManager,
                                             IDataServices services,
                                             IDialogService dialogService,
-                                            IRegionManager regionManager) : base(eventManager, configurationService, dialogService, 
-                                                services, 
+                                            IAssistService assistService,
+                                            IRegionManager regionManager 
+                                            ) : base(eventManager, 
+                                                configurationService,
+                                                services,
+                                                dialogService,
+                                                assistService,
                                                 regionManager)
         {
 
@@ -277,11 +292,21 @@ namespace MasterModule.ViewModels
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
             //PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
-            
+            this.DelegationProvinceMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnProvinceAssist);
+            this.ContactChargeMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnContactChargeAssist);
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
+        }
+
+        public override void SetContactsCharge(object charge)
+        {
+            MessageBox.Show("Bingo!");
+        }
+        public override void SetBranchProvince(object province)
+        {
+            MessageBox.Show("Bingo2!");
         }
 
         private void OnPrintCommand(object obj)
@@ -305,77 +330,73 @@ namespace MasterModule.ViewModels
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
 
-        
-        
+        private void ItemChangedHandler(object obj)
+        {
+            _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), changedTaskEvent);   
+        }
+
+        private void changedTaskEvent(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion<bool> taskCompletion = sender as INotifyTaskCompletion<bool>;
+            if (taskCompletion.IsFaulted)
+            {
+                if (DialogService!=null)
+                {
+                    DialogService.ShowErrorMessage(taskCompletion.ErrorMessage);
+                }
+            }
+        }
+
 
         /// <summary>
         /// This is enabled to the change the handler
         /// The command deliver some parmetes.
         /// </summary>
         /// <param name="obj">The object conveyed from the command.</param>
-        private void ItemChangedHandler(object obj)
+        private async Task<bool> HandleChangedHandler(object obj)
         {
 
             IDictionary<string, object> eventDictionary = (Dictionary<string, object>)obj;
-                if (eventDictionary.ContainsKey(OperationConstKey))
+            if (eventDictionary.ContainsKey(OperationConstKey))
+            {
+                var value = eventDictionary["DataSourcePath"] as string;
+                if (value == "ContactsDtos")
                 {
-                    var value = eventDictionary["DataSourcePath"] as string;
-                    if (value == "ContactsDtos")
-                    {
-                        ContactsChangedCommandHandler(eventDictionary);
-                    }
-                    else
-                    {
-                        DelegationChangedCommandHandler(eventDictionary);
-                    }
+                   
+                   await ContactsChangedCommandHandler(eventDictionary);
+                   
                 }
                 else
                 {
-                    OnChangedField(eventDictionary);
+                   await DelegationChangedCommandHandler(eventDictionary);
+                   
                 }
+            }
+            else
+            {
+                OnChangedField(eventDictionary);
+            }
 
-                
+            return true;
         }
         /// <summary>
         ///  Handle the delegation grid changes.
         /// </summary>
         /// <param name="obj">This send a delegation fo the changed command</param>
-        private async void DelegationChangedCommandHandler(object obj)
+        private async Task DelegationChangedCommandHandler(object obj)
         {
-            Tuple<bool, BranchesDto> retValue = await GridChangedCommand<BranchesDto, COMI_DELEGA>(obj,
-                _onBranchesPrimaryKey,
-                DataSubSystem.CommissionAgentSubystem);
-            if (retValue.Item1)
-            {
-                if ((_commissionAgentDo != null) && (_commissionAgentDo.DelegationDto != null))
-                {
-                    var tmp = _commissionAgentDo.DelegationDto;
-                    Union<BranchesDto>(ref tmp, retValue.Item2);
-                    _commissionAgentDo.DelegationDto = tmp;
-                }
-
-            }
+            IEnumerable<BranchesDto> dto = new List<BranchesDto>();
+            await GridChangedNotification<BranchesDto, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem);
         }
-
-        // FIXME: move GridChangedCommand to a lower level
-
-        private async void ContactsChangedCommandHandler(object obj)
+        /// <summary>
+        ///  This change the contact grid
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        private async Task ContactsChangedCommandHandler(object obj)
         {
-            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, CONTACTOS_COMI>(obj,
-                _onContactsPrimaryKey,
-                DataSubSystem.SupplierSubsystem);
-            if (retValue.Item1)
-            {
-                if ((_commissionAgentDo != null) && (_commissionAgentDo.ContactsDto != null))
-                {
-                    var contactDto = retValue.Item2;
-                    contactDto.ContactsKeyId = PrimaryKeyValue;
-                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
-                    Union<ContactsDto>(ref contactsDtos, contactDto);
-                    _commissionAgentDo.ContactsDto = contactsDtos;
-                }
-            }
 
+            await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(obj, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem);
         }
         /// <summary>
         /// This item is enabled to the magnifier command. When the user press the magnifier.
@@ -396,16 +417,16 @@ namespace MasterModule.ViewModels
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
             object currentView = null;
             IMapper mapper = MapperField.GetMapper();
-
+           
             switch (assistTableName)
             {
                 case "TIPOCOMI":
-                {
+                    {
                         string query = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI");
                         BrokerTypeDto = await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(query);
                         break;
 
-                }
+                    }
                 case "PAIS":
                     {
                         var countries = await helperDataServices.GetAsyncHelper<Country>(assistQuery);
@@ -422,14 +443,21 @@ namespace MasterModule.ViewModels
                         currentView = provDtos;
                         break;
                     }
+                case "PROVINCE_BRANCHES":
+                    {
+                        var provDtos = await helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>
+                            ();
+                            
+                        currentView = provDtos;
+                        break;
+                    }
                 case "POBLACIONES":
-                {
-                    var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
-                    IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
-                    CityDto = new ObservableCollection<CityDto>(cities);
-                    currentView = CityDto;
-                    break;
-                }
+                    {
+                        var prov = await helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                        CityDto = prov;
+                        currentView = CityDto;
+                        break;
+                    }
                 case "PRODUCTS":
                     {
                         var prod = await helperDataServices.GetAsyncHelper<PRODUCTS>(assistQuery);
@@ -525,8 +553,9 @@ namespace MasterModule.ViewModels
                         currentView = Language;
                         break;
                     }
-
+                   
             }
+           
             UpdateCollections(currentView, assistTableName, ref _leftObservableCollection);
             LeftValueCollection = _leftObservableCollection;
         }
@@ -547,7 +576,7 @@ namespace MasterModule.ViewModels
             for (int i = 0; i < search.Count; ++i)
             {
                 search[i].AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
-                
+
             }
         }
 
@@ -578,7 +607,7 @@ namespace MasterModule.ViewModels
             }
             return payload;
         }
-    
+
 
 
         /// <summary>
@@ -588,8 +617,8 @@ namespace MasterModule.ViewModels
         {
             get { return MasterModuleConstants.ImagePath; }
         }
-       
-      
+
+
         /// <summary>
         ///  Set or Get the vehicle is visible.
         /// </summary>
@@ -599,7 +628,7 @@ namespace MasterModule.ViewModels
             set { _visibility = value; RaisePropertyChanged(); }
         }
 
-       
+
         /// <summary>
         ///  Assistant queries. Set of the queries related to the magnifier.
         /// </summary>
@@ -632,7 +661,7 @@ namespace MasterModule.ViewModels
         {
             get { return MasterModuleConstants.EmailImagePath; }
         }
-       
+
         /// <summary>
         /// This is the start and notify.
         /// </summary>
@@ -733,13 +762,13 @@ namespace MasterModule.ViewModels
         /// <param name="eventDictionary">Dictionary of events.</param>
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
-            
+
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
             payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            
-            
+
+
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = _primaryKeyValue;
@@ -883,6 +912,24 @@ namespace MasterModule.ViewModels
                 }
             }
         }
+        public ICommand DelegationMagnifierCommand { set; get; }
+
+        private void ConfigureBranchesCommand()
+        {
+            var branches = _commissionAgentDo.DelegationDto;
+            foreach (var b in branches)
+            {
+                b.ShowCommand = this.DelegationProvinceMagnifierCommand;
+            }
+        }
+        private void ConfigureContactsCommand()
+        {
+            var contacts = _commissionAgentDo.ContactsDto;
+            foreach(var c in contacts)
+            {
+                c.ShowCommand = this.ContactChargeMagnifierCommand;
+            }
+        }
         /// <summary>
         /// This adds a primary and a payload
         /// </summary>
@@ -908,8 +955,12 @@ namespace MasterModule.ViewModels
                 Country = _commissionAgentDo.CountryDto;
                 Products = _commissionAgentDo.ProductsDto;
                 Language = _commissionAgentDo.LanguageDto;
+                var branches = _commissionAgentDo.DelegationDto;
+                // configure branches command.
+                ConfigureBranchesCommand();
+                // configure contacts command.
+                ConfigureContactsCommand();
                 Delegation = _commissionAgentDo.DelegationDto;
-
                 TipoComission = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
@@ -918,12 +969,12 @@ namespace MasterModule.ViewModels
 
                 // Here we send a message to upper part of the view.
                 // it is a component. When it will receive it, it will set the view model and the TipoComiDto.
-               EventManager.SendMessage(UpperBarViewModel.Name, payload);
+                EventManager.SendMessage(UpperBarViewModel.Name, payload);
 
 
                 /* Items controls to the left */
 
-                for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
+            for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
                 {
                     _leftSideDualDfSearchBoxes[i].DataSource = _commissionAgentDo;
 
@@ -957,8 +1008,8 @@ namespace MasterModule.ViewModels
                 _primaryKeyValue = "";
             }
         }
-        
-       
+
+
 
         public string this[string columnName]
         {

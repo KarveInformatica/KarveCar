@@ -4,17 +4,18 @@ namespace KarveTest.DAL
 {
     class TestBuildQuery
     {
-        private QueryStore _store = new QueryStore();
+        private QueryStoreFactory _storeFactory = new QueryStoreFactory();
+        private IQueryStore _store;
         [OneTimeSetUp]
         public void Setup()
         {
-            _store = new QueryStore();
+          _store = _storeFactory.GetQueryStore();
         }
         [Test]
-        public void TestMultipleQuery()
+        public void Should_Build_QueryWithParameters()
         {
-            _store.AddParam(QueryStore.QueryType.QueryCity, "0001");
-            _store.AddParam(QueryStore.QueryType.QueryLanguage, "0001");
+            _store.AddParam(QueryType.QueryCity, "0001");
+            _store.AddParam(QueryType.QueryLanguage, "0001");
             var value = _store.BuildQuery();
         }
     }

@@ -5,6 +5,10 @@ using KarveControls.UIObjects;
 using MasterModule.Interfaces;
 using MasterModule.ViewModels;
 using Prism.Regions;
+using System.Windows.Data;
+using System;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace MasterModule.Views
 {
@@ -35,5 +39,24 @@ namespace MasterModule.Views
         {
             Header = navigationContext.Parameters[ScopedRegionNavigationContentLoader.DefaultViewName] as string;
         }
+        
+    }
+    public class DebugDummyConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            Debugger.Break();
+            return value;
+        }
+
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            Debugger.Break();
+            return value;
+        }
+
+
     }
 }

@@ -11,23 +11,13 @@ using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
 using Syncfusion.UI.Xaml.Grid.ScrollAxis;
 using Prism.Commands;
+using KarveDataServices.DataTransferObject;
+using Syncfusion.Data;
+using System.Linq;
 
 namespace KarveControls
 {
-    public class NullCommand : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return false;
-        }
-
-        public void Execute(object parameter)
-        {
-            return;
-        }
-    }
+   
     /// <summary>
     ///  This is a list of attached properties to be associated to each karve control.
     /// </summary>
@@ -140,7 +130,22 @@ namespace KarveControls
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
            typeof(ControlExt));
+        
+        /// <summary>
+        ///  Grid operation property.
+        /// </summary>
+        private static readonly DependencyProperty  GridOperationProperty =
+   DependencyProperty.RegisterAttached("GridOperation", typeof(GridOp),
+   typeof(ControlExt), new PropertyMetadata(GridOp.Update));
 
+        public static void SetGridOperation(DependencyObject dp, GridOp op)
+        {
+            dp.SetValue(GridOperationProperty, op);
+        }
+        public static GridOp GetGridOperation(DependencyObject dp)
+        {
+            return (GridOp)dp.GetValue(GridOperationProperty);
+        }
         public static void SetAttach(DependencyObject dp, bool value)
         {
             dp.SetValue(AttachProperty, value);
@@ -235,7 +240,7 @@ namespace KarveControls
                 "ItemChangedCommand",
                 typeof(ICommand),
                 typeof(ControlExt),
-                new FrameworkPropertyMetadata(new NullCommand(), PropertyChangedCb));
+                new FrameworkPropertyMetadata(null, PropertyChangedCb));
 
         /// <summary>
         ///  Set the item changed command, Attached behaviour for the component.
@@ -271,9 +276,11 @@ namespace KarveControls
             if (dependencyObject is SfDataGrid)
             {
                 SfDataGrid currentDataGrid = dependencyObject as SfDataGrid;
-              //  currentDataGrid.CurrentCellEndEdit += CurrentDataGrid_CurrentCellEndEdit;
+
+                //  currentDataGrid.CurrentCellEndEdit += CurrentDataGrid_CurrentCellEndEdit;
                 currentDataGrid.RecordDeleted += CurrentDataGrid_RecordDeleted;
                 currentDataGrid.AddNewRowInitiating += CurrentDataGrid_AddNewRowInitiating;
+               
                 currentDataGrid.RowValidated += CurrentDataGrid_RowValidated;
             }
             if (dependencyObject is DataArea)
@@ -381,61 +388,136 @@ namespace KarveControls
                 }
             }
         }
+        private static void SwitchToUpdate(DependencyObject dependencyObject, GridOp rowState)
+        {
+            
+                SetGridOperation(dependencyObject, GridOp.Update);
+            
+        }
+        /**
+         *  The grid insertion or adding, we need to move between two states:
+         *  When it gets the event add new row, 
+         *  we get the new row event and move the grid operation to insert, 
+         *  later when we are in a validation row, we validate the row and that's it.  
+         */
 
+       
         private static void CurrentDataGrid_RowValidated(object sender, RowValidatedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
+            DependencyObject dependencyObject = sender as DependencyObject;
             var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
-            if ((command != null) && (dataGrid!=null))
+            List<object> value = new List<object>();
+            if ((command != null) && (dataGrid != null))
             {
+                var dataValue = dataGrid.GetRecordAtRowIndex(e.RowIndex);
+                var rowState = GetGridOperation(dependencyObject);
+                if (dataValue != null)
+                {
+                    BaseDto dto = dataValue as BaseDto;
+                    if (dto != null)
+                    {
+                        dto.LastModification = DateTime.Now.ToLongTimeString();
+                        if (!dto.IsNew)
+                        {
+                            dto.IsNew = (rowState == GridOp.Insert) ? true : false;
+
+                        }
+                       dto.IsDirty = true;
+
+                    }
+                }
+                
+                var collection = dataGrid.View.SourceCollection;
+                foreach (var c in collection)
+                {
+                    BaseDto v = c as BaseDto;
+                    if (v != null)
+                    {
+                        if (v.IsNew)
+                        {
+                            value.Add(c);
+                        }
+                        else if (v.IsDirty)
+                        {
+                            value.Add(c);
+                        }
+                        else if (v.IsDeleted)
+                        {
+                            value.Add(c);
+                        }
+                    }
+                }
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
+                value.Add(dataValue);
                 objectName["DataObject"] = GetDataSource(dataGrid);
                 objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
-                objectName["ChangedValue"] = dataGrid.GetRecordAtRowIndex(e.RowIndex);
+                objectName["ChangedValue"] = value;
                 objectName["PreviousValue"] = lastChangedRow;
-                objectName["Operation"] = ControlExt.GridOp.Update;
+                objectName["Operation"] = rowState;
                 objectName["DeletedItems"] = false;
                 objectName["LastRowId"] = dataGrid.GetLastRowIndex();
                 lastChangedRow = dataGrid.GetRecordAtRowIndex(e.RowIndex);
                 command.Execute(objectName);
+                SwitchToUpdate(dependencyObject, rowState);
+                
             }
         }
 
         private static void CurrentDataGrid_AddNewRowInitiating(object sender, AddNewRowInitiatingEventArgs e)
         {
-           
             SfDataGrid dataGrid = sender as SfDataGrid;
             var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
             if ((command != null) && (dataGrid !=null))
             {
-                IDictionary<string, object> objectName = new Dictionary<string, object>();
-                objectName["DataObject"] = GetDataSource(dataGrid);
-                objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
-                objectName["ChangedValue"] = e.NewObject;
-                objectName["PreviousValue"] = lastChangedRow;
-                objectName["Operation"] = ControlExt.GridOp.Insert;
-                objectName["DeletedItems"] = false;
-                objectName["LastRowId"] = dataGrid.GetLastRowIndex();
-                command.Execute(objectName);
+                DependencyObject dependencyObject = sender as DependencyObject;
+                SetGridOperation(dependencyObject, GridOp.Insert);
             }
-            // lastChangedRow = dataGrid.Get;
+           
         }
 
         private static void CurrentDataGrid_RecordDeleted(object sender, RecordDeletedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
+            List<object> value = new List<object>();
             if (dataGrid != null)
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
-              
                 var command = dataGrid.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
+                    var items = e.Items;
+                    foreach (var item in items)
+                    {
+                        BaseDto dto = item as BaseDto;
+                        dto.IsDeleted = true;
+                    }
+                    var collection = dataGrid.View.SourceCollection;
+                    foreach (var c in collection)
+                    {
+                        BaseDto v = c as BaseDto;
+                        if (v.IsNew)
+                        {
+                            value.Add(c);
+                        }
+                        else if (v.IsDirty)
+                        {
+                            value.Add(c);
+                        }
+                        else if (v.IsDeleted)
+                        {
+                            value.Add(c);
+                        }
+                    }
+ 
+                   
+                    IEnumerable<object> currentValues = value.Union(items);
+                    
                     objectName["DataObject"] = GetDataSource(dataGrid);
                     objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
-                    objectName["ChangedValue"] = e.Items;
+                    objectName["ChangedValue"] = currentValues;
                     objectName["DeletedItems"] = true;
-                    objectName["Operation"] = ControlExt.GridOp.Insert;
+                    objectName["Operation"] = ControlExt.GridOp.Delete;
                     objectName["DeletedItems"] = false;
                     objectName["LastRowId"] = dataGrid.GetLastRowIndex();
                     command.Execute(objectName);
@@ -669,8 +751,11 @@ namespace KarveControls
                     {
                         timeValue = DateTime.Parse(propValue as string);
                     }
+                    // this is wanted. We need to provide a default.
+#pragma warning disable 0168
                     catch (Exception e)
                     {
+#pragma warning restore 0168
                         timeValue = DateTime.Now;
                     }
                 }

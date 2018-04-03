@@ -13,7 +13,7 @@ namespace KarveCommon.Command
         /// <summary>
         /// this is relared to ICommand
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged = delegate { };
         public virtual bool CanExecute(object parameter)
         {
             return true;

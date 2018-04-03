@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 
 namespace KarveControls.Behaviour
 {
@@ -18,20 +12,22 @@ namespace KarveControls.Behaviour
         /// </summary>
         /// 
         public static readonly DependencyProperty AssistNameProperty = DependencyProperty.RegisterAttached("AssistName", typeof(string), typeof(AssistExt));
+       
         /// <summary>
-        ///  Set the name of a button for navigation.
+        /// Set the assist name attached property to a component.
+        /// An assist is a command from a magnifier to the viewmodel.
         /// </summary>
-        /// <param name="d">Depedency property</param>
-        /// <param name="e">Value</param>
+        /// <param name="ext">Control or UIElement</param>
+        /// <param name="command">Assist name to be associated</param>
         public static void SetAssistName(UIElement ext, string command)
         {
             ext.SetValue(AssistNameProperty, command);
         }
         /// <summary>
-        ///  Get the name of a button for navigation.
+        ///  Get the name associated with the assist.
+        /// An assist is a command from a magnifier to the viewmodel.
         /// </summary>
-        /// <param name="d">Dependency Properties</param>
-        /// <param name="e">Value</param>
+        /// <param name="ext">UI control to be used in an assist</param>
         /// <returns></returns>
         public static string GetAssistName(UIElement ext)
         {

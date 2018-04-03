@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveDataServices;
@@ -11,7 +12,9 @@ using Dapper;
 using DataAccessLayer.Model;
 using KarveDataServices.DataTransferObject;
 using NLog;
-
+using DataAccessLayer.SQL;
+using DataAccessLayer.DataObjects;
+using KarveDapper.Extensions;
 
 namespace DataAccessLayer
 {
@@ -30,6 +33,8 @@ namespace DataAccessLayer
         private const string CommissionAgentTable = "COMISIO";
         private const string CommissionAgentFile = @"\Data\CommissionAgentFields.xml";
         private Logger logger = LogManager.GetLogger("CommisionAgentAccessLayer");
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
+
         /// <summary>
         /// CommissionAgentAccessLayer
         /// </summary>
@@ -44,7 +49,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="queryDictionary">Dictionary of fields to be included in the query.</param>
         /// <param name="commissionAgentId">Agent id to be fetched</param>
-        /// <returns></returns>
+        /// <returns>The commission agent list.</returns>
         public async Task<ICommissionAgent> GetCommissionAgentDo( string commissionAgentId, IDictionary<string, string> queryDictionary = null)
         {
             IDictionary<string, string> queries;
@@ -62,23 +67,12 @@ namespace DataAccessLayer
             return createdAgent;
         }
         /// <summary>
-        ///  This returns a commission agent dataset.
-        /// </summary>
-        /// <param name="query">Dictionary of the queries</param>
-        /// <returns></returns>
-        public async Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
-        {
-            logger.Debug("GetCommissionAgentDataSet " + query);
-            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(query).ConfigureAwait(false);
-            return set;
-        }
-        /// <summary>
         /// Gives us a commission agent collection list
         /// </summary>
         /// <param name="fields">Fields to be present in the query</param>
         /// <param name="pageSize">Page dimension</param>
         /// <param name="startAt">Initialization of the object</param>
-        /// <returns></returns>
+        /// <returns>Return the list commission agents.</returns>
         public async Task<IList<ICommissionAgent>> GetCommissionAgentCollection(IDictionary<string,string> fields, int pageSize = 0, int startAt =0)
         {
             logger.Debug("GetCommissionAgentCollection ");
@@ -92,7 +86,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="paged">optional parameter indicating if the agent shall be paged</param>
         /// <param name="pageSize">optional parameter indicating the dimension of the page size</param>
-        /// <returns></returns>
+        /// <returns>Returns the data set of all commission agents present in the system.</returns>
         public async Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0)
         {
             DataSet dataset = await _sqlExecutor.AsyncDataSetLoad(GenericSql.CommissionAgentSummaryQuery).ConfigureAwait(false);
@@ -104,15 +98,31 @@ namespace DataAccessLayer
             return dataset;
         }
 
+        /// <summary>
+        ///  Retrieve the list of all commission agents and convert them in a data transfer object list.
+        /// </summary>
+        /// <returns>The list of commission agents</returns>
         public async Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo()
         {
             IEnumerable<CommissionAgentSummaryDto> summary = new ObservableCollection<CommissionAgentSummaryDto>();
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryCommissionAgentSummary);
+            var query = store.BuildQuery();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-            
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                try
                 {
-                    summary = await connection.QueryAsync<CommissionAgentSummaryDto>(GenericSql.CommissionAgentSummaryQuery).ConfigureAwait(false);
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        summary = await connection.QueryAsync<CommissionAgentSummaryDto>(query).ConfigureAwait(false);
+                    }
+                } catch (System.Exception ex)
+                {
+                    throw new DataLayerException("CommissionAgentLoadException", ex);
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
             return summary;
@@ -120,12 +130,29 @@ namespace DataAccessLayer
         /// <summary>
         /// This is the generation of an unique identifier.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Identifier of the commission agents</returns>
         public string GetNewId()
         {
-            return GenerateUniqueId();
-        }
+            string id = string.Empty;
+            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                try
+                {
+                    COMISIO comisio = new COMISIO();
+                    id = conn.UniqueId<COMISIO>(comisio);
 
+                }
+                catch (System.Exception ex)
+                {
+                    throw new DataLayerException("CommissionAgentNewId", ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return id;
+        }
         /// <summary>
         /// New commission agent
         /// </summary>
@@ -149,95 +176,21 @@ namespace DataAccessLayer
             return agent;
         }
         /// <summary>
-        ///  FIXME: this shall be differently managed.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        protected override bool UniqueId(string id)
-        {
-            string str = "SELECT NUM_COMI FROM COMISIO WHERE NUM_COMI='{0}'";
-            str = string.Format(str, id);
-            IDbConnection connection = _sqlExecutor.Connection;
-            IEnumerable<string> strResult = connection.Query<string>(str);
-            logger.Info("Connect a select string " + str);
-            bool unique = (!strResult.Any());
-            return unique;
-        }
-        
-        /// <summary>
-        ///  This returns a commission agent dataset 
-        /// </summary>
-        /// <param name="queryList">This gives us a </param>
-        /// <returns>Return a dataset with the new commission agent fields</returns>
-        public async Task<DataSet> GetNewCommissionAgent(IDictionary<string, string> queryList)
-        {
-            DataSet set = await _sqlExecutor.AsyncDataSetLoadBatch(queryList);
-            string commissionAgentId = GenerateUniqueId();
-            for (int i = 0; i < set.Tables.Count; ++i)
-            {
-                if (set.Tables[i].Columns.Contains(PrimaryKey))
-                {
-                    if (set.Tables[i].Rows.Count > 0)
-                    {
-                        set.Tables[i].Rows[0][PrimaryKey] = commissionAgentId;
-                    }
-                    FlushDataSet(ref set, i);
-                }
-            }
-            return set;
-        }
-        /// <summary>
-        /// This flushes a set with null values.
-        /// </summary>
-        /// <param name="set">set to be flushed</param>
-        /// <param name="index">data table index</param>
-        private void FlushDataSet(ref DataSet set, int index)
-        {
-            foreach (DataColumn col in set.Tables[index].Columns)
-            {
-                if (col.DataType == typeof(string))
-                {
-                    if (col.ColumnName != PrimaryKey)
-                        set.Tables[index].Rows[0][col] = "";
-                }
-            }
-
-        }
-        /// <summary>
-        /// Get async commission agent list.
-        /// </summary>
-        /// <returns>Return a simple dataset.</returns>
-        /// 
-        public async Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList)
-        {
-            DataSet summary = await _sqlExecutor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
-            return summary;
-        }
-        /// <summary>
         /// Save commission agent
         /// </summary>
         /// <param name="commissionAgent">Commission Agent to be saved.</param>
-        /// <returns></returns>
+        /// <returns>Returns true if the commission agent has been changed.</returns>
         public async Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
         {
             bool changedTask = await commissionAgent.Save().ConfigureAwait(false);
             return changedTask;
         }
-        /// <summary>
-        /// Save changes commission agent
-        /// </summary>
-        /// <param name="commissionAgent">Commission agent to be updated.</param>
-        /// <returns></returns>
-        public async Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent)
-        {
-            bool changedTask = await commissionAgent.SaveChanges().ConfigureAwait(false);
-            return changedTask;
-        }
+       
         /// <summary>
         /// Save commission agent.
         /// </summary>
         /// <param name="commissionAgent">Commission agent saved.</param>
-        /// <returns></returns>
+        /// <returns>True when the commission agent has been deleted.</returns>
         public async Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent)
         {
             bool value = false;
@@ -263,7 +216,7 @@ namespace DataAccessLayer
         /// <param name="sqlQuery">Query of the commission agent.</param>
         /// <param name="commissionAgentId">Id of the commission agent.</param>
         /// <param name="set">DataSet of the commission agent. It contains all tables related to the commission agent.</param>
-        /// <returns></returns>
+        /// <returns>Return true when a commission agent has been deleted.</returns>
         public bool DeleteCommissionAgent(string sqlQuery, string commissionAgentId, DataSet set)
         {
             if (set == null)

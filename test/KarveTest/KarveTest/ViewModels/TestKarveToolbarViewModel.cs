@@ -49,7 +49,7 @@ namespace KarveTest.ViewModels
         ///  This tells us if a vehicle has received a data.
         /// </summary>
         [Test]
-        public void ShallReceiveAVehicleUpdateMessage()
+        public void Should_ReceiveAVehicle_UpdateMessage()
         {
             // arrange
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
@@ -66,7 +66,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public void ShallReceiveAnInsertMessage()
+        public void Should_ReceiveAVehicle_InsertMessage()
         {
             // arrange
             IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123"); 
@@ -83,7 +83,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public void ShouldReceiveAndUpdateTheData()
+        public void Should_ReceiveAUpdateTheData()
         {
             IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123");
             DataPayLoad payLoad = new DataPayLoad();
@@ -97,7 +97,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public void ShouldReceiveAndRefuseUpdate()
+        public void Should_UncorrectVehicle_UpdateRefuse()
         {
             IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123");
             DataPayLoad payLoad = new DataPayLoad();
@@ -106,7 +106,6 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             _carveBarViewModel.IncomingPayload(payLoad);
-
             _carveBarViewModel.SaveCommand.Execute();
             // the value shall avoid saving 
 

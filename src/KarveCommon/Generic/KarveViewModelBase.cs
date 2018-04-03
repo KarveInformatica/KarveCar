@@ -40,7 +40,7 @@ namespace KarveCommon.Generic
         /// <summary>
         ///  Assis mapper / mapeo de las lupas.
         /// </summary>
-        protected IAssistMapper<BaseDto> AssistMapper = new AssistMapper<BaseDto>();
+        protected IAssistMapper<BaseDto> AssistMapper;
         /*
          * Notify task completion to avoid async void. Async void is bad:
          * Async void methods have different error-handling semantics. Exceptions are very awkward to handle.
@@ -78,6 +78,10 @@ namespace KarveCommon.Generic
         ///  Dialog service for showing the view model things.
         /// </summary>
         protected IDialogService DialogService;
+        /// <summary>
+        ///  Assist service for showing magnifier popup.
+        /// </summary>
+        protected IAssistService AssistService;
 
         /// <summary>
         ///  Registered grid list.
@@ -102,30 +106,32 @@ namespace KarveCommon.Generic
             InitViewModelState();
             Header = "DefaultTab";
         }
+        public KarveViewModelBase(IDataServices services)
+        {
+            DataServices = services;
+            AssistMapper = services.GetAssistDataServices().Mapper;
+            HelperDataServices = services.GetHelperDataServices();
+            InitViewModelState();
+        }
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
         /// </summary>
         /// <param name="services">DataServices to be used.</param>
-        public KarveViewModelBase(IDataServices services)
+        public KarveViewModelBase(IDataServices services, IAssistService assistService): this(services)
         {
             DataServices = services;
+            AssistService = assistService;
             HelperDataServices = services.GetHelperDataServices();
-            InitViewModelState();
         }
         /// <summary>
         ///  KarveViewModelBase.
         /// </summary>
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
-        public KarveViewModelBase(IDataServices services, IDialogService dialogService)
+        public KarveViewModelBase(IDataServices services, IAssistService assistService, IDialogService dialogService) : this(services,assistService)
         {
-            DataServices = services;
-            HelperDataServices = services.GetHelperDataServices();
             DialogService = dialogService;
-            InitViewModelState();
         }
-
-
         private void InitViewModelState()
         {
             Guid = Guid.NewGuid();
@@ -229,7 +235,7 @@ namespace KarveCommon.Generic
            return settingsDto;
         }
 
-      
+
         /// <summary>
         ///  Command happened during the resize.
         /// </summary>

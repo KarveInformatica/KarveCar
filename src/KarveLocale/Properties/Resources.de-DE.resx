@@ -2569,4 +2569,13 @@
   <data name="lultmodi" xml:space="preserve">
     <value>Letze Modifizierung </value>
   </data>
+  <data name="lprovinceCode" xml:space="preserve">
+    <value>Landescode</value>
+  </data>
+  <data name="lfecha" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="lname" xml:space="preserve">
+    <value>Name</value>
+  </data>
 </root>

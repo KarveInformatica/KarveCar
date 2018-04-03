@@ -40,7 +40,7 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public async Task Should_Load_Correctly_Summary()
+        public async Task Should_Load_Correctly_Companies()
         {
             var listOfCompanies = await _companyDataService.GetAsyncAllCompanySummary();
             Assert.Greater(listOfCompanies.Count<CompanySummaryDto>(), 0);

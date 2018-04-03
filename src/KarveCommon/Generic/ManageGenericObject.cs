@@ -7,8 +7,6 @@ namespace KarveCommon.Generic
 {
     public class GenericObjectHelper
     {      
-        static readonly string HelperColumn = "ControlCambio"; 
-
         /// <summary>
         /// Crea un objeto del tipo del objeto(objoriginal) pasado por params
         /// </summary>
@@ -66,16 +64,14 @@ namespace KarveCommon.Generic
 
                 foreach (PropertyInfo info in tipo.GetProperties())
                 {
-                    if (!info.Name.ToString().Equals(GenericObjectHelper.HelperColumn))
-                    {
-                        dic.Add(info.Name.ToString(), PropertyGetValue(obj, info.Name.ToString()));
-                    }                    
+                    
+                 dic.Add(info.Name.ToString(), PropertyGetValue(obj, info.Name.ToString()));
+                                        
                 }                
             }
             catch (System.Exception e)
             {
-                // FIXME: antipattern.
-                throw e;
+                throw new KarveCommonException(e.Message);
             }
             string ret = string.Join(";", dic);
             return ret.ToUpper();
@@ -107,9 +103,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
-            ///    throw new KarveCommonException(e.Message);
-                // FIXME: fixed the exception handling .
-                //ErrorsDB.MessageError(e);
+                throw new KarveCommonException(e.Message);
             }
         }
 
@@ -137,7 +131,6 @@ namespace KarveCommon.Generic
             catch (Exception e)
             {
                 throw  new KarveCommonException(e.Message);
-                //ErrorsDB.MessageError(e);
             }
             return value;        
         }

@@ -30,7 +30,7 @@ namespace KarveCommon.Generic
         /// KarveViewModelBase. Base view model of the all structure
         /// </summary>
         /// <param name="services">DataServices to be used.</param>
-        public KarveRoutingBaseViewModel(IDataServices services) : base(services)
+        public KarveRoutingBaseViewModel(IDataServices services, IAssistService assistService) : base(services, assistService)
         {
         }
         /// <summary>
@@ -38,7 +38,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
-        public KarveRoutingBaseViewModel(IDataServices services, IDialogService dialogService, IEventManager eventManager) : base(services, dialogService)
+        public KarveRoutingBaseViewModel(IDataServices services, IAssistService assistService, IDialogService dialogService, IEventManager eventManager) : base(services,assistService)
         {
             EventManager = eventManager;
         }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using KarveDataServices;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace KarveCommon.Generic
+namespace DataAccessLayer
 {
     /* this class maps all the call that shall arrive from the magnifiers in the forms */
 
@@ -27,7 +28,7 @@ namespace KarveCommon.Generic
             }
         }
         /// <summary>
-        ///  Debo executar el assist da hacer.
+        ///  This execute the assist.
         /// </summary>
         /// <param name="name">Name of the asssit to execute</param>
         /// <param name="arg">Parameters coming from the view model.</param>

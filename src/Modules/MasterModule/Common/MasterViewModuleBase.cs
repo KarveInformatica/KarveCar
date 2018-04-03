@@ -24,6 +24,7 @@ using System.Windows;
 using  RegionMan = Prism.Regions.RegionManager;
 using Syncfusion.UI.Xaml.Grid;
 using KarveControls.Generic;
+using System.Collections;
 
 namespace MasterModule.Common
 {
@@ -376,8 +377,9 @@ namespace MasterModule.Common
         public MasterViewModuleBase(IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
+            IAssistService assistService,
             IDialogService dialogService,
-            IRegionManager regionManager) : base(services, dialogService, eventManager)
+            IRegionManager regionManager) : base(services, assistService, dialogService, eventManager)
         {
             ConfigurationService = configurationService;
             EventManager = eventManager;
@@ -422,6 +424,9 @@ namespace MasterModule.Common
             }
         }
 
+
+
+
         /// <summary>
         /// This is the handler for the grid messages.
         /// </summary>
@@ -431,88 +436,98 @@ namespace MasterModule.Common
         /// <param name="setPrimary">Primary Key Delegate to be passed</param>
         /// <param name="dataSub">Subsystem to be passed</param>
         /// <returns></returns>
-        protected async Task<Tuple<bool, DtoType>> GridChangedCommand<DtoType, DBType>(object gridDictionary,
+        protected async Task<DataPayLoad> GridChangedCommand<DtoType, DBType>(object gridDictionary,
 
         SetPrimaryKey<DtoType> setPrimary, DataSubSystem dataSub) where DBType : class
         where DtoType : class
 
         {
             DtoType dtoType = null;
-            Tuple<bool, DtoType> retValue = new Tuple<bool, DtoType>(false, dtoType);
-
+            DataPayLoad payLoad = new DataPayLoad();
             IDictionary<string, object> gridParam = gridDictionary as Dictionary<string, object>;
             if ((gridParam != null) && (gridParam.ContainsKey(OperationConstKey)))
             {
                 // this is useful for extracting the name of the attribute.
+             
+                IList<DtoType> list = new List<DtoType>();
                 DBType pro = Activator.CreateInstance<DBType>();
-                dtoType = gridParam["ChangedValue"] as DtoType;
-                BaseDto baseDto = dtoType as BaseDto;
+                payLoad.DataObject = gridParam["DataObject"];
+                payLoad.HasRelatedObject = true;
+                payLoad.RelatedObject = gridParam["ChangedValue"];
+                payLoad.Subsystem = dataSub;
+                var changedValues = gridParam["ChangedValue"] as IEnumerable;
 
-                if (baseDto!=null)
-                {
-                    baseDto.IsDirty = true;                   
-                }
-                PropertyInfo info = PrimaryKeyAttribute.SearchAttribute<DtoType>(dtoType);
-                var operationType = gridParam[OperationConstKey];
-                _delegationGridState = (ControlExt.GridOp)operationType;
+                _delegationGridState = (ControlExt.GridOp)gridParam[OperationConstKey];
                 switch (_delegationGridState)
                 {
                     case ControlExt.GridOp.Insert:
                         {
 
-                            if (dtoType != null)
+                            foreach (var value in changedValues)
                             {
-
-
-                                var key = await DataServices.GetHelperDataServices().GetUniqueId<DBType>(pro);
-                                setPrimary(ref dtoType);
-                                info.SetValue(dtoType, key);
-                                var opValue = await DataServices.GetHelperDataServices()
-                                    .ExecuteInsertOrUpdate<DtoType, DBType>(dtoType);
-                                retValue = new Tuple<bool, DtoType>(opValue, dtoType);
-
+                                dtoType = value as DtoType;
+                                if (dtoType != null)
+                                {
+                                    var key = await DataServices.GetHelperDataServices().GetUniqueId<DBType>(pro);
+                                    PropertyInfo info = PrimaryKeyAttribute.SearchAttribute<DtoType>(dtoType);
+                                    info?.SetValue(dtoType, key);
+                                    setPrimary(ref dtoType);
+                                    list.Add(dtoType);
+                                }
                             }
+                            payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
                             break;
                         }
                     case ControlExt.GridOp.Update:
                         {
-
-                            if (dtoType != null)
+                            foreach (var value in changedValues)
                             {
-
-                                setPrimary(ref dtoType);
-                                DataPayLoad payLoad = new DataPayLoad();
-                                payLoad.DataObject = gridParam["DataObject"];
-                                payLoad.HasRelatedObject = true;
-                                payLoad.RelatedObject = dtoType;
-                                payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
-                                payLoad.Subsystem = dataSub;
-                                retValue = new Tuple<bool, DtoType>(true, dtoType);
-                                // ok we act to notify the toolbar.
-                                EventManager.NotifyToolBar(payLoad);
+                                dtoType = value as DtoType;
+                                if (dtoType != null)
+                                {
+                                    setPrimary(ref dtoType);
+                                    list.Add(dtoType);
+                                }
                             }
+                            payLoad.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
                             break;
                         }
-
                     case ControlExt.GridOp.Delete:
                         {
-                            setPrimary(ref dtoType);
-                            DataPayLoad payLoad = new DataPayLoad();
-                            payLoad.DataObject = gridParam["DataObject"];
-                            payLoad.HasRelatedObject = true;
-                            payLoad.RelatedObject = dtoType;
+                            foreach (var value in changedValues)
+                            {
+                                dtoType = value as DtoType;
+                                if (dtoType != null)
+                                {
+                                    setPrimary(ref dtoType);
+                                    list.Add(dtoType);
+                                }
+                            }
                             payLoad.PayloadType = DataPayLoad.Type.DeleteGrid;
-                            payLoad.Subsystem = dataSub;
-                            retValue = new Tuple<bool, DtoType>(true, dtoType);
-                            // ok we act to notify the toolbar.
-                            EventManager.NotifyToolBar(payLoad);
                             break;
                         }
-
                 }
+                payLoad.RelatedObject = list.Distinct();
+
+                
 
             }
-            return retValue;
+            return payLoad;
+        }
+
+        protected async Task GridChangedNotification<DtoType, EntityType>(object obj, 
+            SetPrimaryKey<DtoType> setPrimary, DataSubSystem dataSub) where DtoType : class where EntityType : class
+        {
+            IDictionary<string, object> eventDictionary = obj as Dictionary<string, object>;
+            if ((eventDictionary != null) && (eventDictionary.ContainsKey("DataObject")))
+            {
+                // This is the return value of the data subsystem.
+                DataPayLoad retValue = await GridChangedCommand<DtoType, EntityType>(obj, setPrimary, dataSub).ConfigureAwait(false);
+                if (retValue != null)
+                {
+                    EventManager.NotifyToolBar(retValue);
+                }
+            }
         }
         /// <summary>
         ///  This value returns foreach database row a tuple containing the value of the name and the id.
@@ -635,7 +650,7 @@ namespace MasterModule.Common
                 {
                     var commissionAgent = activeRegion as CommissionAgentInfoView;
                     RegionManager.Regions[RegionName].Remove(commissionAgent);
-                    //commissionAgent.ClearValue(RegionManager.);
+                   
                 }
                 if (activeRegion is VehicleInfoView)
                 {
@@ -726,7 +741,7 @@ namespace MasterModule.Common
         protected void InitializationNotifierOnPropertyChangedDo(object sender,
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
-
+           
             string propertyName = propertyChangedEventArgs.PropertyName;
 
             if (propertyName.Equals("Status"))

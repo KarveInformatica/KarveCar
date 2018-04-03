@@ -29,12 +29,8 @@ namespace KarveDataServices.DataObjects
         /// A commission agent can be in one city. City data transfer object.
         IEnumerable<CityDto> CityDtos { get; set; }
         /// <summary>
-        /// This return the underlying database object COMISIO.
-        /// We use this for avoiding any extensive wrapping of the object COMISIO.
-        /// The object COMISIO is generated directly from the table.
-        /// We dont use automapper or dto for the value of the table.
         ///  </summary>
-        object Value { set; get; }
+        ComisioDto Value { set; get; }
         /// <summary>
         /// Country Data Transfer Object
         /// </summary>

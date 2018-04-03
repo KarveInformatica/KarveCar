@@ -28,7 +28,7 @@ namespace InvoiceModule.ViewModels
         private ICommand _goBackCommand;
         private IDataServices _dataServices;
         private IDialogService _dialogService;
-        private INotifyTaskCompletion<IEnumerable<BaseDto>> _initializationTable;
+
         private PropertyChangedEventHandler _ev;
 
         /// <summary>

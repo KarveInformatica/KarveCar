@@ -29,6 +29,7 @@ namespace DataAccessLayer.Crud.Clients
         private ClientDto _currentPoco;
         private IHelperData _helper = new HelperBase();
         private long _currentQueryPos;
+        private QueryStoreFactory _queryStoreFactory;
         /// <summary>
         ///  Query delegation.
         /// </summary>
@@ -74,6 +75,7 @@ namespace DataAccessLayer.Crud.Clients
             _currentPoco.Helper = new HelperBase(); 
             Valid = true;
             _currentQueryPos = 0;
+            _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
         ///  Open a connection.
@@ -116,7 +118,7 @@ namespace DataAccessLayer.Crud.Clients
                 if (_currentPoco != null)
                 {
                     SqlMapper.GridReader reader = null;
-                    QueryStore store = CreateQueryStore(_currentPoco);
+                    IQueryStore store = CreateQueryStore(_currentPoco);
                     string multipleQuery = store.BuildQuery();
                     if (!string.IsNullOrEmpty(multipleQuery))
                     {
@@ -281,30 +283,36 @@ namespace DataAccessLayer.Crud.Clients
             }
             return dto;
         }
-        private QueryStore CreateQueryStore(ClientDto clientPoco)
+        private IQueryStore CreateQueryStore(ClientDto clientPoco)
         {
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.QueryCity, clientPoco.CP);
-            store.AddParam(QueryStore.QueryType.QueryClientType, clientPoco.TIPOCLI);
-            store.AddParam(QueryStore.QueryType.QueryMarket, clientPoco.MERCADO);
-            store.AddParam(QueryStore.QueryType.QueryZone, clientPoco.ZONA);
-            store.AddParam(QueryStore.QueryType.QueryLanguage, ValueToString(clientPoco.IDIOMA));
-            store.AddParam(QueryStore.QueryType.QueryCreditCard, clientPoco.TARTI);
-            store.AddParam(QueryStore.QueryType.QueryChannel, clientPoco.CANAL);
-            store.AddParam(QueryStore.QueryType.QueryCompany, clientPoco.SUBLICEN);
-            store.AddParam(QueryStore.QueryType.QueryOffice, clientPoco.OFICINA);
-            store.AddParam(QueryStore.QueryType.QueryRentingUse, ValueToString(clientPoco.USO_ALQUILER));
-            store.AddParam(QueryStore.QueryType.QueryActivity, clientPoco.SECTOR);
-            store.AddParam(QueryStore.QueryType.QueryClientSummary, clientPoco.CLIENTEFAC);
-            store.AddParam(QueryStore.QueryType.QueryClientContacts, clientPoco.NUMERO_CLI);
-            store.AddParam(QueryStore.QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryCity, clientPoco.CP);
+            store.AddParam(QueryType.QueryClientType, clientPoco.TIPOCLI);
+            store.AddParam(QueryType.QueryMarket, clientPoco.MERCADO);
+            store.AddParam(QueryType.QueryZone, clientPoco.ZONA);
+            store.AddParam(QueryType.QueryLanguage, ValueToString(clientPoco.IDIOMA));
+            store.AddParam(QueryType.QueryCreditCard, clientPoco.TARTI);
+            store.AddParam(QueryType.QueryChannel, clientPoco.CANAL);
+            store.AddParam(QueryType.QueryCompany, clientPoco.SUBLICEN);
+            store.AddParam(QueryType.QueryOffice, clientPoco.OFICINA);
+            store.AddParam(QueryType.QueryRentingUse, ValueToString(clientPoco.USO_ALQUILER));
+            store.AddParam(QueryType.QueryActivity, clientPoco.SECTOR);
+            store.AddParam(QueryType.QueryClientSummary, clientPoco.CLIENTEFAC);
+            store.AddParam(QueryType.QueryClientContacts, clientPoco.NUMERO_CLI);
+            store.AddParam(QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
             return store;
         }
+        /// <summary>
+        /// Load an entity from clients and maps the entity to a data transfer object.
+        /// </summary>
+        /// <param name="conn">Connection to be used</param>
+        /// <param name="code">Code of the entity</param>
+        /// <returns>A data transfer object to be loaded.</returns>
         private async Task<ClientDto> LoadEntity(IDbConnection conn, string code)
         {
-            QueryStore clientPocoQueryStore = new QueryStore();
-            clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient1, code);
-            clientPocoQueryStore.AddParam(QueryStore.QueryType.QueryClient2, code);
+            IQueryStore clientPocoQueryStore = _queryStoreFactory.GetQueryStore();
+            clientPocoQueryStore.AddParam(QueryType.QueryClient1, code);
+            clientPocoQueryStore.AddParam(QueryType.QueryClient2, code);
             var query = clientPocoQueryStore.BuildQuery();
             var pocoReader = await conn.QueryMultipleAsync(query);
             var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
@@ -352,11 +360,8 @@ namespace DataAccessLayer.Crud.Clients
         {
             if (b.HasValue)
             {
-                if (b == 0)
-                {
-                    return "0";
-                }
-                return "1";
+                var value = (b == 0) ? "0" : "1";
+                return value;
             }
             return string.Empty;
         }
@@ -368,8 +373,8 @@ namespace DataAccessLayer.Crud.Clients
         public async Task<IEnumerable<ClientDto>> LoadValueAtMostAsync(int n, int back)
         {
             IEnumerable<ClientDto> dtoCollection = new List<ClientDto>();
-            QueryStore store = new QueryStore();
-            store.AddParamRange(QueryStore.QueryType.QueryPagedClient, _currentQueryPos, n);
+            IQueryStore store =  _queryStoreFactory.GetQueryStore();
+            store.AddParamRange(QueryType.QueryPagedClient, _currentQueryPos, n);
             var query = store.BuildQuery();
             _currentQueryPos = _currentQueryPos + n - back; 
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())

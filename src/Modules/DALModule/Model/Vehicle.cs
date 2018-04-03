@@ -191,7 +191,7 @@ namespace DataAccessLayer.Model
       
         #endregion
 
-        private bool _isValid = false;
+      
 
         /// <summary>
         ///  automapper for the fields.

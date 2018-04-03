@@ -20,6 +20,7 @@ namespace KarveControls.UIObjects
     /// <summary>
     /// This SQLBuilder provide differents way to build queries.
     /// </summary>
+    [Obsolete]
     public class SqlBuilder
     {
 
@@ -699,12 +700,12 @@ namespace KarveControls.UIObjects
         }
         
         /// <summary>
-        /// Recorre los controles de una pantalla (de forma recursiva para el caso que encuentre un control contenedor, p.e.: Grid, GroupBox, DockPanel, StackPanel,...),
-        /// y devuelve un List&lt;string&gt; con el nombre de las columnas correspondientes en la BBDD para cada control<para/>
-        /// DependencyObject container -> container a recorrer<para/>
+        ///  This walks the visual tree to get all the controls and create a query with a tag. It is not longer used in 
+        ///  the code base.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="container"></param>
+        /// <param name="currentList"></param>
         /// <returns></returns>
         public static List<string> SqlBuilderColumns<T>(DependencyObject container, ref List<Tuple<string, string>> currentList)
         {

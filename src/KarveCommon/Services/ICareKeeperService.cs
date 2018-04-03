@@ -1,4 +1,5 @@
 ﻿using KarveCommon.Command;
+using System.Collections.Generic;
 
 namespace KarveCommon.Services
 {
@@ -31,6 +32,7 @@ namespace KarveCommon.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        DataPayLoad GetScheduledPayload();
+        Queue<DataPayLoad> GetScheduledPayload();
+       
     }
 }

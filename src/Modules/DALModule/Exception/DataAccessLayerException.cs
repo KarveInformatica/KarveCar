@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Exception
 {
-    class CommissionAgentException: System.Exception
+    class DataAccessLayerException : System.Exception
     {
-        public CommissionAgentException(string exMessage)
+        public DataAccessLayerException(string message, System.Exception innerException) : base(message, innerException)
         {
-            
         }
     }
 }

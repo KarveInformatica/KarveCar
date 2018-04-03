@@ -1348,6 +1348,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha.
+        /// </summary>
+        public static string lfecha {
+            get {
+                return ResourceManager.GetString("lfecha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fecha Baja.
         /// </summary>
         public static string lfechaalta {
@@ -1834,6 +1843,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nombre.
+        /// </summary>
+        public static string lname {
+            get {
+                return ResourceManager.GetString("lname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N.IATA.
         /// </summary>
         public static string lniata {
@@ -2226,6 +2244,15 @@ namespace KarveLocale.Properties {
         public static string lproveedor {
             get {
                 return ResourceManager.GetString("lproveedor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cod.Provincia.
+        /// </summary>
+        public static string lprovinceCode {
+            get {
+                return ResourceManager.GetString("lprovinceCode", resourceCulture);
             }
         }
         
@@ -5601,6 +5628,15 @@ namespace KarveLocale.Properties {
         public static string Mantenimiento {
             get {
                 return ResourceManager.GetString("Mantenimiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listado Provincia.
+        /// </summary>
+        public static string MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia {
+            get {
+                return ResourceManager.GetString("MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia", resourceCulture);
             }
         }
         

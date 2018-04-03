@@ -1580,4 +1580,7 @@
   <data name="Base" xml:space="preserve">
     <value>Base</value>
   </data>
+  <data name="lprovincecode" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

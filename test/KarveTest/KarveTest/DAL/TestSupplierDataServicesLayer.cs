@@ -13,6 +13,7 @@ using MasterModule.ViewModels;
 using Microsoft.Practices.Unity;
 using Moq;
 using Prism.Regions;
+using KarveCommonInterfaces;
 
 namespace KarveTest.DAL
 {
@@ -44,6 +45,7 @@ namespace KarveTest.DAL
             var eventManager = new Mock<IEventManager>();
             var configurationService = new Mock<IConfigurationService>();
             var unity = new Mock<IUnityContainer>();
+            var dialogService = new Mock<IDialogService>();
             var regionManager = new Mock<IRegionManager>();
             ProvidersControlViewModel providersControlViewModel = new ProvidersControlViewModel(configurationService.Object,
                 unity.Object,
@@ -51,7 +53,7 @@ namespace KarveTest.DAL
                 regionManager.Object,
                 eventManager.Object);
             providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = providersControlViewModel.SummaryCollection;
+            IEnumerable<SupplierSummaryDto> collection = providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
             Assert.GreaterOrEqual(collection.Distinct().Count(), 1);
         }
         /*

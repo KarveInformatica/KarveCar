@@ -1,14 +1,10 @@
-﻿using iAnywhere.Data.SQLAnywhere;
-using KarveCommon.Generic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
 using KarveCar.Properties;
-using static KarveCommon.Generic.Enumerations;
 
 namespace KarveCar.Utility
 {
@@ -71,8 +67,7 @@ namespace KarveCar.Utility
         public static string PropertyConvertToDictionary(object obj, params string[] properties)
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();
-            try
-            {
+           
                 Type tipo = obj.GetType();
 
                 foreach (PropertyInfo info in tipo.GetProperties())
@@ -82,11 +77,6 @@ namespace KarveCar.Utility
                         dic.Add(info.Name, PropertyGetValue(obj, info.Name));
                     }                    
                 }                
-            }
-            catch (Exception e)
-            {
-                
-            }
             string ret = string.Join(";", dic);
             return ret.ToUpper();
         }
@@ -99,8 +89,7 @@ namespace KarveCar.Utility
         /// <param name="value">Valor que añadiremos al objeto</param>
         public static void PropertySetValue(object obj, string property, object value)
         {
-            try
-            {
+           
                 Type tipo = obj.GetType();
                 
                 foreach (PropertyInfo info in tipo.GetProperties())
@@ -111,10 +100,8 @@ namespace KarveCar.Utility
                         break;
                     }
                 }
-            }
-            catch (SAException e)
-            {
-            }
+            
+           
         }
 
         /// <summary>
@@ -126,8 +113,6 @@ namespace KarveCar.Utility
         public static object PropertyGetValue(object obj, string property)
         {
             object value = null;
-            try
-            {
                 Type tipo = obj.GetType();
 
                 foreach (PropertyInfo info in tipo.GetProperties())
@@ -138,10 +123,8 @@ namespace KarveCar.Utility
                         break;
                     }
                 }
-            }
-            catch (SAException e)
-            {
-            }
+            
+           
             return value;        
         }
 

@@ -31,8 +31,8 @@ namespace KarveCommon.ViewModels
         private ICommand _goBackCommand;
         private IDataServices _dataServices;
         private IDialogService _dialogService;
-        private INotifyTaskCompletion<IEnumerable<BaseDto>> _initializationTable;
-        private PropertyChangedEventHandler _ev;
+        //  private INotifyTaskCompletion<IEnumerable<BaseDto>> _initializationTable;
+        private PropertyChangedEventHandler _eventLoader;
 
         /// <summary>
         ///  GenericGridViewModel. This is a grid view model for every loading.
@@ -40,7 +40,7 @@ namespace KarveCommon.ViewModels
         public GridDetailsViewModel(IDataServices dataServices, IDialogService dialogService)
         {
             GoBackCommand = new DelegateCommand(GoBack);
-            _ev += OnLoadedHandler;
+            _eventLoader += OnLoadedHandler;
             _dataServices = dataServices;
             _dialogService = dialogService;
         }
@@ -124,7 +124,7 @@ namespace KarveCommon.ViewModels
 
         public void Dispose()
         {
-            _ev -= OnLoadedHandler;
+            _eventLoader -= OnLoadedHandler;
         }
 
         public object DetailsView

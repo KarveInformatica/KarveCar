@@ -8,6 +8,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
 using NLog;
+using KarveDataServices.DataTransferObject;
 
 namespace ToolBarModule.Command
 {
@@ -125,6 +126,79 @@ namespace ToolBarModule.Command
         /// <param name="manager">Event manager</param>
         /// <param name="payLoad">Payload to be filed.</param>
         public abstract void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad);       
-        protected abstract  Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad); 
+        protected abstract  Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad);
+
+        /* 
+         * 
+         * This method handles all the grid operations 
+         */
+        protected async Task UpdateGridAsync<Dto, Entity>(DataPayLoad payLoad) where Dto : class
+                                                                       where Entity : class
+        {
+            GridOperationHandler<Dto> gridOperationHandler = new GridOperationHandler<Dto>(DataServices);
+            IEnumerable<Dto> dtoValues = payLoad.RelatedObject as IEnumerable<Dto>;
+            // ok now we can see if it is an insert or a delete.
+            if (dtoValues != null)
+            {
+                var newItems = dtoValues.Where(x =>
+                {
+                    BaseDto baseDto = x as BaseDto;
+                    return (baseDto.IsNew == true);
+                });
+                if (newItems.Count() > 0)
+                {
+                    await gridOperationHandler.ExecuteInsertAsync<Entity>(newItems);
+                }
+
+                var itemsToDelete = dtoValues.Where(x=>
+                {
+                    BaseDto baseDto = x as BaseDto;
+                    return (baseDto.IsDeleted == true);
+                });
+                if (itemsToDelete.Count()>0)
+                {
+                    await gridOperationHandler.ExecuteDeleteAsync<Entity>(itemsToDelete);
+                }
+                var updateItems = dtoValues.Where(x =>
+                {
+                    BaseDto baseDto = x as BaseDto;
+                    return ((baseDto.IsDirty == true) && (baseDto.IsNew == false));
+                });
+                if (updateItems.Count() > 0)
+                {
+                    await gridOperationHandler.ExecuteUpdateAsync<Entity>(updateItems);
+                }
+                for (int i = 0; i < updateItems.Count(); ++i)
+                {
+                    BaseDto baseDto = updateItems.ElementAt(i) as BaseDto;
+                    if (baseDto != null)
+                    {
+                        baseDto.IsNew = false;
+                        baseDto.IsDirty = false;
+                    }
+                }
+            }
+        }
+
+        protected async Task<bool> DeleteGridAsync<Dto, Entity>(DataPayLoad payLoad) where Dto: class
+                                                                                where Entity: class
+        {
+            bool retValue = false;
+            GridOperationHandler<Dto> gridOperationHandler = new GridOperationHandler<Dto>(DataServices);
+            IEnumerable<Dto> dtoValues = payLoad.RelatedObject as IEnumerable<Dto>;
+            if (dtoValues!=null)
+            {
+                var toBeDeleted = dtoValues.Where(x=>
+                {
+                    BaseDto baseDto = x as BaseDto;
+                    return (baseDto.IsDeleted == true);
+                });
+                if (toBeDeleted.Count()>0)
+                {
+                   retValue = await gridOperationHandler.ExecuteDeleteAsync<Dto>(toBeDeleted);
+                }
+            }
+            return retValue;
+        }
     }
 }

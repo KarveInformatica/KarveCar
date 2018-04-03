@@ -2208,4 +2208,13 @@
   <data name="lultmodi" xml:space="preserve">
     <value>Ultima modificacion</value>
   </data>
+  <data name="lprovinceCode" xml:space="preserve">
+    <value>Codigo Provincia</value>
+  </data>
+  <data name="lfecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="lname" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
 </root>

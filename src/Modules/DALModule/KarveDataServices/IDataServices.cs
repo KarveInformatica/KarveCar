@@ -5,7 +5,7 @@ namespace KarveDataServices
 {
     /// <summary>
     ///  This a public interface for the API towards the database access.
-    ///  It is an interface for abstracting all dataservices.
+    ///  It is an interface for abstracting all dataservices. 
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
     /// 
@@ -66,7 +66,7 @@ namespace KarveDataServices
         IInvoiceDataServices GetInvoiceDataServices();
         
         /// <summary>
-        ///  This will deprecate the above interfaces.
+        ///  Return the data service.
         /// </summary>
         /// <typeparam name="T">Type the service</typeparam>
         /// <returns>Returns the data service</returns>
@@ -77,6 +77,11 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="connectionString">Connection String</param>
         void Reconfigure(string connectionString);
+       /// <summary>
+       ///  Get the assist data service.
+       /// </summary>
+       /// <returns>Return the service for the assist get data services</returns>
+       IAssistDataService GetAssistDataServices();
     }
 
 }

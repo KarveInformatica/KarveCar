@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("KarveLocale")]
-[assembly: AssemblyDescription("Localization string for the KarveWin")]
+[assembly: AssemblyDescription("Localization Module for KarveWin")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Karve Informatica S.L.")]
 [assembly: AssemblyProduct("KarveWin")]

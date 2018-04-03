@@ -193,5 +193,15 @@ namespace MasterModule.ViewModels
            base.DisposeEvents();
            DeleteMailBox(_mailBoxName);
         }
+
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void LoadMoreItems(uint count, int baseIndex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

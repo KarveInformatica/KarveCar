@@ -51,7 +51,8 @@ namespace DataAccessLayer
         ///  SqlExecutor.
         /// </summary>
         private ISqlExecutor _executor;
-      
+
+        private IAssistDataService _assistDataService;
         /// <summary>
         /// DataService Implementation
         /// </summary>
@@ -85,7 +86,7 @@ namespace DataAccessLayer
             _companyDataService = new CompanyDataServices(sqlExecutor);
             _contractDataService = new ContractDataServices(sqlExecutor);
             _invoiceDataService = new InvoiceDataServices(sqlExecutor);
-
+            _assistDataService = new AssistDataService(this);
 
         }
         /// <summary>
@@ -187,6 +188,14 @@ namespace DataAccessLayer
         public IInvoiceDataServices GetInvoiceDataServices()
         {
             return _invoiceDataService;
+        }
+        /// <summary>
+        ///  Assist data services. All the services needed to manage the assist.
+        /// </summary>
+        /// <returns></returns>
+        public IAssistDataService GetAssistDataServices()
+        {
+            return _assistDataService;
         }
     }
 }

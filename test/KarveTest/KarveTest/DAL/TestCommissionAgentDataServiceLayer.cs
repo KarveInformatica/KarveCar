@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.DataObjects.Wrapper;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -118,7 +117,7 @@ namespace KarveTest.DAL
             ICommissionAgentDataServices commisionAgentDataServices = _dataServices.GetCommissionAgentDataServices();
             ICommissionAgent agent = await commisionAgentDataServices.GetCommissionAgentDo(numComi);
             Assert.NotNull(agent);
-            COMISIO comisio = (COMISIO) agent.Value;
+            ComisioDto comisio = (ComisioDto) agent.Value;
             Assert.AreEqual(comisio.NUM_COMI, numComi);
             var data = agent.CommisionTypeDto.FirstOrDefault(c => c.Codigo == comisio.NUM_COMI);
             Assert.NotNull(data);
@@ -251,12 +250,12 @@ namespace KarveTest.DAL
 
             Assert.NotNull(agent);
             Assert.NotNull(agent.Value);
-            COMISIO comisio = (COMISIO) agent.Value;
+            ComisioDto comisio = (ComisioDto) agent.Value;
             Assert.NotNull(comisio.NUM_COMI, primaryKeyValue);
         }
 
         [Test]
-        public async Task Should_Create_AgentCorrectly()
+        public void Should_Create_AgentCorrectly()
         {
             IDictionary<string, string> fields = new Dictionary<string, string>();
             fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
@@ -268,7 +267,7 @@ namespace KarveTest.DAL
               
             ICommissionAgent commissionAgent = agent;
             Assert.NotNull(commissionAgent);
-            COMISIO value = commissionAgent.Value as COMISIO;
+            ComisioDto value = commissionAgent.Value as ComisioDto;
             Assert.NotNull(value);
             Assert.AreEqual(value.NUM_COMI, numComi);
         }
@@ -285,7 +284,7 @@ namespace KarveTest.DAL
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
-            COMISIO internalValue = (COMISIO) commissionAgent.Value;
+            ComisioDto internalValue = (ComisioDto) commissionAgent.Value;
             IEnumerable<BranchesDto> branchesDto = commissionAgent.DelegationDto;
             IEnumerable<ContactsDto> contactsDtos = commissionAgent.ContactsDto;
             IEnumerable<VisitsDto> visitsDtos = commissionAgent.VisitsDto;
@@ -295,7 +294,7 @@ namespace KarveTest.DAL
             Assert.NotNull(internalValue);
             internalValue.NOMBRE = "Karve2Comission";
             commissionAgent.Value = internalValue;
-            bool isSaved = await _commissionAgentDataServices.SaveChangesCommissionAgent(commissionAgent);
+            bool isSaved = await _commissionAgentDataServices.SaveCommissionAgent(commissionAgent);
             Assert.True(isSaved);
         }
 
@@ -315,7 +314,7 @@ namespace KarveTest.DAL
             dataCountry.Code = "34";
             dataCountry.CountryName = "Spain";
            // commissionAgent.Country = dataCountry;
-            COMISIO comisio = (COMISIO) commissionAgent.Value;
+            ComisioDto comisio = (ComisioDto) commissionAgent.Value;
             comisio.NUM_COMI = _commissionAgentDataServices.GetNewId();
             Assert.NotNull(comisio.NUM_COMI);
             comisio.TIPOCOMI = "2";

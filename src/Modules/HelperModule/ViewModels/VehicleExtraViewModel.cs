@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
@@ -17,14 +14,17 @@ namespace HelperModule.ViewModels
     internal class VehicleExtraViewModel: GenericHelperViewModel<VehicleExtraDto, EXTRASVEHI>
     {
         private HelperLoader<VehicleTypeDto, CATEGO> _vehicleTypeLoader;
-
         public DelegateCommand<object> ExtraAssistCommand { get; set; }
-
         private IncrementalList<VehicleTypeDto> _vehicleTypeDto;
 
 
-        private ObservableCollection<VehicleTypeDto> _vehicleTypeCollection;
-
+        
+        /// <summary>
+        /// Constructor for the vehicleviewextra view model.
+        /// </summary>
+        /// <param name="dataServices">DataServices to be used</param>
+        /// <param name="region">Region manager to be used</param>
+        /// <param name="manager">Event manager to be used</param>
 
         public VehicleExtraViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty, dataServices, region, manager)
         {
@@ -32,12 +32,13 @@ namespace HelperModule.ViewModels
             InitLoad();
         }
 
-
-        void InitLoad()
+        /// <summary>
+        /// Initialize the items and the incremental list to be shown in a grid.
+        /// </summary>
+        private void InitLoad()
         {
             _vehicleTypeDto = new IncrementalList<VehicleTypeDto>(LoadMoreItems);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleExtra;
-           
         }
         /// <summary>
         ///  VehicleTypeDto.

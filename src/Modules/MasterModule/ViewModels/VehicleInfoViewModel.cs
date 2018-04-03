@@ -37,7 +37,7 @@ namespace MasterModule.ViewModels
         private object _dataObject;
         private object _deleteNotifyTaskCompletion;
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
-        private string _header;
+       
         private string _assistQueryOwner;
         private ObservableCollection<VehicleActivitiesDto> _activity;
         private ObservableCollection<AgentDto> _agents;
@@ -72,7 +72,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<AccountDto> _accountDtoPaymentAccountDto;
         private ObservableCollection<AccountDto> _accountDtoCapitalCp;
         private ObservableCollection<AccountDto> _accomulatedRepayment;
-          private IRegionManager _regionManager;
+        private IRegionManager _regionManager;
         private ObservableCollection<CityDto> _cityDto;
         private ObservableCollection<CityDto> _roadTaxesCities = new ObservableCollection<CityDto>();
         private ObservableCollection<ZonaOfiDto> _officeZoneRoadTaxes;
@@ -84,6 +84,8 @@ namespace MasterModule.ViewModels
         private IEnumerable<ModelVehicleDto> _modelDtos;
         private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
         private IEnumerable<ColorDto> _colorDto;
+        private QueryStoreFactory _queryStoreFactory;
+
 
         // This returns the list of activity when asked.
         public ObservableCollection<VehicleActivitiesDto> ActivityDtos
@@ -350,8 +352,9 @@ namespace MasterModule.ViewModels
         /// <param name="services">Data access layer interface</param>
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
             IDialogService dialogService,
+            IAssistService assistService,
             IDataServices services, IRegionManager regionManager) : 
-            base(eventManager, configurationService, dialogService, services, regionManager)
+            base(eventManager, configurationService,services ,dialogService, assistService, regionManager)
         {
  			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();
@@ -364,7 +367,7 @@ namespace MasterModule.ViewModels
             _deleteEventHandler+=DeleteEventHandler;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
-
+            _queryStoreFactory = new QueryStoreFactory();
             ActiveSubSystem();
         }
       
@@ -585,8 +588,8 @@ namespace MasterModule.ViewModels
         {
             get
             {
-                QueryStore store = QueryStore.GetInstance();
-                store.AddParam(QueryStore.QueryType.QuerySupplierSummary);
+                IQueryStore store = _queryStoreFactory.GetQueryStore();
+                store.AddParam(QueryType.QuerySupplierSummary);
                 return store.BuildQuery();
             }
         }
@@ -597,8 +600,8 @@ namespace MasterModule.ViewModels
         {
             get
             {
-                QueryStore store = QueryStore.GetInstance();
-                store.AddParam(QueryStore.QueryType.QuerySellerSummary);
+                IQueryStore store = _queryStoreFactory.GetQueryStore();
+                store.AddParam(QueryType.QuerySellerSummary);
                 return store.BuildQuery();
             }
         }

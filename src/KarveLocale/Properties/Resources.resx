@@ -2655,4 +2655,16 @@
   <data name="lultmodi" xml:space="preserve">
     <value>Ultima Modificacion</value>
   </data>
+  <data name="lprovinceCode" xml:space="preserve">
+    <value>Cod.Provincia</value>
+  </data>
+  <data name="lfecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="lname" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia" xml:space="preserve">
+    <value>Listado Provincia</value>
+  </data>
 </root>

@@ -31,7 +31,7 @@ namespace MasterModule.ViewModels
    internal sealed class ProviderInfoViewModel : MasterInfoViewModuleBase, IEventObserver
     {
      
-        private string _header;
+      
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private INotifyTaskCompletion<ISupplierData> _initializationTable;
         // FIXME: move to data layer.
@@ -86,8 +86,8 @@ namespace MasterModule.ViewModels
         private IEnumerable<DeliveringWayDto> _deliveryWayDto;
         private IEnumerable<SupplierTypeDto> _supplierTypeDto;
 
-        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
-        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
      //   private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
 
     public ObservableCollection<CountryDto> CountryDto
@@ -187,7 +187,7 @@ namespace MasterModule.ViewModels
         /// <param name="dataServices"></param>
         /// <param name="manager"></param>
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
-             IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
+             IDataServices dataServices, IDialogService dialogService, IAssistService assistService, IRegionManager manager) : base(eventManager, configurationService, dataServices, dialogService, assistService, manager)
         {
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;   
@@ -234,38 +234,14 @@ namespace MasterModule.ViewModels
         /// <param name="obj">This send a delegation fo the changed command</param>
         private async void DelegationChangedCommandHandler(object obj)
         {
-            Tuple<bool,BranchesDto> retValue = await GridChangedCommand<BranchesDto, ProDelega>(obj, 
-                                                                            _onBranchesPrimaryKey, 
-                                                                         DataSubSystem.SupplierSubsystem);
-            if (retValue.Item1)
-            {
-                if ((_supplierData != null) && (_supplierData.BranchesDtos!=null))
-                {
-                    IEnumerable<BranchesDto> branchesDtos = new ObservableCollection<BranchesDto>();
-                    Union<BranchesDto>(ref branchesDtos, retValue.Item2);
-                    _supplierData.BranchesDtos = branchesDtos;
-                }
 
-            }
+            await GridChangedNotification<BranchesDto, ProDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+
         }
 
         private async void ContactsChangedCommandHandler(object obj)
         {
-            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, ProContactos>(obj,
-                _onContactsPrimaryKey,
-                DataSubSystem.SupplierSubsystem);
-            if (retValue.Item1)
-            {
-                if ((_supplierData != null) && (_supplierData.ContactsDtos != null))
-                {
-                    var contactDto = retValue.Item2;
-                    contactDto.ContactsKeyId = PrimaryKeyValue;
-                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
-                    Union<ContactsDto>(ref contactsDtos, contactDto);
-                    _supplierData.ContactsDtos = contactsDtos;
-                }
-            }
-           
+            await GridChangedNotification<ContactsDto, ProContactos>(obj, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
         }
         // This register the different assist types.
 
@@ -641,9 +617,9 @@ namespace MasterModule.ViewModels
                 DataSubSystem.SupplierSubsystem);
 
             var fieldName = string.Empty;
-            object valueName = null;
-
+           
             SetBasePayLoad(eventDictionary, ref payLoad);
+            // FIXME: replace conditional with polymorphism.
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 payLoad.PayloadType = DataPayLoad.Type.Insert;
@@ -919,8 +895,8 @@ namespace MasterModule.ViewModels
         {
             if (sender is ISupplierData)
             {
-                ISupplierData vehicle = (ISupplierData)sender;
-                DataObject = vehicle;
+                ISupplierData supplierData = (ISupplierData)sender;
+                DataObject = supplierData;
             }
         }
 
@@ -967,6 +943,7 @@ namespace MasterModule.ViewModels
                     
                 }
                 // here i can fix the primary key. Consider to move up to the master module.
+                
                 switch (payload.PayloadType)
                 {
                     case DataPayLoad.Type.UpdateData:

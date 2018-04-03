@@ -31,6 +31,8 @@ namespace KarveDataServices
          /// <param name="assistQuery"></param>
          /// <returns></returns>
         Task<IEnumerable<T>> GetAsyncHelper<T>(string assistQuery);
+       
+
         /// <summary>
         /// Execute an update asynchronous for the entities.
         /// </summary>
@@ -53,14 +55,45 @@ namespace KarveDataServices
         /// <param name="entity">Value of the entity</param>
         /// <returns></returns>
         Task<bool> ExecuteAsyncDelete<DtoTransfer, T>(DtoTransfer entity) where T : class;
+
+        /// <summary>
+        ///  This execute a bulk delete of a set of items.
+        /// </summary>
+        /// <typeparam name="DtoTransfer">Data transfer object to delete</typeparam>
+        /// <typeparam name="T">Entity to delete.</typeparam>
+        /// <param name="objectValues">Array of items to be deleted.</param>
+        /// <returns>Trur if the value has been deleted successfully</returns>
+       
+        Task<bool> ExecuteBulkDeleteAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> objectValues) where T : class;
+
         /// <summary>
         ///  This execute or insert an update. Detect if the entity is already present and insert or update it.
         /// </summary>
         /// <typeparam name="DtoTransfer">Type of the data transfer object to be used</typeparam>
         /// <typeparam name="T">Type of the entity to be used.</typeparam>
+        /// <param name="entity">Array to be used to update</param>
+        /// <returns>Returns true if the entity is correctly updated</returns>
+        Task<bool> ExecuteInsertOrUpdate<DtoTransfer, T>(DtoTransfer entity) where T : class;
+
+        /// <summary>
+        ///  This asynchronously does an update or an insert of an entity.
+        /// </summary>
+        /// <typeparam name="DtoTransfer">Type of the data transfer object to be used
+        /// </typeparam>
+        /// <typeparam name="T">Entity to be used</typeparam>
+        /// <param name="entity">Array to be used to update</param>
+        /// <returns>Returns true if the entity is correctly updated</returns>
+        Task<bool> ExecuteBulkUpdateAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> entity) where T : class;
+    
+        /// <summary>
+        /// This asynchrnously does a bulk insert of items.
+        /// </summary>
+        /// <typeparam name="DtoTransfer">Data transfer of objects</typeparam>
+        /// <typeparam name="T">Entities to delete</typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<bool> ExecuteInsertOrUpdate<DtoTransfer, T>(DtoTransfer entity) where T : class;
+        Task<bool> ExecuteBulkInsertAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> entity) where T : class;
+    
         /// <summary>
         /// This generates a random number that it is the field of the entity
         /// </summary>

@@ -33,7 +33,7 @@ namespace MasterModule.ViewModels
         {
             _regionManager = manager;
             GoBackCommand = new DelegateCommand(GoBack);
-            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 2000 }; ;
+            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 2000 }; 
             GoForwardCommand = new DelegateCommand(GoForward);
             _notifyTaskCompletion = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(LoadData(services), _notificationHandler);
             _notificationHandler += OnLoadedNotification;

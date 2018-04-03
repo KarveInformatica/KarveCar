@@ -22,6 +22,7 @@ namespace DataAccessLayer.Crud.Office
         private ISqlExecutor _executor;
         private IMapper _mapper;
         private long _currentPos;
+        private QueryStoreFactory _queryStoreFactory;
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -30,8 +31,12 @@ namespace DataAccessLayer.Crud.Office
         {
             _executor = executor;
             _mapper = MapperField.GetMapper();
+            _queryStoreFactory = new QueryStoreFactory();
         }
-
+        /// <summary>
+        /// Load asynchronously a list of offices.
+        /// </summary>
+        /// <returns>A list of offcies</returns>
         public async Task<IEnumerable<OfficeDtos>> LoadAsyncAll()
         {
             IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
@@ -44,7 +49,11 @@ namespace DataAccessLayer.Crud.Office
             }
             return officeDtos;
         }
-
+        /// <summary>
+        /// Load asynchronous values.
+        /// </summary>
+        /// <param name="code">Code to be used</param>
+        /// <returns>An office data transfer object</returns>
         public async Task<OfficeDtos> LoadValueAsync(string code)
         {
             OfficeDtos officeDtos = new OfficeDtos();
@@ -55,9 +64,9 @@ namespace DataAccessLayer.Crud.Office
                 
                 if (value != null)
                 {
-                    QueryStore queryStore = new QueryStore();
-                    queryStore.AddParam(QueryStore.QueryType.QueryCurrency);
-                    queryStore.AddParam(QueryStore.QueryType.HolidaysByOffice, value.CODIGO);
+                    IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
+                    queryStore.AddParam(QueryType.QueryCurrency);
+                    queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
                     var queryHolidays = queryStore.BuildQuery();
                     var reader = await connection.QueryMultipleAsync(queryHolidays);
                     var offices = reader.Read<CURRENCIES>();
@@ -75,10 +84,10 @@ namespace DataAccessLayer.Crud.Office
         public async Task<IEnumerable<OfficeDtos>> LoadValueAtMostAsync(int n, int back = 0)
         {
             IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
-            QueryStore store = new QueryStore();
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                store.AddParamRange(QueryStore.QueryType.QueryPagedCompany, _currentPos, n);
+                store.AddParamRange(QueryType.QueryPagedCompany, _currentPos, n);
                 _currentPos += n + back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<OFICINAS>(query);
@@ -88,11 +97,11 @@ namespace DataAccessLayer.Crud.Office
             
         }
 
-        private QueryStore CreateQueryStore(OFICINAS office)
+        private IQueryStore CreateQueryStore(OFICINAS office)
         {
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.QueryCity, office.CP);
-            store.AddParam(QueryStore.QueryType.QueryOfficeZone, office.ZONAOFI);
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryCity, office.CP);
+            store.AddParam(QueryType.QueryOfficeZone, office.ZONAOFI);
             return store;
         }
 

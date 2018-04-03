@@ -88,6 +88,7 @@
     <Compile Include="Assist\IAssistHandler.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
+    <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
     <Compile Include="DataTransferObject\InvoiceDto.cs" />
     <Compile Include="DataTransferObject\ContractDto.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="DataTransferObject\OwnerDto.cs" />
     <Compile Include="DataTransferObject\PaymentFormDto.cs" />
     <Compile Include="DataTransferObject\PeoplePositionDto.cs" />
+    <Compile Include="DataTransferObject\PersonalPositionDto.cs" />
     <Compile Include="DataTransferObject\PictureDto.cs" />
     <Compile Include="DataTransferObject\PriceConditionDto.cs" />
     <Compile Include="DataTransferObject\PrimaryKeyAttribute.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="DataTransferObject\ZonaDto.cs" />
     <Compile Include="DomainWrapperFactory.cs" />
     <Compile Include="IAssistDataService.cs" />
+    <Compile Include="IAssistMapper.cs" />
     <Compile Include="IClientDataServices.cs" />
     <Compile Include="ICompanyDataService.cs" />
     <Compile Include="IContractDataServices.cs" />

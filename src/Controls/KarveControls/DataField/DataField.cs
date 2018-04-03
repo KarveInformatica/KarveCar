@@ -5,14 +5,11 @@ using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Windows.Input;
 
-/// <summary>
-/// When we wanted to back a property by dp and provide a default value, use PropertyMetadata, if you want to specify animation behavior, use UIPropertyMetadata,
-/// but if some property affects wpf framework level stuffs eg element layout, parent layout or databinding, use FrameworkPropertyMetadata.
-/// </summary>
 namespace KarveControls
 {
     /// <summary>
-    /// DataField Control definitions.
+    /// DataField Control definitions. A data field control is simply a couple of label and textbox.
+    /// It has associated a Command to notify changes when it loses its focus.
     /// </summary>
     [TemplatePart(Name = "PART_DataFieldContent", Type = typeof(StackPanel))]
     [TemplatePart(Name = "PART_LabelField", Type = typeof(TextBlock))]
@@ -658,9 +655,7 @@ namespace KarveControls
                 {
                     FieldData = textField.Text
                 };
-                // This shall be not needed.
-                //  FillDo(textField.Text, ref _dataObject);
-                //   DataObject = _dataObject;
+              
                 var valueDictionary = InitValueDictionary(textField.Text, DataObject);
                 ev.ChangedValuesObjects = valueDictionary;
                

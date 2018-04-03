@@ -25,6 +25,7 @@ namespace DataAccessLayer
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
         /// <summary>
         ///  Constructor.
         /// </summary>
@@ -70,8 +71,8 @@ namespace DataAccessLayer
         {
             using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
             {
-                QueryStore store = new QueryStore();
-                store.AddParam(QueryStore.QueryType.QueryInvoiceSummaryExtended);
+                IQueryStore store = _queryStoreFactory.GetQueryStore();
+                store.AddParam(QueryType.QueryInvoiceSummaryExtended);
                 var query = store.BuildQuery();
                 var invoice = await db.QueryAsync<InvoiceSummaryValueDto>(query);
                 return invoice;

@@ -15,6 +15,12 @@ using Prism.Regions;
 using System.Threading.Tasks;
 using NLog;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.ComponentModel;
+using KarveDataServices.DataTransferObject;
+using Syncfusion.UI.Xaml.Grid;
+using System.Linq;
+
 
 namespace MasterModule.ViewModels
 {
@@ -25,9 +31,13 @@ namespace MasterModule.ViewModels
         private const string ComiColumnCode = "Nombre";
         private readonly UnityContainer _container;
         private readonly IDataServices _dataServices;
+        private readonly IDialogService _dialogService;
         private IUserSettings _settings;
-        
-
+       
+        private INotifyTaskCompletion<IEnumerable<CommissionAgentSummaryDto>> _commissionAgentTaskNotify;
+        private IncrementalList<CommissionAgentSummaryDto> _commissionAgentSummaryDto;
+        private PropertyChangedEventHandler _commissionAgentDataLoaded;
+        private PropertyChangedEventHandler _commissionAgentEventTask;
         /// <summary>
         ///  This is the region manager.
         /// </summary>
@@ -45,11 +55,12 @@ namespace MasterModule.ViewModels
         public CommissionAgentControlViewModel(IConfigurationService configurationService,
             IEventManager eventManager,
             UnityContainer container,
-            IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
+            IDataServices services, IRegionManager regionManager, IDialogService dialogService) : base(configurationService, eventManager, services, regionManager)
         {
             _regionManager = regionManager;
             _container = container;
             _dataServices = services;
+            _dialogService = dialogService;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
 
@@ -75,14 +86,19 @@ namespace MasterModule.ViewModels
             GridId = GridIdentifiers.CommissionAgent;
             MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
             MessageHandlerMailBox += CommissionAgentMailBox;
+            _commissionAgentDataLoaded += OnLoadCommissionAgent;
+            _commissionAgentEventTask += OnNotifyIncrementalList<CommissionAgentSummaryDto>;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
-           
             StartAndNotify();
         }
 
         public override void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(EventSubsystem.CommissionAgentSummaryVm);
+            MessageHandlerMailBox -= CommissionAgentMailBox;
+            _commissionAgentDataLoaded -= OnLoadCommissionAgent;
+            _commissionAgentEventTask -= OnNotifyIncrementalList<CommissionAgentSummaryDto>;
+
         }
 
 
@@ -92,32 +108,60 @@ namespace MasterModule.ViewModels
         /// <param name="currentItem"></param>
         private async void OpenCurrentItem(object currentItem)
         {
-            DataRowView rowView = currentItem as DataRowView;
-            Stopwatch watch = new Stopwatch();
+            CommissionAgentSummaryDto rowView = currentItem as CommissionAgentSummaryDto;
+          
             if (rowView != null)
             {
-                Tuple<string, string> idNameTuple = ComputeIdName(rowView, ComiNameColumn, ComiColumnCode);
-                string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-                ICommissionAgent agent = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(idNameTuple.Item2);
+                string tabName = rowView.Code + "." + rowView.Name;
+                ICommissionAgent broker = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(rowView.Code);
+                var brokerId = broker.Value.NUM_COMI;
+               
+                Logger.Log(LogLevel.Debug, "[UI] CommissionAgentControlViewModel. Opening Tab: " + brokerId);
                 var navigationParameters = new NavigationParameters();
-                var id = idNameTuple.Item1;
+                var id = brokerId;
                 navigationParameters.Add("Id", id);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-
                 var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
-                Logger.Log(LogLevel.Debug, "[UI] CommissionInfoViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 RegionManager.RequestNavigate("TabRegion", uri);
-                Logger.Log(LogLevel.Debug, "[UI] CommisionInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-               
-               
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
 
-                currentPayload.PrimaryKeyValue = idNameTuple.Item2;
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, broker);
+                currentPayload.PrimaryKeyValue = brokerId;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
                 ActiveSubSystem();
-           }
-        }
 
+            }
+        }
+        /// <summary>
+        ///  This leads a commission agent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnLoadCommissionAgent(object sender, PropertyChangedEventArgs e)
+        {
+            INotifyTaskCompletion<ICommissionAgent> notification = sender as INotifyTaskCompletion<ICommissionAgent>;
+            if (notification.IsSuccessfullyCompleted)
+            {
+                ICommissionAgent broker = notification.Task.Result;
+                var brokerId =broker.Value.NUM_COMI;
+                var tabName = brokerId + "." + broker.Value.NOMBRE;
+                Logger.Log(LogLevel.Debug, "[UI] CommissionAgentControlViewModel. Opening Tab: " + brokerId);
+                var navigationParameters = new NavigationParameters();
+                var id = brokerId;
+                navigationParameters.Add("Id", id);
+                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
+                RegionManager.RequestNavigate("TabRegion", uri);
+
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, broker);
+                currentPayload.PrimaryKeyValue = brokerId;
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
+                ActiveSubSystem();
+            }
+            else if (notification.IsFaulted)
+            {
+                _dialogService?.ShowErrorMessage(notification.ErrorMessage);
+            }
+        }
         /// <summary>
         ///  Navigation support.
         /// </summary>
@@ -148,7 +192,7 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             ICommissionAgentDataServices commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(commissionAgentDataServices.GetCommissionAgentSummary(), InitializationNotifierOnPropertyChanged);
+            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(commissionAgentDataServices.GetCommissionAgentSummaryDo(), _commissionAgentEventTask);
         }
         /// <summary>
         ///  Each viewmodel uses the event manager for handling messages and has unique id.
@@ -255,8 +299,21 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             return retValue;
         }
+        protected override void LoadMoreItems(uint count, int baseIndex)
+        {
+            var list = _commissionAgentSummaryDto.Skip(baseIndex).Take(100).ToList();
+            var summary = SummaryView as IncrementalList<CommissionAgentSummaryDto>;
+            summary.LoadItems(list);
+        }
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            var resultValue = result as IEnumerable<CommissionAgentSummaryDto>;
+            _commissionAgentSummaryDto = new IncrementalList<CommissionAgentSummaryDto>(LoadMoreItems) { MaxItemCount = resultValue.Count() };
+            _commissionAgentSummaryDto.LoadItems(resultValue);
+            SummaryView = _commissionAgentSummaryDto;
+        }
 
-        
+     
         // create a scope for navigation.
         public bool CreateRegionManagerScope {
             get

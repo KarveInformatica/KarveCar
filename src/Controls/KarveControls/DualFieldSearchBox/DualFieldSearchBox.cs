@@ -732,7 +732,7 @@ namespace KarveControls
         private ControlExt.DataType _dataAllowedFirst;
         private ControlExt.DataType _dataAllowedSecond;
         private readonly ComponentFiller _componentFiller;
-        private bool _firstSelection = true;
+        
 
         private bool _textMode = false;
         private TextBox SearchTextFirst;
@@ -741,7 +741,7 @@ namespace KarveControls
         private SfDataGrid MagnifierGrid;
         private Image PopUpButtonImage;
         private TextBlock SearchLabel;
-
+        private const int _widthOffSet = 30;
         static DualFieldSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DualFieldSearchBox), new FrameworkPropertyMetadata(typeof(DualFieldSearchBox)));
@@ -1134,13 +1134,13 @@ namespace KarveControls
                    
                     if (_buttonManifierState == 1)
                     {
-                        _firstSelection = true;
+                     
                         if (Popup != null)
                         {
                            
                             this.Popup.IsOpen = true;
 
-                            this.Popup.Width = MagnifierGrid.ActualWidth + 30;
+                            this.Popup.Width = MagnifierGrid.ActualWidth + _widthOffSet;
                             _buttonManifierState = 0;
                         }
 

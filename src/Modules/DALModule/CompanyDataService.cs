@@ -12,6 +12,7 @@ using Dapper;
 using System.Collections.ObjectModel;
 using DataAccessLayer.Model;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Exception;
 
 namespace DataAccessLayer
 {
@@ -21,6 +22,7 @@ namespace DataAccessLayer
         private CompanyDataLoader _loader;
         private CompanyDataSaver _saver;
         private CompanyDataDeleter _deleter;
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
         /// <summary>
         ///  This is a service for loading company data
         /// </summary>
@@ -51,24 +53,41 @@ namespace DataAccessLayer
         /// <returns>Return the list of company summary</returns>
         public async Task<IEnumerable<CompanySummaryDto>> GetAsyncAllCompanySummary()
         {
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.QueryCompanySummary);
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryCompanySummary);
             var query = store.BuildQuery();
             IEnumerable<CompanySummaryDto> companySummaryDto = new ObservableCollection<CompanySummaryDto>();
             using (IDbConnection conn = sqlExecutor.OpenNewDbConnection())
             {
-                companySummaryDto = await conn.QueryAsync<CompanySummaryDto>(query);
+                try
+                {
+                    companySummaryDto = await conn.QueryAsync<CompanySummaryDto>(query);
+
+                } catch (System.Exception ex)
+                {
+                    throw new DataAccessLayerException("GetAsyncAllCompanySummary exception", ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
             return companySummaryDto;
         }
+        /// <summary>
+        ///  Retrieve the company data object given the company identifier.
+        /// </summary>
+        /// <param name="id">Identifier of the company</param>
+        /// <returns>Data of the company</returns>
         public async Task<ICompanyData> GetAsyncCompanyDo(string id)
         {
             CompanyDto dto =  await _loader.LoadValueAsync(id).ConfigureAwait(true);
             ICompanyData data = new Company();
             data.Value = dto;
+            // initialize the dto for the province and the city.
             var prov = new ObservableCollection<ProvinciaDto>();
-            prov.Add(dto.Province);
             var city = new ObservableCollection<CityDto>();
+            prov.Add(dto.Province);
             city.Add(dto.City);
             data.ProvinciaDto = new ObservableCollection<ProvinciaDto>();
             data.CityDto = city;
@@ -80,7 +99,7 @@ namespace DataAccessLayer
         ///  Return new company objects.
         /// </summary>
         /// <param name="code">Code of the company.</param>
-        /// <returns></returns>
+        /// <returns>Create a new company.</returns>
         public ICompanyData GetNewCompanyDo(string code)
         {
             CompanyDto dto = new CompanyDto();
@@ -90,9 +109,9 @@ namespace DataAccessLayer
             return data;
         }
         /// <summary>
-        ///  Return a company identifier.1
+        ///  Return a company identifier
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Get a new identifier unique for the company</returns>
         public string GetNewId()
         {
             string id = string.Empty;
@@ -104,7 +123,7 @@ namespace DataAccessLayer
             return id;
         }
         /// <summary>
-        ///  Save asynchronous data
+        ///  Save the data of the company asynchronously.
         /// </summary>
         /// <param name="companyData">Company data</param>
         /// <returns>Boolean company</returns>

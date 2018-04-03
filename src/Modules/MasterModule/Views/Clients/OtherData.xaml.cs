@@ -23,12 +23,7 @@ namespace MasterModule.Views.Clients
     {
         public OtherData()
         {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
             InitializeComponent();
-            watch.Start();
-            var value = watch.ElapsedMilliseconds;
-            var dc = 10;
         }
     }
 }

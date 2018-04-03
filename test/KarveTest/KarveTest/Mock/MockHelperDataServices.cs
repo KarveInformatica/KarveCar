@@ -240,5 +240,25 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public void ExecuteBulkDelete<DtoTransfer, T>(IEnumerable<DtoTransfer> objectValues) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteBulkUpdateAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteBulkDeleteAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> objectValues) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExecuteBulkInsertAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> entity) where T : class
+        {
+            throw new NotImplementedException();
+        }
     }
 }

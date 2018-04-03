@@ -79,6 +79,7 @@ namespace KarveTest.ViewModels
         [Test]
         private void Should_Update_After_ItemChangedCommand()
         {
+            // arrange
             ICommand command = _vehicleTypeViewModel.ItemChangedCommand;
             VehicleTypeDto dto = new VehicleTypeDto();
             dto.Code = "5L";
@@ -86,8 +87,10 @@ namespace KarveTest.ViewModels
             dto.WebName = "Fiat 500";
             dto.OfferMargin = 1;
             dto.TerminationDate = DateTime.Now;
+            // act
             command.Execute(dto);
             VehicleTypeDto resultDto = _vehicleTypeViewModel.VehicleType;
+            // assert
             Assert.AreEqual(dto.Code, resultDto.Code);
             Assert.AreEqual(dto.Name, resultDto.Name);
             Assert.AreEqual(dto.WebName, resultDto.WebName);

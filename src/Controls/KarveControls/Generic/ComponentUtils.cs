@@ -101,12 +101,12 @@ namespace KarveControls.Generic
                 return src;
             }
         }
-        /// <summary>
-        ///  GetPropertiesValue.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="propName"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// Get property value.
+       /// </summary>
+       /// <param name="obj">Object name of the property.</param>
+       /// <param name="prop">Property to be used.</param>
+       /// <returns>Extract the value of the object</returns>
         public static Object GetPropValue(Object obj, String prop)
         {
             if (prop==null)
@@ -182,8 +182,11 @@ namespace KarveControls.Generic
                     {
                         info.SetValue(obj, currentValue);
                     }
-                    catch(Exception e)
+                    // This is wanted. We need to provide  a default
+#pragma warning disable 0168
+                    catch (Exception e)
                     {
+#pragma warning restore 0168
                         string var = value.ToString();
                         info.SetValue(obj, var);
                     }

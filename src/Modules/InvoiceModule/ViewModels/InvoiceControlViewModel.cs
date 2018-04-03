@@ -46,10 +46,11 @@ namespace InvoiceModule.ViewModels
     /// <param name="manager">Region Manager. This service is used to compose regions.</param>
     /// <param name="eventManager">Event Manager. This service is used to communicate with other viewmodels.</param>
     public InvoiceControlViewModel(IDataServices dataServices,
-                                    IUnityContainer container,
-                                       IDialogService service,
-                                       IRegionManager manager, 
-                                       IEventManager eventManager): base(dataServices, service, eventManager)
+                                   IUnityContainer container,
+                                   IDialogService service,
+                                   IRegionManager manager,
+                                   IAssistService assistService,
+                                   IEventManager eventManager): base(dataServices,assistService, service, eventManager)
         {
             _regionManager = manager;
             _isBusy = false;

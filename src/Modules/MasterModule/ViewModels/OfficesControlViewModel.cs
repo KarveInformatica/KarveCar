@@ -243,6 +243,16 @@ namespace MasterModule.ViewModels
         {
             
         }
+
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void LoadMoreItems(uint count, int baseIndex)
+        {
+            throw new NotImplementedException();
+        }
         #region Private Fields
 
         private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> InitializationNotifierOffice;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class PriceConditionDto
+    public class PriceConditionDto: BaseDto
     {
 
         public byte Codigo { get; set; }

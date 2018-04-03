@@ -20,11 +20,12 @@ using KarveCommon.Generic;
 using MasterModule.Views;
 using Syncfusion.UI.Xaml.Grid;
 using System.ComponentModel;
+using DataAccessLayer.SQL;
 
 namespace MasterModule.ViewModels
 {
     /// <summary>
-    /// This class is responsible for adding/modifying and viewing a view model.
+    /// This class is responsible for allowing the client info view to communicate with the other levels.
     /// </summary>
     class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
@@ -37,8 +38,9 @@ namespace MasterModule.ViewModels
         private string _clientRegion;
         private ClientDto _currentClientDo = new ClientDto();
         private string _driverZone;
+        private IEnumerable<CityDto> _currentCities = new List<CityDto>();
         private IEnumerable<ClientTypeDto> _clientTypeDto = new List<ClientTypeDto>();
-        private IEnumerable<BaseDto> _currentCities;
+      
         private IEnumerable<ClientSummaryDto> _listOfDrivers;
         private PropertyChangedEventHandler eventHandler;
         private INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> _driversNotification;
@@ -61,9 +63,9 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">Configuration service</param>
         /// <param name="dataServices">Data Service</param>
         /// <param name="manager">Region Manager</param>
-        public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
+        public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IAssistService service, IRegionManager manager) : base(eventManager, configurationService, dataServices,dialogService,service, manager)
         {
-            base. ConfigureAssist();
+            base.ConfigureAssist();
 
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
@@ -83,7 +85,11 @@ namespace MasterModule.ViewModels
            
           
         }
-
+        /// <summary>
+        ///  Handle the notification of the driver event. 
+        /// </summary>
+        /// <param name="sender">Sender of the drivers.</param>
+        /// <param name="e">Event coming</param>
         private void OnDriverUpdate(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryDto>>;
@@ -95,11 +101,14 @@ namespace MasterModule.ViewModels
                 }
             }
         }
-        void UpdateListOfDrivers()
+        private void UpdateListOfDrivers()
         {
             _driversNotification = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery), eventHandler); 
         }
-
+        /// <summary>
+        ///  Set the registration payload for the toolbar
+        /// </summary>
+        /// <param name="payLoad"></param>
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
@@ -217,43 +226,21 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Handle the delegation grid changes.
         /// </summary>
-        /// <param name="obj">This send a delegation fo the changed command</param>
+        /// <param name="obj">This send a delegation for the changed command</param>
         private async void DelegationChangedCommandHandler(object obj)
         {
-            Tuple<bool, BranchesDto> retValue = await GridChangedCommand<BranchesDto, cliDelega>(obj,
-                _onBranchesPrimaryKey,
-                DataSubSystem.ClientSubsystem);
-            if (retValue.Item1)
-            {
-                if ((_currentClientDo != null) && (_currentClientDo.BranchesDto != null))
-                {
-                    var tmp = _currentClientDo.BranchesDto;
-                    Union<BranchesDto>(ref tmp, retValue.Item2);
-                    _currentClientDo.BranchesDto = tmp;
-                }
-
-            }
+            await GridChangedNotification<BranchesDto, cliDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.ClientSubsystem).ConfigureAwait(false);
+            
         }
-
-        // FIXME: move GridChangedCommand to a lower level
-
+        /// <summary>
+        /// Handle contact changed command
+        /// </summary>
+        /// <param name="obj">This send a contact for the changed command</param>
         private async void ContactsChangedCommandHandler(object obj)
         {
-            Tuple<bool, ContactsDto> retValue = await GridChangedCommand<ContactsDto, CliContactos>(obj,
-                _onContactsPrimaryKey,
-                DataSubSystem.ClientSubsystem);
-            if (retValue.Item1)
-            {
-                if ((_currentClientDo != null) && (_currentClientDo.ContactsDto != null))
-                {
-                    var contactDto = retValue.Item2;
-                    contactDto.ContactsKeyId = PrimaryKeyValue;
-                    IEnumerable<ContactsDto> contactsDtos = new ObservableCollection<ContactsDto>();
-                    Union<ContactsDto>(ref contactsDtos, contactDto);
-                    _currentClientDo.ContactsDto = contactsDtos;
-                }
-            }
-
+            await GridChangedNotification<ContactsDto, CliContactos>(obj,
+              _onContactsPrimaryKey,
+              DataSubSystem.ClientSubsystem).ConfigureAwait(false);
         }
         /// <summary>
         /// Dictionary of events.

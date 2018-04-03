@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KarveControls.Generic;
 using Prism.Commands;
 
 namespace KarveControls.ItemsControl
 {
- 
+        /// <summary>
+        ///  Collection of controls in DataPicker.
+        /// </summary>
         public partial class DataPickerItemsControl : UserControl
         {
             private DelegateCommand<object> _localCommand;
@@ -30,9 +23,9 @@ namespace KarveControls.ItemsControl
                 = DependencyProperty.Register(
                     "ChangeActionCommand",
                     typeof(ICommand),
-                    typeof(global::KarveControls.ItemsControl.DataPickerItemsControl));
+                    typeof(DataPickerItemsControl));
             /// <summary>
-            ///  localization of strings.
+            ///  Localization of change action.
             /// </summary>
             public ICommand ChangeActionCommand
             {
@@ -50,23 +43,26 @@ namespace KarveControls.ItemsControl
                     value.Execute(obj);
             }
             /// <summary>
-            /// Localization stuff.
+            /// Collection of labels.
             /// </summary>
             public static DependencyProperty LabelEnumerable = DependencyProperty.Register("Localization",
                 typeof(IEnumerable<string>),
-                typeof(global::KarveControls.ItemsControl.DataPickerItemsControl),
+                typeof(DataPickerItemsControl),
                 new PropertyMetadata(new List<string>(), OnLabelSourceChanged));
             /// <summary>
-            /// Label source changed.
+            /// Handle the change of a label in a collection datapicker controls.
             /// </summary>
-            /// <param name="d"></param>
-            /// <param name="e"></param>
+            /// <param name="d">Dependency object of the label</param>
+            /// <param name="e">Event changed</param>
             private static void OnLabelSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
             {
-                global::KarveControls.ItemsControl.DataPickerItemsControl control = d as global::KarveControls.ItemsControl.DataPickerItemsControl;
+                DataPickerItemsControl control = d as DataPickerItemsControl;
                 control.OnLocaleLabelChanged(e);
             }
-
+            /// <summary>
+            ///  This change the locale.
+            /// </summary>
+            /// <param name="e"></param>
             private void OnLocaleLabelChanged(DependencyPropertyChangedEventArgs e)
             {
                 List<string> localizationStrings = e.NewValue as List<string>;
@@ -106,29 +102,33 @@ namespace KarveControls.ItemsControl
                 = DependencyProperty.Register(
                     "DataSource",
                     typeof(object),
-                    typeof(global::KarveControls.ItemsControl.DataPickerItemsControl),
+                    typeof(DataPickerItemsControl),
                     new PropertyMetadata(null, OnDataSourceChanged));
             /// <summary>
-            ///  Data source property handy way to associate a data field to a value.
+            ///  Set or Get the data source of the control collection.
             /// </summary>
             public object DataSource
             {
                 get { return GetValue(DataSourceDependencyProperty); }
                 set { SetValue(DataSourceDependencyProperty, value); }
             }
-
+            /// <summary>
+            ///  DataSourceChanged. Change of a data source.
+            /// </summary>
+            /// <param name="d">Dependency object of a data picker</param>
+            /// <param name="e">Dependency object of a data source</param>
             private static void OnDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
             {
-                global::KarveControls.ItemsControl.DataPickerItemsControl control = d as global::KarveControls.ItemsControl.DataPickerItemsControl;
+                DataPickerItemsControl control = d as DataPickerItemsControl;
                 if (control != null)
                 {
                     control.OnDataSourceChanged(e);
                 }
-            }
+            }            
             /// <summary>
-            ///  DataSourceChanged
+            /// DataSourceChanged. This change the source of a program.
             /// </summary>
-            /// <param name="d"></param>
+            /// <param name="e">Event of a dependency property.</param>
             private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
             {
                 object value = e.NewValue;

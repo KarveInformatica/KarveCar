@@ -28,14 +28,14 @@ namespace MasterModule.ViewModels
     {
         
         /// <summary>
-        /// View model of control.
+        /// Controller View Model for the company.
         /// </summary>
-        /// <param name="configurationService"></param>
-        /// <param name="eventManager"></param>
-        /// <param name="dialogService"></param>
-        /// <param name="services"></param>
-        /// <param name="regionManager"></param>
-        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDialogService dialogService, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, dialogService, regionManager)
+        /// <param name="configurationService">Configuration Service for the view model.</param>
+        /// <param name="eventManager">EvenManager for the view model.</param>
+        /// <param name="dialogService">DialogService for spotting errors.</param>
+        /// <param name="services">Data Services to fetch/store data.</param>
+        /// <param name="regionManager">Region manager for navigating to the child</param>
+        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDialogService dialogService,IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, null, dialogService, regionManager)
         {
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             InitEventHandler += LoadNotificationHandler;
@@ -163,6 +163,13 @@ namespace MasterModule.ViewModels
             currentPayload.Sender = EventSubsystem.CompanySummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
         }
+        /// <summary>
+        /// This is async void. Async void is bad because of clumsy way to handle exception.
+        /// Speaking with Brian Lagunas, 
+        /// he pointed me http://brianlagunas.com/prism-delegatecommand-fromasynchandler-is-obsolete/. 
+        /// So basically in this case makes sense. We can skip using NotificationTask.Create
+        /// </summary>
+        /// <param name="selectedItem">The item from the grid.</param>
         private async void OnOpenItemCommand(object selectedItem)
         {
             CompanySummaryDto summaryItem = selectedItem as CompanySummaryDto;
@@ -196,7 +203,17 @@ namespace MasterModule.ViewModels
             StartAndNotify();
         }
 
-        
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void LoadMoreItems(uint count, int baseIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #region Private Fields
 
         private INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> InitializationNotifierCompany;

@@ -1,3 +1,4 @@
+using KarveDapper.Extensions;
 using System;
  
 namespace DataAccessLayer.DataObjects
@@ -6,27 +7,23 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a PERCARGOS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+   [Table("PERCARGOS")]
 	public class PERCARGOS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
-		public Int32 CODIGO { get; set; }
- 
+     [Key]
+        public Int32 CODIGO { get; set; } 
 	/// <summary>
     ///  Set or get the NOMBRE property.
     /// </summary>
-    
 		public string NOMBRE { get; set; }
- 
 	/// <summary>
     ///  Set or get the USUARIO property.
     /// </summary>
-    
 		public string USUARIO { get; set; }
- 
 	/// <summary>
     ///  Set or get the ULTMODI property.
     /// </summary>

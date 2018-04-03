@@ -20,12 +20,6 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
-
-        public Task<DataSet> GetAsyncCommissionAgentInfo(IDictionary<string, string> queryList)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
         {
             throw new NotImplementedException();

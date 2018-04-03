@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Schema;
 using Dapper;
 using iAnywhere.Data.SQLAnywhere;
@@ -1126,6 +1127,11 @@ namespace KarveDapper.Extensions
         {
             sb.AppendFormat("[{0}] = @{1}", columnName, columnName);
         }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -1182,6 +1188,11 @@ namespace KarveDapper.Extensions
         {
             sb.AppendFormat("[{0}] = @{1}", columnName, columnName);
         }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -1236,6 +1247,11 @@ namespace KarveDapper.Extensions
         public void AppendColumnNameEqualsValue(StringBuilder sb, string columnName)
         {
             sb.AppendFormat("`{0}` = @{1}", columnName, columnName);
+        }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1313,6 +1329,11 @@ namespace KarveDapper.Extensions
         {
             sb.AppendFormat("\"{0}\" = @{1}", columnName, columnName);
         }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -1365,6 +1386,11 @@ namespace KarveDapper.Extensions
         public void AppendColumnNameEqualsValue(StringBuilder sb, string columnName)
         {
             sb.AppendFormat("\"{0}\" = @{1}", columnName, columnName);
+        }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1422,6 +1448,11 @@ namespace KarveDapper.Extensions
         public void AppendColumnNameEqualsValue(StringBuilder sb, string columnName)
         {
             sb.AppendFormat("{0} = @{1}", columnName, columnName);
+        }
+
+        public Task<int> InsertCollectionAsync<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, IEnumerable<T> entityArrayToInsert)
+        {
+            throw new NotImplementedException();
         }
     }
 }

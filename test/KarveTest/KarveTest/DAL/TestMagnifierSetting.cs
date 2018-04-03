@@ -111,6 +111,7 @@ namespace KarveTest.DAL
             catch (Exception e)
             {
                 var ex = e;
+                Assert.Fail(ex.Message);
             }
           
         }

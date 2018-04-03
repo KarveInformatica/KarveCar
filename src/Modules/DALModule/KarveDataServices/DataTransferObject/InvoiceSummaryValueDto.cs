@@ -1,10 +1,6 @@
 ﻿using Syncfusion.Windows.Shared;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -30,13 +26,12 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
     {
         private string _invoiceCode;
         private string _client;
-        private string _name;
         private string _contract;
         private DateTime _date;
         private double _base;
         private double _fee;
         private double _total;
-        private double _company;
+        private string _company;
         private string _office;
         private string _type;
         private string _number;
@@ -202,12 +197,12 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
         {
             set
             {
-                _name = value;
+                _company = value;
                 RaisePropertyChanged("CompanyName");
             }
             get
             {
-                return _name;
+                return _company;
             }
         }
         

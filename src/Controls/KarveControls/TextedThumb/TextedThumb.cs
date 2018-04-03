@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -14,7 +10,7 @@ namespace KarveControls
      */
  
     [TemplatePart(Name = "PART_ThumbText", Type = typeof(TextBlock))]
-    class TextedThumb: Thumb
+    public class TextedThumb: Thumb
     {
         /// <summary>
         ///  Set or Get the first table name.

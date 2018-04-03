@@ -84,7 +84,7 @@ namespace KarveTest.DAL
             return collection;
         }
         [Test]
-        public void CreateAndLoadTableFields()
+        public void Should_CreateAnd_LoadFields()
         {
            var path = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);

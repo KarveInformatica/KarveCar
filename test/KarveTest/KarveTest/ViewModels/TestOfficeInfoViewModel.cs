@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Prism.Regions;
 using KarveTest.Mock;
+using KarveCommonInterfaces;
 
 namespace KarveTest.ViewModels
 {
@@ -16,14 +17,12 @@ namespace KarveTest.ViewModels
         private IDataServices _dataServices = new MockDataServices();
         private Mock<IConfigurationService> _configurationService = new Mock<IConfigurationService>();
         private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
+        private Mock<IAssistService> _assistService = new Mock<IAssistService>();
         private CompanyInfoViewModel _companyInfoViewModel = null;
         public TestOfficeInfoViewModel()
         {
-            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, 
-                _mockDialogService.Object,
-                _regionManager.Object);
+            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, _assistService.Object, _mockDialogService.Object,_regionManager.Object);
         }
-        
         [Test]
         public void Shall_Receive_A_Correct_Payload_And_ExposeDataObject()
         {

@@ -28,9 +28,8 @@ namespace DataAccessLayer
         /// <returns>A contract from the identifier</returns>
         public async Task<ContractDto> GetContractAsync(string id)
         {
-            ContractDto dto = new ContractDto();
-          
-            return dto;
+            await Task.Delay(1);
+            throw new NotImplementedException();
         }
         /// <summary>
         ///  Return the contract by the conductor in asynchronous way.
@@ -39,9 +38,8 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<ContractByConductorDto>> GetContractByConductorAsync(string vehicleId)
         {
-            // this returns the contract by conductor.
-            var l = new List<ContractByConductorDto>();
-            return l;
+            await Task.Delay(1);
+            throw new NotImplementedException();
         }
         /// <summary>
         ///  Return the contract summary in asynchronous way.
@@ -49,9 +47,8 @@ namespace DataAccessLayer
         /// <returns>Return the contract.</returns>
         public async Task<IEnumerable<ContractSummaryDto>> GetContractSummaryAsync()
         {
-            var contractSummary = new List<ContractSummaryDto>();
-            contractSummary.Add(new ContractSummaryDto());
-            return contractSummary;
+            await Task.Delay(1);
+            throw new NotImplementedException();
         }
     }
 }

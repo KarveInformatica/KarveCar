@@ -21,6 +21,9 @@ using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
+    /// <summary>
+    ///  Control view model for the clients
+    /// </summary>
     class ClientsControlViewModel: MasterControlViewModuleBase
     {
         /// <summary>
@@ -80,11 +83,11 @@ namespace MasterModule.ViewModels
         {
             // each grid needs an unique identifier for setting the grid change in the database.
             GridIdentifier = GridIdentifiers.ClientSummaryGrid;
-            _clientEventTask += OnNotifyClient;
+            _clientEventTask += OnNotifyIncrementalList<ClientSummaryExtended>;
             _clientDataLoaded += OnClientDataLoaded;
             StartAndNotify();
             
-            //Navigate("new","new");
+         
         }
 
         private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
@@ -115,22 +118,6 @@ namespace MasterModule.ViewModels
             }
         }
 
-        private void OnNotifyClient(object sender, PropertyChangedEventArgs e)
-        {
-            INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> notification = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
-            if (notification.IsSuccessfullyCompleted)
-            {
-                _clientSummaryDtos = notification.Task.Result;
-                SummaryView = new IncrementalList<ClientSummaryExtended>(LoadMoreItems) { MaxItemCount = _clientSummaryDtos.Count() };
-            }
-            if (notification.IsFaulted)
-            {
-                if (DialogService!=null)
-                {
-                    DialogService.ShowErrorMessage("Error loading the main screen");
-                }
-            }
-        }
         
         /// <summary>
         ///  Start and Notify the load of the control view model table.
@@ -253,11 +240,17 @@ namespace MasterModule.ViewModels
             return routedName;
         }
 
-        private void LoadMoreItems(uint count, int baseIndex)
+        protected override void LoadMoreItems(uint count, int baseIndex)
         {
             var list = _clientSummaryDtos.Skip(baseIndex).Take(100).ToList();
             var summary = SummaryView as IncrementalList<ClientSummaryExtended>;
             summary.LoadItems(list);
+        }
+
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            _clientSummaryDtos = result as IEnumerable<ClientSummaryExtended>;
+            SummaryView = _clientSummaryDtos;
         }
     }
 }

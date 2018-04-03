@@ -65,8 +65,6 @@
     <Reference Include="Dapper.SqlBuilder, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.SqlBuilder.1.50.4\lib\net451\Dapper.SqlBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
@@ -128,6 +126,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
+    <Compile Include="AssistDataService.cs" />
+    <Compile Include="AssistMapper.cs" />
     <Compile Include="Assist\Assist.cs" />
     <Compile Include="Assist\AssistResponseBase.cs" />
     <Compile Include="Assist\AssistResult.cs" />
@@ -1130,10 +1130,12 @@
     <Compile Include="DataObjects\_TMPXX.cs" />
     <Compile Include="Crud\DataSaver.cs" />
     <Compile Include="DataServiceImplementation.cs" />
-    <Compile Include="Exception\CommissionAgentException.cs" />
+    <Compile Include="Exception\DataAccessLayerException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="GruposDAL.cs" />
+    <Compile Include="IDataAccessLayer.cs" />
     <Compile Include="InvoiceDataServices.cs" />
+    <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
     <Compile Include="Logic\ErroresDAL.cs" />
@@ -1159,13 +1161,6 @@
     <Compile Include="Model\SupplierPoco.cs" />
     <Compile Include="Model\Vehicle.cs" />
     <Compile Include="Model\VehiclePoco.cs" />
-    <Compile Include="MongoDB\ClientMongoDBServices.cs" />
-    <Compile Include="MongoDB\CommisionAgentMongoDBServices.cs" />
-    <Compile Include="MongoDB\HelperMongoDBServices.cs" />
-    <Compile Include="MongoDB\MongoDataServiceImplementation.cs" />
-    <Compile Include="MongoDB\SettingsMongoDBServices.cs" />
-    <Compile Include="MongoDB\SupplierMongoDBServices.cs" />
-    <Compile Include="MongoDB\VehicleMongoDBServices.cs" />
     <Compile Include="OfficeDataService.cs" />
     <Compile Include="SettingsDataService.cs" />
     <Compile Include="SQL\AbstractSqlExecutor.cs" />
@@ -1175,6 +1170,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\RuleDAL.cs" />
     <Compile Include="SQL\QueryStore.cs" />
+    <Compile Include="SQL\QueryStoreFactory.cs" />
+    <Compile Include="SQL\QueryType.cs" />
     <Compile Include="SQL\SQLExecutorException.cs" />
     <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="Exception\SupplierDataServiceAccessDeniedException.cs" />

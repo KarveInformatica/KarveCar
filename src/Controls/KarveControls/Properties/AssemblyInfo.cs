@@ -7,12 +7,12 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("KarveControls")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Karve Custom UI controls.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Karve Informatica S.L")]
 [assembly: AssemblyProduct("KarveControls.Properties")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyTrademark("Karve Informatica S.L")]
 [assembly: AssemblyCulture("")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None,
     //where theme specific resource dictionaries are located

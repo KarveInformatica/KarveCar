@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.Core.Internal;
-using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
-using MasterModule.Common;
 using MasterModule.ViewModels;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
@@ -19,6 +12,7 @@ using Moq;
 using NUnit.Framework;
 using Prism.Regions;
 using ToolBarModule;
+using KarveCommonInterfaces;
 
 namespace KarveTest.ViewModels
 {
@@ -34,10 +28,11 @@ namespace KarveTest.ViewModels
         private Mock<IUnityContainer> _unity = new Mock<IUnityContainer>();
         private  Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
         private Mock<ISupplierDataServices> _supplierMock = new Mock<ISupplierDataServices>();
-        private MasterModule.ViewModels.ProvidersControlViewModel _providersControlViewModel = null;
+        private Mock<IDialogService> _dialogService = new Mock<IDialogService>();
+        private ProvidersControlViewModel _providersControlViewModel = null;
         
         [Test]
-        private void TestLoadSummaryProviderViewModel()
+        private void Should_LoadSupplierSummary_Correctly()
         {
            
             List<SupplierSummaryDto> summary = new List<SupplierSummaryDto>()
@@ -91,12 +86,12 @@ namespace KarveTest.ViewModels
             _supplierMock.Setup(c => c.GetSupplierAsyncSummaryDo()).ReturnsAsync(summary);
             _dataServices.Setup(ds => ds.GetSupplierDataServices()).Returns(_supplierMock.Object);
             _providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryCollection;
+            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
             Assert.GreaterOrEqual(collection.Distinct().Count(),1);
         }
 
         [Test]
-        private void TestClickSummaryViewModel()
+        private void ShouldSupplier_Navigate_Correctly()
         {
             _providersControlViewModel = new ProvidersControlViewModel(_configurationService.Object,
                 _unity.Object,
@@ -104,7 +99,7 @@ namespace KarveTest.ViewModels
                 _regionManager.Object,
                 _eventManager.Object);
             _providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryCollection;
+            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
             Assert.NotNull(collection);
             Assert.GreaterOrEqual(collection.Count(), 1);
             // from the view comes an openitem.

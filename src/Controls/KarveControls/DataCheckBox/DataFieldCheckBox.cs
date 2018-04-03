@@ -17,7 +17,7 @@ namespace KarveControls
     {
         private bool? _isChecked;
         private bool? _previous;
-        private bool _isChanged;
+
         static DataFieldCheckBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataFieldCheckBox), 
@@ -57,26 +57,19 @@ namespace KarveControls
          
             _isChecked = IsChecked;
             _previous = IsChecked;
-            _isChanged = false;
+           
         }
 
         private void OnUnchecked(object sender, RoutedEventArgs routedEventArgs)
         {
             DataFieldCheckBox checkBox = sender as DataFieldCheckBox;
-            var currentChecked = false;
+            
             if (checkBox != null)
             {
                 _previous = _isChecked;
                 if (checkBox.IsChecked != null)
                 {
-                    if ( currentChecked!= _isChecked)
-                    {
-                        _isChanged = true;
-                    }
-                    else
-                    {
-                        _isChanged = false;
-                    }
+                   
                     _isChecked = checkBox.IsChecked.Value;
                     
                 }
@@ -87,21 +80,14 @@ namespace KarveControls
         private void OnChecked(object sender, RoutedEventArgs routedEventArgs)
         {
             DataFieldCheckBox checkBox = sender as DataFieldCheckBox;
-            var currentChecked = true;
+           
             if (checkBox != null)
             {
                 _previous = _isChecked;
 
                 if (checkBox.IsChecked != null)
                 {
-                    if (currentChecked != _isChecked)
-                    {
-                        _isChanged = true;
-                    }
-                    else
-                    {
-                        _isChanged = false;
-                    }
+                   
                     _isChecked = checkBox.IsChecked.Value;
 
                 }

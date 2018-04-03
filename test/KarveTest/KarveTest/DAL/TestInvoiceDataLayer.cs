@@ -53,7 +53,7 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Shall_Load_A_Summary_Correctly()
+        public async Task Shall_LoadSummary_Correctly()
         {
             // arrange
             try
@@ -73,7 +73,7 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Should_Load_an_Item_Correctly()
+        public async Task Should_LoadItem_Correctly()
         {
             // arrange
             try
@@ -95,7 +95,7 @@ namespace KarveTest.DAL
         /// Should fail to load using an invalid code.
         /// </summary>
         [Test]
-        public async Task Should_Fail_Loading_Using_An_Invalid_Code()
+        public async Task Should_FailLoading_UsingAnInvalid_Code()
         {
             bool failed = false;
             try

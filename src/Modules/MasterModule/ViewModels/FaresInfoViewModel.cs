@@ -13,15 +13,18 @@ namespace MasterModule.ViewModels
     internal sealed class FaresInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         private FareDto _dataObject;
+       
         /// <summary>
-        ///  FareInfoViewModel constructor.
+        /// Fare info view model
         /// </summary>
-        /// <param name="eventManager"></param>
-        /// <param name="configurationService"></param>
-        /// <param name="dataServices"></param>
-        /// <param name="manager"></param>
+        /// <param name="eventManager">Event manager</param>
+        /// <param name="configurationService">Configuration services</param>
+        /// <param name="dataServices">Data Services</param>
+        /// <param name="dialogService">Dialog services</param>
+        /// <param name="assistService">Assist services</param>
+        /// <param name="manager">Region manager</param>
         public FaresInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, 
-            IDataServices dataServices, IDialogService dialogService, IRegionManager manager) : base(eventManager, configurationService, dialogService, dataServices, manager)
+            IDataServices dataServices, IDialogService dialogService, IAssistService assistService, IRegionManager manager) : base(eventManager, configurationService, dataServices, dialogService, assistService, manager)
         {
             ConfigureAssist();
 
@@ -33,6 +36,13 @@ namespace MasterModule.ViewModels
         public void IncomingPayload(DataPayLoad payload)
         {      
         }
+
+        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+        {
+            payLoad.Subsystem = DataSubSystem.FareSubsystem;
+           
+        }
+
         /// <summary>
         ///  Data object to be forwarded to the view.
         /// </summary>

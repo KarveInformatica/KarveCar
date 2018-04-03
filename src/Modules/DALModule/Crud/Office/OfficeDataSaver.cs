@@ -27,15 +27,18 @@ namespace DataAccessLayer.Crud.Office
     {
         private ISqlExecutor _executor;
         private IMapper _mapper;
+        private QueryStoreFactory _queryStoreFactory;
         private IValidationChain<ClientDto> _validationChain;
         /// <summary>
         /// Client data saver
         /// </summary>
-        /// <param name="executor"></param>
+        /// <param name="executor">Sql command executor</param>
         public OfficeDataSaver(ISqlExecutor executor)
         {
             _executor = executor;
+            /// FIXME: violate the law of demter.
             _mapper = MapperField.GetMapper();
+            _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
         ///  Returns the validation chain
@@ -46,11 +49,11 @@ namespace DataAccessLayer.Crud.Office
             get { return _validationChain; }
         }
         /// <summary>
-        /// 
+        ///  This saves the holiday in the office.
         /// </summary>
         /// <param name="currentOffice">Current office to be saved.</param>
         /// <param name="holidayDto">List of vacation for the current office.</param>
-        /// <returns></returns>
+        /// <returns>return a task for saving the holidays</returns>
         private async Task SaveHolidayOfficeAsync(IDbConnection connection, OFICINAS currentOffice, IEnumerable<HolidayDto> holidayDto)
         {
             Contract.Requires(connection != null, "Connection is not null");
@@ -58,8 +61,8 @@ namespace DataAccessLayer.Crud.Office
             Contract.Requires(holidayDto != null, "HolidayDto is not null");
 
             IEnumerable<FESTIVOS_OFICINA> holidayOffice = _mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(holidayDto);
-            QueryStore store = new QueryStore();
-            store.AddParam(QueryStore.QueryType.HolidaysByOffice, currentOffice.CODIGO);
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.HolidaysByOffice, currentOffice.CODIGO);
             var query = store.BuildQuery();
             bool saved = false;
             // First i want fetch the current festivo oficina.

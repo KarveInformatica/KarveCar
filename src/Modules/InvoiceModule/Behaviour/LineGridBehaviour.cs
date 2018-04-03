@@ -267,12 +267,14 @@ namespace InvoiceModule
                             e.Column.CellTemplate = resource;
                         }
                     }
-                    
-                    
-                } catch(ResourceReferenceKeyNotFoundException ex)
+#pragma warning disable 0168
+                }
+                catch (ResourceReferenceKeyNotFoundException ex)
                 {
                     // we skip the value to find.
                 }
+#pragma warning restore 0168
+
             }
             else
             {
