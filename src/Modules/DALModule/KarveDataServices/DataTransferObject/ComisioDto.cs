@@ -625,5 +625,6 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     
 		public byte? SOLOGRUPOSDISPO_COMI { get; set; }
+        
 	}
 }

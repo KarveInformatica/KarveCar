@@ -185,8 +185,8 @@
     <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
     <Compile Include="UI\VehicleUITests.cs" />
-    <Compile Include="ViewModels\ApartmentStateAttribute.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
+    <Compile Include="ViewModels\TestCommissionAgentInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCultureSwitcherViewModel.cs" />
     <Compile Include="ViewModels\TestFareInfoViewModel.cs" />

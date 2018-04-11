@@ -76,7 +76,7 @@ namespace KarveTest.UI
         }
 
         [Test]
-        public void Should_ObservableCollectionSerialized()
+        public void Should_Serialize_ObservableCollection()
         {
             ObservableCollection<IUiObject> obs = new ObservableCollection<IUiObject>();
             for (int i = 0; i < 10; i++)

@@ -45,7 +45,7 @@ namespace KarveTest.Services
         }
                     
         [Test, Apartment(ApartmentState.STA)]
-        public void Should_AssistExecute_AssistInteractionCallback()
+        public void Should_AssistExecute_AssitInteractionCallback()
         {
             IList<ProvinciaDto> provinces = new List<ProvinciaDto>()
             {

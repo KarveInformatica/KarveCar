@@ -8,7 +8,7 @@ using KarveCommonInterfaces;
 
 namespace KarveTest.Services
 {
-
+    [TestFixture]
     public class TestInteractionService
     {
 

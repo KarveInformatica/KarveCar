@@ -131,26 +131,35 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Should_Loop_AndLoad()
+        public async Task Should_LoopAndLoad_CommissionAgent()
         {
+            // arrange
             IDictionary<string, string> fields = new Dictionary<string, string>();
-            string numComi = "0000002";
-            fields.Add(CommissionAgent.Comisio, "COMISIO, NUM_COMI, PERSONA, NIF, TIPOCOMI, " +
-                                                "VENDE_COMI, MERCADO, NEGOCIO, CANAL, CLAVEPPTO, " +
-                                                "ORIGEN_COMI, ZONAOFI, direccion, cp, poblacion, " +
-                                                "provincia, nacioper, telefono, fax, " +
-                                                "Movil, alta_comi, baja_comi, idioma, IATA, IVASINO, " +
-                                                "RETENSINO, NACIONAL, CONCEPTOS_COND, AGENCIA, TRADUCE_WS, " +
-                                                "TRUCK_RENTAL_BROKER, COMBUS_PREPAGO_COMI, NO_GENERAR_AUTOFAC, " +
-                                                "TODOS_EXTRAS, NO_GESTIONAR_CUPO, AUTO_ONEWAY, COT_INCLUIDOS_SIN_GRUPO, " +
-                                                "ACCESO_PREMIUM, NO_MAIL_RES, AUTOFAC_SIN_IVA, " +
-                                                "COMISION_SIN_IVA_COM");
+            string numComi = "";
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                var allComisio = connection.GetAll<COMISIO>();
+                var defaultComi = allComisio.FirstOrDefault();
+                numComi = defaultComi.NUM_COMI;
+            }
+                fields.Add(CommissionAgent.Comisio, "COMISIO, NUM_COMI, PERSONA, NIF, TIPOCOMI, " +
+                                                    "VENDE_COMI, MERCADO, NEGOCIO, CANAL, CLAVEPPTO, " +
+                                                    "ORIGEN_COMI, ZONAOFI, direccion, cp, poblacion, " +
+                                                    "provincia, nacioper, telefono, fax, " +
+                                                    "Movil, alta_comi, baja_comi, idioma, IATA, IVASINO, " +
+                                                    "RETENSINO, NACIONAL, CONCEPTOS_COND, AGENCIA, TRADUCE_WS, " +
+                                                    "TRUCK_RENTAL_BROKER, COMBUS_PREPAGO_COMI, NO_GENERAR_AUTOFAC, " +
+                                                    "TODOS_EXTRAS, NO_GESTIONAR_CUPO, AUTO_ONEWAY, COT_INCLUIDOS_SIN_GRUPO, " +
+                                                    "ACCESO_PREMIUM, NO_MAIL_RES, AUTOFAC_SIN_IVA, " +
+                                                    "COMISION_SIN_IVA_COM");
             for (int i = 0; i < 10; ++i)
             {
+                // act
                 ICommissionAgent agentDataWrapper =
                     await _commissionAgentDataServices.GetCommissionAgentDo(numComi, fields);
+                // assert.
                 Assert.NotNull(agentDataWrapper);
-                Assert.AreEqual(agentDataWrapper.Value.NUM_COMI, numComi);
+                Assert.AreEqual(numComi, agentDataWrapper.Value.NUM_COMI);
             }
 
         }
@@ -221,11 +230,23 @@ namespace KarveTest.DAL
                 store.Clear();
                 store.AddParam(QueryType.QueryResellerByClient, singleBroker.NUM_COMI);
                 var query = store.BuildQuery();
-                var contactList = await connection.QueryAsync<VisitasComiPoco>(query);
-
+                // act
+                var visitasComi = await connection.QueryAsync<VisitasComiPoco>(query);
+                // assert.
+                var count = visitasComi.Count();
+                Assert.GreaterOrEqual(count, 0);
+                if (count > 0)
+                {
+                   foreach(var v in visitasComi)
+                    {
+                        Assert.NotNull(v.VisitId);
+                    }
+                }
             }
-            //_visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
+            
         }
+
+        
         [Test]
         public async Task Should_Load_BrokerContactsCorrectly()
         {
@@ -344,26 +365,26 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Update_CommissionAgent()
         {
+            // arrange
             IDictionary<string, string> fields = new Dictionary<string, string>();
             fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
             fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
             fields.Add(CommissionAgent.Visitas, " * ");
             fields.Add(CommissionAgent.Branches, "* ");
             string numComi = await GetFirstId();
-            ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
+            ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi).ConfigureAwait(false);
+
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
             ComisioDto internalValue = (ComisioDto) commissionAgent.Value;
             IEnumerable<BranchesDto> branchesDto = commissionAgent.DelegationDto;
             IEnumerable<ContactsDto> contactsDtos = commissionAgent.ContactsDto;
             IEnumerable<VisitsDto> visitsDtos = commissionAgent.VisitsDto;
-            Assert.NotNull(branchesDto);
-            Assert.NotNull(contactsDtos);
-            Assert.NotNull(visitsDtos);
-            Assert.NotNull(internalValue);
             internalValue.NOMBRE = "Karve2Comission";
             commissionAgent.Value = internalValue;
-            bool isSaved = await _commissionAgentDataServices.SaveCommissionAgent(commissionAgent);
+            // act 
+            bool isSaved = await _commissionAgentDataServices.SaveCommissionAgent(commissionAgent).ConfigureAwait(false);
+            // assert
             Assert.True(isSaved);
         }
 

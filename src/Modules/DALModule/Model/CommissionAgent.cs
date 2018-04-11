@@ -248,6 +248,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<BranchesDto> _delegationDto = new List<BranchesDto>();
         private IEnumerable<VisitsDto> _visitDto = new List<VisitsDto>();
         private IEnumerable<POBLACIONES> _poblaciones;
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -372,12 +373,8 @@ namespace DataAccessLayer.Model
         #endregion
 
 
-        /// <summary>
-        ///  Commission agent ctr.
-        /// </summary>
-        public CommissionAgent(ISqlExecutor executor)
+        public CommissionAgent()
         {
-            _executor = executor;
             _currentComisio = new COMISIO();
             _commissionAgents = new List<COMISIO>();
             _nacioPer = new List<Country>();
@@ -386,18 +383,18 @@ namespace DataAccessLayer.Model
             _commissionAgentType = new CommissionAgentTypeData();
             _mapper = MapperField.GetMapper();
         }
-
-        public CommissionAgent(ISqlExecutor executor, string commissionId)
+        /// <summary>
+        ///  Commission agent ctr.
+        /// </summary>
+        
+        public CommissionAgent(ISqlExecutor executor): this()
         {
             _executor = executor;
-            _currentComisio = new COMISIO();
+        }
+
+        public CommissionAgent(ISqlExecutor executor, string commissionId): this(executor)
+        {
             _currentComisio.NUM_COMI = commissionId;
-            _commissionAgents = new List<COMISIO>();
-            _nacioPer = new List<Country>();
-            _tipoComis = new List<TIPOCOMI>();
-            _provinces = new List<PROVINCIA>();
-            _commissionAgentType = new CommissionAgentTypeData();
-            _mapper = MapperField.GetMapper();
         }
 
 
@@ -789,7 +786,9 @@ namespace DataAccessLayer.Model
                         retValue = retValue && await SaveBranches(connection, DelegationDto, _currentComisio.NUM_COMI, _delegations);
                         if (_visitasComis.Count() != 0)
                         {
-                            retValue = retValue && await connection.UpdateAsync(_visitasComis);
+                            var mappedVisits = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VISITAS_COMI>>(_visitasComis);
+
+                            retValue = retValue && await connection.UpdateAsync(mappedVisits);
                         }
                         retValue = true;
                         transactionScope.Complete();

@@ -84,7 +84,7 @@ namespace KarveTest.ViewModels
             _infoViewModel.IncomingPayload(payLoad);
         }
         [Test]
-        public async void Should_Insert_A_New_Item()
+        public async Task Should_Insert_NewProvider()
         {
             IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();

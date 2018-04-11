@@ -1498,7 +1498,7 @@
                                                     AddNewRowPosition="Top"
                                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                    ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    ItemsSource="{Binding DataObject.VisitDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     AutoGenerateColumns="False">
 
                                     <syncfusion:SfDataGrid.Resources>
@@ -1609,12 +1609,12 @@
                                         </ResourceDictionary>
                                     </syncfusion:SfDataGrid.Resources>
 
-
                                     <syncfusion:SfDataGrid.Columns>
                                         <syncfusion:GridTemplateColumn HeaderText="{Binding lcontacto, Source={StaticResource ResourceLanguage}}"
-                                                                           FilterPopupStyle="{StaticResource ContactCodeStyle}"
+                                                          
+                                                                       AllowResizing="False"
+                                                                       AllowEditing="False"
                                                                        MappingName="ContactsSource">
-
                                             <syncfusion:GridTemplateColumn.CellTemplate>
 
 
@@ -1629,14 +1629,14 @@
                                                         </Grid.ColumnDefinitions>
 
 
-                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.ContactId,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}">
+                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.Code,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}">
 
                                                         </TextBox>
-                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.ContactName,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.Name,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
                                                         <Button Grid.Column="2" Width="30" Command="{Binding Path=ContactsSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
                                                             <i:Interaction.Behaviors>
-                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactSourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                                                             </i:Interaction.Behaviors>
                                                         </Button>
                                                     </Grid>
@@ -1655,28 +1655,107 @@
                                                             <ColumnDefinition Width="70*"></ColumnDefinition>
                                                             <ColumnDefinition Width="10*"></ColumnDefinition>
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.ContactId, Mode=TwoWay, PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.ContactName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                                        <Button Grid.Column="2" Width="30" Command="{Binding Path=ContactsSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.Code, Mode=TwoWay, PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                                        <Button Grid.Column="2" Width="30" >
                                                             <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
                                                             <i:Interaction.Behaviors>
-                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactSourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                                                             </i:Interaction.Behaviors>
                                                         </Button>
-                                                        
                                                     </Grid>
                                                 </DataTemplate>
                                             </syncfusion:GridTemplateColumn.EditTemplate>
+
+
                                         </syncfusion:GridTemplateColumn>
+                                        <!--
+                                    <syncfusion:SfDataGrid.Columns>
+                                   
+
+                                            <syncfusion:GridTemplateColumn HeaderText="{Binding lcontacto, Source={StaticResource ResourceLanguage}}"
+                                                          
+                                                                       AllowResizing="False"
+                                                                       AllowEditing="False"
+                                                                       MappingName="ContactsSource">
+                                            <syncfusion:GridTemplateColumn.CellTemplate>
+
+
+                                                <DataTemplate>
+
+                                                    <Grid>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="20*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="70*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="10*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+
+
+                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.Code,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}">
+
+                                                        </TextBox>
+                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.Name,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                                        <Button Grid.Column="2" Width="30" Command="{Binding Path=ContactsSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                            <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
+                                                        </Button>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </syncfusion:GridTemplateColumn.CellTemplate>
+
+                                            <syncfusion:GridTemplateColumn.EditTemplate>
+
+
+                                                <DataTemplate>
+
+                                                    <Grid>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="20*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="70*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="10*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.Code, Mode=TwoWay, PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                                        <Button Grid.Column="2" Width="30" >
+                                                            <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
+                                                            <i:Interaction.Behaviors>
+                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactChargeMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                                            </i:Interaction.Behaviors>
+                                                        </Button>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </syncfusion:GridTemplateColumn.EditTemplate>
+
+
+                                        </syncfusion:GridTemplateColumn>
+                             
 
                                         <syncfusion:GridCheckBoxColumn HeaderText="P" MappingName="IsOrder" />
-                                        <syncfusion:GridDateTimeColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}" MappingName="Date"/>
+                                        <syncfusion:GridTemplateColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}" MappingName="Date">
+
+                                            <syncfusion:GridTemplateColumn.CellTemplate>
+
+                                                <DataTemplate>
+
+                                                    <StackPanel Orientation="Horizontal">
+
+                                                        <DatePicker  DisplayDate="{Binding Date}"/>
+
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+
+                                            </syncfusion:GridTemplateColumn.CellTemplate>
+
+                                        </syncfusion:GridTemplateColumn>
+                                        
                                         
                                         <syncfusion:GridTextColumn HeaderText="{Binding lname, Source={StaticResource ResourceLanguage}}" MappingName="Name"/>
 
                                         <syncfusion:GridTemplateColumn HeaderText="{Binding lvendidor, Source={StaticResource ResourceLanguage}}"
                                                                            FilterPopupStyle="{StaticResource ContactCodeStyle}"
-                                                                       MappingName="ContactsSource">
+                                                                       MappingName="SellerSource">
 
                                             <syncfusion:GridTemplateColumn.CellTemplate>
 
@@ -1699,7 +1778,7 @@
                                                         <Button Grid.Column="2" Width="30" Command="{Binding Path=SellerSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
                                                             <i:Interaction.Behaviors>
-                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.SellerSourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ResellerMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                                                             </i:Interaction.Behaviors>
                                                         </Button>
                                                     </Grid>
@@ -1718,45 +1797,32 @@
                                                             <ColumnDefinition Width="70*"></ColumnDefinition>
                                                             <ColumnDefinition Width="10*"></ColumnDefinition>
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.ContactId, Mode=TwoWay, PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.ContactName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                                        <Button Grid.Column="2" Width="30" Command="{Binding Path=ContactsSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                        <TextBox Grid.Column="0" Width="50" Text="{Binding Path=SellerSource.ContactId, Mode=TwoWay, PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                        <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=SellerSource.ContactName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                                        <Button Grid.Column="2" Width="30" Command="{Binding Path=SellerSource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
                                                             <i:Interaction.Behaviors>
-                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactSourceCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                                                <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ResellerMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                                                             </i:Interaction.Behaviors>
                                                         </Button>
                                                         
                                                     </Grid>
                                                 </DataTemplate>
+                                            
                                             </syncfusion:GridTemplateColumn.EditTemplate>
-                                        </syncfusion:GridTemplateColumn>
-                                        <syncfusion:GridTemplateColumn HeaderText="{Binding ltipo, Source={StaticResource ResourceLanguage}}"
+                                        
+                                            </syncfusion:GridTemplateColumn>
+                                          
+                                        <syncfusion:GridTextColumn HeaderText="{Binding ltipo, Source={StaticResource ResourceLanguage}}"
                                                                            FilterPopupStyle="{StaticResource ContactCodeStyle}">
-                                            <syncfusion:GridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <ListBox Name="ListBox" Width="200" Height="30"  
-                                                                 VerticalAlignment="Top" HorizontalAlignment="Left"  
-                                                                 Margin="10,10,0,0">
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Grid Margin="0,2">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="50*" />
-                                                                        <ColumnDefinition Width="50*" />
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Grid.Column="0"  Text="{Binding Codigo}" />
-                                                                    <TextBox   Grid.Column="1"  Text="{Binding Completion}" />
-                                                                </Grid>
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
-                                                </DataTemplate>
-                                            </syncfusion:GridTemplateColumn.CellTemplate>
-                                        </syncfusion:GridTemplateColumn>
-                                        <syncfusion:GridDateTimeColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
-                                    </syncfusion:SfDataGrid.Columns>
-                                </syncfusion:SfDataGrid>
+                                            
+                                        </syncfusion:GridTextColumn>
+                                        <syncfusion:GridTextColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}" MappingName="Observation"/>
+                                   
+                                        </syncfusion:SfDataGrid.Columns>
+                                -->
+                                        </syncfusion:SfDataGrid.Columns>
+                                    </syncfusion:SfDataGrid>
                             </StackPanel>
 
                         </Grid>

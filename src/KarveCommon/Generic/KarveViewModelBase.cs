@@ -343,6 +343,47 @@ namespace KarveCommon.Generic
         {
             
         }
+
+        /// <summary>
+        ///  AssitAsyncClient.
+        /// </summary>
+        /// <typeparam name="Dto"></typeparam>
+        /// <typeparam name="Entity"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="properties"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public async virtual Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback) 
+        {
+            IClientDataServices dataServices = DataServices.GetClientDataServices();
+            var dtos = await dataServices.GetAsyncAllClientSummary();
+            ShowDataTransferObjects<ClientSummaryExtended>(dtos, title, properties, callback);
+        }
+        public void ShowDataTransferObjects<Dto>(IEnumerable<Dto> dtos, 
+                                                string title, 
+                                                string properties, 
+                                                Action<Dto> callback) where Dto: class
+        {
+            Controller.ShowAssistView<Dto>(title, dtos, properties);
+
+            if ((Controller.SelectedItem != null) && (Controller.SelectionState == SelectionState.OK))
+            {
+                IList<object> items = Controller.SelectedItem as IList<object>;
+                if (items != null)
+                {
+                    var currentValue = items.FirstOrDefault();
+                    if (currentValue != null)
+                    {
+                        var rowInfo = currentValue as GridRowInfo;
+                        var dtoData = rowInfo.RowData as Dto;
+                        if (callback != null)
+                        {
+                            callback(dtoData);
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         ///  This function is a generic function to raise interaction request and select an item
         /// </summary>
@@ -352,8 +393,8 @@ namespace KarveCommon.Generic
         /// <param name="properties">Grid columns to filter</param>
         /// <param name="item">Item selected from the column</param>
         /// <param name="callback">Callback to be called</param>
-        
-       public async virtual Task OnAssistAsync<Dto, Entity>(string title, string properties, Action<Dto> callback)
+
+        public async virtual Task OnAssistAsync<Dto, Entity>(string title, string properties, Action<Dto> callback)
             where Dto : class
             where Entity : class
         {
@@ -362,25 +403,7 @@ namespace KarveCommon.Generic
 
             lock (_messageLock)
             {
-                Controller.ShowAssistView<Dto>(title, dtos, properties);
-
-                if ((Controller.SelectedItem != null) && (Controller.SelectionState == SelectionState.OK))
-                {
-                    IList<object> items = Controller.SelectedItem as IList<object>;
-                    if (items != null)
-                    {
-                        var currentValue = items.FirstOrDefault();
-                        if (currentValue != null)
-                        {
-                            var rowInfo = currentValue as GridRowInfo;
-                            var dtoData = rowInfo.RowData as Dto;
-                            if (callback != null)
-                            {
-                                callback(dtoData);
-                            }
-                        }
-                    }
-                }
+                ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
             }
         }
         /// <summary>

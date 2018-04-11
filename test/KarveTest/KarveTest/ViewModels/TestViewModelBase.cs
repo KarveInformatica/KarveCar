@@ -25,10 +25,20 @@ namespace KarveTest.ViewModels
         protected Mock<IRegionManager> _mockRegionManager = new Mock<IRegionManager>();
         protected Mock<IDialogService> _mockDialogService = new Mock<IDialogService>();
         protected Mock<UnityContainer> _mockUnityContainer = new Mock<UnityContainer>();
-        protected Mock<IAssistService> _mockAssistService = new Mock<IAssistService>();
         protected Mock<IInteractionRequestController> _mockRequestController = new Mock<IInteractionRequestController>();
 
+        public TestViewModelBase()
+        {
+            Init();
+        }
+        /// <summary>
+        ///  This shall be initialize all the stuff.
+        /// </summary>
+        public void Init()
+        {
 
+          //  _mockConfigurationService.Setup
+        }
 
     }
 }

@@ -624,6 +624,43 @@ namespace DataAccessLayer.Logic
             return resellerDto;
         }
     }
+
+
+    /// <summary>
+    /// ContactsCOMI and mapper field.
+    /// </summary>
+    public class ContactsComiToDto : ITypeConverter<CONTACTOS_COMI, ContactsDto>
+    {
+        public ContactsDto Convert(CONTACTOS_COMI source, ContactsDto destination, ResolutionContext context)
+        {
+            ContactsDto contactsDto = new ContactsDto();
+            var contacto = source.CONTACTO;
+            contactsDto.ContactId = contacto.ToString();
+            contactsDto.ResponsabilitySource = new PersonalPositionDto();
+            var cargo = source.CARGO;
+            if (cargo != null)
+            {
+                contactsDto.ResponsabilitySource.Code = cargo.ToString();
+            }
+            contactsDto.ResponsabilitySource.Name = source.NOM_CARGO;
+            contactsDto.ContactName = source.NOM_CONTACTO;
+            contactsDto.ContactsKeyId = source.COMISIO;
+            var currentDelega = source.DELEGA_CC;
+            if (currentDelega.HasValue)
+            {
+                contactsDto.CurrentDelegation = currentDelega.Value.ToString();
+            }
+            contactsDto.CurrentUser = source.USUARIO;
+            contactsDto.Email = source.EMAIL;
+            contactsDto.Fax = source.FAX;
+            contactsDto.Telefono = source.TELEFONO;
+            contactsDto.Nif = source.NIF;
+            contactsDto.Movil = source.MOVIL;
+            contactsDto.LastModification = source.ULTMODI;
+            contactsDto.User = source.USUARIO;
+            return contactsDto;
+        }
+    }
     /// <summary>
     /// ContactsCOMI and mapper field.
     /// </summary>
@@ -663,7 +700,7 @@ namespace DataAccessLayer.Logic
             }
             if (source.ResponsabilitySource != null)
             {
-                if (source.ResponsabilitySource.Code != null)
+                if (!string.IsNullOrEmpty(source.ResponsabilitySource.Code))
                 {
                     comiContact.CARGO = byte.Parse(source.ResponsabilitySource.Code);
                 }
@@ -852,7 +889,22 @@ namespace DataAccessLayer.Logic
 
         }
     }
-
+    public class VisitComiToVisit: ITypeConverter<VisitasComiPoco, VISITAS_COMI>
+    {
+        public VISITAS_COMI Convert(VisitasComiPoco source, VISITAS_COMI destination, ResolutionContext resolutionContext)
+        {
+            VISITAS_COMI comiVisita = new VISITAS_COMI();
+            comiVisita.visIdCliente = source.VisitClientId;
+            comiVisita.visIdContacto = source.VisitContactId;
+            comiVisita.visAlta = source.VisitMembershipDate;
+            comiVisita.visFecha = source.VisitDate;
+            comiVisita.visIdVendedor = source.ResellerId;
+            comiVisita.visIdVisita = source.VisitId;
+            comiVisita.visTexto = source.VisitText;
+            comiVisita.visIdVisitaTipo = source.VisitTypeId;
+            return comiVisita;
+        }
+    }
     public class BrandVehicle2Poco : ITypeConverter<BrandVehicleDto, MARCAS>
     {
         public MARCAS Convert(BrandVehicleDto source, MARCAS destination, ResolutionContext context)
@@ -920,6 +972,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
                 cfg.CreateMap<ComisioDto, COMISIO>();
                 cfg.CreateMap<COMISIO, ComisioDto>();
+                cfg.CreateMap<VisitasComiPoco, VISITAS_COMI>().ConvertUsing(new VisitComiToVisit());
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
@@ -936,6 +989,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
                 cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
                 cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
+                cfg.CreateMap<CONTACTOS_COMI, ContactsDto>().ConvertUsing(new ContactsComiToDto());
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
                 cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
                 cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());

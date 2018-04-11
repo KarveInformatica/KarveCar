@@ -32,7 +32,7 @@ namespace KarveTest.ViewModels
             _companyInfoViewModel.IncomingPayload(dataPayLoad);
             var outObject = _companyInfoViewModel.DataObject;
             Assert.NotNull(outObject);
-            Assert.Equals(outObject.CODIGO, outObject.CODIGO);
+            Assert.Equals(outObject.CODIGO, ID_DEFAULT);
         }
         [Test]
         public void Shall_Refuse_An_Incoming_Null_Payload()

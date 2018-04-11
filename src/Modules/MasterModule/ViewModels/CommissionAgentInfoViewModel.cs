@@ -22,6 +22,7 @@ using DelegateCommand = Prism.Commands.DelegateCommand;
 using KarveCommonInterfaces;
 using System.Linq;
 using KarveControls;
+using Prism.Commands;
 
 namespace MasterModule.ViewModels
 {
@@ -42,7 +43,6 @@ namespace MasterModule.ViewModels
         private ICommissionAgentDataServices _commissionAgentDataServices;
         private INotifyTaskCompletion<ICommissionAgent> _initializationTable;
         private INotifyTaskCompletion<DataPayLoad> _deleteNotifyTaskCompletion;
-
         private INotifyTaskCompletion<bool> _changeTask;
 
 
@@ -68,6 +68,8 @@ namespace MasterModule.ViewModels
         private IEnumerable<LanguageDto> _language = new List<LanguageDto>();
         private IEnumerable<BranchesDto> _branchesDto = new ObservableCollection<BranchesDto>();
         private string _uniqueId = "";
+
+        #region Properties
         /// <summary>
         ///  Data Transfer Objects for mercados
         /// </summary>
@@ -228,6 +230,8 @@ namespace MasterModule.ViewModels
             }
         }
 
+     #endregion
+
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
@@ -276,27 +280,22 @@ namespace MasterModule.ViewModels
             _visibility = Visibility.Collapsed;
             _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             _regionManager = regionManager;
-            _onBranchesPrimaryKey += CommissionAgentInfoViewModel__onBranchesPrimaryKey;
-            _onContactsPrimaryKey += CommissionAgentInfoViewModel__onContactsPrimaryKey;
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
             PrimaryKeyValue = string.Empty;
             ConfigurationService = configurationService;
-            MailBoxHandler += MessageHandler;
-            AssistCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
-            MagnifierCommand = new Prism.Commands.DelegateCommand<object>(MagnifierCommandHandler);
-            ItemChangedCommand = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
-            ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
-            //PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
+            InitEvents();
+            InitCommands();
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
-            this.DelegationProvinceMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnProvinceAssist);
-            this.ProvinceMagnifierCommand = DelegationProvinceMagnifierCommand;
-            this.ContactChargeMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnContactChargeAssist);
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
         }
+        
+
+
+
         /// <summary>
         ///  Set Contacts Charge.
         /// </summary>
@@ -880,20 +879,6 @@ namespace MasterModule.ViewModels
             }
 
         }
-        /// SetTable is not used here and newItem shall be moved over
-        /// <summary>
-        ///  This method start a new item when the user clicks over the toolbar
-        /// </summary>
-        public override void NewItem()
-        {
-            // throw new NotImplementedException();
-        }
-
-        protected override void SetTable(DataTable table)
-        {
-
-        }
-
         /// <summary>
         ///  This method set the registration payload.
         /// </summary>
@@ -903,11 +888,6 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
         }
-
-        protected override void SetDataObject(object result)
-        {
-        }
-
         /// <summary>
         ///  Give the name for each mailbox.
         /// </summary>
@@ -999,29 +979,6 @@ namespace MasterModule.ViewModels
         }
         public ICommand DelegationMagnifierCommand { set; get; }
 
-        private void ConfigureBranchesCommand()
-        {
-            var branches = _commissionAgentDo.DelegationDto;
-            foreach (var b in branches)
-            {
-                
-                BaseDto v = b.ProvinceSource as BaseDto;
-               
-                v.ShowCommand = this.DelegationProvinceMagnifierCommand;
-            }
-            RaisePropertyChanged("DataObject");
-
-        }
-        private void ConfigureContactsCommand()
-        {
-            var contacts = _commissionAgentDo.ContactsDto;
-            foreach (var c in contacts)
-            {
-                BaseDto v = c.ResponsabilitySource as BaseDto;
-                v.ShowCommand = this.ContactChargeMagnifierCommand;
-            }
-            RaisePropertyChanged("DataObject");
-        }
         /// <summary>
         /// This adds a primary and a payload
         /// </summary>
@@ -1052,11 +1009,14 @@ namespace MasterModule.ViewModels
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
                 // configure branches command.
-                ConfigureBranchesCommand();
+                ConfigureBranchesCommand(_commissionAgentDo.DelegationDto);
                 // configure contacts command.
-                ConfigureContactsCommand();
+                ConfigureContactsCommand(_commissionAgentDo.ContactsDto);
+				// configure visits command.
+				ConfigureVisitsCommand(_commissionAgentDo.VisitsDto);
                 DataObject = _commissionAgentDo;
-               
+                RaisePropertyChanged("DataObject");
+
 
 
                 // Here we send a message to upper part of the view.
@@ -1127,6 +1087,24 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public Prism.Commands.DelegateCommand<object> MagnifierCommand { get; set; }
+        public DelegateCommand<object> MagnifierCommand { get; set; }
+        
+
+
+        private void InitEvents()
+        {
+            MailBoxHandler += MessageHandler;
+            _onBranchesPrimaryKey += CommissionAgentInfoViewModel__onBranchesPrimaryKey;
+            _onContactsPrimaryKey += CommissionAgentInfoViewModel__onContactsPrimaryKey;
+        }
+        private void InitCommands()
+        {
+            PrintAssociate = new DelegateCommand<object>(OnPrintCommand);
+            ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
+            AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
+            MagnifierCommand = new DelegateCommand<object>(MagnifierCommandHandler);
+            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
+            ProvinceMagnifierCommand = DelegationProvinceMagnifierCommand;   
+        }
     }
 }

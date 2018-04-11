@@ -23,7 +23,7 @@ namespace KarveTest.ViewModels
 
     public class TestablePopupWindowAction : PopupWindowAction
     {
-        public new Window GetWindow(IConfirmation notification)
+        public  Window GetWindow(IConfirmation notification)
         {
             return base.GetWindow(notification);
         }

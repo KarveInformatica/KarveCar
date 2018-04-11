@@ -52,8 +52,20 @@ public class VisitasComiPoco
         ///  ResellerName
         /// </summary>
         public string ResellerName { get; set; }
-        public string LastModification { get; internal set; }
-        public string User { get; internal set; }
+        /// <summary>
+        ///  cell phone of teh visit
+        /// </summary>
         public string ResellerCellPhone { get; internal set; }
+        /// <summary>
+        ///  last modification of the visit
+        /// </summary>
+        public string LastModification { get; internal set; }
+        /// <summary>
+        ///  last user.
+        /// </summary>
+        public string User { get; internal set; }
+        public string VisitContactId { get; internal set; }
+        public DateTime? VisitMembershipDate { get; internal set; }
+        public string VisitText { get; internal set; }
     }
 }

@@ -182,7 +182,23 @@ namespace DataAccessLayer
         /// <returns>Returns true if the commission agent has been changed.</returns>
         public async Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
         {
-            bool changedTask = await commissionAgent.Save().ConfigureAwait(false);
+            var isPresent = false;
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                ComisioDto dto = commissionAgent.Value;
+                var value = await connection.GetAsync<COMISIO>(dto.NUM_COMI).ConfigureAwait(false);
+                isPresent = (value != null);
+            }
+
+            bool changedTask = false;
+            if (!isPresent)
+            {
+                changedTask = await commissionAgent.Save().ConfigureAwait(false);
+            }
+            else
+            {
+                changedTask = await commissionAgent.SaveChanges().ConfigureAwait(false);
+            }
             return changedTask;
         }
        

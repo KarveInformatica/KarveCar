@@ -2,6 +2,8 @@
 using System.Threading;
 using KarveCommon.Services;
 using NUnit.Framework;
+using Moq;
+
 
 namespace KarveTest.Services
 {
@@ -9,27 +11,19 @@ namespace KarveTest.Services
     class TestConfigurationService
     {
         /* create e factory for the configuration service */
-        private IConfigurationService _service;
+        private Mock<IConfigurationService> _service = new Mock<IConfigurationService>();
         [OneTimeSetUp]
         public void Setup()
         {
             _service =  null;
         }
-        /// <summary>
-        /// Start the configurationService and close the application
-        /// </summary>
-        [Test]
-        public void Should_Main_Window_Not_Close()
-        {
-            var value = _service.CloseApplication();
-            Assert.AreEqual(false, value);
-        }
+        
         /// <summary>
         ///  Test Communication of observable collection between two different two view models.
         /// It simulates two thread different of execution
         /// </summary>
         [Test]
-        public void Should_Send_And_Receive_EventData()
+        public void Should_SendReceive_EventData()
         {
             //_service.SubscribeDataChange(CheckData);
             new Thread(() =>

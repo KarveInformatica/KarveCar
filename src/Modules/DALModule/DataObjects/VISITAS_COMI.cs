@@ -7,6 +7,7 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a VISITAS_COMI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("VISITAS_COMI")]
 	public class VISITAS_COMI 
 	{
 	
